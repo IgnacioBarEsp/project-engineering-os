@@ -2,6 +2,13 @@
 
 All notable changes follow [Semantic Versioning](https://semver.org/).
 
+## 0.1.5 - 2026-08-04
+
+- Migrate project ownership metadata from the former GitHub handle to `IgnacioBarEsp`.
+- Point `repository`, `bugs` and `homepage` at the current owner so the npm listing resolves.
+- Restore code ownership rules and the release owner guard, which no longer matched after the rename.
+- Record authorship in `LICENSE` and `author` under the maintainer's legal name.
+
 ## 0.1.4 - 2026-07-23
 
 - Allow a feature to archive after it captures pre-existing minor debt; the resulting pause governs

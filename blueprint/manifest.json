@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "constructorVersion": "0.1.4",
+  "constructorVersion": "0.1.5",
   "defaults": {
     "activeProfiles": [
       "documentation",

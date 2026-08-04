@@ -1,6 +1,6 @@
 {
   "name": "create-project-engineering-os",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Bootstrap, governance, SDD harness and technical-debt control for reproducible projects.",
   "keywords": [
     "agents",
@@ -10,7 +10,7 @@
     "sdd"
   ],
   "license": "MIT",
-  "author": "RitualBoat contributors",
+  "author": "Ignacio Barboza Espinoza",
   "type": "module",
   "engines": {
     "node": "^20.20.0 || >=22.22.0"
@@ -39,12 +39,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RitualBoat/project-engineering-os.git"
+    "url": "git+https://github.com/IgnacioBarEsp/project-engineering-os.git"
   },
   "bugs": {
-    "url": "https://github.com/RitualBoat/project-engineering-os/issues"
+    "url": "https://github.com/IgnacioBarEsp/project-engineering-os/issues"
   },
-  "homepage": "https://github.com/RitualBoat/project-engineering-os#readme",
+  "homepage": "https://github.com/IgnacioBarEsp/project-engineering-os#readme",
   "publishConfig": {
     "access": "public",
     "provenance": true

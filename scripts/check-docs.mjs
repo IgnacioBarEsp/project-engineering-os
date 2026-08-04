@@ -18,7 +18,7 @@ for (const href of links) {
   }
 }
 for (const command of [
-  'npx --yes create-project-engineering-os@0.1.4 bootstrap --target .',
+  'npx --yes create-project-engineering-os@0.1.5 bootstrap --target .',
   'project-os upgrade --target . --check',
   'project-os debt check --root .',
   'project-os rollback --target . --transaction <id>',
