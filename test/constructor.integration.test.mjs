@@ -308,7 +308,7 @@ test("bootstrap prepara un repositorio Git vacío sin copiar un runtime editable
     false,
   );
   const consumerPackage = await readJson(path.join(baselineRoot, "package.json"));
-  assert.equal(consumerPackage.devDependencies["create-project-engineering-os"], "0.1.5");
+  assert.equal(consumerPackage.devDependencies["create-project-engineering-os"], "0.1.6");
   assert.equal(await exists(path.join(baselineRoot, "AGENTS.md")), true);
   assert.equal(await exists(path.join(baselineRoot, "openspec", "config.yaml")), true);
   assert.equal(baselineBootstrap.plan.externalOwnership.owner, "external-openspec");
@@ -668,6 +668,45 @@ test("editar la fuente canónica actualiza determinísticamente todos sus espejo
   const check = await runInstalled(target, "sync", ["--check"]);
   assertSuccessfulConstructor(check, "check posterior al render");
   assert.equal(parseJson(check, "check posterior al render").plan.hasDrift, false);
+});
+
+test("el par sembrado se deriva del runtime aunque la plantilla quede desactualizada", { timeout: 120_000 }, async () => {
+  const target = await makeEmptyRepository("seeded-identity");
+  const blueprintRoot = path.join(suiteRoot, "stale-seed-blueprint");
+  await cp(path.join(packageRoot, "blueprint"), blueprintRoot, { recursive: true });
+
+  // Reproduce el descuido que rompió 0.1.5, y lo empeora: manifest y lock sembrados quedan en
+  // versiones distintas entre sí y ninguna coincide con el runtime que ejecuta el bootstrap.
+  const key = "create-project-engineering-os";
+  const seedPackagePath = path.join(blueprintRoot, "core", "package.json");
+  const seedPackage = await readJson(seedPackagePath);
+  seedPackage.devDependencies[key] = "0.0.1";
+  await writeFile(seedPackagePath, `${JSON.stringify(seedPackage, null, 2)}\n`);
+
+  const seedLockPath = path.join(blueprintRoot, "core", "package-lock.json");
+  const seedLock = await readJson(seedLockPath);
+  seedLock.packages[""].devDependencies[key] = "0.0.2";
+  seedLock.packages[`node_modules/${key}`].version = "0.0.2";
+  await writeFile(seedLockPath, `${JSON.stringify(seedLock, null, 2)}\n`);
+
+  const bootstrap = await runConstructor(
+    sourceCli,
+    "bootstrap",
+    target,
+    ["--blueprint", blueprintRoot],
+  );
+  assertSuccessfulConstructor(bootstrap, "bootstrap con plantilla desactualizada");
+
+  const { version } = await readJson(path.join(packageRoot, "package.json"));
+  const consumerPackage = await readJson(path.join(target, "package.json"));
+  const consumerLock = await readJson(path.join(target, "package-lock.json"));
+  assert.equal(consumerPackage.devDependencies[key], version);
+  assert.equal(consumerLock.packages[""].devDependencies[key], version);
+  assert.equal(consumerLock.packages[`node_modules/${key}`].version, version);
+  assert.equal(
+    consumerLock.packages[`node_modules/${key}`].resolved,
+    `https://registry.npmjs.org/${key}/-/${key}-${version}.tgz`,
+  );
 });
 
 test("human-overlay actualiza solo el bloque administrado y preserva contenido local", { timeout: 120_000 }, async () => {
@@ -1072,7 +1111,7 @@ test("upgrade es determinista, preserva deuda y admite rollback explícito", { t
   const firstPayload = parseJson(firstCheck, "upgrade --check inicial");
   assert.equal(firstCheck.exitCode, 1);
   assert.equal(firstPayload.status, "DRIFT");
-  assert.equal(firstPayload.targetVersion, "0.1.5");
+  assert.equal(firstPayload.targetVersion, "0.1.6");
   assert.equal(firstPayload.mutationPerformed, false);
   assert.deepEqual(await exactSnapshot(target), beforeCheck);
 
@@ -1091,14 +1130,14 @@ test("upgrade es determinista, preserva deuda y admite rollback explícito", { t
   assert.equal(
     (await readJson(path.join(target, "package.json")))
       .devDependencies["create-project-engineering-os"],
-    "0.1.5",
+    "0.1.6",
   );
   assert.equal(
     (await readJson(path.join(target, "package-lock.json")))
       .packages["node_modules/create-project-engineering-os"].version,
-    "0.1.5",
+    "0.1.6",
   );
-  assert.equal((await readJson(path.join(target, stateRelative))).packageVersion, "0.1.5");
+  assert.equal((await readJson(path.join(target, stateRelative))).packageVersion, "0.1.6");
   assert.deepEqual(await targetHashes(target, debtTargets), debtBefore);
 
   const stateAfterUpgrade = await readJson(path.join(target, stateRelative));

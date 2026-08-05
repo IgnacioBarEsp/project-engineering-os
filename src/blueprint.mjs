@@ -13,6 +13,7 @@ import {
   OPSX_OWNED_PATTERNS,
   OWNERS,
   OWNER_ALIASES,
+  PACKAGE_NAME,
   RESERVED_TARGETS,
   TRANSACTIONS_RELATIVE_PATH,
 } from './constants.mjs';
@@ -325,6 +326,69 @@ async function readSource(blueprintRoot, entry) {
   };
 }
 
+// El par sembrado se deriva del runtime que ejecuta el comando, no de lo que digan las plantillas.
+// Un bump de versión ya no puede dejar package.json y package-lock.json en versiones distintas, que
+// es exactamente lo que abortó `npm ci` en cada repositorio creado con 0.1.5.
+const SEEDED_IDENTITY_TARGETS = new Set(['package.json', 'package-lock.json']);
+
+export function exactPackageEntry() {
+  return {
+    bin: {
+      [PACKAGE_NAME]: 'bin/project-os.mjs',
+      'project-os': 'bin/project-os.mjs',
+    },
+    dev: true,
+    engines: {
+      node: '^20.20.0 || >=22.22.0',
+    },
+    license: 'MIT',
+    // Sin integrity: el blueprint viaja dentro del mismo tarball que ese hash describiría.
+    resolved: `https://registry.npmjs.org/${PACKAGE_NAME}/-/${PACKAGE_NAME}-${CONSTRUCTOR_VERSION}.tgz`,
+    version: CONSTRUCTOR_VERSION,
+  };
+}
+
+function stampSeededIdentity(target, content) {
+  let document;
+  try {
+    document = JSON.parse(content.toString('utf8'));
+  } catch (error) {
+    throw new ConstructorError(
+      'BLUEPRINT_SEED_JSON_INVALID',
+      `La plantilla sembrada ${target} no contiene JSON válido.`,
+      {
+        details: error.message,
+        cause: error,
+      },
+    );
+  }
+
+  if (target === 'package.json') {
+    document.devDependencies = {
+      ...(document.devDependencies ?? {}),
+      [PACKAGE_NAME]: CONSTRUCTOR_VERSION,
+    };
+    return Buffer.from(stableStringify(document), 'utf8');
+  }
+
+  const lockRoot = document.packages?.[''];
+  if (!lockRoot) {
+    throw new ConstructorError(
+      'BLUEPRINT_SEED_LOCK_SHAPE',
+      'La plantilla core/package-lock.json no usa el formato lockfile v3 soportado.',
+      {
+        remediation: 'Regenere el lockfile sembrado con npm en formato v3.',
+      },
+    );
+  }
+  lockRoot.devDependencies = {
+    ...(lockRoot.devDependencies ?? {}),
+    [PACKAGE_NAME]: CONSTRUCTOR_VERSION,
+  };
+  document.packages[`node_modules/${PACKAGE_NAME}`] = exactPackageEntry();
+  return Buffer.from(stableStringify(document), 'utf8');
+}
+
 export function validateManifest(rawManifest) {
   if (!rawManifest || typeof rawManifest !== 'object' || Array.isArray(rawManifest)) {
     throw new ConstructorError('BLUEPRINT_INVALID', 'manifest.json debe contener un objeto JSON.');
@@ -394,9 +458,16 @@ export async function loadBlueprint({
 
   const entries = [];
   for (const entry of activeEntries) {
-    const source = await readSource(root, entry);
+    let source = await readSource(root, entry);
     if (source.content === null && entry.owner !== 'external-openspec') {
       continue;
+    }
+    if (source.content !== null && SEEDED_IDENTITY_TARGETS.has(entry.target)) {
+      const content = stampSeededIdentity(entry.target, source.content);
+      source = {
+        content,
+        sourceHash: sha256(content),
+      };
     }
     entries.push({
       ...entry,

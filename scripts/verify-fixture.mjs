@@ -17,6 +17,7 @@ import {
   classifyOpenSpecInitOutput,
   opsxAdaptInvariantFailures,
 } from "../src/fixture-output.mjs";
+import { checkSeededIdentity } from "./check-package.mjs";
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
@@ -169,6 +170,21 @@ async function assertHarnessFiles(target) {
     throw new Error(`Faltan espejos de harness: ${missing.join(", ")}`);
   }
   return expected;
+}
+
+// El inicio rápido documentado corre `npm ci` justo después del bootstrap. Esa instalación no puede
+// ejecutarse aquí, porque la versión que se está empaquetando todavía no existe en el registry; npm
+// aborta por desincronización antes de tocar la red, así que se valida esa misma regla sobre lo que
+// el bootstrap acaba de escribir. Cubre la fixture incluso con --skip-install.
+async function assertSeededIdentity(target) {
+  const { version } = JSON.parse(
+    await readFile(path.join(packageRoot, "package.json"), "utf8"),
+  );
+  const failures = await checkSeededIdentity(target, version);
+  if (failures.length > 0) {
+    throw new Error(`El par sembrado impediría npm ci: ${failures.join(", ")}`);
+  }
+  return { pinned: version };
 }
 
 async function assertDiscoveryPackage(target) {
@@ -435,6 +451,7 @@ async function main() {
     );
 
     checks.harnesses = await assertHarnessFiles(target);
+    checks.seededIdentity = await assertSeededIdentity(target);
     checks.discovery = await assertDiscoveryPackage(target);
     checks.neutrality = await assertNeutrality(target);
     checks.findability = await assertFindability(target);

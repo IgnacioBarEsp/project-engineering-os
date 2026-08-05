@@ -2,6 +2,15 @@
 
 All notable changes follow [Semantic Versioning](https://semver.org/).
 
+## 0.1.6 - 2026-08-04
+
+- Fix the seeded `package-lock.json`, left at `0.1.4` while the seeded `package.json` moved to `0.1.5`.
+  Every repository bootstrapped with `0.1.5` aborted the documented `npm ci` with `EUSAGE`, and the
+  `openspec init`, `opsx-adapt`, `check` and `doctor` steps then failed for want of `node_modules`.
+- Guard the seeded pair offline. `check:package` now reproduces the rule `npm ci` applies, both over the
+  blueprint source and over the tree a bootstrap writes, so a desynchronized pin cannot reach a release.
+- `0.1.5` is published and immutable. Move to `0.1.6`; reinstalling `0.1.5` reproduces the failure.
+
 ## 0.1.5 - 2026-08-04
 
 - Migrate project ownership metadata from the former GitHub handle to `IgnacioBarEsp`.
