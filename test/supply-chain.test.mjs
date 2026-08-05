@@ -12,7 +12,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
-import { checkPackageRoot } from '../scripts/check-package.mjs';
+import { checkPackageRoot, checkSeededIdentity } from '../scripts/check-package.mjs';
 import { nonCanonicalEolEntries, sha256 } from '../scripts/release-lib.mjs';
 import { verifyRelease } from '../scripts/verify-release.mjs';
 
@@ -59,9 +59,49 @@ test('package contract rechaza bin ausente y licencia incompatible', async () =>
   );
 });
 
+test('blueprint identity rechaza el par sembrado desincronizado', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'project-os-blueprint-'));
+  const core = path.join(root, 'blueprint', 'core');
+  await mkdir(core, { recursive: true });
+  for (const relative of ['package.json', 'package-lock.json']) {
+    await cp(
+      path.join(packageRoot, 'blueprint', 'core', relative),
+      path.join(core, relative),
+    );
+  }
+  const { version } = JSON.parse(
+    await readFile(path.join(packageRoot, 'package.json'), 'utf8'),
+  );
+  assert.deepEqual(await checkSeededIdentity(core, version), []);
+
+  // La regresión de 0.1.5: el manifest sembrado sube de versión y el lock se queda atrás,
+  // así que el `npm ci` del inicio rápido aborta con EUSAGE en cada repositorio nuevo.
+  const lockPath = path.join(core, 'package-lock.json');
+  const lock = JSON.parse(await readFile(lockPath, 'utf8'));
+  lock.packages[''].devDependencies['create-project-engineering-os'] = '0.0.1';
+  await writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+  assert.equal(
+    (await checkSeededIdentity(core, version)).some((failure) => (
+      failure.startsWith('blueprint lock range create-project-engineering-os')
+    )),
+    true,
+  );
+
+  const manifestPath = path.join(core, 'package.json');
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  manifest.devDependencies['@fission-ai/openspec'] = '1.7.0';
+  await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+  assert.equal(
+    (await checkSeededIdentity(core, version)).some((failure) => (
+      failure.startsWith('blueprint allowScripts @fission-ai/openspec@1.6.0')
+    )),
+    true,
+  );
+});
+
 test('release verifier rejects an altered tarball', async () => {
   const root = await mkdtemp(path.join(tmpdir(), 'project-os-release-negative-'));
-  const filename = 'create-project-engineering-os-0.1.5.tgz';
+  const filename = 'create-project-engineering-os-0.1.6.tgz';
   const tarballPath = path.join(root, filename);
   const original = Buffer.from('verified tarball fixture');
   const digest = sha256(original);
@@ -71,7 +111,7 @@ test('release verifier rejects an altered tarball', async () => {
     `${JSON.stringify({
       schemaVersion: 1,
       package: 'create-project-engineering-os',
-      version: '0.1.5',
+      version: '0.1.6',
       commit: 'a'.repeat(40),
       tarball: filename,
       sha256: digest,

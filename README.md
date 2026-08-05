@@ -15,7 +15,7 @@ Requiere Git, npm y Node `^20.20.0 || >=22.22.0`.
 mkdir mi-proyecto
 cd mi-proyecto
 git init
-npx --yes create-project-engineering-os@0.1.5 bootstrap --target .
+npx --yes create-project-engineering-os@0.1.6 bootstrap --target .
 npm ci
 npm exec --yes=false -- openspec init --tools codex,claude,cursor,github-copilot,opencode
 npm run project-os:opsx:adapt
@@ -32,8 +32,8 @@ licencia para el producto.
 Trabaja desde una rama y un árbol limpio:
 
 ```sh
-npx --yes create-project-engineering-os@0.1.5 bootstrap --target . --dry-run
-npx --yes create-project-engineering-os@0.1.5 bootstrap --target .
+npx --yes create-project-engineering-os@0.1.6 bootstrap --target . --dry-run
+npx --yes create-project-engineering-os@0.1.6 bootstrap --target .
 npm ci
 npm run project-os:check
 ```

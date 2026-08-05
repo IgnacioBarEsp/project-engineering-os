@@ -8,7 +8,7 @@ import {
   EXIT_CODES,
   PACKAGE_NAME,
 } from './constants.mjs';
-import { loadBlueprint } from './blueprint.mjs';
+import { exactPackageEntry, loadBlueprint } from './blueprint.mjs';
 import { ConstructorError } from './errors.mjs';
 import { buildGithubPlan } from './github-plan.mjs';
 import { materializeHarnessBlueprint } from './harness.mjs';
@@ -135,22 +135,6 @@ async function loadBlueprintAndConfiguration({
   return {
     baseBlueprint,
     configuration,
-  };
-}
-
-function exactPackageEntry() {
-  return {
-    bin: {
-      'create-project-engineering-os': 'bin/project-os.mjs',
-      'project-os': 'bin/project-os.mjs',
-    },
-    dev: true,
-    engines: {
-      node: '^20.20.0 || >=22.22.0',
-    },
-    license: 'MIT',
-    resolved: `https://registry.npmjs.org/${PACKAGE_NAME}/-/${PACKAGE_NAME}-${CONSTRUCTOR_VERSION}.tgz`,
-    version: CONSTRUCTOR_VERSION,
   };
 }
 
