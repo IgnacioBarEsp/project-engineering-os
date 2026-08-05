@@ -25,7 +25,7 @@ if (remote && (major < 22 || (major === 22 && minor < 14))) {
   throw new Error('Publicación requiere Node >=22.14.');
 }
 if (remote) {
-  if (process.env.GITHUB_REPOSITORY !== 'RitualBoat/project-engineering-os') {
+  if (process.env.GITHUB_REPOSITORY !== 'IgnacioBarEsp/project-engineering-os') {
     throw new Error('La identidad OIDC no pertenece al repositorio aprobado.');
   }
   if (!process.env.GITHUB_WORKFLOW_REF?.includes('/.github/workflows/release.yml@')) {
