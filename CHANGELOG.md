@@ -2,6 +2,13 @@
 
 All notable changes follow [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- Add the read-only `onboarding-plan` classifier with five canonical answers and deterministic
+  `beginner`, `experienced-new` or `brownfield` routes.
+- Add versioned onboarding answers/state schemas, in-memory v0 migration and privacy-preserving evidence.
+- Keep prompt orchestration, persistence and remote tracker operations outside this release scope.
+
 ## 0.1.6 - 2026-08-04
 
 - Fix the seeded `package-lock.json`, left at `0.1.4` while the seeded `package.json` moved to `0.1.5`.

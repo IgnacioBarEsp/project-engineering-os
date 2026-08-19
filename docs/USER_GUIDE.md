@@ -6,6 +6,18 @@ empieza a construir.
 
 **Úsala si:** acabas de crear la carpeta del proyecto o necesitas saber qué viene después del bootstrap.
 
+## Antes de la Etapa A: clasifica la carpeta
+
+En `main`, `onboarding-plan` distingue una carpeta nueva de un repositorio que debe preservarse. No instala
+nada ni modifica archivos:
+
+```sh
+node ./bin/project-os.mjs onboarding-plan --target .
+```
+
+Consulta la [guía del clasificador](ONBOARDING_PLAN.md) para responder sus cinco preguntas o usar JSON. El
+comando llegará en la siguiente versión minor; npm `0.1.6` todavía empieza directamente en la Etapa A.
+
 ## Etapa A: núcleo universal
 
 Ejecuta el quickstart del README en un repositorio Git vacío o revisa `bootstrap --dry-run` en uno
@@ -41,6 +53,7 @@ activa y siguiente. La primera entrega vertical recorre el ciclo SDD completo.
 
 - `project-os sync --check` detecta drift sin escribir.
 - `project-os doctor --json` entrega evidencia machine-readable.
+- `project-os onboarding-plan --json` propone una ruta sin escribir ni contactar servicios remotos.
 - `project-os debt check` evalúa presupuesto y pausas sin mutar.
 - `project-os upgrade --check` compara una release destino explícita.
 - [Recuperación](RECOVERY.md) explica transacciones y rollback.

@@ -40,6 +40,24 @@ export {
   runOpsxCheck,
 } from './opsx-check.mjs';
 export {
+  buildOnboardingPlan,
+  classifyOnboarding,
+  DEFAULT_MAX_SCAN_DEPTH,
+  DEFAULT_MAX_SCAN_ENTRIES,
+  DEFAULT_ONBOARDING_STATE_PATH,
+  inspectOnboardingTarget,
+  MAX_ONBOARDING_INPUT_BYTES,
+  migrateOnboardingState,
+  normalizeOnboardingAnswers,
+  ONBOARDING_CLASSIFIER_VERSION,
+  ONBOARDING_QUESTIONS,
+  ONBOARDING_ROUTES,
+  ONBOARDING_SCHEMA_VERSION,
+  ONBOARDING_STATE_FORMAT_VERSION,
+  onboardingPlanText,
+  runOnboardingPlan,
+} from './onboarding.mjs';
+export {
   collectReadinessReport,
   formatReadinessHuman,
   readinessInternals,

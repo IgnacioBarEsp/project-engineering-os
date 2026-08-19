@@ -7,6 +7,10 @@ import { asConstructorError, ConstructorError } from './errors.mjs';
 import { githubPlanText } from './github-plan.mjs';
 import { stableStringify } from './json.mjs';
 import {
+  onboardingPlanText,
+  runOnboardingPlan,
+} from './onboarding.mjs';
+import {
   runBootstrapOrSync,
   runGithubPlan,
   runOpsxAdapt,
@@ -29,13 +33,14 @@ Uso:
   project-os readiness-check --phase archive --change <slug> [--run-local] [--target <ruta>] [--json]
   project-os rollback --target <ruta> --transaction <id> [--json]
   project-os github-plan [--target <ruta>] [--json]
+  project-os onboarding-plan [--target <ruta>] [--answers <ruta>] [--state <ruta>] [--json]
   project-os debt <capture|check|sync|handoff|postfinish|gate> [opciones]
 
 Opciones de fixture:
   --blueprint <ruta>              Usa un blueprint local explícito.
   --inject-failure-after <n>      Interrumpe una mutación después de n archivos.
 
-doctor, github-plan, opsx-check y readiness-check son read-only. opsx-adapt muta solo archivos
+doctor, github-plan, onboarding-plan, opsx-check y readiness-check son read-only. opsx-adapt muta solo archivos
 generados por OpenSpec bajo su contrato separado. sync --check no escribe ni repara.
 `;
 
@@ -64,6 +69,7 @@ function parseArguments(argv) {
   const options = {
     blueprintRoot: DEFAULT_BLUEPRINT_ROOT,
     apply: false,
+    answersPath: null,
     change: null,
     check: false,
     dryRun: false,
@@ -71,6 +77,7 @@ function parseArguments(argv) {
     issue: null,
     json: false,
     openPr: false,
+    onboardingStatePath: null,
     phase: null,
     runLocal: false,
     targetRoot: process.cwd(),
@@ -112,6 +119,12 @@ function parseArguments(argv) {
         break;
       case '--transaction':
         options.transactionId = consume();
+        break;
+      case '--answers':
+        options.answersPath = consume();
+        break;
+      case '--state':
+        options.onboardingStatePath = consume();
         break;
       case '--phase':
         options.phase = consume();
@@ -155,6 +168,7 @@ function parseArguments(argv) {
     'bootstrap',
     'doctor',
     'github-plan',
+    'onboarding-plan',
     'opsx-adapt',
     'opsx-check',
     'readiness-check',
@@ -206,6 +220,15 @@ function parseArguments(argv) {
     throw new ConstructorError(
       'CLI_READINESS_SCOPE',
       '--phase, --issue, --change y --run-local solo están disponibles para readiness-check.',
+    );
+  }
+  if (
+    command !== 'onboarding-plan'
+    && (options.answersPath !== null || options.onboardingStatePath !== null)
+  ) {
+    throw new ConstructorError(
+      'CLI_ONBOARDING_SCOPE',
+      '--answers y --state solo están disponibles para onboarding-plan.',
     );
   }
 
@@ -321,6 +344,9 @@ export async function runCli(argv = process.argv.slice(2)) {
       case 'github-plan':
         result = await runGithubPlan(parsed.options);
         break;
+      case 'onboarding-plan':
+        result = await runOnboardingPlan(parsed.options);
+        break;
       case 'opsx-check':
         result = await runOpsxCheck(parsed.options);
         break;
@@ -345,6 +371,8 @@ export async function runCli(argv = process.argv.slice(2)) {
       write(humanRollback(result));
     } else if (parsed.command === 'github-plan') {
       write(githubPlanText(result.plan));
+    } else if (parsed.command === 'onboarding-plan') {
+      write(onboardingPlanText(result));
     } else if (parsed.command === 'opsx-check') {
       write(`${result.checks.map((item) => (
         `[${item.status}] ${item.id}: ${item.summary}${item.remediation ? `\n  Recuperación: ${item.remediation}` : ''}`

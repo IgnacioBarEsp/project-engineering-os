@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://project-os.local/schema/onboarding-answers.schema.json",
+  "title": "Project Engineering OS onboarding answers v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "project": {
+      "enum": [
+        "new",
+        "preserve",
+        "unknown",
+        "defer"
+      ]
+    },
+    "guidance": {
+      "enum": [
+        "guided",
+        "brief",
+        "unknown",
+        "defer"
+      ]
+    },
+    "tracker": {
+      "enum": [
+        "existing",
+        "github-projects",
+        "azure-boards",
+        "jira",
+        "other",
+        "none",
+        "unknown",
+        "defer"
+      ]
+    },
+    "agent": {
+      "enum": [
+        "claude",
+        "codex",
+        "cursor",
+        "copilot",
+        "opencode",
+        "other",
+        "unknown",
+        "defer"
+      ]
+    },
+    "remoteSetup": {
+      "enum": [
+        "local-only",
+        "review-later",
+        "unknown",
+        "defer"
+      ]
+    }
+  }
+}

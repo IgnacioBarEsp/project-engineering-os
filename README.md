@@ -136,6 +136,7 @@ Una colisión humana detiene la operación antes de sobrescribir. Consulta el
 ## Elige la documentación que necesitas
 
 - **Quiero empezar desde cero:** [Guía del usuario](docs/USER_GUIDE.md).
+- **Quiero saber qué ruta corresponde a mi carpeta:** [Clasificador read-only](docs/ONBOARDING_PLAN.md).
 - **Necesito ejecutar el primer prompt:** [Prompt 00](docs/prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md).
 - **El entorno ya está aprobado:** [Prompt 01 y discovery](docs/prompts/PROMPT_01_DISCOVERY_PROYECTO.md).
 - **Quiero entender un fallo o revertir:** [Recuperación](docs/RECOVERY.md).
@@ -152,6 +153,7 @@ Estos son los comandos que conviene reconocer después del inicio rápido:
 ```sh
 project-os sync --target . --check
 project-os doctor --target . --json
+project-os onboarding-plan --target . --answers onboarding-answers.json --json
 project-os readiness-check --phase propose --issue 123 --target .
 project-os readiness-check --phase archive --change mi-change --run-local --target .
 project-os debt check --root .
@@ -159,7 +161,8 @@ project-os upgrade --target . --check
 project-os rollback --target . --transaction <id>
 ```
 
-Los comandos con `--check`, `doctor` y readiness diagnostican sin reparar ni autenticar. Una mutación
+Los comandos con `--check`, `doctor`, `onboarding-plan` y readiness diagnostican sin reparar ni autenticar.
+Una mutación
 requiere un comando explícito y conserva recuperación.
 
 ## Estado actual y próximos pasos
@@ -168,9 +171,10 @@ La versión actual instala el núcleo universal y mantiene inactivos los perfile
 skills ni servidores MCP por defecto. MVVM, CI/CD del producto, Playwright, IA, UI, offline/sync y cloud se
 deciden después del discovery.
 
-El onboarding adaptativo que podrá entrevistar a cada persona, recomendar un tablero y configurar su
-ecosistema sigue en investigación en [#23](https://github.com/IgnacioBarEsp/project-engineering-os/issues/23).
-No forma parte todavía del comportamiento publicado.
+El clasificador read-only de onboarding ya está implementado en `main`: detecta evidencia, acepta cinco
+respuestas y emite una ruta/estado versionado sin escribir. Llegará en la siguiente versión minor; npm
+`0.1.6` todavía no lo incluye. La [guía del clasificador](docs/ONBOARDING_PLAN.md) separa esta pieza de la
+orquestación de prompts y de los trackers remotos, que siguen pendientes.
 
 ## Seguridad, licencias y costo
 
@@ -190,7 +194,8 @@ generated, documented or unsupported capability levels. Product architecture, CI
 cloud and integrations remain conditional until discovery.
 
 Start with the [quickstart](#inicio-rápido), then use the generated Prompt 00 to verify the engineering
-environment. The adaptive onboarding described in issue #23 is future work, not a current CLI capability.
+environment. Source `main` now includes the read-only `onboarding-plan` classifier; npm `0.1.6` does not.
+Prompt orchestration, persistence and remote tracker setup remain future changes.
 
 </details>
 
