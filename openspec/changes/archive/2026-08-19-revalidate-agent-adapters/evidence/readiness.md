@@ -37,14 +37,19 @@ segundo run sin drift, `sync --check` en `IN_SYNC`, `opsx-check` y `doctor --jso
 normalización a LF que es la parte sensible a plataforma, cubierto por las pruebas de normalización del
 bootstrap y de rechazo de CRLF en el empaquetado.
 
-Lo que **no** se ejecutó en local: Ubuntu y macOS. Esa cobertura la aporta la matriz advisory de CI en el
-pull request, con Node 20.20.0 y 22.22.0 sobre los tres sistemas. El código añadido por este change no
-introduce rutas dependientes de plataforma nuevas: es normalización de JSON y de texto sobre las utilidades
-de path ya existentes.
+Lo que **no** se ejecutó en local: Ubuntu y macOS. El código añadido por este change no introduce rutas
+dependientes de plataforma nuevas: es normalización de JSON y de texto sobre las utilidades de path ya
+existentes.
 
-El estado se declara `passed` por lo ejecutado y por el contrato que cubre la diferencia entre plataformas,
-y la Definition of Done sigue exigiendo que la CI requerida corra y pase antes del merge. Esta nota existe
-para que nadie lea `passed` como si los tres sistemas ya hubieran corrido en local.
+Esa cobertura la aportó la matriz de CI del pull request
+[#38](https://github.com/IgnacioBarEsp/project-engineering-os/pull/38), que **corrió y pasó** en los seis
+jobs: `ubuntu-latest`, `windows-latest` y `macos-latest`, cada uno con Node 20.20.0 y 22.22.0, más
+`dependency audit` y el job `required`. La ejecución es
+[32262857165](https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/32262857165).
+
+El estado `passed` de `multi-platform-smoke` queda respaldado por lo ejecutado en local y por esa matriz
+completa. La nota se conserva para dejar registrado qué corrió en cada sitio: ningún sistema distinto de
+Windows se ejecutó en la máquina de desarrollo.
 
 ## Ejecución local aislada
 

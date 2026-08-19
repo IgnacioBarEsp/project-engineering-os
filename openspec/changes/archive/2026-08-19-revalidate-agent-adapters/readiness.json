@@ -53,7 +53,7 @@
     {
       "id": "multi-platform-smoke",
       "status": "passed",
-      "evidence": "evidence://validation/windows-tarball-install-bootstrap-and-lf-normalization-contract-ci-matrix-pending-on-pr",
+      "evidence": "evidence://validation/windows-local-plus-ci-matrix-run-32262857165-six-jobs-ubuntu-windows-macos-node-20-and-22",
       "justification": null,
       "profileCondition": null
     },
