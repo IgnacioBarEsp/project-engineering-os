@@ -11,6 +11,7 @@ import {
 } from './paths.mjs';
 
 const DEFAULT_SOURCES = Object.freeze([
+  '.project-os/repository-governance.json',
   '.project-os/github/product-os.json',
   '.project-os/github/project.json',
 ]);
@@ -39,6 +40,20 @@ function resourcesFrom(payload, key, fallback = []) {
   }));
 }
 
+function listFrom(payload, plural, singular) {
+  if (payload?.[plural] !== undefined) return payload[plural];
+  if (payload?.[singular] === undefined || payload[singular] === null) return [];
+  return [payload[singular]];
+}
+
+function sourceProvenance(kind, requestedSource, resolvedSource) {
+  return {
+    kind,
+    requestedSource,
+    resolvedSource,
+  };
+}
+
 async function readPayloadFromTargetOrSeed({
   baseBlueprint,
   source,
@@ -54,7 +69,10 @@ async function readPayloadFromTargetOrSeed({
         `${source} no es un archivo regular.`,
       );
     }
-    return JSON.parse(await readFile(absolute, 'utf8'));
+    return {
+      payload: JSON.parse(await readFile(absolute, 'utf8')),
+      provenance: sourceProvenance('target', source, source),
+    };
   } catch (error) {
     if (error?.code !== 'ENOENT') {
       if (error instanceof SyntaxError) {
@@ -75,7 +93,11 @@ async function readPayloadFromTargetOrSeed({
       return null;
     }
     try {
-      return JSON.parse(seed.content.toString('utf8'));
+      const resolvedSource = `blueprint/${seed.source}`;
+      return {
+        payload: JSON.parse(seed.content.toString('utf8')),
+        provenance: sourceProvenance('blueprint-seed', source, resolvedSource),
+      };
     } catch (parseError) {
       throw new ConstructorError(
         'GITHUB_PLAN_SEED_INVALID',
@@ -104,7 +126,13 @@ export async function buildGithubPlan({
   let payload = typeof inline === 'object' && inline !== null && !inline.source
     ? inline
     : null;
-  let source = payload ? 'manifest.json#githubPlan' : null;
+  let provenance = payload
+    ? sourceProvenance(
+      'inline-manifest',
+      'blueprint/manifest.json#githubPlan',
+      'blueprint/manifest.json#githubPlan',
+    )
+    : null;
 
   for (const candidate of candidates) {
     if (payload) {
@@ -116,8 +144,8 @@ export async function buildGithubPlan({
       targetRoot,
     });
     if (read) {
-      payload = read;
-      source = candidate;
+      payload = read.payload;
+      provenance = read.provenance;
     }
   }
 
@@ -127,7 +155,7 @@ export async function buildGithubPlan({
       'No existe un manifiesto declarativo de GitHub Product OS.',
       {
         remediation:
-          `Declare githubPlan.source en manifest.json o añada ${DEFAULT_SOURCES[0]}.`,
+          `Declare githubPlan.source en manifest.json o añada ${candidates[0] ?? DEFAULT_SOURCES[0]}.`,
       },
     );
   }
@@ -139,7 +167,9 @@ export async function buildGithubPlan({
       source: payload.discoveryIssuesSource ?? DEFAULT_DISCOVERY_SOURCE,
       targetRoot,
     });
-    discoveryIssues = discoveryPayload?.issues ?? discoveryPayload?.discoveryIssues ?? [];
+    discoveryIssues = discoveryPayload?.payload?.issues
+      ?? discoveryPayload?.payload?.discoveryIssues
+      ?? [];
   }
   const templates = payload.templates ?? baseBlueprint.entries
     .filter((entry) => entry.target.startsWith('.github/ISSUE_TEMPLATE/')
@@ -161,11 +191,22 @@ export async function buildGithubPlan({
       fields: resourcesFrom(payload, 'fields'),
       labels: resourcesFrom(payload, 'labels'),
       milestones: resourcesFrom(payload, 'milestones'),
-      statuses: resourcesFrom(payload, 'statuses'),
+      projects: resourcesFrom({ projects: listFrom(payload, 'projects', 'project') }, 'projects'),
+      releaseEnvironments: resourcesFrom(
+        { releaseEnvironments: listFrom(payload, 'releaseEnvironments', 'releaseEnvironment') },
+        'releaseEnvironments',
+      ),
+      rulesets: resourcesFrom({ rulesets: listFrom(payload, 'rulesets', 'ruleset') }, 'rulesets'),
+      statuses: resourcesFrom(
+        { statuses: payload.statuses ?? payload.project?.statuses ?? [] },
+        'statuses',
+      ),
+      tagRules: resourcesFrom({ tagRules: listFrom(payload, 'tagRules', 'tags') }, 'tagRules'),
       templates: resourcesFrom({ templates }, 'templates'),
     },
     schemaVersion: '1.0.0',
-    source,
+    source: provenance.resolvedSource,
+    provenance,
     manualGates: sortByStableIdentity(payload.manualGates ?? []).map((gate, index) => (
       typeof gate === 'string'
         ? {
@@ -183,10 +224,11 @@ export async function buildGithubPlan({
 
 export function githubPlanText(plan) {
   const lines = [
-    'GitHub Product OS (dry-run)',
+    '[PLANNED] github-plan',
     `Fuente: ${plan.source}`,
+    `Procedencia: ${plan.provenance.kind}`,
+    'Mutación: no',
     `Estado remoto: ${plan.remote.status}`,
-    'Mutaciones: ninguna',
   ];
   for (const [kind, resources] of Object.entries(plan.resources)) {
     lines.push(`${kind}: ${resources.length}`);

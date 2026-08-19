@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "make-github-plan-source-truthful",
+  "date": "2026-08-18",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Revisión adversarial PASS: cero Blockers y cero Majors abiertos; un Major de normalización y un Minor de formatter duplicado fueron corregidos antes del cierre."
+}

@@ -1,6 +1,7 @@
 {
   "schemaVersion": 1,
   "defaultBranch": "main",
+  "discoveryIssues": [],
   "project": {
     "title": "Project Engineering OS",
     "statuses": [

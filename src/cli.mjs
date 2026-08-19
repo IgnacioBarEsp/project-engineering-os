@@ -4,6 +4,7 @@ import {
   EXIT_CODES,
 } from './constants.mjs';
 import { asConstructorError, ConstructorError } from './errors.mjs';
+import { githubPlanText } from './github-plan.mjs';
 import { stableStringify } from './json.mjs';
 import {
   runBootstrapOrSync,
@@ -244,21 +245,6 @@ function humanRollback(result) {
   ].join('\n');
 }
 
-function humanGithubPlan(result) {
-  const plan = result.plan;
-  const lines = [
-    '[PLANNED] github-plan',
-    `Fuente: ${plan.source}`,
-    'Mutación: no',
-    `Estado remoto: ${plan.remote.status}`,
-  ];
-  for (const [kind, values] of Object.entries(plan.resources)) {
-    lines.push(`${kind}: ${values.length}`);
-  }
-  lines.push(`Gates manuales: ${plan.manualGates.length}`, '');
-  return lines.join('\n');
-}
-
 async function runDoctorDynamic(options) {
   let module;
   try {
@@ -358,7 +344,7 @@ export async function runCli(argv = process.argv.slice(2)) {
     } else if (parsed.command === 'rollback') {
       write(humanRollback(result));
     } else if (parsed.command === 'github-plan') {
-      write(humanGithubPlan(result));
+      write(githubPlanText(result.plan));
     } else if (parsed.command === 'opsx-check') {
       write(`${result.checks.map((item) => (
         `[${item.status}] ${item.id}: ${item.summary}${item.remediation ? `\n  Recuperación: ${item.remediation}` : ''}`
