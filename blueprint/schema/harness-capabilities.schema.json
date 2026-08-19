@@ -160,6 +160,100 @@
       "type": "string",
       "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$"
     },
+    "surfaceId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "surfaceList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/surfaceId"
+      }
+    },
+    "runtimeSignal": {
+      "description": "A runtime consumption signal. Only not-verified or a redacted opt-in receipt is accepted; a generated configuration never satisfies it.",
+      "oneOf": [
+        {
+          "const": "not-verified"
+        },
+        {
+          "type": "string",
+          "pattern": "^receipt:\\.project-constructor/evidence/[a-z0-9][a-z0-9-]*\\.json$"
+        }
+      ]
+    },
+    "verification": {
+      "description": "What has been proven about this capability, kept separate from what the constructor renders. Optional so an already seeded consumer copy stays readable; the published seed declares it on every cell.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minimumVersion": {
+          "oneOf": [
+            {
+              "enum": [
+                "undetermined",
+                "unversioned-service"
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$"
+            }
+          ]
+        },
+        "source": {
+          "type": "string",
+          "pattern": "^https://[^\\s\"']+$"
+        },
+        "sourceCheckedOn": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$"
+        },
+        "configuration": {
+          "oneOf": [
+            {
+              "const": "not-applicable"
+            },
+            {
+              "type": "string",
+              "pattern": "^fixture:[a-z0-9][a-z0-9-]*$"
+            }
+          ]
+        },
+        "startup": {
+          "$ref": "#/$defs/runtimeSignal"
+        },
+        "toolListing": {
+          "$ref": "#/$defs/runtimeSignal"
+        },
+        "smoke": {
+          "$ref": "#/$defs/runtimeSignal"
+        },
+        "surfaces": {
+          "$ref": "#/$defs/surfaceList"
+        },
+        "unsupportedSurfaces": {
+          "$ref": "#/$defs/surfaceList"
+        },
+        "fallback": {
+          "type": "string",
+          "minLength": 1
+        },
+        "degradation": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "dependentRequired": {
+        "source": [
+          "sourceCheckedOn"
+        ],
+        "sourceCheckedOn": [
+          "source"
+        ]
+      }
+    },
     "capability": {
       "type": "object",
       "additionalProperties": false,
@@ -194,8 +288,88 @@
         "validation": {
           "type": "string",
           "minLength": 1
+        },
+        "verification": {
+          "$ref": "#/$defs/verification"
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "type": "object",
+            "required": [
+              "support",
+              "verification"
+            ],
+            "properties": {
+              "support": {
+                "enum": [
+                  "native",
+                  "generated"
+                ]
+              },
+              "verification": true
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "verification": {
+                "$ref": "#/$defs/renderedVerification"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "required": [
+              "support",
+              "verification"
+            ],
+            "properties": {
+              "support": {
+                "const": "native"
+              },
+              "verification": true
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "verification": {
+                "$ref": "#/$defs/nativeVerification"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "required": [
+              "support",
+              "verification"
+            ],
+            "properties": {
+              "support": {
+                "enum": [
+                  "documented",
+                  "unsupported"
+                ]
+              },
+              "verification": true
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "verification": {
+                "$ref": "#/$defs/degradedVerification"
+              }
+            }
+          }
+        }
+      ]
     },
     "capabilities": {
       "type": "object",
@@ -243,6 +417,208 @@
         },
         "capabilities": {
           "$ref": "#/$defs/capabilities"
+        }
+      }
+    },
+    "renderedVerification": {
+      "description": "A native or generated cell must cite a dated official source, a minimum version, an offline fixture, at least one consuming surface, a visible fallback and a declared degradation.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimumVersion",
+        "source",
+        "sourceCheckedOn",
+        "configuration",
+        "surfaces",
+        "fallback",
+        "degradation"
+      ],
+      "properties": {
+        "minimumVersion": {
+          "oneOf": [
+            {
+              "enum": [
+                "undetermined",
+                "unversioned-service"
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$"
+            }
+          ]
+        },
+        "source": {
+          "type": "string",
+          "pattern": "^https://[^\\s\"']+$"
+        },
+        "sourceCheckedOn": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$"
+        },
+        "configuration": {
+          "type": "string",
+          "pattern": "^fixture:[a-z0-9][a-z0-9-]*$"
+        },
+        "startup": {
+          "$ref": "#/$defs/runtimeSignal"
+        },
+        "toolListing": {
+          "$ref": "#/$defs/runtimeSignal"
+        },
+        "smoke": {
+          "$ref": "#/$defs/runtimeSignal"
+        },
+        "surfaces": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/surfaceId"
+          }
+        },
+        "unsupportedSurfaces": {
+          "$ref": "#/$defs/surfaceList"
+        },
+        "fallback": {
+          "type": "string",
+          "minLength": 1
+        },
+        "degradation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "nativeVerification": {
+      "description": "A native cell cannot exclude official surfaces of its own harness; when surfaces diverge the cell drops to generated and names the excluded ones.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimumVersion",
+        "source",
+        "sourceCheckedOn",
+        "configuration",
+        "surfaces",
+        "fallback",
+        "degradation"
+      ],
+      "properties": {
+        "minimumVersion": {
+          "oneOf": [
+            {
+              "enum": [
+                "undetermined",
+                "unversioned-service"
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$"
+            }
+          ]
+        },
+        "source": {
+          "type": "string",
+          "pattern": "^https://[^\\s\"']+$"
+        },
+        "sourceCheckedOn": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$"
+        },
+        "configuration": {
+          "type": "string",
+          "pattern": "^fixture:[a-z0-9][a-z0-9-]*$"
+        },
+        "startup": {
+          "$ref": "#/$defs/runtimeSignal"
+        },
+        "toolListing": {
+          "$ref": "#/$defs/runtimeSignal"
+        },
+        "smoke": {
+          "$ref": "#/$defs/runtimeSignal"
+        },
+        "surfaces": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/surfaceId"
+          }
+        },
+        "unsupportedSurfaces": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "#/$defs/surfaceId"
+          }
+        },
+        "fallback": {
+          "type": "string",
+          "minLength": 1
+        },
+        "degradation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "degradedVerification": {
+      "description": "A documented or unsupported cell keeps a visible fallback and never claims a fixture as its configuration proof.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fallback"
+      ],
+      "properties": {
+        "minimumVersion": {
+          "oneOf": [
+            {
+              "enum": [
+                "undetermined",
+                "unversioned-service"
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$"
+            }
+          ]
+        },
+        "source": {
+          "type": "string",
+          "pattern": "^https://[^\\s\"']+$"
+        },
+        "sourceCheckedOn": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$"
+        },
+        "configuration": {
+          "const": "not-applicable"
+        },
+        "startup": {
+          "$ref": "#/$defs/runtimeSignal"
+        },
+        "toolListing": {
+          "$ref": "#/$defs/runtimeSignal"
+        },
+        "smoke": {
+          "$ref": "#/$defs/runtimeSignal"
+        },
+        "surfaces": {
+          "$ref": "#/$defs/surfaceList"
+        },
+        "unsupportedSurfaces": {
+          "$ref": "#/$defs/surfaceList"
+        },
+        "fallback": {
+          "type": "string",
+          "minLength": 1
+        },
+        "degradation": {
+          "type": "string",
+          "minLength": 1
         }
       }
     }

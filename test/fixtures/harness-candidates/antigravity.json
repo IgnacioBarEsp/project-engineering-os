@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "antigravity",
+  "status": "unsupported",
+  "evaluatedOn": "2026-08-19",
+  "summary": "Google documenta Antigravity con IDE, CLI y SDK y muestra AGENTS.md, SKILL.md y MCP en sus superficies. Eso lo vuelve un candidato real, no un harness soportado. Esta evaluacion vive en una fixture separada a proposito: ninguna de sus celdas se copia a harness-capabilities.json por parecerse a Cursor, a Codex o a Copilot.",
+  "sources": [
+    "https://cloud.google.com/blog/topics/developers-practitioners/choosing-your-surface-antigravity-20-antigravity-cli-antigravity-ide-or-antigravity-sdk",
+    "https://codelabs.developers.google.com/getting-started-agy-ide"
+  ],
+  "capabilities": {
+    "instructions": {
+      "rendererTarget": null,
+      "source": null,
+      "sourceCheckedOn": null,
+      "minimumVersion": null,
+      "configuration": null,
+      "fallback": "AGENTS.md",
+      "degradation": null,
+      "note": "Antigravity lee AGENTS.md, que el constructor ya escribe para Codex. Reutilizar ese hecho para declarar soporte seria promover por similitud: falta renderer propio, version minima observable y fixture."
+    },
+    "pathRules": {
+      "rendererTarget": null,
+      "source": null,
+      "sourceCheckedOn": null,
+      "minimumVersion": null,
+      "configuration": null,
+      "fallback": "AGENTS.md",
+      "degradation": null,
+      "note": "No se ha verificado ninguna superficie de repositorio con seleccion por glob."
+    },
+    "skills": {
+      "rendererTarget": null,
+      "source": null,
+      "sourceCheckedOn": null,
+      "minimumVersion": null,
+      "configuration": null,
+      "fallback": "AGENTS.md",
+      "degradation": null,
+      "note": "Las superficies muestran SKILL.md, pero no se ha verificado contra documentacion oficial que .agents/skills sea una ubicacion escaneada ni con que precedencia."
+    },
+    "permissions": {
+      "rendererTarget": null,
+      "source": null,
+      "sourceCheckedOn": null,
+      "minimumVersion": null,
+      "configuration": null,
+      "fallback": "AGENTS.md",
+      "degradation": null,
+      "note": "Sin superficie de permisos verificada y con el mismo limite de vocabulario abstracto que el resto de harnesses."
+    },
+    "mcp": {
+      "rendererTarget": null,
+      "source": null,
+      "sourceCheckedOn": null,
+      "minimumVersion": null,
+      "configuration": null,
+      "fallback": "AGENTS.md",
+      "degradation": null,
+      "note": "No se ha verificado la ruta ni el shape del archivo MCP de repositorio, si existe."
+    },
+    "profiles": {
+      "rendererTarget": null,
+      "source": null,
+      "sourceCheckedOn": null,
+      "minimumVersion": null,
+      "configuration": null,
+      "fallback": "AGENTS.md",
+      "degradation": null,
+      "note": "Los perfiles de evidencia no tienen superficie en ningun harness soportado; el candidato no cambia ese limite."
+    }
+  },
+  "promotionRequirements": [
+    "Un renderer con destino declarado por cada una de las seis capacidades.",
+    "Fuente oficial con fecha de consulta y version minima observable por capacidad.",
+    "Una fixture offline existente que pruebe ruta y formato de cada adapter.",
+    "Fallback visible y degradacion declarada por capacidad.",
+    "Entrada de manifest, paridad de sync sin drift y segundo run sin cambios."
+  ]
+}

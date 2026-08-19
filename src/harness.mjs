@@ -52,6 +52,44 @@ export const HARNESS_CAPABILITY_SCHEMA = Object.freeze({
   ],
 });
 
+// Señales de consumo que la CI no puede producir sin instalar el agente del proveedor y autenticar un
+// modelo. Se declaran aparte de la configuración para que una no pueda leerse como la otra.
+export const HARNESS_RUNTIME_SIGNALS = Object.freeze([
+  'startup',
+  'toolListing',
+  'smoke',
+]);
+
+// Destinos retirados y su reemplazo oficial. `.project-os/harness-capabilities.json` es seed-once y
+// pertenece al consumidor: el constructor no lo reescribe. Cuando la copia del consumidor todavía nombra
+// una ruta retirada, la capacidad sigue entregándose por el reemplazo instalado, así que el rendering
+// continúa y la desactualización queda declarada en lugar de romper el sync o de fingir un destino que
+// nadie instala.
+export const RETIRED_CAPABILITY_TARGETS = Object.freeze({
+  '.codex/skills/project-os/SKILL.md': Object.freeze({
+    replacement: '.agents/skills/project-os/SKILL.md',
+    reason: 'La documentación oficial de Codex declara .agents/skills como ubicación de skills de repositorio; .codex/skills era convención heredada.',
+  }),
+  '.opencode/skills/project-os/SKILL.md': Object.freeze({
+    replacement: '.agents/skills/project-os/SKILL.md',
+    reason: 'OpenCode documenta .agents/skills junto a .opencode/skills; el constructor usa la ubicación compartida para no instalar copias redundantes del mismo SKILL.md.',
+  }),
+});
+
+// Sentinels de versión mínima. No son versiones: declaran por qué no hay una que citar.
+// `unversioned-service` describe un servicio sin versión instalable por el repositorio; `undetermined`
+// describe una capacidad cuya documentación oficial no publica versión mínima.
+export const MINIMUM_VERSION_SENTINELS = Object.freeze(['undetermined', 'unversioned-service']);
+
+const NOT_VERIFIED = 'not-verified';
+const NOT_APPLICABLE = 'not-applicable';
+const FIXTURE_REFERENCE = /^fixture:[a-z0-9][a-z0-9-]*$/;
+const RECEIPT_REFERENCE = /^receipt:\.project-constructor\/evidence\/[a-z0-9][a-z0-9-]*\.json$/;
+const ISO_DATE = /^[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$/;
+const OFFICIAL_SOURCE = /^https:\/\/[^\s"']+$/;
+const SURFACE_ID = /^[a-z0-9][a-z0-9-]*$/;
+const RENDERED_SUPPORT = Object.freeze(['native', 'generated']);
+
 const TOKENS = Object.freeze({
   PROJECT_OS_CAPABILITY_MATRIX: 'capabilityMatrix',
   PROJECT_OS_INSTRUCTIONS: 'instructions',
@@ -155,6 +193,219 @@ function normalizePermissions(raw) {
   });
   uniqueIdList(permissions, 'permissions.json');
   return permissions.sort((left, right) => left.id.localeCompare(right.id));
+}
+
+function surfaceList(raw, label, capabilityLabel) {
+  if (raw === undefined) {
+    return [];
+  }
+  if (!Array.isArray(raw) || raw.some((id) => typeof id !== 'string' || !SURFACE_ID.test(id))) {
+    throw new ConstructorError(
+      'HARNESS_CAPABILITY_SURFACES',
+      `${capabilityLabel} declara ${label} con identificadores no válidos.`,
+    );
+  }
+  if (new Set(raw).size !== raw.length) {
+    throw new ConstructorError(
+      'HARNESS_CAPABILITY_SURFACES',
+      `${capabilityLabel} repite una superficie en ${label}.`,
+    );
+  }
+  return [...raw].sort((left, right) => left.localeCompare(right));
+}
+
+// El bloque de verificación separa dos afirmaciones que antes vivían en `support`: qué escribe el
+// constructor y qué se ha demostrado sobre el consumo. `configuration` la produce una fixture offline;
+// startup, tool listing y smoke solo pueden declararse con un receipt opt-in que la CI no genera.
+function normalizeVerification(raw, support, capabilityLabel) {
+  if (raw === undefined || raw === null) {
+    // Compatibilidad hacia atrás: la copia seed-once del consumidor puede no declarar el bloque todavía.
+    return null;
+  }
+  if (typeof raw !== 'object' || Array.isArray(raw)) {
+    throw new ConstructorError(
+      'HARNESS_CAPABILITY_VERIFICATION',
+      `${capabilityLabel} declara verification sin un objeto.`,
+    );
+  }
+
+  const allowed = new Set([
+    'minimumVersion',
+    'source',
+    'sourceCheckedOn',
+    'configuration',
+    'startup',
+    'toolListing',
+    'smoke',
+    'surfaces',
+    'unsupportedSurfaces',
+    'fallback',
+    'degradation',
+  ]);
+  const unknown = Object.keys(raw).filter((key) => !allowed.has(key));
+  if (unknown.length > 0) {
+    throw new ConstructorError(
+      'HARNESS_CAPABILITY_VERIFICATION',
+      `${capabilityLabel} declara campos de verification no soportados.`,
+      { details: unknown.sort() },
+    );
+  }
+
+  // Una versión mínima solo puede declararse si la documentación oficial la publica. Cuando no la publica,
+  // el sentinel dice exactamente eso: inventar un número sería una afirmación fechada sin fuente.
+  const minimumVersion = raw.minimumVersion ?? null;
+  if (
+    minimumVersion !== null
+    && !MINIMUM_VERSION_SENTINELS.includes(minimumVersion)
+    && !/^[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?$/.test(minimumVersion)
+  ) {
+    throw new ConstructorError(
+      'HARNESS_CAPABILITY_MINIMUM_VERSION',
+      `${capabilityLabel} declara minimumVersion ${String(minimumVersion)}.`,
+      {
+        remediation:
+          `Use una versión semver publicada por la fuente oficial, o uno de: ${MINIMUM_VERSION_SENTINELS.join(', ')}.`,
+      },
+    );
+  }
+
+  const source = raw.source ?? null;
+  if (source !== null && (typeof source !== 'string' || !OFFICIAL_SOURCE.test(source))) {
+    throw new ConstructorError(
+      'HARNESS_CAPABILITY_SOURCE',
+      `${capabilityLabel} debe citar la fuente oficial como una URL https.`,
+    );
+  }
+
+  const sourceCheckedOn = raw.sourceCheckedOn ?? null;
+  if (sourceCheckedOn !== null && (typeof sourceCheckedOn !== 'string' || !ISO_DATE.test(sourceCheckedOn))) {
+    throw new ConstructorError(
+      'HARNESS_CAPABILITY_SOURCE_DATE',
+      `${capabilityLabel} debe fechar su fuente con formato YYYY-MM-DD.`,
+    );
+  }
+  if ((source === null) !== (sourceCheckedOn === null)) {
+    throw new ConstructorError(
+      'HARNESS_CAPABILITY_SOURCE_DATE',
+      `${capabilityLabel} declara fuente sin fecha o fecha sin fuente.`,
+    );
+  }
+
+  const configuration = raw.configuration ?? NOT_APPLICABLE;
+  if (
+    typeof configuration !== 'string'
+    || (configuration !== NOT_APPLICABLE && !FIXTURE_REFERENCE.test(configuration))
+  ) {
+    throw new ConstructorError(
+      'HARNESS_CAPABILITY_CONFIGURATION',
+      `${capabilityLabel} debe declarar configuration como fixture:<id> o ${NOT_APPLICABLE}.`,
+    );
+  }
+
+  const signals = {};
+  for (const signal of HARNESS_RUNTIME_SIGNALS) {
+    const value = raw[signal] ?? NOT_VERIFIED;
+    if (typeof value !== 'string' || (value !== NOT_VERIFIED && !RECEIPT_REFERENCE.test(value))) {
+      throw new ConstructorError(
+        'HARNESS_CAPABILITY_RUNTIME_SIGNAL',
+        `${capabilityLabel} declara ${signal} sin ${NOT_VERIFIED} ni un receipt opt-in.`,
+        {
+          remediation:
+            'Una señal de runtime solo se declara con receipt:.project-constructor/evidence/<id>.json; la configuración nunca la satisface.',
+        },
+      );
+    }
+    signals[signal] = value;
+  }
+
+  const fallback = raw.fallback ?? null;
+  if (fallback !== null && (typeof fallback !== 'string' || fallback.trim() === '')) {
+    throw new ConstructorError(
+      'HARNESS_CAPABILITY_FALLBACK',
+      `${capabilityLabel} declara un fallback vacío.`,
+    );
+  }
+
+  const degradation = raw.degradation ?? null;
+  if (degradation !== null && (typeof degradation !== 'string' || degradation.trim() === '')) {
+    throw new ConstructorError(
+      'HARNESS_CAPABILITY_DEGRADATION',
+      `${capabilityLabel} declara una degradación vacía.`,
+    );
+  }
+
+  const surfaces = surfaceList(raw.surfaces, 'surfaces', capabilityLabel);
+  const unsupportedSurfaces = surfaceList(
+    raw.unsupportedSurfaces,
+    'unsupportedSurfaces',
+    capabilityLabel,
+  );
+  const overlap = surfaces.filter((id) => unsupportedSurfaces.includes(id));
+  if (overlap.length > 0) {
+    throw new ConstructorError(
+      'HARNESS_CAPABILITY_SURFACES',
+      `${capabilityLabel} declara la misma superficie como soportada y no soportada.`,
+      { details: overlap },
+    );
+  }
+
+  // Una celda renderizada exige fuente fechada, fixture y fallback. Sin cualquiera de los tres la
+  // afirmación sería configuración presentada como capacidad.
+  if (RENDERED_SUPPORT.includes(support)) {
+    const missing = [];
+    if (source === null) missing.push('source');
+    if (sourceCheckedOn === null) missing.push('sourceCheckedOn');
+    if (minimumVersion === null) missing.push('minimumVersion');
+    if (!FIXTURE_REFERENCE.test(configuration)) missing.push('configuration');
+    if (fallback === null) missing.push('fallback');
+    if (degradation === null) missing.push('degradation');
+    if (surfaces.length === 0) missing.push('surfaces');
+    if (missing.length > 0) {
+      throw new ConstructorError(
+        'HARNESS_CAPABILITY_UNPROVEN',
+        `${capabilityLabel} declara ${support} sin la evidencia mínima de rendering.`,
+        {
+          details: missing,
+          remediation:
+            'Añada fuente oficial fechada, versión mínima, fixture, fallback, degradación y superficies, o degrade la capacidad.',
+        },
+      );
+    }
+    // Cuando alguna superficie oficial del proveedor no puede consumir el destino, la celda deja de ser
+    // una fila genérica: se limita a generated y nombra las superficies excluidas.
+    if (support === 'native' && unsupportedSurfaces.length > 0) {
+      throw new ConstructorError(
+        'HARNESS_CAPABILITY_SURFACE_DIVERGENCE',
+        `${capabilityLabel} no puede declarar native mientras excluye superficies oficiales.`,
+        {
+          details: unsupportedSurfaces,
+          remediation: 'Use generated y conserve unsupportedSurfaces con su fallback visible.',
+        },
+      );
+    }
+  } else if (fallback === null) {
+    throw new ConstructorError(
+      'HARNESS_CAPABILITY_FALLBACK',
+      `${capabilityLabel} declara ${support} sin fallback visible.`,
+      {
+        remediation: 'Una superficie degradada o no soportada conserva un fallback declarado.',
+      },
+    );
+  }
+
+  return sortJson({
+    configuration,
+    degradation,
+    fallback,
+    minimumVersion,
+    smoke: signals.smoke,
+    source,
+    sourceCheckedOn,
+    startup: signals.startup,
+    surfaces,
+    toolListing: signals.toolListing,
+    unsupportedSurfaces,
+  });
 }
 
 function normalizeCapabilityMatrix(raw) {
@@ -273,6 +524,11 @@ function normalizeCapabilityMatrix(raw) {
         support: contract.support,
         target: contract.target,
         validation: contract.validation,
+        verification: normalizeVerification(
+          contract.verification,
+          contract.support,
+          `${harness.id}/${capability}`,
+        ),
       };
     }
 
@@ -645,20 +901,98 @@ function markdownProfiles(profiles) {
   ].join('\n');
 }
 
+function signalCell(value) {
+  return value === NOT_VERIFIED ? 'no verificado' : value.replace(/^receipt:/, 'receipt ');
+}
+
 function markdownCapabilityMatrix(matrix) {
   const rows = [
-    '| Harness | Capacidad | Estado | Destino | Validación |',
-    '|---|---|---|---|---|',
+    '| Harness | Capacidad | Estado | Destino | Validación | Versión mínima | Configuración | Startup | Tool listing | Smoke | Fallback |',
+    '|---|---|---|---|---|---|---|---|---|---|---|',
   ];
+  const sources = [];
+  const divergences = [];
   for (const harness of matrix.harnesses) {
     for (const capability of HARNESS_CAPABILITY_SCHEMA.capabilities) {
       const entry = harness.capabilities[capability];
-      rows.push(
-        `| ${harness.id} | ${capability} | ${entry.support} | ${entry.target} | ${entry.validation} |`,
-      );
+      const check = entry.verification;
+      rows.push([
+        '',
+        harness.id,
+        capability,
+        entry.support,
+        entry.target,
+        entry.validation,
+        check?.minimumVersion ?? 'sin declarar',
+        check?.configuration ?? 'sin declarar',
+        signalCell(check?.startup ?? NOT_VERIFIED),
+        signalCell(check?.toolListing ?? NOT_VERIFIED),
+        signalCell(check?.smoke ?? NOT_VERIFIED),
+        check?.fallback ?? 'sin declarar',
+        '',
+      ].join(' | ').trim());
+      if (check?.source) {
+        sources.push(`| ${harness.id} | ${capability} | ${check.source} | ${check.sourceCheckedOn} |`);
+      }
+      if (check && check.unsupportedSurfaces.length > 0) {
+        divergences.push(
+          `| ${harness.id} | ${capability} | ${check.surfaces.join(', ')} | ${check.unsupportedSurfaces.join(', ')} |`,
+        );
+      }
     }
   }
-  return rows.join('\n');
+
+  const superseded = [];
+  for (const harness of matrix.harnesses) {
+    for (const capability of HARNESS_CAPABILITY_SCHEMA.capabilities) {
+      const entry = harness.capabilities[capability];
+      if (entry.supersededBy) {
+        superseded.push(
+          `| ${harness.id} | ${capability} | ${entry.target} | ${entry.supersededBy} |`,
+        );
+      }
+    }
+  }
+
+  const blocks = [rows.join('\n')];
+  if (superseded.length > 0) {
+    blocks.push([
+      '### Destinos retirados declarados por esta copia',
+      '',
+      'Esta copia de `.project-os/harness-capabilities.json` todavía nombra rutas retiradas. La capacidad se',
+      'entrega por el reemplazo instalado, así que nada se rompe, pero la celda quedó desactualizada. El',
+      'archivo es seed-once y pertenece al repositorio: el constructor no lo reescribe.',
+      '',
+      '| Harness | Capacidad | Destino declarado | Reemplazo instalado |',
+      '|---|---|---|---|',
+      ...superseded,
+    ].join('\n'));
+  }
+  blocks.push([
+    'Configuración, startup, tool listing y smoke son señales distintas. La configuración la produce una',
+    'fixture offline; startup, tool listing y smoke solo pueden declararse con un receipt opt-in vigente y',
+    'nunca los genera la CI. Una celda `native` describe el rendering en la superficie oficial documentada,',
+    'no que un agente la haya cargado.',
+  ].join('\n'));
+  if (divergences.length > 0) {
+    blocks.push([
+      '### Superficies divergentes',
+      '',
+      '| Harness | Capacidad | Superficies que consumen | Superficies sin archivo versionado |',
+      '|---|---|---|---|',
+      ...divergences,
+    ].join('\n'));
+  }
+  if (sources.length > 0) {
+    blocks.push([
+      '### Fuentes oficiales consultadas',
+      '',
+      '| Harness | Capacidad | Fuente | Consultada |',
+      '|---|---|---|---|',
+      ...sources,
+    ].join('\n'));
+  }
+  return blocks.join('\n\n');
 }
 
 export function jsonMcpServers(servers, target) {
@@ -915,6 +1249,44 @@ function validateRenderedMcp(entries, canonical) {
   }
 }
 
+/**
+ * Resuelve destinos retirados contra su reemplazo instalado.
+ *
+ * Devuelve la matriz anotada y la lista de celdas desactualizadas. No edita el archivo del consumidor:
+ * la anotación viaja solo en memoria y se publica como degradación visible en los espejos generados.
+ */
+export function resolveRetiredTargets(matrix, installedTargets) {
+  const retired = [];
+  const harnesses = matrix.harnesses.map((harness) => {
+    const capabilities = {};
+    for (const capability of HARNESS_CAPABILITY_SCHEMA.capabilities) {
+      const contract = harness.capabilities[capability];
+      const supersession = RETIRED_CAPABILITY_TARGETS[contract.target];
+      if (
+        supersession
+        && !installedTargets.has(contract.target)
+        && installedTargets.has(supersession.replacement)
+      ) {
+        retired.push({
+          capability: `${harness.id}/${capability}`,
+          declared: contract.target,
+          reason: supersession.reason,
+          resolved: supersession.replacement,
+        });
+        capabilities[capability] = { ...contract, supersededBy: supersession.replacement };
+      } else {
+        capabilities[capability] = contract;
+      }
+    }
+    return { ...harness, capabilities };
+  });
+
+  return {
+    matrix: { ...matrix, harnesses },
+    retired: retired.sort((left, right) => left.capability.localeCompare(right.capability)),
+  };
+}
+
 function validateCapabilityMatrix(entries, matrix) {
   const targets = new Map(entries.map((entry) => [entry.target, entry]));
   for (const harness of matrix.harnesses) {
@@ -926,20 +1298,25 @@ function validateCapabilityMatrix(entries, matrix) {
           `${harness.id}/${capability} usa un estado no soportado.`,
         );
       }
-      const targetEntry = targets.get(contract.target);
+      const effectiveTarget = contract.supersededBy ?? contract.target;
+      const targetEntry = targets.get(effectiveTarget);
       if (!targetEntry) {
+        const supersession = RETIRED_CAPABILITY_TARGETS[contract.target];
         throw new ConstructorError(
           'HARNESS_CAPABILITY_UNPROVEN',
           `${harness.id}/${capability} declara ${contract.target}, pero manifest.json no lo instala.`,
           {
-            remediation: 'Añada el shell correspondiente o degrade la capacidad de forma explícita.',
+            details: supersession ? [`reemplazo esperado: ${supersession.replacement}`] : [],
+            remediation: supersession
+              ? `${contract.target} fue retirado. ${supersession.reason} Actualice esa celda de .project-os/harness-capabilities.json a ${supersession.replacement}.`
+              : 'Añada el shell correspondiente o degrade la capacidad de forma explícita.',
           },
         );
       }
       if (targetEntry.owner !== contract.owner) {
         throw new ConstructorError(
           'HARNESS_CAPABILITY_OWNER_DRIFT',
-          `${harness.id}/${capability} declara owner ${contract.owner}, pero ${contract.target} usa ${targetEntry.owner}.`,
+          `${harness.id}/${capability} declara owner ${contract.owner}, pero ${effectiveTarget} usa ${targetEntry.owner}.`,
         );
       }
     }
@@ -969,6 +1346,15 @@ export async function materializeHarnessBlueprint({
       },
     );
   }
+  // Un consumidor seed-once puede nombrar todavía un destino retirado. Se resuelve contra su reemplazo
+  // instalado antes de renderizar, para que la desactualización quede visible en los espejos en vez de
+  // romper el sync o de desaparecer en silencio.
+  const supersession = resolveRetiredTargets(
+    canonical.capabilityMatrix,
+    new Set(baseBlueprint.entries.map((entry) => entry.target)),
+  );
+  canonical.capabilityMatrix = supersession.matrix;
+
   const renderedEntries = baseBlueprint.entries.map((entry) => renderShell(entry, canonical));
   const distributionEntries = await packageDistributionEntries();
   const distributionHash = sha256Json(distributionEntries.map((entry) => ({
@@ -1007,5 +1393,6 @@ export async function materializeHarnessBlueprint({
     canonical,
     distributionHash,
     entries: entries.sort((left, right) => left.target.localeCompare(right.target)),
+    retiredCapabilityTargets: supersession.retired,
   };
 }

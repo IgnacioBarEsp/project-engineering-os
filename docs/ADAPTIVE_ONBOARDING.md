@@ -162,30 +162,41 @@ que el constructor conoce hoy permanecen en
 [`skills.json`](../blueprint/core/project-os/skills.json) y
 [`mcp.json`](../blueprint/core/project-os/mcp.json).
 
-| Agente | Capacidad oficial verificada | Soporte actual del constructor | Objetivo y degradación |
+| Agente | Capacidad oficial verificada | Soporte actual del constructor | Degradación declarada |
 | --- | --- | --- | --- |
-| Claude Code | `CLAUDE.md`, Agent Skills, MCP y permisos | Instrucciones, skills y MCP native; path rules y permisos documented | Conservar adapter; añadir receipt de runtime. Si una regla no es representable, mantenerla visible en `AGENTS.md`/`CLAUDE.md` |
-| Codex | `AGENTS.md`, Agent Skills y MCP | Instrucciones, skills y MCP native; path rules y permisos documented | Conservar adapter y separar configuración, tool listing y smoke. Mantener reglas no representables en `AGENTS.md` |
-| Cursor | Rules/`AGENTS.md`, Agent Skills y MCP | Instrucciones y MCP native; skills unsupported; permisos documented | Añadir adapter de skill y fixture específico. Hasta entonces, procedimiento visible en rules/`AGENTS.md` |
-| GitHub Copilot | Custom instructions, Agent Skills y MCP; el detalle cambia entre cloud, CLI e IDE | Solo instrucciones native; skills, permisos y MCP unsupported | Crear adapters por superficie, nunca una fila genérica. Hasta entonces, docs y configuración manual explícita |
-| OpenCode | Config de agentes, skills on-demand, MCP y permisos allow/ask/deny | Instrucciones y skills generated; MCP native; permisos documented | Verificar carga/permiso en runtime y conservar fallback en `AGENTS.md`/`.opencode/project-os.md` |
+| Claude Code | `CLAUDE.md`, Agent Skills en `.claude/skills`, MCP en `.mcp.json` y permisos en `settings.json` | Instrucciones, skills y MCP native; path rules y permisos documented | Claude Code trata `CLAUDE.md` como contexto, no como configuración forzada. `.claude/rules` sí acepta selección por ruta, pero el archivo generado es agregado |
+| Codex | `AGENTS.md`, Agent Skills en `.agents/skills` y MCP en `.codex/config.toml` | Instrucciones, skills y MCP native; path rules y permisos documented | El `config.toml` de proyecto solo se lee en proyectos confiados. `.codex/skills` era convención heredada y dejó de instalarse |
+| Cursor | Rules `.mdc`, Agent Skills en `.cursor/skills` o `.agents/skills` y MCP en `.cursor/mcp.json` | Instrucciones, skills y MCP native; path rules y permisos documented | La regla se instala con alcance universal, así que no conserva selección por glob |
+| GitHub Copilot | Custom instructions, instrucciones por ruta, Agent Skills y MCP; el detalle cambia entre nube, revisión de código, CLI e IDE | Instrucciones y skills native; MCP generated; path rules y permisos documented | Copilot CLI lee `.mcp.json` del repositorio, pero la nube y la revisión de código solo se configuran en la interfaz de settings, sin archivo versionado. Por eso la celda no es una fila genérica |
+| OpenCode | Config de agentes, skills en `.opencode/skills` o `.agents/skills`, MCP y permisos allow/ask/deny | Skills y MCP native; instrucciones generated; path rules y permisos documented | Verificar carga o permiso en runtime exigiría arrancar OpenCode con un proveedor autenticado, así que sigue siendo un receipt opt-in |
 
-Fuentes: [Claude Code extensions](https://code.claude.com/docs/en/features-overview),
+Fuentes oficiales, consultadas el 2026-08-19:
+[Claude Code memory](https://code.claude.com/docs/en/memory),
+[Claude Code skills](https://code.claude.com/docs/en/skills),
 [Claude Code MCP](https://code.claude.com/docs/en/mcp),
 [Codex skills](https://learn.chatgpt.com/docs/build-skills),
 [Codex MCP](https://learn.chatgpt.com/docs/extend/mcp?surface=cli),
-[Cursor Agent Skills](https://cursor.com/changelog/2-4),
-[Cursor MCP](https://docs.cursor.com/context/model-context-protocol),
+[Cursor Agent Skills](https://cursor.com/docs/skills),
+[Cursor rules](https://cursor.com/docs/rules),
+[Cursor MCP](https://cursor.com/docs/mcp),
 [Copilot Agent Skills](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills),
-[Copilot MCP](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/configure-mcp-servers),
-[OpenCode skills](https://opencode.ai/docs/skills) y
-[OpenCode agents/permisos](https://opencode.ai/docs/agents).
+[Copilot custom instructions support](https://docs.github.com/en/copilot/reference/custom-instructions-support),
+[Copilot CLI MCP](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers),
+[OpenCode skills](https://opencode.ai/docs/skills),
+[OpenCode permisos](https://opencode.ai/docs/permissions) y
+[OpenCode MCP](https://opencode.ai/docs/mcp-servers).
+
+La fecha describe la consulta realizada al revalidar. Una fuente sin fecha, sin fixture o sin fallback hace
+fallar el rendering de su celda en lugar de degradarse en silencio.
 
 ### Antigravity
 
 Google ya documenta Antigravity 2.0, IDE, CLI y SDK, y muestra AGENTS.md, SKILL.md y MCP en sus superficies.
-Eso lo vuelve un candidato real, pero **no soportado por Project Engineering OS**. Entrará a la matriz solo
-cuando exista renderer, fixture aislado, versión mínima, permisos, degradación y smoke documentados. Fuente:
+Eso lo vuelve un candidato real, pero **no soportado por Project Engineering OS**. Su evaluación vive en una
+fixture de candidato separada, fuera de la matriz de cinco harnesses, y el contrato de promoción exige por
+cada una de las seis capacidades: renderer con destino declarado, fuente oficial fechada, versión mínima,
+fixture existente, fallback visible y degradación escrita. Antigravity todavía no cumple ninguno de esos
+seis, y leer `AGENTS.md` como Codex no lo promueve: eso sería promover por similitud. Fuente:
 [Google Cloud: superficies de Antigravity](https://cloud.google.com/blog/topics/developers-practitioners/choosing-your-surface-antigravity-20-antigravity-cli-antigravity-ide-or-antigravity-sdk)
 y [codelab oficial](https://codelabs.developers.google.com/getting-started-agy-ide).
 

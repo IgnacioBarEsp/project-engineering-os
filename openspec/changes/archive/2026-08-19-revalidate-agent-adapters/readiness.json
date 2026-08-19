@@ -1,0 +1,204 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 32,
+  "change": "revalidate-agent-adapters",
+  "surfaces": [
+    "documentation",
+    "harness-tooling",
+    "library-cli"
+  ],
+  "validations": [
+    {
+      "id": "backward-compatibility-test",
+      "status": "passed",
+      "evidence": "evidence://validation/seed-once-matrix-without-verification-and-retired-target-upgrade-rehearsal",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "capability-matrix-check",
+      "status": "passed",
+      "evidence": "evidence://validation/thirty-cells-five-harnesses-with-declared-verification",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "constructor-tests",
+      "status": "passed",
+      "evidence": "evidence://validation/npm-check-210-tests",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "critical-document-presence",
+      "status": "passed",
+      "evidence": "evidence://validation/check-docs-compatibility-and-adaptive-onboarding",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "doctor-json-check",
+      "status": "passed",
+      "evidence": "evidence://validation/fixture-doctor-zero-fail-four-classified-warn",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "findability-two-hop-check",
+      "status": "passed",
+      "evidence": "evidence://validation/fixture-nine-documents-zero-missing",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "multi-platform-smoke",
+      "status": "passed",
+      "evidence": "evidence://validation/windows-tarball-install-bootstrap-and-lf-normalization-contract-ci-matrix-pending-on-pr",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "neutrality-check",
+      "status": "passed",
+      "evidence": "evidence://validation/public-tree-neutrality-and-export-allowlist-with-five-additive-exports",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "openspec-strict",
+      "status": "passed",
+      "evidence": "evidence://validation/openspec-1.6.0-strict-all-items",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "opsx-check",
+      "status": "passed",
+      "evidence": "evidence://validation/fixture-opsx-check-exit-zero",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "package-artifact-test",
+      "status": "passed",
+      "evidence": "evidence://validation/pack-verify-258206-bytes-sha256-ffd5bb47",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "relative-link-check",
+      "status": "passed",
+      "evidence": "evidence://validation/check-docs-22-links-and-prompt-contract",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "second-run-idempotence",
+      "status": "passed",
+      "evidence": "evidence://validation/fixture-second-bootstrap-zero-changed-files",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "sync-check",
+      "status": "passed",
+      "evidence": "evidence://validation/fixture-sync-check-in-sync-no-drift",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "unit-and-contract-tests",
+      "status": "passed",
+      "evidence": "evidence://validation/harness-adapter-contract-37-tests-with-negative-cases",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "adversarial-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://adversarial-review/pass-zero-open-blockers-majors",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "install-and-rollback-smoke",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://validation/tarball-install-bootstrap-and-upgrade-rehearsal-with-tree-rollback",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "issue-link",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/32",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "license-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://manual-review/mit-unchanged-no-dependencies-no-providers-no-mcp-activation",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "public-api-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://manual-review/five-additive-exports-and-unchanged-harness-capability-schema",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "qualitative-review-for-clarity-and-current-ownership",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://manual-review/three-matrices-dated-sources-and-seed-once-ownership",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recorded-drift-decisions",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://decision/retired-targets-resolved-and-published-instead-of-rewriting-consumer-state",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recovery-rehearsal-for-one-transaction",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://validation/upgrade-rehearsal-drift-delete-conflict-in-sync-and-rollback",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "review-of-declared-degradations",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://manual-review/permissions-vocabulary-path-rules-aggregate-copilot-surfaces-and-codex-trust-gate",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "rollback": {
+    "strategy": "Revertir el commit restaura la matriz anterior, sus rutas, el schema, el manifest y las pruebas; para un consumidor ya sincronizado, el sync que retira los adapters heredados es una transaccion con journal y rollback por hash, y un revert del arbol devuelve los archivos retirados.",
+    "status": "verified",
+    "evidence": "evidence://validation/upgrade-rehearsal-restores-both-retired-adapters-after-tree-rollback",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "passed",
+    "ref": "evidence://adversarial-review/pass-zero-open-blockers-majors",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}

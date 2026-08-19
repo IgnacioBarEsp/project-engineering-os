@@ -37,18 +37,18 @@
       "required": true
     },
     {
-      "id": "codex-config",
-      "source": "core/harness/codex/config.toml",
-      "target": ".codex/config.toml",
+      "id": "agents-project-os-skill",
+      "source": "core/harness/common/project-os-skill.md",
+      "target": ".agents/skills/project-os/SKILL.md",
       "owner": "constructor",
       "mode": "text",
       "lineEndings": "lf",
       "required": true
     },
     {
-      "id": "codex-project-os-skill",
-      "source": "core/harness/common/project-os-skill.md",
-      "target": ".codex/skills/project-os/SKILL.md",
+      "id": "codex-config",
+      "source": "core/harness/codex/config.toml",
+      "target": ".codex/config.toml",
       "owner": "constructor",
       "mode": "text",
       "lineEndings": "lf",
@@ -166,15 +166,6 @@
       "id": "opencode-guide",
       "source": "core/harness/opencode/project-os.md",
       "target": ".opencode/project-os.md",
-      "owner": "constructor",
-      "mode": "text",
-      "lineEndings": "lf",
-      "required": true
-    },
-    {
-      "id": "opencode-project-os-skill",
-      "source": "core/harness/common/project-os-skill.md",
-      "target": ".opencode/skills/project-os/SKILL.md",
       "owner": "constructor",
       "mode": "text",
       "lineEndings": "lf",
