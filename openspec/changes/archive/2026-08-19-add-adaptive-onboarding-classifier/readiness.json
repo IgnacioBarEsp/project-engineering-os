@@ -1,0 +1,204 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 30,
+  "change": "add-adaptive-onboarding-classifier",
+  "surfaces": [
+    "documentation",
+    "harness-tooling",
+    "library-cli"
+  ],
+  "validations": [
+    {
+      "id": "backward-compatibility-test",
+      "status": "passed",
+      "evidence": "evidence://validation/existing-cli-contracts-and-v0-v1-migration",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "capability-matrix-check",
+      "status": "passed",
+      "evidence": "evidence://validation/npm-check-five-harnesses",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "constructor-tests",
+      "status": "passed",
+      "evidence": "evidence://validation/npm-check-164-tests",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "critical-document-presence",
+      "status": "passed",
+      "evidence": "evidence://validation/onboarding-guide-readme-and-index",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "doctor-json-check",
+      "status": "passed",
+      "evidence": "evidence://validation/npm-check-doctor-json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "findability-two-hop-check",
+      "status": "passed",
+      "evidence": "evidence://validation/readme-doc-index-user-guide-links",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "multi-platform-smoke",
+      "status": "passed",
+      "evidence": "evidence://validation/node-path-contract-and-pr-six-leg-matrix",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "neutrality-check",
+      "status": "passed",
+      "evidence": "evidence://validation/public-tree-neutrality",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "openspec-strict",
+      "status": "passed",
+      "evidence": "evidence://validation/openspec-1.6.0-seven-items",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "opsx-check",
+      "status": "passed",
+      "evidence": "evidence://validation/npm-check-opsx-contracts",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "package-artifact-test",
+      "status": "passed",
+      "evidence": "evidence://validation/pack-verify-installed-tarball",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "relative-link-check",
+      "status": "passed",
+      "evidence": "evidence://validation/check-docs-20-links",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "second-run-idempotence",
+      "status": "passed",
+      "evidence": "evidence://validation/canonical-state-byte-identical-and-bootstrap-second-run",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "sync-check",
+      "status": "passed",
+      "evidence": "evidence://validation/npm-check-sync-no-drift",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "unit-and-contract-tests",
+      "status": "passed",
+      "evidence": "evidence://validation/onboarding-24-specific-and-164-total",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "adversarial-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://adversarial-review/pass-zero-open-blockers-majors",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "install-and-rollback-smoke",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://pack/install-tarball-and-read-only-revert",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "issue-link",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/30",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "license-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://review/mit-no-runtime-dependencies-zero-cost",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "public-api-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://review/additive-exports-command-and-versioned-schemas",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "qualitative-review-for-clarity-and-current-ownership",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://docs/source-main-vs-npm-and-issue-boundaries",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recorded-drift-decisions",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://decision/npm-0.1.6-does-not-claim-unreleased-command",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recovery-rehearsal-for-one-transaction",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://tests/transaction-rollback-and-state-source-unchanged",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "review-of-declared-degradations",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://review/git-unavailable-limits-symlinks-and-tracker-boundary",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "rollback": {
+    "strategy": "Revertir el commit o reinstalar la release anterior; onboarding-plan no deja mutaciones locales o remotas.",
+    "status": "verified",
+    "evidence": "evidence://rollback/read-only-snapshots-v0-source-preserved-and-package-reinstall",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "passed",
+    "ref": "evidence://adversarial-review/pass-zero-open-blockers-majors",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}

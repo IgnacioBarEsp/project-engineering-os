@@ -30,7 +30,8 @@ La ausencia, cancelación o skip inesperado de un check no equivale a éxito.
 
 ## Límite actual
 
-`project-os github-plan` solo previsualiza. La preparación adaptativa de tableros se investiga en el
-[issue #23](https://github.com/IgnacioBarEsp/project-engineering-os/issues/23).
+`project-os github-plan` solo previsualiza. `onboarding-plan` ya puede detectar un tracker local y elegir una
+ruta sin escribir, pero no crea ni configura recursos. El planner/apply remoto se implementará por separado
+en el [issue #33](https://github.com/IgnacioBarEsp/project-engineering-os/issues/33).
 
 Para saber qué decisiones siguen siendo humanas, consulta la [guía manual](GUIA_MANUAL_USUARIO.md).

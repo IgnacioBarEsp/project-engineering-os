@@ -7,6 +7,17 @@ Issue de origen: [#23](https://github.com/IgnacioBarEsp/project-engineering-os/i
 Esta decisión explica cómo debería empezar Project Engineering OS con personas y repositorios distintos. No
 significa que el router ya exista: Prompt 00 y Prompt 01 conservan hoy su orden actual.
 
+## Estado actual por piezas
+
+- El clasificador read-only y el estado canónico de [#30](https://github.com/IgnacioBarEsp/project-engineering-os/issues/30)
+  ya están implementados en `main`, pendientes de la siguiente release minor. Consulta
+  [`onboarding-plan`](ONBOARDING_PLAN.md).
+- La orquestación de Prompt 00/01 y la persistencia del estado siguen en #31.
+- Adaptadores, trackers remotos y catálogo seguro siguen separados en #32, #33 y #34.
+
+Por tanto, detectar y clasificar ya es comportamiento verificable en el source actual; entrevistar, persistir
+y configurar el ecosistema completo todavía es visión en desarrollo.
+
 ## Decisión en un minuto
 
 1. El CLI inspeccionará primero el repositorio sin escribir nada.
@@ -36,6 +47,8 @@ un CLI puede instalar adaptadores por agente y mantener un proceso común. Proje
 diferencia: el orden inicial también dependerá de la persona y de la evidencia del repositorio.
 
 ## Clasificador
+
+El contrato ejecutable de esta sección está documentado en [Clasificar el inicio](ONBOARDING_PLAN.md).
 
 ### Inspección read-only
 
@@ -310,7 +323,8 @@ Resultado: adopción incremental, sin bootstrap destructivo ni doble tracker.
 
 El spike se implementará en cambios separados. Cada uno necesita su propio DoR, spec y evidencia:
 
-1. [#30 — Clasificador y estado canónico](https://github.com/IgnacioBarEsp/project-engineering-os/issues/30).
+1. [#30 — Clasificador y estado canónico](https://github.com/IgnacioBarEsp/project-engineering-os/issues/30):
+   implementado en `main`, pendiente de release minor.
 2. [#31 — Orquestación del prompt inicial, Prompt 00 y Prompt 01](https://github.com/IgnacioBarEsp/project-engineering-os/issues/31).
 3. [#32 — Adaptadores y fixtures por agente](https://github.com/IgnacioBarEsp/project-engineering-os/issues/32).
 4. [#33 — Planner/apply autorizado para trackers](https://github.com/IgnacioBarEsp/project-engineering-os/issues/33).

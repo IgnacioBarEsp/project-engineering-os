@@ -7,16 +7,18 @@ cuando lo necesites.
 
 1. [Guía del usuario](USER_GUIDE.md): entiende las cuatro etapas y llega desde una carpeta vacía hasta el
    primer cambio de producto.
-2. [Prompt 00](prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md): deja que tu agente prepare y verifique el entorno.
-3. [Guía manual](GUIA_MANUAL_USUARIO.md): identifica las decisiones que requieren tu autorización.
-4. [Prompt 01](prompts/PROMPT_01_DISCOVERY_PROYECTO.md): descubre problema, usuarios y restricciones antes
+2. [Clasificador de onboarding](ONBOARDING_PLAN.md): inspecciona la carpeta y elige una ruta sin escribir.
+3. [Prompt 00](prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md): deja que tu agente prepare y verifique el entorno.
+4. [Guía manual](GUIA_MANUAL_USUARIO.md): identifica las decisiones que requieren tu autorización.
+5. [Prompt 01](prompts/PROMPT_01_DISCOVERY_PROYECTO.md): descubre problema, usuarios y restricciones antes
    de elegir tecnología.
 
 ## Quiero entender cómo se gobierna el trabajo
 
 - [Project OS remoto](PROJECT_OS.md): estados, labels, protección y gates de GitHub.
 - [Decisión de onboarding adaptativo](ADAPTIVE_ONBOARDING.md): rutas por experiencia, tableros, skills, MCP,
-  permisos y límites antes de implementar el router.
+  permisos, límites y desglose de implementación.
+- [Contrato del clasificador](ONBOARDING_PLAN.md): comando, respuestas, estado, privacidad y migración.
 - [Debt Control Loop](DEBT_CONTROL.md): cuándo un hallazgo se convierte en deuda y qué puede pausar.
 - [Ownership](architecture/OWNERSHIP.md): qué pertenece al upstream, al consumidor o a OpenSpec.
 - [Upstream y consumidores](UPSTREAM_CONSUMERS.md): cómo proponer cambios sin editar copias del runtime.
@@ -40,11 +42,12 @@ cuando lo necesites.
 | Necesidad | Documento |
 | --- | --- |
 | Empezar sin conocer SDD | [Guía del usuario](USER_GUIDE.md) |
+| Clasificar una carpeta sin escribir | [Onboarding plan](ONBOARDING_PLAN.md) |
 | Copiar el primer prompt | [Prompt 00](prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md) |
 | Elegir tecnología | [Prompt 01](prompts/PROMPT_01_DISCOVERY_PROYECTO.md) |
 | Resolver drift o una ejecución interrumpida | [Recuperación](RECOVERY.md) |
 | Saber qué puede hacer cada agente | [Compatibilidad](COMPATIBILITY.md) |
-| Entender la propuesta de onboarding, trackers, skills y MCP | [Onboarding adaptativo](ADAPTIVE_ONBOARDING.md) |
+| Entender la visión de onboarding, trackers, skills y MCP | [Onboarding adaptativo](ADAPTIVE_ONBOARDING.md) |
 | Entender pausas por deuda | [Debt Control Loop](DEBT_CONTROL.md) |
 
 Vuelve al [README principal](../README.md) para el recorrido corto y los comandos de inicio.

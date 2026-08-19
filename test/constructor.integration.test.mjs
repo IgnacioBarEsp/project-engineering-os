@@ -526,6 +526,46 @@ test("github-plan produce un plan remoto neutral y permanece estrictamente read-
   assert.deepEqual(await exactSnapshot(target), beforePlan);
 });
 
+test("onboarding-plan instalado clasifica brownfield y permanece estrictamente read-only", { timeout: 120_000 }, async () => {
+  const target = await cloneBaseline("onboarding-plan");
+  const answersRelative = path.join(".project-os", "onboarding-answers.json");
+  await writeFile(path.join(target, answersRelative), JSON.stringify({
+    schemaVersion: "1.0.0",
+    project: "new",
+    guidance: "brief",
+    tracker: "defer",
+    agent: "codex",
+    remoteSetup: "local-only",
+  }, null, 2));
+  const beforePlan = await exactSnapshot(target);
+  const response = await runInstalled(target, "onboarding-plan", [
+    "--answers",
+    answersRelative,
+  ]);
+  const payload = parseJson(response, "onboarding-plan instalado");
+
+  assertSuccessfulConstructor(response, "onboarding-plan instalado");
+  assert.equal(payload.command, "onboarding-plan");
+  assert.equal(payload.mode, "read-only");
+  assert.equal(payload.mutationPerformed, false);
+  assert.equal(payload.remote.status, "not-contacted");
+  assert.equal(payload.remote.mutationPerformed, false);
+  assert.equal(payload.questions.length, 5);
+  assert.equal(payload.state.route, "brownfield");
+  assert.equal(payload.state.rebootstrapAllowed, false);
+  assert.deepEqual(payload.state.deferredDecisions, ["tracker"]);
+
+  const schema = await readJson(path.join(packageRoot, "schema", "onboarding-state.schema.json"));
+  const ajv = new Ajv2020({ allErrors: true, strict: true });
+  const validate = ajv.compile(schema);
+  assert.equal(
+    validate(payload.state),
+    true,
+    ajv.errorsText(validate.errors, { separator: "; " }),
+  );
+  assert.deepEqual(await exactSnapshot(target), beforePlan);
+});
+
 test("una colisión preexistente aborta antes de cualquier escritura parcial", { timeout: 120_000 }, async () => {
   const target = await makeEmptyRepository("collision");
   await writeFile(path.join(target, "README.md"), "# Trabajo humano preexistente\n");
