@@ -1,5 +1,10 @@
 # Distribution
 
+## Purpose
+
+Definir una identidad de release verificable y una distribución pública neutral, reproducible y con
+privilegios mínimos.
+
 ## Requirements
 
 ### Requirement: A release has one verifiable identity

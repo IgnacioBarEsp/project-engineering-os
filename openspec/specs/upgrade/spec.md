@@ -1,5 +1,10 @@
 # Upgrade and recovery
 
+## Purpose
+
+Definir actualizaciones transaccionales, recuperación verificable y automatización de pull requests sin
+saltarse los límites de ownership ni las protecciones remotas.
+
 ## Requirements
 
 ### Requirement: Upgrade is explicit and transactional
@@ -30,4 +35,3 @@ protected branch.
 - **WHEN** `--apply --open-pr` cannot verify `gh auth status`
 - **THEN** it fails before mutation
 - **AND** returns a concrete authentication recovery step
-

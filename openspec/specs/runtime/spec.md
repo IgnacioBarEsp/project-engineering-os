@@ -1,5 +1,10 @@
 # Runtime
 
+## Purpose
+
+Definir el bootstrap universal, los límites de ownership y el diagnóstico read-only que mantienen el
+entorno reproducible sin elegir ni sobrescribir decisiones del producto.
+
 ## Requirements
 
 ### Requirement: Bootstrap separates universal core from product
@@ -34,4 +39,3 @@ SHALL NOT install, repair, authenticate, update or reindex.
 - **WHEN** authenticated smoke is required and fails
 - **THEN** doctor does not infer PASS from configuration or process startup
 - **AND** reports the profile-appropriate failure status
-
