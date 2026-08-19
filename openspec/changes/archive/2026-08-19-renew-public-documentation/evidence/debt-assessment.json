@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "renew-public-documentation",
+  "date": "2026-08-18",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Revisión adversarial PASS: cero Blockers, cero Majors y tres Minors corregidos antes del cierre. La señal de dependencias preexistente pertenece a #18/#21 y no fue introducida ni modificada por este change."
+}

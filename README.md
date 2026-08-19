@@ -1,20 +1,93 @@
+<div align="center">
+
 # Project Engineering OS
 
-Project Engineering OS prepara un repositorio nuevo con gobernanza, SDD, agentes, documentación
-encontrable, control de deuda y validaciones reproducibles. No elige tu producto ni instala React,
-Expo, bases de datos, proveedores cloud u otras dependencias de aplicación.
+**La verdadera ingeniería empieza antes del código.**
 
-El paquete público es `create-project-engineering-os`; sus dos comandos (`create-project-engineering-os`
-y `project-os`) ejecutan el mismo runtime.
+Una base neutral para organizar proyectos construidos con ayuda de agentes de IA.
 
-## Inicio rápido: repositorio vacío
+[Inicio rápido](#inicio-rápido) · [Documentación](docs/README.md) ·
+[Paquete npm](https://www.npmjs.com/package/create-project-engineering-os) ·
+[Issues](https://github.com/IgnacioBarEsp/project-engineering-os/issues)
 
-Requiere Git, npm y Node `^20.20.0 || >=22.22.0`.
+</div>
+
+![Plano de control de Project Engineering OS: el flujo SDD conecta issue, spec, implementación, evidencia y cierre; debajo aparece una ejecución real del bootstrap y el motor de deuda](docs/assets/project-engineering-os-control-plane.png)
+
+## Qué es Project Engineering OS
+
+Project Engineering OS prepara un repositorio con las piezas que normalmente se improvisan cuando un
+proyecto empieza a crecer:
+
+- gobernanza e instrucciones compartidas para agentes;
+- Spec-Driven Development con OpenSpec fijado;
+- criterios de entrada y cierre para cada cambio;
+- evidencia, recuperación y rollback;
+- control de deuda técnica verificable;
+- documentación y validaciones reproducibles.
+
+No decide qué producto vas a construir ni instala React, Expo, una base de datos o un proveedor cloud.
+Primero prepara el entorno de ingeniería; el producto y su arquitectura se descubren después.
+
+## Cómo funciona
+
+```text
+issue -> enrich -> Definition of Ready -> spec -> apply -> QA
+      -> revisión adversarial -> deuda -> archive -> PR
+```
+
+1. **El problema queda escrito.** Un issue conserva la solicitud original y añade criterios observables,
+   riesgos, dependencias, evidencia y rollback.
+2. **La intención se vuelve contrato.** OpenSpec describe el comportamiento con requirements y escenarios
+   comprobables antes de implementar.
+3. **El cambio avanza por tareas pequeñas.** Cada tarea se completa únicamente cuando existe evidencia.
+4. **El resultado intenta refutarse.** QA y revisión adversarial buscan fallos, no solo una salida verde.
+5. **Lo pendiente se gobierna.** El motor de deuda clasifica hallazgos y puede pausar el plan correcto antes
+   de que la deuda siga creciendo.
+
+## Qué incorpora
+
+### Un núcleo común para cinco agentes
+
+Genera instrucciones para **Claude Code, Codex, Cursor, GitHub Copilot y OpenCode**. Cada harness recibe
+solo las capacidades que puede representar; una degradación documentada nunca se presenta como paridad
+nativa. Consulta la [matriz de compatibilidad](docs/COMPATIBILITY.md).
+
+### SDD y evidencia
+
+OpenSpec permanece fijado a una versión exacta. Los gates de readiness comprueban issue, alcance,
+dependencias, evidencia, intervención humana, costos, licencias y rollback. Los estados posibles conservan
+su significado: PASS, FAIL, WARN y SKIP no son intercambiables.
+
+### Motor de deuda
+
+Un warning o TODO es un candidato, no deuda automática. Cada cierre registra un assessment, incluso cuando
+el resultado es `clean`. Blockers, recurrencia, excepciones vencidas o presupuesto agotado activan una ruta
+de saneamiento. Lee [Debt Control Loop](docs/DEBT_CONTROL.md).
+
+### Operaciones recuperables
+
+Bootstrap, sync y upgrade generan planes, hashes y transacciones. Una ejecución interrumpida puede
+reanudarse o revertirse sin usar `git reset --hard`. La [guía de recuperación](docs/RECOVERY.md) explica
+los casos normales y los fallos de PR.
+
+## Inicio rápido
+
+Necesitas Git, npm y Node `^20.20.0 || >=22.22.0`.
+
+### 1. Crea la carpeta y abre tu terminal
 
 ```sh
 mkdir mi-proyecto
 cd mi-proyecto
 git init
+```
+
+### 2. Instala el núcleo
+
+La versión explícita mantiene el bootstrap reproducible:
+
+```sh
 npx --yes create-project-engineering-os@0.1.6 bootstrap --target .
 npm ci
 npm exec --yes=false -- openspec init --tools codex,claude,cursor,github-copilot,opencode
@@ -23,13 +96,28 @@ npm run project-os:check
 npm run project-os:doctor
 ```
 
-La versión explícita hace reproducible el bootstrap. Antes de usar `latest`, revisa el
-[changelog](CHANGELOG.md). El bootstrap conserva cualquier `LICENSE` existente y no inventa una
-licencia para el producto.
+El comando fue verificado desde una carpeta vacía en Windows. La suite también lo prueba en Ubuntu y
+macOS. Antes de cambiar `0.1.6`, revisa el [changelog](CHANGELOG.md).
 
-## Repositorio existente
+### 3. Abre el agente que prefieras
 
-Trabaja desde una rama y un árbol limpio:
+Abre Claude Code, Codex, Cursor, GitHub Copilot u OpenCode en la raíz del repositorio y pega:
+
+```text
+Lee AGENTS.md y docs/engineering/PROMPT_00_BOOTSTRAP_ENTORNO.md. Ejecuta ese flujo usando
+create-project-engineering-os@0.1.6 como versión aprobada. Comprueba el segundo run sin drift, los cinco
+harnesses, OpenSpec, los gates y la recuperación. No elijas todavía el producto, framework, arquitectura,
+cloud o base de datos. Detente ante cualquier autorización, costo, licencia, autenticación o mutación
+remota y explícame qué necesitas. Al terminar, resume PASS/FAIL/WARN/SKIP y pregúntame si quiero preparar
+el relevo hacia PROMPT_01_DISCOVERY_PROYECTO.
+```
+
+El agente debe completar el trabajo local por sí mismo. Las instrucciones manuales son un fallback cuando
+las pides o una automatización no puede continuar.
+
+### ¿Ya tienes un repositorio?
+
+Trabaja desde una rama y un árbol limpio. Revisa primero el plan sin escribir:
 
 ```sh
 npx --yes create-project-engineering-os@0.1.6 bootstrap --target . --dry-run
@@ -38,82 +126,75 @@ npm ci
 npm run project-os:check
 ```
 
-Una colisión humana se detiene antes de escribir. Los archivos se clasifican como administrados,
-overlay humano, propiedad del proyecto o propiedad externa de OpenSpec; consulta
-[ownership](docs/architecture/OWNERSHIP.md).
+Una colisión humana detiene la operación antes de sobrescribir. Consulta el
+[modelo de ownership](docs/architecture/OWNERSHIP.md).
 
-## Qué instala
+## Elige la documentación que necesitas
 
-- instrucciones universales y espejos para Codex, Claude Code, Cursor, OpenCode y GitHub Copilot;
-- OpenSpec local fijado, readiness, DoR/DoD y ownership separado de OPSX;
-- plantillas neutrales de issues, PR y diez issues de discovery en modo declarativo;
-- doctor read-only humano/JSON con `PASS`, `FAIL`, `WARN` y `SKIP`;
-- Debt Control Loop configurable, sin crear deuda a partir de warnings no verificados;
-- perfiles de evidencia universales; los perfiles de producto siguen inactivos.
+- **Quiero empezar desde cero:** [Guía del usuario](docs/USER_GUIDE.md).
+- **Necesito ejecutar el primer prompt:** [Prompt 00](docs/prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md).
+- **El entorno ya está aprobado:** [Prompt 01 y discovery](docs/prompts/PROMPT_01_DISCOVERY_PROYECTO.md).
+- **Quiero entender un fallo o revertir:** [Recuperación](docs/RECOVERY.md).
+- **Necesito operar deuda técnica:** [Debt Control Loop](docs/DEBT_CONTROL.md).
+- **Mantengo o publico el paquete:** [Releases](docs/RELEASES.md) y
+  [upstream/consumidores](docs/UPSTREAM_CONSUMERS.md).
 
-Empieza por la [guía del usuario](docs/USER_GUIDE.md) y el
-[índice de documentación](docs/README.md). El Prompt 00 termina la Etapa A sin preguntar por el
-producto; el Prompt 01 comienza discovery después de aprobación humana.
+El [índice completo](docs/README.md) organiza las rutas por objetivo y nivel de detalle.
 
-## Comandos
+## Comandos habituales
+
+Estos son los comandos que conviene reconocer después del inicio rápido:
 
 ```sh
-project-os bootstrap --target .
 project-os sync --target . --check
-project-os doctor --target .
 project-os doctor --target . --json
 project-os readiness-check --phase propose --issue 123 --target .
 project-os readiness-check --phase archive --change mi-change --run-local --target .
 project-os debt check --root .
-project-os debt handoff --root . --plan mi-plan
 project-os upgrade --target . --check
-project-os upgrade --target . --apply
-project-os upgrade --target . --apply --open-pr
 project-os rollback --target . --transaction <id>
 ```
 
-`doctor` y `upgrade --check` no instalan, autentican, reparan ni reindexan. `--open-pr` requiere
-working tree limpio y `gh` autenticado; crea o reutiliza una rama y un PR, pero nunca aprueba o mergea.
+Los comandos con `--check`, `doctor` y readiness diagnostican sin reparar ni autenticar. Una mutación
+requiere un comando explícito y conserva recuperación.
 
-## Deuda técnica
+## Estado actual y próximos pasos
 
-Cada cierre SDD captura un assessment, incluso cuando queda limpio. Los candidatos se verifican antes de
-clasificarse. Blockers/Majors, excepciones vencidas, recurrencia o presupuesto agotado pausan únicamente
-el plan dueño, salvo riesgo transversal crítico.
+La versión actual instala el núcleo universal y mantiene inactivos los perfiles de producto. No activa
+skills ni servidores MCP por defecto. MVVM, CI/CD del producto, Playwright, IA, UI, offline/sync y cloud se
+deciden después del discovery.
 
-```sh
-project-os debt capture --root . --flow mi-change --input assessment.json
-project-os debt sync --root .
-project-os debt check --root .
-```
-
-La política inicial es `seed-once`: el proyecto puede configurarla y las actualizaciones no la
-sobrescriben. Lee [control de deuda](docs/DEBT_CONTROL.md).
-
-## Actualización y recuperación
-
-Usa siempre una versión destino explícita:
-
-```sh
-npx --yes create-project-engineering-os@0.2.0 upgrade --target . --check
-npx --yes create-project-engineering-os@0.2.0 upgrade --target . --apply --open-pr
-```
-
-Cada mutación genera journal, hash y comando de rollback. Si una ejecución se interrumpe, repite el mismo
-comando para reanudar o usa `project-os rollback --transaction <id>`. No borres journals ni uses
-`git reset --hard`. La [guía de recuperación](docs/RECOVERY.md) está a un enlace.
+El onboarding adaptativo que podrá entrevistar a cada persona, recomendar un tablero y configurar su
+ecosistema sigue en investigación en [#23](https://github.com/IgnacioBarEsp/project-engineering-os/issues/23).
+No forma parte todavía del comportamiento publicado.
 
 ## Seguridad, licencias y costo
 
-El runtime usa licencia MIT. Las dependencias y notices están en
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). El núcleo no requiere servicios pagados. GitHub, npm y
-OpenSpec conservan sus propios términos y límites; consulta [costos y lock-in](docs/COSTS_AND_LICENSES.md).
+El runtime usa licencia MIT y no tiene dependencias de producción. Las dependencias de desarrollo y
+notices están en [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). El núcleo no compra servicios ni activa
+proveedores de pago. Consulta [costos, licencias y lock-in](docs/COSTS_AND_LICENSES.md) antes de extenderlo.
 
-Reporta vulnerabilidades de forma privada según [SECURITY.md](SECURITY.md). Para contribuir, revisa
-[CONTRIBUTING.md](CONTRIBUTING.md) y [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+<details>
+<summary><strong>English summary</strong></summary>
 
-## Alcance
+Project Engineering OS is a neutral engineering foundation for repositories built with AI coding agents.
+It installs shared governance, pinned OpenSpec SDD, readiness gates, reproducible evidence, transactional
+recovery and a technical-debt control loop without choosing the product stack.
 
-Project Engineering OS es una base de trabajo, no una certificación de que el producto sea correcto,
-seguro o listo para producción. MVVM, React, Expo, Playwright, offline/sync, IA y cloud son perfiles
-condicionales que solo deben activarse después del discovery y una decisión versionada.
+The current release supports Claude Code, Codex, Cursor, GitHub Copilot and OpenCode with explicit native,
+generated, documented or unsupported capability levels. Product architecture, CI/CD, UI, AI providers,
+cloud and integrations remain conditional until discovery.
+
+Start with the [quickstart](#inicio-rápido), then use the generated Prompt 00 to verify the engineering
+environment. The adaptive onboarding described in issue #23 is future work, not a current CLI capability.
+
+</details>
+
+## Autor
+
+Desarrollado por [Ignacio Barboza Espinoza](https://github.com/IgnacioBarEsp), desarrollador de software
+junior enfocado en React Native, TypeScript y Node.js. Construí este proyecto aplicando SDD, automatización
+de pruebas, UX/UI e ingeniería asistida por IA para aprender y mantener el proceso tan cuidado como el
+código.
+
+Contacto: [IgnacioBar.esp@gmail.com](mailto:IgnacioBar.esp@gmail.com)

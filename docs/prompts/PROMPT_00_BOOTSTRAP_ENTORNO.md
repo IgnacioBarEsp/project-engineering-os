@@ -1,5 +1,12 @@
 # PROMPT_00_BOOTSTRAP_ENTORNO
 
+Este es el primer prompt. Prepara y verifica el sistema de ingeniería sin preguntar todavía qué producto
+quieres construir.
+
+**Antes de pegarlo:** abre tu agente en la raíz del repositorio y sustituye `<VERSION_APROBADA>` por una
+versión exacta, por ejemplo `0.1.6`. El agente puede ejecutar el trabajo local; debe detenerse ante
+autenticación, costos, licencias o mutaciones remotas.
+
 Copia únicamente el bloque siguiente en una tarea abierta en la raíz del repositorio nuevo.
 
 ```text
@@ -43,3 +50,6 @@ Doctor y checks son read-only: nunca instalan, reparan, autentican, actualizan o
 SKIP, configuración presente o ausencia de checks como éxito. Termina antes del discovery.
 ```
 
+Cuando la salida no tenga FAIL injustificados y apruebes la Etapa A, continúa con el
+[Prompt 01](PROMPT_01_DISCOVERY_PROYECTO.md). Para contexto adicional vuelve a la
+[guía del usuario](../USER_GUIDE.md).

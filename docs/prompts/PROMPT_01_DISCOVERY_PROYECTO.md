@@ -1,5 +1,11 @@
 # PROMPT_01_DISCOVERY_PROYECTO
 
+Este es el segundo prompt. Entrevista antes de elegir tecnología y convierte las respuestas aprobadas en
+visión, alternativas y un primer change trazable.
+
+**Antes de pegarlo:** termina y aprueba la Etapa A. Si `doctor`, sync, OpenSpec o deuda tienen un FAIL sin
+resolver, vuelve al [Prompt 00](PROMPT_00_BOOTSTRAP_ENTORNO.md).
+
 Este prompt es independiente. Úsalo después de aprobar la Etapa A.
 
 ```text
@@ -67,3 +73,5 @@ ADR, perfiles propuestos, riesgos/costos/licencias, gates humanos, issues activo
 del primer change. No declares producto listo por documentos, herramientas o tests verdes.
 ```
 
+El prompt debe detenerse antes de instalar el stack recomendado. Esa implementación comienza en un issue y
+change posteriores. Vuelve a la [guía del usuario](../USER_GUIDE.md) para revisar las cuatro etapas.

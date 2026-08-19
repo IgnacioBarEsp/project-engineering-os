@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-19T01:54:18.2019643Z",
+  "title": "Design System: Project Engineering OS",
+  "extensions": {
+    "colorMeta": {
+      "control-mint": {
+        "role": "primary",
+        "displayName": "Control Mint",
+        "canonical": "#9CC7AB",
+        "tonalRamp": ["#173327", "#234330", "#315540", "#4E725C", "#73927E", "#9CC7AB", "#C5DECD", "#EEF5F0"]
+      },
+      "deep-circuit": {
+        "role": "primary",
+        "displayName": "Deep Circuit",
+        "canonical": "#315540",
+        "tonalRamp": ["#0B1710", "#102219", "#173327", "#234330", "#315540", "#4E725C", "#83AA91", "#D8E8DD"]
+      },
+      "graphite-console": {
+        "role": "neutral",
+        "displayName": "Graphite Console",
+        "canonical": "#0B0F0C",
+        "tonalRamp": ["#080B09", "#0B0F0C", "#161B17", "#2B312C", "#4C534D", "#777F78", "#B0B6B1", "#F0F2F0"]
+      },
+      "draft-cream": {
+        "role": "neutral",
+        "displayName": "Draft Cream",
+        "canonical": "#F2E8D5",
+        "tonalRamp": ["#2A251D", "#4B4234", "#6F6250", "#958773", "#B9AD98", "#D5CBB8", "#E8DECC", "#F8F3E9"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Human Note",
+        "purpose": "La frase central y ninguna otra jerarquía repetida."
+      },
+      "body": {
+        "displayName": "Operational Reading",
+        "purpose": "Explicación clara y navegación documental."
+      },
+      "mono": {
+        "displayName": "Executed Evidence",
+        "purpose": "Comandos y salidas comprobadas."
+      }
+    },
+    "shadows": [],
+    "motion": [],
+    "breakpoints": [
+      { "name": "compact", "value": "800px" },
+      { "name": "full", "value": "1600px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Control Plane",
+      "kind": "custom",
+      "refersTo": "control-plane",
+      "description": "La entrada visual que conecta flujo, evidencia y deuda.",
+      "html": "<section class=\"ds-control-plane\"><h1>La verdadera ingeniería empieza antes del código.</h1></section>",
+      "css": ".ds-control-plane { background:#0B0F0C; color:#F2E8D5; padding:64px; border-radius:0; } .ds-control-plane h1 { max-width:18ch; font:italic 400 72px/1.05 Georgia,serif; } .ds-control-plane:focus-within { outline:2px solid #9CC7AB; outline-offset:4px; }"
+    },
+    {
+      "name": "Terminal Evidence",
+      "kind": "custom",
+      "refersTo": "terminal-evidence",
+      "description": "Salida real resumida sin rutas personales ni secretos.",
+      "html": "<pre class=\"ds-terminal\">[APPLIED] bootstrap\nPlan: create=74 · conflict=0</pre>",
+      "css": ".ds-terminal { background:#080B09; color:#F2E8D5; border:1px solid #315540; border-radius:0; padding:24px; font:400 14px/1.55 Consolas,monospace; } .ds-terminal:focus-visible { outline:2px solid #9CC7AB; outline-offset:3px; }"
+    },
+    {
+      "name": "Sequence Step",
+      "kind": "custom",
+      "refersTo": "sequence-step",
+      "description": "Un paso numerado cuyo orden forma parte del contrato SDD.",
+      "html": "<div class=\"ds-step\"><b>02</b><span>SPEC</span></div>",
+      "css": ".ds-step { display:flex; gap:12px; align-items:center; color:#F2E8D5; padding:8px 0; font:700 12px/1.3 'Segoe UI',sans-serif; } .ds-step b { color:#9CC7AB; }"
+    },
+    {
+      "name": "Documentation Link",
+      "kind": "nav",
+      "description": "Enlace descriptivo dentro de una ruta de lectura.",
+      "html": "<a class=\"ds-doc-link\" href=\"#\">Empieza desde cero — guía del usuario</a>",
+      "css": ".ds-doc-link { color:#315540; font:700 16px/1.5 'Segoe UI',sans-serif; text-decoration:underline; text-underline-offset:4px; } .ds-doc-link:hover { color:#173327; } .ds-doc-link:focus-visible { outline:2px solid #315540; outline-offset:4px; }"
+    },
+    {
+      "name": "Evidence Status",
+      "kind": "chip",
+      "description": "Estado explícito que conserva palabra y color.",
+      "html": "<span class=\"ds-status\"><b>PASS</b> bootstrap reproducible</span>",
+      "css": ".ds-status { color:#F2E8D5; background:#102219; border:1px solid #315540; border-radius:4px; padding:8px 12px; font:400 14px/1.4 'Segoe UI',sans-serif; } .ds-status b { color:#9CC7AB; margin-right:8px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "El Plano de Control",
+    "overview": "Una mesa de ingeniería al final del día: el desarrollador compara un plano de proceso con evidencia real antes de autorizar el siguiente cambio. Mecánico, sereno y verificable.",
+    "keyCharacteristics": [
+      "Una línea SDD ordena la composición.",
+      "Evidencia real ocupa un lugar visible, no decorativo.",
+      "Superficies planas, bordes estructurales y cero efectos ambientales.",
+      "El texto Markdown conserva toda la información esencial."
+    ],
+    "rules": [
+      { "name": "The Signal Rule", "body": "Control Mint señala como máximo un paso dominante por zona.", "section": "colors" },
+      { "name": "The Dark Field Rule", "body": "El crema solo se usa como texto o detalle; nunca como fondo dominante.", "section": "colors" },
+      { "name": "The Human Note Rule", "body": "La cursiva solo expresa la frase central o una anotación humana equivalente.", "section": "typography" },
+      { "name": "The Flat Evidence Rule", "body": "La evidencia se separa por estructura, no por elevación decorativa.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do usar la línea SDD como firma visual única y funcional.",
+      "Do repetir en Markdown cualquier hecho que aparezca dentro de una imagen.",
+      "Do verificar comandos, contraste, peso y render antes de publicar.",
+      "Do mantener superficies rectas, divisores finos y espacio negativo.",
+      "Do usar mono únicamente para terminal y datos reproducibles."
+    ],
+    "donts": [
+      "Don't convertir el README en un mensaje para reclutadores.",
+      "Don't escribir Verbose AI slop: introducciones infladas, adjetivos vacíos o conclusiones obvias.",
+      "Don't usar SaaS landing-page clichés: grids de tarjetas iguales, métricas de relleno, gradientes, halos o glass.",
+      "Don't usar la terminal oscura como identidad completa del proyecto.",
+      "Don't repetir cursivas y etiquetas pequeñas hasta producir una estética editorial sin relación con el flujo.",
+      "Don't usar crema como fondo dominante ni combinar texto de bajo contraste con verde."
+    ]
+  }
+}
