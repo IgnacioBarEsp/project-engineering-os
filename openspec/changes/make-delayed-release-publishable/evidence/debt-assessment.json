@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "make-delayed-release-publishable",
+  "date": "2026-08-18",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Revisión adversarial PASS: cero Blockers y cero Majors abiertos; dos Minors de cobertura fueron corregidos. La deuda histórica de Purpose permanece gobernada por el Issue #25 y no fue introducida ni modificada por este change."
+}
