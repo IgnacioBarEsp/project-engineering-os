@@ -13,7 +13,9 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
 import { checkPackageRoot, checkSeededIdentity } from '../scripts/check-package.mjs';
+import { compareReleaseDirectories } from '../scripts/compare-release.mjs';
 import { nonCanonicalEolEntries, sha256 } from '../scripts/release-lib.mjs';
+import { checkReleaseWorkflow } from '../scripts/release-workflow-policy.mjs';
 import { verifyRelease } from '../scripts/verify-release.mjs';
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -35,6 +37,29 @@ async function packageFixture(name) {
     path.join(root, 'bin', 'project-os.mjs'),
   );
   return root;
+}
+
+async function releaseFixture(name, content = 'verified tarball fixture') {
+  const root = await mkdtemp(path.join(tmpdir(), `project-os-${name}-`));
+  const filename = 'create-project-engineering-os-0.1.6.tgz';
+  const tarball = Buffer.from(content);
+  const digest = sha256(tarball);
+  await writeFile(path.join(root, filename), tarball);
+  await writeFile(
+    path.join(root, 'release-manifest.json'),
+    `${JSON.stringify({
+      schemaVersion: 1,
+      package: 'create-project-engineering-os',
+      version: '0.1.6',
+      commit: 'a'.repeat(40),
+      tarball: filename,
+      sha256: digest,
+      bytes: tarball.byteLength,
+      tested: true,
+    }, null, 2)}\n`,
+  );
+  await writeFile(path.join(root, 'SHA256SUMS'), `${digest}  ${filename}\n`);
+  return { root, filename, digest };
 }
 
 test('package contract rechaza bin ausente y licencia incompatible', async () => {
@@ -100,30 +125,70 @@ test('blueprint identity rechaza el par sembrado desincronizado', async () => {
 });
 
 test('release verifier rejects an altered tarball', async () => {
-  const root = await mkdtemp(path.join(tmpdir(), 'project-os-release-negative-'));
-  const filename = 'create-project-engineering-os-0.1.6.tgz';
+  const { root, filename, digest } = await releaseFixture('release-negative');
   const tarballPath = path.join(root, filename);
-  const original = Buffer.from('verified tarball fixture');
-  const digest = sha256(original);
-  await writeFile(tarballPath, original);
-  await writeFile(
-    path.join(root, 'release-manifest.json'),
-    `${JSON.stringify({
-      schemaVersion: 1,
-      package: 'create-project-engineering-os',
-      version: '0.1.6',
-      commit: 'a'.repeat(40),
-      tarball: filename,
-      sha256: digest,
-      bytes: original.byteLength,
-      tested: true,
-    }, null, 2)}\n`,
-  );
-  await writeFile(path.join(root, 'SHA256SUMS'), `${digest}  ${filename}\n`);
   assert.equal((await verifyRelease(root)).sha256, digest);
 
   await writeFile(tarballPath, Buffer.from('altered tarball fixture'));
   await assert.rejects(verifyRelease(root), /Checksum divergente/);
+});
+
+test('release comparison accepts only identical canonical assets', async () => {
+  const expected = await releaseFixture('release-expected');
+  const observed = await releaseFixture('release-observed');
+  assert.equal(
+    (await compareReleaseDirectories(expected.root, observed.root)).sha256,
+    expected.digest,
+  );
+
+  await writeFile(path.join(observed.root, 'unexpected.txt'), 'extra');
+  await assert.rejects(
+    compareReleaseDirectories(expected.root, observed.root),
+    /Assets de release inesperados/,
+  );
+  await rm(path.join(observed.root, 'unexpected.txt'));
+
+  await rm(path.join(observed.root, observed.filename));
+  await assert.rejects(
+    compareReleaseDirectories(expected.root, observed.root),
+    /Assets de release inesperados/,
+  );
+
+  const different = await releaseFixture('release-different', 'different but internally valid');
+  await assert.rejects(
+    compareReleaseDirectories(expected.root, different.root),
+    /difiere byte por byte/,
+  );
+
+  const malformed = await releaseFixture('release-malformed');
+  await writeFile(path.join(malformed.root, 'release-manifest.json'), '{}\n');
+  await assert.rejects(
+    compareReleaseDirectories(expected.root, malformed.root),
+    /nombre de tarball inválido/,
+  );
+});
+
+test('release workflow policy preserves delayed approval recovery', async () => {
+  const workflow = await readFile(path.join(packageRoot, '.github', 'workflows', 'release.yml'), 'utf8');
+  assert.deepEqual(checkReleaseWorkflow(workflow), []);
+
+  assert.equal(
+    checkReleaseWorkflow(workflow.replace('retention-days: 35', 'retention-days: 7'))
+      .some((failure) => failure.includes('30-day approval')),
+    true,
+  );
+  assert.equal(
+    checkReleaseWorkflow(workflow.replace(
+      'node scripts/compare-release.mjs rebuilt release',
+      'node scripts/verify-release.mjs release',
+    )).some((failure) => failure.includes('compare-release.mjs rebuilt release')),
+    true,
+  );
+  assert.equal(
+    checkReleaseWorkflow(`${workflow}\n      - uses: actions/download-artifact@${'a'.repeat(40)}\n`)
+      .some((failure) => failure.includes('workflow artifact')),
+    true,
+  );
 });
 
 test('release pack rechaza CRLF o mixed cuando el atributo exige LF', () => {

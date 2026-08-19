@@ -4,6 +4,8 @@ import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { checkReleaseWorkflow } from './release-workflow-policy.mjs';
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const workflowRoots = [
   path.join(root, '.github', 'workflows'),
@@ -37,14 +39,8 @@ if (
 ) {
   failures.push('.github/workflows/ci.yml: dependency audit required gate missing');
 }
-if (!releaseWorkflow.includes('npm publish ./release/*.tgz --access public --provenance')) {
-  failures.push('.github/workflows/release.yml: tarball path must be explicitly relative');
-}
-if (
-  !releaseWorkflow.includes('gh release view "${{ inputs.tag }}"')
-  || !releaseWorkflow.includes('cmp release/*.tgz existing-release/*.tgz')
-) {
-  failures.push('.github/workflows/release.yml: existing release recovery missing');
+for (const failure of checkReleaseWorkflow(releaseWorkflow)) {
+  failures.push(`.github/workflows/release.yml: ${failure}`);
 }
 if (failures.length > 0) {
   process.stderr.write(`FAIL workflows: ${failures.join(', ')}\n`);

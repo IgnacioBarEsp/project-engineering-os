@@ -1,0 +1,257 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 17,
+  "change": "make-delayed-release-publishable",
+  "surfaces": [
+    "documentation",
+    "harness-tooling",
+    "infra-deploy",
+    "library-cli"
+  ],
+  "validations": [
+    {
+      "id": "backward-compatibility-test",
+      "status": "passed",
+      "evidence": "evidence://validation/npm-check-135-existing-contracts",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "capability-matrix-check",
+      "status": "passed",
+      "evidence": "evidence://validation/npm-check-five-harness-contracts",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "configuration-validation",
+      "status": "passed",
+      "evidence": "evidence://validation/release-workflow-policy-pass",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "constructor-tests",
+      "status": "passed",
+      "evidence": "evidence://validation/npm-check-135-tests",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "critical-document-presence",
+      "status": "passed",
+      "evidence": "evidence://validation/check-docs-18-readme-links",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "deployment-dry-run-or-preview",
+      "status": "passed",
+      "evidence": "evidence://validation/workflow-policy-and-release-comparison-negative-tests",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "doctor-json-check",
+      "status": "passed",
+      "evidence": "evidence://validation/temporary-harness-doctor-json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "findability-two-hop-check",
+      "status": "passed",
+      "evidence": "evidence://validation/check-docs-18-readme-links",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "health-check",
+      "status": "passed",
+      "evidence": "evidence://validation/audit-zero-and-release-policy-pass",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "multi-platform-smoke",
+      "status": "passed",
+      "evidence": "evidence://validation/shell-free-node-comparator-and-existing-matrix-contract",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "neutrality-check",
+      "status": "passed",
+      "evidence": "evidence://validation/public-tree-neutrality",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "openspec-strict",
+      "status": "passed",
+      "evidence": "evidence://validation/openspec-1.6.0-strict",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "opsx-check",
+      "status": "passed",
+      "evidence": "evidence://validation/temporary-harness-opsx-contract",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "package-artifact-test",
+      "status": "passed",
+      "evidence": "evidence://validation/pack-verify-tested-tarball",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "relative-link-check",
+      "status": "passed",
+      "evidence": "evidence://validation/check-docs-links-pass",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "rollback-command-check",
+      "status": "passed",
+      "evidence": "evidence://rollback/git-revert-and-rerun-same-tag",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "second-run-idempotence",
+      "status": "passed",
+      "evidence": "evidence://validation/npm-check-second-run-contracts",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "sync-check",
+      "status": "passed",
+      "evidence": "evidence://validation/temporary-harness-sync-check",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "unit-and-contract-tests",
+      "status": "passed",
+      "evidence": "evidence://validation/release-six-targeted-and-135-total-tests",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "adversarial-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://adversarial-review/pass-zero-blockers-zero-majors",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "budget-and-license-approval",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/17",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "environment-smoke",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://workflow/npm-publish-environment-oidc-and-release-download",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "install-and-rollback-smoke",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://pack/install-exact-tarball-and-bounded-revert",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "issue-link",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/17",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "license-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://review/no-new-dependencies-mit-unchanged",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "public-api-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://review/no-export-or-cli-contract-change",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "qualitative-review-for-clarity-and-current-ownership",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://docs/release-owner-and-recovery-readable",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recorded-drift-decisions",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://decision/immutable-releases-remains-manual",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recovery-rehearsal-for-one-transaction",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://tests/missing-extra-divergent-release-assets",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "review-of-declared-degradations",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://review/expired-artifact-mutable-release-and-nondeterminism",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "rollback-or-failover-rehearsal",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://tests/fail-before-publish-and-rerun-same-tag",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "rollback": {
+    "strategy": "Revertir el commit del change, restaurar el workflow previo y relanzar desde el mismo tag sin moverlo ni reutilizar la versión.",
+    "status": "verified",
+    "evidence": "evidence://rollback/git-revert-plus-check-and-pack",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "passed",
+    "ref": "evidence://adversarial-review/pass-zero-blockers-zero-majors",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}
