@@ -1,0 +1,204 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 20,
+  "change": "make-github-plan-source-truthful",
+  "surfaces": [
+    "documentation",
+    "harness-tooling",
+    "library-cli"
+  ],
+  "validations": [
+    {
+      "id": "backward-compatibility-test",
+      "status": "passed",
+      "evidence": "evidence://validation/consumer-target-and-seed-contracts",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "capability-matrix-check",
+      "status": "passed",
+      "evidence": "evidence://validation/npm-check-five-harnesses",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "constructor-tests",
+      "status": "passed",
+      "evidence": "evidence://validation/npm-check-139-tests",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "critical-document-presence",
+      "status": "passed",
+      "evidence": "evidence://validation/check-docs-18-links",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "doctor-json-check",
+      "status": "passed",
+      "evidence": "evidence://validation/temporary-harness-doctor-json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "findability-two-hop-check",
+      "status": "passed",
+      "evidence": "evidence://validation/project-os-linked-from-doc-index",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "multi-platform-smoke",
+      "status": "passed",
+      "evidence": "evidence://validation/node-filesystem-contract-and-existing-six-leg-matrix",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "neutrality-check",
+      "status": "passed",
+      "evidence": "evidence://validation/public-tree-neutrality",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "openspec-strict",
+      "status": "passed",
+      "evidence": "evidence://validation/openspec-1.6.0-strict",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "opsx-check",
+      "status": "passed",
+      "evidence": "evidence://validation/temporary-harness-opsx-check",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "package-artifact-test",
+      "status": "passed",
+      "evidence": "evidence://validation/pack-verify-tested-tarball",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "relative-link-check",
+      "status": "passed",
+      "evidence": "evidence://validation/check-docs-relative-link-pass",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "second-run-idempotence",
+      "status": "passed",
+      "evidence": "evidence://validation/npm-check-second-run-contract",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "sync-check",
+      "status": "passed",
+      "evidence": "evidence://validation/temporary-harness-sync-check",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "unit-and-contract-tests",
+      "status": "passed",
+      "evidence": "evidence://validation/github-plan-four-targeted-and-139-total",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "adversarial-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://adversarial-review/pass-zero-blockers-zero-majors",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "install-and-rollback-smoke",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://pack/install-exact-tarball-and-git-revert",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "issue-link",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/20",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "license-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://review/no-dependencies-mit-unchanged",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "public-api-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://review/additive-provenance-and-corrected-source",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "qualitative-review-for-clarity-and-current-ownership",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://docs/upstream-consumer-source-boundary",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recorded-drift-decisions",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://decision/backlog-upstream-inbox-consumer-not-competing",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recovery-rehearsal-for-one-transaction",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://tests/custom-source-missing-fails-with-recovery",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "review-of-declared-degradations",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://review/target-invalid-seed-fallback-and-remote-unverified",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "rollback": {
+    "strategy": "Revertir el commit del change y restaurar selector, formatter, manifest y guía anteriores sin mutar GitHub.",
+    "status": "verified",
+    "evidence": "evidence://rollback/git-revert-plus-target-seed-missing-tests",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "passed",
+    "ref": "evidence://adversarial-review/pass-zero-blockers-zero-majors",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}

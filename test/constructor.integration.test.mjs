@@ -510,6 +510,8 @@ test("github-plan produce un plan remoto neutral y permanece estrictamente read-
   assert.equal(payload.plan.mode, "dry-run");
   assert.equal(payload.plan.mutationPerformed, false);
   assert.equal(payload.plan.remote.status, "not-verified");
+  assert.equal(payload.plan.source, ".project-os/github/product-os.json");
+  assert.equal(payload.plan.provenance.kind, "target");
   assert.equal(payload.plan.resources.discoveryIssues.length, 10);
   for (const resource of ["labels", "statuses", "fields", "templates"]) {
     assert.ok(payload.plan.resources[resource].length > 0, resource);
