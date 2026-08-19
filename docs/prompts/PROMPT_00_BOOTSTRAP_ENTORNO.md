@@ -26,7 +26,7 @@ decisión, detente y pídela; no uses latest ni una copia improvisada.
    npx --yes create-project-engineering-os@<VERSION_APROBADA> bootstrap --target .
    npm ci
 5. Genera workflows OPSX únicamente con la CLI OpenSpec local:
-   npm exec --yes=false -- openspec init --tools codex,claude,cursor,github-copilot,opencode
+   npm run openspec:init
    npm run project-os:opsx:adapt
    No uses --tools all ni dupliques OPSX en el renderer general.
 6. Ejecuta:

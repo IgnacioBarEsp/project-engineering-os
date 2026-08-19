@@ -29,6 +29,8 @@ cuando lo necesites.
 - [Versionado y migraciones](architecture/VERSIONING.md): cuándo usar patch, minor o major.
 - [Releases](RELEASES.md): tarball único, checksum, GitHub Release y npm provenance.
 - [Costos, licencias y lock-in](COSTS_AND_LICENSES.md): decisiones que deben revisarse antes de extender.
+- [Triage de cadena de suministro](security/SUPPLY_CHAIN_TRIAGE_2026-08-18.md): atribución y decisión por
+  señal de Socket y npm audit.
 - [ADR 0001](adr/0001-public-distribution.md): por qué runtime y motor de deuda viven en un paquete público.
 
 ## Referencias rápidas

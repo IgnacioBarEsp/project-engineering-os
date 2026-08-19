@@ -5,16 +5,16 @@
   "version": "1.6.0",
   "localOnly": true,
   "allowGlobalFallback": false,
-  "readOnlyVersionCommand": "npm exec --yes=false -- openspec --version",
+  "readOnlyVersionCommand": "node ./.project-constructor/openspec.mjs --version",
   "commands": {
-    "init": "npm exec --yes=false -- openspec init --tools codex,claude,cursor,github-copilot,opencode",
-    "update": "npm exec --yes=false -- openspec update",
+    "init": "npm run openspec:init",
+    "update": "npm run openspec:update",
     "adapt": "project-os opsx-adapt --target .",
     "check": "project-os opsx-check --target ."
   },
   "commandRewrite": {
     "from": "openspec",
-    "to": "npm exec --yes=false -- openspec"
+    "to": "node ./.project-constructor/openspec.mjs"
   },
   "generatedGlobs": [
     ".claude/commands/opsx/*.md",

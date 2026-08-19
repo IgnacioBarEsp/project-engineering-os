@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0.0",
+  "auditLevel": "high",
+  "maximumExceptionDays": 30,
+  "scopes": [
+    {
+      "id": "root",
+      "path": ".",
+      "omitDev": false
+    },
+    {
+      "id": "root-runtime",
+      "path": ".",
+      "omitDev": true
+    },
+    {
+      "id": "consumer-blueprint",
+      "path": "blueprint/core",
+      "omitDev": false
+    }
+  ],
+  "exceptions": []
+}

@@ -190,6 +190,15 @@
       "required": true
     },
     {
+      "id": "openspec-runner",
+      "source": "core/project-constructor/openspec.mjs",
+      "target": ".project-constructor/openspec.mjs",
+      "owner": "constructor",
+      "mode": "text",
+      "lineEndings": "lf",
+      "required": true
+    },
+    {
       "id": "generated-harness-capabilities",
       "source": "core/harness/common/harness-capabilities.json",
       "target": ".project-constructor/generated/harness-capabilities.json",

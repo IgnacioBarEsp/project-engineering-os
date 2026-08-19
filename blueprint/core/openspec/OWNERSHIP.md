@@ -11,7 +11,7 @@ suppresses errors. A dependency update invalidates this review and requires a ne
 ## Initial generation
 
 ```bash
-npm exec --yes=false -- openspec init --tools codex,claude,cursor,github-copilot,opencode
+npm run openspec:init
 npm run project-os:opsx:adapt
 ```
 
@@ -22,13 +22,15 @@ generated the files, then review the diff.
 ## Deliberate OpenSpec updates
 
 ```bash
-npm exec --yes=false -- openspec update
+npm run openspec:update
 npm run project-os:opsx:adapt
 ```
 
-The first command remains the external writer. The adapter may only stabilize the explicitly delimited
-neutral `propose`, `apply`, and `archive` blocks declared in `openspec-ownership.json`; it never owns a
-complete OPSX file. Never use a global binary or floating fallback.
+The first command remains the external writer through the pinned local binary. The project-owned wrapper
+only supplies the documented telemetry default and process boundary. The adapter may only stabilize the
+explicitly delimited neutral `propose`, `apply`, and `archive` blocks declared in
+`openspec-ownership.json`; it never owns a complete OPSX file. Never use a global binary or floating
+fallback.
 
 ## Separate read-only check
 

@@ -28,10 +28,10 @@
     "debt:sync": "project-os debt sync",
     "sdd:ready:archive": "project-os readiness-check --target . --phase archive",
     "sdd:ready:propose": "project-os readiness-check --target . --phase propose",
-    "openspec:init": "npm exec --yes=false -- openspec init --tools codex,claude,cursor,github-copilot,opencode",
-    "openspec:status": "npm exec --yes=false -- openspec status --json",
-    "openspec:update": "npm exec --yes=false -- openspec update",
-    "openspec:validate": "npm exec --yes=false -- openspec validate --all --strict --no-interactive"
+    "openspec:init": "node ./.project-constructor/openspec.mjs init --tools codex,claude,cursor,github-copilot,opencode",
+    "openspec:status": "node ./.project-constructor/openspec.mjs status --json",
+    "openspec:update": "node ./.project-constructor/openspec.mjs update",
+    "openspec:validate": "node ./.project-constructor/openspec.mjs validate --all --strict --no-interactive"
   },
   "devDependencies": {
     "@fission-ai/openspec": "1.6.0",

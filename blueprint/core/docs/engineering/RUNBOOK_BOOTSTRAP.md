@@ -16,7 +16,7 @@ npx --yes create-project-engineering-os@<VERSION> bootstrap --target . --dry-run
 ```sh
 npx --yes create-project-engineering-os@<VERSION> bootstrap --target .
 npm ci
-npm exec --yes=false -- openspec init --tools codex,claude,cursor,github-copilot,opencode
+npm run openspec:init
 npm run project-os:opsx:adapt
 ```
 
@@ -52,4 +52,3 @@ no uses `git reset --hard`.
 Termina antes del discovery. Presenta versión, transaction ID, PASS/FAIL/WARN/SKIP, recuperación, gates
 manuales y evidencia. Después ofrece `PROMPT_01_DISCOVERY_PROYECTO` en un chat nuevo cuando convenga a la
 sanidad del contexto.
-

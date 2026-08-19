@@ -11,7 +11,7 @@ producto deseo crear y no instales frameworks, bases de datos, cloud, IA, UI ni 
 3. Ejecuta `npm run project-os:bootstrap`; revisa colisiones y transaction ID.
 4. Ejecuta `npm ci`.
 5. Genera OPSX solo con:
-   `npm exec --yes=false -- openspec init --tools codex,claude,cursor,github-copilot,opencode`
+   `npm run openspec:init`
    y después `npm run project-os:opsx:adapt`.
 6. Ejecuta `npm run project-os:check`, `npm run project-os:doctor`,
    `npm run project-os:doctor:json` y `npm run project-os:github-plan`.
@@ -24,4 +24,3 @@ producto deseo crear y no instales frameworks, bases de datos, cloud, IA, UI ni 
 
 No interpretes SKIP, configuración presente o checks ausentes como éxito. Termina antes del discovery.
 ```
-
