@@ -28,10 +28,14 @@ export {
 export {
   HARNESS_CAPABILITY_SCHEMA,
   HARNESS_CAPABILITY_STATES,
+  HARNESS_RUNTIME_SIGNALS,
   jsonMcpServers,
   materializeHarnessBlueprint,
+  MINIMUM_VERSION_SENTINELS,
   parseCodexMcpServerIds,
   PROJECT_OS_SOURCES,
+  resolveRetiredTargets,
+  RETIRED_CAPABILITY_TARGETS,
 } from './harness.mjs';
 export {
   runOpsxAdapt,

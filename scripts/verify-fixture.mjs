@@ -18,6 +18,12 @@ import {
   opsxAdaptInvariantFailures,
 } from "../src/fixture-output.mjs";
 import { checkSeededIdentity } from "./check-package.mjs";
+import {
+  ADAPTER_CONTRACTS,
+  checkCapabilityMatrixContract,
+  checkInstalledAdapters,
+  fixtureId,
+} from "./harness-contract.mjs";
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
@@ -170,6 +176,65 @@ async function assertHarnessFiles(target) {
     throw new Error(`Faltan espejos de harness: ${missing.join(", ")}`);
   }
   return expected;
+}
+
+// Contrato de adapters sobre el repositorio realmente bootstrapeado, no sobre el blueprint en memoria.
+// Comprueba ruta y formato oficial; no comprueba, ni puede comprobar, startup, tool listing ni smoke.
+async function assertHarnessContract(target) {
+  const contents = new Map();
+  for (const relative of Object.keys(ADAPTER_CONTRACTS)) {
+    if (await exists(path.join(target, relative))) {
+      contents.set(relative, await readFile(path.join(target, relative), "utf8"));
+    }
+  }
+
+  const matrix = JSON.parse(
+    await readFile(path.join(target, ".project-os/harness-capabilities.json"), "utf8"),
+  );
+  for (const harness of matrix.harnesses) {
+    for (const contract of Object.values(harness.capabilities)) {
+      const id = fixtureId(contract.verification?.configuration);
+      if (id !== null && !contents.has(contract.target)) {
+        if (await exists(path.join(target, contract.target))) {
+          contents.set(contract.target, await readFile(path.join(target, contract.target), "utf8"));
+        }
+      }
+    }
+  }
+
+  const context = {
+    instructions: await readFile(path.join(target, ".project-os/instructions.md"), "utf8"),
+  };
+  const failures = [
+    ...checkInstalledAdapters(contents, context),
+    ...checkCapabilityMatrixContract(matrix, contents, context),
+  ];
+  if (failures.length > 0) {
+    throw new Error(`El contrato de adapters falló: ${failures.join("; ")}`);
+  }
+
+  const runtimeClaims = [];
+  for (const harness of matrix.harnesses) {
+    for (const [capability, contract] of Object.entries(harness.capabilities)) {
+      for (const signal of ["startup", "toolListing", "smoke"]) {
+        const value = contract.verification?.[signal];
+        if (value !== undefined && value !== "not-verified") {
+          runtimeClaims.push(`${harness.id}/${capability}/${signal}=${value}`);
+        }
+      }
+    }
+  }
+  if (runtimeClaims.length > 0) {
+    throw new Error(
+      `El bootstrap no puede declarar consumo en runtime: ${runtimeClaims.join(", ")}`,
+    );
+  }
+
+  return {
+    adapters: [...contents.keys()].sort(),
+    cells: matrix.harnesses.length * 6,
+    runtimeSignalsVerifiedByBootstrap: 0,
+  };
 }
 
 // El inicio rápido documentado corre `npm ci` justo después del bootstrap. Esa instalación no puede
@@ -452,6 +517,7 @@ async function main() {
     );
 
     checks.harnesses = await assertHarnessFiles(target);
+    checks.harnessContract = await assertHarnessContract(target);
     checks.seededIdentity = await assertSeededIdentity(target);
     checks.discovery = await assertDiscoveryPackage(target);
     checks.neutrality = await assertNeutrality(target);

@@ -6,8 +6,13 @@ not proof that an IDE process loaded or authenticated a tool.
 
 ## Capability vocabulary
 
-- `native`: the harness consumes a dedicated repository surface with equivalent semantics.
-- `generated`: a deterministic adapter maps the canonical source to a supported general surface.
+`support` describes only what the constructor renders. It is never a claim that an agent process loaded the
+file.
+
+- `native`: the constructor writes a location the harness's own official documentation lists for this
+  capability, in the documented format, and an offline fixture proves the rendering.
+- `generated`: the constructor maps the canonical source into a surface the harness reads, but the surface
+  is general, shared, or unavailable to part of the harness's official surfaces.
 - `documented`: the rule remains visible through repository instructions but has no claimed technical
   enforcement.
 - `unsupported`: the harness cannot represent the capability and no equivalent is claimed.
@@ -18,17 +23,52 @@ not proof that an IDE process loaded or authenticated a tool.
 |---|---|---|---|---|---|---|
 | Claude Code | native | documented | native | documented | native | documented |
 | Codex | native | documented | native | documented | native | documented |
-| Cursor | native | documented | unsupported | documented | native | documented |
-| GitHub Copilot | native | documented | unsupported | unsupported | unsupported | documented |
-| OpenCode | generated | documented | generated | documented | native | documented |
+| Cursor | native | documented | native | documented | native | documented |
+| GitHub Copilot | native | documented | native | documented | generated | documented |
+| OpenCode | generated | documented | native | documented | native | documented |
 
-Rules by path are intentionally `documented` in this version. The generated aggregate files expose every
-rule, but they do not preserve per-glob enforcement. A future renderer may promote a cell only after it
-generates one official per-rule surface and fixtures prove equivalent selection.
+The generated matrix inside `AGENTS.md` carries the full record for every cell: minimum version, the dated
+official source, the fixture that proves the configuration, the three runtime signals, the visible fallback,
+and the surfaces that cannot consume the target.
 
-The universal permission policy always appears in `AGENTS.md`. Empty Claude settings and omitted OpenCode
-permission configuration are deliberate degradations, not enforcement. An unsupported or documented cell
-must never be counted as native parity.
+### What each rendered cell must declare
+
+A `native` or `generated` cell fails to render unless it declares a minimum version, an official https
+source with an ISO consultation date, a fixture identifier that exists, at least one consuming surface, a
+visible fallback, and a written degradation. A `native` cell additionally may not exclude any official
+surface of its own harness: when surfaces diverge the cell drops to `generated` and names the excluded ones.
+That rule is what keeps a single generic row from hiding a surface that has no versioned file.
+
+### Shared skill surface
+
+The project skill installs twice, not once per vendor: `.claude/skills/project-os/SKILL.md` for Claude Code,
+and `.agents/skills/project-os/SKILL.md` for Codex, Cursor, GitHub Copilot, and OpenCode, all of which
+document that shared location. A copy per vendor would place the same content several times inside agents
+that scan more than one directory.
+
+### Declared degradations
+
+Rules by path stay `documented` in this version. Claude Code, Cursor, and GitHub Copilot all support
+per-path selection, but the constructor writes one aggregate file with a universal scope, so per-glob
+selection is not preserved. Promotion requires a per-rule renderer and fixtures proving equivalent
+selection; it is not part of this version.
+
+Permissions stay `documented` on all five. The canonical vocabulary in `.project-os/permissions.json` is
+abstract capability tokens, not tool names or shell patterns, so deriving enforcement syntax from it would
+invent semantics and claim an enforcement the repository never decided. The policy always appears in
+`AGENTS.md`.
+
+Codex reads a project `config.toml` only in trusted projects. The file is written either way; without
+granted trust it exists and is not applied.
+
+An unsupported or documented cell must never be counted as native parity.
+
+## Candidate harnesses
+
+A harness outside the supported five is evaluated in an isolated candidate fixture and stays `unsupported`
+until it meets the same contract as every rendered cell: a renderer with a declared target, a dated official
+source, a minimum version, an existing fixture, a visible fallback, and a written degradation for each of
+the six capabilities. Resemblance to an already supported surface never promotes a cell.
 
 ## Operating-system and runtime contract
 

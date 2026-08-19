@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "vocabulary": [
     "native",
     "generated",
@@ -7,8 +7,8 @@
     "unsupported"
   ],
   "definitions": {
-    "native": "The harness consumes a dedicated repository surface.",
-    "generated": "The constructor creates a deterministic adapter consumed through a supported general surface.",
+    "native": "The constructor writes a location the harness's own official documentation lists for this capability, in the documented format, and a fixture proves the rendering.",
+    "generated": "The constructor maps the canonical source into a surface the harness reads, but the surface is general, shared, or unavailable to part of the harness's official surfaces.",
     "documented": "The behavior remains visible in AGENTS.md but is not technically enforced by the harness.",
     "unsupported": "The harness cannot represent the capability and no equivalent enforcement is claimed."
   },
@@ -20,37 +20,127 @@
           "support": "native",
           "target": "CLAUDE.md",
           "owner": "constructor",
-          "validation": "mirror-content"
+          "validation": "mirror-content",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://code.claude.com/docs/en/memory",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "fixture:claude-instructions",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "claude-code-cli"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "Claude Code declara que CLAUDE.md es contexto y no configuracion forzada; la fixture prueba el rendering, no la adherencia del modelo. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "pathRules": {
           "support": "documented",
           "target": "AGENTS.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "fallback-visible",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://code.claude.com/docs/en/memory",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "not-applicable",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "claude-code-cli"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "Claude Code soporta seleccion por ruta mediante frontmatter paths en .claude/rules, pero el constructor escribe un archivo agregado con alcance universal y no conserva la seleccion por glob. Promover la celda exige un renderer por regla. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "skills": {
           "support": "native",
           "target": ".claude/skills/project-os/SKILL.md",
           "owner": "constructor",
-          "validation": "frontmatter-and-content"
+          "validation": "frontmatter-and-content",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://code.claude.com/docs/en/skills",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "fixture:agent-skill-frontmatter",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "claude-code-cli"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "La fixture prueba ruta y frontmatter; que Claude Code cargue o invoque la skill solo puede demostrarlo un receipt opt-in. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "permissions": {
           "support": "documented",
           "target": "AGENTS.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "fallback-visible",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://code.claude.com/docs/en/settings",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "not-applicable",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "claude-code-cli"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "El vocabulario canonico de permissions.json son tokens abstractos de capacidad y no nombres de herramienta ni patrones de shell; traducirlos a la sintaxis de settings.json inventaria semantica y afirmaria un enforcement que no se ha derivado. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "mcp": {
           "support": "native",
           "target": ".mcp.json",
           "owner": "constructor",
-          "validation": "mcp-structural-parity"
+          "validation": "mcp-structural-parity",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://code.claude.com/docs/en/mcp",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "fixture:json-mcp-servers",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "claude-code-cli"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "El catalogo canonico no declara servidores activos, asi que el adapter se renderiza vacio. Startup, tool listing y smoke autenticado siguen siendo receipts opt-in separados. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "profiles": {
           "support": "documented",
           "target": "AGENTS.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "fallback-visible",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://code.claude.com/docs/en/memory",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "not-applicable",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "claude-code-cli"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "Los perfiles de evidencia son una politica del repositorio; ningun harness expone una superficie que los active o los haga cumplir. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         }
       }
     },
@@ -61,37 +151,139 @@
           "support": "native",
           "target": "AGENTS.md",
           "owner": "constructor",
-          "validation": "mirror-content"
+          "validation": "mirror-content",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://learn.chatgpt.com/docs/build-skills",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "fixture:codex-instructions",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "codex-app",
+              "codex-cli",
+              "codex-ide"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "AGENTS.md es la superficie de instrucciones de Codex y tambien el fallback universal; la fixture prueba su contenido, no que el agente lo siga. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "pathRules": {
           "support": "documented",
           "target": "AGENTS.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "fallback-visible",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://learn.chatgpt.com/docs/build-skills",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "not-applicable",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "codex-app",
+              "codex-cli",
+              "codex-ide"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "Codex no documenta un archivo de repositorio con seleccion por glob para instrucciones; las reglas quedan agregadas en AGENTS.md sin enforcement por ruta. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "skills": {
           "support": "native",
-          "target": ".codex/skills/project-os/SKILL.md",
+          "target": ".agents/skills/project-os/SKILL.md",
           "owner": "constructor",
-          "validation": "frontmatter-and-content"
+          "validation": "frontmatter-and-content",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://learn.chatgpt.com/docs/build-skills",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "fixture:agent-skill-frontmatter",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "codex-app",
+              "codex-cli",
+              "codex-ide"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "La documentacion oficial de Codex declara .agents/skills como la ubicacion de skills de repositorio; .codex/skills es convencion heredada y dejo de instalarse. La fixture prueba ruta y frontmatter, no la invocacion. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "permissions": {
           "support": "documented",
           "target": "AGENTS.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "fallback-visible",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://learn.chatgpt.com/docs/extend/mcp?surface=cli",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "not-applicable",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "codex-app",
+              "codex-cli",
+              "codex-ide"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "El vocabulario canonico son tokens abstractos de capacidad; el config.toml recibe la politica como comentario declarado y no como enforcement equivalente. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "mcp": {
           "support": "native",
           "target": ".codex/config.toml",
           "owner": "constructor",
-          "validation": "toml-mcp-structural-parity"
+          "validation": "toml-mcp-structural-parity",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://learn.chatgpt.com/docs/extend/mcp?surface=cli",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "fixture:codex-toml-mcp-servers",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "codex-app",
+              "codex-cli",
+              "codex-ide"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "Codex documenta el config.toml de proyecto solo para proyectos confiados: en un repositorio sin confianza otorgada el archivo existe y no se lee. El catalogo canonico no declara servidores activos, asi que el adapter se renderiza vacio. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "profiles": {
           "support": "documented",
           "target": "AGENTS.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "fallback-visible",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://learn.chatgpt.com/docs/build-skills",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "not-applicable",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "codex-app",
+              "codex-cli",
+              "codex-ide"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "Los perfiles de evidencia son una politica del repositorio; ningun harness expone una superficie que los active o los haga cumplir. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         }
       }
     },
@@ -102,37 +294,127 @@
           "support": "native",
           "target": ".cursor/rules/project-os.mdc",
           "owner": "constructor",
-          "validation": "mirror-content"
+          "validation": "mirror-content",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://cursor.com/docs/rules",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "fixture:cursor-rule-frontmatter",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "cursor-ide"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "La regla se instala con alwaysApply para que el contenido canonico llegue completo; la fixture prueba frontmatter y contenido, no la adherencia del agente. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "pathRules": {
           "support": "documented",
           "target": "AGENTS.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "fallback-visible",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://cursor.com/docs/rules",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "not-applicable",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "cursor-ide"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "Cursor soporta globs por regla, pero el constructor escribe un archivo agregado con alcance universal y no conserva la seleccion por glob. Promover la celda exige un renderer por regla. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "skills": {
-          "support": "unsupported",
-          "target": "AGENTS.md",
+          "support": "native",
+          "target": ".agents/skills/project-os/SKILL.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "frontmatter-and-content",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://cursor.com/docs/skills",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "fixture:agent-skill-frontmatter",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "cursor-ide"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "Cursor documenta .cursor/skills y .agents/skills como ubicaciones equivalentes; el constructor usa la compartida para no instalar cinco copias del mismo SKILL.md. La fixture prueba que el nombre del frontmatter coincide con la carpeta, no la invocacion. El changelog de Cursor atribuye Agent Skills a la version 2.4, pero la documentacion de la capacidad no publica una version minima, asi que la celda no declara una."
+          }
         },
         "permissions": {
           "support": "documented",
           "target": "AGENTS.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "fallback-visible",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://cursor.com/docs/rules",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "not-applicable",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "cursor-ide"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "El vocabulario canonico son tokens abstractos de capacidad y Cursor no expone un archivo de repositorio que los haga cumplir; la politica queda visible en la regla y en AGENTS.md. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "mcp": {
           "support": "native",
           "target": ".cursor/mcp.json",
           "owner": "constructor",
-          "validation": "json-mcp-structural-parity"
+          "validation": "json-mcp-structural-parity",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://cursor.com/docs/mcp",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "fixture:json-mcp-servers",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "cursor-ide"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "El catalogo canonico no declara servidores activos, asi que el adapter se renderiza vacio. Startup, tool listing y smoke autenticado siguen siendo receipts opt-in separados. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "profiles": {
           "support": "documented",
           "target": "AGENTS.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "fallback-visible",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://cursor.com/docs/rules",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "not-applicable",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "cursor-ide"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "Los perfiles de evidencia son una politica del repositorio; ningun harness expone una superficie que los active o los haga cumplir. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         }
       }
     },
@@ -143,37 +425,156 @@
           "support": "native",
           "target": ".github/copilot-instructions.md",
           "owner": "constructor",
-          "validation": "mirror-content"
+          "validation": "mirror-content",
+          "verification": {
+            "minimumVersion": "unversioned-service",
+            "source": "https://docs.github.com/en/copilot/reference/custom-instructions-support",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "fixture:copilot-instructions",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "copilot-chat",
+              "copilot-cli",
+              "copilot-cloud-agent",
+              "copilot-code-review",
+              "copilot-jetbrains",
+              "copilot-vs-code"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "GitHub Copilot es un servicio sin version instalable por el repositorio, asi que la version minima no es observable desde el arbol. Las instrucciones de repositorio son la unica capacidad que la documentacion oficial declara soportada en todas las superficies."
+          }
         },
         "pathRules": {
           "support": "documented",
           "target": "AGENTS.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "fallback-visible",
+          "verification": {
+            "minimumVersion": "unversioned-service",
+            "source": "https://docs.github.com/en/copilot/reference/custom-instructions-support",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "not-applicable",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "copilot-chat",
+              "copilot-cloud-agent",
+              "copilot-code-review"
+            ],
+            "unsupportedSurfaces": [
+              "copilot-visual-studio"
+            ],
+            "fallback": "AGENTS.md",
+            "degradation": "Copilot soporta applyTo por archivo en .github/instructions, pero el constructor escribe un archivo agregado con alcance universal y no conserva la seleccion por glob. Visual Studio ademas solo lee instrucciones por ruta en chat y revision. Promover la celda exige un renderer por regla. GitHub Copilot es un servicio sin version instalable por el repositorio, asi que no hay una version minima observable desde el arbol y la celda no declara una."
+          }
         },
         "skills": {
-          "support": "unsupported",
-          "target": "AGENTS.md",
+          "support": "native",
+          "target": ".agents/skills/project-os/SKILL.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "frontmatter-and-content",
+          "verification": {
+            "minimumVersion": "unversioned-service",
+            "source": "https://docs.github.com/en/copilot/concepts/agents/about-agent-skills",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "fixture:agent-skill-frontmatter",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "copilot-cli",
+              "copilot-cloud-agent",
+              "copilot-code-review",
+              "copilot-jetbrains",
+              "copilot-vs-code"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "Copilot documenta .github/skills, .claude/skills y .agents/skills como ubicaciones de proyecto equivalentes; el constructor usa la compartida para no instalar copias redundantes del mismo SKILL.md. La fixture prueba ruta y frontmatter, no la invocacion. GitHub Copilot es un servicio sin version instalable por el repositorio, asi que no hay una version minima observable desde el arbol y la celda no declara una."
+          }
         },
         "permissions": {
-          "support": "unsupported",
+          "support": "documented",
           "target": "AGENTS.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "fallback-visible",
+          "verification": {
+            "minimumVersion": "unversioned-service",
+            "source": "https://docs.github.com/en/copilot/reference/custom-instructions-support",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "not-applicable",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "copilot-chat",
+              "copilot-cli",
+              "copilot-cloud-agent",
+              "copilot-code-review",
+              "copilot-jetbrains",
+              "copilot-vs-code"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "Copilot no expone ningun archivo de repositorio de permisos, pero la politica si llega a todas sus superficies como texto dentro de las instrucciones de repositorio. Queda visible y sin enforcement, no ausente. GitHub Copilot es un servicio sin version instalable por el repositorio, asi que no hay una version minima observable desde el arbol y la celda no declara una."
+          }
         },
         "mcp": {
-          "support": "unsupported",
-          "target": ".project-os/mcp.json",
-          "owner": "project",
-          "validation": "fallback-visible"
+          "support": "generated",
+          "target": ".mcp.json",
+          "owner": "constructor",
+          "validation": "json-mcp-structural-parity",
+          "verification": {
+            "minimumVersion": "unversioned-service",
+            "source": "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "fixture:json-mcp-servers",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "copilot-cli"
+            ],
+            "unsupportedSurfaces": [
+              "copilot-chat",
+              "copilot-cloud-agent",
+              "copilot-code-review",
+              "copilot-jetbrains",
+              "copilot-vs-code"
+            ],
+            "fallback": "AGENTS.md",
+            "degradation": "Copilot CLI si lee .mcp.json desde el repositorio, pero el agente en la nube y la revision de codigo solo se configuran en la interfaz de settings sin archivo versionado, y VS Code usa .vscode/mcp.json. Como las superficies divergen la celda no puede ser native y nombra las excluidas. GitHub Copilot es un servicio sin version instalable por el repositorio, asi que no hay una version minima observable desde el arbol y la celda no declara una."
+          }
         },
         "profiles": {
           "support": "documented",
           "target": ".github/copilot-instructions.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "fallback-visible",
+          "verification": {
+            "minimumVersion": "unversioned-service",
+            "source": "https://docs.github.com/en/copilot/reference/custom-instructions-support",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "not-applicable",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "copilot-chat",
+              "copilot-cli",
+              "copilot-cloud-agent",
+              "copilot-code-review",
+              "copilot-jetbrains",
+              "copilot-vs-code"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "Los perfiles de evidencia son una politica del repositorio; ningun harness expone una superficie que los active o los haga cumplir. GitHub Copilot es un servicio sin version instalable por el repositorio, asi que no hay una version minima observable desde el arbol y la celda no declara una."
+          }
         }
       }
     },
@@ -184,37 +585,127 @@
           "support": "generated",
           "target": "opencode.json",
           "owner": "constructor",
-          "validation": "json-structure"
+          "validation": "json-structure",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://opencode.ai/docs/rules",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "fixture:opencode-instructions",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "opencode-cli"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "opencode.json declara punteros a AGENTS.md y a .opencode/project-os.md en lugar de contener el texto canonico, asi que la instruccion llega por una superficie general y no por un archivo de instrucciones dedicado. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "pathRules": {
           "support": "documented",
           "target": ".opencode/project-os.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "fallback-visible",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://opencode.ai/docs/rules",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "not-applicable",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "opencode-cli"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "OpenCode no documenta seleccion por glob para instrucciones de repositorio; las reglas quedan agregadas en el fallback generado sin enforcement por ruta. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "skills": {
-          "support": "generated",
-          "target": ".opencode/skills/project-os/SKILL.md",
+          "support": "native",
+          "target": ".agents/skills/project-os/SKILL.md",
           "owner": "constructor",
-          "validation": "frontmatter-and-content"
+          "validation": "frontmatter-and-content",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://opencode.ai/docs/skills",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "fixture:agent-skill-frontmatter",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "opencode-cli"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "OpenCode documenta .opencode/skills, .claude/skills y .agents/skills como ubicaciones de proyecto equivalentes; el constructor usa la compartida para no instalar copias redundantes. La verificacion en runtime exigiria arrancar OpenCode con un proveedor de modelo autenticado, asi que carga e invocacion siguen siendo receipts opt-in. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "permissions": {
           "support": "documented",
           "target": "AGENTS.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "fallback-visible",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://opencode.ai/docs/permissions",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "not-applicable",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "opencode-cli"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "OpenCode si acepta allow, ask y deny por herramienta y por patron de bash en opencode.json, pero el vocabulario canonico son tokens abstractos de capacidad como git:push-force y doctor:repair. Derivar patrones de shell a partir de ellos inventaria semantica y afirmaria un enforcement que el repositorio no ha decidido, asi que la politica permanece visible sin enforcement. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "mcp": {
           "support": "native",
           "target": "opencode.json",
           "owner": "constructor",
-          "validation": "json-mcp-structural-parity"
+          "validation": "json-mcp-structural-parity",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://opencode.ai/docs/mcp-servers",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "fixture:opencode-mcp-servers",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "opencode-cli"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "El catalogo canonico no declara servidores activos, asi que el adapter se renderiza vacio. Startup, tool listing y smoke autenticado siguen siendo receipts opt-in separados. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         },
         "profiles": {
           "support": "documented",
           "target": ".opencode/project-os.md",
           "owner": "constructor",
-          "validation": "fallback-visible"
+          "validation": "fallback-visible",
+          "verification": {
+            "minimumVersion": "undetermined",
+            "source": "https://opencode.ai/docs/rules",
+            "sourceCheckedOn": "2026-08-19",
+            "configuration": "not-applicable",
+            "startup": "not-verified",
+            "toolListing": "not-verified",
+            "smoke": "not-verified",
+            "surfaces": [
+              "opencode-cli"
+            ],
+            "unsupportedSurfaces": [],
+            "fallback": "AGENTS.md",
+            "degradation": "Los perfiles de evidencia son una politica del repositorio; ningun harness expone una superficie que los active o los haga cumplir. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+          }
         }
       }
     }
