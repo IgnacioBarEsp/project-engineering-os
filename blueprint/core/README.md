@@ -8,6 +8,7 @@ and no product stack or architecture has been selected.
 - [Engineering operating guide](docs/engineering/README.md)
 - [Bootstrap runbook](docs/engineering/RUNBOOK_BOOTSTRAP.md)
 - [Manual intervention guide](docs/engineering/GUIA_MANUAL_USUARIO.md)
+- [Prompt router: classify and record the route](docs/engineering/PROMPT_ROUTER_INICIO.md)
 - [Prompt 00: prepare the environment](docs/engineering/PROMPT_00_BOOTSTRAP_ENTORNO.md)
 - [Prompt 01: start discovery only after approval](docs/engineering/PROMPT_01_DISCOVERY_PROYECTO.md)
 - [Agent instructions](AGENTS.md)

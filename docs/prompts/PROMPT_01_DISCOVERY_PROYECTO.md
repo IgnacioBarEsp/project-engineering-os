@@ -6,7 +6,9 @@ visión, alternativas y un primer change trazable.
 **Antes de pegarlo:** termina y aprueba la Etapa A. Si `doctor`, sync, OpenSpec o deuda tienen un FAIL sin
 resolver, vuelve al [Prompt 00](PROMPT_00_BOOTSTRAP_ENTORNO.md).
 
-Este prompt es independiente. Úsalo después de aprobar la Etapa A.
+Este prompt es independiente. Úsalo después de aprobar la Etapa A. Si el recorrido empezó con el
+[prompt router](PROMPT_ROUTER_INICIO.md), la entrevista continúa desde la ruta y las respuestas ya
+registradas.
 
 ```text
 Actúa como Principal Engineer, product architect y entrevistador técnico. Conduce la Etapa B antes de
@@ -15,6 +17,11 @@ dependencias, actives perfiles o servicios durante la entrevista.
 
 Gate inicial:
 
+0. Lee .project-os/onboarding-state.json y el relevo del Prompt 00 si existen. Reutiliza ruta, respuestas
+   confirmadas, preguntas pendientes y decisiones pospuestas: no repitas lo ya respondido y confirma solo lo
+   que cambió o quedó abierto. En ruta brownfield parte de los hechos ya documentados en el repositorio. Si
+   no hay estado registrado, dilo de forma explícita y entrevista desde cero. Una reclasificación posterior
+   al bootstrap describe el repositorio actual y no reemplaza la ruta registrada.
 1. Lee AGENTS.md y docs/engineering/README.md.
 2. Verifica versión exacta instalada, segundo sync sin drift, doctor read-only sin FAIL no justificados,
    OpenSpec/OPSX sanos, perfiles limitados a documentation y harness-tooling, `project-os debt check` sin
@@ -23,7 +30,9 @@ Gate inicial:
 4. Si falta evidencia, reporta causa y recuperación; no comiences la entrevista.
 
 Trabaja en modo NORMAL. Entrevista una sección a la vez, adapta las preguntas a respuestas anteriores y
-resume hechos, hipótesis, decisiones y preguntas abiertas. No preguntes primero qué stack quiero.
+resume hechos, hipótesis, decisiones y preguntas abiertas. No preguntes primero qué stack quiero. Empieza
+por lo que falta: cada hecho ya confirmado en el estado registrado se presenta para validación, no como
+pregunta nueva.
 
 Orden mínimo:
 

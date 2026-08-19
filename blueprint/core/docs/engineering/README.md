@@ -5,6 +5,7 @@ This index is the operational entry point for the repository before product disc
 ## Prepare and verify
 
 - [Bootstrap runbook](RUNBOOK_BOOTSTRAP.md)
+- [Prompt router: classify the folder and record the route first](PROMPT_ROUTER_INICIO.md)
 - [Prompt 00: prepare an empty repository](PROMPT_00_BOOTSTRAP_ENTORNO.md)
 - [Prompt 01: begin discovery after bootstrap approval](PROMPT_01_DISCOVERY_PROYECTO.md)
 - [Manual intervention guide](GUIA_MANUAL_USUARIO.md)

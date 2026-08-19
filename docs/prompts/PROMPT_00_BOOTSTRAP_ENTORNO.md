@@ -1,7 +1,8 @@
 # PROMPT_00_BOOTSTRAP_ENTORNO
 
-Este es el primer prompt. Prepara y verifica el sistema de ingeniería sin preguntar todavía qué producto
-quieres construir.
+Este prompt prepara y verifica el sistema de ingeniería sin preguntar todavía qué producto quieres
+construir. Si ya registraste una ruta con el [prompt router](PROMPT_ROUTER_INICIO.md), este prompt la
+reutiliza en lugar de reabrir la clasificación.
 
 **Antes de pegarlo:** abre tu agente en la raíz del repositorio y sustituye `<VERSION_APROBADA>` por una
 versión exacta, por ejemplo `0.1.6`. El agente puede ejecutar el trabajo local; debe detenerse ante
@@ -16,6 +17,12 @@ de datos, cloud, IA, UI o dependencias de aplicación.
 
 Usa la versión exacta de Project Engineering OS que te indicaré como <VERSION_APROBADA>. Si falta esa
 decisión, detente y pídela; no uses latest ni una copia improvisada.
+
+Antes del paso 1, lee .project-os/onboarding-state.json si existe. Usa su ruta registrada para elegir el
+orden y la profundidad de la explicación: beginner explica cada verificación en lenguaje simple,
+experienced-new resume, brownfield inventaría y preserva antes de escribir. No reabras la clasificación, no
+añadas preguntas de ruta y no preguntes por stack, framework, base de datos, cloud, UI ni por el producto
+completo. Si el archivo no existe, continúa en el orden estándar y declara que la ruta no quedó registrada.
 
 1. Lee AGENTS.md si existe y clasifica Git root, working tree, trabajo activo y conflictos.
 2. Comprueba Git, npm y Node ^20.20.0 o >=22.22.0 sin reparar automáticamente.
@@ -44,12 +51,15 @@ decisión, detente y pídela; no uses latest ni una copia improvisada.
 9. Presenta PASS/FAIL/WARN/SKIP con causa y recuperación, transaction ID, versión exacta, archivos
    administrados, gates manuales y rollback.
 10. Pregunta si deseo recibir un prompt de relevo para ejecutar PROMPT_01_DISCOVERY_PROYECTO en un chat
-    nuevo. Recomienda chat nuevo si el contexto actual contiene implementación o investigación extensa.
+    nuevo. Recomienda chat nuevo si el contexto actual contiene implementación o investigación extensa. El
+    relevo debe incluir ruta registrada, decisiones pendientes y pospuestas, versión exacta, transaction ID,
+    gates humanos abiertos, rollback y prohibiciones, sin secretos.
 
 Doctor y checks son read-only: nunca instalan, reparan, autentican, actualizan o reindexan. No interpretes
 SKIP, configuración presente o ausencia de checks como éxito. Termina antes del discovery.
 ```
 
 Cuando la salida no tenga FAIL injustificados y apruebes la Etapa A, continúa con el
-[Prompt 01](PROMPT_01_DISCOVERY_PROYECTO.md). Para contexto adicional vuelve a la
+[Prompt 01](PROMPT_01_DISCOVERY_PROYECTO.md). Si todavía no clasificaste la carpeta, vuelve al
+[prompt router](PROMPT_ROUTER_INICIO.md). Para contexto adicional vuelve a la
 [guía del usuario](../USER_GUIDE.md).

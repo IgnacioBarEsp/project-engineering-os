@@ -8,9 +8,11 @@ cuando lo necesites.
 1. [Guía del usuario](USER_GUIDE.md): entiende las cuatro etapas y llega desde una carpeta vacía hasta el
    primer cambio de producto.
 2. [Clasificador de onboarding](ONBOARDING_PLAN.md): inspecciona la carpeta y elige una ruta sin escribir.
-3. [Prompt 00](prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md): deja que tu agente prepare y verifique el entorno.
-4. [Guía manual](GUIA_MANUAL_USUARIO.md): identifica las decisiones que requieren tu autorización.
-5. [Prompt 01](prompts/PROMPT_01_DISCOVERY_PROYECTO.md): descubre problema, usuarios y restricciones antes
+3. [Prompt router](prompts/PROMPT_ROUTER_INICIO.md): registra la ruta y decide el orden de los dos prompts
+   siguientes.
+4. [Prompt 00](prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md): deja que tu agente prepare y verifique el entorno.
+5. [Guía manual](GUIA_MANUAL_USUARIO.md): identifica las decisiones que requieren tu autorización.
+6. [Prompt 01](prompts/PROMPT_01_DISCOVERY_PROYECTO.md): descubre problema, usuarios y restricciones antes
    de elegir tecnología.
 
 ## Quiero entender cómo se gobierna el trabajo
@@ -43,7 +45,8 @@ cuando lo necesites.
 | --- | --- |
 | Empezar sin conocer SDD | [Guía del usuario](USER_GUIDE.md) |
 | Clasificar una carpeta sin escribir | [Onboarding plan](ONBOARDING_PLAN.md) |
-| Copiar el primer prompt | [Prompt 00](prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md) |
+| Copiar el primer prompt del recorrido | [Prompt router](prompts/PROMPT_ROUTER_INICIO.md) |
+| Preparar y verificar el entorno | [Prompt 00](prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md) |
 | Elegir tecnología | [Prompt 01](prompts/PROMPT_01_DISCOVERY_PROYECTO.md) |
 | Resolver drift o una ejecución interrumpida | [Recuperación](RECOVERY.md) |
 | Saber qué puede hacer cada agente | [Compatibilidad](COMPATIBILITY.md) |

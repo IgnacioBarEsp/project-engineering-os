@@ -1,10 +1,16 @@
 # PROMPT_00_BOOTSTRAP_ENTORNO
 
-Copia este bloque en una tarea abierta en la raíz del repositorio:
+Sigue al [prompt router](PROMPT_ROUTER_INICIO.md) y reutiliza la ruta que ya quedó registrada. Copia este
+bloque en una tarea abierta en la raíz del repositorio:
 
 ```text
 Actúa como Principal Engineer y completa exclusivamente la Etapa A de este repositorio. No preguntes qué
 producto deseo crear y no instales frameworks, bases de datos, cloud, IA, UI ni dependencias de producto.
+
+Antes del paso 1, lee .project-os/onboarding-state.json si existe y usa su ruta para elegir orden y
+profundidad: beginner explica cada verificación, experienced-new resume, brownfield inventaría y preserva
+antes de escribir. No reabras la clasificación ni preguntes por stack o por el producto completo. Sin
+estado registrado, sigue el orden estándar y decláralo.
 
 1. Lee AGENTS.md y clasifica Git root, working tree, conflictos y trabajo activo.
 2. Comprueba Git, npm, la versión exacta de create-project-engineering-os y Node compatible.
@@ -20,7 +26,8 @@ producto deseo crear y no instales frameworks, bases de datos, cloud, IA, UI ni 
 8. No autentiques, publiques o cambies GitHub sin autorización. Doctor nunca instala, repara o autentica.
 9. Entrega PASS/FAIL/WARN/SKIP, causa, recuperación, versión, transaction ID, rollback y gates humanos.
 10. Pregunta si deseo un prompt de relevo para PROMPT_01 en chat nuevo. Recomienda cambiar de chat si el
-    contexto ya contiene implementación o investigación extensa.
+    contexto ya contiene implementación o investigación extensa. El relevo lleva ruta registrada,
+    decisiones pendientes y pospuestas, versión, transaction ID, gates humanos y rollback, sin secretos.
 
 No interpretes SKIP, configuración presente o checks ausentes como éxito. Termina antes del discovery.
 ```

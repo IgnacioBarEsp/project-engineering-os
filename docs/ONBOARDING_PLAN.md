@@ -91,11 +91,19 @@ rechazan antes de clasificar.
 Si el límite o un permiso impide demostrar que la carpeta está vacía, el plan elige preservación. Es más
 seguro revisar de más que autorizar un bootstrap destructivo.
 
-## Qué todavía no hace
+## Quién registra el estado
 
-El clasificador no persiste el estado, no cambia Prompt 00/01, no configura tableros y no instala skills o
-MCP. La orquestación corresponde al [Issue #31](https://github.com/IgnacioBarEsp/project-engineering-os/issues/31)
-y las operaciones remotas al [Issue #33](https://github.com/IgnacioBarEsp/project-engineering-os/issues/33).
+El comando sigue siendo read-only: no escribe el estado por su cuenta, no configura tableros y no instala
+skills o MCP. Quien lo registra es el [prompt router](prompts/PROMPT_ROUTER_INICIO.md), y solo después de una
+aprobación humana explícita. El comando vuelve a leer ese archivo y valida su canonicalidad antes de
+reutilizar sus respuestas.
+
+Una ejecución posterior al bootstrap encontrará los archivos administrados y elegirá `brownfield`. Ese
+resultado describe el repositorio actual y no reemplaza la ruta registrada del recorrido.
+
+Las operaciones remotas siguen en el
+[Issue #33](https://github.com/IgnacioBarEsp/project-engineering-os/issues/33) y los adapters por agente en
+el [Issue #32](https://github.com/IgnacioBarEsp/project-engineering-os/issues/32).
 
 La visión completa, alternativas y amenazas están en la
 [decisión de onboarding adaptativo](ADAPTIVE_ONBOARDING.md).

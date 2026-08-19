@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "flow": "orchestrate-onboarding-prompts",
+  "date": "2026-08-19",
+  "kind": "feature",
+  "result": "debt",
+  "candidates": [
+    {
+      "title": "La spec activa adaptive-onboarding conserva un Purpose TBD generado por el archive anterior",
+      "artifact": "openspec/specs/adaptive-onboarding/spec.md",
+      "source": "review",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "project-engineering-os",
+      "consequence": "La capacidad que este change extiende declara su propósito como pendiente. Quien lea la spec activa no encuentra el alcance de adaptive-onboarding y debe reconstruirlo desde los changes archivados. Es la misma clase de hallazgo que resolvió el Issue #25 para las specs históricas, reintroducida por una capacidad creada después.",
+      "remediation": "Redactar el Purpose de adaptive-onboarding mediante un change propio, como hizo el Issue #25 con las specs históricas, y revisar si el archive debería exigir un Purpose escrito antes de crear una capacidad nueva.",
+      "evidence": [
+        {
+          "type": "file",
+          "ref": "openspec/specs/adaptive-onboarding/spec.md primera sección Purpose",
+          "date": "2026-08-19"
+        },
+        {
+          "type": "command",
+          "ref": "openspec archive orchestrate-onboarding-prompts --yes en un consumidor de ensayo: añade 7 requisitos y deja el Purpose sin cambios",
+          "date": "2026-08-19"
+        }
+      ],
+      "verification": {
+        "method": "Ensayo de archive con la CLI OpenSpec 1.6.0 fijada dentro de un consumidor bootstrapeado y lectura posterior de la spec activa resultante.",
+        "result": "Confirmado: el Purpose sigue siendo el texto TBD generado por el archive de add-adaptive-onboarding-classifier.",
+        "date": "2026-08-19"
+      }
+    }
+  ],
+  "notes": "Revisión adversarial PASS: cero Blockers y cero Majors abiertos; dos Majors y cuatro Minors corregidos antes del cierre. El único candidato es preexistente, minor y no transversal: no dispara saneamiento y no lo genera este change. Solo la CLI OpenSpec fijada escribe specs activas durante el archive, por lo que corregirlo pertenece a un flujo propio."
+}
