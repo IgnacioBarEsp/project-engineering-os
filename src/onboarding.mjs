@@ -674,7 +674,19 @@ export async function inspectOnboardingTarget({
       scannedEntries += 1;
       const relativePath = normalizedPath(path.join(relativeDirectory, entry.name));
       if (ignored.has(relativePath)) continue;
-      if (entry.isSymbolicLink()) {
+      const absolutePath = resolveInside(root, relativePath);
+      let entryStats;
+      try {
+        entryStats = await lstat(absolutePath);
+      } catch (error) {
+        recordIncomplete({
+          detail: error?.code ?? 'entry-unreadable',
+          id: 'inspection.entry-unreadable',
+          relativePath,
+        });
+        continue;
+      }
+      if (entry.isSymbolicLink() || entryStats.isSymbolicLink()) {
         recordIncomplete({
           detail: 'symlink-not-followed',
           id: 'inspection.symlink',
@@ -682,11 +694,11 @@ export async function inspectOnboardingTarget({
         });
         continue;
       }
-      if (entry.isFile()) {
+      if (entryStats.isFile()) {
         classifyFile(relativePath, addEvidence);
         continue;
       }
-      if (!entry.isDirectory()) {
+      if (!entryStats.isDirectory()) {
         recordIncomplete({
           detail: 'unverified',
           id: 'inspection.special-entry',

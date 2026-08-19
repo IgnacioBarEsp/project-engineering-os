@@ -48,3 +48,10 @@ brownfield: código, documentación o tooling existente siguen forzando inventar
 
 **PASS.** Cero Blockers y cero Majors abiertos. Cuatro Majors y cuatro Minors se corrigieron antes del
 cierre. No queda deuda residual; archivar es aconsejable después de repetir la suite final y readiness.
+
+## Seguimiento de CI multiplataforma
+
+La primera matriz detectó en Node 20/Windows que `Dirent.isSymbolicLink()` podía presentar una junction
+como directorio. El scanner dejó de depender de esa clasificación: ahora confirma cada entrada con
+`lstat` antes de decidir si puede recorrerla. La regresión conserva la junction como inspección incompleta,
+elige preservación y nunca lee el destino enlazado.

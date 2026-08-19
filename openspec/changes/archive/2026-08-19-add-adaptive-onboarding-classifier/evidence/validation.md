@@ -10,6 +10,8 @@
 - `npm run pack:verify`: PASS; tarball exacto instalado, ejercitado y con schemas/módulo incluidos.
 - OpenSpec 1.6.0 `validate --all --strict`: PASS, 7/7 items antes de archive.
 - `git diff --check`: PASS.
+- Node 20.20.0/Windows, suite específica de onboarding: PASS, 24/24 después de confirmar junctions con
+  `lstat`; corrige la diferencia observada en la primera ejecución de CI.
 
 ## Clasificador y contrato
 
