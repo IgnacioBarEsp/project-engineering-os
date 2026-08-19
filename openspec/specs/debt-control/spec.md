@@ -1,5 +1,10 @@
 # Debt Control
 
+## Purpose
+
+Definir cómo se verifica, presupuesta y conserva la deuda residual para impedir que un cierre SDD o una
+operación del constructor oculte riesgos pendientes.
+
 ## Requirements
 
 ### Requirement: Residual findings are classified, not narrated
@@ -34,4 +39,3 @@ upgrade or rollback unless they were explicit operations with verified backups.
 - **WHEN** a package upgrade transaction is reverted
 - **THEN** debt data outside the operation remains byte-identical
 - **AND** pause state is still derived from the registry
-
