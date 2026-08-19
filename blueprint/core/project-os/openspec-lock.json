@@ -10,8 +10,8 @@
     "@fission-ai/openspec@1.6.0"
   ],
   "workflowOwner": "external-openspec",
-  "workflowInitCommand": "npm exec --yes=false -- openspec init --tools codex,claude,cursor,github-copilot,opencode",
-  "workflowUpdateCommand": "npm exec --yes=false -- openspec update",
+  "workflowInitCommand": "npm run openspec:init",
+  "workflowUpdateCommand": "npm run openspec:update",
   "workflowAdapterCommand": "npm run project-os:opsx:adapt",
   "workflowCheckCommand": "npm run project-os:opsx:check",
   "workflowCheckContract": ".project-os/openspec-ownership.md"

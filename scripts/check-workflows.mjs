@@ -28,6 +28,15 @@ for (const workflowRoot of workflowRoots) {
   }
 }
 const releaseWorkflow = await readFile(path.join(root, '.github', 'workflows', 'release.yml'), 'utf8');
+const ciWorkflow = await readFile(path.join(root, '.github', 'workflows', 'ci.yml'), 'utf8');
+if (
+  !ciWorkflow.includes('dependency-audit:')
+  || !ciWorkflow.includes('run: npm run check:audit')
+  || !ciWorkflow.includes('needs: [matrix, dependency-audit]')
+  || !ciWorkflow.includes('AUDIT_RESULT: ${{ needs.dependency-audit.result }}')
+) {
+  failures.push('.github/workflows/ci.yml: dependency audit required gate missing');
+}
 if (!releaseWorkflow.includes('npm publish ./release/*.tgz --access public --provenance')) {
   failures.push('.github/workflows/release.yml: tarball path must be explicitly relative');
 }

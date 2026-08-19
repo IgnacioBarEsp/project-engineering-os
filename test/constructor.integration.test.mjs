@@ -320,7 +320,7 @@ test("bootstrap prepara un repositorio Git vacío sin copiar un runtime editable
   );
   assert.match(
     baselineBootstrap.plan.externalOwnership.commands.init,
-    /^npm exec --yes=false -- openspec init /,
+    /^npm run openspec:init$/,
   );
   assert.equal(
     baselineBootstrap.plan.operations.some(
@@ -1000,7 +1000,7 @@ test("opsx-adapt estabiliza 25 archivos externos y opsx-check detecta shape drif
       const content = await readFile(path.join(target, ...relative.split("/")), "utf8");
       assert.equal(content.split(block.start).length - 1, 1, relative);
       assert.equal(content.split(block.end).length - 1, 1, relative);
-      assert.match(content, /npm exec --yes=false -- openspec status/, relative);
+      assert.match(content, /node \.\/\.project-constructor\/openspec\.mjs status/, relative);
       assert.match(content, new RegExp(block.content.split("\n")[0]), relative);
     }
   }

@@ -90,7 +90,7 @@ La versión explícita mantiene el bootstrap reproducible:
 ```sh
 npx --yes create-project-engineering-os@0.1.6 bootstrap --target .
 npm ci
-npm exec --yes=false -- openspec init --tools codex,claude,cursor,github-copilot,opencode
+npm run openspec:init
 npm run project-os:opsx:adapt
 npm run project-os:check
 npm run project-os:doctor
@@ -98,6 +98,10 @@ npm run project-os:doctor
 
 El comando fue verificado desde una carpeta vacía en Windows. La suite también lo prueba en Ubuntu y
 macOS. Antes de cambiar `0.1.6`, revisa el [changelog](CHANGELOG.md).
+
+Los scripts `openspec:*` usan telemetría apagada por defecto sin cambiar tu configuración global. Puedes
+elegir explícitamente otro valor con `OPENSPEC_TELEMETRY`; una invocación directa de OpenSpec queda bajo su
+contrato upstream. Consulta el [triage de cadena de suministro](docs/security/SUPPLY_CHAIN_TRIAGE_2026-08-18.md).
 
 ### 3. Abre el agente que prefieras
 

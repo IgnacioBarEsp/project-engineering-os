@@ -1,0 +1,257 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 18,
+  "change": "harden-supply-chain-policy",
+  "surfaces": [
+    "documentation",
+    "harness-tooling",
+    "infra-deploy",
+    "library-cli"
+  ],
+  "validations": [
+    {
+      "id": "backward-compatibility-test",
+      "status": "passed",
+      "evidence": "evidence://validation/fixture-existing-command-contracts",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "capability-matrix-check",
+      "status": "passed",
+      "evidence": "evidence://validation/constructor-integration-five-harnesses",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "configuration-validation",
+      "status": "passed",
+      "evidence": "evidence://validation/check-workflows-required-audit-contract",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "constructor-tests",
+      "status": "passed",
+      "evidence": "evidence://validation/npm-check-132-tests",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "critical-document-presence",
+      "status": "passed",
+      "evidence": "evidence://validation/docs-18-and-triage-present",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "deployment-dry-run-or-preview",
+      "status": "passed",
+      "evidence": "evidence://validation/required-workflow-static-preview-and-fixture",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "doctor-json-check",
+      "status": "passed",
+      "evidence": "evidence://validation/temporary-harness-doctor-json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "findability-two-hop-check",
+      "status": "passed",
+      "evidence": "evidence://validation/costs-and-doc-index-links",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "health-check",
+      "status": "passed",
+      "evidence": "evidence://validation/three-audit-scopes-clean",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "multi-platform-smoke",
+      "status": "passed",
+      "evidence": "evidence://validation/shell-free-node-wrapper-and-six-leg-required-matrix",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "neutrality-check",
+      "status": "passed",
+      "evidence": "evidence://validation/public-tree-neutrality",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "openspec-strict",
+      "status": "passed",
+      "evidence": "evidence://validation/openspec-1.6.0-strict",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "opsx-check",
+      "status": "passed",
+      "evidence": "evidence://validation/temporary-harness-opsx-contract",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "package-artifact-test",
+      "status": "passed",
+      "evidence": "evidence://validation/pack-verify-tested-tarball",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "relative-link-check",
+      "status": "passed",
+      "evidence": "evidence://validation/docs-18-links",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "rollback-command-check",
+      "status": "passed",
+      "evidence": "evidence://rollback/revert-commit-and-rerun-checks",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "second-run-idempotence",
+      "status": "passed",
+      "evidence": "evidence://validation/fixture-second-run-no-drift",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "sync-check",
+      "status": "passed",
+      "evidence": "evidence://validation/temporary-harness-sync-check",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "unit-and-contract-tests",
+      "status": "passed",
+      "evidence": "evidence://validation/audit-policy-and-openspec-wrapper-negative-tests",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "adversarial-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://adversarial-review/pass-with-tracked-minor-zero-open-blockers-zero-open-majors",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "budget-and-license-approval",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/18",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "environment-smoke",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://temporary-bootstrap/openspec-status-default-zero-opt-in-one",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "install-and-rollback-smoke",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://fixture/full-install-and-bounded-revert-plan",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "issue-link",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/18",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "license-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://third-party-notices/mit-no-runtime-dependency",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "public-api-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://review/package-scripts-wrapper-and-no-export-change",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "qualitative-review-for-clarity-and-current-ownership",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://triage/public-package-consumer-template-upstream-boundary",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recorded-drift-decisions",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://triage/socket-signals-and-direct-openspec-limit",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recovery-rehearsal-for-one-transaction",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://validation/constructor-rollback-and-failure-injection-tests",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "review-of-declared-degradations",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://review/npm-registry-fail-closed-and-direct-invocation-boundary",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "rollback-or-failover-rehearsal",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence://validation/negative-policy-and-workflow-aggregate-tests",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "rollback": {
+    "strategy": "Revertir el commit del change, restaurar workflow, wrapper y documentación previos, y conservar la evidencia histórica del triage.",
+    "status": "verified",
+    "evidence": "evidence://rollback/git-revert-plus-check-audit-fixture",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "passed",
+    "ref": "evidence://adversarial-review/pass-with-tracked-minor-zero-open-blockers-zero-open-majors",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}

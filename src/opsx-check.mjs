@@ -18,7 +18,7 @@ import { readInstalledState } from './state.mjs';
 
 export const OPSX_CONTRACT_PATH = '.project-os/openspec-ownership.json';
 const ADAPT_RECOVERY = 'Ejecute `project-constructor opsx-adapt --target .`.';
-const LOCAL_OPEN_SPEC = 'npm exec --yes=false -- openspec';
+const LOCAL_OPEN_SPEC = 'node ./.project-constructor/openspec.mjs';
 const REQUIRED_WORKFLOWS = Object.freeze(['apply', 'archive', 'propose']);
 
 function check(id, status, summary, cause, remediation = null, evidence = {}) {
