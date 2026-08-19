@@ -1,5 +1,10 @@
 # Guía manual del usuario
 
+El agente puede ejecutar el trabajo local, pero no debe adivinar decisiones que cambian autoridad, costo o
+estado compartido. Esta tabla muestra cuándo necesitas intervenir y qué evidencia debe quedar.
+
+**Úsala si:** el agente se detuvo para pedir autenticación, permisos, una compra, una licencia o aprobación.
+
 Estas acciones requieren una persona porque implican intención, identidad, costo, términos o riesgo
 remoto.
 
@@ -22,3 +27,8 @@ rollback y prohibiciones; nunca secretos.
 Entrevistas, aprobaciones y clics OAuth son gates trazables, no changes ficticios. Si su respuesta produce
 código o documentación versionada, esa escritura sí sigue SDD.
 
+## Regla práctica
+
+Autoriza el resultado y el alcance, no una lista abierta de acciones. Después de intervenir, pide al agente
+que repita el smoke o gate correspondiente y registre la evidencia sin imprimir secretos. Para volver al
+recorrido normal, abre la [guía del usuario](USER_GUIDE.md).

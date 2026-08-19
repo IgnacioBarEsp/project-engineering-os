@@ -1,5 +1,10 @@
 # ADR 0001: public distribution and ownership
 
+**En pocas palabras:** constructor y motor de deuda se publican juntos para tener una sola versión,
+evidencia y ruta de recuperación. Los consumidores fijan esa versión y conservan su producto.
+
+**Úsalo si:** necesitas entender por qué no existe una copia editable del runtime dentro de cada proyecto.
+
 - Status: accepted
 - Date: 2026-07-23
 
@@ -27,3 +32,6 @@ consumers own product code, seed-once policy, overlays and acceptance contracts.
 - State schemas need explicit migrations and rollback that never removes debt assessments.
 - Consumer repositories do not contain an editable runtime copy after cutover.
 - Creating the public repository, changing protection and publishing remain human-authorized gates.
+
+La operación cotidiana se explica en [upstream y consumidores](../UPSTREAM_CONSUMERS.md) y el proceso de
+publicación en [releases](../RELEASES.md).

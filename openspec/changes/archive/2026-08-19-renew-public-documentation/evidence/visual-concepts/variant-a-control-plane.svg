@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Project Engineering OS — Variante A, Plano de control</title>
+  <desc id="desc">Portada oscura con el flujo SDD horizontal como protagonista, evidencia real de terminal y un motor circular de deuda.</desc>
+  <rect width="1600" height="1000" fill="#0B0F0C"/>
+  <g stroke="#173327" stroke-width="1" opacity="0.5">
+    <path d="M80 0V1000M320 0V1000M560 0V1000M800 0V1000M1040 0V1000M1280 0V1000M1520 0V1000"/>
+    <path d="M0 80H1600M0 320H1600M0 560H1600M0 800H1600"/>
+  </g>
+
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <rect x="80" y="62" width="42" height="42" fill="none" stroke="#9CC7AB" stroke-width="2"/>
+    <path d="M91 74H111V94H91Z M101 74V94 M91 84H111" stroke="#9CC7AB" stroke-width="1.5" fill="none"/>
+    <text x="142" y="82" fill="#F2E8D5" font-size="18" font-weight="700" letter-spacing="2.5">PROJECT ENGINEERING OS</text>
+    <text x="142" y="103" fill="#7EA68D" font-size="11" letter-spacing="2.1">SISTEMA OPERATIVO PARA PROYECTOS ASISTIDOS POR IA</text>
+    <text x="1518" y="82" text-anchor="end" fill="#9CC7AB" font-size="12" letter-spacing="2">V0.1.6 / MIT</text>
+
+    <text x="80" y="185" fill="#F2E8D5" font-family="Georgia, Times New Roman, serif" font-style="italic" font-size="70">La verdadera ingeniería</text>
+    <text x="80" y="260" fill="#F2E8D5" font-family="Georgia, Times New Roman, serif" font-style="italic" font-size="70">empieza antes del código.</text>
+    <text x="84" y="306" fill="#9CC7AB" font-size="18" letter-spacing="0.4">Decisiones trazables. Evidencia reproducible. Deuda que no se esconde.</text>
+
+    <text x="80" y="382" fill="#6F917B" font-size="11" font-weight="700" letter-spacing="2.4">FLUJO SDD / DE LA INTENCIÓN AL CIERRE</text>
+    <path d="M104 448H1478" stroke="#355D48" stroke-width="2"/>
+    <path d="M1470 441L1480 448L1470 455" stroke="#9CC7AB" stroke-width="2" fill="none"/>
+
+    <g>
+      <circle cx="112" cy="448" r="18" fill="#9CC7AB"/>
+      <text x="112" y="453" text-anchor="middle" fill="#0B0F0C" font-size="12" font-weight="800">01</text>
+      <text x="82" y="492" fill="#F2E8D5" font-size="14" font-weight="700">ISSUE</text>
+      <text x="82" y="515" fill="#73927E" font-size="12">Problema observable</text>
+    </g>
+    <g>
+      <circle cx="410" cy="448" r="18" fill="#0B0F0C" stroke="#9CC7AB" stroke-width="2"/>
+      <text x="410" y="453" text-anchor="middle" fill="#9CC7AB" font-size="12" font-weight="800">02</text>
+      <text x="380" y="492" fill="#F2E8D5" font-size="14" font-weight="700">SPEC</text>
+      <text x="380" y="515" fill="#73927E" font-size="12">Contrato verificable</text>
+    </g>
+    <g>
+      <circle cx="708" cy="448" r="18" fill="#0B0F0C" stroke="#9CC7AB" stroke-width="2"/>
+      <text x="708" y="453" text-anchor="middle" fill="#9CC7AB" font-size="12" font-weight="800">03</text>
+      <text x="678" y="492" fill="#F2E8D5" font-size="14" font-weight="700">APPLY</text>
+      <text x="678" y="515" fill="#73927E" font-size="12">Código con alcance</text>
+    </g>
+    <g>
+      <circle cx="1006" cy="448" r="18" fill="#0B0F0C" stroke="#9CC7AB" stroke-width="2"/>
+      <text x="1006" y="453" text-anchor="middle" fill="#9CC7AB" font-size="12" font-weight="800">04</text>
+      <text x="976" y="492" fill="#F2E8D5" font-size="14" font-weight="700">EVIDENCE</text>
+      <text x="976" y="515" fill="#73927E" font-size="12">QA y revisión</text>
+    </g>
+    <g>
+      <circle cx="1304" cy="448" r="18" fill="#0B0F0C" stroke="#9CC7AB" stroke-width="2"/>
+      <text x="1304" y="453" text-anchor="middle" fill="#9CC7AB" font-size="12" font-weight="800">05</text>
+      <text x="1274" y="492" fill="#F2E8D5" font-size="14" font-weight="700">CLOSE</text>
+      <text x="1274" y="515" fill="#73927E" font-size="12">Archive y PR</text>
+    </g>
+
+    <rect x="80" y="595" width="870" height="296" fill="#080B09" stroke="#315540"/>
+    <rect x="80" y="595" width="870" height="44" fill="#102219"/>
+    <circle cx="108" cy="617" r="5" fill="#9CC7AB"/>
+    <circle cx="126" cy="617" r="5" fill="#4E725C"/>
+    <text x="154" y="622" fill="#9CC7AB" font-size="11" letter-spacing="1.8">EVIDENCIA REAL / WINDOWS / BOOTSTRAP 0.1.6</text>
+    <g font-family="Consolas, Courier New, monospace" font-size="14">
+      <text x="112" y="686" fill="#F2E8D5">&gt; npx --yes create-project-engineering-os@0.1.6</text>
+      <text x="132" y="713" fill="#F2E8D5">bootstrap --target .</text>
+      <text x="112" y="759" fill="#9CC7AB">[APPLIED] bootstrap</text>
+      <text x="112" y="787" fill="#779382">Modo: apply</text>
+      <text x="112" y="815" fill="#779382">Mutación: sí</text>
+      <text x="112" y="843" fill="#F2E8D5">Plan: create=74 · conflict=0 · state=update</text>
+    </g>
+    <text x="112" y="873" fill="#73927E" font-size="10" letter-spacing="1.2">EJECUCIÓN LIMPIA · EXIT CODE 0 · 18 AGO 2026</text>
+
+    <text x="1030" y="620" fill="#6F917B" font-size="11" font-weight="700" letter-spacing="2.2">MOTOR DE DEUDA</text>
+    <g transform="translate(1250 748)">
+      <circle r="120" fill="none" stroke="#173327" stroke-width="20"/>
+      <circle r="120" fill="none" stroke="#9CC7AB" stroke-width="20" stroke-dasharray="310 444" transform="rotate(-90)"/>
+      <circle r="83" fill="none" stroke="#315540" stroke-width="1"/>
+      <text y="-18" text-anchor="middle" fill="#F2E8D5" font-size="20" font-weight="700">clasificar</text>
+      <text y="10" text-anchor="middle" fill="#F2E8D5" font-size="20" font-weight="700">antes de</text>
+      <text y="38" text-anchor="middle" fill="#9CC7AB" font-size="20" font-weight="700">acumular</text>
+    </g>
+    <path d="M1018 848H1087" stroke="#355D48"/>
+    <text x="1018" y="874" fill="#73927E" font-size="11">Blockers · presupuesto · recurrencia</text>
+
+    <path d="M80 948H1520" stroke="#234330"/>
+    <text x="80" y="974" fill="#6F917B" font-size="10" letter-spacing="1.8">5 AGENTES</text>
+    <text x="278" y="974" fill="#6F917B" font-size="10" letter-spacing="1.8">READINESS</text>
+    <text x="455" y="974" fill="#6F917B" font-size="10" letter-spacing="1.8">ROLLBACK</text>
+    <text x="620" y="974" fill="#6F917B" font-size="10" letter-spacing="1.8">CI MULTIPLATAFORMA</text>
+    <text x="1518" y="974" text-anchor="end" fill="#9CC7AB" font-size="10" letter-spacing="1.8">INGENIERÍA ANTES DEL CÓDIGO</text>
+  </g>
+</svg>

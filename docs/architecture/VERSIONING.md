@@ -1,5 +1,10 @@
 # Versioning and migrations
 
+La versión comunica el tipo de cambio y la recuperación necesaria. El paquete, tag, tarball y registro npm
+deben contar la misma historia.
+
+**Úsalo si:** decides entre patch, minor o major, o preparas una migración de estado.
+
 The package follows SemVer. Package, tag, changelog, release asset and npm registry version must match.
 
 - Patch: compatible defect or documentation correction.
@@ -9,3 +14,6 @@ The package follows SemVer. Package, tag, changelog, release asset and npm regis
 State, debt config, registry and assessment schemas have independent integer versions. A CLI rejects a
 future schema before writing. Supported migrations are deterministic, listed by `upgrade --check` and
 covered by fixtures. Releases are immutable: a bad version is deprecated and corrected by a new version.
+
+El proceso de publicación está en [releases](../RELEASES.md). Las fronteras de escritura están en
+[ownership](OWNERSHIP.md).
