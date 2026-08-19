@@ -1,5 +1,10 @@
 # Debt Control Loop
 
+El motor de deuda evita dos extremos: ignorar hallazgos reales o convertir cada warning en una obligación.
+Primero verifica, después clasifica y solo entonces decide si el plan debe detenerse.
+
+**Úsalo si:** estás cerrando un change, recibiste resultados de un scanner o un plan quedó pausado.
+
 Un warning, TODO o scanner es un candidato, no deuda verificada. Cada cierre SDD produce un assessment
 inmutable con resultado `clean` o candidatos clasificados.
 
@@ -17,3 +22,13 @@ permite modos GitHub `required`, `advisory` y `off`. Indisponibilidad nunca se p
 `debt handoff` recomienda continuar o cambiar de chat según el alcance/contexto y genera un prompt
 redactado. Los assessments y excepciones no se borran como forma de recuperación.
 
+## Comandos esenciales
+
+```sh
+project-os debt capture --root . --flow mi-change --input assessment.json
+project-os debt sync --root .
+project-os debt check --root .
+project-os debt handoff --root . --plan mi-plan
+```
+
+Si una operación se interrumpe, no borres el registro: sigue la [guía de recuperación](RECOVERY.md).

@@ -1,5 +1,11 @@
 # Guía del usuario
 
+Esta es la ruta completa para quien quiere usar Project Engineering OS sin aprender todo el sistema de una
+vez. Avanza por etapas: prepara el entorno, descubre el producto, decide la arquitectura y recién entonces
+empieza a construir.
+
+**Úsala si:** acabas de crear la carpeta del proyecto o necesitas saber qué viene después del bootstrap.
+
 ## Etapa A: núcleo universal
 
 Ejecuta el quickstart del README en un repositorio Git vacío o revisa `bootstrap --dry-run` en uno
@@ -39,3 +45,7 @@ activa y siguiente. La primera entrega vertical recorre el ciclo SDD completo.
 - `project-os upgrade --check` compara una release destino explícita.
 - [Recuperación](RECOVERY.md) explica transacciones y rollback.
 
+## Siguiente paso
+
+Si todavía no preparaste el entorno, copia el [Prompt 00](prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md). Si la
+Etapa A ya fue aprobada, continúa con el [Prompt 01](prompts/PROMPT_01_DISCOVERY_PROYECTO.md).

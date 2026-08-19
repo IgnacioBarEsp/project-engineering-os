@@ -1,5 +1,10 @@
 # Ownership model
 
+Este mapa evita una pregunta peligrosa: “¿puede el constructor sobrescribir este archivo?”. Cada superficie
+tiene un owner y una ruta de actualización distinta.
+
+**Úsalo si:** un bootstrap/upgrade reporta colisión o necesitas decidir dónde proponer un cambio.
+
 | Surface | Owner | Update path |
 | --- | --- | --- |
 | CLI, schemas, blueprint, tests and public docs | Upstream | Issue, SDD change, protected PR and release |
@@ -11,3 +16,7 @@
 
 The upstream never chooses a consumer's product license, stack, cloud, database, UI framework or domain.
 Consumer acceptance specs may pin expected behavior, but runtime evolution starts upstream.
+
+Para adoptar una nueva versión sin saltar estos límites, consulta
+[upstream y consumidores](../UPSTREAM_CONSUMERS.md). Para volver al índice, abre
+[documentación](../README.md).

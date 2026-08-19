@@ -1,5 +1,10 @@
 # Recuperación
 
+Esta guía responde una pregunta: **¿cómo vuelvo a un estado conocido sin perder trabajo?** Las operaciones
+mutables dejan una transacción verificable; el rollback usa esa evidencia en lugar de borrar el historial.
+
+**Úsala si:** un bootstrap, sync, upgrade o PR se interrumpió o encontró contenido inesperado.
+
 Cada bootstrap, sync o upgrade crea una transacción antes de escribir. La salida incluye su ID.
 
 ## Ejecución interrumpida
@@ -25,3 +30,8 @@ revertir el cambio mediante un PR normal.
 Nunca borres el registro de deuda para reanudar un plan, no elimines journals como reparación y no uses
 `git reset --hard`.
 
+## Después de recuperar
+
+Repite el check que falló y conserva su salida. Si el problema es de versión o plataforma, revisa
+[compatibilidad](COMPATIBILITY.md); si dejó hallazgos residuales, clasifícalos con
+[Debt Control Loop](DEBT_CONTROL.md).
