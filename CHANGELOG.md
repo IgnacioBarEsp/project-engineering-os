@@ -7,7 +7,12 @@ All notable changes follow [Semantic Versioning](https://semver.org/).
 - Add the read-only `onboarding-plan` classifier with five canonical answers and deterministic
   `beginner`, `experienced-new` or `brownfield` routes.
 - Add versioned onboarding answers/state schemas, in-memory v0 migration and privacy-preserving evidence.
-- Keep prompt orchestration, persistence and remote tracker operations outside this release scope.
+- Add the router prompt that records the classified route under an explicit human gate and orchestrates
+  Prompt 00 and Prompt 01 per route, including handoff between chats and recovery.
+- Make Prompt 00 and Prompt 01 consume the recorded route: Stage A still never asks for stack or the
+  complete product, and discovery reuses confirmed facts instead of restarting the interview.
+- Verify root and blueprint prompt parity through a shared, executable prompt contract.
+- Keep remote tracker operations and per-agent adapters outside this release scope.
 
 ## 0.1.6 - 2026-08-04
 

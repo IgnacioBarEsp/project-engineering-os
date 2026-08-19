@@ -18,6 +18,11 @@ node ./bin/project-os.mjs onboarding-plan --target .
 Consulta la [guía del clasificador](ONBOARDING_PLAN.md) para responder sus cinco preguntas o usar JSON. El
 comando llegará en la siguiente versión minor; npm `0.1.6` todavía empieza directamente en la Etapa A.
 
+El [prompt router](prompts/PROMPT_ROUTER_INICIO.md) es el primer prompt del recorrido: ejecuta esa
+clasificación, registra la ruta con tu aprobación en `.project-os/onboarding-state.json` y decide el orden
+de las etapas siguientes. La ruta `beginner` empieza por idea y organización, `experienced-new` por
+ecosistema y `brownfield` por inventario y preservación. Las tres terminan en discovery.
+
 ## Etapa A: núcleo universal
 
 Ejecuta el quickstart del README en un repositorio Git vacío o revisa `bootstrap --dry-run` en uno
@@ -60,5 +65,6 @@ activa y siguiente. La primera entrega vertical recorre el ciclo SDD completo.
 
 ## Siguiente paso
 
-Si todavía no preparaste el entorno, copia el [Prompt 00](prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md). Si la
+Si todavía no clasificaste la carpeta, copia el [Prompt router](prompts/PROMPT_ROUTER_INICIO.md). Si la ruta
+ya está registrada y el entorno no, copia el [Prompt 00](prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md). Si la
 Etapa A ya fue aprobada, continúa con el [Prompt 01](prompts/PROMPT_01_DISCOVERY_PROYECTO.md).

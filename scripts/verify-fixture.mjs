@@ -289,6 +289,7 @@ async function assertFindability(target) {
     "docs/engineering/EVIDENCE_PROFILES.md",
     "docs/engineering/TOOLS_POLICY.md",
     "docs/engineering/ROLLBACK.md",
+    "docs/engineering/PROMPT_ROUTER_INICIO.md",
     "docs/engineering/PROMPT_00_BOOTSTRAP_ENTORNO.md",
     "docs/engineering/GUIA_MANUAL_USUARIO.md",
   ];

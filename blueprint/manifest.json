@@ -559,6 +559,15 @@
       "required": true
     },
     {
+      "id": "prompt-router",
+      "source": "core/docs/engineering/PROMPT_ROUTER_INICIO.md",
+      "target": "docs/engineering/PROMPT_ROUTER_INICIO.md",
+      "owner": "constructor",
+      "mode": "text",
+      "lineEndings": "lf",
+      "required": true
+    },
+    {
       "id": "prompt-00",
       "source": "core/docs/engineering/PROMPT_00_BOOTSTRAP_ENTORNO.md",
       "target": "docs/engineering/PROMPT_00_BOOTSTRAP_ENTORNO.md",

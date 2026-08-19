@@ -137,7 +137,8 @@ Una colisión humana detiene la operación antes de sobrescribir. Consulta el
 
 - **Quiero empezar desde cero:** [Guía del usuario](docs/USER_GUIDE.md).
 - **Quiero saber qué ruta corresponde a mi carpeta:** [Clasificador read-only](docs/ONBOARDING_PLAN.md).
-- **Necesito ejecutar el primer prompt:** [Prompt 00](docs/prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md).
+- **Necesito el primer prompt del recorrido:** [Prompt router](docs/prompts/PROMPT_ROUTER_INICIO.md).
+- **Voy a preparar y verificar el entorno:** [Prompt 00](docs/prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md).
 - **El entorno ya está aprobado:** [Prompt 01 y discovery](docs/prompts/PROMPT_01_DISCOVERY_PROYECTO.md).
 - **Quiero entender un fallo o revertir:** [Recuperación](docs/RECOVERY.md).
 - **Necesito operar deuda técnica:** [Debt Control Loop](docs/DEBT_CONTROL.md).
@@ -172,9 +173,11 @@ skills ni servidores MCP por defecto. MVVM, CI/CD del producto, Playwright, IA, 
 deciden después del discovery.
 
 El clasificador read-only de onboarding ya está implementado en `main`: detecta evidencia, acepta cinco
-respuestas y emite una ruta/estado versionado sin escribir. Llegará en la siguiente versión minor; npm
-`0.1.6` todavía no lo incluye. La [guía del clasificador](docs/ONBOARDING_PLAN.md) separa esta pieza de la
-orquestación de prompts y de los trackers remotos, que siguen pendientes.
+respuestas y emite una ruta/estado versionado sin escribir. El [prompt router](docs/prompts/PROMPT_ROUTER_INICIO.md)
+usa esa ruta, la registra bajo aprobación humana y conduce Prompt 00 y Prompt 01 por recorrido. Ambas piezas
+llegarán en la siguiente versión minor; npm `0.1.6` todavía no las incluye. La
+[guía del clasificador](docs/ONBOARDING_PLAN.md) separa el contrato ejecutable de los trackers remotos, que
+siguen pendientes.
 
 ## Seguridad, licencias y costo
 
@@ -193,9 +196,10 @@ The current release supports Claude Code, Codex, Cursor, GitHub Copilot and Open
 generated, documented or unsupported capability levels. Product architecture, CI/CD, UI, AI providers,
 cloud and integrations remain conditional until discovery.
 
-Start with the [quickstart](#inicio-rápido), then use the generated Prompt 00 to verify the engineering
-environment. Source `main` now includes the read-only `onboarding-plan` classifier; npm `0.1.6` does not.
-Prompt orchestration, persistence and remote tracker setup remain future changes.
+Start with the [quickstart](#inicio-rápido), then run the router prompt to record a route and use Prompt 00
+to verify the engineering environment. Source `main` now includes the read-only `onboarding-plan` classifier
+and the router that orchestrates Prompt 00 and Prompt 01 per route; npm `0.1.6` includes neither. Remote
+tracker setup and per-agent adapters remain future changes.
 
 </details>
 

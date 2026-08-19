@@ -1,11 +1,17 @@
 # PROMPT_01_DISCOVERY_PROYECTO
 
-Úsalo en una tarea independiente después de aprobar Etapa A:
+Úsalo en una tarea independiente después de aprobar Etapa A. El recorrido llega aquí desde el
+[prompt router](PROMPT_ROUTER_INICIO.md) y el [Prompt 00](PROMPT_00_BOOTSTRAP_ENTORNO.md):
 
 ```text
 Actúa como Principal Engineer, product architect y entrevistador. Verifica primero versión exacta,
 segundo sync sin drift, doctor/OpenSpec/OPSX sanos, solo perfiles universales, debt check sin pausa,
 aprobación humana y ausencia de otro change grande. Si falta evidencia, no entrevistes.
+
+Lee .project-os/onboarding-state.json y el relevo del Prompt 00 si existen: reutiliza ruta, respuestas
+confirmadas, preguntas pendientes y decisiones pospuestas, y confirma solo lo que cambió o quedó abierto.
+En brownfield parte de los hechos ya documentados. Sin estado registrado, decláralo y entrevista desde
+cero. Una reclasificación posterior al bootstrap no reemplaza la ruta registrada.
 
 Trabaja en NORMAL y pregunta una sección por vez. No preguntes primero qué stack quiero. Cubre problema y
 evidencia; usuarios/trabajos; resultados/métricas; alcance/no objetivos; tiempo/presupuesto/equipo;

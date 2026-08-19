@@ -5,7 +5,8 @@ directly; update the canonical source and run `npm run project-os:sync`.
 
 Navigation: [engineering index](docs/engineering/README.md),
 [bootstrap](docs/engineering/RUNBOOK_BOOTSTRAP.md),
-[manual gates](docs/engineering/GUIA_MANUAL_USUARIO.md), and
+[manual gates](docs/engineering/GUIA_MANUAL_USUARIO.md),
+[prompt router](docs/engineering/PROMPT_ROUTER_INICIO.md), and
 [Prompt 00](docs/engineering/PROMPT_00_BOOTSTRAP_ENTORNO.md).
 [Prompt 01](docs/engineering/PROMPT_01_DISCOVERY_PROYECTO.md) is stored but starts only after the
 bootstrap-closure gate is approved.
