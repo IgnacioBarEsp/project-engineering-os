@@ -4,6 +4,7 @@ import { access, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { CONSTRUCTOR_VERSION, PACKAGE_NAME } from '../src/constants.mjs';
 import {
   extractPromptContract,
   routerContractFailures,
@@ -24,13 +25,23 @@ for (const href of links) {
     failures.push(`link ${href}`);
   }
 }
+// La versión del comando documentado se deriva del paquete. Hardcodearla obliga a recordarla en cada bump
+// y convierte al check en una segunda fuente de verdad capaz de desalinearse.
 for (const command of [
-  'npx --yes create-project-engineering-os@0.1.6 bootstrap --target .',
+  `npx --yes ${PACKAGE_NAME}@${CONSTRUCTOR_VERSION} bootstrap --target .`,
   'project-os upgrade --target . --check',
   'project-os debt check --root .',
   'project-os rollback --target . --transaction <id>',
 ]) {
   if (!readme.includes(command)) failures.push(`command ${command}`);
+}
+
+// Una versión anterior citada como comando ejecutable envejece en silencio: el lector la copiaría creyendo
+// que instala lo que el README describe.
+for (const [, version] of readme.matchAll(/npx --yes create-project-engineering-os@(\d+\.\d+\.\d+)/g)) {
+  if (version !== CONSTRUCTOR_VERSION) {
+    failures.push(`stale command version ${version}`);
+  }
 }
 for (const required of [
   'docs/USER_GUIDE.md',

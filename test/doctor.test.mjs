@@ -4,6 +4,7 @@ import { mkdtemp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promis
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { CONSTRUCTOR_VERSION } from "../src/constants.mjs";
 import { collectDoctorReport, doctorInternals, runDoctor } from "../src/doctor.mjs";
 import { createReport, formatHuman, formatJson, result } from "../src/report.mjs";
 
@@ -79,7 +80,7 @@ async function createHealthyFixture(t, { graphify = false, literalSecret = false
     private: true,
     devDependencies: {
       "@fission-ai/openspec": "1.6.0",
-      "create-project-engineering-os": "0.1.6",
+      "create-project-engineering-os": CONSTRUCTOR_VERSION,
     },
   });
   await json(root, "package-lock.json", {
@@ -90,13 +91,13 @@ async function createHealthyFixture(t, { graphify = false, literalSecret = false
         name: "fixture-project",
         devDependencies: {
           "@fission-ai/openspec": "1.6.0",
-          "create-project-engineering-os": "0.1.6",
+          "create-project-engineering-os": CONSTRUCTOR_VERSION,
         },
       },
       "node_modules/@fission-ai/openspec": { version: "1.6.0" },
       "node_modules/create-project-engineering-os": {
         name: "create-project-engineering-os",
-        version: "0.1.6",
+        version: CONSTRUCTOR_VERSION,
       },
     },
   });
@@ -106,13 +107,13 @@ async function createHealthyFixture(t, { graphify = false, literalSecret = false
   });
   await json(root, "node_modules/create-project-engineering-os/package.json", {
     name: "create-project-engineering-os",
-    version: "0.1.6",
+    version: CONSTRUCTOR_VERSION,
   });
   const agents = "# Universal agent guide\n";
   await write(root, "AGENTS.md", agents);
   await json(root, ".project-constructor/state.json", {
     packageName: "create-project-engineering-os",
-    packageVersion: "0.1.6",
+    packageVersion: CONSTRUCTOR_VERSION,
     schemaVersion: "1.0.0",
     files: [{ target: "AGENTS.md", owner: "constructor", hash: hash(agents) }],
   });

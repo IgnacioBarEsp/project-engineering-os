@@ -8,15 +8,15 @@ empieza a construir.
 
 ## Antes de la Etapa A: clasifica la carpeta
 
-En `main`, `onboarding-plan` distingue una carpeta nueva de un repositorio que debe preservarse. No instala
-nada ni modifica archivos:
+Desde `0.2.0`, `onboarding-plan` distingue una carpeta nueva de un repositorio que debe preservarse. No
+instala nada ni modifica archivos:
 
 ```sh
 node ./bin/project-os.mjs onboarding-plan --target .
 ```
 
-Consulta la [guía del clasificador](ONBOARDING_PLAN.md) para responder sus cinco preguntas o usar JSON. El
-comando llegará en la siguiente versión minor; npm `0.1.6` todavía empieza directamente en la Etapa A.
+Consulta la [guía del clasificador](ONBOARDING_PLAN.md) para responder sus cinco preguntas o usar JSON. En
+`0.1.6` este comando no existe y el recorrido empieza directamente en la Etapa A.
 
 El [prompt router](prompts/PROMPT_ROUTER_INICIO.md) es el primer prompt del recorrido: ejecuta esa
 clasificación, registra la ruta con tu aprobación en `.project-os/onboarding-state.json` y decide el orden

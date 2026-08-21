@@ -3,8 +3,7 @@
 `onboarding-plan` revisa una carpeta y propone una ruta antes del bootstrap. Sirve para no tratar igual una
 idea nueva y un repositorio que ya tiene código, automatización o reglas propias.
 
-**Estado:** disponible en `main`; se publicará en la siguiente versión minor del paquete. La versión npm
-`0.1.6` todavía no incluye este comando.
+**Estado:** disponible desde `0.2.0`. La versión npm `0.1.6` no incluye este comando.
 
 ## Uso corto
 

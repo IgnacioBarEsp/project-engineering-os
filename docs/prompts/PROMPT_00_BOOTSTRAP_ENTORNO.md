@@ -5,7 +5,7 @@ construir. Si ya registraste una ruta con el [prompt router](PROMPT_ROUTER_INICI
 reutiliza en lugar de reabrir la clasificación.
 
 **Antes de pegarlo:** abre tu agente en la raíz del repositorio y sustituye `<VERSION_APROBADA>` por una
-versión exacta, por ejemplo `0.1.6`. El agente puede ejecutar el trabajo local; debe detenerse ante
+versión exacta, por ejemplo `0.2.0`. El agente puede ejecutar el trabajo local; debe detenerse ante
 autenticación, costos, licencias o mutaciones remotas.
 
 Copia únicamente el bloque siguiente en una tarea abierta en la raíz del repositorio nuevo.

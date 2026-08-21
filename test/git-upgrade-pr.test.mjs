@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
+import { CONSTRUCTOR_VERSION } from '../src/constants.mjs';
 import { runUpgradePullRequest } from '../src/git-upgrade-pr.mjs';
 
 function result(status = 0, stdout = '', stderr = '') {
@@ -82,7 +83,7 @@ test('--open-pr crea una rama acotada y reutiliza un PR abierto', async () => {
     targetRoot: '/fixture',
   });
 
-  assert.equal(output.branch, 'chore/project-os-v0.1.6');
+  assert.equal(output.branch, `chore/project-os-v${CONSTRUCTOR_VERSION}`);
   assert.equal(output.baseBranch, 'main');
   assert.deepEqual(output.pullRequest, {
     created: false,
@@ -94,7 +95,7 @@ test('--open-pr crea una rama acotada y reutiliza un PR abierto', async () => {
       call[0] === 'git'
       && call[1] === 'switch'
       && call[2] === '-c'
-      && call[3] === 'chore/project-os-v0.1.6'
+      && call[3] === `chore/project-os-v${CONSTRUCTOR_VERSION}`
     )),
     true,
   );

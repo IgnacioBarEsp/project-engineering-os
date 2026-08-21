@@ -4,6 +4,10 @@ All notable changes follow [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+## 0.2.0 - 2026-08-20
+
+### Adaptive onboarding
+
 - Add the read-only `onboarding-plan` classifier with five canonical answers and deterministic
   `beginner`, `experienced-new` or `brownfield` routes.
 - Add versioned onboarding answers/state schemas, in-memory v0 migration and privacy-preserving evidence.
@@ -12,7 +16,33 @@ All notable changes follow [Semantic Versioning](https://semver.org/).
 - Make Prompt 00 and Prompt 01 consume the recorded route: Stage A still never asks for stack or the
   complete product, and discovery reuses confirmed facts instead of restarting the interview.
 - Verify root and blueprint prompt parity through a shared, executable prompt contract.
-- Keep remote tracker operations and per-agent adapters outside this release scope.
+
+### Per-agent compatibility
+
+- Separate what the constructor renders from what has been proven about consumption. `support` now
+  describes only the rendering; a new `verification` block records minimum version, the dated official
+  source, the fixture, and startup, tool listing and smoke as independent signals that accept only
+  `not-verified` or an opt-in receipt. A configuration reference can no longer read as a smoke.
+- Fail the rendering when a `native` or `generated` capability lacks a dated official source, a minimum
+  version, a fixture, a consuming surface, a visible fallback or a written degradation.
+- Stop a `native` capability from excluding official surfaces of its own harness. GitHub Copilot MCP is
+  now `generated` and names the surfaces configured only outside the repository.
+- Move the Codex skill adapter to `.agents/skills`, the location its official documentation lists;
+  `.codex/skills` was a legacy convention. The project skill now installs in two official locations
+  instead of one copy per vendor, so each harness receives it exactly once.
+- Promote Cursor, GitHub Copilot and OpenCode skills to the shared documented location, and correct
+  GitHub Copilot permissions from `unsupported` to `documented`.
+- Keep a seed-once capability matrix readable when it still names a retired target: the capability is
+  delivered through the installed replacement and the stale target is published as a declared
+  degradation, without rewriting the file the consumer owns.
+- Evaluate Antigravity in a separate candidate fixture; it stays unsupported until it meets the same
+  promotion contract.
+
+### Scope
+
+- Remote tracker operations and the curated skills/MCP catalogue remain outside this release.
+- Rules by path stay `documented` on every harness: the renderer emits one aggregate file with a
+  universal scope and does not preserve per-glob selection.
 
 ## 0.1.6 - 2026-08-04
 
