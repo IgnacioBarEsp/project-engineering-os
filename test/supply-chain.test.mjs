@@ -10,6 +10,7 @@ import {
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { CONSTRUCTOR_VERSION } from '../src/constants.mjs';
 import test from 'node:test';
 
 import { checkPackageRoot, checkSeededIdentity } from '../scripts/check-package.mjs';
@@ -41,7 +42,7 @@ async function packageFixture(name) {
 
 async function releaseFixture(name, content = 'verified tarball fixture') {
   const root = await mkdtemp(path.join(tmpdir(), `project-os-${name}-`));
-  const filename = 'create-project-engineering-os-0.1.6.tgz';
+  const filename = `create-project-engineering-os-${CONSTRUCTOR_VERSION}.tgz`;
   const tarball = Buffer.from(content);
   const digest = sha256(tarball);
   await writeFile(path.join(root, filename), tarball);
@@ -50,7 +51,7 @@ async function releaseFixture(name, content = 'verified tarball fixture') {
     `${JSON.stringify({
       schemaVersion: 1,
       package: 'create-project-engineering-os',
-      version: '0.1.6',
+      version: CONSTRUCTOR_VERSION,
       commit: 'a'.repeat(40),
       tarball: filename,
       sha256: digest,

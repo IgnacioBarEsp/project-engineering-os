@@ -5,7 +5,7 @@ el [Prompt 00](PROMPT_00_BOOTSTRAP_ENTORNO.md) y el [Prompt 01](PROMPT_01_DISCOV
 el entorno, no ejecuta el bootstrap y no entrevista el producto.
 
 **Antes de pegarlo:** abre tu agente en la raíz de la carpeta del proyecto y sustituye `<VERSION_APROBADA>`
-por una versión exacta, por ejemplo `0.1.6`. El agente puede ejecutar el trabajo local de clasificación; debe
+por una versión exacta, por ejemplo `0.2.0`. El agente puede ejecutar el trabajo local de clasificación; debe
 detenerse ante autenticación, costos, licencias o mutaciones remotas.
 
 **Disponibilidad:** `onboarding-plan` está en `main` y se publicará en la siguiente versión minor. En un

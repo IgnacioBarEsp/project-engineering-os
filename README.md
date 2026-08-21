@@ -88,7 +88,7 @@ git init
 La versión explícita mantiene el bootstrap reproducible:
 
 ```sh
-npx --yes create-project-engineering-os@0.1.6 bootstrap --target .
+npx --yes create-project-engineering-os@0.2.0 bootstrap --target .
 npm ci
 npm run openspec:init
 npm run project-os:opsx:adapt
@@ -97,7 +97,7 @@ npm run project-os:doctor
 ```
 
 El comando fue verificado desde una carpeta vacía en Windows. La suite también lo prueba en Ubuntu y
-macOS. Antes de cambiar `0.1.6`, revisa el [changelog](CHANGELOG.md).
+macOS. Antes de cambiar `0.2.0`, revisa el [changelog](CHANGELOG.md).
 
 Los scripts `openspec:*` usan telemetría apagada por defecto sin cambiar tu configuración global. Puedes
 elegir explícitamente otro valor con `OPENSPEC_TELEMETRY`; una invocación directa de OpenSpec queda bajo su
@@ -109,7 +109,7 @@ Abre Claude Code, Codex, Cursor, GitHub Copilot u OpenCode en la raíz del repos
 
 ```text
 Lee AGENTS.md y docs/engineering/PROMPT_00_BOOTSTRAP_ENTORNO.md. Ejecuta ese flujo usando
-create-project-engineering-os@0.1.6 como versión aprobada. Comprueba el segundo run sin drift, los cinco
+create-project-engineering-os@0.2.0 como versión aprobada. Comprueba el segundo run sin drift, los cinco
 harnesses, OpenSpec, los gates y la recuperación. No elijas todavía el producto, framework, arquitectura,
 cloud o base de datos. Detente ante cualquier autorización, costo, licencia, autenticación o mutación
 remota y explícame qué necesitas. Al terminar, resume PASS/FAIL/WARN/SKIP y pregúntame si quiero preparar
@@ -124,8 +124,8 @@ las pides o una automatización no puede continuar.
 Trabaja desde una rama y un árbol limpio. Revisa primero el plan sin escribir:
 
 ```sh
-npx --yes create-project-engineering-os@0.1.6 bootstrap --target . --dry-run
-npx --yes create-project-engineering-os@0.1.6 bootstrap --target .
+npx --yes create-project-engineering-os@0.2.0 bootstrap --target . --dry-run
+npx --yes create-project-engineering-os@0.2.0 bootstrap --target .
 npm ci
 npm run project-os:check
 ```
@@ -172,10 +172,9 @@ La versión actual instala el núcleo universal y mantiene inactivos los perfile
 skills ni servidores MCP por defecto. MVVM, CI/CD del producto, Playwright, IA, UI, offline/sync y cloud se
 deciden después del discovery.
 
-El clasificador read-only de onboarding ya está implementado en `main`: detecta evidencia, acepta cinco
-respuestas y emite una ruta/estado versionado sin escribir. El [prompt router](docs/prompts/PROMPT_ROUTER_INICIO.md)
-usa esa ruta, la registra bajo aprobación humana y conduce Prompt 00 y Prompt 01 por recorrido. Ambas piezas
-llegarán en la siguiente versión minor; npm `0.1.6` todavía no las incluye. La
+El clasificador read-only de onboarding detecta evidencia, acepta cinco respuestas y emite una ruta/estado
+versionado sin escribir. El [prompt router](docs/prompts/PROMPT_ROUTER_INICIO.md) usa esa ruta, la registra
+bajo aprobación humana y conduce Prompt 00 y Prompt 01 por recorrido. Ambas piezas entran en `0.2.0`. La
 [guía del clasificador](docs/ONBOARDING_PLAN.md) separa el contrato ejecutable de los trackers remotos, que
 siguen pendientes.
 
@@ -197,9 +196,9 @@ generated, documented or unsupported capability levels. Product architecture, CI
 cloud and integrations remain conditional until discovery.
 
 Start with the [quickstart](#inicio-rápido), then run the router prompt to record a route and use Prompt 00
-to verify the engineering environment. Source `main` now includes the read-only `onboarding-plan` classifier
-and the router that orchestrates Prompt 00 and Prompt 01 per route; npm `0.1.6` includes neither. Remote
-tracker setup and per-agent adapters remain future changes.
+to verify the engineering environment. `0.2.0` adds the read-only `onboarding-plan` classifier, the router
+that orchestrates Prompt 00 and Prompt 01 per route, and the revalidated per-agent capability matrix. Remote
+tracker setup and the curated skills/MCP catalogue remain future changes.
 
 </details>
 
