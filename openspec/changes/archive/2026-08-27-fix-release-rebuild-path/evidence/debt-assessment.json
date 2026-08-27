@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "fix-release-rebuild-path",
+  "date": "2026-08-27",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Revisión adversarial PASS con cero Blockers y cero Majors abiertos. Dos Minors de cobertura y claridad se corrigieron dentro del change. No se añadieron dependencias, excepciones, permisos, tokens ni deuda residual."
+}

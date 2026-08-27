@@ -179,10 +179,31 @@ test('release workflow policy preserves delayed approval recovery', async () => 
     true,
   );
   assert.equal(
+    checkReleaseWorkflow(workflow.replaceAll(
+      'node scripts/pack-release.mjs --output release',
+      'node scripts/pack-release.mjs --output rebuilt',
+    )).some((failure) => failure.includes('pack-release.mjs --output release')),
+    true,
+  );
+  assert.equal(
     checkReleaseWorkflow(workflow.replace(
-      'node scripts/compare-release.mjs rebuilt release',
-      'node scripts/verify-release.mjs release',
-    )).some((failure) => failure.includes('compare-release.mjs rebuilt release')),
+      'gh release download "${{ inputs.tag }}" --dir canonical-release',
+      'gh release download "${{ inputs.tag }}" --dir release',
+    )).some((failure) => failure.includes('release download')),
+    true,
+  );
+  assert.equal(
+    checkReleaseWorkflow(workflow.replace(
+      'node scripts/compare-release.mjs release canonical-release',
+      'node scripts/verify-release.mjs canonical-release',
+    )).some((failure) => failure.includes('compare-release.mjs release canonical-release')),
+    true,
+  );
+  assert.equal(
+    checkReleaseWorkflow(workflow.replace(
+      'npm publish ./canonical-release/*.tgz --access public --provenance',
+      'npm publish ./release/*.tgz --access public --provenance',
+    )).some((failure) => failure.includes('npm publish ./canonical-release')),
     true,
   );
   assert.equal(

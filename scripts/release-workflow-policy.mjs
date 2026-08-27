@@ -20,10 +20,10 @@ export function checkReleaseWorkflow(content) {
     'environment: npm-publish',
     'id-token: write',
     'ref: ${{ inputs.tag }}',
-    'gh release download "${{ inputs.tag }}" --dir release',
-    'node scripts/pack-release.mjs --output rebuilt',
-    'node scripts/compare-release.mjs rebuilt release',
-    'npm publish ./release/*.tgz --access public --provenance',
+    'node scripts/pack-release.mjs --output release',
+    'gh release download "${{ inputs.tag }}" --dir canonical-release',
+    'node scripts/compare-release.mjs release canonical-release',
+    'npm publish ./canonical-release/*.tgz --access public --provenance',
   ];
   for (const contract of required) {
     if (!npmJob.includes(contract)) failures.push(`npm job missing: ${contract}`);
