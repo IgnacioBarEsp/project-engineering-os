@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 40,
+  "change": "fix-release-rebuild-path",
+  "surfaces": [
+    "documentation",
+    "harness-tooling",
+    "infra-deploy",
+    "library-cli"
+  ],
+  "validations": [
+    { "id": "backward-compatibility-test", "status": "passed", "evidence": "evidence://validation/npm-check-210-existing-contracts", "justification": null, "profileCondition": null },
+    { "id": "capability-matrix-check", "status": "passed", "evidence": "evidence://validation/npm-check-five-harness-contracts", "justification": null, "profileCondition": null },
+    { "id": "configuration-validation", "status": "passed", "evidence": "evidence://validation/release-workflow-policy-and-exact-tag-probe", "justification": null, "profileCondition": null },
+    { "id": "constructor-tests", "status": "passed", "evidence": "evidence://validation/npm-check-210-tests", "justification": null, "profileCondition": null },
+    { "id": "critical-document-presence", "status": "passed", "evidence": "evidence://validation/check-docs-22-readme-links", "justification": null, "profileCondition": null },
+    { "id": "deployment-dry-run-or-preview", "status": "passed", "evidence": "evidence://validation/v0-2-0-detached-recovery-probe", "justification": null, "profileCondition": null },
+    { "id": "doctor-json-check", "status": "passed", "evidence": "evidence://validation/temporary-harness-doctor-json", "justification": null, "profileCondition": null },
+    { "id": "findability-two-hop-check", "status": "passed", "evidence": "evidence://validation/check-docs-22-readme-links", "justification": null, "profileCondition": null },
+    { "id": "health-check", "status": "passed", "evidence": "evidence://validation/audit-zero-and-release-identity-pass", "justification": null, "profileCondition": null },
+    { "id": "multi-platform-smoke", "status": "passed", "evidence": "evidence://validation/shell-free-policy-and-existing-ci-matrix-contract", "justification": null, "profileCondition": null },
+    { "id": "neutrality-check", "status": "passed", "evidence": "evidence://validation/public-tree-neutrality-and-tag-pack", "justification": null, "profileCondition": null },
+    { "id": "openspec-strict", "status": "passed", "evidence": "evidence://validation/openspec-1-6-0-strict", "justification": null, "profileCondition": null },
+    { "id": "opsx-check", "status": "passed", "evidence": "evidence://validation/temporary-harness-opsx-contract", "justification": null, "profileCondition": null },
+    { "id": "package-artifact-test", "status": "passed", "evidence": "evidence://validation/pack-verify-and-canonical-release-match", "justification": null, "profileCondition": null },
+    { "id": "relative-link-check", "status": "passed", "evidence": "evidence://validation/check-docs-links-pass", "justification": null, "profileCondition": null },
+    { "id": "rollback-command-check", "status": "passed", "evidence": "evidence://rollback/git-revert-and-rerun-same-tag", "justification": null, "profileCondition": null },
+    { "id": "second-run-idempotence", "status": "passed", "evidence": "evidence://validation/existing-release-recovery-contract", "justification": null, "profileCondition": null },
+    { "id": "sync-check", "status": "passed", "evidence": "evidence://validation/temporary-harness-sync-check", "justification": null, "profileCondition": null },
+    { "id": "unit-and-contract-tests", "status": "passed", "evidence": "evidence://validation/release-six-targeted-and-210-total-tests", "justification": null, "profileCondition": null }
+  ],
+  "evidence": [
+    { "id": "adversarial-review", "kind": "manual", "status": "verified", "ref": "evidence://adversarial-review/pass-zero-blockers-zero-majors", "justification": null, "profileCondition": null },
+    { "id": "budget-and-license-approval", "kind": "manual", "status": "verified", "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/40", "justification": null, "profileCondition": null },
+    { "id": "environment-smoke", "kind": "manual", "status": "verified", "ref": "evidence://workflow/run-33105347334-environment-approval-and-fail-before-publish", "justification": null, "profileCondition": null },
+    { "id": "install-and-rollback-smoke", "kind": "manual", "status": "verified", "ref": "evidence://pack/v0-2-0-detached-install-compare-and-bounded-revert", "justification": null, "profileCondition": null },
+    { "id": "issue-link", "kind": "manual", "status": "verified", "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/40", "justification": null, "profileCondition": null },
+    { "id": "license-review", "kind": "manual", "status": "verified", "ref": "evidence://review/mit-unchanged-and-no-new-dependencies", "justification": null, "profileCondition": null },
+    { "id": "public-api-review", "kind": "manual", "status": "verified", "ref": "evidence://review/no-cli-export-package-or-asset-change", "justification": null, "profileCondition": null },
+    { "id": "qualitative-review-for-clarity-and-current-ownership", "kind": "manual", "status": "verified", "ref": "evidence://docs/canonical-release-owner-and-recovery-explicit", "justification": null, "profileCondition": null },
+    { "id": "recorded-drift-decisions", "kind": "manual", "status": "verified", "ref": "evidence://decision/allowlist-tag-and-assets-remain-unchanged", "justification": null, "profileCondition": null },
+    { "id": "recovery-rehearsal-for-one-transaction", "kind": "manual", "status": "verified", "ref": "evidence://probe/detached-v0-2-0-pack-verify-compare", "justification": null, "profileCondition": null },
+    { "id": "review-of-declared-degradations", "kind": "manual", "status": "verified", "ref": "evidence://review/mutable-assets-nondeterminism-and-inverted-source", "justification": null, "profileCondition": null },
+    { "id": "rollback-or-failover-rehearsal", "kind": "manual", "status": "verified", "ref": "evidence://tests/fail-before-publish-and-rerun-same-tag", "justification": null, "profileCondition": null }
+  ],
+  "rollback": {
+    "strategy": "Revertir el commit del workflow, conservar tag y Release, y relanzar el mismo tag solo después de restaurar igualdad exacta.",
+    "status": "verified",
+    "evidence": "evidence://rollback/git-revert-plus-safe-rerun",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "passed",
+    "ref": "evidence://adversarial-review/pass-zero-blockers-zero-majors",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}

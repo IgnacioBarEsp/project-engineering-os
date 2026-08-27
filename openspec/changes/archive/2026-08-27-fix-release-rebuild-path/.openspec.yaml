@@ -1,0 +1,4 @@
+schema: spec-driven
+created: 2026-08-27
+goal: Recover npm trusted publishing for v0.2.0 without moving the protected tag
+  or weakening release identity.

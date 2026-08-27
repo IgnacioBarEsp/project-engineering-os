@@ -26,6 +26,12 @@ La copia reconstruida nunca se publica. Solo demuestra que el tarball, `release-
 `SHA256SUMS` del Release corresponden al source protegido. El candidato temporal se conserva 35 días,
 por encima de la ventana máxima de aprobación de 30 días, pero npm no depende de esa copia.
 
+Durante la recuperación, `release/` contiene la copia reconstruida desde el tag porque es la salida
+permitida por los controles del propio source. Los assets canónicos se descargan después en
+`canonical-release/`. El comparador exige igualdad exacta entre ambos directorios y `npm publish` acepta
+únicamente `./canonical-release/*.tgz`. Esta separación también permite relanzar un tag cuyo GitHub Release
+ya existe sin mezclar la evidencia reconstruida con la única copia publicable.
+
 Si falta un asset, aparece uno adicional o cualquier byte difiere, el job falla antes de `npm publish`.
 Se investiga y se relanza el workflow con el mismo tag. No se mueve el tag, no se reutiliza la versión y no
 se sustituye el Release por una reconstrucción distinta. Habilitar immutable releases es un endurecimiento
