@@ -41,12 +41,7 @@ const LITERAL_SECRET = new RegExp(
   ].join('|'),
 );
 const SECRET_ASSIGNMENT = /\b(?:api[_-]?key|password|secret|token|credential)\s*[=:]\s*([^\s,;]+)/i;
-/**
- * A bare uppercase identifier is the environment-variable name itself, the
- * form `mcp.json` already uses in `secretEnvRefs`. Interpolated and `env:`
- * forms stay accepted so a note may reference a variable inline.
- */
-const ENV_REFERENCE_FORM = /^(?:\$\{?[A-Z][A-Z0-9_]*\}?|env:[A-Z][A-Z0-9_]*|[A-Z][A-Z0-9_]*)$/;
+const ENV_REFERENCE_FORM = /^(?:\$\{?[A-Z][A-Z0-9_]*\}?|env:[A-Z][A-Z0-9_]*)$/;
 
 function nonEmptyString(value) {
   return typeof value === 'string' && value.trim() !== '';
@@ -74,6 +69,12 @@ function unexpectedKeys(value, allowed) {
  */
 export function containsLiteralSecret(value, key = '') {
   if (Array.isArray(value)) {
+    // `secretEnvRefs` holds variable names, not values, and the schema already
+    // constrains each item. Blessing a bare uppercase token everywhere would
+    // let an all-caps literal pass as if it were a variable name.
+    if (key === 'secretEnvRefs') {
+      return value.some((entry) => typeof entry !== 'string' || !ENV_REF.test(entry));
+    }
     return value.some((entry) => containsLiteralSecret(entry, key));
   }
   if (isPlainObject(value)) {

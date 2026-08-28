@@ -258,6 +258,19 @@ function parseArguments(argv) {
       '--candidate solo está disponible para tool-catalog evaluate.',
     );
   }
+  // Aceptar la opción y descartarla en silencio haría creer que se evaluó una
+  // candidata cuando solo se listó el catálogo.
+  if (
+    command === 'tool-catalog'
+    && options.candidatePath !== null
+    && options.subcommand !== 'evaluate'
+  ) {
+    throw new ConstructorError(
+      'CLI_TOOL_CATALOG_SCOPE',
+      `--candidate no aplica a tool-catalog ${options.subcommand ?? 'list'}.`,
+      { remediation: 'Use tool-catalog evaluate --candidate <ruta> o quite la opción.' },
+    );
+  }
 
   return { command, options };
 }

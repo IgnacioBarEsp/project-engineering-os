@@ -265,10 +265,24 @@ test('un literal de secreto es rechazado y una referencia de entorno se acepta',
     secretEnvRefs: ['GITHUB_TOKEN'],
   };
   assert.deepEqual(entryFailures(referenced), []);
-  assert.equal(containsLiteralSecret({ token: 'GITHUB_TOKEN' }), false);
+  assert.equal(containsLiteralSecret({ secretEnvRefs: ['GITHUB_TOKEN'] }), false);
   assert.equal(containsLiteralSecret({ token: '${GITHUB_TOKEN}' }), false);
   assert.equal(containsLiteralSecret({ token: tokenShaped }), true);
   assert.equal(containsLiteralSecret({ note: `Authorization: Bearer ${tokenShaped}` }), true);
+});
+
+test('un literal en mayúsculas no pasa como nombre de variable de entorno', () => {
+  // Aceptar cualquier identificador en mayúsculas como referencia de entorno
+  // dejaría pasar un secreto hexadecimal en un campo de credencial.
+  for (const literal of ['ABCDEF0123456789', 'DEADBEEFCAFE1234', 'AAAA1111BBBB2222']) {
+    assert.equal(containsLiteralSecret({ token: literal }), true, literal);
+    assert.equal(containsLiteralSecret({ apiKey: literal }), true, literal);
+  }
+  // La excepción vive solo en secretEnvRefs, donde el schema ya restringe cada
+  // elemento a un nombre de variable.
+  assert.equal(containsLiteralSecret({ secretEnvRefs: ['CONTEXT7_API_KEY'] }), false);
+  assert.equal(containsLiteralSecret({ secretEnvRefs: ['no-es-una-variable'] }), true);
+  assert.equal(containsLiteralSecret({ secretEnvRefs: [42] }), true);
 });
 
 test('allowed-tools se registra como señal y no como frontera portable', () => {
@@ -435,9 +449,9 @@ test('el catálogo sembrado sobrevive a una segunda ejecución sin drift', async
   assert.equal(await readFile(catalogAbsolute, 'utf8'), first);
 });
 
-test('--candidate solo está disponible para tool-catalog', async () => {
+test('--candidate solo está disponible para tool-catalog evaluate', async () => {
   const root = await bootstrapTarget('scope');
-  const response = await run(process.execPath, [
+  const other = await run(process.execPath, [
     cli,
     'doctor',
     '--candidate',
@@ -445,6 +459,37 @@ test('--candidate solo está disponible para tool-catalog', async () => {
     '--target',
     root,
   ]);
-  assert.equal(response.exitCode, 2);
-  assert.match(response.stderr, /CLI_TOOL_CATALOG_SCOPE/);
+  assert.equal(other.exitCode, 2);
+  assert.match(other.stderr, /CLI_TOOL_CATALOG_SCOPE/);
+
+  // Descartarla en silencio haría creer que se evaluó una candidata.
+  const listed = await run(process.execPath, [
+    cli,
+    'tool-catalog',
+    'list',
+    '--candidate',
+    'candidates/sample.json',
+    '--target',
+    root,
+  ]);
+  assert.equal(listed.exitCode, 2);
+  assert.match(listed.stderr, /CLI_TOOL_CATALOG_SCOPE/);
+  assert.doesNotMatch(listed.stdout, /PASS/);
+});
+
+test('una ruta fuera de la raíz es rechazada antes de leer', async () => {
+  const root = await bootstrapTarget('traversal');
+  for (const candidate of ['../../../etc/passwd', 'C:/Windows/win.ini']) {
+    const response = await run(process.execPath, [
+      cli,
+      'tool-catalog',
+      'evaluate',
+      '--candidate',
+      candidate,
+      '--target',
+      root,
+    ]);
+    assert.equal(response.exitCode, 2, candidate);
+    assert.match(response.stderr, /PATH_TRAVERSAL|PATH_INVALID/, candidate);
+  }
 });
