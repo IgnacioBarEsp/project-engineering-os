@@ -1,7 +1,9 @@
 # public-documentation-experience Specification
 
 ## Purpose
-TBD - created by archiving change renew-public-documentation. Update Purpose after archive.
+Definir cómo la entrada pública explica el producto antes del detalle técnico, mantiene un inicio rápido fiel
+al CLI publicado y ofrece navegación progresiva con recursos accesibles, separando la verdad verificable de
+hoy de la capacidad solo decidida y declarando costo, control y rollback de cada integración recomendada.
 ## Requirements
 ### Requirement: La entrada pública explica el producto antes del detalle técnico
 La documentación pública SHALL presentar propósito, usuario, flujo principal y resultado antes de exponer

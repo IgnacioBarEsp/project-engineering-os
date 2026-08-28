@@ -1,7 +1,9 @@
 # adaptive-onboarding Specification
 
 ## Purpose
-TBD - created by archiving change add-adaptive-onboarding-classifier. Update Purpose after archive.
+Definir cómo Project Engineering OS clasifica el inicio de un repositorio sin escribirlo y conduce cada ruta
+hasta el discovery: inspección local read-only, cinco respuestas canónicas, estado versionado y determinista,
+y un router que orquesta Prompt 00 y Prompt 01 bajo aprobación humana sin elegir stack ni producto.
 ## Requirements
 ### Requirement: Onboarding inspection is local, bounded and read-only
 The onboarding classifier SHALL inspect repository evidence without writing the target, following symlinks,

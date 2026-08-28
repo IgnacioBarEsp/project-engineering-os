@@ -11,6 +11,7 @@ import {
   routerParityFailures,
   stagePromptFailures,
 } from './prompt-contract.mjs';
+import { inspectSpecPurposes } from './spec-purpose.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const readme = await readFile(path.join(root, 'README.md'), 'utf8');
@@ -95,9 +96,18 @@ for (const [kind, relative] of [
   }
 }
 
+// Un Purpose con el placeholder del archive pasa `validate --all --strict`, porque OpenSpec solo exige que
+// la sección exista. La deuda documental solo es observable si el gate de documentación la mira aquí.
+const specPurposes = await inspectSpecPurposes(root);
+for (const failure of specPurposes.failures) {
+  failures.push(`spec ${failure.capability}: ${failure.kind}`);
+}
+
 if (failures.length > 0) {
   process.stderr.write(`FAIL docs: ${failures.join(', ')}\n`);
   process.exitCode = 1;
 } else {
-  process.stdout.write(`PASS docs ${links.length} README links and prompt contract\n`);
+  process.stdout.write(
+    `PASS docs ${links.length} README links, prompt contract and ${specPurposes.capabilities.length} spec purposes\n`,
+  );
 }
