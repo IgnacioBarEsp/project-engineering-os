@@ -32,4 +32,4 @@
 - [x] 5.2 Registrar la entrada en `CHANGELOG.md` bajo `Unreleased`.
 - [x] 5.3 Ejecutar OpenSpec estricto, `npm run check`, `npm run check:audit` y la segunda ejecución sin drift.
 - [x] 5.4 Completar revisión adversarial, Debt Control y readiness de archive.
-- [ ] 5.5 Preparar el PR protegido con evidencia, licencias afectadas y assessment de deuda.
+- [x] 5.5 Preparar el PR protegido con evidencia, licencias afectadas y assessment de deuda.
