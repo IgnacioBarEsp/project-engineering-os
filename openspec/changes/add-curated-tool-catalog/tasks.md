@@ -31,5 +31,5 @@
 - [x] 5.1 Añadir `docs/TOOL_CATALOG.md` y enlazarlo desde `docs/README.md` y la decisión de onboarding.
 - [x] 5.2 Registrar la entrada en `CHANGELOG.md` bajo `Unreleased`.
 - [x] 5.3 Ejecutar OpenSpec estricto, `npm run check`, `npm run check:audit` y la segunda ejecución sin drift.
-- [ ] 5.4 Completar revisión adversarial, Debt Control y readiness de archive.
+- [x] 5.4 Completar revisión adversarial, Debt Control y readiness de archive.
 - [ ] 5.5 Preparar el PR protegido con evidencia, licencias afectadas y assessment de deuda.
