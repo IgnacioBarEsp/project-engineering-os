@@ -451,6 +451,15 @@
       "required": true
     },
     {
+      "id": "tool-catalog",
+      "source": "core/project-os/tool-catalog.json",
+      "target": ".project-os/tool-catalog.json",
+      "owner": "project",
+      "mode": "json",
+      "lineEndings": "lf",
+      "required": true
+    },
+    {
       "id": "skills",
       "source": "core/project-os/skills.json",
       "target": ".project-os/skills.json",

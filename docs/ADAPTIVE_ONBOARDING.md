@@ -14,6 +14,10 @@ Esta decisión explica cómo debería empezar Project Engineering OS con persona
 - El [prompt router](prompts/PROMPT_ROUTER_INICIO.md) de #31 ya orquesta Prompt 00 y Prompt 01 por ruta y
   registra el estado bajo aprobación humana, también en `main`.
 - Adaptadores, trackers remotos y catálogo seguro siguen separados en #32, #33 y #34.
+- El catálogo de #34 ya tiene contrato ejecutable en `main`: schema versionado, registro sembrado y el
+  comando read-only `tool-catalog`. Las tablas de esta página siguen siendo la decisión; el
+  [catálogo de herramientas](TOOL_CATALOG.md) es la parte que una prueba comprueba. Instalar una entrada
+  aprobada continúa fuera de alcance.
 
 Por tanto, detectar, clasificar y conducir el recorrido hasta discovery ya es comportamiento verificable en
 el source actual; configurar el ecosistema remoto completo todavía es visión en desarrollo.

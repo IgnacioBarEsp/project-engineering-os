@@ -1,0 +1,762 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://project-os.local/schema/tool-catalog.schema.json",
+  "title": "Project Engineering OS curated tool catalogue v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "catalogVersion",
+    "freshnessWindowDays",
+    "policy",
+    "entries"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "catalogVersion": {
+      "const": "1.0.0"
+    },
+    "freshnessWindowDays": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3650
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "registrationDoesNotActivate",
+        "evaluationIsReadOnly",
+        "evaluationAcceptsLocalPathsOnly",
+        "allowedToolsIsPortableBoundary",
+        "secrets",
+        "installationRequiresSeparateApproval"
+      ],
+      "properties": {
+        "registrationDoesNotActivate": {
+          "const": true
+        },
+        "evaluationIsReadOnly": {
+          "const": true
+        },
+        "evaluationAcceptsLocalPathsOnly": {
+          "const": true
+        },
+        "allowedToolsIsPortableBoundary": {
+          "const": false
+        },
+        "secrets": {
+          "const": "environment-references-only"
+        },
+        "installationRequiresSeparateApproval": {
+          "const": true
+        }
+      }
+    },
+    "entries": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/entry"
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "httpsUrl": {
+      "type": "string",
+      "pattern": "^https://[^\\s]+$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nonEmptyStrings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/text"
+      }
+    },
+    "envRefs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z][A-Z0-9_]*$"
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "value"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "commit",
+            "tag",
+            "version"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "commit"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "pattern": "^[0-9a-f]{40}$",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "tag"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "pattern": "^v?[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "version"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        }
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owner",
+        "reference",
+        "sourceUrl",
+        "verifiedOn"
+      ],
+      "properties": {
+        "owner": {
+          "$ref": "#/$defs/text"
+        },
+        "reference": {
+          "$ref": "#/$defs/reference"
+        },
+        "sourceUrl": {
+          "$ref": "#/$defs/httpsUrl"
+        },
+        "verifiedOn": {
+          "$ref": "#/$defs/date"
+        }
+      }
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "spdx",
+        "note"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "known",
+            "unknown"
+          ]
+        },
+        "spdx": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1
+            }
+          ]
+        },
+        "note": {
+          "$ref": "#/$defs/text"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "known"
+              }
+            },
+            "required": [
+              "status"
+            ],
+            "type": "object"
+          },
+          "then": {
+            "properties": {
+              "spdx": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "type": "object"
+          }
+        }
+      ]
+    },
+    "cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "posture",
+        "note"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "known",
+            "unknown"
+          ]
+        },
+        "posture": {
+          "enum": [
+            "none",
+            "provider-plan",
+            "metered",
+            "unknown"
+          ]
+        },
+        "note": {
+          "$ref": "#/$defs/text"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "known"
+              }
+            },
+            "required": [
+              "status"
+            ],
+            "type": "object"
+          },
+          "then": {
+            "properties": {
+              "posture": {
+                "enum": [
+                  "none",
+                  "provider-plan",
+                  "metered"
+                ]
+              }
+            },
+            "type": "object"
+          }
+        }
+      ]
+    },
+    "auth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "required",
+        "secretEnvRefs",
+        "scopes",
+        "note"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "known",
+            "unknown"
+          ]
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "secretEnvRefs": {
+          "$ref": "#/$defs/envRefs"
+        },
+        "scopes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "note": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "filesystem",
+        "network",
+        "execution",
+        "note"
+      ],
+      "properties": {
+        "filesystem": {
+          "enum": [
+            "none",
+            "read",
+            "write"
+          ]
+        },
+        "network": {
+          "enum": [
+            "none",
+            "outbound"
+          ]
+        },
+        "execution": {
+          "enum": [
+            "none",
+            "scripts"
+          ]
+        },
+        "note": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    "maintenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "note"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "active",
+            "slow",
+            "unknown"
+          ]
+        },
+        "note": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    "experimentalSignals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowedTools"
+      ],
+      "properties": {
+        "allowedTools": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "declared",
+            "portableBoundary"
+          ],
+          "properties": {
+            "declared": {
+              "type": "boolean"
+            },
+            "portableBoundary": {
+              "const": false
+            }
+          }
+        }
+      }
+    },
+    "mcpSignal": {
+      "oneOf": [
+        {
+          "const": "not-verified"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "receipt",
+            "verifiedOn"
+          ],
+          "properties": {
+            "receipt": {
+              "$ref": "#/$defs/text"
+            },
+            "verifiedOn": {
+              "$ref": "#/$defs/date"
+            }
+          }
+        }
+      ]
+    },
+    "mcp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "configuration",
+        "startup",
+        "toolListing",
+        "authenticatedSmoke"
+      ],
+      "properties": {
+        "enabled": {
+          "const": false
+        },
+        "configuration": {
+          "$ref": "#/$defs/mcpSignal"
+        },
+        "startup": {
+          "$ref": "#/$defs/mcpSignal"
+        },
+        "toolListing": {
+          "$ref": "#/$defs/mcpSignal"
+        },
+        "authenticatedSmoke": {
+          "$ref": "#/$defs/mcpSignal"
+        }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "state",
+        "need",
+        "provenance",
+        "license",
+        "cost",
+        "auth",
+        "data",
+        "permissions",
+        "maintenance",
+        "rollback"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "kind": {
+          "enum": [
+            "cli",
+            "format",
+            "mcp",
+            "skill"
+          ]
+        },
+        "state": {
+          "enum": [
+            "universal",
+            "conditional",
+            "rejected",
+            "postponed"
+          ]
+        },
+        "need": {
+          "$ref": "#/$defs/text"
+        },
+        "condition": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/text"
+            }
+          ]
+        },
+        "stateReason": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/text"
+            }
+          ]
+        },
+        "provenance": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/provenance"
+            }
+          ]
+        },
+        "license": {
+          "$ref": "#/$defs/license"
+        },
+        "cost": {
+          "$ref": "#/$defs/cost"
+        },
+        "auth": {
+          "$ref": "#/$defs/auth"
+        },
+        "data": {
+          "$ref": "#/$defs/nonEmptyStrings"
+        },
+        "permissions": {
+          "$ref": "#/$defs/permissions"
+        },
+        "maintenance": {
+          "$ref": "#/$defs/maintenance"
+        },
+        "rollback": {
+          "$ref": "#/$defs/text"
+        },
+        "experimentalSignals": {
+          "$ref": "#/$defs/experimentalSignals"
+        },
+        "mcp": {
+          "$ref": "#/$defs/mcp"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "anyOf": [
+              {
+                "properties": {
+                  "license": {
+                    "properties": {
+                      "status": {
+                        "const": "unknown"
+                      }
+                    },
+                    "required": [
+                      "status"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "license"
+                ],
+                "type": "object"
+              },
+              {
+                "properties": {
+                  "cost": {
+                    "properties": {
+                      "status": {
+                        "const": "unknown"
+                      }
+                    },
+                    "required": [
+                      "status"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "cost"
+                ],
+                "type": "object"
+              },
+              {
+                "properties": {
+                  "auth": {
+                    "properties": {
+                      "status": {
+                        "const": "unknown"
+                      }
+                    },
+                    "required": [
+                      "status"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "auth"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "rejected",
+                  "postponed"
+                ]
+              }
+            },
+            "type": "object"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "universal",
+                  "conditional"
+                ]
+              }
+            },
+            "required": [
+              "state"
+            ],
+            "type": "object"
+          },
+          "then": {
+            "properties": {
+              "provenance": {
+                "$ref": "#/$defs/provenance"
+              }
+            },
+            "type": "object"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "conditional"
+              }
+            },
+            "required": [
+              "state"
+            ],
+            "type": "object"
+          },
+          "then": {
+            "required": [
+              "condition"
+            ],
+            "properties": {
+              "condition": {
+                "$ref": "#/$defs/text"
+              }
+            },
+            "type": "object"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "rejected",
+                  "postponed"
+                ]
+              }
+            },
+            "required": [
+              "state"
+            ],
+            "type": "object"
+          },
+          "then": {
+            "required": [
+              "stateReason"
+            ],
+            "properties": {
+              "stateReason": {
+                "$ref": "#/$defs/text"
+              }
+            },
+            "type": "object"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "mcp"
+              }
+            },
+            "required": [
+              "kind"
+            ],
+            "type": "object"
+          },
+          "then": {
+            "required": [
+              "mcp"
+            ],
+            "type": "object",
+            "properties": {
+              "mcp": {
+                "$ref": "#/$defs/mcp"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
