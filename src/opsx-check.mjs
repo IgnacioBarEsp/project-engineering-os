@@ -14,6 +14,12 @@ import {
   resolveInside,
 } from './paths.mjs';
 import { preflightTarget } from './preflight.mjs';
+import {
+  inspectSpecPurposes,
+  specPurposePath,
+  specPurposeRecovery,
+  SPECS_ROOT,
+} from './spec-purpose.mjs';
 import { readInstalledState } from './state.mjs';
 
 export const OPSX_CONTRACT_PATH = '.project-os/openspec-ownership.json';
@@ -406,6 +412,76 @@ async function checkOpsxTransactions(targetRoot) {
     );
 }
 
+// El archive de OpenSpec publica cada capability nueva con un texto sembrado bajo `## Purpose` que
+// `validate --all --strict` acepta, porque solo exige que la sección exista. El gate del upstream vivía en
+// `scripts/`, que no se distribuye, así que ningún repositorio bootstrapeado lo observaba. Aquí llega al
+// comando read-only que el consumidor ya ejecuta en cada comprobación rutinaria.
+async function checkSpecPurposes(targetRoot) {
+  // El módulo recorre el árbol y lee cada spec. Un `openspec/specs` enlazado fuera del repositorio
+  // convertiría ese recorrido en una enumeración de directorios ajenos, así que se rechaza antes de leer,
+  // igual que ya se hace con los targets de los bloques gestionados.
+  await assertNoSymlinkEscape(targetRoot, SPECS_ROOT);
+  // Un repositorio que aún no ha publicado ninguna capability no tiene `openspec/specs`. Ese estado es
+  // legítimo y se distingue del árbol que existe y no se puede leer: el primero no permite afirmar nada, el
+  // segundo no permite inferir un PASS.
+  if (!await pathExists(resolveInside(targetRoot, SPECS_ROOT))) {
+    return [check(
+      'opsx.spec-purpose',
+      'SKIP',
+      'El repositorio aún no publica capabilities cuyo Purpose revisar.',
+      `${SPECS_ROOT} no existe.`,
+      'Ejecute `openspec init` y archive un change antes de esperar capabilities publicadas.',
+      { path: SPECS_ROOT },
+    )];
+  }
+
+  const { capabilities, failures } = await inspectSpecPurposes(targetRoot);
+  const rootFailure = failures.find((failure) => failure.kind === 'specs-root-unreadable');
+  if (rootFailure) {
+    return [check(
+      'opsx.spec-purpose',
+      'FAIL',
+      'No se pudo inspeccionar el árbol de specs publicadas.',
+      rootFailure.kind,
+      specPurposeRecovery(rootFailure),
+      { path: specPurposePath(rootFailure.capability) },
+    )];
+  }
+  if (capabilities.length === 0) {
+    return [check(
+      'opsx.spec-purpose',
+      'SKIP',
+      'El repositorio aún no publica capabilities cuyo Purpose revisar.',
+      `${SPECS_ROOT} existe y no contiene capabilities.`,
+      null,
+      { path: SPECS_ROOT },
+    )];
+  }
+
+  const byCapability = new Map(failures.map((failure) => [failure.capability, failure]));
+  return capabilities.map((capability) => {
+    const failure = byCapability.get(capability);
+    const path = specPurposePath(capability);
+    return failure
+      ? check(
+        `opsx.spec-purpose.${capability}`,
+        'FAIL',
+        'Una capability publicada no declara su Purpose redactado.',
+        failure.kind,
+        specPurposeRecovery(failure),
+        { path },
+      )
+      : check(
+        `opsx.spec-purpose.${capability}`,
+        'PASS',
+        'La capability publicada declara un Purpose redactado.',
+        'Purpose presente y sin el texto sembrado por el archive.',
+        null,
+        { path },
+      );
+  });
+}
+
 export async function findOpsxGeneratedFiles(targetRoot, contract) {
   const allFiles = await walkFiles(targetRoot);
   return allFiles
@@ -540,6 +616,7 @@ export async function runOpsxCheck({
       `Ejecute \`${contract.initCommand}\` y vuelva a ejecutar opsx-adapt.`,
     ));
   checks.push(await checkOpsxTransactions(preflight.target));
+  checks.push(...await checkSpecPurposes(preflight.target));
 
   const claimed = Object.entries(state?.files ?? {})
     .filter(([path, record]) => (

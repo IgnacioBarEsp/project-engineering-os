@@ -10,6 +10,7 @@ import {
   readFile,
   readdir,
   rm,
+  symlink,
   writeFile,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -1354,4 +1355,177 @@ test("estado futuro se rechaza sin mutación y estado antiguo compatible migra a
   const check = await runInstalled(legacyTarget, "sync", ["--check"]);
   assertSuccessfulConstructor(check, "check tras migración");
   assert.equal(parseJson(check, "check tras migración").plan.hasDrift, false);
+});
+
+test("opsx-check observa el Purpose de las capabilities publicadas y solo cuando existen", { timeout: 180_000 }, async () => {
+  const { target } = await prepareOpsxFixture("opsx-spec-purpose");
+  const adapted = await runInstalled(target, "opsx-adapt");
+  assertSuccessfulConstructor(adapted, "opsx-adapt para el gate de Purpose");
+
+  const purposeChecks = (payload) => payload.checks
+    .filter((item) => item.id === "opsx.spec-purpose" || item.id.startsWith("opsx.spec-purpose."));
+
+  // Un repositorio bootstrapeado que aún no archivó nada no tiene árbol de specs. Eso no autoriza un PASS
+  // inventado ni justifica un FAIL: no hay capability publicada sobre la que afirmar nada.
+  const absent = await runInstalled(target, "opsx-check");
+  const absentPayload = parseJson(absent, "opsx-check sin árbol de specs");
+  assertSuccessfulConstructor(absent, "opsx-check sin árbol de specs");
+  assert.equal(absentPayload.status, "PASS");
+  assert.deepEqual(
+    purposeChecks(absentPayload).map((item) => [item.id, item.status]),
+    [["opsx.spec-purpose", "SKIP"]],
+  );
+
+  await mkdir(path.join(target, "openspec", "specs"), { recursive: true });
+  const empty = parseJson(await runInstalled(target, "opsx-check"), "opsx-check con árbol vacío");
+  assert.equal(empty.status, "PASS");
+  assert.deepEqual(
+    purposeChecks(empty).map((item) => [item.id, item.status]),
+    [["opsx.spec-purpose", "SKIP"]],
+  );
+
+  // Un delta de change legítimamente no declara Purpose y debe quedar fuera del gate.
+  await writeRelative(
+    target,
+    "openspec/changes/active/specs/seeded/spec.md",
+    "## ADDED Requirements\n\n### Requirement: Something\n\nIt SHALL do something.\n",
+  );
+  await writeRelative(
+    target,
+    "openspec/specs/seeded/spec.md",
+    [
+      "# seeded Specification",
+      "",
+      "## Purpose",
+      "TBD - created by archiving change add-seeded. Update Purpose after archive.",
+      "",
+      "## Requirements",
+      "",
+    ].join("\n"),
+  );
+  await writeRelative(
+    target,
+    "openspec/specs/redacted/spec.md",
+    [
+      "# redacted Specification",
+      "",
+      "## Purpose",
+      "Definir el contrato observable de la capacidad publicada.",
+      "",
+      "## Requirements",
+      "",
+    ].join("\n"),
+  );
+
+  const beforeSeeded = await exactSnapshot(target);
+  const seeded = await runInstalled(target, "opsx-check");
+  const seededPayload = parseJson(seeded, "opsx-check con texto sembrado");
+  assert.equal(seeded.exitCode, 1);
+  assert.equal(seededPayload.status, "FAIL");
+  assert.equal(seededPayload.mutationPerformed, false);
+  assert.deepEqual(await exactSnapshot(target), beforeSeeded);
+
+  const seededCheck = seededPayload.checks.find((item) => item.id === "opsx.spec-purpose.seeded");
+  assert.equal(seededCheck.status, "FAIL");
+  assert.equal(seededCheck.cause, "purpose-placeholder");
+  assert.equal(seededCheck.evidence.path, "openspec/specs/seeded/spec.md");
+  assert.match(seededCheck.remediation, /openspec\/specs\/seeded\/spec\.md/);
+  assert.match(seededCheck.remediation, /## Purpose/);
+  assert.equal(
+    seededPayload.checks.find((item) => item.id === "opsx.spec-purpose.redacted").status,
+    "PASS",
+  );
+  assert.equal(
+    seededPayload.checks.some((item) => item.id.includes("active")),
+    false,
+  );
+
+  await writeRelative(
+    target,
+    "openspec/specs/seeded/spec.md",
+    [
+      "# seeded Specification",
+      "",
+      "## Purpose",
+      "Definir el contrato observable que la capacidad sembrada gobierna.",
+      "",
+      "## Requirements",
+      "",
+    ].join("\n"),
+  );
+  const redacted = await runInstalled(target, "opsx-check");
+  const redactedPayload = parseJson(redacted, "opsx-check tras redactar");
+  assertSuccessfulConstructor(redacted, "opsx-check tras redactar");
+  assert.equal(redactedPayload.status, "PASS");
+  assert.deepEqual(
+    purposeChecks(redactedPayload).map((item) => [item.id, item.status]),
+    [
+      ["opsx.spec-purpose.redacted", "PASS"],
+      ["opsx.spec-purpose.seeded", "PASS"],
+    ],
+  );
+
+  // Una sección ausente y una vacía fallan por separado y no contagian al resto.
+  await writeRelative(
+    target,
+    "openspec/specs/seeded/spec.md",
+    "# seeded Specification\n\n## Requirements\n",
+  );
+  await writeRelative(
+    target,
+    "openspec/specs/redacted/spec.md",
+    "# redacted Specification\n\n## Purpose\n\n## Requirements\n",
+  );
+  await mkdir(path.join(target, "openspec", "specs", "headless"), { recursive: true });
+  const degraded = parseJson(await runInstalled(target, "opsx-check"), "opsx-check degradado");
+  assert.equal(degraded.status, "FAIL");
+  assert.deepEqual(
+    purposeChecks(degraded).map((item) => [item.id, item.status, item.cause]),
+    [
+      ["opsx.spec-purpose.headless", "FAIL", "spec-unreadable"],
+      ["opsx.spec-purpose.redacted", "FAIL", "purpose-empty"],
+      ["opsx.spec-purpose.seeded", "FAIL", "purpose-missing"],
+    ],
+  );
+
+  // Un árbol de specs que existe y no se puede recorrer no autoriza inferir cero capabilities.
+  await rm(path.join(target, "openspec", "specs"), { force: true, recursive: true });
+  await writeRelative(target, "openspec/specs", "no es un directorio\n");
+  const unreadable = parseJson(await runInstalled(target, "opsx-check"), "opsx-check ilegible");
+  assert.equal(unreadable.status, "FAIL");
+  assert.deepEqual(
+    purposeChecks(unreadable).map((item) => [item.id, item.status, item.cause]),
+    [["opsx.spec-purpose", "FAIL", "specs-root-unreadable"]],
+  );
+});
+
+test("un árbol de specs enlazado fuera del repositorio se rechaza antes de leerlo", { timeout: 120_000 }, async (t) => {
+  const { target } = await prepareOpsxFixture("opsx-spec-purpose-symlink");
+  const outside = path.join(suiteRoot, "opsx-spec-purpose-outside");
+  await mkdir(path.join(outside, "leaked-capability"), { recursive: true });
+  await writeFile(
+    path.join(outside, "leaked-capability", "spec.md"),
+    "# leaked\n\n## Purpose\nContenido ajeno al repositorio.\n",
+  );
+
+  await mkdir(path.join(target, "openspec"), { recursive: true });
+  try {
+    await symlink(
+      outside,
+      path.join(target, "openspec", "specs"),
+      process.platform === "win32" ? "junction" : "dir",
+    );
+  } catch (error) {
+    if (["EPERM", "EACCES"].includes(error?.code)) {
+      t.skip("El runner no permite crear symlinks/junctions.");
+      return;
+    }
+    throw error;
+  }
+
+  const response = await runInstalled(target, "opsx-check");
+  const payload = parseJson(response, "opsx-check con specs enlazadas fuera");
+  assert.notEqual(response.exitCode, 0);
+  assert.equal(payload.code, "SYMLINK_ESCAPE");
+  assert.equal(JSON.stringify(payload).includes("leaked-capability"), false);
 });

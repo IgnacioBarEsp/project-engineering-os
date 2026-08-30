@@ -73,6 +73,14 @@ export {
   publicPlan,
 } from './plan.mjs';
 export {
+  classifySpecPurpose,
+  inspectSpecPurposes,
+  SPEC_PURPOSE_FAILURE_KINDS,
+  specPurposePath,
+  specPurposeRecovery,
+  SPECS_ROOT,
+} from './spec-purpose.mjs';
+export {
   migrateInstalledState,
   readInstalledState,
   readInstalledStateWithMigrations,
