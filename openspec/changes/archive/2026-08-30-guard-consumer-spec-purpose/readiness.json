@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 45,
+  "change": "guard-consumer-spec-purpose",
+  "surfaces": [
+    "documentation",
+    "harness-tooling"
+  ],
+  "validations": [
+    { "id": "openspec-strict", "status": "passed", "evidence": "evidence://validation/openspec-1-6-0-strict-9-items-0-failed", "justification": null, "profileCondition": null },
+    { "id": "opsx-check", "status": "passed", "evidence": "evidence://validation/opsx-check-pass-on-bootstrapped-target-after-purpose-redaction", "justification": null, "profileCondition": null },
+    { "id": "critical-document-presence", "status": "passed", "evidence": "evidence://validation/check-docs-22-readme-links-and-7-spec-purposes", "justification": null, "profileCondition": null },
+    { "id": "relative-link-check", "status": "passed", "evidence": "evidence://validation/check-docs-relative-links-pass", "justification": null, "profileCondition": null },
+    { "id": "findability-two-hop-check", "status": "passed", "evidence": "evidence://validation/spec-purpose-guide-linked-from-docs-index-and-changelog", "justification": null, "profileCondition": null },
+    { "id": "neutrality-check", "status": "passed", "evidence": "evidence://validation/clean-worktree-public-tree-neutrality-pass", "justification": null, "profileCondition": null },
+    { "id": "constructor-tests", "status": "passed", "evidence": "evidence://validation/clean-worktree-235-tests-zero-failures", "justification": null, "profileCondition": null },
+    { "id": "sync-check", "status": "passed", "evidence": "evidence://validation/empty-repository-fixture-sync-check-without-drift", "justification": null, "profileCondition": null },
+    { "id": "capability-matrix-check", "status": "passed", "evidence": "evidence://validation/five-harness-contracts-unchanged", "justification": null, "profileCondition": null },
+    { "id": "doctor-json-check", "status": "passed", "evidence": "evidence://validation/empty-repository-fixture-doctor-json-pass", "justification": null, "profileCondition": null },
+    { "id": "second-run-idempotence", "status": "passed", "evidence": "evidence://validation/empty-repository-fixture-second-run-without-drift", "justification": null, "profileCondition": null }
+  ],
+  "evidence": [
+    { "id": "adversarial-review", "kind": "manual", "status": "verified", "ref": "evidence://adversarial-review/pass-zero-blockers-zero-open-majors", "justification": null, "profileCondition": null },
+    { "id": "issue-link", "kind": "manual", "status": "verified", "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/45", "justification": null, "profileCondition": null },
+    { "id": "qualitative-review-for-clarity-and-current-ownership", "kind": "manual", "status": "verified", "ref": "evidence://docs/spec-purpose-guide-states-failure-modes-recovery-and-migration", "justification": null, "profileCondition": null },
+    { "id": "recorded-drift-decisions", "kind": "manual", "status": "verified", "ref": "evidence://decision/gate-lives-in-opsx-check-with-shared-module-and-absent-tree-skips", "justification": null, "profileCondition": null },
+    { "id": "review-of-declared-degradations", "kind": "manual", "status": "verified", "ref": "evidence://review/gate-checks-presence-not-quality-of-the-written-purpose", "justification": null, "profileCondition": null },
+    { "id": "recovery-rehearsal-for-one-transaction", "kind": "manual", "status": "verified", "ref": "evidence://probe/archive-seeded-purpose-rejected-then-redacted-and-accepted-on-a-bootstrapped-repository", "justification": null, "profileCondition": null }
+  ],
+  "rollback": {
+    "strategy": "Revertir el commit del change. El gate es read-only, ningún consumidor guarda estado suyo y el módulo movido no deja migración que deshacer.",
+    "status": "verified",
+    "evidence": "evidence://rollback/read-only-gate-reverts-without-consumer-state",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "passed",
+    "ref": "evidence://adversarial-review/pass-zero-blockers-zero-open-majors",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}

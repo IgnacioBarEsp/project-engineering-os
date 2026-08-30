@@ -5,7 +5,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
-import { inspectSpecPurposes } from '../scripts/spec-purpose.mjs';
+import { inspectSpecPurposes, specPurposeRecovery } from '../src/spec-purpose.mjs';
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -60,5 +60,48 @@ test('un árbol de specs ausente falla cerrado en vez de reportar cero capabilit
   assert.deepEqual(await inspectSpecPurposes(root), {
     capabilities: [],
     failures: [{ kind: 'specs-root-unreadable', capability: 'openspec/specs' }],
+  });
+});
+
+test('cada modo de fallo imprime una recuperación que nombra el archivo y qué escribir', () => {
+  const recoveries = [
+    'purpose-placeholder',
+    'purpose-empty',
+    'purpose-missing',
+    'spec-unreadable',
+  ].map((kind) => specPurposeRecovery({ capability: 'archived', kind }));
+
+  for (const recovery of recoveries) {
+    assert.match(recovery, /openspec\/specs\/archived\/spec\.md/);
+  }
+  for (const recovery of recoveries.slice(0, 3)) {
+    assert.match(recovery, /## Purpose/);
+    assert.match(recovery, /contrato observable/);
+  }
+  assert.match(
+    specPurposeRecovery({ capability: 'openspec/specs', kind: 'specs-root-unreadable' }),
+    /openspec\/specs.*openspec init/s,
+  );
+});
+
+test('los deltas de un change no entran al inventario de capabilities publicadas', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'project-os-spec-purpose-delta-'));
+  await capability(root, 'published', [
+    '# published',
+    '',
+    '## Purpose',
+    'Definir un contrato observable para la capacidad.',
+    '## Requirements',
+  ]);
+  const delta = path.join(root, 'openspec', 'changes', 'active', 'specs', 'published');
+  await mkdir(delta, { recursive: true });
+  await writeFile(
+    path.join(delta, 'spec.md'),
+    '## ADDED Requirements\n\n### Requirement: Something\n\nSHALL do something.\n',
+  );
+
+  assert.deepEqual(await inspectSpecPurposes(root), {
+    capabilities: ['published'],
+    failures: [],
   });
 });

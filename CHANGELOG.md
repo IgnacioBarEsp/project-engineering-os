@@ -4,6 +4,26 @@ All notable changes follow [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Spec Purpose gate reaches every repository
+
+- Publish the spec Purpose inspection as `src/spec-purpose.mjs`. It previously lived under `scripts/`, which
+  `files` does not distribute, so the gate protected only this repository.
+- Wire it into the read-only `opsx-check`, the command a bootstrapped repository already runs on every
+  `project-os:check`. A published capability that keeps the text `openspec archive` seeds under
+  `## Purpose`, leaves it empty or omits the section now fails, and the recovery names the spec file and
+  what to write in it.
+- Keep the upstream documentation gate and `opsx-check` on the same module, so a consumer never receives a
+  divergent copy of the rule.
+- Report `SKIP` while a repository has published no capability, and fail closed when the specs tree exists
+  and cannot be read. A `SKIP` is not a `PASS`.
+- Export `inspectSpecPurposes`, `classifySpecPurpose`, `specPurposePath`, `specPurposeRecovery`,
+  `SPEC_PURPOSE_FAILURE_KINDS` and `SPECS_ROOT` from the package entry point.
+
+**Migration.** A repository whose published specs already carry the seeded text will see a new failure after
+the upgrade. It is pre-existing debt made observable, not a false positive. Redact the Purpose of every
+capability the command names; there is no state migration and no configuration change, and the command stays
+read-only. See [docs/SPEC_PURPOSE.md](docs/SPEC_PURPOSE.md).
+
 ### Curated tool catalogue
 
 - Add `schema/tool-catalog.schema.json` and the seeded `.project-os/tool-catalog.json` registry, turning the

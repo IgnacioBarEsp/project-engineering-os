@@ -5,13 +5,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { CONSTRUCTOR_VERSION, PACKAGE_NAME } from '../src/constants.mjs';
+import { inspectSpecPurposes, specPurposeRecovery } from '../src/spec-purpose.mjs';
 import {
   extractPromptContract,
   routerContractFailures,
   routerParityFailures,
   stagePromptFailures,
 } from './prompt-contract.mjs';
-import { inspectSpecPurposes } from './spec-purpose.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const readme = await readFile(path.join(root, 'README.md'), 'utf8');
@@ -96,11 +96,12 @@ for (const [kind, relative] of [
   }
 }
 
-// Un Purpose con el placeholder del archive pasa `validate --all --strict`, porque OpenSpec solo exige que
-// la sección exista. La deuda documental solo es observable si el gate de documentación la mira aquí.
+// Un Purpose con el texto que siembra el archive pasa `validate --all --strict`, porque OpenSpec solo exige
+// que la sección exista. El mismo módulo publicado alimenta `opsx-check`, así que upstream y consumidores
+// comparten un único veredicto en vez de dos copias que pueden divergir.
 const specPurposes = await inspectSpecPurposes(root);
 for (const failure of specPurposes.failures) {
-  failures.push(`spec ${failure.capability}: ${failure.kind}`);
+  failures.push(`spec ${failure.capability}: ${failure.kind}. ${specPurposeRecovery(failure)}`);
 }
 
 if (failures.length > 0) {

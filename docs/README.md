@@ -23,6 +23,8 @@ cuando lo necesites.
 - [Contrato del clasificador](ONBOARDING_PLAN.md): comando, respuestas, estado, privacidad y migración.
 - [Catálogo de herramientas](TOOL_CATALOG.md): estados, procedencia fijada y por qué investigar no instala.
 - [Debt Control Loop](DEBT_CONTROL.md): cuándo un hallazgo se convierte en deuda y qué puede pausar.
+- [Purpose de las capabilities](SPEC_PURPOSE.md): qué revisa el gate de specs publicadas y cómo se
+  corrige.
 - [Ownership](architecture/OWNERSHIP.md): qué pertenece al upstream, al consumidor o a OpenSpec.
 - [Upstream y consumidores](UPSTREAM_CONSUMERS.md): cómo proponer cambios sin editar copias del runtime.
 
@@ -53,6 +55,7 @@ cuando lo necesites.
 | Saber qué puede hacer cada agente | [Compatibilidad](COMPATIBILITY.md) |
 | Entender la visión de onboarding, trackers, skills y MCP | [Onboarding adaptativo](ADAPTIVE_ONBOARDING.md) |
 | Evaluar una herramienta sin instalarla | [Catálogo de herramientas](TOOL_CATALOG.md) |
+| Corregir un Purpose que dejó el archive | [Purpose de las capabilities](SPEC_PURPOSE.md) |
 | Entender pausas por deuda | [Debt Control Loop](DEBT_CONTROL.md) |
 
 Vuelve al [README principal](../README.md) para el recorrido corto y los comandos de inicio.

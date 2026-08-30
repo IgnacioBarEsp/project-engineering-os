@@ -1,0 +1,4 @@
+schema: spec-driven
+created: 2026-08-30
+goal: Extend the published Purpose gate to every bootstrapped repository so the text
+  seeded by archive cannot survive a routine read-only check.
