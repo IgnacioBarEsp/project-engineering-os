@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "research-upstream-self-application",
+  "date": "2026-08-30",
+  "kind": "baseline",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Spike documental. Revisión adversarial PASS con cero Blockers y cero Majors abiertos. Un Major (el criterio se estaba aplicando en la dirección cómoda y absolvía los seis FAIL del doctor; dos de ellos son deuda real) y un Minor (el recuento del resumen no cuadraba con la matriz) se encontraron y corrigieron dentro del change. Sin dependencias, licencias, proveedores, permisos, secretos ni telemetría nuevos, y sin adopción ejecutada. La deuda que el spike descubre no se registra aquí como candidato porque ya tiene issues propios: #48 a #56, los nueve con Definition of Ready en PASS. Una degradación queda declarada y no es deuda: el criterio de clasificación depende de que las promesas del upstream estén escritas, así que una promesa sostenida solo por costumbre quedaría clasificada como forma de consumidor por omisión; no se encontró ningún caso."
+}

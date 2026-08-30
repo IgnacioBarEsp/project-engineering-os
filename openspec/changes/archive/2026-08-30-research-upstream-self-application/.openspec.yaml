@@ -1,0 +1,4 @@
+schema: spec-driven
+created: 2026-08-30
+goal: Decide which of its own mechanisms the upstream must apply to itself, in what
+  form, and which it must never apply, with a verifiable reason for every verdict.

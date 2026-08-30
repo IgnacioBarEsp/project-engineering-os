@@ -27,6 +27,8 @@ cuando lo necesites.
   corrige.
 - [Ownership](architecture/OWNERSHIP.md): qué pertenece al upstream, al consumidor o a OpenSpec.
 - [Upstream y consumidores](UPSTREAM_CONSUMERS.md): cómo proponer cambios sin editar copias del runtime.
+- [Autoaplicación del upstream](SELF_APPLICATION.md): qué partes de su propio sistema se aplica este
+  repositorio a sí mismo, y por qué un FAIL del doctor sobre él no siempre es deuda.
 
 ## Algo falló o necesito volver atrás
 
@@ -57,5 +59,6 @@ cuando lo necesites.
 | Evaluar una herramienta sin instalarla | [Catálogo de herramientas](TOOL_CATALOG.md) |
 | Corregir un Purpose que dejó el archive | [Purpose de las capabilities](SPEC_PURPOSE.md) |
 | Entender pausas por deuda | [Debt Control Loop](DEBT_CONTROL.md) |
+| Saber si un FAIL sobre el upstream es deuda | [Autoaplicación](SELF_APPLICATION.md) |
 
 Vuelve al [README principal](../README.md) para el recorrido corto y los comandos de inicio.

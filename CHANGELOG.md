@@ -4,6 +4,22 @@ All notable changes follow [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Self-application decision
+
+- Add `docs/SELF_APPLICATION.md`: a measured verdict for each of the 47 mechanisms this repository
+  distributes, saying which the upstream must apply to itself, which it must never apply, and why.
+- Define the criterion that separates a check measuring the shape the constructor seeds from a check
+  measuring a published promise the repository breaks, and classify the six current doctor failures with
+  it.
+- Resolve the ownership recursion with measurement: `sync --check` reports nine conflicts and zero writes,
+  and the neutrality allowlist already rejects 26 of the files a bootstrap would create, so an accidental
+  bootstrap breaks `npm run check` before it can merge.
+- Record that running the debt engine this repository ships over the assessments it had already written by hand
+  produces exactly the recurring missing-Purpose debt, classified since 2026-08-18 and rediscovered twice
+  by human reading.
+
+No adoption is executed and no runtime changes: the deliverable is the decision and its issue breakdown.
+
 ### Spec Purpose gate reaches every repository
 
 - Publish the spec Purpose inspection as `src/spec-purpose.mjs`. It previously lived under `scripts/`, which
