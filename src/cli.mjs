@@ -19,6 +19,10 @@ import {
   runUpgrade,
 } from './commands.mjs';
 import { runReadinessCheck } from './readiness.mjs';
+import {
+  runToolCatalog,
+  toolCatalogText,
+} from './tool-catalog.mjs';
 
 const HELP = `project-os ${CONSTRUCTOR_VERSION}
 
@@ -34,14 +38,17 @@ Uso:
   project-os rollback --target <ruta> --transaction <id> [--json]
   project-os github-plan [--target <ruta>] [--json]
   project-os onboarding-plan [--target <ruta>] [--answers <ruta>] [--state <ruta>] [--json]
+  project-os tool-catalog list [--target <ruta>] [--json]
+  project-os tool-catalog evaluate --candidate <ruta> [--target <ruta>] [--json]
   project-os debt <capture|check|sync|handoff|postfinish|gate> [opciones]
 
 Opciones de fixture:
   --blueprint <ruta>              Usa un blueprint local explícito.
   --inject-failure-after <n>      Interrumpe una mutación después de n archivos.
 
-doctor, github-plan, onboarding-plan, opsx-check y readiness-check son read-only. opsx-adapt muta solo archivos
-generados por OpenSpec bajo su contrato separado. sync --check no escribe ni repara.
+doctor, github-plan, onboarding-plan, tool-catalog, opsx-check y readiness-check son read-only. opsx-adapt muta
+solo archivos generados por OpenSpec bajo su contrato separado. sync --check no escribe ni repara.
+tool-catalog describe herramientas sin activarlas y solo acepta rutas locales: no descarga contenido.
 `;
 
 function nodeVersionTuple(version) {
@@ -70,6 +77,7 @@ function parseArguments(argv) {
     blueprintRoot: DEFAULT_BLUEPRINT_ROOT,
     apply: false,
     answersPath: null,
+    candidatePath: null,
     change: null,
     check: false,
     dryRun: false,
@@ -80,6 +88,7 @@ function parseArguments(argv) {
     onboardingStatePath: null,
     phase: null,
     runLocal: false,
+    subcommand: null,
     targetRoot: process.cwd(),
     transactionId: null,
   };
@@ -95,6 +104,14 @@ function parseArguments(argv) {
     }
     if (!argument.startsWith('-') && command === null) {
       command = argument;
+      continue;
+    }
+    if (
+      !argument.startsWith('-')
+      && command === 'tool-catalog'
+      && options.subcommand === null
+    ) {
+      options.subcommand = argument;
       continue;
     }
 
@@ -122,6 +139,9 @@ function parseArguments(argv) {
         break;
       case '--answers':
         options.answersPath = consume();
+        break;
+      case '--candidate':
+        options.candidatePath = consume();
         break;
       case '--state':
         options.onboardingStatePath = consume();
@@ -174,6 +194,7 @@ function parseArguments(argv) {
     'readiness-check',
     'rollback',
     'sync',
+    'tool-catalog',
     'upgrade',
   ].includes(command)) {
     throw new ConstructorError('CLI_COMMAND_UNKNOWN', `Comando desconocido: ${command}.`);
@@ -229,6 +250,25 @@ function parseArguments(argv) {
     throw new ConstructorError(
       'CLI_ONBOARDING_SCOPE',
       '--answers y --state solo están disponibles para onboarding-plan.',
+    );
+  }
+  if (command !== 'tool-catalog' && options.candidatePath !== null) {
+    throw new ConstructorError(
+      'CLI_TOOL_CATALOG_SCOPE',
+      '--candidate solo está disponible para tool-catalog evaluate.',
+    );
+  }
+  // Aceptar la opción y descartarla en silencio haría creer que se evaluó una
+  // candidata cuando solo se listó el catálogo.
+  if (
+    command === 'tool-catalog'
+    && options.candidatePath !== null
+    && options.subcommand !== 'evaluate'
+  ) {
+    throw new ConstructorError(
+      'CLI_TOOL_CATALOG_SCOPE',
+      `--candidate no aplica a tool-catalog ${options.subcommand ?? 'list'}.`,
+      { remediation: 'Use tool-catalog evaluate --candidate <ruta> o quite la opción.' },
     );
   }
 
@@ -347,6 +387,9 @@ export async function runCli(argv = process.argv.slice(2)) {
       case 'onboarding-plan':
         result = await runOnboardingPlan(parsed.options);
         break;
+      case 'tool-catalog':
+        result = await runToolCatalog(parsed.options);
+        break;
       case 'opsx-check':
         result = await runOpsxCheck(parsed.options);
         break;
@@ -373,6 +416,8 @@ export async function runCli(argv = process.argv.slice(2)) {
       write(githubPlanText(result.plan));
     } else if (parsed.command === 'onboarding-plan') {
       write(onboardingPlanText(result));
+    } else if (parsed.command === 'tool-catalog') {
+      write(toolCatalogText(result));
     } else if (parsed.command === 'opsx-check') {
       write(`${result.checks.map((item) => (
         `[${item.status}] ${item.id}: ${item.summary}${item.remediation ? `\n  Recuperación: ${item.remediation}` : ''}`

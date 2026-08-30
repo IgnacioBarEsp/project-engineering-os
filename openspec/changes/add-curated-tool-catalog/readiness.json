@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 34,
+  "change": "add-curated-tool-catalog",
+  "surfaces": [
+    "documentation",
+    "harness-tooling",
+    "library-cli"
+  ],
+  "validations": [
+    { "id": "backward-compatibility-test", "status": "passed", "evidence": "evidence://validation/228-tests-existing-contracts-unchanged", "justification": null, "profileCondition": null },
+    { "id": "capability-matrix-check", "status": "passed", "evidence": "evidence://validation/five-harness-contracts-unchanged", "justification": null, "profileCondition": null },
+    { "id": "constructor-tests", "status": "passed", "evidence": "evidence://validation/clean-worktree-228-tests-zero-failures", "justification": null, "profileCondition": null },
+    { "id": "critical-document-presence", "status": "passed", "evidence": "evidence://validation/check-docs-22-readme-links", "justification": null, "profileCondition": null },
+    { "id": "doctor-json-check", "status": "passed", "evidence": "evidence://validation/doctor-json-after-entry-withdrawal", "justification": null, "profileCondition": null },
+    { "id": "findability-two-hop-check", "status": "passed", "evidence": "evidence://validation/tool-catalog-linked-from-docs-index-and-adaptive-onboarding", "justification": null, "profileCondition": null },
+    { "id": "multi-platform-smoke", "status": "passed", "evidence": "evidence://validation/shell-free-command-and-existing-ci-matrix-contract", "justification": null, "profileCondition": null },
+    { "id": "neutrality-check", "status": "passed", "evidence": "evidence://validation/clean-worktree-public-tree-neutrality-pass", "justification": null, "profileCondition": null },
+    { "id": "openspec-strict", "status": "passed", "evidence": "evidence://validation/openspec-1-6-0-strict-change-valid", "justification": null, "profileCondition": null },
+    { "id": "opsx-check", "status": "passed", "evidence": "evidence://validation/opsx-ownership-contract-unchanged", "justification": null, "profileCondition": null },
+    { "id": "package-artifact-test", "status": "passed", "evidence": "evidence://validation/pack-verify-271275-bytes-sha256-56681e71-tested", "justification": null, "profileCondition": null },
+    { "id": "relative-link-check", "status": "passed", "evidence": "evidence://validation/check-docs-relative-links-pass", "justification": null, "profileCondition": null },
+    { "id": "second-run-idempotence", "status": "passed", "evidence": "evidence://validation/seeded-catalogue-survives-sync-check-without-drift", "justification": null, "profileCondition": null },
+    { "id": "sync-check", "status": "passed", "evidence": "evidence://validation/sync-check-read-only-after-seed", "justification": null, "profileCondition": null },
+    { "id": "unit-and-contract-tests", "status": "passed", "evidence": "evidence://validation/18-targeted-tool-catalog-tests-and-228-total", "justification": null, "profileCondition": null }
+  ],
+  "evidence": [
+    { "id": "adversarial-review", "kind": "manual", "status": "verified", "ref": "evidence://adversarial-review/pass-zero-blockers-zero-open-majors", "justification": null, "profileCondition": null },
+    { "id": "budget-and-license-approval", "kind": "manual", "status": "verified", "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/34", "justification": null, "profileCondition": null },
+    { "id": "install-and-rollback-smoke", "kind": "manual", "status": "verified", "ref": "evidence://pack/tarball-installed-and-bootstrap-rollback-77-restorations", "justification": null, "profileCondition": null },
+    { "id": "issue-link", "kind": "manual", "status": "verified", "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/34", "justification": null, "profileCondition": null },
+    { "id": "license-review", "kind": "manual", "status": "verified", "ref": "evidence://review/mit-runtime-unchanged-and-no-new-runtime-dependencies", "justification": null, "profileCondition": null },
+    { "id": "public-api-review", "kind": "manual", "status": "verified", "ref": "evidence://review/additive-command-and-schema-no-existing-export-changed", "justification": null, "profileCondition": null },
+    { "id": "qualitative-review-for-clarity-and-current-ownership", "kind": "manual", "status": "verified", "ref": "evidence://docs/tool-catalog-guide-states-ownership-and-read-only-boundary", "justification": null, "profileCondition": null },
+    { "id": "recorded-drift-decisions", "kind": "manual", "status": "verified", "ref": "evidence://decision/registry-separate-from-skills-and-mcp-and-evaluate-refuses-url", "justification": null, "profileCondition": null },
+    { "id": "recovery-rehearsal-for-one-transaction", "kind": "manual", "status": "verified", "ref": "evidence://probe/bootstrap-transaction-rolled-back-77-restorations", "justification": null, "profileCondition": null },
+    { "id": "review-of-declared-degradations", "kind": "manual", "status": "verified", "ref": "evidence://review/catalogue-absent-from-harness-instructions-and-stale-is-reported-not-expired", "justification": null, "profileCondition": null }
+  ],
+  "rollback": {
+    "strategy": "Revertir el commit del change; el schema, el registro y el comando son aditivos y ninguna configuración de consumidor queda activada, por lo que no hay migración que deshacer.",
+    "status": "verified",
+    "evidence": "evidence://rollback/additive-revert-and-transaction-rollback-rehearsed",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "passed",
+    "ref": "evidence://adversarial-review/pass-zero-blockers-zero-open-majors",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}

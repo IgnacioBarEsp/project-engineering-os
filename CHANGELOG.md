@@ -4,6 +4,30 @@ All notable changes follow [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Curated tool catalogue
+
+- Add `schema/tool-catalog.schema.json` and the seeded `.project-os/tool-catalog.json` registry, turning the
+  tool catalogue and the safe-research procedure from prose into a versioned contract.
+- Model four states where a declared unknown license, cost or authentication can never resolve as
+  `universal` or `conditional`. An absent field stays a contract error: absence and declared unknown do not
+  mean the same thing.
+- Require pinned, dated provenance. A reference must be an exact commit, tag or version, so a floating
+  reference such as `latest` fails validation and a stale verification is reported rather than presented as
+  current.
+- Add the read-only `project-os tool-catalog list|evaluate` command. Its output is its only surface: it
+  writes no configuration, downloads nothing, and refuses a URL so investigated material is brought in by a
+  person and treated as data.
+- Keep describing separate from activating: registering an entry leaves `servers` empty, skills disabled and
+  every MCP entry `disabled`, with configuration, startup, tool listing and authenticated smoke recorded as
+  independent signals.
+- Record `allowed-tools` as an experimental signal only, and reject a literal secret in any field without
+  echoing the value.
+
+### Release recovery
+
+- Document the `v0.2.0` npm recovery in `docs/RELEASES.md`: the protected-tag rebuild uses a
+  repository-compatible workspace and only the canonical GitHub Release tarball reaches `npm publish`.
+
 ## 0.2.0 - 2026-08-20
 
 ### Adaptive onboarding

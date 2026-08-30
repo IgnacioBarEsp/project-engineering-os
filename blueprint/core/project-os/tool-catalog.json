@@ -1,0 +1,213 @@
+{
+  "schemaVersion": "1.0.0",
+  "catalogVersion": "1.0.0",
+  "freshnessWindowDays": 180,
+  "policy": {
+    "registrationDoesNotActivate": true,
+    "evaluationIsReadOnly": true,
+    "evaluationAcceptsLocalPathsOnly": true,
+    "allowedToolsIsPortableBoundary": false,
+    "secrets": "environment-references-only",
+    "installationRequiresSeparateApproval": true
+  },
+  "entries": [
+    {
+      "id": "github-mcp-server",
+      "kind": "mcp",
+      "state": "conditional",
+      "need": "Read repository, issue, pull request and Project state from the tracker the team already uses.",
+      "condition": "The repository is hosted on GitHub and the team already operates issues or Projects there.",
+      "stateReason": null,
+      "provenance": {
+        "owner": "github",
+        "reference": { "type": "tag", "value": "v1.11.0" },
+        "sourceUrl": "https://github.com/github/github-mcp-server",
+        "verifiedOn": "2026-08-28"
+      },
+      "license": {
+        "status": "known",
+        "spdx": "MIT",
+        "note": "The server is MIT. The GitHub service it reaches stays under its own plan and terms."
+      },
+      "cost": {
+        "status": "known",
+        "posture": "provider-plan",
+        "note": "The server adds no license cost. Usage is bounded by the account's existing GitHub plan."
+      },
+      "auth": {
+        "status": "known",
+        "required": true,
+        "secretEnvRefs": ["GITHUB_TOKEN"],
+        "scopes": [
+          "Start read-only; read:project before any write scope",
+          "Grant write scopes one operation at a time"
+        ],
+        "note": "Token is directed at this server and never passed through to another service."
+      },
+      "data": [
+        "Repository, issue and pull request content the token can read",
+        "Project items, fields and status",
+        "Identity of the authenticated account"
+      ],
+      "permissions": {
+        "filesystem": "none",
+        "network": "outbound",
+        "execution": "none",
+        "note": "Reaches the GitHub API only; it does not read or write the working tree."
+      },
+      "maintenance": {
+        "status": "active",
+        "note": "Released under the github organisation; latest tag published 2026-08-25."
+      },
+      "rollback": "Remove the server configuration, revoke the token and delete or reconcile any item the receipt attributes to it.",
+      "mcp": {
+        "enabled": false,
+        "configuration": "not-verified",
+        "startup": "not-verified",
+        "toolListing": "not-verified",
+        "authenticatedSmoke": "not-verified"
+      }
+    },
+    {
+      "id": "context7",
+      "kind": "mcp",
+      "state": "conditional",
+      "need": "Read current official documentation for a library or API whose surface changes faster than training data.",
+      "condition": "The project depends on libraries or APIs that move quickly and the team hits stale-documentation errors.",
+      "stateReason": null,
+      "provenance": {
+        "owner": "upstash",
+        "reference": { "type": "version", "value": "4.0.4" },
+        "sourceUrl": "https://github.com/upstash/context7",
+        "verifiedOn": "2026-08-28"
+      },
+      "license": {
+        "status": "known",
+        "spdx": "MIT",
+        "note": "The published package is MIT. The hosted service behind it keeps its own terms and plan."
+      },
+      "cost": {
+        "status": "known",
+        "posture": "provider-plan",
+        "note": "The package costs nothing. The hosted lookup service is bounded by the provider plan chosen at activation."
+      },
+      "auth": {
+        "status": "known",
+        "required": false,
+        "secretEnvRefs": ["CONTEXT7_API_KEY"],
+        "scopes": [
+          "An API key raises rate limits and is optional for basic lookups"
+        ],
+        "note": "Activation without a key is possible; the key stays an environment reference and never enters this catalogue."
+      },
+      "data": [
+        "Library or package name and version",
+        "The reformulated documentation query"
+      ],
+      "permissions": {
+        "filesystem": "none",
+        "network": "outbound",
+        "execution": "none",
+        "note": "Sends a query and receives documentation text; it does not read the working tree."
+      },
+      "maintenance": {
+        "status": "active",
+        "note": "Published on the npm registry by the upstash organisation."
+      },
+      "rollback": "Remove the server or skill configuration and revoke the API key if one was issued.",
+      "mcp": {
+        "enabled": false,
+        "configuration": "not-verified",
+        "startup": "not-verified",
+        "toolListing": "not-verified",
+        "authenticatedSmoke": "not-verified"
+      }
+    },
+    {
+      "id": "playwright-test",
+      "kind": "cli",
+      "state": "conditional",
+      "need": "Verify a browser flow with a versioned, repeatable test rather than an interactive exploration.",
+      "condition": "The product exposes a web UI or a browser-driven flow that has to stay verifiable in CI.",
+      "stateReason": null,
+      "provenance": {
+        "owner": "microsoft",
+        "reference": { "type": "version", "value": "1.62.1" },
+        "sourceUrl": "https://playwright.dev",
+        "verifiedOn": "2026-08-28"
+      },
+      "license": {
+        "status": "known",
+        "spdx": "Apache-2.0",
+        "note": "Apache-2.0 for the runner and the browser drivers it installs."
+      },
+      "cost": {
+        "status": "known",
+        "posture": "none",
+        "note": "No license or service cost. Browser downloads and CI minutes are the real consumption."
+      },
+      "auth": {
+        "status": "known",
+        "required": false,
+        "secretEnvRefs": [],
+        "scopes": [],
+        "note": "The runner needs no account. Only the application under test may require credentials, which stay outside this catalogue."
+      },
+      "data": [
+        "URLs, DOM snapshots, screenshots and traces of the application under test",
+        "Any test credential the project chooses to supply at run time"
+      ],
+      "permissions": {
+        "filesystem": "write",
+        "network": "outbound",
+        "execution": "scripts",
+        "note": "Writes test artifacts and downloads browser binaries during installation."
+      },
+      "maintenance": {
+        "status": "active",
+        "note": "Released frequently on the npm registry by the Playwright team."
+      },
+      "rollback": "Remove the package, the configuration and the downloaded browser artifacts, and revert the generated tests."
+    },
+    {
+      "id": "structural-code-intelligence",
+      "kind": "cli",
+      "state": "postponed",
+      "need": "Map architecture, call paths, dependencies and change impact in a repository too large to read directly.",
+      "condition": null,
+      "stateReason": "No provider is selected yet. License, cost and authentication depend on the implementation chosen, so the entry cannot resolve as universal or conditional until a candidate is evaluated.",
+      "provenance": null,
+      "license": {
+        "status": "unknown",
+        "spdx": null,
+        "note": "Depends entirely on the provider selected; local and hosted implementations differ."
+      },
+      "cost": {
+        "status": "unknown",
+        "posture": "unknown",
+        "note": "A local index may cost nothing while a hosted service may be metered or plan-bound."
+      },
+      "auth": {
+        "status": "unknown",
+        "required": false,
+        "secretEnvRefs": [],
+        "scopes": [],
+        "note": "Local implementations need no account; some hosted services do. Unknown until a candidate is named."
+      },
+      "data": [
+        "Depends on the provider: a local index, or source uploaded to a hosted service"
+      ],
+      "permissions": {
+        "filesystem": "read",
+        "network": "none",
+        "execution": "none",
+        "note": "Recorded as the minimum a local implementation would need; a hosted candidate would raise this."
+      },
+      "maintenance": {
+        "status": "unknown",
+        "note": "Not applicable until a specific provider is evaluated."
+      },
+      "rollback": "Delete the index and its configuration and return to local search."
+    }
+  ]
+}

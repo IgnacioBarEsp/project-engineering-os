@@ -21,6 +21,7 @@ cuando lo necesites.
 - [Decisión de onboarding adaptativo](ADAPTIVE_ONBOARDING.md): rutas por experiencia, tableros, skills, MCP,
   permisos, límites y desglose de implementación.
 - [Contrato del clasificador](ONBOARDING_PLAN.md): comando, respuestas, estado, privacidad y migración.
+- [Catálogo de herramientas](TOOL_CATALOG.md): estados, procedencia fijada y por qué investigar no instala.
 - [Debt Control Loop](DEBT_CONTROL.md): cuándo un hallazgo se convierte en deuda y qué puede pausar.
 - [Ownership](architecture/OWNERSHIP.md): qué pertenece al upstream, al consumidor o a OpenSpec.
 - [Upstream y consumidores](UPSTREAM_CONSUMERS.md): cómo proponer cambios sin editar copias del runtime.
@@ -51,6 +52,7 @@ cuando lo necesites.
 | Resolver drift o una ejecución interrumpida | [Recuperación](RECOVERY.md) |
 | Saber qué puede hacer cada agente | [Compatibilidad](COMPATIBILITY.md) |
 | Entender la visión de onboarding, trackers, skills y MCP | [Onboarding adaptativo](ADAPTIVE_ONBOARDING.md) |
+| Evaluar una herramienta sin instalarla | [Catálogo de herramientas](TOOL_CATALOG.md) |
 | Entender pausas por deuda | [Debt Control Loop](DEBT_CONTROL.md) |
 
 Vuelve al [README principal](../README.md) para el recorrido corto y los comandos de inicio.
