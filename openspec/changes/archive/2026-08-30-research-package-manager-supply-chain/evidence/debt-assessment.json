@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "research-package-manager-supply-chain",
+  "date": "2026-08-30",
+  "kind": "baseline",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Spike documental. Revisión adversarial PASS con cero Blockers y cero Majors abiertos. Un Major (una premisa del issue sobre el acoplamiento del blueprint a npm resultó falsa contra main, y usarla habría cargado de costo una superficie y tapado la deuda real de esa misma superficie) y un Minor (una celda de la matriz venía de una fuente secundaria que falseaba a un candidato) se encontraron y corrigieron dentro del change. Sin dependencias, licencias, proveedores, permisos, secretos ni telemetría nuevos, y sin migración ejecutada. La deuda que el spike descubre no se registra aquí como candidato porque ya tiene issues propios: #58, #59 y #60. Una degradación queda declarada y no es deuda: la matriz describe el estado de cuatro gestores en una fecha y envejece por construcción, mitigada con fecha de consulta por dato y condición de revisión explícita."
+}
