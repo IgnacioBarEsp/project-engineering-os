@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 48,
+  "change": "pin-upstream-openspec-1-6-0",
+  "surfaces": [
+    "documentation",
+    "harness-tooling"
+  ],
+  "validations": [
+    { "id": "openspec-strict", "status": "passed", "evidence": "evidence://validation/openspec-1-6-0-strict-9-items-0-failed", "justification": null, "profileCondition": null },
+    { "id": "neutrality-check", "status": "passed", "evidence": "evidence://validation/public-tree-neutrality-pass", "justification": null, "profileCondition": null },
+    { "id": "constructor-tests", "status": "passed", "evidence": "evidence://validation/235-tests-zero-failures", "justification": null, "profileCondition": null },
+    { "id": "clean-install", "status": "passed", "evidence": "evidence://validation/two-npm-ci-runs-openspec-1-6-0-lock-no-drift", "justification": null, "profileCondition": null },
+    { "id": "dependency-audit", "status": "passed", "evidence": "evidence://validation/zero-high-critical-zero-exceptions", "justification": null, "profileCondition": null },
+    { "id": "fixture-full", "status": "passed", "evidence": "evidence://validation/empty-repository-fixture-full-pass", "justification": null, "profileCondition": null },
+    { "id": "package-verification", "status": "passed", "evidence": "evidence://validation/tarball-tested-no-bundled-dependencies", "justification": null, "profileCondition": null }
+  ],
+  "evidence": [
+    { "id": "adversarial-review", "kind": "manual", "status": "verified", "ref": "evidence://adversarial-review/pass-zero-blockers-zero-open-majors", "justification": null, "profileCondition": null },
+    { "id": "issue-link", "kind": "manual", "status": "verified", "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/48", "justification": null, "profileCondition": null },
+    { "id": "clean-worktree-manual-check", "kind": "manual", "status": "verified", "ref": "evidence://manual/local-binary-resolves-without-absolute-path-or-global-fallback", "justification": null, "profileCondition": null },
+    { "id": "readiness-limitation", "kind": "manual", "status": "verified", "ref": "evidence://limitation/in-situ-readiness-blocked-by-independent-issue-49", "justification": null, "profileCondition": null }
+  ],
+  "rollback": {
+    "strategy": "Revertir el commit del change y ejecutar npm ci; no hay estado remoto ni datos de producto que restaurar.",
+    "status": "verified",
+    "evidence": "evidence://rollback/manifest-lockfile-and-change-revert",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "passed",
+    "ref": "evidence://adversarial-review/pass-zero-blockers-zero-open-majors",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}
