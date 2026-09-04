@@ -1,0 +1,4 @@
+schema: spec-driven
+created: 2026-09-01
+goal: Make the upstream SDD workflow reproducible from a clean clone by pinning the
+  exact OpenSpec CLI already required by repository policy.

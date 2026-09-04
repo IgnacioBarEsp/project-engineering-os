@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "pin-upstream-openspec-1-6-0",
+  "date": "2026-09-01",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Revisión adversarial PASS con cero Blockers y cero Majors abiertos. La dependencia es exacta, de desarrollo, MIT, auditada y ausente del runtime/tarball. Readiness in situ continúa bloqueado por la deuda preexistente #49 y no se reporta como PASS. Push/PR/merge quedan para una sesión autenticada."
+}
