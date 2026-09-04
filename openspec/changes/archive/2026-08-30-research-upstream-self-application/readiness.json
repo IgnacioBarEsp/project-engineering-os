@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 46,
+  "change": "research-upstream-self-application",
+  "surfaces": [
+    "documentation",
+    "harness-tooling"
+  ],
+  "validations": [
+    { "id": "openspec-strict", "status": "passed", "evidence": "evidence://validation/openspec-1-6-0-strict-9-items-0-failed", "justification": null, "profileCondition": null },
+    { "id": "opsx-check", "status": "passed", "evidence": "evidence://validation/opsx-ownership-contract-unchanged-by-a-documentation-only-change", "justification": null, "profileCondition": null },
+    { "id": "critical-document-presence", "status": "passed", "evidence": "evidence://validation/check-docs-22-readme-links-and-7-spec-purposes", "justification": null, "profileCondition": null },
+    { "id": "relative-link-check", "status": "passed", "evidence": "evidence://validation/check-docs-relative-links-pass", "justification": null, "profileCondition": null },
+    { "id": "findability-two-hop-check", "status": "passed", "evidence": "evidence://validation/self-application-record-linked-from-docs-index-and-changelog", "justification": null, "profileCondition": null },
+    { "id": "neutrality-check", "status": "passed", "evidence": "evidence://validation/clean-worktree-public-tree-neutrality-pass", "justification": null, "profileCondition": null },
+    { "id": "constructor-tests", "status": "passed", "evidence": "evidence://validation/clean-worktree-231-tests-zero-failures", "justification": null, "profileCondition": null },
+    { "id": "sync-check", "status": "passed", "evidence": "evidence://validation/empty-repository-fixture-sync-check-without-drift", "justification": null, "profileCondition": null },
+    { "id": "capability-matrix-check", "status": "passed", "evidence": "evidence://validation/five-harness-contracts-unchanged", "justification": null, "profileCondition": null },
+    { "id": "doctor-json-check", "status": "passed", "evidence": "evidence://validation/empty-repository-fixture-doctor-json-pass", "justification": null, "profileCondition": null },
+    { "id": "second-run-idempotence", "status": "passed", "evidence": "evidence://validation/empty-repository-fixture-second-run-without-drift", "justification": null, "profileCondition": null }
+  ],
+  "evidence": [
+    { "id": "adversarial-review", "kind": "manual", "status": "verified", "ref": "evidence://adversarial-review/pass-zero-blockers-zero-open-majors", "justification": null, "profileCondition": null },
+    { "id": "issue-link", "kind": "manual", "status": "verified", "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/46", "justification": null, "profileCondition": null },
+    { "id": "qualitative-review-for-clarity-and-current-ownership", "kind": "manual", "status": "verified", "ref": "evidence://docs/self-application-record-states-verdict-reason-and-what-it-does-not-decide", "justification": null, "profileCondition": null },
+    { "id": "recorded-drift-decisions", "kind": "manual", "status": "verified", "ref": "evidence://decision/upstream-never-bootstraps-itself-and-adopts-only-inside-the-allowlisted-project-os-root", "justification": null, "profileCondition": null },
+    { "id": "review-of-declared-degradations", "kind": "manual", "status": "verified", "ref": "evidence://review/the-classification-criterion-depends-on-promises-being-written-down", "justification": null, "profileCondition": null },
+    { "id": "recovery-rehearsal-for-one-transaction", "kind": "manual", "status": "verified", "ref": "evidence://probe/every-configuration-probe-reverted-and-project-os-root-back-to-one-file", "justification": null, "profileCondition": null }
+  ],
+  "rollback": {
+    "strategy": "Revertir el commit del decision record y su enlace en el índice. El spike no ejecuta ninguna adopción, así que no hay estado que reconciliar.",
+    "status": "verified",
+    "evidence": "evidence://rollback/documentation-only-change-with-no-runtime-effect",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "passed",
+    "ref": "evidence://adversarial-review/pass-zero-blockers-zero-open-majors",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}
