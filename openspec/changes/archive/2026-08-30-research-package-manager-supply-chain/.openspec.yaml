@@ -1,0 +1,4 @@
+schema: spec-driven
+created: 2026-08-30
+goal: Decide whether another package manager reduces supply-chain exposure, measured
+  per surface against the controls this repository already applies.

@@ -43,6 +43,8 @@ cuando lo necesites.
 - [Triage de cadena de suministro](security/SUPPLY_CHAIN_TRIAGE_2026-08-18.md): atribución y decisión por
   señal de Socket y npm audit.
 - [ADR 0001](adr/0001-public-distribution.md): por qué runtime y motor de deuda viven en un paquete público.
+- [ADR 0002](adr/0002-package-manager-supply-chain.md): por qué se conserva npm frente a pnpm y qué
+  protege realmente cada gestor.
 
 ## Referencias rápidas
 
@@ -59,6 +61,7 @@ cuando lo necesites.
 | Evaluar una herramienta sin instalarla | [Catálogo de herramientas](TOOL_CATALOG.md) |
 | Corregir un Purpose que dejó el archive | [Purpose de las capabilities](SPEC_PURPOSE.md) |
 | Entender pausas por deuda | [Debt Control Loop](DEBT_CONTROL.md) |
+| Saber qué protege cada gestor de paquetes | [ADR 0002](adr/0002-package-manager-supply-chain.md) |
 | Saber si un FAIL sobre el upstream es deuda | [Autoaplicación](SELF_APPLICATION.md) |
 
 Vuelve al [README principal](../README.md) para el recorrido corto y los comandos de inicio.

@@ -4,6 +4,21 @@ All notable changes follow [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Package manager decision
+
+- Add `docs/adr/0002-package-manager-supply-chain.md`: npm is kept on all three surfaces — upstream
+  development and release, generated repositories, and how a consumer invokes the CLI — with a dated review
+  condition of 2027-03-01.
+- Measure the comparison instead of assuming it. The controls that motivated moving to pnpm already exist
+  in npm: install scripts and exotic sources become off by default in npm 12, and the release-age quarantine
+  shipped in npm 11.10.0. The difference is the default, not the capability.
+- Record the disqualifying constraint: pnpm 11 requires Node 22 or newer, while this package declares
+  `^20.20.0 || >=22.22.0` and its CI matrix runs Node 20.20.0 across three operating systems.
+- List the vectors no package manager change mitigates, and check the nine signals of the 2026-08-18
+  supply-chain triage against the question: none of them would have been avoided by another manager.
+
+The decision changes no runtime, workflow or blueprint file. The hardening it identifies lives in separate
+issues.
 ### Self-application decision
 
 - Add `docs/SELF_APPLICATION.md`: a measured verdict for each of the 47 mechanisms this repository
