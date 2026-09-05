@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "budget": {
+    "threshold": 5,
+    "minorUnits": 1,
+    "escalatedMinorUnits": 2
+  },
+  "triggers": {
+    "flowsWithResidualDebt": 5,
+    "recurrenceFlows": 3
+  },
+  "github": {
+    "mode": "off",
+    "remediationLabel": "debt-remediation",
+    "issueTitlePrefix": "[Debt][Saneamiento]",
+    "projectManifest": ".project-os/github/product-os.json"
+  },
+  "plans": [
+    {
+      "id": "upstream-core",
+      "title": "Upstream engineering controls",
+      "doc": "docs/SELF_APPLICATION.md"
+    }
+  ],
+  "planRouting": {
+    "labelMap": {},
+    "default": "upstream-core"
+  },
+  "allowlistLabels": [
+    "debt-remediation",
+    "security",
+    "incident",
+    "rollback"
+  ]
+}

@@ -559,16 +559,13 @@ async function main() {
       }
 
       const openspecInit = await run(
-        npmCommand,
-        npmArgs([
-          "exec",
-          "--yes=false",
-          "--",
-          "openspec",
+        process.execPath,
+        [
+          path.join(target, '.project-constructor/openspec.mjs'),
           "init",
           "--tools",
           "codex,claude,cursor,github-copilot,opencode",
-        ]),
+        ],
         { cwd: target, timeoutMs: 180_000 },
       );
       commands.push({ id: "openspec-init-local", exitCode: openspecInit.exitCode });

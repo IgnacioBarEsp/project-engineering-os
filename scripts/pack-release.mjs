@@ -123,6 +123,7 @@ try {
       || relative.startsWith('config/')
       || relative.startsWith('.github/')
       || relative.includes('node_modules/')
+      || /\.(?:docx?|pdf|xlsx?|pptx?)$/i.test(relative)
     ));
   if (unexpected.length > 0) {
     throw new Error(`El tarball incluye rutas incidentales: ${unexpected.join(', ')}`);
@@ -218,4 +219,3 @@ try {
     }
   }
 }
-

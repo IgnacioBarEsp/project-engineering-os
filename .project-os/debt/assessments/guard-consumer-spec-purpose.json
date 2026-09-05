@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "guard-consumer-spec-purpose",
+  "date": "2026-08-30",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Revisión adversarial PASS con cero Blockers y cero Majors abiertos. Un Major (un árbol de specs enlazado fuera del repositorio permitía enumerar directorios ajenos desde un comando read-only) y un Minor (fallar cerrado ante un árbol de specs ausente rompía el fixture de repositorio vacío y castigaba un estado legítimo) se encontraron y corrigieron dentro del change, ambos fijados por pruebas nuevas. Sin dependencias, licencias, proveedores, permisos, secretos ni telemetría nuevos. La migración declarada (specs de consumidor que ya arrastran el texto sembrado empiezan a fallar) no es deuda nueva: es deuda preexistente que se vuelve observable, con recuperación impresa por el propio comando."
+}

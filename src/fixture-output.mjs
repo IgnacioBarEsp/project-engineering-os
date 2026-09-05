@@ -35,6 +35,14 @@ export function classifyOpenSpecInitOutput(response) {
     ...completeSignals(tool),
   ]));
   const unexpectedStderr = stderrLines.filter((line) => !allowedProgress.has(line));
+  // Non-interactive platforms can suppress ora's progress entirely. The official final
+  // summary is an equivalent signal; the fixture separately verifies every generated file.
+  const reportedTools = stdoutLines
+    .filter((line) => /^(?:Created|Refreshed): /.test(line))
+    .flatMap((line) => line.replace(/^[^:]+: /, '').split(', '));
+  const completeSummary = stdoutLines.includes('OpenSpec Setup Complete')
+    && expectedTools.every((tool) => reportedTools.includes(tool))
+    && !allLines.some((line) => /^Failed:/.test(line));
   const missingSignals = expectedTools.flatMap((tool) => {
     const setup = allLines.includes(`- Setting up ${tool}...`);
     const complete = completeSignals(tool).some((signal) => allLines.includes(signal));
@@ -45,7 +53,9 @@ export function classifyOpenSpecInitOutput(response) {
   });
   return {
     ...classifyCommandOutput(response),
-    expectedProgress: unexpectedStderr.length === 0 && missingSignals.length === 0,
+    expectedProgress: unexpectedStderr.length === 0
+      && (missingSignals.length === 0 || completeSummary),
+    completeSummary,
     missingSignals,
     unexpectedStderr,
   };

@@ -17,6 +17,8 @@ cuando lo necesites.
 
 ## Quiero entender cómo se gobierna el trabajo
 
+- [Operación upstream](UPSTREAM_OPERATIONS.md): readiness in situ, deuda capturada, diagnóstico y perfiles.
+
 - [Project OS remoto](PROJECT_OS.md): estados, labels, protección y gates de GitHub.
 - [Decisión de onboarding adaptativo](ADAPTIVE_ONBOARDING.md): rutas por experiencia, tableros, skills, MCP,
   permisos, límites y desglose de implementación.

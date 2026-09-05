@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "add-adaptive-onboarding-classifier",
+  "date": "2026-08-18",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Revisión adversarial PASS: cero Blockers y cero Majors abiertos. Cuatro Majors y cuatro Minors fueron corregidos antes del cierre; no queda deuda residual."
+}

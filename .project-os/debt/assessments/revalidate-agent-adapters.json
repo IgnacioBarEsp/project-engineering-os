@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "flow": "revalidate-agent-adapters",
+  "date": "2026-08-19",
+  "kind": "feature",
+  "result": "debt",
+  "candidates": [
+    {
+      "title": "Las instrucciones por ruta siguen documented aunque tres harnesses soporten seleccion por glob",
+      "artifact": "blueprint/core/project-os/harness-capabilities.json",
+      "source": "review",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "consequence": "Claude Code documenta frontmatter paths en .claude/rules, Cursor documenta globs por regla y GitHub Copilot documenta applyTo en .github/instructions. El constructor ya escribe archivos en dos de esas tres superficies, pero con un alcance universal, asi que no conserva la seleccion por glob que es la semantica de la capacidad. El resultado es una capacidad declarada documented mientras la superficie oficial existe y esta parcialmente ocupada: quien lea la matriz no distingue entre una superficie ausente y una superficie escrita sin su semantica.",
+      "remediation": "Implementar un renderer por regla que emita un archivo por entrada de path-rules.json con su glob en el frontmatter de cada harness, y fixtures que prueben seleccion equivalente antes de promover la celda. Mientras tanto la degradacion declarada explica el limite y su criterio de promocion.",
+      "evidence": [
+        {
+          "type": "file",
+          "ref": "blueprint/core/harness/copilot/project-os.instructions.md declara applyTo con alcance universal para todas las reglas",
+          "date": "2026-08-19"
+        },
+        {
+          "type": "file",
+          "ref": "blueprint/core/project-os/path-rules.json declara cuatro reglas con globs distintos que el espejo agregado no preserva",
+          "date": "2026-08-19"
+        },
+        {
+          "type": "command",
+          "ref": "npm test: la celda pathRules de claude-code, cursor y github-copilot permanece documented con su degradacion escrita",
+          "date": "2026-08-19"
+        }
+      ],
+      "verification": {
+        "method": "Lectura de la documentacion oficial de Claude Code, Cursor y GitHub Copilot sobre seleccion por ruta, contrastada con los shells que el constructor instala y con el contenido de path-rules.json.",
+        "result": "Confirmado: las tres superficies soportan seleccion por ruta y el renderer actual emite un unico archivo agregado con alcance universal en cada una.",
+        "date": "2026-08-19"
+      }
+    }
+  ],
+  "notes": "Revision adversarial PASS: cero Blockers y cero Majors abiertos. Dos Blockers, dos Majors y tres Minors se corrigieron antes del cierre, todos detectados durante la revision sobre el propio trabajo: la matriz seed-once de un consumidor existente rompia el sync, tres versiones minimas eran invenciones sin fuente, las fixtures de instrucciones aprobaban un archivo sin contenido canonico, las tablas de documentacion podian quedar desactualizadas en silencio, dos adapters administrados no tenian contrato, dos fuentes redirigian y crear una capacidad nueva habria anadido un tercer Purpose TBD. El unico candidato es minor, no transversal y preexistente al change: la degradacion de instrucciones por ruta ya existia y este change la documenta con su criterio de promocion en lugar de crearla."
+}

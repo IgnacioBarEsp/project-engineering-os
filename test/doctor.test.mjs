@@ -4,6 +4,49 @@ import { mkdtemp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promis
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
+
+test('doctor diferencia upstream explícito de consumidor sin ocultar obligaciones', async (t) => {
+  const root=await createHealthyFixture(t);
+  await rm(path.join(root,'.project-constructor/state.json'));
+  await rm(path.join(root,'.github/workflows/project-constructor.yml'));
+  const options={target:root,runner:healthyRunner(),parityChecker:healthyParity,env:{}};
+  const consumer=await collectDoctorReport(options);
+  assert.equal(consumer.results.find(r=>r.id==='release.identity').status,'FAIL');
+  const pkg=JSON.parse(await readFile(path.join(root,'package.json'),'utf8'));
+  pkg.name='create-project-engineering-os';await json(root,'package.json',pkg);
+  await json(root,'.project-os/repository-governance.json',{repositoryKind:'upstream'});
+  await rm(path.join(root,'.project-os/github/product-os.json'));
+  const upstream=await collectDoctorReport(options);
+  for(const id of ['release.identity','harness.parity','mcp.configuration','ci.configuration']) {
+    const r=upstream.results.find(r=>r.id===id);assert.equal(r.status,'SKIP');assert.equal(r.evidence.category,'consumer-shape');
+  }
+  assert.equal(upstream.results.find(r=>r.id==='github.project').status,'FAIL');
+  assert.ok(upstream.results.every(r=>r.evidence.category && r.evidence.applicability));
+  await rm(path.join(root,'.project-os/debt/config.json'));
+  assert.equal((await collectDoctorReport(options)).results.find(r=>r.id==='debt.health').status,'SKIP');
+});
+
+test('indexación opt-in valida recibos independientes, recientes y ligados al config', async (t) => {
+  const root=await createHealthyFixture(t);
+  const config={codeIndexable:true,activeProfiles:['documentation','harness-tooling']};
+  await json(root,'.project-constructor/config.json',config);
+  const receipt={schemaVersion:'1.0.0',optIn:true,status:'PASS',
+    configHash:doctorInternals.sha256(doctorInternals.stableStringify(config)),
+    issuedAt:new Date(Date.now()-1000).toISOString(),expiresAt:new Date(Date.now()+86400000).toISOString()};
+  const target='.project-os/evidence/code-intelligence-gitnexus.json';
+  const options={target:root,runner:healthyRunner(),parityChecker:healthyParity,env:{}};
+  const status=async()=> (await collectDoctorReport(options)).results.find(r=>r.id==='code-intelligence.gitnexus').status;
+  assert.equal(await status(),'FAIL');await json(root,target,receipt);
+  const before=await snapshot(root);assert.equal(await status(),'PASS');assert.deepEqual(await snapshot(root),before);
+  assert.equal((await collectDoctorReport(options)).results.find(r=>r.id==='code-intelligence.codegraph').status,'FAIL');
+  for(const change of [{optIn:false},{configHash:'wrong'},{expiresAt:'2020-01-01'},
+    {issuedAt:'2020-01-01'},{expiresAt:null},{issuedAt:new Date(Date.now()+86400000).toISOString()}]) {
+    await json(root,target,{...receipt,...change});assert.equal(await status(),'FAIL');
+  }
+  await write(root,target,'{broken');assert.equal(await status(),'FAIL');
+  await json(root,'.project-constructor/config.json',{...config,codeIndexable:false});
+  assert.equal(await status(),'SKIP');
+});
 import { CONSTRUCTOR_VERSION } from "../src/constants.mjs";
 import { collectDoctorReport, doctorInternals, runDoctor } from "../src/doctor.mjs";
 import { createReport, formatHuman, formatJson, result } from "../src/report.mjs";

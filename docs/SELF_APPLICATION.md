@@ -8,6 +8,10 @@ aplicarse, en qué forma, qué no debe aplicarse nunca y por qué, con una razó
 un `FAIL` del doctor sobre este repositorio no siempre es deuda.
 
 Fecha de la decisión: 30 de agosto de 2026. Origen:
+
+Estado operativo actualizado: [operación upstream](UPSTREAM_OPERATIONS.md). La matriz siguiente conserva
+la medición histórica; readiness, deuda y clasificación del doctor se implementaron después de la decisión.
+
 [#46](https://github.com/IgnacioBarEsp/project-engineering-os/issues/46). Todas las mediciones citadas están
 en `openspec/changes/archive/2026-08-30-research-upstream-self-application/evidence/current-truth.md`.
 

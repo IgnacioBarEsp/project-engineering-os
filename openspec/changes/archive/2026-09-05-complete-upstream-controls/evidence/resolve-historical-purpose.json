@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "flow": "resolve-historical-purpose",
+  "date": "2026-09-04",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "resolves": [
+    {"id": "debt-cdeb7323f2a1", "evidence": "Issue #25 closed; current debt-control, distribution, runtime and upgrade specs have authored Purpose. npm run check:docs and OpenSpec strict PASS on 2026-09-04."},
+    {"id": "debt-a376987e2eae", "evidence": "Issue #42 and PR #44 integrated; adaptive-onboarding Purpose is authored and shared Purpose gate is present. npm run check:docs PASS on 2026-09-04."}
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "debt-cdeb7323f2a1",
+      "title": "Cuatro specs históricas carecen de Purpose",
+      "description": "Cuatro specs históricas carecen de Purpose",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": true,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "openspec/specs/{debt-control,distribution,runtime,upgrade}/spec.md",
+      "consequence": "La validación estricta global falla aunque la spec nueva y los changes activos sean válidos.",
+      "remediation": "Resolver el Issue #25 mediante un change documental que añada Purpose sin alterar requisitos.",
+      "evidence": [
+        {
+          "type": "validation",
+          "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/25",
+          "date": "2026-08-18"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "harden-supply-chain-policy",
+          "date": "2026-08-18"
+        }
+      ],
+      "issue": null,
+      "status": "resolved",
+      "exception": null,
+      "createdAt": "2026-08-18",
+      "updatedAt": "2026-09-04",
+      "resolution": {
+        "flow": "resolve-historical-purpose",
+        "evidence": "Issue #25 closed; current debt-control, distribution, runtime and upgrade specs have authored Purpose. npm run check:docs and OpenSpec strict PASS on 2026-09-04."
+      }
+    },
+    {
+      "id": "debt-a376987e2eae",
+      "title": "La spec activa adaptive-onboarding conserva un Purpose TBD generado por el archive anterior",
+      "description": "La spec activa adaptive-onboarding conserva un Purpose TBD generado por el archive anterior",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "openspec/specs/adaptive-onboarding/spec.md",
+      "consequence": "La capacidad que este change extiende declara su propósito como pendiente. Quien lea la spec activa no encuentra el alcance de adaptive-onboarding y debe reconstruirlo desde los changes archivados. Es la misma clase de hallazgo que resolvió el Issue #25 para las specs históricas, reintroducida por una capacidad creada después.",
+      "remediation": "Redactar el Purpose de adaptive-onboarding mediante un change propio, como hizo el Issue #25 con las specs históricas, y revisar si el archive debería exigir un Purpose escrito antes de crear una capacidad nueva.",
+      "evidence": [
+        {
+          "type": "file",
+          "ref": "openspec/specs/adaptive-onboarding/spec.md primera sección Purpose",
+          "date": "2026-08-19"
+        },
+        {
+          "type": "command",
+          "ref": "openspec archive orchestrate-onboarding-prompts --yes en un consumidor de ensayo: añade 7 requisitos y deja el Purpose sin cambios",
+          "date": "2026-08-19"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "orchestrate-onboarding-prompts",
+          "date": "2026-08-19"
+        }
+      ],
+      "issue": null,
+      "status": "resolved",
+      "exception": null,
+      "createdAt": "2026-08-19",
+      "updatedAt": "2026-09-04",
+      "resolution": {
+        "flow": "resolve-historical-purpose",
+        "evidence": "Issue #42 and PR #44 integrated; adaptive-onboarding Purpose is authored and shared Purpose gate is present. npm run check:docs PASS on 2026-09-04."
+      }
+    },
+    {
+      "id": "debt-b3a6e12d995d",
+      "title": "Las instrucciones por ruta siguen documented aunque tres harnesses soporten seleccion por glob",
+      "description": "Las instrucciones por ruta siguen documented aunque tres harnesses soporten seleccion por glob",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "blueprint/core/project-os/harness-capabilities.json",
+      "consequence": "Claude Code documenta frontmatter paths en .claude/rules, Cursor documenta globs por regla y GitHub Copilot documenta applyTo en .github/instructions. El constructor ya escribe archivos en dos de esas tres superficies, pero con un alcance universal, asi que no conserva la seleccion por glob que es la semantica de la capacidad. El resultado es una capacidad declarada documented mientras la superficie oficial existe y esta parcialmente ocupada: quien lea la matriz no distingue entre una superficie ausente y una superficie escrita sin su semantica.",
+      "remediation": "Implementar un renderer por regla que emita un archivo por entrada de path-rules.json con su glob en el frontmatter de cada harness, y fixtures que prueben seleccion equivalente antes de promover la celda. Mientras tanto la degradacion declarada explica el limite y su criterio de promocion.",
+      "evidence": [
+        {
+          "type": "file",
+          "ref": "blueprint/core/harness/copilot/project-os.instructions.md declara applyTo con alcance universal para todas las reglas",
+          "date": "2026-08-19"
+        },
+        {
+          "type": "file",
+          "ref": "blueprint/core/project-os/path-rules.json declara cuatro reglas con globs distintos que el espejo agregado no preserva",
+          "date": "2026-08-19"
+        },
+        {
+          "type": "command",
+          "ref": "npm test: la celda pathRules de claude-code, cursor y github-copilot permanece documented con su degradacion escrita",
+          "date": "2026-08-19"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "revalidate-agent-adapters",
+          "date": "2026-08-19"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-08-19",
+      "updatedAt": "2026-08-19",
+      "resolution": null
+    }
+  ]
+}
