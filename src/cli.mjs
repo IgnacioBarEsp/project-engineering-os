@@ -37,6 +37,7 @@ Uso:
   project-os readiness-check --phase archive --change <slug> [--run-local] [--target <ruta>] [--json]
   project-os rollback --target <ruta> --transaction <id> [--json]
   project-os github-plan [--target <ruta>] [--json]
+  project-os tracker <plan|apply|verify|rollback> [opciones]
   project-os onboarding-plan [--target <ruta>] [--answers <ruta>] [--state <ruta>] [--json]
   project-os tool-catalog list [--target <ruta>] [--json]
   project-os tool-catalog evaluate --candidate <ruta> [--target <ruta>] [--json]
@@ -347,6 +348,10 @@ export async function runCli(argv = process.argv.slice(2)) {
   let jsonRequested = argv.includes('--json');
   try {
     assertSupportedNode();
+    if (argv[0] === 'tracker') {
+      const { runTrackerCli } = await import('./tracker/cli.mjs');
+      return runTrackerCli(argv.slice(1));
+    }
     if (argv[0] === 'debt') {
       if (argv[1] === '--version' || argv[1] === '-v') {
         write(`${CONSTRUCTOR_VERSION}\n`);

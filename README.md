@@ -166,6 +166,9 @@ Los comandos con `--check`, `doctor`, `onboarding-plan` y readiness diagnostican
 Una mutación
 requiere un comando explícito y conserva recuperación.
 
+Para un tablero remoto, usa el [flujo de trackers](docs/TRACKERS.md): plan offline, aprobación por
+operación, verificación remota y rollback atribuible al receipt. Conserva el tracker que el equipo ya usa.
+
 ## Estado actual y próximos pasos
 
 La versión actual instala el núcleo universal y mantiene inactivos los perfiles de producto. No activa

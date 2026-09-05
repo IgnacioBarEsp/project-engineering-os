@@ -568,6 +568,17 @@ async function main() {
         throw new Error("La dependencia exacta no expuso project-os en node_modules.");
       }
 
+      const beforeTrackerPlan = await snapshot(target);
+      const trackerPlan = await run(process.execPath,
+        [installedCliPath, 'tracker', 'plan', '--target', target, '--json'], { cwd: target });
+      if (trackerPlan.exitCode !== 0 || trackerPlan.stderr.trim()) throw new Error('El planner tracker instalado falló.');
+      const trackerPayload = JSON.parse(trackerPlan.stdout);
+      if (trackerPayload.status !== 'needs-input' || trackerPayload.mutationPerformed !== false
+        || trackerPayload.operations.length !== 0) throw new Error('El tracker instalado no preservó las decisiones pendientes.');
+      if (JSON.stringify(await snapshot(target)) !== JSON.stringify(beforeTrackerPlan)) throw new Error('El planner tracker instalado modificó archivos.');
+      commands.push({ id: 'tracker-plan-installed', exitCode: trackerPlan.exitCode });
+      checks.trackerPlan = { status: 'PASS', mutationPerformed: false, configuration: 'needs-input' };
+
       const openspecInit = await run(
         process.execPath,
         [
