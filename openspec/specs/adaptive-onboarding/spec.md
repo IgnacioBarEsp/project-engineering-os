@@ -266,4 +266,3 @@ It SHALL never delete a preexisting tracker or overwrite concurrent user changes
 #### Scenario: Project changed after creation
 - **WHEN** the created project's configuration or contents differ from its receipt
 - **THEN** rollback SHALL refuse deletion and report reconciliation without mutating remote state
-
