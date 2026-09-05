@@ -93,3 +93,5 @@ export {
   rollbackTransaction,
 } from './transaction.mjs';
 export * as debt from './debt/index.mjs';
+export { planTracker } from './tracker/model.mjs';
+export { applyTracker, verifyTracker, rollbackTracker } from './tracker/workflow.mjs';

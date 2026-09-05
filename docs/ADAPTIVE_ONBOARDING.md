@@ -224,6 +224,10 @@ se puede tratar como una frontera portable.
 
 ### Condicionales
 
+El [flujo tracker plan/apply](TRACKERS.md) implementa operaciones acotadas y autorizadas para GitHub,
+Azure Boards y Jira. Su verificación distingue configuración, existencia y smoke de lectura; no migra
+trackers existentes ni aplica automáticamente todo el manifiesto Product OS.
+
 | Herramienta | Licencia/costo | Auth | Datos enviados | Rollback | Cuándo entra |
 | --- | --- | --- | --- | --- | --- |
 | GitHub Projects / GitHub MCP oficial | Servicio bajo términos/plan GitHub; servidor MCP MIT | `gh`, OAuth o token fine-grained; mínimo `read:project` antes de write | Repo, issues, PRs, Project y operaciones habilitadas | Receipt, borrar/reconciliar items creados, revocar auth y quitar config | Repo GitHub sin tracker o equipo ya en GitHub |

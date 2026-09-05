@@ -4,6 +4,9 @@ All notable changes follow [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Add offline tracker plans, exact per-operation approvals, conditional GitHub/Azure/Jira adapters,
+  durable receipts, remote verification and ownership-aware rollback (#33).
+
 - Publish optional AI opportunity guidance and a greenfield design grounded in upstream evidence,
   with explicit automation limits and consumer ownership; defer automatic bootstrap adoption (#14, #15).
 

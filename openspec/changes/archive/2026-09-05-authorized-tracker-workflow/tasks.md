@@ -1,0 +1,5 @@
+- [x] Implement bounded offline planner, exact approvals and conditional provider adapters.
+- [x] Implement durable apply/verify/rollback with ownership and uncertain-outcome handling.
+- [x] Add CLI/public API documentation and meaningful adversarial contract tests.
+- [x] Run local and live GitHub evidence, self-review, debt capture and archive readiness.
+- [x] Archive through official OpenSpec and integrate through protected CI.
