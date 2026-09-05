@@ -4,6 +4,8 @@ All notable changes follow [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+## 0.3.0 - 2026-09-05
+
 - Add offline tracker plans, exact per-operation approvals, conditional GitHub/Azure/Jira adapters,
   durable receipts, remote verification and ownership-aware rollback (#33).
 

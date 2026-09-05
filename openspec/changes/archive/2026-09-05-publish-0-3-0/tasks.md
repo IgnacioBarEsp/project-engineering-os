@@ -1,0 +1,4 @@
+- [x] Align version identity, current examples, changelog and contributor authority documentation.
+- [x] Reconcile board status, ownership and release milestone while retaining future discovery.
+- [x] Run full validation, canonical pack, privacy/asset review and debt/readiness evidence.
+- [x] Archive with official OpenSpec and prepare protected release PR with publication runbook.
