@@ -28,6 +28,61 @@ let suiteRoot;
 let baselineRoot;
 let baselineBootstrap;
 
+test('path rule retirement respects modifications and rollback restores owned files', async () => {
+  const target = await cloneBaseline('path-rule-lifecycle');
+  const canonicalFile = path.join(target, '.project-os/path-rules.json');
+  const original = await readFile(canonicalFile, 'utf8');
+  const canonical = JSON.parse(original);
+  canonical.rules.push({ id: 'research', globs: ['docs/**/*'], instructions: ['Cite the exact reference.'] });
+  await writeFile(canonicalFile, JSON.stringify(canonical));
+  assertSuccessfulConstructor(await runInstalled(target, 'sync'), 'add scoped rule');
+  for (const file of ['.claude/rules/project-os-research.md', '.cursor/rules/project-os-research.mdc', '.github/instructions/project-os-research.instructions.md']) {
+    assert.ok((await readFile(path.join(target, file), 'utf8')).includes('Cite the exact reference.'));
+  }
+  canonical.rules = canonical.rules.filter((rule) => rule.id !== 'tests');
+  const paths = ['.claude/rules/project-os-tests.md', '.cursor/rules/project-os-tests.mdc', '.github/instructions/project-os-tests.instructions.md'];
+  const prior = await Promise.all(paths.map((file) => readFile(path.join(target, file), 'utf8')));
+  await writeFile(canonicalFile, `${JSON.stringify(canonical)}\n`);
+  const response = await runInstalled(target, 'sync');
+  assertSuccessfulConstructor(response, 'retire rule');
+  for (const file of paths) assert.equal(await exists(path.join(target, file)), false);
+  assertSuccessfulConstructor(await runInstalled(target, 'sync', ['--check']), 'repeat unchanged rules');
+  const transactionId = parseJson(response, 'retire rule').transaction.transactionId;
+  assertSuccessfulConstructor(await runInstalled(target, 'rollback', ['--transaction', transactionId]), 'restore rule');
+  for (let i = 0; i < paths.length; i++) assert.equal(await readFile(path.join(target, paths[i]), 'utf8'), prior[i]);
+  await writeFile(path.join(target, paths[0]), `${prior[0]}Human addition.\n`);
+  const before = await snapshot(target);
+  const conflict = await runInstalled(target, 'sync', ['--check']);
+  assert.notEqual(conflict.exitCode, 0);
+  assert.ok(parseJson(conflict, 'modified retirement').plan.operations.some((item) => item.target === paths[0] && item.operation === 'conflict'));
+  assert.deepEqual(await snapshot(target), before);
+});
+
+test('unsafe path selectors and dynamic-name collisions fail before writes', async () => {
+  const target = await cloneBaseline('path-rule-invalid');
+  const canonicalFile = path.join(target, '.project-os/path-rules.json');
+  const original = JSON.parse(await readFile(canonicalFile, 'utf8'));
+  for (const patch of [{ id: '../escape' }, { id: 'DOCUMENTATION' }, { globs: ['../**/*'] }, { globs: ['**/*,secrets/*'] }, { globs: ['**/*\nalwaysApply: true'] }, { globs: [] }]) {
+    const candidate = structuredClone(original);
+    Object.assign(candidate.rules[0], patch);
+    await writeFile(canonicalFile, JSON.stringify(candidate));
+    const before = await snapshot(target);
+    const response = await runInstalled(target, 'sync', ['--check']);
+    assert.notEqual(response.exitCode, 0);
+    assert.equal(parseJson(response, 'invalid path rule').code, 'PROJECT_OS_PATH_RULE_INVALID');
+    assert.deepEqual(await snapshot(target), before);
+  }
+  original.rules.push({ id: 'new-rule', globs: ['docs/**/*'], instructions: ['Keep a current source.'] });
+  await writeFile(canonicalFile, JSON.stringify(original));
+  const collisionFile = path.join(target, '.claude/rules/project-os-new-rule.md');
+  await writeFile(collisionFile, 'User-owned file.\n');
+  const before = await snapshot(target);
+  const response = await runInstalled(target, 'sync', ['--check']);
+  assert.notEqual(response.exitCode, 0);
+  assert.equal(await readFile(collisionFile, 'utf8'), 'User-owned file.\n');
+  assert.deepEqual(await snapshot(target), before);
+});
+
 function hash(content) {
   return createHash("sha256").update(content).digest("hex");
 }

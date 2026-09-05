@@ -18,6 +18,7 @@ import {
   opsxAdaptInvariantFailures,
 } from "../src/fixture-output.mjs";
 import { checkSeededIdentity } from "./check-package.mjs";
+import { PATH_RULE_SURFACES } from '../src/path-rules.mjs';
 import {
   ADAPTER_CONTRACTS,
   checkCapabilityMatrixContract,
@@ -182,6 +183,15 @@ async function assertHarnessFiles(target) {
 // Comprueba ruta y formato oficial; no comprueba, ni puede comprobar, startup, tool listing ni smoke.
 async function assertHarnessContract(target) {
   const contents = new Map();
+  contents.set('.project-os/path-rules.json', await readFile(path.join(target, '.project-os/path-rules.json'), 'utf8'));
+  for (const surface of PATH_RULE_SURFACES) {
+    for (const name of await readdir(path.join(target, surface.directory))) {
+      if (name.startsWith('project-os-') && name.endsWith(surface.extension)) {
+        const relative = `${surface.directory}/${name}`;
+        contents.set(relative, await readFile(path.join(target, relative), 'utf8'));
+      }
+    }
+  }
   for (const relative of Object.keys(ADAPTER_CONTRACTS)) {
     if (await exists(path.join(target, relative))) {
       contents.set(relative, await readFile(path.join(target, relative), "utf8"));

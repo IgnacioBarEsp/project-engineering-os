@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "flow": "preserve-path-rule-selection",
+  "date": "2026-09-05",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "resolves": [
+    {
+      "id": "debt-b3a6e12d995d",
+      "evidence": "Issue #65: per-rule selectors and bodies are rendered and verified in all three supported collections. Full check 248 PASS; complete installed fixture PASS, including negative selectors, collision, retirement and rollback evidence."
+    }
+  ]
+}

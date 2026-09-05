@@ -162,6 +162,45 @@ test('los adapters instalados cumplen su contrato offline', async () => {
   );
 });
 
+test('las colecciones conservan los selectores y fallan ante archivos ausentes o ampliados', async () => {
+  const blueprint = await materializeSeed();
+  const contents = renderedContents(blueprint);
+  const expected = [
+    ['.claude/rules/project-os-documentation.md', 'paths: ["**/*.md","docs/**/*"]'],
+    ['.cursor/rules/project-os-documentation.mdc', 'globs: "**/*.md,docs/**/*"'],
+    ['.github/instructions/project-os-documentation.instructions.md', 'applyTo: "**/*.md,docs/**/*"'],
+  ];
+  for (const [file, selector] of expected) {
+    assert.ok(contents.get(file).includes(selector), file);
+    assert.ok(contents.get(file).includes('Keep claims linked to a current source of truth.'));
+    assert.equal(contents.get(file).includes('Include a failing or negative case'), false);
+  }
+  for (const anchor of ['CLAUDE.md', '.claude/rules/project-os.md', '.cursor/rules/project-os.mdc', '.github/copilot-instructions.md', '.github/instructions/project-os.instructions.md']) {
+    assert.equal(contents.get(anchor).includes('Keep claims linked to a current source of truth.'), false, anchor);
+  }
+  const missing = new Map(contents);
+  missing.delete(expected[0][0]);
+  assert.ok(checkInstalledAdapters(missing, { instructions: blueprint.canonical.instructions }).some((failure) => failure.includes('missing-rule:documentation')));
+  const widened = new Map(contents);
+  widened.set(expected[1][0], widened.get(expected[1][0]).replace('alwaysApply: false', 'alwaysApply: true'));
+  assert.ok(checkInstalledAdapters(widened, { instructions: blueprint.canonical.instructions }).some((failure) => failure.includes('unconditional-rule:documentation')));
+});
+
+test('un blueprint sin colección mantiene fallback para la matriz antigua', async () => {
+  const seed = await readSeed();
+  const cell = seedCell(seed, 'claude-code', 'pathRules');
+  Object.assign(cell, { support: 'documented', target: 'AGENTS.md', validation: 'fallback-visible' });
+  cell.verification.configuration = 'not-applicable';
+  const baseBlueprint = await loadBlueprint({});
+  const entries = baseBlueprint.entries.filter((entry) => entry.target !== '.claude/rules/project-os.md').map((entry) => (
+    entry.target === '.project-os/harness-capabilities.json' ? { ...entry, content: Buffer.from(JSON.stringify(seed)) } : entry
+  ));
+  const blueprint = await materializeHarnessBlueprint({ baseBlueprint: { ...baseBlueprint, entries }, targetRoot: path.join(packageRoot, 'test/fixtures/nonexistent-consumer') });
+  const claude = renderedContents(blueprint).get('CLAUDE.md');
+  assert.ok(claude.includes('Keep claims linked to a current source of truth.'));
+  assert.equal(claude.includes('.claude/rules/project-os-documentation.md'), false);
+});
+
 test('un espejo de instrucciones que pierde el texto canónico falla el contrato', async () => {
   const blueprint = await materializeSeed();
   const contents = renderedContents(blueprint);

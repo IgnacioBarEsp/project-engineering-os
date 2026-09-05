@@ -38,15 +38,15 @@
           }
         },
         "pathRules": {
-          "support": "documented",
-          "target": "AGENTS.md",
+          "support": "generated",
+          "target": ".claude/rules/project-os.md",
           "owner": "constructor",
-          "validation": "fallback-visible",
+          "validation": "path-rule-collection",
           "verification": {
             "minimumVersion": "undetermined",
             "source": "https://code.claude.com/docs/en/memory",
-            "sourceCheckedOn": "2026-08-19",
-            "configuration": "not-applicable",
+            "sourceCheckedOn": "2026-09-05",
+            "configuration": "fixture:path-rule-collection",
             "startup": "not-verified",
             "toolListing": "not-verified",
             "smoke": "not-verified",
@@ -55,7 +55,7 @@
             ],
             "unsupportedSurfaces": [],
             "fallback": "AGENTS.md",
-            "degradation": "Claude Code soporta seleccion por ruta mediante frontmatter paths en .claude/rules, pero el constructor escribe un archivo agregado con alcance universal y no conserva la seleccion por glob. Promover la celda exige un renderer por regla. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+            "degradation": "La colección conserva globs por regla; su índice es una superficie compartida. La fixture verifica selectores y cuerpos, no carga ni adherencia del modelo. Sin version minima publicada; el consumidor conserva su matriz seed-once hasta migrarla explícitamente."
           }
         },
         "skills": {
@@ -312,15 +312,15 @@
           }
         },
         "pathRules": {
-          "support": "documented",
-          "target": "AGENTS.md",
+          "support": "generated",
+          "target": ".cursor/rules/project-os.mdc",
           "owner": "constructor",
-          "validation": "fallback-visible",
+          "validation": "path-rule-collection",
           "verification": {
             "minimumVersion": "undetermined",
-            "source": "https://cursor.com/docs/rules",
-            "sourceCheckedOn": "2026-08-19",
-            "configuration": "not-applicable",
+            "source": "https://cursor.com/docs/context/rules",
+            "sourceCheckedOn": "2026-09-05",
+            "configuration": "fixture:path-rule-collection",
             "startup": "not-verified",
             "toolListing": "not-verified",
             "smoke": "not-verified",
@@ -329,7 +329,7 @@
             ],
             "unsupportedSurfaces": [],
             "fallback": "AGENTS.md",
-            "degradation": "Cursor soporta globs por regla, pero el constructor escribe un archivo agregado con alcance universal y no conserva la seleccion por glob. Promover la celda exige un renderer por regla. La documentacion oficial de esta capacidad no publica una version minima, asi que no se declara una: inventarla seria una afirmacion fechada sin fuente."
+            "degradation": "La colección conserva globs por regla; su índice es una superficie compartida. La fixture verifica selectores y cuerpos, no carga ni adherencia del modelo. Sin version minima publicada; el consumidor conserva su matriz seed-once hasta migrarla explícitamente."
           }
         },
         "skills": {
@@ -448,28 +448,27 @@
           }
         },
         "pathRules": {
-          "support": "documented",
-          "target": "AGENTS.md",
+          "support": "generated",
+          "target": ".github/instructions/project-os.instructions.md",
           "owner": "constructor",
-          "validation": "fallback-visible",
+          "validation": "path-rule-collection",
           "verification": {
             "minimumVersion": "unversioned-service",
-            "source": "https://docs.github.com/en/copilot/reference/custom-instructions-support",
-            "sourceCheckedOn": "2026-08-19",
-            "configuration": "not-applicable",
+            "source": "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-custom-instructions",
+            "sourceCheckedOn": "2026-09-05",
+            "configuration": "fixture:path-rule-collection",
             "startup": "not-verified",
             "toolListing": "not-verified",
             "smoke": "not-verified",
             "surfaces": [
-              "copilot-chat",
+              "copilot-cli"
+            ],
+            "unsupportedSurfaces": [
               "copilot-cloud-agent",
               "copilot-code-review"
             ],
-            "unsupportedSurfaces": [
-              "copilot-visual-studio"
-            ],
             "fallback": "AGENTS.md",
-            "degradation": "Copilot soporta applyTo por archivo en .github/instructions, pero el constructor escribe un archivo agregado con alcance universal y no conserva la seleccion por glob. Visual Studio ademas solo lee instrucciones por ruta en chat y revision. Promover la celda exige un renderer por regla. GitHub Copilot es un servicio sin version instalable por el repositorio, asi que no hay una version minima observable desde el arbol y la celda no declara una."
+            "degradation": "La colección conserva globs por regla; su índice es una superficie compartida. La fixture verifica selectores y cuerpos, no carga ni adherencia del modelo. Sin version minima publicada; el consumidor conserva su matriz seed-once hasta migrarla explícitamente."
           }
         },
         "skills": {
