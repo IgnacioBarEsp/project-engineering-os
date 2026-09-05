@@ -4,7 +4,7 @@ import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { checkReleaseWorkflow } from './release-workflow-policy.mjs';
+import { checkReleaseWorkflow, checkPinnedClient } from './release-workflow-policy.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const workflowRoots = [
@@ -31,6 +31,7 @@ for (const workflowRoot of workflowRoots) {
 }
 const releaseWorkflow = await readFile(path.join(root, '.github', 'workflows', 'release.yml'), 'utf8');
 const ciWorkflow = await readFile(path.join(root, '.github', 'workflows', 'ci.yml'), 'utf8');
+failures.push(...checkPinnedClient(ciWorkflow, 2).map((message) => `.github/workflows/ci.yml: ${message}`));
 if (
   !ciWorkflow.includes('dependency-audit:')
   || !ciWorkflow.includes('run: npm run check:audit')

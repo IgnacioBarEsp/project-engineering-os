@@ -61,6 +61,7 @@
   "scripts": {
     "check": "npm run check:package && npm run check:neutrality && npm run check:docs && npm run check:workflows && npm run check:debt && npm test",
     "check:audit": "node ./scripts/check-audit.mjs",
+    "check:install-policy": "node ./scripts/verify-install-policy.mjs",
     "check:docs": "node ./scripts/check-docs.mjs",
     "check:neutrality": "node ./scripts/check-neutrality.mjs",
     "check:package": "node ./scripts/check-package.mjs",

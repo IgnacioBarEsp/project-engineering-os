@@ -1,5 +1,9 @@
 # Releases
 
+El cliente de instalación y publicación está fijado a npm 11.19.1. Revisa la fijación antes de cada
+release, trimestralmente y ante un advisory del cliente; ensaya el tarball completo antes de cambiarla.
+Consulta [la política de instalación](INSTALL_HARDENING.md) para la cuarentena y sus límites.
+
 Una release es un único artefacto verificable. Se crea y prueba antes de llegar a GitHub; si la aprobación
 de npm tarda, el tag vuelve a demostrar que esos mismos bytes siguen siendo publicables. Esta guía resume
 el camino y la recuperación cuando algo falla.

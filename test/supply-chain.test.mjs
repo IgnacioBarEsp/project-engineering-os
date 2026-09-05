@@ -16,7 +16,7 @@ import test from 'node:test';
 import { checkPackageRoot, checkSeededIdentity } from '../scripts/check-package.mjs';
 import { compareReleaseDirectories } from '../scripts/compare-release.mjs';
 import { nonCanonicalEolEntries, sha256 } from '../scripts/release-lib.mjs';
-import { checkReleaseWorkflow } from '../scripts/release-workflow-policy.mjs';
+import { checkReleaseWorkflow, checkPinnedClient } from '../scripts/release-workflow-policy.mjs';
 import { verifyRelease } from '../scripts/verify-release.mjs';
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -172,6 +172,8 @@ test('release comparison accepts only identical canonical assets', async () => {
 test('release workflow policy preserves delayed approval recovery', async () => {
   const workflow = await readFile(path.join(packageRoot, '.github', 'workflows', 'release.yml'), 'utf8');
   assert.deepEqual(checkReleaseWorkflow(workflow), []);
+  assert.equal(checkPinnedClient(workflow.replace('npm@11.19.1', 'npm@latest'), 2).length, 1);
+  assert.equal(checkPinnedClient(workflow.replace('--global --ignore-scripts', '--global'), 2).length, 1);
 
   assert.equal(
     checkReleaseWorkflow(workflow.replace('retention-days: 35', 'retention-days: 7'))

@@ -1,0 +1,4 @@
+- [x] 1. Pin the upstream client consistently and declare local quarantine.
+- [x] 2. Measure locked install, rejection and urgent exception.
+- [x] 3. Publish dated agnostic guidance and review policy.
+- [x] 4. Validate, review adversarially, assess debt and archive through the fixed CLI.

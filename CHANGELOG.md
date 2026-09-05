@@ -4,6 +4,9 @@ All notable changes follow [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Pin upstream npm 11.19.1 for CI and release; add a seven-day resolution quarantine, a reproducible
+  exception probe and dated consumer guidance for npm, pnpm, Yarn and Bun (#58–#60).
+
 ### Operational upstream controls
 
 - Adopt upstream-owned readiness and captured debt; require an assessment at archive and configured debt

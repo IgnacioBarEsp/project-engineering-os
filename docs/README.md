@@ -39,6 +39,7 @@ cuando lo necesites.
 
 ## Mantengo o publico el paquete
 
+- [Endurecer instalaciones](INSTALL_HARDENING.md): controles por gestor, defaults fechados y excepciones.
 - [Versionado y migraciones](architecture/VERSIONING.md): cuándo usar patch, minor o major.
 - [Releases](RELEASES.md): tarball único, checksum, GitHub Release y npm provenance.
 - [Costos, licencias y lock-in](COSTS_AND_LICENSES.md): decisiones que deben revisarse antes de extender.
