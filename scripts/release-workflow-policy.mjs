@@ -6,6 +6,21 @@ export function checkPinnedClient(content, expectedJobs) {
     ? [] : [`all ${expectedJobs} installation jobs must pin npm@${UPSTREAM_NPM_VERSION} with scripts disabled`];
 }
 
+export function checkPublishedVerificationWorkflow(content) {
+  const failures = checkPinnedClient(content, 1);
+  if (!/^permissions:\r?\n  contents: read\s*\r?\n/m.test(content)
+    || /:\s*write\b|\bid-token\b|\bnpm publish\b|gh (?:release (?:create|upload|delete)|api[^\n]*--method)/.test(content)) {
+    failures.push('published verification must remain read-only without publishing or OIDC');
+  }
+  if (!content.includes('persist-credentials: false')
+    || !content.includes('RELEASE_TAG: ${{ inputs.tag }}')
+    || (content.match(/\$\{\{ inputs\.tag \}\}/g) ?? []).length !== 1
+    || !content.includes('run: node scripts/verify-published.mjs --tag "$RELEASE_TAG"')) {
+    failures.push('published verification must pass the tag as data to the reviewed verifier');
+  }
+  return failures;
+}
+
 export function checkReleaseWorkflow(content) {
   const failures = checkPinnedClient(content, 2);
   const npmJob = content.match(/^  npm:\r?\n([\s\S]*)$/m)?.[1] ?? '';

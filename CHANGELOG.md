@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Upstream release verification waits up to ten minutes for npm propagation and provides a read-only
+  recovery workflow that checks canonical bytes, registry signatures and signed provenance. Published
+  0.3.0 artifacts remain unchanged.
+
 All notable changes follow [Semantic Versioning](https://semver.org/).
 
 ## Unreleased

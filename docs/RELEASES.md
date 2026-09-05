@@ -37,9 +37,52 @@ permitida por los controles del propio source. Los assets canónicos se descarga
 ya existe sin mezclar la evidencia reconstruida con la única copia publicable.
 
 Si falta un asset, aparece uno adicional o cualquier byte difiere, el job falla antes de `npm publish`.
-Se investiga y se relanza el workflow con el mismo tag. No se mueve el tag, no se reutiliza la versión y no
+Se investiga y se relanza el workflow con el mismo tag solo si npm aún no aceptó la publicación.
+No se mueve el tag, no se reutiliza la versión y no
 se sustituye el Release por una reconstrucción distinta. Habilitar immutable releases es un endurecimiento
 administrativo compatible, pero no un requisito ni una mutación automática de este flujo.
+
+## Publicación aceptada y verificación pendiente
+
+npm puede aceptar y firmar el paquete antes de que su versión y procedencia estén disponibles. El probe
+espera hasta diez minutos, con solicitudes de hasta quince segundos y espera progresiva de uno a quince
+segundos. Reintenta metadata parcial, fallos de red, HTTP 404, 408, 429 y 5xx. Errores permanentes, JSON
+inválido o identidad divergente fallan; agotar el plazo nunca significa PASS.
+
+Si npm ya aceptó la versión, abre **Actions → Verify published release → Run workflow**, selecciona
+`main` y escribe el tag existente. También puedes ejecutar:
+
+```bash
+gh workflow run verify-published.yml --ref main -f tag=v0.3.0
+```
+
+Este workflow verifica el commit del tag remoto, los tres assets esperados de GitHub, SHA-256, cantidad
+de bytes e integridad SHA-512 de npm. Instala la versión exacta en una carpeta temporal con scripts
+deshabilitados; la excepción de cuarentena cubre únicamente el paquete propio ya revisado. Usa npm
+11.19.1 para comprobar firmas y attestations, y exige que la procedencia firmada vincule el artefacto
+con este repositorio, el workflow de release y el commit canónico. No ejecuta el código instalado.
+Los permisos son solo de lectura; no requiere OIDC, no publica y no modifica tags ni assets.
+
+Para comprobarlo localmente con ese cliente npm ya disponible, usa
+`node scripts/verify-published.mjs --tag v0.3.0`. Se necesita `gh` autenticado para leer los assets.
+El resultado JSON contiene la identidad pública verificada. Los directorios temporales de comprobación
+quedan disponibles para diagnóstico local; el runner de GitHub los descarta al terminar.
+
+Una firma, commit o checksum divergente requiere investigación. Si solo falla disponibilidad o vence el
+plazo, repite **Verify published release**. Conserva el resultado original y enlaza la ejecución de
+recuperación: una comprobación posterior no convierte el run anterior en exitoso.
+
+### Evidencia de 0.3.0
+
+El [run original 33995560577](https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/33995560577)
+publicó y firmó 0.3.0 el 5 de septiembre de 2026. Su probe anterior agotó veinte segundos mientras npm
+procesaba el paquete; después el registry devolvió la versión con firmas válidas. El artefacto conserva
+317404 bytes, commit `de47fb7b1373da7f02ea2bac5958635a338f76e0` y SHA-256
+`e5d0e54a96ac0f93d4afa7b002f851a2771a54246d4da56954584b5c1dc07ada`.
+El cierre con la ejecución de recuperación se registra en el
+[issue #74](https://github.com/IgnacioBarEsp/project-engineering-os/issues/74).
+
+## Checkout y recuperación de defectos
 
 Antes de empacar, `pack-release.mjs` exige que todo archivo con `eol=lf` tenga LF real en el working tree.
 Un checkout legacy con CRLF falla nombrando rutas. La recuperación es crear una worktree/clone fresca del
