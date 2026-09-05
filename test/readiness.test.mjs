@@ -11,8 +11,10 @@ import {
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
+import Ajv2020 from 'ajv/dist/2020.js';
 
 import { PACKAGE_ROOT } from '../src/constants.mjs';
+import { capture } from '../src/debt/capture.mjs';
 import {
   collectReadinessReport,
   readinessInternals,
@@ -548,4 +550,47 @@ test('configuración alterada falla cerrada antes de consultar GitHub', async (t
   assert.equal(report.verdict, 'FAIL');
   assert.equal(report.results[0].id, 'readiness.configuration');
   assert.equal(calls.length, 0);
+});
+
+test('activación aprobada conserva readiness y exige evidencia del perfil', async (t) => {
+  const fixture = await createPolicyFixture(t);
+  const ui = fixture.profiles.profiles.find(p => p.id === 'ui');
+  ui.active = true;
+  ui.activationDecision = 'docs/adr/approved-ui.md';
+  fixture.profiles.active.push('ui');
+  const validate = new Ajv2020({strict: false}).compile(await sourceJson('blueprint/schema/profiles.schema.json'));
+  assert.equal(validate(fixture.profiles), true, JSON.stringify(validate.errors));
+  assert.deepEqual(readinessInternals.validateRuntimeConfiguration(fixture.policy,fixture.profiles,fixture.productOs), []);
+  await json(fixture.root,'.project-os/profiles.json',fixture.profiles);
+  await createArchiveChange(fixture, {mutate: value => ({...value,surfaces:[...value.surfaces,'ui']})});
+  const report = await collectReadinessReport({target:fixture.root,phase:'archive',change:'sample-change'});
+  assert.equal(report.verdict,'FAIL');
+  assert.ok(report.results.some(r => r.status==='FAIL' && /validation|evidence/.test(r.id)));
+  delete ui.activationDecision;
+  assert.ok(readinessInternals.validateRuntimeConfiguration(fixture.policy,fixture.profiles,fixture.productOs).some(x=>x.includes('ui.activationDecision')));
+  ui.activationDecision='docs/adr/approved-ui.md'; fixture.profiles.active.pop();
+  assert.ok(readinessInternals.validateRuntimeConfiguration(fixture.policy,fixture.profiles,fixture.productOs).some(x=>x.includes('profiles.active')));
+});
+
+test('prosa española pasa y el diagnóstico nombra el patrón sin repetir valores', () => {
+  assert.deepEqual(readinessInternals.placeholderPaths({scope:['Revisar todo el flujo.']}), []);
+  const checks=readinessInternals.placeholderPaths({scope:['TODO: completar alcance'],reason:'tbd'});
+  assert.deepEqual(checks,['scope[0] (TODO)','reason (reserved-marker)']);
+  assert.match(readinessInternals.placeholderPaths({scope:'[todo pendiente]'}).join(),/bracket-placeholder/);
+  const secret=['ghp','_','1234567890abcdefghijklmnop'].join('');
+  assert.equal(JSON.stringify(readinessInternals.placeholderPaths({scope:'TODO '+secret})).includes(secret),false);
+});
+
+test('archive exige assessment capturado cuando existe configuración de deuda', async (t) => {
+  const fixture=await createPolicyFixture(t); await createArchiveChange(fixture);
+  const config=await sourceJson('blueprint/core/project-os/debt-policy.json');config.github.mode='off';
+  await json(fixture.root,'.project-os/debt/config.json',config);
+  await json(fixture.root,'.project-os/debt/registry.json',{schemaVersion:1,items:[]});
+  const options={target:fixture.root,phase:'archive',change:'sample-change'};
+  const missing=await collectReadinessReport(options);
+  assert.equal(missing.verdict,'FAIL');assert.ok(missing.results.some(r=>r.id.startsWith('debt.')&&r.status==='FAIL'));
+  capture({root:fixture.root,flow:'sample-change',input:{schemaVersion:1,date:'2026-09-04',kind:'feature',result:'clean',candidates:[]}});
+  const before=await snapshot(fixture.root);
+  assert.equal((await collectReadinessReport(options)).verdict,'PASS');
+  assert.deepEqual(await snapshot(fixture.root),before);
 });

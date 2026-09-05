@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "add-curated-tool-catalog",
+  "date": "2026-08-28",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Revisión adversarial PASS con cero Blockers y cero Majors abiertos. Un Major (literal en mayúsculas aceptado como nombre de variable de entorno) y un Minor (--candidate descartado en silencio) se encontraron y corrigieron dentro del change, ambos fijados por pruebas nuevas. No se añadieron dependencias de runtime, proveedores activados, permisos, tokens ni excepciones. Dos degradaciones quedan declaradas y no son deuda: el catálogo no se renderiza en las instrucciones de los cinco harnesses, y una verificación vencida se reporta como stale en vez de caducar la entrada."
+}

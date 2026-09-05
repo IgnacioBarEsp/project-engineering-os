@@ -51,5 +51,6 @@
     "environment reviewer",
     "npm trusted publisher",
     "first release approval"
-  ]
+  ],
+  "repositoryKind": "upstream"
 }

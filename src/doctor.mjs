@@ -12,6 +12,7 @@ import {
 } from "./report.mjs";
 import { CONSTRUCTOR_VERSION, PACKAGE_NAME } from "./constants.mjs";
 import { checkState as checkDebtState } from "./debt/gates.mjs";
+import { isConfigured as debtConfigured } from "./debt/store.mjs";
 
 const SUPPORTED_NODE_RANGE = "^20.20.0 || >=22.22.0";
 const OPEN_SPEC_VERSION = "1.6.0";
@@ -265,9 +266,14 @@ function activeProfiles(config, profileCatalog) {
 }
 
 async function evidenceReceipt(target, name, expectedConfigHash) {
-  const relative = `.project-constructor/evidence/${name}.json`;
+  const candidates = [`.project-os/evidence/${name}.json`, `.project-constructor/evidence/${name}.json`];
+  let relative = candidates[0];
+  for (const candidate of candidates) {
+    if (await exists(path.join(target, candidate))) { relative = candidate; break; }
+  }
   const receipt = await readJson(path.join(target, relative));
   if (!receipt) {
+    if (await exists(path.join(target, relative))) return { state: 'invalid', relative, cause: 'El recibo no contiene JSON legible.' };
     return { state: "missing", relative };
   }
   if (receipt.schemaVersion !== EVIDENCE_SCHEMA_VERSION) {
@@ -571,13 +577,14 @@ export async function collectDoctorReport({
     result({
       id: "debt.health",
       profile: "harness-tooling",
-      status: !debtHealthy ? "FAIL" : pausedPlans.length > 0 ? "WARN" : "PASS",
+      status: !debtHealthy ? "FAIL" : !debtConfigured(root) ? "SKIP" : pausedPlans.length > 0 ? "WARN" : "PASS",
       summary: !debtHealthy
         ? "El estado local de deuda es inválido o incompleto"
+        : !debtConfigured(root) ? "El motor de deuda no está configurado"
         : pausedPlans.length > 0
           ? "El registro es válido y contiene planes pausados"
           : "El registro de deuda es válido",
-      cause: debtState?.internalError
+      cause: !debtConfigured(root) ? "El motor de deuda no está configurado; no se ha verificado salud de deuda." : debtState?.internalError
         ?? (debtFailures.length > 0
           ? debtFailures.map((entry) => entry.summary).join("; ")
           : pausedPlans.length > 0
@@ -712,6 +719,23 @@ export async function collectDoctorReport({
 
   const codeIndexable = config?.codeIndexable === true;
   for (const tool of ["gitnexus", "codegraph"]) {
+    if (codeIndexable) {
+      const name = `code-intelligence-${tool}`;
+      const receipt = await evidenceReceipt(root, name, sha256(stableJson(config)));
+      const source = await readJson(path.join(root, receipt.relative));
+      const issued = Date.parse(source?.issuedAt);
+      const expires = Date.parse(source?.expiresAt);
+      const now = Date.now();
+      if (receipt.state === "valid" && (source?.optIn !== true || !Number.isFinite(issued)
+        || !Number.isFinite(expires) || issued > now || now - issued > 30 * 86400000
+        || expires <= issued || expires - issued > 30 * 86400000)) {
+        receipt.state = "invalid";
+        receipt.cause = "El recibo estructural exige optIn=true y una ventana issuedAt/expiresAt vigente de hasta 30 días.";
+      }
+      results.push(receiptResult({ id: `code-intelligence.${tool}`, profile: "harness-tooling",
+        label: tool, receipt, missingStatus: "FAIL" }));
+      continue;
+    }
     results.push(
       result({
         id: `code-intelligence.${tool}`,
@@ -719,10 +743,10 @@ export async function collectDoctorReport({
         status: codeIndexable ? "FAIL" : "SKIP",
         summary: codeIndexable
           ? `${tool} requerido pero no demostrado por Ola 0`
-          : `${tool} no aplica antes de existir código indexable`,
+          : `${tool} no está habilitado por la política de indexación`,
         cause: codeIndexable
           ? "El perfil declara código indexable y no existe evidencia estructural vigente."
-          : "El repositorio todavía contiene solo gobernanza/tooling.",
+          : "codeIndexable no está activado; esto no afirma que falte código fuente.",
         remediation: codeIndexable
           ? `Ejecuta el smoke read-only separado de ${tool}; no reindexes ni repares desde el doctor.`
           : "Activa el check solo cuando exista código y una política de indexación aprobada.",
@@ -859,7 +883,20 @@ export async function collectDoctorReport({
     }),
   );
 
-  return createReport(results);
+  const governance = await readJson(path.join(root, '.project-os/repository-governance.json'));
+  const upstream = governance?.repositoryKind === 'upstream' && packageJson?.name === PACKAGE_NAME;
+  const consumerShape = new Set(['release.identity', 'harness.parity', 'mcp.configuration', 'ci.configuration']);
+  return createReport(results.map((entry) => {
+    const category = consumerShape.has(entry.id) ? 'consumer-shape' : 'published-obligation';
+    const notApplicable = upstream && category === 'consumer-shape';
+    return {
+      ...entry,
+      ...(notApplicable ? { status: 'SKIP', cause: 'El upstream no consume el layout que genera.',
+        remediation: 'Valida esta superficie en el fixture de consumidor; no bootstrapees el upstream.' } : {}),
+      evidence: { ...entry.evidence, category, applicability: notApplicable ? 'not-applicable' : 'applicable',
+        ...(notApplicable ? { originalStatus: entry.status } : {}) },
+    };
+  }));
 }
 
 export async function runDoctor({
@@ -889,6 +926,7 @@ export const doctorInternals = Object.freeze({
   containsLiteralSecret,
   mcpServers,
   sha256,
+  stableStringify: stableJson,
   spawnReadOnly,
   normalizedRelative,
 });

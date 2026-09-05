@@ -32,7 +32,7 @@ jobs:
       - name: Validate
         run: npm run check
       - name: Tarball fixture
-        run: npm run fixture -- --skip-install
+        run: npm run fixture
 
   dependency-audit:
     name: CI / dependency audit

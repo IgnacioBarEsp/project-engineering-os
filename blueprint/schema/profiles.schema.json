@@ -15,10 +15,13 @@
       "$ref": "#/$defs/semver"
     },
     "active": {
-      "const": [
-        "documentation",
-        "harness-tooling"
-      ]
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9-]*$"
+      },
+      "minItems": 2
     },
     "profiles": {
       "type": "array",
@@ -37,7 +40,7 @@
                   "const": "ai"
                 },
                 "active": {
-                  "const": false
+                  "type": "boolean"
                 },
                 "conditionalSignals": false
               }
@@ -56,7 +59,7 @@
                   "const": "auth-security"
                 },
                 "active": {
-                  "const": false
+                  "type": "boolean"
                 },
                 "conditionalSignals": false
               }
@@ -75,7 +78,7 @@
                   "const": "backend-api"
                 },
                 "active": {
-                  "const": false
+                  "type": "boolean"
                 },
                 "conditionalSignals": false
               }
@@ -94,7 +97,7 @@
                   "const": "data-migration-sync"
                 },
                 "active": {
-                  "const": false
+                  "type": "boolean"
                 },
                 "conditionalSignals": false
               }
@@ -113,7 +116,7 @@
                   "const": "documentation"
                 },
                 "active": {
-                  "const": true
+                  "type": "boolean"
                 },
                 "conditionalSignals": false
               }
@@ -132,7 +135,7 @@
                   "const": "harness-tooling"
                 },
                 "active": {
-                  "const": true
+                  "type": "boolean"
                 },
                 "conditionalSignals": false
               }
@@ -151,7 +154,7 @@
                   "const": "infra-deploy"
                 },
                 "active": {
-                  "const": false
+                  "type": "boolean"
                 },
                 "conditionalSignals": false
               }
@@ -170,7 +173,7 @@
                   "const": "library-cli"
                 },
                 "active": {
-                  "const": false
+                  "type": "boolean"
                 },
                 "conditionalSignals": false
               }
@@ -192,7 +195,7 @@
                   "const": "ui"
                 },
                 "active": {
-                  "const": false
+                  "type": "boolean"
                 },
                 "conditionalSignals": {
                   "type": "array"
@@ -314,6 +317,10 @@
           "items": {
             "$ref": "#/$defs/conditionalSignal"
           }
+        },
+        "activationDecision": {
+          "type": "string",
+          "minLength": 1
         }
       }
     }

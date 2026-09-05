@@ -21,7 +21,7 @@
       "const": "environment-bootstrap"
     },
     "codeIndexable": {
-      "const": false
+      "type": "boolean"
     },
     "activeProfiles": {
       "type": "array",
@@ -29,7 +29,14 @@
       "items": {
         "enum": [
           "documentation",
-          "harness-tooling"
+          "harness-tooling",
+          "ui",
+          "backend-api",
+          "auth-security",
+          "data-migration-sync",
+          "ai",
+          "infra-deploy",
+          "library-cli"
         ]
       }
     },

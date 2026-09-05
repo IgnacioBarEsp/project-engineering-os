@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import { existsSync } from 'node:fs';
+import { existsSync, mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
@@ -36,12 +37,26 @@ export function runOpenSpec(args, {
     writeError('FAIL OpenSpec local no está instalado; ejecuta npm ci --ignore-scripts.\n');
     return 1;
   }
-  const execution = spawn(process.execPath, [binary, ...args], {
-    env: openspecEnvironment(environment),
-    shell: false,
-    stdio: 'inherit',
-    windowsHide: true,
-  });
+  const generation = ['init', 'update'].includes(args[0]);
+  const temporary = generation ? mkdtempSync(path.join(tmpdir(), 'project-os-openspec-')) : null;
+  const env = openspecEnvironment(environment);
+  if (temporary) {
+    env.XDG_CONFIG_HOME = path.join(temporary, 'config');
+    env.CODEX_HOME = path.join(temporary, 'codex');
+  }
+  let execution;
+  try {
+    execution = spawn(process.execPath, [binary, ...args], {
+      env,
+      shell: false,
+      stdio: 'inherit',
+      windowsHide: true,
+    });
+  } finally {
+    if (temporary && path.dirname(path.resolve(temporary)) === path.resolve(tmpdir())) {
+      rmSync(temporary, { recursive: true, force: true });
+    }
+  }
   if (execution.error) {
     writeError(`FAIL OpenSpec local: ${execution.error.message}\n`);
     return 1;

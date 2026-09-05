@@ -4,6 +4,17 @@ All notable changes follow [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Operational upstream controls
+
+- Adopt upstream-owned readiness and captured debt; require an assessment at archive and configured debt
+  during upstream validation. Keep historical evidence and resolve previously fixed Purpose findings.
+- Classify doctor results by applicability, support bounded independent structural receipts, accept approved
+  conditional profiles, and diagnose placeholders without rejecting ordinary Spanish prose.
+- Remove the misleading upstream-only opsx-check script while retaining the explicit-target CLI.
+- Isolate official OpenSpec generation from host delivery preferences and global Codex prompt output;
+  exercise the complete wrapper fixture in CI.
+- Archive the integrated tool catalogue and publish its canonical requirements.
+
 ### Package manager decision
 
 - Add `docs/adr/0002-package-manager-supply-chain.md`: npm is kept on all three surfaces — upstream

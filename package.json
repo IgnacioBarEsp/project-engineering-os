@@ -28,7 +28,9 @@
   "files": [
     "bin/",
     "blueprint/",
-    "docs/",
+    "docs/**/*.md",
+    "docs/assets/*.svg",
+    "docs/assets/*.png",
     "schema/",
     "src/",
     "CHANGELOG.md",
@@ -57,17 +59,17 @@
     "@fission-ai/openspec@1.6.0": true
   },
   "scripts": {
-    "check": "npm run check:package && npm run check:neutrality && npm run check:docs && npm run check:workflows && npm test",
+    "check": "npm run check:package && npm run check:neutrality && npm run check:docs && npm run check:workflows && npm run check:debt && npm test",
     "check:audit": "node ./scripts/check-audit.mjs",
     "check:docs": "node ./scripts/check-docs.mjs",
     "check:neutrality": "node ./scripts/check-neutrality.mjs",
     "check:package": "node ./scripts/check-package.mjs",
     "check:workflows": "node ./scripts/check-workflows.mjs",
     "fixture": "node ./scripts/verify-fixture.mjs",
-    "opsx-check": "node ./bin/project-os.mjs opsx-check --target .",
     "pack:verify": "node ./scripts/pack-release.mjs --dry-run",
     "release:pack": "node ./scripts/pack-release.mjs --output release",
     "release:verify": "node ./scripts/verify-release.mjs release",
-    "test": "node --test"
+    "test": "node --test",
+    "check:debt": "node ./scripts/check-upstream-debt.mjs"
   }
 }

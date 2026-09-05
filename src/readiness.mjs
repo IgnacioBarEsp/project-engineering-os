@@ -14,6 +14,8 @@ import {
   resolveInside,
 } from './paths.mjs';
 import { redact } from './report.mjs';
+import { preArchiveGate } from './debt/gates.mjs';
+import { isConfigured as debtConfigured } from './debt/store.mjs';
 
 const STATUS = Object.freeze([
   'PASS',
@@ -33,7 +35,8 @@ const FORBIDDEN_METADATA_KEYS = new Set([
 ]);
 const PLACEHOLDER_PATTERNS = Object.freeze([
   /<[^>\r\n]{1,80}>/,
-  /\b(?:TBD|TODO|FIXME|CHANGEME|PLACEHOLDER)\b/i,
+  /\b(?:TBD|FIXME|CHANGEME|PLACEHOLDER)\b/i,
+  /\bTODO\b/,
   /\b(?:replace|reemplaza|sustituye|completa|conserva)\s+(?:with|con|aqui|aquí|este|esta|the|el|la)\b/i,
   /\[(?:replace|placeholder|todo|complete|completar|sustituir)[^\]\r\n]*\]/i,
 ]);
@@ -179,7 +182,9 @@ function placeholderPaths(value, prefix = '') {
     typeof value === 'string'
     && PLACEHOLDER_PATTERNS.some((pattern) => pattern.test(value))
   ) {
-    return [prefix || '<root>'];
+    const labels = ['angle-placeholder', 'reserved-marker', 'TODO', 'replacement-instruction', 'bracket-placeholder'];
+    return PLACEHOLDER_PATTERNS.flatMap((pattern, index) => pattern.test(value)
+      ? [`${prefix || '<root>'} (${labels[index]})`] : []);
   }
   return [];
 }
@@ -537,13 +542,17 @@ function validateRuntimeConfiguration(policy, profilesData, productOs) {
     .filter((profile) => profile.active)
     .map((profile) => profile.id)
     .sort();
+  if (!sameValues([...(profilesData?.active ?? [])].sort(), activeProfiles)) {
+    failures.push('profiles.active: la lista debe coincidir con los flags active de cada perfil');
+  }
   if (
     profilesData?.schemaVersion !== '1.0.0'
     || profiles.size === 0
     || profiles.size !== (profilesData?.profiles ?? []).length
     || profileIds.some((id) => !CHANGE_NAME.test(id))
     || !sameValues([...(profilesData?.active ?? [])].sort(), activeProfiles)
-    || !sameValues(activeProfiles, ['documentation', 'harness-tooling'])
+    || !['documentation', 'harness-tooling'].every((id) => activeProfiles.includes(id))
+    || new Set(profilesData?.active ?? []).size !== (profilesData?.active ?? []).length
     || profilesData?.activationPolicy?.implicitActivation !== false
     || profilesData?.activationPolicy?.toolPresenceDoesNotActivateProfile !== true
     || profilesData?.activationPolicy?.decisionArtifactRequiredForConditionalProfiles !== true
@@ -552,6 +561,11 @@ function validateRuntimeConfiguration(policy, profilesData, productOs) {
     failures.push('profiles');
   }
   for (const profile of profilesData?.profiles ?? []) {
+    if (typeof profile.active !== 'boolean') failures.push(`profiles.${profile?.id}.active`);
+    if (profile.active && !['documentation', 'harness-tooling'].includes(profile.id)
+      && !nonEmptyString(profile.activationDecision)) {
+      failures.push(`profiles.${profile.id}.activationDecision: falta referencia a la decisión aprobada`);
+    }
     if (
       !nonEmptyString(profile?.activationRequires)
       || !nonEmptyStrings(profile?.automaticValidations)
@@ -1592,6 +1606,15 @@ async function archiveReport({
         policy,
         now,
       });
+    }
+  }
+  if (debtConfigured(root)) {
+    for (const check of preArchiveGate({ root, change, now })) {
+      results.push(result({
+        id: `debt.${check.id}`, status: check.status === 'FAIL' ? 'FAIL' : 'PASS',
+        summary: check.summary, cause: check.summary,
+        remediation: check.recovery ?? 'Conserva el assessment capturado y el registro de deuda.',
+      }));
     }
   }
   return createReport('archive', results);

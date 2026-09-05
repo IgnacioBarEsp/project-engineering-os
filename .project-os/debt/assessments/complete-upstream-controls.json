@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "complete-upstream-controls",
+  "date": "2026-09-04",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Historical assessments were captured separately with source hashes. Two corrected Purpose findings were resolved by resolve-historical-purpose. Existing path-rule debt remains open under issue #65; this change does not claim it resolved. The fixture-discovered generation defect is corrected in this change under #64."
+}

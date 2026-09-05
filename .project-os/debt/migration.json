@@ -1,0 +1,106 @@
+{
+  "date": "2026-09-04",
+  "sourcePolicy": "Archived sources remain unchanged; captured assessments are operationally canonical.",
+  "imports": [
+    {
+      "source": "openspec/changes/archive/2026-08-19-add-adaptive-onboarding-classifier/evidence/debt-assessment.json",
+      "sha256": "dba550414c31cbd48bef0a5969e9c223edde641abe09c3999f20697dd0d71a8e",
+      "flow": "add-adaptive-onboarding-classifier",
+      "normalizations": []
+    },
+    {
+      "source": "openspec/changes/archive/2026-08-19-harden-supply-chain-policy/evidence/debt-assessment.json",
+      "sha256": "84a510fd079e6975b9a530cdfed27a4f8384a18c905eea16054c360adaaaba05",
+      "flow": "harden-supply-chain-policy",
+      "normalizations": [
+        {
+          "from": "product-roadmap",
+          "to": "upstream-core"
+        }
+      ]
+    },
+    {
+      "source": "openspec/changes/archive/2026-08-19-make-delayed-release-publishable/evidence/debt-assessment.json",
+      "sha256": "e04f9fa2247add7340a5c5aef41cef39789ff8013a9de65c7171dd13621c258f",
+      "flow": "make-delayed-release-publishable",
+      "normalizations": []
+    },
+    {
+      "source": "openspec/changes/archive/2026-08-19-make-github-plan-source-truthful/evidence/debt-assessment.json",
+      "sha256": "a2117154fbd55ea1455c12af49a8598b54eba2aaa8205467a544a78a581bde05",
+      "flow": "make-github-plan-source-truthful",
+      "normalizations": []
+    },
+    {
+      "source": "openspec/changes/archive/2026-08-19-renew-public-documentation/evidence/debt-assessment.json",
+      "sha256": "ed5fc50c74733a0542cc5f13185ae4cd59a01505149f0068d1356a08747bbbca",
+      "flow": "renew-public-documentation",
+      "normalizations": []
+    },
+    {
+      "source": "openspec/changes/archive/2026-08-19-research-adaptive-onboarding/evidence/debt-assessment.json",
+      "sha256": "4f5b59b40ebba72fcfd2f3630177ad8e77adb1f39159ee7280071ed7c7db8617",
+      "flow": "research-adaptive-onboarding",
+      "normalizations": []
+    },
+    {
+      "source": "openspec/changes/archive/2026-08-19-orchestrate-onboarding-prompts/evidence/debt-assessment.json",
+      "sha256": "2b3aaab6f4c2cdb5317aa8cfd5e8f2eaf8f3a6766dab6b9141268d06311bb38f",
+      "flow": "orchestrate-onboarding-prompts",
+      "normalizations": [
+        {
+          "from": "project-engineering-os",
+          "to": "upstream-core"
+        }
+      ]
+    },
+    {
+      "source": "openspec/changes/archive/2026-08-19-revalidate-agent-adapters/evidence/debt-assessment.json",
+      "sha256": "c331c84f84bcda724cb0c7dd152c363d0b0f5d4128ae731f4e5c852e05eb0840",
+      "flow": "revalidate-agent-adapters",
+      "normalizations": [
+        {
+          "from": "project-engineering-os",
+          "to": "upstream-core"
+        }
+      ]
+    },
+    {
+      "source": "openspec/changes/archive/2026-08-27-fix-release-rebuild-path/evidence/debt-assessment.json",
+      "sha256": "2d81f37292de9df49dbeb180209f3dbe3e6f6f8292c52e38b5a0bc209880dab6",
+      "flow": "fix-release-rebuild-path",
+      "normalizations": []
+    },
+    {
+      "source": "openspec/changes/add-curated-tool-catalog/evidence/debt-assessment.json",
+      "sha256": "6b4790365fc10f938f4f902287786cb00e9183a05ae1cb0e0863a099a03df1bf",
+      "flow": "add-curated-tool-catalog",
+      "normalizations": [],
+      "currentSource": "openspec/changes/archive/2026-09-04-add-curated-tool-catalog/evidence/debt-assessment.json"
+    },
+    {
+      "source": "openspec/changes/archive/2026-08-30-guard-consumer-spec-purpose/evidence/debt-assessment.json",
+      "sha256": "db7d5917c57fe11616d3177c1653da5b9efda9427f6fb5f731fa80e55300aa46",
+      "flow": "guard-consumer-spec-purpose",
+      "normalizations": []
+    },
+    {
+      "source": "openspec/changes/archive/2026-08-30-research-package-manager-supply-chain/evidence/debt-assessment.json",
+      "sha256": "df85d5c4ce6b53f8e1cd67dcc52757e92bcfa0a7d44fa9b53431c24f577640cc",
+      "flow": "research-package-manager-supply-chain",
+      "normalizations": []
+    },
+    {
+      "source": "openspec/changes/archive/2026-08-30-research-upstream-self-application/evidence/debt-assessment.json",
+      "sha256": "60e30ee258d7b7d345cdfee5ed2ac7c1be5f208f3f84577794aa9bd547150a0f",
+      "flow": "research-upstream-self-application",
+      "normalizations": []
+    },
+    {
+      "source": "openspec/changes/archive/2026-09-01-pin-upstream-openspec-1-6-0/evidence/debt-assessment.json",
+      "sha256": "355435ffe68177bfb43782b5a047d23ec07ee8db264e6d20d2ce50504487fa29",
+      "flow": "pin-upstream-openspec-1-6-0",
+      "normalizations": []
+    }
+  ]
+}
