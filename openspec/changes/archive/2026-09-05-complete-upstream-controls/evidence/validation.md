@@ -25,5 +25,10 @@ GitHub CLI and its timestamped receipt is bound to the actual manifest hash.
 The first complete fixture failed on host delivery preferences; that failure was retained as issue #64,
 not reclassified as PASS. The abbreviated fixture and unit suite had not detected it.
 
+The first remote matrix additionally exposed macOS suppression of spinner progress. The classifier now
+accepts the official complete summary naming every tool; missing tools, failed generation and unexpected
+stderr still fail. Generated-file and OPSX ownership checks remain unchanged. A regression test covers
+the non-interactive summary and four negative cases (243 total tests after this correction).
+
 No new licenses, services, provider activation, runtime dependencies or global preference changes are
 introduced. Agent self-review and maintainer authorization are stated without claiming independent review.

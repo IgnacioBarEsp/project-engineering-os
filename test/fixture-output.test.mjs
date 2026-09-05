@@ -32,6 +32,15 @@ test("rechaza stderr fuera de la allowlist aunque incluya el progreso esperado",
   assert.deepEqual(result.warnings, ["Warning: unexpected provider output"]);
 });
 
+test('acepta resumen oficial sin spinner y rechaza inicialización parcial', () => {
+  const stdout = 'OpenSpec Setup Complete\nCreated: Codex, Claude Code, Cursor, GitHub Copilot, OpenCode\n';
+  assert.equal(classifyOpenSpecInitOutput({ stdout, stderr: '' }).expectedProgress, true);
+  assert.equal(classifyOpenSpecInitOutput({ stdout: stdout.replace(', OpenCode', ''), stderr: '' }).expectedProgress, false);
+  assert.equal(classifyOpenSpecInitOutput({ stdout: `${stdout}Failed: OpenCode (permission denied)`, stderr: '' }).expectedProgress, false);
+  assert.equal(classifyOpenSpecInitOutput({ stdout, stderr: 'unexpected warning' }).expectedProgress, false);
+  assert.equal(classifyOpenSpecInitOutput({ stdout: '', stderr: '' }).expectedProgress, false);
+});
+
 test("acepta conteos OPSX variables si el contrato permanece íntegro", () => {
   const operations = Array.from({ length: 25 }, (_, index) => ({
     owner: "external-openspec",
