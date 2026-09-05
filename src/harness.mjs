@@ -6,6 +6,7 @@ import {
 import { OWNERS } from './constants.mjs';
 import { packageDistributionEntries } from './distribution.mjs';
 import { ConstructorError } from './errors.mjs';
+import { pathRuleEntries, pathRuleIndex, validatePathRule } from './path-rules.mjs';
 import {
   normalizeLf,
   sha256,
@@ -155,6 +156,7 @@ function normalizePathRules(raw) {
     ),
   }));
   uniqueIdList(rules, 'path-rules.json');
+  rules.forEach(validatePathRule);
   return rules.sort((left, right) => left.id.localeCompare(right.id));
 }
 
@@ -1088,7 +1090,7 @@ function tomlPermissions(permissions) {
   ].join('\n');
 }
 
-function tokenValue(tokenId, target, canonical) {
+function tokenValue(tokenId, target, canonical, availableTargets) {
   const isJson = target.toLowerCase().endsWith('.json');
   const isToml = target.toLowerCase().endsWith('.toml');
 
@@ -1104,7 +1106,7 @@ function tokenValue(tokenId, target, canonical) {
     case 'pathRules':
       return isJson
         ? JSON.stringify(canonical.pathRules, null, 2)
-        : markdownPathRules(canonical.pathRules);
+        : (pathRuleIndex(target, canonical.pathRules, availableTargets) ?? markdownPathRules(canonical.pathRules));
     case 'skills':
       return isJson
         ? JSON.stringify(canonical.skills, null, 2)
@@ -1136,7 +1138,7 @@ function tokenValue(tokenId, target, canonical) {
   }
 }
 
-function renderShell(entry, canonical) {
+function renderShell(entry, canonical, availableTargets) {
   if (entry.content === null || !['constructor', 'human-overlay'].includes(entry.owner)) {
     return entry;
   }
@@ -1150,7 +1152,7 @@ function renderShell(entry, canonical) {
         `El shell ${entry.source} usa el token no soportado {{${rawToken}}}.`,
       );
     }
-    text = text.replaceAll(`{{${rawToken}}}`, tokenValue(tokenId, entry.target, canonical));
+    text = text.replaceAll(`{{${rawToken}}}`, tokenValue(tokenId, entry.target, canonical, availableTargets));
   }
 
   const unresolved = [...text.matchAll(TOKEN_PATTERN)].map((match) => match[0]);
@@ -1355,7 +1357,11 @@ export async function materializeHarnessBlueprint({
   );
   canonical.capabilityMatrix = supersession.matrix;
 
-  const renderedEntries = baseBlueprint.entries.map((entry) => renderShell(entry, canonical));
+  const availableTargets = new Set(baseBlueprint.entries.filter((entry) => entry.owner === 'constructor').map((entry) => entry.target));
+  const renderedEntries = [
+    ...baseBlueprint.entries.map((entry) => renderShell(entry, canonical, availableTargets)),
+    ...pathRuleEntries(baseBlueprint.entries, canonical.pathRules),
+  ];
   const distributionEntries = await packageDistributionEntries();
   const distributionHash = sha256Json(distributionEntries.map((entry) => ({
     hash: entry.sourceHash,

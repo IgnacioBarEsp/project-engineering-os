@@ -1,0 +1,4 @@
+- [x] 1. Implement validated dynamic rule rendering and scoped indexes.
+- [x] 2. Verify collection contracts and record accurate capability metadata.
+- [x] 3. Test lifecycle, negative selectors, conflicts and rollback; document migration.
+- [x] 4. Run full validation, adversarial review, debt resolution and official archive.

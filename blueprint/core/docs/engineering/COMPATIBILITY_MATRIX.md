@@ -21,10 +21,10 @@ file.
 
 | Harness | Instructions | Rules by path | Skills | Permissions | MCP | Profiles |
 |---|---|---|---|---|---|---|
-| Claude Code | native | documented | native | documented | native | documented |
+| Claude Code | native | generated | native | documented | native | documented |
 | Codex | native | documented | native | documented | native | documented |
-| Cursor | native | documented | native | documented | native | documented |
-| GitHub Copilot | native | documented | native | documented | generated | documented |
+| Cursor | native | generated | native | documented | native | documented |
+| GitHub Copilot | native | generated | native | documented | generated | documented |
 | OpenCode | generated | documented | native | documented | native | documented |
 
 The generated matrix inside `AGENTS.md` carries the full record for every cell: minimum version, the dated
@@ -48,10 +48,12 @@ that scan more than one directory.
 
 ### Declared degradations
 
-Rules by path stay `documented` in this version. Claude Code, Cursor, and GitHub Copilot all support
-per-path selection, but the constructor writes one aggregate file with a universal scope, so per-glob
-selection is not preserved. Promotion requires a per-rule renderer and fixtures proving equivalent
-selection; it is not part of this version.
+Rules by path are `generated` for Claude Code, Cursor and Copilot CLI: each canonical rule becomes a file
+with its selector, while the aggregate files are indexes. The offline fixture checks selectors and bodies;
+it does not prove model adherence. Codex and OpenCode retain `documented` textual fallbacks. Use portable
+lowercase IDs and relative slash-separated globs with `*`, `**` or `?`; list multiple patterns separately.
+Ambiguous selectors fail before writes. Existing consumers keep their seed-once matrix until an explicit
+migration, so their declared support can remain conservative even after new files are generated.
 
 Permissions stay `documented` on all five. The canonical vocabulary in `.project-os/permissions.json` is
 abstract capability tokens, not tool names or shell patterns, so deriving enforcement syntax from it would

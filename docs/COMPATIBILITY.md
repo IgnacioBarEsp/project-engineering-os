@@ -17,12 +17,15 @@ Rango soportado: `^20.20.0 || >=22.22.0`. npm es el único package manager garan
 
 ## Harnesses
 
+Las [reglas por carpeta](PATH_RULES.md) conservan sus patrones en tres colecciones generadas. Codex y
+OpenCode mantienen el fallback documental; las señales de ejecución siguen siendo independientes.
+
 | Harness | Instrucciones | Path rules | Skills | Permisos | MCP |
 |---|---|---|---|---|---|
-| Claude Code | native | documented | native | documented | native |
+| Claude Code | native | generated | native | documented | native |
 | Codex | native | documented | native | documented | native |
-| Cursor | native | documented | native | documented | native |
-| GitHub Copilot | native | documented | native | documented | generated |
+| Cursor | native | generated | native | documented | native |
+| GitHub Copilot | native | generated | native | documented | generated |
 | OpenCode | generated | documented | native | documented | native |
 
 `native` describe **lo que el constructor escribe**: la ruta y el formato que la documentación oficial del

@@ -6,6 +6,7 @@
 // y ninguna función de este archivo puede declararlos.
 
 import { HARNESS_CAPABILITY_SCHEMA, HARNESS_RUNTIME_SIGNALS } from '../src/harness.mjs';
+import { PATH_RULE_SURFACES } from '../src/path-rules.mjs';
 
 const FRONTMATTER = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
 
@@ -176,7 +177,42 @@ function codexTomlMcpServers(target, text) {
   return stray.length > 0 ? ['unexpected-toml-table'] : [];
 }
 
+function pathRuleCollection(target, _text, context = {}) {
+  const surface = PATH_RULE_SURFACES.find((item) => item.anchor === target);
+  if (!surface || !context.contents) return ['path-rule-context-unavailable'];
+  let raw;
+  try { raw = JSON.parse(context.contents.get('.project-os/path-rules.json')); }
+  catch { return ['canonical-path-rules-unavailable']; }
+  const rules = Array.isArray(raw) ? raw : raw.rules ?? raw.pathRules;
+  if (!Array.isArray(rules)) return ['canonical-path-rules-unavailable'];
+  const failures = [];
+  const expected = new Set();
+  for (const rule of rules) {
+    const file = `${surface.directory}/project-os-${rule.id}${surface.extension}`;
+    expected.add(file);
+    const source = context.contents.get(file);
+    if (!source) { failures.push(`missing-rule:${rule.id}`); continue; }
+    const { fields, body, failure } = parseFrontmatter(source);
+    if (failure) { failures.push(`${rule.id}:${failure}`); continue; }
+    const match = FRONTMATTER.exec(source.replace(/\r\n?/g, '\n'));
+    const selector = match[1].split('\n').find((line) => line.startsWith(`${surface.field}:`))?.slice(surface.field.length + 1).trim();
+    let actual;
+    try { actual = JSON.parse(selector); } catch { failures.push(`invalid-selector:${rule.id}`); continue; }
+    if (surface.field !== 'paths') actual = typeof actual === 'string' ? actual.split(',') : null;
+    const globs = rule.globs ?? rule.paths ?? rule.applyTo;
+    if (JSON.stringify(actual) !== JSON.stringify(Array.isArray(globs) ? globs : [globs])) failures.push(`selector-drift:${rule.id}`);
+    if (surface.id === 'cursor' && fields.alwaysApply !== 'false') failures.push(`unconditional-rule:${rule.id}`);
+    const instructions = rule.instructions ?? rule.content ?? rule.rule;
+    if (!(Array.isArray(instructions) ? instructions : [instructions]).every((line) => body.includes(line))) failures.push(`body-drift:${rule.id}`);
+  }
+  for (const file of context.contents.keys()) {
+    if (file.startsWith(`${surface.directory}/project-os-`) && file.endsWith(surface.extension) && !expected.has(file)) failures.push(`extra-rule:${file}`);
+  }
+  return failures;
+}
+
 export const HARNESS_FIXTURES = Object.freeze({
+  'path-rule-collection': pathRuleCollection,
   'agent-skill-frontmatter': agentSkillFrontmatter,
   'claude-instructions': mirroredInstructions,
   'codex-instructions': mirroredInstructions,
@@ -190,9 +226,7 @@ export const HARNESS_FIXTURES = Object.freeze({
   'opencode-mcp-servers': opencodeMcpServers,
 });
 
-// Adapters administrados que un harness lee aunque su celda esté degradada. Sin esta lista, un archivo como
-// `.github/instructions/project-os.instructions.md` podría romper su frontmatter sin que nada falle, porque
-// la celda `pathRules` declara `not-applicable` a propósito.
+// Static adapters remain checked even when a consumer keeps a legacy capability matrix.
 export const ADAPTER_CONTRACTS = Object.freeze({
   '.agents/skills/project-os/SKILL.md': 'agent-skill-frontmatter',
   '.claude/rules/project-os.md': 'generated-fallback',
@@ -222,6 +256,12 @@ export function checkInstalledAdapters(contents, context = {}) {
     }
     for (const failure of HARNESS_FIXTURES[id](target, text, context)) {
       failures.push(`${target}: ${failure}`);
+    }
+  }
+  for (const surface of PATH_RULE_SURFACES) {
+    if (!contents.has(surface.anchor)) continue;
+    for (const failure of pathRuleCollection(surface.anchor, '', { ...context, contents })) {
+      failures.push(`${surface.anchor}: ${failure}`);
     }
   }
   return failures.sort((left, right) => left.localeCompare(right));
@@ -270,7 +310,7 @@ export function checkCapabilityContract({ capability, harnessId, contract, conte
     return failures;
   }
 
-  for (const failure of fixture(contract.target, text, context)) {
+  for (const failure of fixture(contract.target, text, { ...context, contents })) {
     failures.push(`${label}: ${failure}`);
   }
   return failures;

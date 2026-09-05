@@ -112,11 +112,14 @@
         }
       ],
       "issue": null,
-      "status": "open",
+      "status": "resolved",
       "exception": null,
       "createdAt": "2026-08-19",
-      "updatedAt": "2026-08-19",
-      "resolution": null
+      "updatedAt": "2026-09-05",
+      "resolution": {
+        "flow": "preserve-path-rule-selection",
+        "evidence": "Issue #65: per-rule selectors and bodies are rendered and verified in all three supported collections. Full check 248 PASS; complete installed fixture PASS, including negative selectors, collision, retirement and rollback evidence."
+      }
     }
   ]
 }

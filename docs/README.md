@@ -36,6 +36,7 @@ cuando lo necesites.
 
 - [Recuperación](RECOVERY.md): reanudar una transacción, ejecutar rollback o recuperar un PR incompleto.
 - [Compatibilidad](COMPATIBILITY.md): sistemas, versiones de Node y degradaciones por agente.
+- [Reglas por carpeta](PATH_RULES.md): selectores, personalización y retirada reversible de reglas.
 
 ## Mantengo o publico el paquete
 
