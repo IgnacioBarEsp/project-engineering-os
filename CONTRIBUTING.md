@@ -19,5 +19,13 @@ mantenimiento, alternativa y motivo.
 Los commits deben declarar autoría mediante el certificado DCO: al contribuir confirmas que tienes
 derecho a enviar el trabajo bajo MIT. Puedes firmar con `git commit -s`.
 
-La revisión humana es obligatoria. Un contribuidor no puede autoaprobar ni publicar su propio PR.
+Todo PR requiere revisión adversarial, evidencia y una decisión del mantenedor. En el flujo habitual, una
+persona revisa la contribución antes de integrarla. El mantenedor puede delegar explícitamente ejecución,
+revisión, integración o publicación para un alcance concreto; el PR debe registrar esa autorización y el
+origen real de la evidencia. La revisión de un agente sobre su propio trabajo no es revisión humana ni
+independiente. Un contribuidor no puede atribuirse esa delegación ni fabricar aprobaciones.
 
+La delegación conserva DoR, OpenSpec local fijado, spec aprobada, evidencia automática/manual proporcional,
+assessment de deuda y archivo oficial. Tampoco omite `CI / required`, integración protegida, protección de
+tags, comparación del artifact canónico ni la identidad OIDC de publicación. No se eliminan protecciones
+para resolver una revisión o un fallo de CI.
