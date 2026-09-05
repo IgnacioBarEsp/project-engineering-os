@@ -1,5 +1,13 @@
+export const UPSTREAM_NPM_VERSION = '11.19.1';
+
+export function checkPinnedClient(content, expectedJobs) {
+  const pins = [...content.matchAll(/run: npm install --global --ignore-scripts npm@([^\s]+)\s*\n/g)];
+  return pins.length === expectedJobs && pins.every((match) => match[1] === UPSTREAM_NPM_VERSION)
+    ? [] : [`all ${expectedJobs} installation jobs must pin npm@${UPSTREAM_NPM_VERSION} with scripts disabled`];
+}
+
 export function checkReleaseWorkflow(content) {
-  const failures = [];
+  const failures = checkPinnedClient(content, 2);
   const npmJob = content.match(/^  npm:\r?\n([\s\S]*)$/m)?.[1] ?? '';
 
   if (!/name:\s*release-candidate[\s\S]{0,400}retention-days:\s*35\b/.test(content)) {

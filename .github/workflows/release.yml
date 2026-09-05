@@ -28,6 +28,8 @@ jobs:
         with:
           node-version: 22.22.0
           cache: npm
+      - name: Use reviewed npm
+        run: npm install --global --ignore-scripts npm@11.19.1
       - name: Install
         run: npm ci --ignore-scripts
       - name: Validate tag and source
@@ -95,8 +97,8 @@ jobs:
         with:
           node-version: 22.22.0
           registry-url: https://registry.npmjs.org
-      - name: Use provenance-capable npm
-        run: npm install --global npm@11.5.1
+      - name: Use reviewed npm
+        run: npm install --global --ignore-scripts npm@11.19.1
       - name: Install from lockfile
         run: npm ci --ignore-scripts
       - name: Rebuild verification copy from protected tag

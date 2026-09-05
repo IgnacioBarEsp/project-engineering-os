@@ -38,12 +38,17 @@ Lo que ya está en su sitio, y contra lo que hay que medir cualquier ganancia:
 
 ## Matriz comparativa
 
+Actualización del 5 de septiembre de 2026: la [guía de instalación](../INSTALL_HARDENING.md) precisa
+los defaults con fuentes y sondas actuales. No debe interpretarse el bloqueo de subdependencias de pnpm
+como una prohibición de todas las fuentes, ni hardened mode de Yarn como una allowlist de Git. Yarn 4.18.0
+devolvió `enableScripts=false`; esta observación no demuestra el default de todas las versiones desde v2.
+
 Fuentes oficiales consultadas el 30 de agosto de 2026. Las filas marcadas *medido* se comprobaron
 ejecutando el comando en esta máquina y su salida está en la sección de sondas.
 
 | Eje | npm 11.17 (hoy) | npm 12 (jul 2026) | pnpm 11 (abr 2026) | Yarn Berry 4 |
 | --- | --- | --- | --- | --- |
-| Install scripts de dependencias | ejecutan; `ignore-scripts=false` *medido* | **no ejecutan**; `allowScripts` por defecto en off, con `npm approve-scripts` | no ejecutan desde v10; allowlist con `allowBuilds` | no ejecutan; `enableScripts: false` desde v2 |
+| Install scripts de dependencias | ejecutan; `ignore-scripts=false` *medido* | **no ejecutan**; `allowScripts` por defecto en off, con `npm approve-scripts` | no ejecutan desde v10; allowlist con `allowBuilds` | `enableScripts: false` comprobado en 4.18.0; workspaces mantienen scripts |
 | Cuarentena por antigüedad de versión | **existe**: `min-release-age`, default `null` *medido* | igual | **existe y viene activa**: `minimumReleaseAge` default `1440` min | existe: `npmMinimalAgeGate` |
 | Exclusiones de la cuarentena | `min-release-age-exclude` *medido* | igual | `minimumReleaseAgeExclude` | sí |
 | Dependencias de origen exótico | permitidas; `allow-git=all`, `allow-remote=all` *medido* | **bloqueadas**: ambas pasan a `none` | bloqueadas: `blockExoticSubdeps: true` | restringible con hardened mode |

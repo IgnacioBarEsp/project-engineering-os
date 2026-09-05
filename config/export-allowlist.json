@@ -17,6 +17,7 @@
   "rootFiles": [
     ".gitattributes",
     ".gitignore",
+    ".npmrc",
     ".nvmrc",
     "AGENTS.md",
     "CHANGELOG.md",
