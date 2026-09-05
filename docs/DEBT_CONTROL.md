@@ -32,3 +32,7 @@ project-os debt handoff --root . --plan mi-plan
 ```
 
 Si una operación se interrumpe, no borres el registro: sigue la [guía de recuperación](RECOVERY.md).
+
+Para evaluar si una señal del proceso merece automatización, usa la
+[guía opcional de oportunidades de IA](AI_OPPORTUNITY_GUIDE.md). Una recurrencia es una señal que requiere
+diagnóstico; no prueba fricción por sí sola y no añade un gate ni deuda por no mantener un mapa.
