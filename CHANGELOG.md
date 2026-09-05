@@ -4,6 +4,9 @@ All notable changes follow [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Publish optional AI opportunity guidance and a greenfield design grounded in upstream evidence,
+  with explicit automation limits and consumer ownership; defer automatic bootstrap adoption (#14, #15).
+
 - Preserve path selectors in individual Claude, Cursor and Copilot rule files, with validated portable
   globs, lifecycle conflict handling and explicit fallback for other agents (#65).
 

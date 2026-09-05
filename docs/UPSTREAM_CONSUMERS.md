@@ -22,3 +22,6 @@ siendo generados por la CLI oficial de OpenSpec; el renderer solo adapta bloques
 Antes de actualizar, revisa ownership en [architecture/OWNERSHIP.md](architecture/OWNERSHIP.md) y ejecuta
 `upgrade --check`. Las versiones y migraciones se explican en
 [architecture/VERSIONING.md](architecture/VERSIONING.md).
+
+La [guía de oportunidades de IA](AI_OPPORTUNITY_GUIDE.md) es opcional. Si la adoptas, conserva observaciones
+y decisiones como documentación propia; el constructor no genera, valida ni sobrescribe ese mapa.
