@@ -25,10 +25,12 @@ GitHub CLI and its timestamped receipt is bound to the actual manifest hash.
 The first complete fixture failed on host delivery preferences; that failure was retained as issue #64,
 not reclassified as PASS. The abbreviated fixture and unit suite had not detected it.
 
-The first remote matrix additionally exposed macOS suppression of spinner progress. The classifier now
-accepts the official complete summary naming every tool; missing tools, failed generation and unexpected
-stderr still fail. Generated-file and OPSX ownership checks remain unchanged. A regression test covers
-the non-interactive summary and four negative cases (243 total tests after this correction).
+The remote matrix additionally exposed a wrapper entrypoint failure on macOS: `/var` resolves through
+`/private/var`, and the literal argv/module comparison silently skipped execution. The initial spinner
+hypothesis was insufficient. Entrypoint identity now compares real paths; a junction/symlink regression
+proves execution actually reaches the local CLI. The classifier also accepts the official complete
+summary, while missing tools, failures and unexpected stderr still fail. Generated-file checks remain
+unchanged (244 total tests after these corrections).
 
 No new licenses, services, provider activation, runtime dependencies or global preference changes are
 introduced. Agent self-review and maintainer authorization are stated without claiming independent review.

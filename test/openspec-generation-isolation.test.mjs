@@ -1,8 +1,29 @@
 import assert from 'node:assert/strict';
 import {existsSync} from 'node:fs';
+import { cp, mkdir, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises';
+import { spawnSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 import {runOpenSpec} from '../blueprint/core/project-constructor/openspec.mjs';
+
+test('wrapper executes through a symlinked project path such as macOS /var', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'project-os-wrapper-link-'));
+  try {
+    const actual = path.join(root, 'actual');
+    const alias = path.join(root, 'alias');
+    await mkdir(path.join(actual, '.project-constructor'), { recursive: true });
+    await mkdir(path.join(actual, 'node_modules/@fission-ai/openspec/bin'), { recursive: true });
+    await cp(new URL('../blueprint/core/project-constructor/openspec.mjs', import.meta.url), path.join(actual, '.project-constructor/openspec.mjs'));
+    await writeFile(path.join(actual, 'node_modules/@fission-ai/openspec/bin/openspec.js'), 'console.log("local-openspec-executed");');
+    await symlink(actual, alias, process.platform === 'win32' ? 'junction' : 'dir');
+    const result = spawnSync(process.execPath, [path.join(alias, '.project-constructor/openspec.mjs'), '--version'], { encoding: 'utf8', windowsHide: true });
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.stdout.trim(), 'local-openspec-executed');
+  } finally {
+    if (path.dirname(path.resolve(root)) === path.resolve(tmpdir())) await rm(root, { recursive: true, force: true });
+  }
+});
 
 test('init/update isolate host settings and clean only their temporary output', () => {
   for(const command of ['init','update']) {
