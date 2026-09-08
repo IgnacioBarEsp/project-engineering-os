@@ -1,0 +1,69 @@
+{
+  "scenario": "research-text-manual-inspection",
+  "sources": [
+    {
+      "path": "fuentes/criterios.txt",
+      "status": "indexed"
+    },
+    {
+      "path": "fuentes/observaciones.txt",
+      "status": "indexed"
+    }
+  ],
+  "verify": {
+    "context": "current",
+    "coverage": "complete",
+    "sources": 2,
+    "chunks": 6,
+    "selection": {
+      "name": "Ensayo documental",
+      "profile": "research",
+      "experience": "guided",
+      "agents": [
+        "codex",
+        "web"
+      ]
+    },
+    "agentStatus": "instructions-configured",
+    "externalTools": "not-verified"
+  },
+  "search": {
+    "method": "local-lexical",
+    "query": "tokens medidos",
+    "hits": [
+      {
+        "path": "fuentes/criterios.txt",
+        "hash": "b891f2d3d356131e3176775b27d580435ff6d88fa714f5da24ecb9254307a2ee",
+        "kind": "line",
+        "start": 4,
+        "end": 4,
+        "text": "Los bytes exportados no son tokens medidos.",
+        "score": 6
+      },
+      {
+        "path": "fuentes/criterios.txt",
+        "hash": "b891f2d3d356131e3176775b27d580435ff6d88fa714f5da24ecb9254307a2ee",
+        "kind": "line",
+        "start": 3,
+        "end": 3,
+        "text": "Se registran tokens reales solo cuando el proveedor los informa.",
+        "score": 3
+      }
+    ],
+    "sufficient": true,
+    "note": "Coincidencias de términos; comprueba si respaldan la respuesta.",
+    "coverage": {
+      "complete": true,
+      "unavailable": 0,
+      "excluded": 0,
+      "limitations": 0
+    }
+  },
+  "export": {
+    "bytes": 1099,
+    "included": 2,
+    "sent": false,
+    "tokenCount": null
+  },
+  "originalPreserved": true
+}

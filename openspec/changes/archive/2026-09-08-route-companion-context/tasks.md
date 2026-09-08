@@ -1,0 +1,7 @@
+- [x] 1. Pin reviewed app dependencies and implement bounded source extraction.
+- [x] 2. Implement attributed retrieval, freshness and bounded export.
+- [x] 3. Implement recoverable selected-agent routes and five-profile recipes.
+- [x] 4. Document exact graph identities, licensing and supported activation states.
+- [x] 5. Run automated negative/functional checks and record manual evidence.
+- [x] 6. Resolve adversarial findings and capture debt assessment.
+- [x] 7. Prepare closure evidence and the protected-integration contract.

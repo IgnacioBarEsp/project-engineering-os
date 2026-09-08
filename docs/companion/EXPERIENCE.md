@@ -110,3 +110,4 @@ sincronización en nube y descargas indiscriminadas de modelos.
 Cada entrega conserva su flujo SDD. El programa sigue abierto mientras falte un criterio; una prueba local
 no demuestra compatibilidad universal. Consulta [arquitectura](ARCHITECTURE.md), [diseño](DESIGN.md) y
 [evaluación](EVALUATION.md). El [motor de preparación](PREPARATION.md) documenta la primera etapa de implementación.
+El [contexto local](CONTEXT.md) detalla fuentes, recetas, rutas y límites de extracción.
