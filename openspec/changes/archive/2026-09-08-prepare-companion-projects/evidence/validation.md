@@ -58,3 +58,11 @@ activation to roll back implementation; retain historical evidence and consumer-
 
 The protocol and documentation are linked from Companion experience. #78–#81 retain context, interface,
 installer, prerequisite resolution and full profile journeys. No remaining Blocker/Major belongs to #77.
+
+## CI follow-up before merge
+
+The first PR matrix failed on macOS because its temporary-directory alias passes through a system link.
+The fixture now resolves its newly created, owned temporary root before passing it to the strict engine.
+Product link rejection and explicit symlink/junction tests remain unchanged. Local engine tests were
+rerun after the fixture fix; protected CI must pass on the new commit before merge. Initial failed run:
+https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/34249778003.

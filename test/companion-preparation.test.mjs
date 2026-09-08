@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { mkdtemp, mkdir, readFile, readdir, rm, writeFile, symlink, link } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, readdir, realpath, rm, writeFile, symlink, link } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
@@ -10,9 +10,11 @@ import { createConstructorAdapter } from '../apps/companion/engine/constructor-a
 import { inspectFolder } from '../apps/companion/engine/inventory.mjs';
 import { recoverAbandonedLock } from '../apps/companion/engine/files.mjs';
 
-const prefix = path.join(tmpdir(), 'project-os-companion-test-');
+// macOS exposes its temporary directory through /var -> /private/var. The fixture owns its newly
+// created root and passes its canonical path; project-supplied links still exercise rejection below.
+const prefix = path.join(await realpath(tmpdir()), 'project-os-companion-test-');
 async function fixture(t, files = {}) {
-  const root = await mkdtemp(prefix);
+  const root = await realpath(await mkdtemp(prefix));
   t.after(async () => {
     assert(path.resolve(root).startsWith(path.resolve(prefix)));
     await rm(root, { recursive: true, force: true });
