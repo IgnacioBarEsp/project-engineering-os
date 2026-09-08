@@ -5,6 +5,9 @@ cuando lo necesites.
 
 ## Quiero crear mi primer proyecto
 
+El programa [Companion](companion/EXPERIENCE.md) define la aplicación visual en desarrollo para preparar
+proyectos sin terminal. Su prototipo permite revisar el recorrido; todavía no es un instalador.
+
 1. [Guía del usuario](USER_GUIDE.md): entiende las cuatro etapas y llega desde una carpeta vacía hasta el
    primer cambio de producto.
 2. [Clasificador de onboarding](ONBOARDING_PLAN.md): inspecciona la carpeta y elige una ruta sin escribir.

@@ -1,0 +1,38 @@
+{
+  "date": "2026-09-08T09:11:58.182Z",
+  "source": "discovery prototype, not installed application",
+  "checks": [
+    "research: 6 steps, 320px, persistence, escaped text, heading focus PASS",
+    "software: 6 steps, 320px, persistence, escaped text, heading focus PASS",
+    "unity: 6 steps, 320px, persistence, escaped text, heading focus PASS",
+    "media: 6 steps, 320px, persistence, escaped text, heading focus PASS",
+    "general: 6 steps, 320px, persistence, escaped text, heading focus PASS",
+    "research: 6 steps, 768px, persistence, escaped text, heading focus PASS",
+    "software: 6 steps, 768px, persistence, escaped text, heading focus PASS",
+    "unity: 6 steps, 768px, persistence, escaped text, heading focus PASS",
+    "media: 6 steps, 768px, persistence, escaped text, heading focus PASS",
+    "general: 6 steps, 768px, persistence, escaped text, heading focus PASS",
+    "research: 6 steps, 1440px, persistence, escaped text, heading focus PASS",
+    "software: 6 steps, 1440px, persistence, escaped text, heading focus PASS",
+    "unity: 6 steps, 1440px, persistence, escaped text, heading focus PASS",
+    "media: 6 steps, 1440px, persistence, escaped text, heading focus PASS",
+    "general: 6 steps, 1440px, persistence, escaped text, heading focus PASS",
+    "100-character unbroken project name at 320px: reflow PASS",
+    "Missing AI: precise alert, focus, keyboard correction and recovery PASS",
+    "Keyboard: theme, native radio group, ArrowDown, next and heading focus PASS",
+    "Explicit simulated failure and retry PASS",
+    "Reduced motion PASS",
+    "200% CSS zoom at 1280px: reflow PASS; browser zoom/native screen reader still needs app QA",
+    "studio: 7 text color pairs >= 4.5:1 and control boundaries >= 3:1 PASS",
+    "plane: 7 text color pairs >= 4.5:1 and control boundaries >= 3:1 PASS",
+    "paper: 7 text color pairs >= 4.5:1 and control boundaries >= 3:1 PASS",
+    "Browser exceptions: 0; unauthorized preview paths: 404 PASS"
+  ],
+  "screenshots": [
+    "companion-studio.png",
+    "companion-plane.png",
+    "companion-paper.png",
+    "companion-mobile.png"
+  ],
+  "status": "PASS"
+}

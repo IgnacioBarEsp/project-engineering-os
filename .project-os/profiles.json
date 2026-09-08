@@ -2,7 +2,8 @@
   "schemaVersion": "1.0.0",
   "active": [
     "documentation",
-    "harness-tooling"
+    "harness-tooling",
+    "ui"
   ],
   "profiles": [
     {
@@ -222,7 +223,7 @@
     },
     {
       "id": "ui",
-      "active": false,
+      "active": true,
       "activationRequires": "Approved user experience scope, accessibility target, ground truth, platforms, and visual evidence policy.",
       "automaticValidations": [
         "component-or-interaction-tests",
@@ -259,7 +260,8 @@
           "tool": "Figma",
           "condition": "Only when it is an approved visual source of truth."
         }
-      ]
+      ],
+      "activationDecision": "docs/companion/DESIGN.md"
     }
   ],
   "activationPolicy": {
