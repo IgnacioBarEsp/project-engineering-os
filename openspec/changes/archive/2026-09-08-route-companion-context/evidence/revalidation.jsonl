@@ -1,0 +1,5 @@
+{"name":"empty-paragraph","sections":[{"text":"Evidence in second paragraph","kind":"paragraph","start":2,"end":2}],"issues":[]}
+{"name":"malformed-xml","sections":[],"issues":[{"reason":"invalid-xml"}]}
+{"name":"prefixed-selfclosing","sections":[{"text":"Evidence in second paragraph","kind":"paragraph","start":2,"end":2}],"issues":[]}
+{"name":"hidden-unmanaged-source","coverage":{"complete":true,"sources":[{"path":".github/workflows/ci.yml","bytes":17,"hash":"41a50dadde08de443b0d35eafbdd29185ee4347f70148aea487052ceb00fac0d","extension":".yml","issues":[],"status":"indexed"},{"path":"notes.txt","bytes":21,"hash":"c8ddcf343d894f3b2ebc39ae56f8497e1580c0e3f6fa09320e02eaf7f6b983d8","extension":".txt","issues":[],"status":"indexed"}],"limitations":[],"excluded":0,"chunks":2,"textBytes":37}}
+{"name":"hidden-source-freshness","verify":{"context":"stale","action":"Actualiza el contexto antes de buscar, exportar o continuar.","externalTools":"not-verified"}}

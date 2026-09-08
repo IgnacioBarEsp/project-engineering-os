@@ -34,12 +34,14 @@ const ciWorkflow = await readFile(path.join(root, '.github', 'workflows', 'ci.ym
 const publishedWorkflow = await readFile(path.join(root, '.github', 'workflows', 'verify-published.yml'), 'utf8');
 failures.push(...checkPublishedVerificationWorkflow(publishedWorkflow)
   .map((message) => `.github/workflows/verify-published.yml: ${message}`));
-failures.push(...checkPinnedClient(ciWorkflow, 2).map((message) => `.github/workflows/ci.yml: ${message}`));
+failures.push(...checkPinnedClient(ciWorkflow, 3).map((message) => `.github/workflows/ci.yml: ${message}`));
 if (
   !ciWorkflow.includes('dependency-audit:')
   || !ciWorkflow.includes('run: npm run check:audit')
-  || !ciWorkflow.includes('needs: [matrix, dependency-audit]')
+  || !ciWorkflow.includes('needs: [matrix, dependency-audit, companion]')
   || !ciWorkflow.includes('AUDIT_RESULT: ${{ needs.dependency-audit.result }}')
+  || !ciWorkflow.includes('COMPANION_RESULT: ${{ needs.companion.result }}')
+  || !ciWorkflow.includes('test "$COMPANION_RESULT" = "success"')
 ) {
   failures.push('.github/workflows/ci.yml: dependency audit required gate missing');
 }

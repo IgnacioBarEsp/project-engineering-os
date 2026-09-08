@@ -1,0 +1,19 @@
+{
+  "name": "@project-engineering-os/companion",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24.18.0"
+  },
+  "scripts": {
+    "test": "node --test qa/*.mjs",
+    "audit": "npm audit --omit=dev --audit-level=high"
+  },
+  "dependencies": {
+    "fflate": "0.8.3",
+    "pdfjs-dist": "6.3.289",
+    "saxes": "6.0.0"
+  }
+}

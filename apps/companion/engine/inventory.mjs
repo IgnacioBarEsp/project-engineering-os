@@ -2,12 +2,15 @@ import { lstat, opendir } from 'node:fs/promises';
 import path from 'node:path';
 import { canonicalFolder, hash, json, fail, readBounded } from './files.mjs';
 
-const EXCLUDED = new Set(['.git','.project-os','.project-constructor','.agents','.claude','.codex','.cursor',
+const EXCLUDED = new Set(['.git','.project-os','.project-constructor',
   'node_modules','library','temp','obj','bin','build','dist','coverage','.venv','venv','__pycache__','.next',
   '.ssh','.aws','.azure','.gnupg','.kube','models','checkpoints','loras','output','outputs']);
 const PRIVATE = /(^\.env($|\.)|(?:credential|secret|token|password)s?(?:[._-]|$)|\.(?:pem|key|p12|pfx|keystore)$)/i;
 const TEXT = new Set(['.md','.txt','.csv','.json','.yaml','.yml','.toml','.xml','.js','.mjs','.cjs','.ts','.tsx','.jsx','.css','.html','.cs','.py','.shader','.unity','.asset']);
 export const PROFILE_IDS = Object.freeze(['research','software','unity','media','general']);
+// Scope is explicit and constant: these are policy/control surfaces, not source documents.
+export const CONTROL_PATHS = Object.freeze(['.project-os', '.project-constructor', '.codegraph', '.gitnexus',
+  'graphify-out', 'AGENTS.md', 'CLAUDE.md', '.cursor/rules/project-os-companion.mdc', '.github/copilot-instructions.md']);
 
 export function normalizeScanLimits(options = {}) {
   if (!options || typeof options !== 'object' || Array.isArray(options)
@@ -32,9 +35,10 @@ export async function inspectFolder(target, options = {}) {
     if (!directory) return;
     for await (const entry of directory) {
       // Preparation metadata must not invalidate the user-input plan that creates it.
-      if (['.project-os','.project-constructor'].includes(entry.name.toLowerCase())) continue;
-      if (++visited > limits.entries) { stopped = true; break; }
       const rel = relative ? `${relative}/${entry.name}` : entry.name;
+      if (CONTROL_PATHS.some(p=>p.toLowerCase()===rel.toLowerCase())) continue;
+      // Creating a route parent must not consume the budget of the corpus it routes to.
+      if (!['.github','.cursor','.cursor/rules'].includes(rel.toLowerCase()) && ++visited > limits.entries) { stopped = true; break; }
       if (PRIVATE.test(entry.name) || EXCLUDED.has(entry.name.toLowerCase())) { excluded++; continue; }
       let stat;
       try { stat = await lstat(path.join(root, rel)); } catch (error) { limitations.push({ path: rel, reason: 'unreadable', code: error.code }); continue; }
@@ -72,5 +76,5 @@ export async function inspectFolder(target, options = {}) {
     : files.some(f => ['.js','.mjs','.ts','.tsx','.cs','.py','.html'].includes(f.extension)) ? 'software'
     : files.some(f => ['.pdf','.docx','.bib'].includes(f.extension)) ? 'research' : 'general';
   return { root, files, limitations, excluded, bytesRead, complete: !limitations.length, recommendation,
-    fingerprint: hash(json({ files, limitations, excluded })), limits };
+    fingerprint: hash(json({ files, limitations, excluded })), limits, controlPaths: CONTROL_PATHS };
 }
