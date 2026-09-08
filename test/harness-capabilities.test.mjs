@@ -31,7 +31,11 @@ async function readSeed() {
 
 async function materializeSeed() {
   const baseBlueprint = await loadBlueprint({});
-  return materializeHarnessBlueprint({ baseBlueprint, targetRoot: packageRoot });
+  // A seed test must not inherit the upstream's own conditional profile selections.
+  return materializeHarnessBlueprint({
+    baseBlueprint,
+    targetRoot: path.join(packageRoot, 'test', 'fixtures', 'nonexistent-consumer'),
+  });
 }
 
 function renderedContents(blueprint) {

@@ -1,0 +1,7 @@
+{
+  "date": "2026-09-08T09:11:43.340Z",
+  "scope": "discovery regression rehearsal of existing constructor; not Companion installer",
+  "prepared": "APPLIED",
+  "rollback": "ROLLED_BACK",
+  "originalPreserved": true
+}

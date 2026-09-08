@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es" data-theme="studio">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Engineering OS · Prototipo Companion</title>
+  <style>
+    :root { color-scheme:light; --bg:#f5f7f5; --surface:#fff; --text:#15271e; --muted:#536259; --line:#d8e0db; --accent:#215e40; --soft:#e6f0e8; --on-accent:#fff; --rail:#ecf0ed; --warn:#8c4118; --error-bg:#fff1e6; --radius:9px; }
+    [data-theme=plane] { color-scheme:dark; --bg:#0b0f0c; --surface:#111a14; --text:#f2e8d5; --muted:#a5b4a8; --line:#344b3c; --accent:#9cc7ab; --soft:#203a2a; --on-accent:#102219; --rail:#0e1711; --warn:#f9b384; --error-bg:#302217; --radius:4px; }
+    [data-theme=paper] { --bg:#f6f3ed; --surface:#fffdf8; --text:#292b25; --muted:#66665d; --line:#dbd9cd; --accent:#425a40; --soft:#e9ecdf; --on-accent:#fff; --rail:#eeece3; --warn:#8c4118; --error-bg:#fff1e6; --radius:4px; }
+    :root { --control:#718077; } [data-theme=plane] { --control:#799281; } [data-theme=paper] { --control:#828377; }
+    * { box-sizing:border-box; } body { margin:0; background:var(--bg); color:var(--text); font:16px/1.6 "Segoe UI",Arial,sans-serif; overflow-wrap:anywhere; }
+    button,input,select { font:inherit; } button,select { cursor:pointer; } button { min-height:46px; padding:10px 18px; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); color:var(--text); font-weight:600; }
+    button:hover { border-color:var(--accent); background:var(--soft); } button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible { outline:3px solid var(--accent); outline-offset:4px; }
+    .primary { background:var(--accent); color:var(--on-accent); border-color:var(--accent); } .primary:hover { background:var(--accent); filter:brightness(.92); }
+    input[type=text],select { border-color:var(--control)!important; }
+    .quiet { background:transparent; border-color:transparent; } a { color:var(--accent); text-underline-offset:4px; } p { color:var(--muted); } h1,h2,p { margin-top:0; }
+    .shell { max-width:1440px; margin:auto; min-height:100vh; display:grid; grid-template-columns:272px 1fr; }
+    aside { background:var(--rail); border-right:1px solid var(--line); padding:36px 28px; display:flex; flex-direction:column; gap:54px; }
+    .brand { display:flex; gap:12px; align-items:center; line-height:1.3; font-size:15px; font-weight:650; } .mark { width:34px; height:34px; color:var(--accent); flex-shrink:0; }
+    .brand small { display:block; color:var(--muted); font-size:12px; font-weight:400; margin-top:3px; } .steps { list-style:none; padding:0; margin:0; }
+    .steps li { min-height:64px; display:flex; align-items:flex-start; gap:14px; position:relative; color:var(--muted); font-size:14px; }
+    .steps li:not(:last-child)::before { content:""; position:absolute; left:13px; top:29px; bottom:4px; width:1px; background:var(--line); }
+    .steps span { display:grid; place-items:center; width:28px; height:28px; border:1px solid var(--line); border-radius:50%; font-size:12px; flex-shrink:0; margin-top:1px; }
+    .steps .active { color:var(--text); font-weight:650; } .steps .active span,.steps .done span { background:var(--accent); color:var(--on-accent); border-color:var(--accent); }
+    .aside-note { margin-top:auto; font-size:13px; border-top:1px solid var(--line); padding-top:22px; } .aside-note strong { display:block; color:var(--text); margin-bottom:6px; }
+    main { padding:26px 54px 28px; min-width:0; display:flex; flex-direction:column; }
+    .top { display:flex; align-items:center; justify-content:space-between; gap:16px; color:var(--muted); font-size:13px; margin-bottom:44px; }
+    .direction { display:flex; align-items:center; gap:10px; } select { max-width:135px; min-height:44px; padding:6px 10px; color:var(--text); background:var(--surface); border:1px solid var(--line); border-radius:6px; }
+    #screen { width:100%; max-width:750px; margin:0 auto; flex:1; animation:enter .18s ease-out; } .eyebrow { font-size:12px; letter-spacing:.1em; color:var(--accent); font-weight:650; margin:2px 0 14px; }
+    h1 { font-size:clamp(28px,3.2vw,44px); line-height:1.15; letter-spacing:-.035em; font-weight:600; margin-bottom:17px; max-width:650px; }
+    .intro { max-width:570px; margin-bottom:30px; font-size:16px; } .options { display:grid; gap:10px; }
+    .option { display:flex; gap:16px; padding:17px 20px; align-items:center; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); cursor:pointer; min-height:76px; transition:background .12s; }
+    .option:has(input:checked) { border-color:var(--accent); background:var(--soft); box-shadow:inset 3px 0 var(--accent); } .option:hover { border-color:var(--accent); }
+    input[type=radio],input[type=checkbox] { width:19px; height:19px; accent-color:var(--accent); flex-shrink:0; }
+    .option strong { display:block; font-size:16px; font-weight:600; } .option small { display:block; color:var(--muted); font-size:13px; line-height:1.5; margin-top:3px; }
+    .row-number { color:var(--muted); font:13px Consolas,monospace; margin-left:auto; padding-left:10px; }
+    .field { display:block; margin:24px 0 8px; font-weight:600; font-size:14px; } input[type=text] { width:100%; min-height:50px; padding:12px 14px; border:1px solid var(--line); border-radius:var(--radius); color:var(--text); background:var(--surface); }
+    .hint { font-size:13px; margin:8px 0 24px; } .actions { display:flex; justify-content:space-between; gap:16px; border-top:1px solid var(--line); padding-top:24px; margin-top:34px; }
+    .actions .primary { min-width:190px; } .note { padding:16px 19px; border-left:3px solid var(--accent); background:var(--soft); margin:25px 0; font-size:14px; }
+    .note p { margin:4px 0 0; } .summary { padding:8px 0; margin:18px 0; } .summary > div { display:flex; justify-content:space-between; gap:24px; border-bottom:1px solid var(--line); padding:15px 0; }
+    .summary span { color:var(--muted); } .summary strong { font-size:14px; text-align:right; } .status { display:flex; align-items:flex-start; gap:14px; padding:17px 0; border-bottom:1px solid var(--line); }
+    .status .check { color:var(--accent); font-size:23px; width:28px; } .status strong { display:block; font-weight:600; } .status p { font-size:14px; margin:3px 0 0; }
+    .issue { background:var(--error-bg); border-left:3px solid var(--warn); padding:16px 20px; margin-top:20px; } .issue strong { color:var(--warn); } .issue p { margin:5px 0 12px; font-size:14px; }
+    .prototype-note { font-size:12px; color:var(--muted); display:flex; justify-content:space-between; gap:12px; margin:30px auto 0; max-width:750px; width:100%; }
+    .prototype-note button { min-height:44px; padding:0 4px; font-size:12px; font-weight:400; }
+    .welcome { font-family:Georgia,serif; font-size:clamp(40px,5vw,64px); font-weight:400; letter-spacing:-.05em; }
+    .flow { display:flex; gap:12px; margin:42px 0 34px; align-items:center; } .flow span { background:var(--surface); border:1px solid var(--line); padding:18px; flex:1; font-size:14px; } .flow b { color:var(--accent); font-weight:400; }
+    .sr { position:absolute; width:1px; height:1px; padding:0; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; } @keyframes enter { from {opacity:.4;transform:translateY(5px);} to {opacity:1;transform:translateY(0);} }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; } }
+    @media (max-width:1000px) { .shell {grid-template-columns:215px 1fr;} aside {padding:28px 20px;} main {padding:24px 28px;} }
+    @media (max-width:700px) { .shell {display:block;} aside {padding:20px; border-right:0;border-bottom:1px solid var(--line);gap:20px;} .steps {display:flex;gap:10px;} .steps li {min-height:auto;flex:1;} .steps li::before {display:none;} .steps .step-name,.aside-note {display:none;} main {padding:20px;} .top {margin-bottom:30px;} .direction>span {display:none;} .option {padding:14px 12px;} .row-number {display:none;} .actions .primary {min-width:0;} .flow {gap:7px;} .flow span {padding:10px;font-size:12px;} .prototype-note {flex-wrap:wrap;} }
+  </style>
+</head>
+<body>
+<div class="shell">
+  <aside aria-label="Progreso de preparación">
+    <div class="brand"><svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M6 8h28v24H6zM6 20h28M20 8v24" stroke="currentColor" stroke-width="2"/><path d="M6 8h14v12H6z" fill="currentColor"/></svg><div>Project Engineering OS<small>Un buen comienzo, para tu trabajo.</small></div></div>
+    <ol class="steps" id="steps"></ol>
+    <div class="aside-note"><strong>Tu trabajo sigue siendo tuyo.</strong><p>El proyecto permanece en tu carpeta. Tú decides con qué IA continuar.</p></div>
+  </aside>
+  <main>
+    <div class="top"><span>Preparar un proyecto</span><label class="direction"><span>Dirección visual</span><select id="theme" aria-label="Dirección visual"><option value="studio">Estudio</option><option value="plane">Plano</option><option value="paper">Papel</option></select></label></div>
+    <div id="screen"></div>
+    <footer class="prototype-note"><span>Prototipo de recorrido · no modifica tus archivos</span><button class="quiet" id="error-demo">Mostrar un problema de ejemplo</button></footer>
+    <div id="announce" class="sr" role="status" aria-live="polite"></div>
+  </main>
+</div>
+<script>
+const names=['Tu proyecto','Tu experiencia','Tu IA','Tu carpeta','La preparación','Continuar'];
+const profiles=[['research','Investigar y trabajar con documentos','Artículos, PDFs, notas, datos y fuentes.'],['software','Crear una página o una aplicación','Código, decisiones y cambios comprobables.'],['unity','Desarrollar un videojuego','Scripts, escenas y configuración de Unity.'],['media','Crear imágenes, música o videos','Recetas, modelos y recursos de tu equipo.'],['general','Organizar otro tipo de trabajo','Un objetivo, tus archivos y un método claro.']];
+const agents=[['codex','Codex','Agente con acceso a tu proyecto.'],['claude','Claude Code','Agente con acceso a tus archivos.'],['cursor','Cursor','Tu proyecto desde el editor.'],['copilot','GitHub Copilot','Asistencia en tu entorno de desarrollo.'],['opencode','OpenCode','El agente y modelo que ya utilizas.'],['web','ChatGPT, Claude o Gemini en la web','Un paquete de contexto que podrás revisar y compartir.']];
+const state={step:0,profile:'research',experience:'guided',agents:['codex'],folder:'example',name:'Mi proyecto',error:false};
+const screen=document.querySelector('#screen');
+const escape=(value)=>String(value).replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
+function option(type,name,value,title,description,checked,index='') { return `<label class="option"><input type="${type}" name="${name}" value="${value}" ${checked?'checked':''}><span><strong>${title}</strong><small>${description}</small></span>${index?`<span class="row-number">${index}</span>`:''}</label>`; }
+function actions(next='Continuar') {return `<div class="actions">${state.step?'<button type="button" class="quiet" data-back>Atrás</button>':'<span></span>'}<button type="button" class="primary" data-next>${next} <span aria-hidden="true">→</span></button></div>`;}
+function render(){
+  document.querySelector('#steps').innerHTML=names.map((name,i)=>`<li aria-label="Paso ${i+1}: ${name}" class="${i===state.step?'active':i<state.step?'done':''}" ${i===state.step?'aria-current="step"':''}><span aria-hidden="true">${i<state.step?'✓':i+1}</span><div class="step-name">${name}</div></li>`).join('');
+  let body='';
+  if(state.step===0) body=`<div class="eyebrow">01 / UN BUEN PUNTO DE PARTIDA</div><h1>¿Qué quieres hacer?</h1><p class="intro">Preparamos tu carpeta para que tu IA encuentre el contexto y el método adecuados. Empieza por lo que quieres conseguir.</p><fieldset style="border:0;padding:0;margin:0"><legend class="sr">Tipo de proyecto</legend><div class="options">${profiles.map((p,i)=>option('radio','profile',...p,state.profile===p[0],String(i+1).padStart(2,'0'))).join('')}</div></fieldset>${actions()}`;
+  if(state.step===1) body=`<div class="eyebrow">02 / A TU RITMO</div><h1>Una ayuda que se adapte a ti.</h1><p class="intro">Tu experiencia cambia cuánto explicamos. Todas las herramientas siguen disponibles.</p><div class="options">${option('radio','experience','guided','Prefiero que me guíen','Explicaciones breves y recomendaciones en cada paso.',state.experience==='guided')}${option('radio','experience','familiar','Ya trabajo con estas herramientas','Un recorrido más directo y detalles cuando los necesite.',state.experience==='familiar')}</div><label class="field" for="project-name">¿Cómo se llama tu proyecto?</label><input id="project-name" type="text" maxlength="100" value="${escape(state.name)}"><p class="hint">Puedes cambiar el nombre después.</p>${actions()}`;
+  if(state.step===2) body=`<div class="eyebrow">03 / TU FORMA DE TRABAJAR</div><h1>¿Con qué IA vas a continuar?</h1><p class="intro">Puedes elegir más de una. Prepararemos sus instrucciones y te explicaremos cómo abrir tu proyecto.</p><fieldset style="border:0;padding:0;margin:0"><legend class="sr">IA que utilizas</legend><div class="options">${agents.map(a=>option('checkbox','agent',...a,state.agents.includes(a[0]))).join('')}</div></fieldset><div class="note"><strong>Tu cuenta se queda en tu IA.</strong><p>No necesitas introducir contraseñas ni claves para preparar la carpeta.</p></div>${actions()}`;
+  if(state.step===3) body=`<div class="eyebrow">04 / EL LUGAR DE TU TRABAJO</div><h1>Todo empieza con una carpeta.</h1><p class="intro">Puedes preparar un proyecto que ya tienes o comenzar uno nuevo. Antes de cambiar algo, verás un resumen.</p><div class="options">${option('radio','folder','example','Usar una carpeta de ejemplo','Un recorrido de demostración; no se leen archivos del equipo.',state.folder==='example')}${option('radio','folder','new','Comenzar con una carpeta nueva','La app real te permitirá elegir dónde crear el proyecto.',state.folder==='new')}</div><div class="note"><strong>Vista previa de ${escape(state.name)}</strong><p>${state.profile==='research'?'Artículos en PDF, notas y referencias.':state.profile==='unity'?'Scripts C#, escenas y configuración del proyecto.':state.profile==='media'?'Recetas, referencias y un catálogo de recursos.':state.profile==='software'?'Código, documentación y decisiones de diseño.':'Documentos, notas y archivos de trabajo.'} Los originales se conservan.</p></div>${actions('Revisar preparación')}`;
+  if(state.step===4) body=`<div class="eyebrow">05 / REVISA ANTES DE CONTINUAR</div><h1>Una base para ${escape(state.name)}.</h1><p class="intro">Esto es lo que prepararía la aplicación. Los detalles permanecen disponibles sin complicar el recorrido.</p><div class="summary"><div><span>Tipo de trabajo</span><strong>${profiles.find(p=>p[0]===state.profile)[1]}</strong></div><div><span>Contexto</span><strong>${state.profile==='research'?'Fuentes y páginas de tus documentos':'Mapa y referencias de tu proyecto'}</strong></div><div><span>Método</span><strong>${state.profile==='software'||state.profile==='unity'?'Especificar, implementar y comprobar':'Recetas de trabajo con evidencia'}</strong></div><div><span>Archivos existentes</span><strong>Se conservan</strong></div><div><span>Envío a servicios externos</span><strong>Ninguno en la preparación local</strong></div></div><details><summary>Ver límites de esta demostración</summary><p>Este prototipo no instala herramientas, lee PDFs, crea índices ni modifica archivos. La implementación comprobará esos resultados y mostrará cualquier requisito pendiente.</p></details>${actions('Ver resultado de ejemplo')}`;
+  if(state.step===5) body=`<div class="eyebrow">06 / ASÍ SE VERÁ EL RESULTADO</div><h1>Un siguiente paso claro.</h1><p class="intro">En la aplicación real, cada estado se basará en una comprobación. Este es un ejemplo de cómo se mostrarán los resultados.</p><div class="status"><span class="check" aria-hidden="true">✓</span><div><strong>Carpeta preparada · ejemplo</strong><p>Instrucciones, método y recetas en un lugar reconocible.</p></div></div><div class="status"><span class="check" aria-hidden="true">✓</span><div><strong>Contexto comprobado · ejemplo</strong><p>Fuentes localizables y una ruta para que la IA encuentre lo que necesita.</p></div></div><div class="status"><span class="check" aria-hidden="true">↗</span><div><strong>Continúa en tu IA</strong><p>${state.agents.includes('web')?'Revisa el contexto antes de compartirlo en el chat web.':'Abre la carpeta desde tu agente; la autenticación ocurre allí.'}</p></div></div><div class="note"><strong>Puedes volver cuando lo necesites.</strong><p>Comprobar el estado, consultar fuentes o preparar otro proyecto.</p></div><div class="actions"><button type="button" class="quiet" data-back>Atrás</button><button type="button" class="primary" id="restart">Probar otro tipo de proyecto →</button></div>`;
+  if(state.error==='agent') body+=`<div class="issue" role="alert" id="agent-error"><strong>Elige al menos una IA para continuar.</strong><p>Si solo usas un chat en el navegador, selecciona la opción de chat web.</p></div>`;
+  else if(state.error) body+=`<div class="issue" role="alert"><strong>No pudimos terminar la comprobación · ejemplo</strong><p>Una herramienta del proyecto no está disponible. Tus archivos se conservan. Puedes revisar el requisito y volver a comprobar.</p><button type="button" id="retry">Volver a comprobar · simulación</button></div>`;
+  screen.innerHTML=body;
+  document.querySelector('[data-next]')?.addEventListener('click',()=>{if(state.step===2&&!state.agents.length){state.error='agent';render();const first=screen.querySelector('input[name=agent]');first.setAttribute('aria-describedby','agent-error');first.focus();return;}state.step=Math.min(5,state.step+1);state.error=false;render();focusTitle();});
+  document.querySelector('[data-back]')?.addEventListener('click',()=>{state.step=Math.max(0,state.step-1);state.error=false;render();focusTitle();});
+  document.querySelector('#restart')?.addEventListener('click',()=>{state.step=0;state.error=false;render();focusTitle();});
+  document.querySelector('#retry')?.addEventListener('click',()=>{state.error=false;render();document.querySelector('#announce').textContent='El problema de ejemplo se ha retirado. No se ejecutó una comprobación real.';focusTitle();});
+  screen.querySelectorAll('input[type=radio]').forEach(input=>input.addEventListener('change',()=>{state[input.name]=input.value;}));
+  screen.querySelectorAll('input[name=agent]').forEach(input=>input.addEventListener('change',()=>{state.agents=[...screen.querySelectorAll('input[name=agent]:checked')].map(x=>x.value);}));
+  document.querySelector('#project-name')?.addEventListener('input',event=>state.name=event.target.value.trim()||'Mi proyecto');
+}
+function focusTitle(){const title=screen.querySelector('h1');title.tabIndex=-1;title.focus();window.scrollTo({top:0,behavior:'instant'});}
+document.querySelector('#theme').addEventListener('change',event=>document.documentElement.dataset.theme=event.target.value);
+document.querySelector('#error-demo').addEventListener('click',()=>{state.error=!state.error;render();});
+render();
+</script>
+</body>
+</html>
