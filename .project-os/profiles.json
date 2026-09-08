@@ -3,7 +3,8 @@
   "active": [
     "documentation",
     "harness-tooling",
-    "ui"
+    "ui",
+    "auth-security"
   ],
   "profiles": [
     {
@@ -34,7 +35,7 @@
     },
     {
       "id": "auth-security",
-      "active": false,
+      "active": true,
       "activationRequires": "Approved threat model or security decision for identity, authorization, sensitive operations, and compliance.",
       "automaticValidations": [
         "authorization-tests",
@@ -57,7 +58,8 @@
       "naConditions": [
         "The approved change has no identity, authorization, sensitive data, or trust-boundary surface."
       ],
-      "closureGate": "Threats, negative authorization cases, secret handling, and recovery evidence are complete."
+      "closureGate": "Threats, negative authorization cases, secret handling, and recovery evidence are complete.",
+      "activationDecision": "docs/companion/SECURITY.md"
     },
     {
       "id": "backend-api",
