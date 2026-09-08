@@ -8,6 +8,7 @@ tiene un owner y una ruta de actualización distinta.
 | Surface | Owner | Update path |
 | --- | --- | --- |
 | CLI, schemas, blueprint, tests and public docs | Upstream | Issue, SDD change, protected PR and release |
+| Companion app and its preparation engine (`apps/companion`) | Upstream app | Separate app package and release; never seeded or bundled as a core CLI dependency |
 | Generated OPSX workflows | OpenSpec CLI | Exact local OpenSpec version and official update command |
 | Constructor-managed files | Upstream release | `upgrade --check`, reviewed transaction, optional PR |
 | Seed-once debt policy | Consumer | Consumer decision and local SDD flow |
