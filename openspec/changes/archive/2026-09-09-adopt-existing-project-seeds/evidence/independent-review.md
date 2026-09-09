@@ -77,3 +77,35 @@ tests. I reviewed that correction and reran all eight adoption tests successfull
 
 **Verdict: PASS.** Official archive is advisable once the parent change's remaining required checks and
 evidence pass. This review supplies independent adversarial evidence; it does not replace those checks.
+
+## Release identity addendum — 0.4.0
+
+Date: 2026-09-09. Reviewer: a separate Codex agent, `review_release_identity`, delegated solely to
+revalidate the release preparation after the implementation review above. Reviewed the identity diff
+`52e331d..690fc02` plus the uncommitted README update present during this review. This is a separate
+automated review, not human approval; it does not repeat or claim authorship of the adoption repros.
+
+Read `docs/RELEASES.md`, `docs/architecture/VERSIONING.md`, `scripts/check-package.mjs` and
+`scripts/validate-release.mjs`. Checked the root package and lock, blueprint constructor version,
+blueprint package and lock self-pin/resolved URL, changelog, README, existing-project guide and OpenSpec
+proposal/design. All release identities consistently name `0.4.0`; the seeded self-reference retains
+the documented omission of its circular integrity hash. OpenSpec remains fixed at `1.6.0`; the change
+adds no dependency or license adjustment. A minor increment is consistent with the documented policy
+for the reviewed additive capability. The design explicitly reserves publication for the existing
+canonical-artifact pipeline after protected merge and leaves Companion on its previously verified
+published dependency until the new artifact is verified.
+
+Executed locally on Windows with Node v24.18.0:
+
+- `node scripts/check-package.mjs`: **PASS package contract create-project-engineering-os@0.4.0**.
+- `node scripts/validate-release.mjs --tag v0.4.0`: **PASS release preflight
+  create-project-engineering-os@0.4.0**.
+
+**Disposition: PASS for release identity preparation.** No unresolved finding was confirmed in this
+bounded diff. This preflight checks an explicitly supplied candidate tag string, not an existing remote
+tag or OIDC identity. No package was packed, published or installed by this review; registry availability,
+canonical tarball checksums, provenance, protected merge and post-publication verification remain the
+release pipeline's responsibility. README commands naming `0.4.0` describe the prepared release and
+require successful publication before users can obtain that version from npm. The parent's reported
+multi-platform CI, 295-test core suite and package fixture were not rerun or independently attested by
+this addendum. No Git or GitHub mutation was performed by this reviewer.
