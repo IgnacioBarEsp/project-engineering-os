@@ -38,3 +38,13 @@ test('rejects an incidental path and a simulated secret', async () => {
     { kind: 'secret-pattern', path: 'src/index.mjs' },
   ]);
 });
+
+test('nested dependency trees are ignored while adjacent app source remains scanned', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'project-os-private-deps-'));
+  await mkdir(path.join(root, 'src', 'app', 'node_modules', 'example'), { recursive: true });
+  const marker = `gho_${'x'.repeat(24)}`;
+  await writeFile(path.join(root, 'src', 'app', 'node_modules', 'example', 'README.md'), marker);
+  assert.deepEqual(await scanPublicTree(root, allowlist), []);
+  await writeFile(path.join(root, 'src', 'app', 'index.mjs'), marker);
+  assert.deepEqual(await scanPublicTree(root, allowlist), [{ kind: 'secret-pattern', path: 'src/app/index.mjs' }]);
+});

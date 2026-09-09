@@ -3,17 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "main": "desktop/main.mjs",
   "license": "MIT",
   "engines": {
     "node": ">=24.18.0"
   },
   "scripts": {
+    "start": "electron .",
+    "runtime:install": "node node_modules/electron/install.js",
+    "test:ui": "node scripts/verify-ui.mjs",
     "test": "node --test qa/*.mjs",
     "audit": "npm audit --omit=dev --audit-level=high"
   },
   "dependencies": {
+    "create-project-engineering-os": "0.3.0",
     "fflate": "0.8.3",
     "pdfjs-dist": "6.3.289",
     "saxes": "6.0.0"
+  },
+  "devDependencies": {
+    "electron": "44.1.1",
+    "playwright": "1.62.1"
   }
 }

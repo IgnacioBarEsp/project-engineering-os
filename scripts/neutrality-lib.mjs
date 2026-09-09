@@ -52,6 +52,8 @@ export async function scanPublicTree(root, allowlist) {
         continue;
       }
       if (entry.isDirectory()) {
+        // Private apps have their own ignored dependency tree; it is not upstream source material.
+        if (entry.name === 'node_modules' && ignored.has('node_modules')) continue;
         if (relative === '' && !allowlist.directories.includes(entry.name)) {
           violations.push({ kind: 'path-not-allowlisted', path: child });
           continue;
