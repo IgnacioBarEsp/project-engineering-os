@@ -2,7 +2,7 @@
 
 El constructor puede adoptar archivos de semilla cuyo propietario sea el proyecto, como `README.md` o
 `package.json`, conservando todos sus bytes. Esta opción es explícita: una colisión no da permiso para
-reescribir archivos. Requiere una versión del núcleo que incluya la adopción; no está en la versión 0.3.0.
+reescribir archivos. La opción se incorpora al núcleo 0.4.0; no está en la versión 0.3.0.
 
 ## Revisar antes de aplicar
 

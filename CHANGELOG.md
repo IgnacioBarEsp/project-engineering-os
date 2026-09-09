@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.4.0 - 2026-09-09
+
 - Add explicit target/hash adoption of existing project-owned seed files without rewriting originals,
   with bounded CLI consent, transaction guards and original-preserving rollback (#85).
 - Upstream release verification waits up to ten minutes for npm propagation and provides a read-only

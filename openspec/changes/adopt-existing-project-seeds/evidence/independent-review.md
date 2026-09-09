@@ -18,7 +18,8 @@ Adoption does not claim that dependencies, OpenSpec workflows or retrieval tools
 ## Executed evidence
 
 `node --test test/adoption.test.mjs`: **8 passed, 0 failed** on Windows, Node v24.18.0. The final run included
-AJV validation of the real software/Unity installed state and journal against the updated schemas.
+strict AJV compilation and validation of the real software/Unity installed state and journal against
+the updated schemas.
 `git diff --check` found no whitespace errors; Git emitted a line-ending normalization notice only.
 
 An independently written temporary repro used the public exports from `src/index.mjs`, real Git-backed
@@ -58,6 +59,9 @@ No unresolved Blocker, Major or Minor finding was confirmed in the reviewed scop
 The implementer identified and corrected the schemas' previously closed property sets while review was
 running. I reviewed the resulting optional fields and reran the tests that validate generated artifacts;
 I do not claim independent discovery of that correction.
+The implementer's full suite subsequently exposed AJV strictRequired for the conditional adoption
+field. The implementer added the field declaration inside `if` and enabled strict AJV in the adoption
+tests. I reviewed that correction and reran all eight adoption tests successfully afterward.
 
 ## Limits and disposition
 

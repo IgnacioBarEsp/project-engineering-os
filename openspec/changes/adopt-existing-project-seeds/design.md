@@ -30,9 +30,12 @@ OS lock against a hostile process replacing filesystem entries between individua
 
 Existing manifests retain their scripts, dependencies, license and stack byte for byte. Adoption is not
 proof that scripts, OpenSpec or an index are activated. The app environment flow handles that separately.
-The feature is additive in the pre-1.0 core release; release identity and canonical artifact verification
+The feature is additive in the pre-1.0 core release 0.4.0; release identity and canonical artifact verification
 remain governed by the existing release pipeline. MIT, no new costs/dependencies or telemetry. Activate
 the local library-cli quality profile with this compatibility, licensing and recovery decision.
+Prepare the versioned identity in this PR and publish through the existing pipeline only after protected
+merge. Publication is an operational follow-through; runtime adoption in Companion waits for the verified
+artifact. Never edit the 0.3.0 release or substitute a local package for the app's published dependency.
 
 ## Verification
 

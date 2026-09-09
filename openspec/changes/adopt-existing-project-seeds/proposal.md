@@ -9,6 +9,7 @@ currently treats those project-owned seeds as collisions, preventing safe prepar
 - Accept explicit target/SHA-256 consent through the API and a bounded local JSON file in the CLI.
 - Register adoption without rewriting originals; guard consent during apply and interrupted resume.
 - Preserve the default collision behavior and all non-project ownership boundaries.
+- Prepare compatible minor version 0.4.0 for publication through the existing pipeline after protected merge.
 
 ## Capabilities
 
