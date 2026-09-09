@@ -140,6 +140,10 @@ export function createContextEngine() {
     return { root, index, previous: previous.value };
   }
   return {
+    async configuration(target) {
+      const root = await canonicalFolder(target), previous = await readReceipt(root);
+      return structuredClone(previous.value?.config ?? normalizeContextOptions());
+    },
     async plan(target, options = {}, controls = {}) {
       aborted(controls.signal);
       const root = await canonicalFolder(target), selection = await baseSelection(root), previous = await readReceipt(root), prior = await readJournal(root);

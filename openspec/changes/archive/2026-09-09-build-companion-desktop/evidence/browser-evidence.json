@@ -1,0 +1,17 @@
+{
+  "date": "2026-09-09T11:00:08.070Z",
+  "scope": "Real renderer and engines in browser; native transport/picker/clipboard/provider injected",
+  "checks": [
+    "research: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
+    "software: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
+    "unity: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
+    "media: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
+    "general: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
+    "No renderer exceptions across five journeys; source markup rendered as text; original documents preserved."
+  ],
+  "screenshots": [
+    "home-desktop.png",
+    "research-sources.png",
+    "minimum-equivalent-200-percent.png"
+  ]
+}

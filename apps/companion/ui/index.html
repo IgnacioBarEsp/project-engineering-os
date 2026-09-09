@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Engineering OS</title>
+  <link rel="stylesheet" href="./app.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <a class="skip" href="#content">Ir al contenido</a>
+  <div class="shell">
+    <aside class="sidebar" aria-label="Project Engineering OS">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">P<span>↗</span></span><span>Project<br>Engineering OS</span></div>
+      <p class="edition">COMPANION <span>01</span></p>
+      <nav aria-label="Navegación principal"><button id="home" class="nav-button">Tus proyectos <span aria-hidden="true">↗</span></button><button id="new" class="nav-button">Preparar una carpeta <span aria-hidden="true">＋</span></button></nav>
+      <div class="sidebar-bottom"><div class="orbit" aria-hidden="true"><i></i><i></i><i></i><b>✳</b></div><p>Tu proyecto.<br>Tu contexto.<br><em>Tu siguiente paso.</em></p><small>Preparación local · Sin cuenta</small></div>
+    </aside>
+    <main id="content" tabindex="-1">
+      <header class="topbar"><span id="breadcrumb">TU ESPACIO DE TRABAJO</span><button id="privacy" class="quiet">Privacidad y alcance</button></header>
+      <div id="feedback" class="feedback" role="alert" hidden></div>
+      <div id="activity" class="activity" role="status" aria-live="polite" hidden><span class="spinner" aria-hidden="true"></span><span id="activity-text"></span><button id="cancel" class="quiet">Detener</button></div>
+      <div id="view"></div>
+      <p id="notice" class="notice" role="status" aria-live="polite"></p>
+    </main>
+  </div>
+  <dialog id="dialog" aria-labelledby="dialog-title"><div class="dialog-head"><h2 id="dialog-title"></h2><button id="close-dialog" class="quiet" aria-label="Cerrar">Cerrar ×</button></div><div id="dialog-body"></div></dialog>
+</body>
+</html>

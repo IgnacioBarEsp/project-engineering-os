@@ -84,6 +84,12 @@ jobs:
         run: npm ci --ignore-scripts
       - name: Verify app behavior
         run: npm test
+      - name: Install browser for app verification
+        if: matrix.os == 'ubuntu-latest'
+        run: node node_modules/playwright/cli.js install --with-deps chromium
+      - name: Verify five visual project journeys
+        if: matrix.os == 'ubuntu-latest'
+        run: npm run test:ui -- "${{ runner.temp }}/companion-ui-evidence"
       - name: Audit app dependencies
         run: npm run audit
 

@@ -5,6 +5,9 @@ Activa `auth-security` solo en la configuración upstream; no cambia la semilla 
 cubre planificación, datos y recuperación del motor; la frontera IPC/Electron y distribución se amplían
 y verifican en #79–#81 antes de entregar la app.
 
+La ampliación de escritorio #79 queda aprobada bajo la misma delegación y se describe a continuación.
+El empaquetado y la verificación final del instalador siguen en #80/#81.
+
 ## Activos y fronteras
 
 Los originales del usuario, el alcance de carpeta seleccionado y los recibos de preparación son los
@@ -41,3 +44,26 @@ convierte un hash desconocido en permiso de sobrescritura. No hay exportación d
 El retiro y reanudación usan solo la operación registrada. No se retira un bloqueo malformado por
 suposición. El constructor conserva su propio journal y su propio rollback. La futura desinstalación
 de la app debe conservar proyectos y no activar recuperación en ellos. Consulta [preparación](PREPARATION.md).
+
+## Frontera de escritorio (#79)
+
+La ventana usa sandbox, contextIsolation y webSecurity, sin Node ni webview. Un protocolo local acepta
+únicamente tres assets fijos; CSP niega conexiones, frames, formularios y código inline. Navegación,
+ventanas nuevas y permisos se rechazan. El preload expone métodos concretos; main exige su ventana,
+frame principal y URL exacta antes de validar el payload. Nunca acepta una URL, módulo o comando del
+proyecto. Solo el selector nativo y el historial local validado originan handles de carpeta.
+
+Las pruebas de servicio rechazan handles ajenos, campos extra, selecciones inválidas, planes vencidos,
+acciones de recuperación desconocidas y destinos arbitrarios. Las pruebas del renderer usan esos motores
+reales con un transporte de QA; no sustituyen una prueba de explotación del sandbox de Electron. La
+inspección independiente revisa la frontera y las combinaciones de estado; el selector también se ha
+operado en la ventana Windows. La distribución debe revalidar versión y postura de Electron.
+
+El historial conserva accesos para recuperar una interrupción, pero una selección nueva solo se confirma
+después de escribir su recibo. Estado e instrucción inicial usan la selección comprobada. Las exclusiones
+persisten al refrescar o sincronizar; quitarlas requiere enviar una lista nueva explícitamente.
+
+Copiar exige revisar una vista ligada a la selección y al recibo vigente. El contexto copiado no se envía
+automáticamente. Abrir la IA acepta un ID opaco revisado y un destino fijo del proveedor, sin documentos
+en la URL. Abrir un sitio no prueba que una app externa haya cargado la carpeta. La persistencia del
+historial no protege frente a otro proceso malicioso con los mismos permisos de escritura del usuario.

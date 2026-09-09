@@ -18,7 +18,16 @@ export function normalizeSelection(input) {
   if (!Array.isArray(input.agents) || !input.agents.length || input.agents.some(a => !AGENTS.has(a))) fail('AGENT_INVALID', 'Elige al menos una IA de la lista.');
   const experience = input.experience ?? 'guided';
   if (!['guided','familiar'].includes(experience)) fail('EXPERIENCE_INVALID', 'Elige cuánta guía prefieres.');
-  return { name: name.trim(), profile: input.profile, experience, agents: [...new Set(input.agents)].sort() };
+  const extra = {};
+  if (input.role !== undefined) {
+    if (!['researcher','student','developer','freelancer','creator','general'].includes(input.role)) fail('ROLE_INVALID', 'Elige un perfil reconocido.');
+    extra.role = input.role;
+  }
+  if (input.goal !== undefined) {
+    if (typeof input.goal !== 'string' || !input.goal.trim() || input.goal.length > 500 || /[\x00-\x1f\x7f]/.test(input.goal)) fail('GOAL_INVALID', 'Describe tu objetivo en hasta 500 caracteres.');
+    extra.goal = input.goal.trim();
+  }
+  return { name: name.trim(), profile: input.profile, experience, agents: [...new Set(input.agents)].sort(), ...extra };
 }
 
 function parse(content, label) {

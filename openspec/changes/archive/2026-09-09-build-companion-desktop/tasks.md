@@ -1,0 +1,6 @@
+- [x] 1. Pin and review desktop dependencies and the privilege boundary.
+- [x] 2. Implement local history, job orchestration and validated service actions.
+- [x] 3. Build onboarding, review, progress and project workspace with accessible states.
+- [x] 4. Integrate source search, recipes and reviewed external-AI handoff.
+- [x] 5. Exercise real UI/engines and security/error/keyboard/zoom/motion cases.
+- [x] 6. Resolve adversarial findings and capture debt/evidence for protected integration.

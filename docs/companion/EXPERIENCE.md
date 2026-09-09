@@ -5,6 +5,9 @@ de 2026. Este documento define el producto; no declara que el instalador o sus i
 El [prototipo navegable](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/scripts/prototypes/companion.html)
 es una simulación identificada y no escribe en carpetas.
 
+La [implementación de escritorio](DESKTOP.md) conecta la interfaz con los motores reales y documenta
+su estado, pruebas y límites. El empaquetado del instalador se verifica por separado.
+
 ## La promesa
 
 Elige una carpeta y explica qué quieres hacer. Project Engineering OS prepara el contexto y método
