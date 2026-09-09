@@ -19,6 +19,7 @@ import {
 import { ConstructorError } from './errors.mjs';
 import { sha256 } from './hash.mjs';
 import { stableStringify } from './json.mjs';
+import { normalizeAdoptionConsent, verifyAdoptionGuards } from './adoption.mjs';
 import {
   assertNoSymlinkEscape,
   normalizeRelativePath,
@@ -193,6 +194,7 @@ async function createTransaction({
     target: item.target,
   }));
   const journal = {
+    adoptionGuards: normalizeAdoptionConsent(plan.adoptionGuards),
     blueprintHash: plan.blueprintHash,
     command,
     configurationHash: plan.configurationHash,
@@ -214,6 +216,10 @@ async function createTransaction({
 }
 
 function verifyResumeContract(journal, plan) {
+  if (stableStringify(normalizeAdoptionConsent(journal.adoptionGuards))
+    !== stableStringify(normalizeAdoptionConsent(plan.adoptionGuards))) {
+    throw new ConstructorError('TRANSACTION_ADOPTION_CHANGED', 'La adopción revisada no coincide con la transacción incompleta.');
+  }
   if (
     journal.blueprintHash !== plan.blueprintHash
     || journal.configurationHash !== plan.configurationHash
@@ -393,6 +399,7 @@ export async function executePlan({
   if (plan.conflicts.length > 0) {
     throw new ConstructorError('PLAN_CONFLICT', 'No se puede ejecutar un plan con conflictos.');
   }
+  await verifyAdoptionGuards(targetRoot, plan.adoptionGuards);
 
   if (
     plan.materialItems.length === 0
@@ -472,6 +479,7 @@ export async function executePlan({
       }
     }
 
+    await verifyAdoptionGuards(targetRoot, journal.adoptionGuards);
     if (journal.state.status === 'pending') {
       await applyState({
         journal,

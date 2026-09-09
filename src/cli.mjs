@@ -6,6 +6,7 @@ import {
 import { asConstructorError, ConstructorError } from './errors.mjs';
 import { githubPlanText } from './github-plan.mjs';
 import { stableStringify } from './json.mjs';
+import { readAdoptionConsent } from './adoption.mjs';
 import {
   onboardingPlanText,
   runOnboardingPlan,
@@ -47,6 +48,9 @@ Opciones de fixture:
   --blueprint <ruta>              Usa un blueprint local explícito.
   --inject-failure-after <n>      Interrumpe una mutación después de n archivos.
 
+Adopción explícita (bootstrap y sync):
+  --adopt-project-seeds <json>    Lista revisada de {target, hash}; conserva los archivos existentes.
+
 doctor, github-plan, onboarding-plan, tool-catalog, opsx-check y readiness-check son read-only. opsx-adapt muta
 solo archivos generados por OpenSpec bajo su contrato separado. sync --check no escribe ni repara.
 tool-catalog describe herramientas sin activarlas y solo acepta rutas locales: no descarga contenido.
@@ -75,6 +79,7 @@ function assertSupportedNode() {
 
 function parseArguments(argv) {
   const options = {
+    adoptionPath: null,
     blueprintRoot: DEFAULT_BLUEPRINT_ROOT,
     apply: false,
     answersPath: null,
@@ -129,6 +134,9 @@ function parseArguments(argv) {
     };
 
     switch (flag) {
+      case '--adopt-project-seeds':
+        options.adoptionPath = consume();
+        break;
       case '--target':
         options.targetRoot = consume();
         break;
@@ -205,6 +213,9 @@ function parseArguments(argv) {
       'CLI_CHECK_SCOPE',
       '--check solo está disponible para sync y upgrade.',
     );
+  }
+  if (options.adoptionPath !== null && !['bootstrap', 'sync'].includes(command)) {
+    throw new ConstructorError('CLI_ADOPTION_SCOPE', '--adopt-project-seeds solo está disponible para bootstrap y sync.');
   }
   if (options.apply && command !== 'upgrade') {
     throw new ConstructorError('CLI_APPLY_SCOPE', '--apply solo está disponible para upgrade.');
@@ -288,8 +299,11 @@ function humanPlan(result) {
   if (result.plan?.summary) {
     const summary = result.plan.summary;
     lines.push(
-      `Plan: create=${summary.creates}, update=${summary.updates}, delete=${summary.deletes}, conflict=${summary.conflicts}, state=${summary.stateUpdate ? 'update' : 'stable'}`,
+      `Plan: create=${summary.creates}, adopt=${summary.adopts ?? 0}, update=${summary.updates}, delete=${summary.deletes}, conflict=${summary.conflicts}, state=${summary.stateUpdate ? 'update' : 'stable'}`,
     );
+    for (const candidate of result.plan.adoptionCandidates ?? []) {
+      lines.push(`Adopción disponible (requiere revisión): ${candidate.target} sha256=${candidate.hash}`);
+    }
     for (const operation of result.plan.operations.filter((item) => item.diff)) {
       lines.push('', operation.diff);
     }
@@ -377,6 +391,7 @@ export async function runCli(argv = process.argv.slice(2)) {
       case 'sync':
         result = await runBootstrapOrSync({
           ...parsed.options,
+          adoptProjectSeeds: parsed.options.adoptionPath === null ? [] : await readAdoptionConsent(parsed.options.adoptionPath),
           command: parsed.command,
         });
         break;

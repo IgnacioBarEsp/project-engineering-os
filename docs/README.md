@@ -6,7 +6,8 @@ cuando lo necesites.
 ## Quiero crear mi primer proyecto
 
 El programa [Companion](companion/EXPERIENCE.md) define la aplicación visual en desarrollo para preparar
-proyectos sin terminal. Su prototipo permite revisar el recorrido; todavía no es un instalador.
+proyectos sin terminal. La [app de escritorio](companion/DESKTOP.md) permite revisar y aplicar cambios;
+la distribución mediante instalador continúa en desarrollo.
 
 1. [Guía del usuario](USER_GUIDE.md): entiende las cuatro etapas y llega desde una carpeta vacía hasta el
    primer cambio de producto.
@@ -17,6 +18,9 @@ proyectos sin terminal. Su prototipo permite revisar el recorrido; todavía no e
 5. [Guía manual](GUIA_MANUAL_USUARIO.md): identifica las decisiones que requieren tu autorización.
 6. [Prompt 01](prompts/PROMPT_01_DISCOVERY_PROYECTO.md): descubre problema, usuarios y restricciones antes
    de elegir tecnología.
+
+Si ya tienes archivos, revisa la [adopción de proyectos existentes](EXISTING_PROJECTS.md) para conservarlos
+mediante un plan explícito de ownership y hashes.
 
 ## Quiero entender cómo se gobierna el trabajo
 

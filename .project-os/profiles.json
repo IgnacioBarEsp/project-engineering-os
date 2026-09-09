@@ -4,7 +4,8 @@
     "documentation",
     "harness-tooling",
     "ui",
-    "auth-security"
+    "auth-security",
+    "library-cli"
   ],
   "profiles": [
     {
@@ -198,7 +199,7 @@
     },
     {
       "id": "library-cli",
-      "active": false,
+      "active": true,
       "activationRequires": "Approved compatibility, distribution, versioning, licensing, and migration policy for a library or CLI.",
       "automaticValidations": [
         "unit-and-contract-tests",
@@ -221,7 +222,8 @@
       "naConditions": [
         "The approved change does not expose a reusable library, package, plugin, generator, or CLI."
       ],
-      "closureGate": "Artifact, compatibility, licenses, migration, multi-platform behavior, and rollback are evidenced."
+      "closureGate": "Artifact, compatibility, licenses, migration, multi-platform behavior, and rollback are evidenced.",
+      "activationDecision": "docs/architecture/LIBRARY_CLI_DECISION.md"
     },
     {
       "id": "ui",
