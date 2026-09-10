@@ -88,7 +88,7 @@ git init
 La versión explícita mantiene el bootstrap reproducible:
 
 ```sh
-npx --yes create-project-engineering-os@0.4.0 bootstrap --target .
+npx --yes create-project-engineering-os@0.5.0 bootstrap --target .
 npm ci
 npm run openspec:init
 npm run project-os:opsx:adapt
@@ -97,7 +97,7 @@ npm run project-os:doctor
 ```
 
 El comando fue verificado desde una carpeta vacía en Windows. La suite también lo prueba en Ubuntu y
-macOS. Antes de cambiar `0.4.0`, revisa el [changelog](CHANGELOG.md).
+macOS. Antes de cambiar `0.5.0`, revisa el [changelog](CHANGELOG.md).
 
 Los scripts `openspec:*` usan telemetría apagada por defecto sin cambiar tu configuración global. Puedes
 elegir explícitamente otro valor con `OPENSPEC_TELEMETRY`; una invocación directa de OpenSpec queda bajo su
@@ -109,7 +109,7 @@ Abre Claude Code, Codex, Cursor, GitHub Copilot u OpenCode en la raíz del repos
 
 ```text
 Lee AGENTS.md y docs/engineering/PROMPT_00_BOOTSTRAP_ENTORNO.md. Ejecuta ese flujo usando
-create-project-engineering-os@0.4.0 como versión aprobada. Comprueba el segundo run sin drift, los cinco
+create-project-engineering-os@0.5.0 como versión aprobada. Comprueba el segundo run sin drift, los cinco
 harnesses, OpenSpec, los gates y la recuperación. No elijas todavía el producto, framework, arquitectura,
 cloud o base de datos. Detente ante cualquier autorización, costo, licencia, autenticación o mutación
 remota y explícame qué necesitas. Al terminar, resume PASS/FAIL/WARN/SKIP y pregúntame si quiero preparar
@@ -124,8 +124,8 @@ las pides o una automatización no puede continuar.
 Trabaja desde una rama y un árbol limpio. Revisa primero el plan sin escribir:
 
 ```sh
-npx --yes create-project-engineering-os@0.4.0 bootstrap --target . --dry-run
-npx --yes create-project-engineering-os@0.4.0 bootstrap --target .
+npx --yes create-project-engineering-os@0.5.0 bootstrap --target . --dry-run
+npx --yes create-project-engineering-os@0.5.0 bootstrap --target .
 npm ci
 npm run project-os:check
 ```
@@ -171,7 +171,7 @@ operación, verificación remota y rollback atribuible al receipt. Conserva el t
 
 ## Estado actual y próximos pasos
 
-El núcleo `0.4.0` añade [adopción de archivos existentes](docs/EXISTING_PROJECTS.md) mediante ruta y hash
+El núcleo `0.5.0` añade [adopción de archivos existentes](docs/EXISTING_PROJECTS.md) mediante ruta y hash
 revisados, además de los controles de la versión anterior. Consulta el [changelog](CHANGELOG.md).
 La [app de escritorio](docs/companion/DESKTOP.md) ya prepara carpetas y contexto local; su instalador y la
 activación del entorno continúan en el [programa #66](https://github.com/IgnacioBarEsp/project-engineering-os/issues/66).

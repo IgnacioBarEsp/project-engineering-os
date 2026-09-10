@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { mkdtemp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { cp, mkdtemp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -152,6 +152,8 @@ async function createHealthyFixture(t, { graphify = false, literalSecret = false
     name: "create-project-engineering-os",
     version: CONSTRUCTOR_VERSION,
   });
+  await write(root, "node_modules/@fission-ai/openspec/bin/openspec.js", "throw new Error('doctor must not execute this');\n");
+  await write(root, "node_modules/create-project-engineering-os/bin/project-os.mjs", "throw new Error('doctor must not execute this');\n");
   const agents = "# Universal agent guide\n";
   await write(root, "AGENTS.md", agents);
   await json(root, ".project-constructor/state.json", {
@@ -220,6 +222,44 @@ test("doctor sano no produce FAIL y conserva señales no demostradas como SKIP/W
   assert.equal(report.results.find((entry) => entry.id === "github.project").status, "WARN");
   assert.equal(report.results.find((entry) => entry.id === "code-intelligence.graphify").status, "SKIP");
   assert.deepEqual(calls, ["nodeVersion", "npmVersion", "gitRoot", "gitStatus", "ghVersion"]);
+});
+
+test('doctor verifies isolated engineering packages and preserves product metadata and all file hashes', async t => {
+  const root = await createHealthyFixture(t);
+  const relative = '.project-os/toolchain';
+  const location = path.join(root, relative);
+  await mkdir(location, { recursive: true });
+  for (const file of ['package.json', 'package-lock.json', 'node_modules']) {
+    await cp(path.join(root, file), path.join(location, file), { recursive: true });
+  }
+  await json(root, 'package.json', { name: 'consumer-product', scripts: { prepare: 'this must not run' } });
+  await json(root, 'package-lock.json', { name: 'consumer-product', lockfileVersion: 3 });
+  const config = JSON.parse(await readFile(path.join(root, '.project-constructor/config.json'), 'utf8'));
+  await json(root, '.project-constructor/config.json', { ...config, toolchainRoot: relative });
+  const options = { target: root, runner: healthyRunner(), parityChecker: healthyParity, env: {} };
+  const before = await snapshot(root);
+  const report = await collectDoctorReport(options);
+  for (const id of ['dependencies.lockfile', 'sdd.openspec-local', 'release.identity']) {
+    const entry = report.results.find(r => r.id === id);
+    assert.equal(entry.status, 'PASS', entry.cause);
+    assert.equal(entry.evidence.location, relative);
+  }
+  assert.deepEqual(await snapshot(root), before);
+  // A package called upstream inside the toolchain cannot hide consumer obligations.
+  await json(location, 'package.json', { name: 'create-project-engineering-os' });
+  await json(root, '.project-os/repository-governance.json', { repositoryKind: 'upstream' });
+  assert.equal((await collectDoctorReport(options)).results.find(r => r.id === 'release.identity').status, 'FAIL');
+  await json(root, '.project-constructor/config.json', { ...config, toolchainRoot: '../outside' });
+  const invalid = await collectDoctorReport(options);
+  for (const id of ['dependencies.lockfile', 'sdd.openspec-local', 'release.identity']) {
+    assert.equal(invalid.results.find(r => r.id === id).status, 'FAIL');
+  }
+  assert.equal(invalid.results.find(r => r.id === 'git.repository').status, 'PASS');
+  assert.equal(invalid.results.find(r => r.id === 'runtime.node').status, 'PASS');
+  await json(root, '.project-constructor/config.json', { activeProfiles: ['ui'], padding: 'x'.repeat(65536) });
+  const oversized = await collectDoctorReport(options);
+  assert.equal(oversized.results.find(r => r.id === 'sdd.openspec-local').status, 'FAIL');
+  assert.equal(oversized.results.find(r => r.id === 'profile.ui').evidence.active, false);
 });
 
 test("salida humana y JSON derivan del mismo reporte", async (t) => {

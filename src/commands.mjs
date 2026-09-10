@@ -23,6 +23,7 @@ import {
 } from './plan.mjs';
 import { resolveInside } from './paths.mjs';
 import { preflightTarget } from './preflight.mjs';
+import { resolveLocalToolchain } from '../blueprint/core/project-constructor/toolchain.mjs';
 import {
   readInstalledStateWithMigrations,
   stateNeedsWrite,
@@ -34,13 +35,10 @@ import {
 } from './transaction.mjs';
 
 async function loadConfiguration(targetRoot) {
-  return readJsonFile(
-    resolveInside(targetRoot, CONFIG_RELATIVE_PATH),
-    {
-      label: CONFIG_RELATIVE_PATH,
-      optional: true,
-    },
-  );
+  try { return resolveLocalToolchain(targetRoot).configuration; }
+  catch (error) {
+    throw new ConstructorError(error.code ?? 'TOOLCHAIN_CONFIGURATION_INVALID', error.message, { cause: error, remediation: error.remediation });
+  }
 }
 
 async function loadExternalOwnership(targetRoot, baseBlueprint) {

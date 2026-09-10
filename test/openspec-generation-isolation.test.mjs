@@ -15,6 +15,10 @@ test('wrapper executes through a symlinked project path such as macOS /var', asy
     await mkdir(path.join(actual, '.project-constructor'), { recursive: true });
     await mkdir(path.join(actual, 'node_modules/@fission-ai/openspec/bin'), { recursive: true });
     await cp(new URL('../blueprint/core/project-constructor/openspec.mjs', import.meta.url), path.join(actual, '.project-constructor/openspec.mjs'));
+    await cp(new URL('../blueprint/core/project-constructor/toolchain.mjs', import.meta.url), path.join(actual, '.project-constructor/toolchain.mjs'));
+    await writeFile(path.join(actual, 'package.json'), JSON.stringify({devDependencies:{'@fission-ai/openspec':'1.6.0'}}));
+    await writeFile(path.join(actual, 'package-lock.json'), JSON.stringify({packages:{'node_modules/@fission-ai/openspec':{version:'1.6.0'}}}));
+    await writeFile(path.join(actual, 'node_modules/@fission-ai/openspec/package.json'), JSON.stringify({name:'@fission-ai/openspec',version:'1.6.0'}));
     await writeFile(path.join(actual, 'node_modules/@fission-ai/openspec/bin/openspec.js'), 'console.log("local-openspec-executed");');
     await symlink(actual, alias, process.platform === 'win32' ? 'junction' : 'dir');
     const result = spawnSync(process.execPath, [path.join(alias, '.project-constructor/openspec.mjs'), '--version'], { encoding: 'utf8', windowsHide: true });

@@ -21,6 +21,7 @@ la distribución mediante instalador continúa en desarrollo.
 
 Si ya tienes archivos, revisa la [adopción de proyectos existentes](EXISTING_PROJECTS.md) para conservarlos
 mediante un plan explícito de ownership y hashes.
+Las [herramientas en una subcarpeta](ISOLATED_TOOLCHAIN.md) permiten conservar las dependencias del producto.
 
 ## Quiero entender cómo se gobierna el trabajo
 

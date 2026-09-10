@@ -13,9 +13,15 @@ import {
 import { CONSTRUCTOR_VERSION, PACKAGE_NAME } from "./constants.mjs";
 import { checkState as checkDebtState } from "./debt/gates.mjs";
 import { isConfigured as debtConfigured } from "./debt/store.mjs";
+import {
+  inspectLocalPackage,
+  inspectLocalToolchain,
+  PINNED_OPENSPEC_VERSION as OPEN_SPEC_VERSION,
+  readProjectManifest,
+  resolveLocalToolchain,
+} from "../blueprint/core/project-constructor/toolchain.mjs";
 
 const SUPPORTED_NODE_RANGE = "^20.20.0 || >=22.22.0";
-const OPEN_SPEC_VERSION = "1.6.0";
 const EVIDENCE_SCHEMA_VERSION = "1.0.0";
 const TECHNICAL_PROFILES = [
   "ui",
@@ -427,8 +433,19 @@ export async function collectDoctorReport({
     }),
   );
 
-  const packageJson = await readJson(path.join(root, "package.json"));
-  const packageLock = await readJson(path.join(root, "package-lock.json"));
+  let rootPackage;
+  try { rootPackage = readProjectManifest(root); }
+  catch { rootPackage = null; }
+  let location, packageJson, packageLock, toolchainError;
+  try {
+    location = resolveLocalToolchain(root);
+    ({ manifest: packageJson, lockfile: packageLock } = inspectLocalToolchain(location));
+  } catch (error) { toolchainError = error.message; }
+  const inspectEngineeringPackage = (name, version) => {
+    if (toolchainError) return { ok: false, reasons: [toolchainError] };
+    try { return inspectLocalPackage(location, name, version); }
+    catch (error) { return { ok: false, reasons: [error.message] }; }
+  };
   const lockMatchesPackage =
     packageJson &&
     packageLock &&
@@ -441,9 +458,9 @@ export async function collectDoctorReport({
       summary: "Lockfile reproducible presente",
       cause: lockMatchesPackage
         ? `package-lock.json lockfileVersion ${packageLock.lockfileVersion} corresponde al paquete.`
-        : "Falta package.json/package-lock.json coherente.",
-      remediation: "Restaura el lockfile versionado y ejecuta npm ci fuera del doctor.",
-      evidence: { lockfileVersion: packageLock?.lockfileVersion ?? "ausente" },
+        : toolchainError ?? "Falta package.json/package-lock.json coherente en la ubicación seleccionada.",
+      remediation: "Revisa toolchainRoot; restaura el lockfile y ejecuta npm ci en esa ubicación fuera del doctor.",
+      evidence: { lockfileVersion: packageLock?.lockfileVersion ?? "ausente", location: location?.relative ?? "inválida" },
     }),
   );
 
@@ -484,44 +501,29 @@ export async function collectDoctorReport({
     }),
   );
 
-  const expectedOpenSpec =
-    packageJson?.devDependencies?.["@fission-ai/openspec"] ??
-    packageJson?.dependencies?.["@fission-ai/openspec"];
-  const lockedOpenSpec =
-    packageLock?.packages?.["node_modules/@fission-ai/openspec"]?.version ??
-    packageLock?.dependencies?.["@fission-ai/openspec"]?.version;
-  const installedOpenSpec = await readJson(
-    path.join(root, "node_modules", "@fission-ai", "openspec", "package.json"),
-  );
-  const openSpecHealthy =
-    expectedOpenSpec === OPEN_SPEC_VERSION &&
-    lockedOpenSpec === OPEN_SPEC_VERSION &&
-    installedOpenSpec?.version === OPEN_SPEC_VERSION;
+  const openSpec = inspectEngineeringPackage("@fission-ai/openspec", OPEN_SPEC_VERSION);
+  const openSpecHealthy = openSpec.ok;
   results.push(
     result({
       id: "sdd.openspec-local",
       status: openSpecHealthy ? "PASS" : "FAIL",
       summary: "OpenSpec local fijado y resuelto",
       cause: openSpecHealthy
-        ? `Manifiesto, lockfile e instalación resuelven OpenSpec ${OPEN_SPEC_VERSION}.`
-        : "OpenSpec local exacto no está demostrado en manifiesto, lockfile e instalación.",
-      remediation: `Restaura @fission-ai/openspec ${OPEN_SPEC_VERSION} y package-lock.json; ejecuta npm ci, nunca un fallback global o @latest.`,
+        ? `Manifiesto, lockfile, instalación y entrada local resuelven OpenSpec ${OPEN_SPEC_VERSION} en ${location.relative}.`
+        : `OpenSpec local exacto no está demostrado: ${openSpec.reasons.join('; ')}.`,
+      remediation: `Revisa toolchainRoot; restaura @fission-ai/openspec ${OPEN_SPEC_VERSION} y ejecuta npm ci en esa ubicación, nunca un fallback global o @latest.`,
       evidence: {
-        manifest: expectedOpenSpec ?? "ausente",
-        lockfile: lockedOpenSpec ?? "ausente",
-        installed: installedOpenSpec?.version ?? "ausente",
+        manifest: openSpec.declared ?? "ausente",
+        lockfile: openSpec.locked ?? "ausente",
+        installed: openSpec.installed?.version ?? "ausente",
+        entryPresent: openSpec.entryPresent ?? false,
+        location: location?.relative ?? "inválida",
       },
     }),
   );
 
   const state = await readJson(path.join(root, ".project-constructor", "state.json"));
-  const declaredPackage =
-    packageJson?.devDependencies?.[PACKAGE_NAME]
-    ?? packageJson?.dependencies?.[PACKAGE_NAME];
-  const lockedPackage = packageLock?.packages?.[`node_modules/${PACKAGE_NAME}`];
-  const installedPackage = await readJson(
-    path.join(root, "node_modules", PACKAGE_NAME, "package.json"),
-  );
+  const core = inspectEngineeringPackage(PACKAGE_NAME, CONSTRUCTOR_VERSION);
   const duplicateSources = [];
   for (const relative of [
     ".project-constructor/runtime",
@@ -533,10 +535,7 @@ export async function collectDoctorReport({
   const releaseHealthy =
     state?.packageName === PACKAGE_NAME
     && state?.packageVersion === CONSTRUCTOR_VERSION
-    && declaredPackage === CONSTRUCTOR_VERSION
-    && lockedPackage?.version === CONSTRUCTOR_VERSION
-    && installedPackage?.name === PACKAGE_NAME
-    && installedPackage?.version === CONSTRUCTOR_VERSION
+    && core.ok
     && duplicateSources.length === 0;
   results.push(
     result({
@@ -547,14 +546,16 @@ export async function collectDoctorReport({
         ? "Release exacta instalada sin source duplicado"
         : "La identidad del paquete no coincide o existe un runtime duplicado",
       cause: releaseHealthy
-        ? `${PACKAGE_NAME}@${CONSTRUCTOR_VERSION} coincide en state, manifest, lockfile e instalación.`
-        : "State, manifest, lockfile e instalación deben fijar la misma release; una copia editable no es fallback.",
+        ? `${PACKAGE_NAME}@${CONSTRUCTOR_VERSION} coincide en state, manifest, lockfile, instalación y entrada local en ${location.relative}.`
+        : `State, manifest, lockfile, instalación y entrada local deben fijar la misma release. ${core.reasons.join('; ')}`,
       remediation:
-        `Fija ${PACKAGE_NAME}@${CONSTRUCTOR_VERSION}, ejecuta npm install fuera del doctor y retira copias solo mediante un upgrade/PR reversible.`,
+        `Revisa toolchainRoot; fija ${PACKAGE_NAME}@${CONSTRUCTOR_VERSION}, ejecuta npm ci en esa ubicación fuera del doctor y retira copias solo mediante un upgrade/PR reversible.`,
       evidence: {
-        declared: declaredPackage ?? "ausente",
-        installed: installedPackage?.version ?? "ausente",
-        locked: lockedPackage?.version ?? "ausente",
+        declared: core.declared ?? "ausente",
+        installed: core.installed?.version ?? "ausente",
+        locked: core.locked ?? "ausente",
+        entryPresent: core.entryPresent ?? false,
+        location: location?.relative ?? "inválida",
         stateName: state?.packageName ?? "ausente",
         stateVersion: state?.packageVersion ?? "ausente",
         duplicateSources,
@@ -655,7 +656,7 @@ export async function collectDoctorReport({
     ".project-os/profiles.json",
     ".project-os/profiles/catalog.json",
   ]);
-  const config = await readJson(path.join(root, ".project-constructor", "config.json"));
+  const config = location?.configuration ?? null;
   const active = activeProfiles(config, profileData.value);
   for (const profile of TECHNICAL_PROFILES) {
     results.push(
@@ -884,7 +885,7 @@ export async function collectDoctorReport({
   );
 
   const governance = await readJson(path.join(root, '.project-os/repository-governance.json'));
-  const upstream = governance?.repositoryKind === 'upstream' && packageJson?.name === PACKAGE_NAME;
+  const upstream = governance?.repositoryKind === 'upstream' && rootPackage?.name === PACKAGE_NAME;
   const consumerShape = new Set(['release.identity', 'harness.parity', 'mcp.configuration', 'ci.configuration']);
   return createReport(results.map((entry) => {
     const category = consumerShape.has(entry.id) ? 'consumer-shape' : 'published-obligation';
