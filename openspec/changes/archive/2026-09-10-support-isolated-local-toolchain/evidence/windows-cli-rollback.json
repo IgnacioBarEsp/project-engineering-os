@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "status": "PASS",
+  "operation": "CLI bootstrap then checked rollback",
+  "coreVersion": "0.5.0",
+  "resolverRemoved": true,
+  "consumerToolchainPreserved": true,
+  "resolverHash": "2066b7cd75562f0df430d9ff30d10a6531fd51b926368d9b639a604ca7e4c9bd",
+  "originalHash": "ac77554aba44cdcede4ccd7ea01382da739d4983196c4a869fd11cc4c3d7a4bd",
+  "transactionId": "tx-2026-09-10T17-07-32-878Z-063324fc"
+}

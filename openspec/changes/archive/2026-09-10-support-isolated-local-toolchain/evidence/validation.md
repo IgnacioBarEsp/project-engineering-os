@@ -36,12 +36,23 @@ added to the issue and passed DoR before its preparation. Distribution remains p
 - The first protected CI run rejected a consumer project name in the review attribution. Removed that
   incidental name from the public report; the neutrality policy and required check remain unchanged.
 
-## Remaining validation at this checkpoint
+## Protected validation checkpoint
 
 The traditional packed fixture also passed (windows-default-fixture.json). The independent final verdict
 is PASS: 30 focused tests and five additional repros, with all four review findings resolved. Protected
-multi-platform CI, captured debt and official archive remain pending before integration. The installer and native app journeys belong
+CI run 34505887061 passed on source087f649050439f35e5cb9f60648f561300cf4a36:
+https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/34505887061
+Six Node20.20/22.22 OS combinations, both real fixtures, three Companion OS jobs and dependency audit
+passed, including CI / required. Initial failed run34460524852 is retained as historical evidence.
+Debt assessment is captured clean with no residual candidates. Archive readiness passed all 16 checks,
+and the local official OpenSpec 1.6.0 archive completed on 2026-09-10. Its generated Purpose was completed
+without changing the archived requirements. The final archive commit must pass protected CI again before merge.
+The installer and native app journeys belong
 to #87, #80 and #81 and are not declared complete by these core checks.
+
+A separate Windows CLI rehearsal bootstrapped a temporary consumer and rolled back its transaction.
+The new owned resolver was removed; a pre-existing consumer toolchain marker retained the same hash.
+See windows-cli-rollback.json. No actual product or private documents were used.
 
 ## Limits and recovery
 
