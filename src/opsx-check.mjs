@@ -21,6 +21,7 @@ import {
   SPECS_ROOT,
 } from './spec-purpose.mjs';
 import { readInstalledState } from './state.mjs';
+import { inspectLocalPackage, PINNED_OPENSPEC_VERSION, resolveLocalToolchain } from '../blueprint/core/project-constructor/toolchain.mjs';
 
 export const OPSX_CONTRACT_PATH = '.project-os/openspec-ownership.json';
 const ADAPT_RECOVERY = 'Ejecute `project-constructor opsx-adapt --target .`.';
@@ -518,71 +519,27 @@ export async function loadOpsxContract(targetRoot) {
 }
 
 export async function checkLocalOpenSpec(targetRoot, contract) {
-  const packageJson = await readJsonFile(
-    resolveInside(targetRoot, 'package.json'),
-    { label: 'package.json', optional: true },
-  );
-  const packageLock = await readJsonFile(
-    resolveInside(targetRoot, 'package-lock.json'),
-    { label: 'package-lock.json', optional: true },
-  );
-  const installedPackage = await readJsonFile(
-    resolveInside(targetRoot, 'node_modules/@fission-ai/openspec/package.json'),
-    {
-      label: 'node_modules/@fission-ai/openspec/package.json',
-      optional: true,
-    },
-  );
-  const expectedPackage = contract.package;
-  const expectedVersion = contract.version;
-  const declaredVersion = packageJson?.devDependencies?.[expectedPackage]
-    ?? packageJson?.dependencies?.[expectedPackage]
-    ?? null;
-  const lockedVersion = packageLock?.packages?.[`node_modules/${expectedPackage}`]?.version
-    ?? null;
-  const installedVersion = installedPackage?.version ?? null;
-  const localBin = process.platform === 'win32'
-    ? 'node_modules/.bin/openspec.cmd'
-    : 'node_modules/.bin/openspec';
-  const binPresent = await pathExists(resolveInside(targetRoot, localBin));
-  const failures = [];
-
-  if (declaredVersion !== expectedVersion) {
-    failures.push(`package.json=${declaredVersion ?? '<missing>'}`);
-  }
-  if (lockedVersion !== expectedVersion) {
-    failures.push(`package-lock.json=${lockedVersion ?? '<missing>'}`);
-  }
-  if (installedVersion !== expectedVersion) {
-    failures.push(`node_modules=${installedVersion ?? '<missing>'}`);
-  }
-  if (!binPresent) {
-    failures.push(`bin local ausente (${localBin})`);
-  }
-
-  return failures.length === 0
-    ? check(
-      'opsx.local-cli',
-      'PASS',
-      'OpenSpec local coincide con package.json, lockfile e instalación.',
-      `${expectedPackage}@${expectedVersion}`,
-      null,
-      {
-        bin: localBin,
-        version: expectedVersion,
-      },
-    )
-    : check(
-      'opsx.local-cli',
-      'FAIL',
+  const expectedPackage = '@fission-ai/openspec';
+  const expectedVersion = PINNED_OPENSPEC_VERSION;
+  let location;
+  try {
+    if (contract.package !== expectedPackage || contract.version !== expectedVersion) {
+      throw new Error('El contrato OPSX no coincide con la identidad fijada por el wrapper.');
+    }
+    location = resolveLocalToolchain(targetRoot);
+    const inspected = inspectLocalPackage(location, expectedPackage, expectedVersion);
+    if (!inspected.ok) throw new Error(inspected.reasons.join('; '));
+    return check('opsx.local-cli', 'PASS',
+      'OpenSpec local coincide con manifiesto, lockfile, instalación y entrada del paquete.',
+      expectedPackage + '@' + expectedVersion,
+      null, { bin: inspected.binary, version: expectedVersion, location: location.relative });
+  } catch (error) {
+    return check('opsx.local-cli', 'FAIL',
       'OpenSpec local fijado no está completamente disponible.',
-      failures.join('; '),
-      'Ejecute `npm ci` con el lockfile versionado y vuelva a ejecutar opsx-check.',
-      {
-        expectedPackage,
-        expectedVersion,
-      },
-    );
+      error.message,
+      'Revisa toolchainRoot y el contrato OPSX; restaura el lockfile y ejecuta npm ci en la ubicación seleccionada. No uses una CLI global.',
+      { expectedPackage, expectedVersion, location: location?.relative ?? 'inválida', code: error.code ?? 'TOOLCHAIN_OPENSPEC_INVALID' });
+  }
 }
 
 export async function runOpsxCheck({

@@ -47,6 +47,8 @@ Una segunda ejecución sin cambios es idempotente.
 Adoptar un `package.json` conserva scripts, dependencias, nombre y licencia. No instala dependencias ni
 añade los scripts del constructor. No demuestra que OpenSpec o un índice estén activos. La activación
 del entorno requiere su propio plan; Companion la resuelve en el flujo de herramientas del programa #66.
+El [entorno local separado](ISOLATED_TOOLCHAIN.md) permite verificar herramientas fuera del manifiesto del
+producto cuando la release instalada incorpora ese soporte.
 
 No son adoptables mediante esta opción los archivos del constructor, overlays humanos ni archivos de
 OpenSpec. No se aceptan rutas desconocidas, ausentes, duplicadas o enlazadas. El archivo de consentimiento

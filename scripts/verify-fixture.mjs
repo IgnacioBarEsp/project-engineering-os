@@ -2,6 +2,7 @@ import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import {
   access,
+  copyFile,
   mkdir,
   mkdtemp,
   readFile,
@@ -38,6 +39,7 @@ const options = {
   json: args.includes("--json"),
   keep: args.includes("--keep"),
   skipInstall: args.includes("--skip-install"),
+  isolatedToolchain: args.includes("--isolated-toolchain"),
   evidence: valueAfter("--evidence"),
 };
 
@@ -393,6 +395,7 @@ async function main() {
   const npmArgs = (values) => [npmCli, ...values];
   const commands = [];
   const checks = {};
+  let productOriginals;
   let result = "FAIL";
   let failure = null;
   try {
@@ -534,6 +537,25 @@ async function main() {
     checks.findability = await assertFindability(target);
 
     if (!options.skipInstall) {
+      let installRoot = target;
+      if (options.isolatedToolchain) {
+        const relative = '.project-os/toolchain';
+        installRoot = path.join(target, relative);
+        await mkdir(installRoot, { recursive: true });
+        for (const file of ['package.json', 'package-lock.json']) {
+          await copyFile(path.join(target, file), path.join(installRoot, file));
+        }
+        const configurationPath = path.join(target, '.project-constructor/config.json');
+        const configuration = JSON.parse(await readFile(configurationPath, 'utf8'));
+        await writeFile(configurationPath, `${JSON.stringify({ ...configuration, toolchainRoot: relative }, null, 2)}\n`);
+        await writeFile(path.join(target, 'package.json'), JSON.stringify({ name: 'consumer-product', private: true,
+          scripts: { prepare: 'node -e "process.exit(99)"' } }));
+        await writeFile(path.join(target, 'package-lock.json'), JSON.stringify({ name: 'consumer-product', lockfileVersion: 3, packages: {} }));
+        await mkdir(path.join(target, 'node_modules/consumer-dependency'), { recursive: true });
+        await writeFile(path.join(target, 'node_modules/consumer-dependency/index.js'), 'product dependency must stay unchanged');
+        productOriginals = Object.fromEntries(await Promise.all(['package.json', 'package-lock.json', 'node_modules/consumer-dependency/index.js']
+          .map(async file => [file, sha256(await readFile(path.join(target, file)))])));
+      }
       const install = await run(
         npmCommand,
         npmArgs([
@@ -545,7 +567,7 @@ async function main() {
           tarballPath,
           "@fission-ai/openspec@1.6.0",
         ]),
-        { cwd: target, timeoutMs: 180_000 },
+        { cwd: installRoot, timeoutMs: 180_000 },
       );
       commands.push({ id: "npm-install-release-candidate", exitCode: install.exitCode });
       checks.npmCi = classifyCommandOutput(install);
@@ -558,7 +580,7 @@ async function main() {
         );
       }
       const installedCliPath = path.join(
-        target,
+        installRoot,
         "node_modules",
         "create-project-engineering-os",
         "bin",
@@ -566,6 +588,13 @@ async function main() {
       );
       if (!(await exists(installedCliPath))) {
         throw new Error("La dependencia exacta no expuso project-os en node_modules.");
+      }
+      if (options.isolatedToolchain) {
+        const reconciled = await run(process.execPath, [installedCliPath, 'sync', '--target', target, '--json'], { cwd: target });
+        commands.push({ id: 'sync-explicit-toolchain-configuration', exitCode: reconciled.exitCode });
+        const payload = await parseJsonOutput(reconciled, 'sync después de seleccionar toolchainRoot');
+        if (payload.plan.operations.some(op => ['create', 'update', 'delete', 'conflict'].includes(op.operation))) throw new Error('La selección aislada intentó modificar archivos existentes.');
+        checks.toolchainConfigurationSync = compactCommandPayload(payload);
       }
 
       const beforeTrackerPlan = await snapshot(target);
@@ -653,6 +682,14 @@ async function main() {
       if (checks.doctor.counts?.FAIL > 0 || doctor.exitCode !== 0) {
         throw new Error(`Doctor de fixture contiene FAIL: ${doctor.stdout}`);
       }
+      if (productOriginals) {
+        for (const [file, hash] of Object.entries(productOriginals)) {
+          if (sha256(await readFile(path.join(target, file))) !== hash) throw new Error(`La instalación aislada modificó ${file}.`);
+        }
+        const identity = checks.opsxCheck.checks.find(entry => entry.id === 'opsx.local-cli');
+        if (identity?.evidence.location !== '.project-os/toolchain') throw new Error('OPSX no verificó la ubicación aislada.');
+        checks.isolatedToolchain = { status: 'PASS', location: '.project-os/toolchain', productOriginals, productFilesChanged: 0 };
+      }
     } else {
       checks.doctor = { skipped: true, cause: "--skip-install" };
     }
@@ -664,7 +701,7 @@ async function main() {
   const evidence = {
     schemaVersion: "1.0.0",
     result,
-    fixture: "empty-git-repository",
+    fixture: options.isolatedToolchain ? 'isolated-toolchain-with-product-manifest' : "empty-git-repository",
     commands,
     checks,
     failure,

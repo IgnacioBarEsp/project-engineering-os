@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "constructorVersion": "0.4.0",
+  "constructorVersion": "0.5.0",
   "defaults": {
     "activeProfiles": [
       "documentation",
@@ -9,6 +9,15 @@
     "codeIndexable": false
   },
   "files": [
+    {
+      "id": "local-toolchain-resolver",
+      "source": "core/project-constructor/toolchain.mjs",
+      "target": ".project-constructor/toolchain.mjs",
+      "owner": "constructor",
+      "mode": "text",
+      "lineEndings": "lf",
+      "required": true
+    },
     {
       "id": "claude-rules",
       "source": "core/harness/claude/project-os.md",

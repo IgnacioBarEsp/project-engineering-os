@@ -290,6 +290,7 @@ async function prepareOpsxFixture(name) {
     ? "node_modules/.bin/openspec.cmd"
     : "node_modules/.bin/openspec";
   await writeRelative(target, localBin, "local OpenSpec fixture\n");
+  await writeRelative(target, "node_modules/@fission-ai/openspec/bin/openspec.js", "throw new Error('read-only checks must not execute this');\n");
 
   for (const relative of generatedTargets) {
     const workflow = Object.entries(codexSkillByWorkflow)

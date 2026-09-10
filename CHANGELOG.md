@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 0.5.0 - 2026-09-10
+
+- Support an explicitly selected local engineering toolchain with a shared bounded resolver for the
+  OpenSpec wrapper, OPSX and doctor. Preserve product manifests and the default root layout; reject
+  incorrect package identities, unsafe locations and absent entries without a global fallback (#89).
+- Verify official generation and read-only diagnostics in both layouts through packed consumer fixtures.
+
 ## 0.4.0 - 2026-09-09
 
 - Add explicit target/hash adoption of existing project-owned seed files without rewriting originals,

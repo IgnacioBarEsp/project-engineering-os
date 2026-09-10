@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
+import { resolvePinnedOpenSpec } from './toolchain.mjs';
 
 export function openspecEnvironment(environment = process.env) {
   const next = { ...environment };
@@ -16,23 +17,23 @@ export function openspecEnvironment(environment = process.env) {
 
 export function resolveOpenSpecBinary(moduleUrl = import.meta.url) {
   const projectRoot = path.resolve(path.dirname(fileURLToPath(moduleUrl)), '..');
-  return path.join(
-    projectRoot,
-    'node_modules',
-    '@fission-ai',
-    'openspec',
-    'bin',
-    'openspec.js',
-  );
+  return resolvePinnedOpenSpec(projectRoot);
 }
 
 export function runOpenSpec(args, {
-  binary = resolveOpenSpecBinary(),
+  binary = null,
   environment = process.env,
   exists = existsSync,
   spawn = spawnSync,
   writeError = (message) => process.stderr.write(message),
 } = {}) {
+  if (binary === null) {
+    try { binary = resolveOpenSpecBinary(); }
+    catch (error) {
+      writeError(`FAIL OpenSpec local: ${error.message}\n${error.remediation ?? 'Revisa la configuración y restaura la instalación local fijada.'}\n`);
+      return 1;
+    }
+  }
   if (!exists(binary)) {
     writeError('FAIL OpenSpec local no está instalado; ejecuta npm ci --ignore-scripts.\n');
     return 1;

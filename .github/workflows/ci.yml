@@ -35,6 +35,8 @@ jobs:
         run: npm run check
       - name: Tarball fixture
         run: npm run fixture
+      - name: Isolated toolchain fixture
+        run: npm run fixture -- --isolated-toolchain
 
   dependency-audit:
     name: CI / dependency audit
