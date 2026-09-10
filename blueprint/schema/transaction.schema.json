@@ -16,6 +16,25 @@
     "status"
   ],
   "properties": {
+    "adoptionGuards": {
+      "type": "array",
+      "maxItems": 256,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["target", "hash"],
+        "properties": {
+          "target": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096,
+            "pattern": "^(?!/)(?![A-Za-z]:)(?!.*\\\\)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+          },
+          "hash": { "$ref": "#/$defs/hash" }
+        }
+      }
+    },
     "blueprintHash": {
       "$ref": "#/$defs/hash"
     },

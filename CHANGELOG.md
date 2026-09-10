@@ -2,13 +2,15 @@
 
 ## Unreleased
 
+## 0.4.0 - 2026-09-09
+
+- Add explicit target/hash adoption of existing project-owned seed files without rewriting originals,
+  with bounded CLI consent, transaction guards and original-preserving rollback (#85).
 - Upstream release verification waits up to ten minutes for npm propagation and provides a read-only
   recovery workflow that checks canonical bytes, registry signatures and signed provenance. Published
   0.3.0 artifacts remain unchanged.
 
 All notable changes follow [Semantic Versioning](https://semver.org/).
-
-## Unreleased
 
 ## 0.3.0 - 2026-09-05
 

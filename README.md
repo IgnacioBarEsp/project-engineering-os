@@ -88,7 +88,7 @@ git init
 La versión explícita mantiene el bootstrap reproducible:
 
 ```sh
-npx --yes create-project-engineering-os@0.3.0 bootstrap --target .
+npx --yes create-project-engineering-os@0.4.0 bootstrap --target .
 npm ci
 npm run openspec:init
 npm run project-os:opsx:adapt
@@ -97,7 +97,7 @@ npm run project-os:doctor
 ```
 
 El comando fue verificado desde una carpeta vacía en Windows. La suite también lo prueba en Ubuntu y
-macOS. Antes de cambiar `0.3.0`, revisa el [changelog](CHANGELOG.md).
+macOS. Antes de cambiar `0.4.0`, revisa el [changelog](CHANGELOG.md).
 
 Los scripts `openspec:*` usan telemetría apagada por defecto sin cambiar tu configuración global. Puedes
 elegir explícitamente otro valor con `OPENSPEC_TELEMETRY`; una invocación directa de OpenSpec queda bajo su
@@ -109,7 +109,7 @@ Abre Claude Code, Codex, Cursor, GitHub Copilot u OpenCode en la raíz del repos
 
 ```text
 Lee AGENTS.md y docs/engineering/PROMPT_00_BOOTSTRAP_ENTORNO.md. Ejecuta ese flujo usando
-create-project-engineering-os@0.3.0 como versión aprobada. Comprueba el segundo run sin drift, los cinco
+create-project-engineering-os@0.4.0 como versión aprobada. Comprueba el segundo run sin drift, los cinco
 harnesses, OpenSpec, los gates y la recuperación. No elijas todavía el producto, framework, arquitectura,
 cloud o base de datos. Detente ante cualquier autorización, costo, licencia, autenticación o mutación
 remota y explícame qué necesitas. Al terminar, resume PASS/FAIL/WARN/SKIP y pregúntame si quiero preparar
@@ -124,8 +124,8 @@ las pides o una automatización no puede continuar.
 Trabaja desde una rama y un árbol limpio. Revisa primero el plan sin escribir:
 
 ```sh
-npx --yes create-project-engineering-os@0.3.0 bootstrap --target . --dry-run
-npx --yes create-project-engineering-os@0.3.0 bootstrap --target .
+npx --yes create-project-engineering-os@0.4.0 bootstrap --target . --dry-run
+npx --yes create-project-engineering-os@0.4.0 bootstrap --target .
 npm ci
 npm run project-os:check
 ```
@@ -171,9 +171,11 @@ operación, verificación remota y rollback atribuible al receipt. Conserva el t
 
 ## Estado actual y próximos pasos
 
-La release `0.3.0` añade trackers autorizados, reglas por ruta y los controles de operación y distribución
-descritos en el [changelog](CHANGELOG.md). El instalador visual sigue en
-[descubrimiento #66](https://github.com/IgnacioBarEsp/project-engineering-os/issues/66); esta release es CLI.
+El núcleo `0.4.0` añade [adopción de archivos existentes](docs/EXISTING_PROJECTS.md) mediante ruta y hash
+revisados, además de los controles de la versión anterior. Consulta el [changelog](CHANGELOG.md).
+La [app de escritorio](docs/companion/DESKTOP.md) ya prepara carpetas y contexto local; su instalador y la
+activación del entorno continúan en el [programa #66](https://github.com/IgnacioBarEsp/project-engineering-os/issues/66).
+La distribución pública del núcleo sigue siendo CLI.
 
 La versión actual instala el núcleo universal y mantiene inactivos los perfiles de producto. No activa
 skills ni servidores MCP por defecto. MVVM, CI/CD del producto, Playwright, IA, UI, offline/sync y cloud se
@@ -182,8 +184,8 @@ deciden después del discovery.
 El clasificador read-only de onboarding detecta evidencia, acepta cinco respuestas y emite una ruta/estado
 versionado sin escribir. El [prompt router](docs/prompts/PROMPT_ROUTER_INICIO.md) usa esa ruta, la registra
 bajo aprobación humana y conduce Prompt 00 y Prompt 01 por recorrido. Ambas piezas entran en `0.2.0`. La
-[guía del clasificador](docs/ONBOARDING_PLAN.md) separa el contrato ejecutable de los trackers remotos, que
-siguen pendientes.
+[guía del clasificador](docs/ONBOARDING_PLAN.md) describe su contrato ejecutable; el
+[flujo de trackers](docs/TRACKERS.md) cubre la configuración remota autorizada.
 
 ## Seguridad, licencias y costo
 

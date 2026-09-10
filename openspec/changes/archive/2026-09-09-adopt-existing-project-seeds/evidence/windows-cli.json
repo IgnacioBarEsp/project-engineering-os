@@ -1,0 +1,33 @@
+{
+  "date": "2026-09-09T16:20:17.290Z",
+  "origin": "Maintainer-delegated agent operating real CLI processes on Windows; synthetic temporary projects, no human review or tool activation claim.",
+  "results": [
+    {
+      "profile": "software",
+      "reviewedAdoptions": 2,
+      "applied": "APPLIED",
+      "verified": "IN_SYNC",
+      "rollback": "ROLLED_BACK",
+      "originalsPreserved": [
+        "README.md",
+        "package.json",
+        "src/app.js"
+      ],
+      "packageHash": "91ed63a1efc1adcd60b955380590b0546d2f06804beac419aa7495c0209c63ac"
+    },
+    {
+      "profile": "unity",
+      "reviewedAdoptions": 2,
+      "applied": "APPLIED",
+      "verified": "IN_SYNC",
+      "rollback": "ROLLED_BACK",
+      "originalsPreserved": [
+        "README.md",
+        "package.json",
+        "Assets/Main.cs",
+        "ProjectSettings/ProjectVersion.txt"
+      ],
+      "packageHash": "91ed63a1efc1adcd60b955380590b0546d2f06804beac419aa7495c0209c63ac"
+    }
+  ]
+}

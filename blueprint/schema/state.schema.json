@@ -149,8 +149,23 @@
         },
         "seeded": {
           "type": "boolean"
+        },
+        "adopted": {
+          "const": true
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "adopted": { "const": true } }, "required": ["adopted"] },
+          "then": {
+            "required": ["seeded"],
+            "properties": {
+              "owner": { "const": "project" },
+              "seeded": { "const": false }
+            }
+          }
+        }
+      ]
     }
   }
 }

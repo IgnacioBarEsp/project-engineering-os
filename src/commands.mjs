@@ -282,6 +282,7 @@ async function materializeUpgradeIdentity({
 }
 
 async function preparePlan({
+  adoptProjectSeeds = [],
   blueprintRoot,
   readOnly,
   targetRoot,
@@ -322,6 +323,7 @@ async function preparePlan({
   }
   const incompleteTransaction = await findIncompleteTransaction(preflight.target);
   const plan = await buildPlan({
+    adoptProjectSeeds,
     blueprint,
     configuration,
     previousState,
@@ -372,6 +374,7 @@ async function preparePlan({
 }
 
 export async function runBootstrapOrSync({
+  adoptProjectSeeds = [],
   blueprintRoot = DEFAULT_BLUEPRINT_ROOT,
   check = false,
   command,
@@ -384,6 +387,7 @@ export async function runBootstrapOrSync({
   }
 
   const prepared = await preparePlan({
+    adoptProjectSeeds,
     blueprintRoot: resolve(blueprintRoot),
     readOnly: check || dryRun,
     targetRoot: resolve(targetRoot),

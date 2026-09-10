@@ -4,6 +4,7 @@ import {
 } from 'node:fs/promises';
 
 import { deterministicDiff } from './diff.mjs';
+import { assertAdoptionPath, normalizeAdoptionConsent, verifyAdoptionGuards } from './adoption.mjs';
 import { ConstructorError } from './errors.mjs';
 import { normalizeLf, sha256, sha256Json } from './hash.mjs';
 import { sortJson } from './json.mjs';
@@ -278,6 +279,7 @@ async function planConstructorEntry({
 }
 
 async function planProjectEntry({
+  adoptionConsent,
   current,
   entry,
   resumeJournal,
@@ -285,6 +287,9 @@ async function planProjectEntry({
 }) {
   const desiredHash = sha256(entry.content);
   const resumeOperation = resumeOperationFor(resumeJournal, entry.target);
+  if (adoptionConsent?.has(entry.target) && current.hash !== adoptionConsent.get(entry.target)) {
+    throw new ConstructorError('ADOPTION_INPUT_CHANGED', `${entry.target} cambió durante la planificación de su adopción.`);
+  }
 
   if (!current.exists) {
     if (stateRecord) {
@@ -321,6 +326,16 @@ async function planProjectEntry({
         stateRecord: recordFor(entry, current.hash, { seeded: true }),
       });
     }
+    if (entry.owner === 'project' && adoptionConsent?.has(entry.target)) {
+      return makeItem({
+        after: current.content,
+        before: current.content,
+        entry,
+        operation: 'adopt',
+        reason: 'se conserva el archivo existente con consentimiento explícito de ruta y hash',
+        stateRecord: recordFor(entry, current.hash, { seeded: false, adopted: true }),
+      });
+    }
     return conflictItem(entry, current, 'la semilla project-owned colisiona con contenido preexistente');
   }
 
@@ -336,6 +351,7 @@ async function planProjectEntry({
     reason: 'el proyecto posee el contenido después de la semilla inicial',
     stateRecord: recordFor(entry, current.hash, {
       seeded: stateRecord.seeded !== false,
+      ...(stateRecord.adopted === true ? { adopted: true } : {}),
     }),
   });
 }
@@ -564,6 +580,7 @@ async function planStaleEntry(targetRoot, target, record, resumeJournal) {
 }
 
 export async function buildPlan({
+  adoptProjectSeeds = [],
   blueprint,
   configuration = null,
   previousState,
@@ -571,6 +588,16 @@ export async function buildPlan({
   stateMigrations = [],
   targetRoot,
 }) {
+  const adoptionGuards = normalizeAdoptionConsent(adoptProjectSeeds);
+  const adoptionConsent = new Map(adoptionGuards.map(item => [item.target, item.hash]));
+  for (const { target } of adoptionGuards) {
+    const entry = blueprint.entries.find(item => item.target === target);
+    const record = previousState?.files?.[target];
+    if (entry?.owner !== 'project' || (record && (record.owner !== 'project' || record.adopted !== true))) {
+      throw new ConstructorError('ADOPTION_TARGET_INELIGIBLE', `${target} no es una semilla project-owned disponible para adopción.`);
+    }
+  }
+  await verifyAdoptionGuards(targetRoot, adoptionGuards);
   const configurationHash = sha256Json(configuration ?? {
     activeProfiles: blueprint.activeProfiles,
   });
@@ -580,6 +607,7 @@ export async function buildPlan({
   for (const entry of blueprint.entries) {
     activeTargets.add(entry.target);
     const item = await planActiveEntry({
+      adoptionConsent,
       entry,
       previousState,
       resumeJournal,
@@ -618,6 +646,16 @@ export async function buildPlan({
   const requiresStateWrite = stateNeedsWrite(previousState, proposedState);
   const conflicts = items.filter((item) => item.conflict);
   const materialItems = items.filter((item) => item.material);
+  const adoptionCandidates = [];
+  for (const item of conflicts) {
+    if (item.entry.owner !== 'project' || previousState?.files?.[item.target] || item.beforeHash === null) continue;
+    try {
+      await assertAdoptionPath(targetRoot, item.target);
+      adoptionCandidates.push({ target: item.target, hash: item.beforeHash });
+    } catch (error) {
+      if (error.code !== 'ADOPTION_LINK_UNSAFE') throw error;
+    }
+  }
   const contentMigrations = previousState
     && previousState.blueprintHash !== blueprint.blueprintHash
     ? [{
@@ -631,6 +669,8 @@ export async function buildPlan({
   const migrations = [...stateMigrations, ...contentMigrations];
 
   return {
+    adoptionCandidates,
+    adoptionGuards,
     blueprintHash: blueprint.blueprintHash,
     configurationHash,
     conflicts,
@@ -642,6 +682,7 @@ export async function buildPlan({
     requiresStateWrite,
     rollbackPoint: previousState?.lastTransaction ?? 'pre-bootstrap',
     summary: {
+      adopts: items.filter((item) => item.operation === 'adopt').length,
       conflicts: conflicts.length,
       creates: items.filter((item) => item.operation === 'create').length,
       deletes: items.filter((item) => item.operation === 'delete').length,
@@ -663,6 +704,7 @@ export async function buildPlan({
 
 export function publicPlan(plan, externalOwnership = null) {
   return {
+    adoptionCandidates: plan.adoptionCandidates,
     blueprintHash: plan.blueprintHash,
     configurationHash: plan.configurationHash,
     externalOwnership,
