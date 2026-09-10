@@ -33,6 +33,8 @@ added to the issue and passed DoR before its preparation. Distribution remains p
 - Independent review found doctor re-reading rejected oversized config and reading the classification
   manifest without the new bound. Both use the bounded shared resolver now. Schema/runtime reserved-path
   casing and Unicode separator behavior agree; wrapper failures include a recovery action.
+- The first protected CI run rejected a consumer project name in the review attribution. Removed that
+  incidental name from the public report; the neutrality policy and required check remain unchanged.
 
 ## Remaining validation at this checkpoint
 

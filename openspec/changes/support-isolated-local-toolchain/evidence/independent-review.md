@@ -1,6 +1,6 @@
 # Independent adversarial review — issue #89
 
-Reviewer: separate agent `review_isolated_toolchain`, applying the borrowed PlanearIA adversarial-review
+Reviewer: separate agent `review_isolated_toolchain`, applying the locally borrowed adversarial-review
 skill. Source: current branch diff, proposal/design/spec/tasks, distributed helper, schemas, diagnostics,
 documentation and tests. The reviewer did not modify the repository. This is not human review.
 
