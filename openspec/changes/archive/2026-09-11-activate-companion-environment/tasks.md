@@ -26,4 +26,4 @@
 
 - [x] 5.1 Run app/core checks, real OpenSpec and CodeGraph fixtures, and independent adversarial review; resolve findings.
 - [x] 5.2 Document limits and recovery, capture debt, pass readiness and archive officially.
-- [ ] 5.3 Pass protected CI and integrate the reviewed PR; hand verified runtime contracts to installer #80 and QA #81.
+- [x] 5.3 Pass protected CI and integrate the reviewed PR; hand verified runtime contracts to installer #80 and QA #81.
