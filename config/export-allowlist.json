@@ -12,6 +12,7 @@
     "openspec",
     "schema",
     "scripts",
+    "site",
     "src",
     "test"
   ],

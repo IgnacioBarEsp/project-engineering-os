@@ -20,6 +20,12 @@ files:
   - LICENSE
   - THIRD-PARTY-NOTICES.md
   - '!**/*.map'
+# The reviewed npm distribution is pinned by the digest of its whole tree, including the dependencies
+# it vendors. The packager deduplicates node_modules and would prune exactly those, leaving an
+# installation that cannot prepare tools, so it travels verbatim beside the application package.
+extraResources:
+  - from: build/npm-dist.zip
+    to: npm-dist.zip
 win:
   target:
     - target: nsis

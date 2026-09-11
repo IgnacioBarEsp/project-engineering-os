@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { createReadStream } from 'node:fs';
-import { readFile, readdir, stat, lstat } from 'node:fs/promises';
+import { mkdtemp, readFile, readdir, rm, stat, lstat, realpath } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { promisify } from 'node:util';
 
 // Reads what the packager actually produced and refuses anything that was not meant to ship.
@@ -95,9 +96,43 @@ assert.deepEqual(unexpectedApp, [], `Rutas no permitidas en la aplicación empaq
 const unexpectedRuntime = runtime.filter(file => {
   if (RUNTIME_FILES.includes(file.path)) return false;
   if (file.path.startsWith('locales/') && file.path.endsWith('.pak')) return false;
+  if (file.path === 'resources/npm-dist.zip') return false;
   if (file.path.includes('/')) return true;
   return !RUNTIME_EXTENSIONS.has(path.extname(file.path).toLowerCase());
 });
+
+// A bundled tool is pinned by the digest of its complete tree. A packager that deduplicates
+// dependencies can prune it into something that still looks installed and cannot be used: the
+// application would refuse to prepare tools with an integrity error, after the person installed it.
+// Comparing the shipped tree against the catalog pin is the only check that catches that.
+//
+// These modules come from the PACKAGED application, not from the development tree. The question worth
+// answering is whether the pin the installed application will apply matches what shipped beside it; a
+// dev-tree catalog answers a different question and would miss exactly the divergence this guards. The
+// two catalogs are then compared against each other, so a packaged pin that quietly drifted from the
+// reviewed one fails here rather than passing both halves of a check that never met.
+const packagedRuntime = path.join(installed, 'resources', 'app', 'runtime');
+const { inspectTree } = await import(pathToFileURL(path.join(packagedRuntime, 'tree.mjs')).href);
+const { RUNTIME_CATALOG } = await import(pathToFileURL(path.join(packagedRuntime, 'catalog.mjs')).href);
+const { extractZip } = await import(pathToFileURL(path.join(packagedRuntime, 'archive.mjs')).href);
+const { RUNTIME_CATALOG: REVIEWED_CATALOG } = await import(pathToFileURL(path.join(app, 'runtime', 'catalog.mjs')).href);
+assert.deepEqual(RUNTIME_CATALOG, REVIEWED_CATALOG,
+  'El catalogo empaquetado no coincide con el catalogo revisado: la aplicacion instalada aplicaria otros pines.');
+const bundledTrees = {};
+for (const [id, archive] of Object.entries({ npm: path.join(installed, 'resources', 'npm-dist.zip') })) {
+  const pin = RUNTIME_CATALOG[id];
+  assert.ok(await stat(archive).catch(() => null), `El artefacto no incluye la distribucion revisada de ${id}.`);
+  const staging = await mkdtemp(path.join(tmpdir(), `companion-verify-${id}-`));
+  try {
+    const target = path.join(staging, 'payload');
+    await extractZip(archive, target);
+    const tree = await inspectTree(await realpath(target));
+    assert.equal(tree.sha256, pin.treeHash,
+      `La copia empaquetada de ${id} no coincide con su pin: ${tree.files.length} archivos y ${tree.bytes} bytes frente a ${pin.installedBytes} esperados. La aplicacion instalada no podria preparar herramientas.`);
+    assert.equal(tree.bytes, pin.installedBytes);
+    bundledTrees[id] = { files: tree.files.length, bytes: tree.bytes, archiveBytes: (await stat(archive)).size, treeHash: tree.sha256 };
+  } finally { await rm(staging, { recursive: true, force: true }); }
+}
 assert.deepEqual(unexpectedRuntime, [], `Rutas inesperadas fuera de la aplicación: ${unexpectedRuntime.slice(0, 10).map(f => f.path).join(', ')}`);
 for (const required of REQUIRED_RUNTIME) {
   assert.ok(runtime.some(file => file.path === required), `Falta un archivo obligatorio del runtime: ${required}`);
@@ -156,7 +191,7 @@ const result = {
   artifact: record.artifact, bytes: record.bytes, sha256: record.sha256, commit: record.commit, tree: record.tree,
   packagedFiles: packaged.length, packagedBytes: packaged.reduce((total, file) => total + file.bytes, 0),
   installedFiles: everything.length, installedBytes: everything.reduce((total, file) => total + file.bytes, 0),
-  dependencies: present.size, core: record.core, signed: record.signed, observedSignature,
+  dependencies: present.size, core: record.core, bundledTools: bundledTrees, signed: record.signed, observedSignature,
   scope: process.platform === 'win32'
     ? 'Contenido completo, identidad, checksum y firma real del artefacto producido. No demuestra instalación ni compatibilidad en otro equipo.'
     : 'Contenido completo, identidad y checksum. La firma no se pudo leer fuera de Windows, así que este veredicto es parcial.',

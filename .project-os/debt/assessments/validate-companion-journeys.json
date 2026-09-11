@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "flow": "validate-companion-journeys",
+  "date": "2026-09-11",
+  "kind": "feature",
+  "result": "debt",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/validate-companion-journeys/evidence/journeys.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Cinco recorridos completos por perfil sobre la aplicación instalada y revisión adversarial independiente",
+        "result": "medido",
+        "date": "2026-09-11"
+      },
+      "title": "El primer criterio del issue pide evidencia desde el instalador y ninguna comprobación recorre sus páginas",
+      "artifact": "apps/companion/scripts/verify-journeys.mjs",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/validate-companion-journeys/evidence/journeys.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Cinco recorridos completos por perfil sobre la aplicación instalada y revisión adversarial independiente",
+        "result": "medido",
+        "date": "2026-09-11"
+      },
+      "title": "Los recorridos conducen la capa de servicio instalada, no la interfaz ni a una persona usuaria",
+      "artifact": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/validate-companion-journeys/evidence/benchmark.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Medición corregida tras la revisión adversarial y reejecutada sobre el mismo corpus",
+        "result": "medido",
+        "date": "2026-09-11"
+      },
+      "title": "El corpus medido es sintético y pequeño, y su PDF lleva el texto sin comprimir: otro corpus da otro resultado",
+      "artifact": "apps/companion/scripts/verify-benchmark.mjs",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/validate-companion-journeys/evidence/landing.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Comprobación en navegador real sobre los dos esquemas de color, reconciliando cada cifra publicada",
+        "result": "medido",
+        "date": "2026-09-11"
+      },
+      "title": "La comprobación de la landing no es una auditoría de accesibilidad ni se probó con lector de pantalla",
+      "artifact": "apps/companion/scripts/verify-landing.mjs",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/validate-companion-journeys/evidence/independent-review.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Revisión adversarial independiente y compuerta de CI añadida para la landing",
+        "result": "medido",
+        "date": "2026-09-11"
+      },
+      "title": "Los recorridos y la medición no pueden correr en CI porque necesitan la aplicación instalada desde un artefacto",
+      "artifact": ".github/workflows/ci.yml",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    }
+  ]
+}

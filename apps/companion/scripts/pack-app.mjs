@@ -7,6 +7,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
+import { sealNpm } from './seal-npm.mjs';
 import { productionPackages, renderNotices } from './notices.mjs';
 
 // Builds the Windows artifact for the private app. It writes the third-party notices from the
@@ -22,6 +23,13 @@ async function digest(file) {
   for await (const chunk of createReadStream(file)) hash.update(chunk);
   return hash.digest('hex');
 }
+
+// Seal the reviewed npm distribution into one archive. Packagers deduplicate and drop nested
+// node_modules, so a copied directory arrives pruned and the installed application cannot prepare
+// tools. One file is opaque to every filter, and the application extracts it with the same reviewed
+// extractor it uses for downloads, checking the same pinned tree digest afterwards.
+const npmArchive = path.join(app, 'build', 'npm-dist.zip');
+const sealed = await sealNpm(path.join(app, 'node_modules', 'npm'), npmArchive);
 
 const packages = productionPackages(lock);
 assert.ok(packages.length > 0, 'The lockfile declares no production packages.');
@@ -63,6 +71,7 @@ const record = {
   electron: manifest.devDependencies.electron,
   packager: `electron-builder ${manifest.devDependencies['electron-builder']}`,
   packages: packages.length,
+  bundledNpm: { files: sealed.files, archiveBytes: sealed.bytes },
   signed: false,
   signingNote: 'Sin certificado de editor. Windows advertirá al ejecutarlo; esa advertencia es correcta y no se evita.',
   built: new Date().toISOString(),

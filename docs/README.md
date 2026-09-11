@@ -9,7 +9,8 @@ El programa [Companion](companion/EXPERIENCE.md) define la aplicación visual en
 proyectos sin terminal. La [app de escritorio](companion/DESKTOP.md) permite revisar y aplicar cambios, y
 la [activación del entorno](companion/ENVIRONMENT.md) describe qué herramientas instala, qué verifica y
 cómo recuperarlas. El [instalador de Windows](companion/INSTALLER.md) explica qué se instala, qué no se
-toca al desinstalar y cómo comprobar el archivo descargado.
+toca al desinstalar y cómo comprobar el archivo descargado. La [evidencia](companion/EVIDENCE.md) publica
+qué se midió, dónde la línea base es más barata y qué no se midió.
 
 1. [Guía del usuario](USER_GUIDE.md): entiende las cuatro etapas y llega desde una carpeta vacía hasta el
    primer cambio de producto.

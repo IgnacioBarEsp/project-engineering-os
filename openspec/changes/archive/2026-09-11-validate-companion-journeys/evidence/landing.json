@@ -1,0 +1,197 @@
+{
+  "date": "2026-09-11T21:06:21.331Z",
+  "page": "<repo>/site/index.html",
+  "checks": [
+    "Ninguna petición externa: sin fuentes remotas, sin analítica, sin imágenes de terceros.",
+    "Estructura: un h1, 15 encabezados sin saltos, landmarks, enlace para saltar al contenido, tabla con título y encabezados, y cero scripts.",
+    "Teclado: el primer tabulador llega al salto de contenido, activa el destino y el foco es visible.",
+    "Contraste: 78 nodos de texto medidos en los dos esquemas de color; se publica el peor de cada combinación y el peor de todos es 5.35.",
+    "Reflujo en 1180, 1024, 768, 480, 360 y 240 px y con el texto al doble de tamaño: ni barra horizontal ni texto fuera de la ventana, incluido dentro de contenedores recortados.",
+    "Cifras: cada número publicado reconcilia con benchmark.json, incluido el costo de preparar.",
+    "Afirmaciones: ninguna cifra de adopción, porcentaje, promesa sobre tokens o alucinaciones; declara la falta de firma y dónde la línea base es más barata."
+  ],
+  "widths": [
+    1180,
+    1024,
+    768,
+    480,
+    360,
+    240
+  ],
+  "contrast": [
+    {
+      "scheme": "light",
+      "selector": ".hero h1",
+      "ratio": 16.48,
+      "size": 67.2,
+      "required": 3,
+      "measured": 1
+    },
+    {
+      "scheme": "light",
+      "selector": ".hero p",
+      "ratio": 7.95,
+      "size": 18.56,
+      "required": 4.5,
+      "measured": 3
+    },
+    {
+      "scheme": "light",
+      "selector": ".hero .note",
+      "ratio": 11.56,
+      "size": 18.56,
+      "required": 4.5,
+      "measured": 1
+    },
+    {
+      "scheme": "light",
+      "selector": ".lead",
+      "ratio": 5.86,
+      "size": 16.8,
+      "required": 4.5,
+      "measured": 2
+    },
+    {
+      "scheme": "light",
+      "selector": ".card p",
+      "ratio": 5.86,
+      "size": 15.04,
+      "required": 4.5,
+      "measured": 4
+    },
+    {
+      "scheme": "light",
+      "selector": ".claim li",
+      "ratio": 5.35,
+      "size": 15.04,
+      "required": 4.5,
+      "measured": 10
+    },
+    {
+      "scheme": "light",
+      "selector": "td",
+      "ratio": 14.34,
+      "size": 14.4,
+      "required": 4.5,
+      "measured": 15
+    },
+    {
+      "scheme": "light",
+      "selector": ".foot",
+      "ratio": 5.86,
+      "size": 13.44,
+      "required": 4.5,
+      "measured": 1
+    },
+    {
+      "scheme": "light",
+      "selector": "footer p",
+      "ratio": 10.11,
+      "size": 14.4,
+      "required": 4.5,
+      "measured": 1
+    },
+    {
+      "scheme": "light",
+      "selector": ".button-main",
+      "ratio": 12.95,
+      "size": 16,
+      "required": 4.5,
+      "measured": 1
+    },
+    {
+      "scheme": "dark",
+      "selector": ".hero h1",
+      "ratio": 16.48,
+      "size": 67.2,
+      "required": 3,
+      "measured": 1
+    },
+    {
+      "scheme": "dark",
+      "selector": ".hero p",
+      "ratio": 7.95,
+      "size": 18.56,
+      "required": 4.5,
+      "measured": 3
+    },
+    {
+      "scheme": "dark",
+      "selector": ".hero .note",
+      "ratio": 11.56,
+      "size": 18.56,
+      "required": 4.5,
+      "measured": 1
+    },
+    {
+      "scheme": "dark",
+      "selector": ".lead",
+      "ratio": 8.17,
+      "size": 16.8,
+      "required": 4.5,
+      "measured": 2
+    },
+    {
+      "scheme": "dark",
+      "selector": ".card p",
+      "ratio": 8.17,
+      "size": 15.04,
+      "required": 4.5,
+      "measured": 4
+    },
+    {
+      "scheme": "dark",
+      "selector": ".claim li",
+      "ratio": 7.31,
+      "size": 15.04,
+      "required": 4.5,
+      "measured": 10
+    },
+    {
+      "scheme": "dark",
+      "selector": "td",
+      "ratio": 14.13,
+      "size": 14.4,
+      "required": 4.5,
+      "measured": 15
+    },
+    {
+      "scheme": "dark",
+      "selector": ".foot",
+      "ratio": 8.17,
+      "size": 13.44,
+      "required": 4.5,
+      "measured": 1
+    },
+    {
+      "scheme": "dark",
+      "selector": "footer p",
+      "ratio": 10.11,
+      "size": 14.4,
+      "required": 4.5,
+      "measured": 1
+    },
+    {
+      "scheme": "dark",
+      "selector": ".button-main",
+      "ratio": 12.95,
+      "size": 16,
+      "required": 4.5,
+      "measured": 1
+    }
+  ],
+  "requests": [
+    "solo el documento local"
+  ],
+  "screenshots": [
+    "screenshots/landing-1180.png",
+    "screenshots/landing-380.png"
+  ],
+  "measurement": "<repo>/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/benchmark.json",
+  "bytes": 13649,
+  "limits": [
+    "Una comprobación automática no es una auditoría de accesibilidad ni certifica conformidad.",
+    "No se probó con un lector de pantalla real ni con personas usuarias.",
+    "Se midió en un navegador basado en Chromium; otros motores pueden diferir."
+  ]
+}

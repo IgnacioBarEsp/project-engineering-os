@@ -13,6 +13,7 @@ tiene un owner y una ruta de actualización distinta.
 | Constructor-managed files | Upstream release | `upgrade --check`, reviewed transaction, optional PR |
 | Seed-once debt policy | Consumer | Consumer decision and local SDD flow |
 | Human overlays and product code | Consumer | Consumer workflow |
+| Public landing page (`site/`) | Upstream | Repository-only; it is in the export allowlist but not in the published package, so it never reaches a consumer project or the npm tarball. `site/NOTAS.md` is the brief behind the page and is exported with it; the preparation artifacts under `site/.project-os/` are not tracked |
 | Debt assessments and registry | Consumer evidence | `project-os debt capture/sync`; never overwritten by rollback |
 
 The upstream never chooses a consumer's product license, stack, cloud, database, UI framework or domain.

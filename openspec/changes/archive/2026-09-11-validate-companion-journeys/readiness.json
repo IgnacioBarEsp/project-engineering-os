@@ -1,0 +1,257 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 81,
+  "change": "validate-companion-journeys",
+  "surfaces": [
+    "documentation",
+    "harness-tooling",
+    "ui",
+    "auth-security"
+  ],
+  "validations": [
+    {
+      "id": "accessibility-check",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "capability-matrix-check",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "component-or-interaction-tests",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "constructor-tests",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "critical-document-presence",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "doctor-json-check",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "findability-two-hop-check",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "neutrality-check",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "openspec-strict",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "opsx-check",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "relative-link-check",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "responsive-check-when-configured",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "second-run-idempotence",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "secret-scan",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "sync-check",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "visual-check-when-configured",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "dependency-signal-review",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "authorization-tests",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "session-negative-tests",
+      "status": "passed",
+      "evidence": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "adversarial-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/validate-companion-journeys/evidence/independent-review.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "ground-truth-comparison",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "issue-link",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/81",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "keyboard-and-assistive-technology-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "loading-empty-error-and-constrained-connectivity-states",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "privilege-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "qualitative-review-for-clarity-and-current-ownership",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recorded-drift-decisions",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recovery-path-verification",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recovery-rehearsal-for-one-transaction",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "review-of-declared-degradations",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "threat-model",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "rollback": {
+    "strategy": "Revert the implementation PR. The evaluation adds scripts, evidence and a landing page that no consumer receives; the packaging fix returns the reviewed npm distribution to a copied directory, which is the state that failed and is therefore not a rollback target on its own.",
+    "status": "verified",
+    "evidence": "openspec/changes/validate-companion-journeys/evidence/journeys.json",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "passed",
+    "ref": "openspec/changes/validate-companion-journeys/evidence/independent-review.md",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}
