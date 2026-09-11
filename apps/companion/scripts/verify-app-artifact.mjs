@@ -31,10 +31,11 @@ const FORBIDDEN_PACKAGES = ['electron', 'electron-builder', 'playwright', 'app-b
 // Applied to every packaged path, dependencies included: a transitive package shipping a fixture
 // credential, a document or a repository must not reach a published artifact unnoticed.
 const FORBIDDEN_NAMES = [/\.docx$/i, /\.pdf$/i, /\.map$/i, /(^|\/)\.npmrc$/i, /(^|\/)\.env/i, /(^|\/)\.git(\/|$)/,
-  /(^|\/)qa\//, /(^|\/)dist\//, /(^|\/)openspec\//, /(^|\/)evidence\//, /\.pem$/i, /\.p12$/i, /\.pfx$/i, /\.key$/i,
-  /(^|\/)elevate\.exe$/i];
-// `scripts/` and `build/` are ordinary inside dependencies; only the application's own are refused.
-const FORBIDDEN_APP_NAMES = [/(^|\/)scripts\//, /(^|\/)build\//];
+  /\.pem$/i, /\.p12$/i, /\.pfx$/i, /\.key$/i, /(^|\/)elevate\.exe$/i];
+// `dist/`, `scripts/`, `build/` and `test/` are ordinary inside published packages; only the
+// application's own copies of them would mean development material reached the artifact.
+const FORBIDDEN_APP_NAMES = [/(^|\/)scripts\//, /(^|\/)build\//, /(^|\/)dist\//, /(^|\/)qa\//,
+  /(^|\/)openspec\//, /(^|\/)evidence\//];
 
 async function walk(root, relative = '', files = []) {
   for (const entry of await readdir(path.join(root, relative), { withFileTypes: true })) {

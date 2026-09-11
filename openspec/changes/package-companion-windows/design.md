@@ -42,9 +42,22 @@ reach a public artifact.
 
 Installation is per-user and needs no administrator: it writes the program directory it offered, a
 shortcut and its own uninstall entry. It writes nothing into a project folder. Uninstall removes those
-same paths and nothing else. The local project history and the managed runtimes live outside the program
-directory precisely so that reinstalling or removing the application does not destroy prepared work;
-removing them is a separate, explicit action the person takes.
+same paths and nothing else, which takes two additions the packager does not make on its own.
+
+The packager copies the installer into a per-user cache so a later version can build a differential
+update. This application publishes no updates, so nothing ever reads that copy and it is exactly as large
+as the installer. Leaving it behind would make the license page false, so an uninstall step removes it —
+except during an update, where that copy belongs to the installer that is arriving.
+
+The uninstaller deletes the installation directory recursively. That is right for a directory this
+installer created and destructive for one the person already uses. A chosen destination normally gains a
+product subdirectory, except when the path already contains the product name; that is the only case where
+an installation and the person's files would share a folder, and the wizard refuses such a destination
+unless it is empty or already holds this application.
+
+The local project history and the managed runtimes live outside the program directory precisely so that
+reinstalling or removing the application does not destroy prepared work; removing them is a separate,
+explicit action the person takes.
 
 ### What is claimed
 
