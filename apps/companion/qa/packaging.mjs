@@ -194,7 +194,9 @@ test('sealing and extracting a distribution preserves the nested dependencies a 
   // This exercises the real sealing and the real extractor against a tree built here, rather than
   // asserting that the packer's source still contains certain words. Replacing the packaged branch
   // with the development one, or dropping nested directories while sealing, fails this test.
-  const work = await mkdtemp(path.join(tmpdir(), 'companion-seal-'));
+  // realpath, because the extractor refuses a destination that passes through a symbolic link and on
+  // macOS the temporary directory is one. That refusal is the product behaving correctly.
+  const work = await realpath(await mkdtemp(path.join(tmpdir(), 'companion-seal-')));
   try {
     const source = path.join(work, 'dist');
     // The shape that gets pruned: a dependency vendored inside another dependency.
@@ -205,14 +207,14 @@ test('sealing and extracting a distribution preserves the nested dependencies a 
     await writeFile(path.join(nested, 'package.json'), '{"name":"inner"}\n');
     await writeFile(path.join(nested, 'deep.js'), 'export const deep = true;\n');
 
-    const before = await inspectTree(await realpath(source));
+    const before = await inspectTree(source);
     const archive = path.join(work, 'sealed.zip');
     const sealed = await sealNpm(source, archive);
     assert.equal(sealed.files, 4, 'El sellado debe llevar los cuatro archivos, incluidos los dos anidados.');
 
     const target = path.join(work, 'extracted');
     await extractZip(archive, target);
-    const after = await inspectTree(await realpath(target));
+    const after = await inspectTree(target);
     // The pin is the digest of the complete tree. Equal digests mean nothing was dropped, reordered
     // or rewritten on the way through the archive: exactly the property the regression violated.
     assert.equal(after.sha256, before.sha256, 'El arbol extraido no coincide con el sellado.');
