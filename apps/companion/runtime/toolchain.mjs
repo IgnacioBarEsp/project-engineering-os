@@ -38,7 +38,11 @@ export function createToolchainStore(manager) {
       try {
         const payload = path.join(stage, 'payload'), home = path.join(stage, 'home');
         await mkdir(payload); await mkdir(home);
-        for (const name of ['package.json', 'package-lock.json']) await cp(path.join(resources, name), path.join(payload, name), { errorOnExist: true, force: false });
+        // The lockfile resource is stored under a distinct name: it is an input this app copies into
+        // the payload, not this package's own lockfile, and packagers strip a file called package-lock.json.
+        for (const [source, name] of [['package.json', 'package.json'], ['toolchain-lock.json', 'package-lock.json']]) {
+          await cp(path.join(resources, source), path.join(payload, name), { errorOnExist: true, force: false });
+        }
         // npm runs only in this new owned folder. Neither user/project config nor lifecycle
         // scripts enter the process; every package is pinned to its reviewed lock integrity.
         onProgress({ stage: 'runtime', label: 'Preparando las herramientas de ingeniería' });

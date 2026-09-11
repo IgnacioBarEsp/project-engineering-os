@@ -312,6 +312,102 @@
       "createdAt": "2026-09-11",
       "updatedAt": "2026-09-11",
       "resolution": null
+    },
+    {
+      "id": "debt-d6b356608fa5",
+      "title": "Los bytes del instalador no son reproducibles entre construcciones del mismo árbol",
+      "description": "Los bytes del instalador no son reproducibles entre construcciones del mismo árbol",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/pack-app.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/package-companion-windows/evidence/build-idempotence.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "package-companion-windows",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-5987ee39d1be",
+      "title": "CI no construye ni instala el artefacto: solo comprueba el contrato de empaquetado",
+      "description": "CI no construye ni instala el artefacto: solo comprueba el contrato de empaquetado",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": ".github/workflows/ci.yml",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/package-companion-windows/evidence/validation.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "package-companion-windows",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-0a40d51b50bc",
+      "title": "La aplicación se empaqueta sin asar, lo que aumenta tamaño y tiempo de arranque",
+      "description": "La aplicación se empaqueta sin asar, lo que aumenta tamaño y tiempo de arranque",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/electron-builder.yml",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/package-companion-windows/evidence/validation.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "package-companion-windows",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
     }
   ]
 }

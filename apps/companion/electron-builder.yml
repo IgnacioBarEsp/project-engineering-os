@@ -1,0 +1,57 @@
+# Windows x64 artifact for the private Companion app. The universal core package is unaffected.
+# `files` is an allowlist: nothing reaches the artifact unless it is named here, so a document or a
+# tool the maintainer happens to have in the working tree cannot be published by accident.
+appId: os.projectengineering.companion
+productName: Project Engineering OS
+copyright: Copyright (c) 2026 Ignacio Barboza Espinoza
+directories:
+  buildResources: build
+# The app copies its own sources into a prepared project and runs some of them under the managed
+# Node executable, which cannot read an asar archive. Packing them would break those entry points,
+# so the application is shipped as plain files.
+asar: false
+files:
+  - package.json
+  - desktop/**/*
+  - ui/**/*
+  - engine/**/*
+  - context/**/*
+  - runtime/**/*
+  - LICENSE
+  - THIRD-PARTY-NOTICES.md
+  - '!**/*.map'
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  artifactName: ProjectEngineeringOS-Setup-${version}-x64.${ext}
+  legalTrademarks: ''
+  icon: build/icon.ico
+nsis:
+  # A conventional wizard: the person chooses the destination and reads what will be installed.
+  oneClick: false
+  perMachine: false
+  allowElevation: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Project Engineering OS
+  license: build/license.txt
+  installerIcon: build/icon.ico
+  uninstallerIcon: build/icon.ico
+  installerHeaderIcon: build/icon.ico
+  # The installer owns its program directory only. Prepared projects, the local history and the
+  # managed runtimes live elsewhere on purpose and must survive removal and reinstallation.
+  deleteAppDataOnUninstall: false
+  runAfterFinish: false
+  include: build/installer.nsh
+  # allowElevation is false, so the bundled elevation helper would ship unused. Leaving it in would
+  # also contradict the build-tools record: no downloaded binary belongs in the published artifact.
+  packElevateHelper: false
+  menuCategory: false
+  uninstallDisplayName: Project Engineering OS
+compression: normal
+removePackageScripts: true
+removePackageKeywords: true
+publish: null

@@ -64,4 +64,5 @@ The desktop implementation is #79 under program #66. Installer, bundled prerequi
 are #80; installer journeys, the landing page and measured model benchmarks are #81. No installer
 compatibility, signed publisher, token savings or external-agent activation is inferred from the
 development app or its automated tests. See [experience](EXPERIENCE.md), [context behavior](CONTEXT.md),
-[environment activation](ENVIRONMENT.md) and [graph decisions](GRAPH_TOOLS.md).
+[environment activation](ENVIRONMENT.md), [the Windows installer](INSTALLER.md) and
+[graph decisions](GRAPH_TOOLS.md).
