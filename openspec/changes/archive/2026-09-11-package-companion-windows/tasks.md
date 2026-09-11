@@ -16,4 +16,4 @@
 ## 4. Closeout
 
 - [x] 4.1 Run repository checks, independent adversarial review and debt assessment; resolve findings.
-- [ ] 4.2 Document installation, update and removal; archive officially and integrate through protected CI.
+- [x] 4.2 Document installation, update and removal; archive officially and integrate through protected CI.
