@@ -17,8 +17,14 @@ function section(text, locator) {
   result.sections.push({ text, ...locator });
 }
 
+// Loading the parser modules is not part of a document's reading budget. The caller bounds start-up
+// separately and only arms the per-document limit after this signal, so a cold or busy machine does
+// not report a readable document as a timeout.
+const ready = () => parentPort.postMessage({ ready: true });
+
 async function pdf() {
   const { getDocument } = await import('pdfjs-dist/legacy/build/pdf.mjs');
+  ready();
   const task = getDocument({ data: new Uint8Array(bytes), verbosity: 0, useWorkerFetch: false,
     disableFontFace: true, useSystemFonts: false, enableXfa: false, stopAtErrors: true,
     isOffscreenCanvasSupported: false, isImageDecoderSupported: false });
@@ -104,8 +110,9 @@ function docx() {
 
 try {
   if (extension === '.pdf') await pdf();
-  else if (extension === '.docx') docx();
+  else if (extension === '.docx') { ready(); docx(); }
   else {
+    ready();
     const text = decoder.decode(bytes);
     if (text.includes('\u0000')) throw new Error('binary-or-unsupported-encoding');
     text.split(/\r\n|\n|\r/).forEach((line, i) => section(line, { kind: 'line', start: i + 1, end: i + 1 }));

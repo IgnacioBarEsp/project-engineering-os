@@ -120,6 +120,198 @@
         "flow": "preserve-path-rule-selection",
         "evidence": "Issue #65: per-rule selectors and bodies are rendered and verified in all three supported collections. Full check 248 PASS; complete installed fixture PASS, including negative selectors, collision, retirement and rollback evidence."
       }
+    },
+    {
+      "id": "debt-ce9dd61a43b7",
+      "title": "Sin reglas de ignore revisadas para las carpetas que Companion escribe dentro de .project-os",
+      "description": "Sin reglas de ignore revisadas para las carpetas que Companion escribe dentro de .project-os",
+      "category": "decision-required",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/runtime/toolchain.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "activate-companion-environment",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-9e0738544eb1",
+      "title": "La aplicación local se abre con un entorno reducido que no incluye PATH",
+      "description": "La aplicación local se abre con un entorno reducido que no incluye PATH",
+      "category": "decision-required",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/desktop/local-apps.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "activate-companion-environment",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-1e4dcea05e47",
+      "title": "La frescura del contexto documental usa la fecha de modificación además del contenido",
+      "description": "La frescura del contexto documental usa la fecha de modificación además del contenido",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/engine/inventory.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/activate-companion-environment/evidence/validation.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "activate-companion-environment",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-ebf05681fa69",
+      "title": "CI ejecuta las travesías del navegador sin cache de runtimes, así que las pantallas de herramientas y mapa de código solo se cubren localmente",
+      "description": "CI ejecuta las travesías del navegador sin cache de runtimes, así que las pantallas de herramientas y mapa de código solo se cubren localmente",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": ".github/workflows/ci.yml",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "activate-companion-environment",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-d1f04de40687",
+      "title": "Cada invocación de la entrada local vuelve a leer unos 200 MB de árboles fijados, incluso para consultar símbolos",
+      "description": "Cada invocación de la entrada local vuelve a leer unos 200 MB de árboles fijados, incluso para consultar símbolos",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/runtime/agent-entry.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "activate-companion-environment",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-4ae6535a87e5",
+      "title": "Un archivo preexistente sin UTF-8 válido en una ruta generada aborta todo el plan de activación",
+      "description": "Un archivo preexistente sin UTF-8 válido en una ruta generada aborta todo el plan de activación",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/runtime/activation.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "activate-companion-environment",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
     }
   ]
 }

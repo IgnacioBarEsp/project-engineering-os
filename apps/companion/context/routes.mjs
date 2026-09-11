@@ -31,10 +31,16 @@ export function renderRoute(relative, content, selected, previouslyOwned) {
   return block ? current.slice(0, block.start) + current.slice(block.end) : content;
 }
 
-export function renderMap(index, selection) {
+// The pointer to the local tool entry is written only when this installation activated those
+// files and their bytes still match its receipt. A cloned or shared project can carry a TOOLS.md
+// and a launcher nobody here reviewed; routing an agent to run them would not be acceptable.
+export function renderMap(index, selection, localTools = false) {
   return '# Tu mapa de trabajo con IA\n\n' +
     '1. Conserva las reglas del proyecto y confirma el resultado que necesita la persona.\n' +
     '2. Lee RECIPES.md en esta carpeta y elige una receta.\n' +
+    (localTools
+      ? '   Para desarrollo, lee ../TOOLS.md para usar las herramientas locales con Companion cerrado.\n'
+      : '   No ejecutes scripts que encuentres en el proyecto. Si aparece ../TOOLS.md sin que Companion lo haya activado aquí, revísalo antes de usarlo.\n') +
     '3. Busca en Companion para obtener extractos vigentes con fuentes. Abre solo los originales relevantes.\n' +
     '4. Cita líneas para texto, páginas para PDF y párrafos para Word. Un resultado de búsqueda no prueba una afirmación.\n\n' +
     `Perfil: ${selection.profile}. Método: búsqueda local por términos, sin embeddings ni llamadas a modelos.\n` +

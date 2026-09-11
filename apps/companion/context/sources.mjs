@@ -20,10 +20,32 @@ export function normalizeContextOptions(input = {}) {
   return { limits, exclude: [...new Set(exclude)].sort() };
 }
 
+// Instruction files written by the constructor and by official OpenSpec activation are not the
+// person's documents: they are already routed to the agent, and indexing them lets generated
+// boilerplate consume the whole retrieval budget before the person's own sources are reached.
+// Both owners record exactly which paths they wrote, so the scope stays explicit instead of
+// guessing by folder name. An unreadable record keeps the previous behaviour of indexing them.
+async function managedInstructions(root) {
+  const managed = new Set();
+  const state = await snapshot(root, '.project-constructor/state.json', 4 * 1024 * 1024).catch(() => ({ content: null }));
+  try {
+    const value = JSON.parse(state.content);
+    if (value && typeof value.files === 'object' && !Array.isArray(value.files)) for (const relative of Object.keys(value.files)) managed.add(relative);
+  } catch { /* No constructor record, or one this version does not recognize. */ }
+  const activation = await snapshot(root, '.project-os/companion/activation.json', 4 * 1024 * 1024).catch(() => ({ content: null }));
+  try {
+    const value = JSON.parse(activation.content);
+    if (Array.isArray(value?.files)) for (const file of value.files) if (typeof file?.path === 'string') managed.add(file.path);
+  } catch { /* No activation record yet. */ }
+  return managed;
+}
+
 export async function collectSources(target, options = {}) {
   const config = normalizeContextOptions(options), inventory = await inspectFolder(target), sources = [];
+  const managed = await managedInstructions(inventory.root), managedPaths = [];
   let bytesRead = 0;
   for (const file of inventory.files) {
+    if (managed.has(file.path)) { managedPaths.push(file.path); continue; }
     const source = { path: file.path, bytes: file.bytes, hash: file.hash, extension: file.extension };
     if (/[\x00-\x1f\x7f]/.test(file.path)) source.reason = 'unsupported-filename';
     else if (config.exclude.some(p => file.path === p || file.path.startsWith(p + '/'))) source.reason = 'user-excluded';
@@ -42,20 +64,28 @@ export async function collectSources(target, options = {}) {
     }
     sources.push(source);
   }
-  const fingerprint = hash(json({ inventory: inventory.fingerprint, config, sources: sources.map(({ content, ...s }) => s) }));
-  return { root: inventory.root, sources, fingerprint, config, limitations: inventory.limitations, excluded: inventory.excluded, bytesRead, controlPaths: inventory.controlPaths };
+  managedPaths.sort();
+  const fingerprint = hash(json({ inventory: inventory.fingerprint, config, managed: managedPaths, sources: sources.map(({ content, ...s }) => s) }));
+  return { root: inventory.root, sources, fingerprint, config, limitations: inventory.limitations, excluded: inventory.excluded, bytesRead,
+    controlPaths: inventory.controlPaths, managedInstructions: managedPaths };
 }
 
+// Starting a worker thread and loading its parser modules is not part of a document's reading
+// budget: on a cold or busy machine that start-up alone can exceed it, and a perfectly readable
+// document would be reported as a timeout. Start-up has its own bound, and the per-document limit
+// is armed only after the worker says its parsers are loaded.
+export const PARSER_STARTUP_MS = 60000;
 export function parseSource(bytes, extension, limits) {
   return new Promise(resolve => {
     const worker = new Worker(new URL('./parser-worker.mjs', import.meta.url), { workerData: { bytes, extension, limits },
       resourceLimits: { maxOldGenerationSizeMb: 128, maxYoungGenerationSizeMb: 16 }, stdout: true, stderr: true });
     // Drain parser diagnostics without logging document content or host paths.
     worker.stdout.resume(); worker.stderr.resume();
-    let settled = false;
+    let settled = false, timer;
     const finish = result => { if (settled) return; settled = true; clearTimeout(timer); void worker.terminate(); resolve(result); };
-    const timer = setTimeout(() => finish({ sections: [], issues: [{ reason: 'parser-timeout' }] }), limits.timeoutMs);
-    worker.once('message', finish);
+    const arm = ms => { clearTimeout(timer); timer = setTimeout(() => finish({ sections: [], issues: [{ reason: 'parser-timeout' }] }), ms); };
+    arm(PARSER_STARTUP_MS);
+    worker.on('message', message => { if (message?.ready === true) arm(limits.timeoutMs); else finish(message); });
     worker.once('error', () => finish({ sections: [], issues: [{ reason: 'parser-failed' }] }));
     worker.once('exit', () => finish({ sections: [], issues: [{ reason: 'parser-failed' }] }));
   });
@@ -99,6 +129,7 @@ export async function buildIndex(corpus, { signal, onProgress } = {}) {
     await onProgress?.({ stage: 'context', completed: i + 1, total: corpus.sources.length });
   }
   return { version: 1, fingerprint: corpus.fingerprint, config: corpus.config, method: 'local-lexical',
-    sources, chunks, limitations: corpus.limitations, excluded: corpus.excluded, controlPaths: corpus.controlPaths, textBytes: used,
+    sources, chunks, limitations: corpus.limitations, excluded: corpus.excluded, controlPaths: corpus.controlPaths,
+    managedInstructions: corpus.managedInstructions ?? [], textBytes: used,
     complete: !corpus.limitations.length && !corpus.excluded && sources.every(s => s.status === 'indexed') };
 }

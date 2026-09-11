@@ -39,6 +39,22 @@ async function canonicalRouting(root) {
   if (!object(value) || !(await read(root,CANONICAL_ROUTE)).content) fail('CORE_STATE', 'Revisa la preparación de ingeniería antes de configurar sus instrucciones.');
   return true;
 }
+// True only when this installation activated the local tool entry points for this exact folder
+// and their current bytes still match the receipt it wrote. Anything else — a project that
+// simply contains those files, a stale receipt, an edited launcher — is not routed to the agent.
+const TOOL_PREFIX = `${NAMESPACE}/tools`;
+async function activatedLocalTools(root) {
+  const state = await snapshot(root, `${NAMESPACE}/activation.json`, MAX_FILE).catch(() => ({ content: null }));
+  if (!state.content) return false;
+  let value; try { value = JSON.parse(state.content); } catch { return false; }
+  if (!object(value) || value.format !== 1 || value.rootHash !== hash(root) || !Array.isArray(value.files)) return false;
+  const guarded = value.files.filter(f => object(f) && typeof f.path === 'string' && digest(f.hash)
+    && (f.path.startsWith(TOOL_PREFIX) || f.path === `${NAMESPACE}/TOOLS.md`));
+  if (!guarded.some(f => f.path === `${NAMESPACE}/tools.ps1`) || !guarded.some(f => f.path === `${NAMESPACE}/TOOLS.md`)) return false;
+  for (const file of guarded) if ((await read(root, file.path)).hash !== file.hash) return false;
+  return true;
+}
+
 async function readReceipt(root) {
   const state = await read(root, RECEIPT);
   return { state, value: state.content ? receipt(parse(state.content)) : null };
@@ -158,7 +174,8 @@ export function createContextEngine() {
       const corpus = await collectSources(root, options), index = await buildIndex(corpus, controls);
       const canonical = await canonicalRouting(root), routes = selectedRoutes(selection, canonical);
       if (previous.value && previous.value.canonicalRouting !== canonical) fail('ROUTE_STRATEGY_CHANGED', 'La preparación de ingeniería cambió la propiedad de las instrucciones.', 'Deshaz las rutas anteriores antes de adoptar el entorno de ingeniería.');
-      const contents = { [INDEX]: json(index), [`${DIR}/MAP.md`]: renderMap(index, selection), [`${DIR}/RECIPES.md`]: renderRecipes(selection.profile) };
+      const localTools = await activatedLocalTools(root);
+      const contents = { [INDEX]: json(index), [`${DIR}/MAP.md`]: renderMap(index, selection, localTools), [`${DIR}/RECIPES.md`]: renderRecipes(selection.profile) };
       for (const relative of ROUTE_PATHS) {
         const existing = states[relative].content?.toString('utf8') ?? null;
         // Mirrored blocks belong to the constructor, including a block copied by its last sync.
@@ -176,7 +193,7 @@ export function createContextEngine() {
       plans.set(id, { root, journal, next, journalHash: prior.state.hash });
       if (plans.size > 10) plans.delete(plans.keys().next().value);
       return { id, selection, coverage: { complete: index.complete, sources: structuredClone(index.sources), limitations: index.limitations,
-        excluded: index.excluded, chunks: index.chunks.length, textBytes: index.textBytes },
+        excluded: index.excluded, chunks: index.chunks.length, textBytes: index.textBytes, managedInstructions: structuredClone(index.managedInstructions) },
         files: operations.map(op=>({ path: op.path, action: op.beforeHash===op.afterHash ? 'unchanged' : op.after===null ? 'remove' : op.before===null ? 'create' : 'update',
           before: op.path===INDEX ? null : op.before, after: op.path===INDEX ? null : op.after, bytes: op.after===null ? 0 : Buffer.byteLength(op.after) })),
         agentStatus: canonical ? 'canonical-planned-sync-required' : 'planned', externalTools: 'not-verified' };

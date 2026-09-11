@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "version": "0.5.0",
+  "commit": "e91cf1425aaf01beebcd7d6a350d5a5850034159",
+  "bytes": 347007,
+  "sha256": "1259a27de80942c392e31e354e359d19451a6ffe5fecf65470e296e5a56d4348",
+  "verification": "https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/34507598917",
+  "provenance": "verified artifact and source commit",
+  "appInstall": {
+    "npm": "11.19.1",
+    "ignoreScripts": true,
+    "quarantineException": "command-only package create-project-engineering-os",
+    "permanentPolicyChanged": false,
+    "auditVulnerabilities": 0
+  }
+}

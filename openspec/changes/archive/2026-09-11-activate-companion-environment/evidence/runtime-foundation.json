@@ -1,0 +1,80 @@
+{
+  "date": "2026-09-10",
+  "scope": "Component and synthetic-project runtime evidence for issue 87. Native UI, EXE, external AI activation, graph integration and product benchmarks are not implied.",
+  "artifacts": {
+    "node": {
+      "version": "24.20.0",
+      "archiveBytes": 37539751,
+      "archiveSha256": "6cac9ffbca8f6a47091e4b5c772e0606049c3871cb67d900c0cedde630e545ba",
+      "installedBytes": 93542003,
+      "treeHash": "baef5c1022e24a090ff6a700439882da64ed0d5a0c26fd5336846bbbf0a4dae1",
+      "license": "MIT + avisos incluidos",
+      "source": "https://nodejs.org/dist/v24.20.0/",
+      "installed": "verified"
+    },
+    "npm": {
+      "version": "11.19.1",
+      "archiveBytes": 0,
+      "archiveSha256": null,
+      "installedBytes": 12237898,
+      "treeHash": "ee294c531ba0fb603d93040b014c8096975ba687978d09f317d93612bc96eb7d",
+      "license": "Artistic-2.0 + avisos incluidos",
+      "source": "https://github.com/npm/cli/tree/v11.19.1",
+      "installed": "verified"
+    },
+    "git": {
+      "version": "2.55.0.windows.5",
+      "archiveBytes": 38989688,
+      "archiveSha256": "56d7b226b7693196cfc71fef26568f536c4a021ab6c37ff2db4287bed908e96e",
+      "installedBytes": 94375970,
+      "treeHash": "da1ea3793eddef44d2aa3acc111efbb4dceac9390be74594c8a3ad6a35a06003",
+      "license": "GPL-2.0-only + avisos incluidos",
+      "source": "https://github.com/git-for-windows/git/tree/v2.55.0.windows.5",
+      "installed": "verified"
+    },
+    "codegraph": {
+      "version": "1.6.0",
+      "archiveBytes": 52593717,
+      "archiveSha256": "cd76c3c3391f2d40abef12b142151950b6d77abc2d8429e648f89eaa90f5b68a",
+      "installedBytes": 169191720,
+      "treeHash": "2b15eee295158b017ea1ce0ca890ad1536ecc85cb5394c4f89b540797a35ece9",
+      "license": "MIT + avisos incluidos",
+      "source": "https://github.com/colbymchenry/codegraph/tree/v1.6.0",
+      "installed": "verified"
+    }
+  },
+  "engineering": {
+    "core": "0.5.0",
+    "openspec": "1.6.0",
+    "officialGeneration": {
+      "exitCode": 0,
+      "officialVersion": "1.6.0",
+      "generated": true
+    },
+    "opsx": "PASS",
+    "projectFsmonitorExecuted": false,
+    "productManifestPreserved": true
+  },
+  "activation": {
+    "workflows": "verified",
+    "files": 54,
+    "appliedStatus": "prepared",
+    "productManifestPreserved": true
+  },
+  "toolchain": {
+    "packages": 81,
+    "downloadBytes": 3090932,
+    "allRegistryTarballIntegritiesVerified": true,
+    "licenses": [
+      "MIT",
+      "ISC"
+    ],
+    "lifecycleScriptsExecuted": false
+  },
+  "transport": "The managed runtime installation probe used verified official ZIPs through an injected transport; earlier artifact acquisition was an actual official HTTPS download. Toolchain npm ci and registry artifact GET verification used the network.",
+  "independentReview": {
+    "foundation": "One minor enumeration issue found; corrected with bounded opendir and targeted tests.",
+    "environment": "Git cwd shadowing, repository clean filters, configuration snapshot race and missing status cancellation propagation found; corrections and regression tests added.",
+    "final": "Completed. One blocker and four majors found and resolved; see independent-final.md. Remaining findings are recorded in debt-assessment.json."
+  }
+}

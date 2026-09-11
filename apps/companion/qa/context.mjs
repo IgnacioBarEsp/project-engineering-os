@@ -6,7 +6,7 @@ import path from 'node:path';
 import { zipSync, strToU8 } from 'fflate';
 import { createPreparationEngine } from '../engine/preparation.mjs';
 import { createContextEngine } from '../context/engine.mjs';
-import { parseSource, DEFAULT_LIMITS } from '../context/sources.mjs';
+import { parseSource, DEFAULT_LIMITS, PARSER_STARTUP_MS } from '../context/sources.mjs';
 import { recipesFor } from '../context/recipes.mjs';
 import { ROUTE_TEXT } from '../context/routes.mjs';
 import { graphOptions } from '../context/graph-tools.mjs';
@@ -238,4 +238,59 @@ test('context routes compose with constructor-owned engineering instructions wit
   assert.equal(verified.files,'prepared',JSON.stringify(verified.result?.plan?.operations?.filter(o=>!['noop','preserve'].includes(o.operation)).map(o=>({target:o.target,operation:o.operation}))??verified));
   assert.ok((await readFile(path.join(root,'AGENTS.md'),'utf8')).includes(ROUTE_TEXT));
   assert.equal((await engine.verify(root)).context,'current');
+});
+
+test('generated engineering instructions never consume the budget that belongs to the person documents', async t => {
+  const { root, engine } = await fixture(t,{'brief.txt':'Landing for research teams about medicion de tokens'},'software',['codex','web']);
+  execFileSync('git',['init','-q',root],{windowsHide:true});
+  // Before any engineering preparation there is nothing managed to leave out.
+  assert.deepEqual((await engine.plan(root)).coverage.managedInstructions, []);
+  const adapter = createConstructorAdapter(constructor), plan = await adapter.plan(root);
+  assert.equal(plan.status,'planned'); await adapter.apply(plan.id);
+  const seeded = await prepare(engine, root);
+  assert.ok(seeded.coverage.managedInstructions.length >= 40, `managed ${seeded.coverage.managedInstructions.length}`);
+  assert.ok(seeded.coverage.managedInstructions.includes('docs/engineering/SDD_WORKFLOW.md'));
+  assert.ok(!seeded.coverage.managedInstructions.includes('brief.txt'));
+  // Official activation adds more generated instruction files on top of the constructor blueprint.
+  const activated = ['.claude/commands/opsx/apply.md','.claude/commands/opsx/archive.md','.claude/commands/opsx/propose.md'];
+  for (const relative of activated) {
+    await mkdir(path.dirname(path.join(root, relative)), { recursive: true });
+    await writeFile(path.join(root, relative), 'Generated workflow\n'.repeat(400));
+  }
+  await mkdir(path.join(root,'.project-os/companion'), { recursive: true });
+  await writeFile(path.join(root,'.project-os/companion/activation.json'), JSON.stringify({ format: 1, files: activated.map(p => ({ path: p, hash: 'x' })) }));
+  const after = await prepare(engine, root);
+  assert.equal(after.coverage.managedInstructions.length, seeded.coverage.managedInstructions.length + activated.length);
+  for (const relative of activated) assert.ok(after.coverage.managedInstructions.includes(relative));
+  // The person's own document stays fully indexed and searchable after activation.
+  const brief = after.coverage.sources.find(s => s.path === 'brief.txt');
+  assert.deepEqual(brief.issues, []); assert.equal(brief.status, 'indexed');
+  assert.ok(after.coverage.chunks <= seeded.coverage.chunks, `chunks ${after.coverage.chunks} vs ${seeded.coverage.chunks}`);
+  const found = await engine.search(root, 'tokens');
+  assert.ok(found.hits.some(h => h.path === 'brief.txt'), JSON.stringify(found).slice(0, 400));
+  assert.ok(!found.hits.some(h => activated.includes(h.path) || h.path.startsWith('docs/engineering/')));
+  // Generated instructions are counted for the person, never listed as their own sources.
+  assert.ok(!after.coverage.sources.some(s => s.path.startsWith('docs/engineering/') || activated.includes(s.path)));
+});
+
+test('loading the parser modules never consumes the reading budget of a document', async t => {
+  // The worker announces readiness before parsing, so a slow start-up cannot be reported as a
+  // timeout on a document the parser can actually read.
+  const { Worker } = await import('node:worker_threads');
+  for (const [extension, bytes] of [['.pdf', pdf(['Readable page'])], ['.docx', docx(['Readable paragraph'])], ['.txt', Buffer.from('Readable line')]]) {
+    const messages = await new Promise((resolve, reject) => {
+      const seen = [], worker = new Worker(new URL('../context/parser-worker.mjs', import.meta.url),
+        { workerData: { bytes, extension, limits: DEFAULT_LIMITS }, stdout: true, stderr: true });
+      worker.stdout.resume(); worker.stderr.resume();
+      worker.on('message', m => { seen.push(m); if (seen.length === 2) { void worker.terminate(); resolve(seen); } });
+      worker.once('error', reject);
+      worker.once('exit', () => resolve(seen));
+    });
+    assert.equal(messages.length, 2, `${extension}: ${JSON.stringify(messages)}`);
+    assert.deepEqual(messages[0], { ready: true }, extension);
+    assert.ok(messages[1].sections.length >= 1, extension);
+    assert.ok(!messages[1].issues.some(i => i.reason === 'parser-timeout'), extension);
+  }
+  // A start-up allowance that is not larger than the document budget would restore the old failure.
+  assert.ok(PARSER_STARTUP_MS > DEFAULT_LIMITS.timeoutMs);
 });

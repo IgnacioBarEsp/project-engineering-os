@@ -8,11 +8,16 @@ import { execFileSync } from 'node:child_process';
 import { zipSync, strToU8 } from 'fflate';
 import * as core from 'create-project-engineering-os';
 import { createDesktopService, publicError } from '../desktop/service.mjs';
+import { createRuntimeManager } from '../runtime/manager.mjs';
+import { createEnvironmentEngine } from '../runtime/environment.mjs';
 
 // Browser verification uses the shipping renderer and engines. Only native picker/clipboard/external
 // launch and IPC transport are injected. It does not claim installer or Electron sandbox coverage.
 const pw=await import(process.env.PROJECT_OS_PLAYWRIGHT_MODULE?pathToFileURL(process.env.PROJECT_OS_PLAYWRIGHT_MODULE).href:'playwright');
-const {chromium}=pw.default??pw, output=process.argv[2];assert(output,'Supply an evidence directory.');await mkdir(output,{recursive:true});
+const {chromium}=pw.default??pw, output=process.argv[2]??path.join(tmpdir(),'project-os-closeout','companion-ui');await mkdir(output,{recursive:true});
+const runtimeRoot=process.argv[3];
+const manager=runtimeRoot?await createRuntimeManager({root:runtimeRoot}):null;
+if(manager)for(const id of ['node','npm','git','codegraph'])assert.equal((await manager.inspect(id)).status,'verified','Real browser runtime cache must be preverified; no downloads during this probe.');
 const temp=await realpath(await mkdtemp(path.join(tmpdir(),'peos-desktop-ui-'))),ui=fileURLToPath(new URL('../ui/',import.meta.url));
 const files={'/':'index.html','/app.css':'app.css','/app.mjs':'app.mjs'};
 const server=createServer(async(req,res)=>{
@@ -40,11 +45,17 @@ try {
     }
     if(profile==='unity'){await mkdir(path.join(root,'ProjectSettings'));await writeFile(path.join(root,'ProjectSettings/ProjectVersion.txt'),'m_EditorVersion: 6000.0.0f1');}
     if(profile==='media')await writeFile(path.join(root,'workflow.json'),JSON.stringify({prompt:'An original image',seed:42}));
-    if(['software','unity'].includes(profile))execFileSync('git',['init','-q',root],{windowsHide:true});
+    const engineeringProfile=['software','unity'].includes(profile);
+    if(engineeringProfile){
+      await writeFile(path.join(root,profile==='unity'?'Game.cs':'budget.js'),profile==='unity'?'public class ResearchGame { public int Points() { return 2; } }':'export function calculateBudget(hours) { return hours * 2; }');
+      await writeFile(path.join(root,'package.json'),'{"name":"existing-product","scripts":{"postinstall":"exit 99"}}');
+      if(!manager)execFileSync('git',['init','-q',root],{windowsHide:true});
+    }
     const originals=new Map();for(const file of ['notes.txt','private-notes.txt'])originals.set(file,await readFile(path.join(root,file)));
     const context=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'}),page=await context.newPage(),errors=[],opened=[],copied=[];
     page.on('pageerror',e=>errors.push(e.message));
-    const service=await createDesktopService({dataRoot:path.join(temp,profile+'-history'),core,chooseFolder:async()=>root,copyText:v=>copied.push(v),openExternal:v=>opened.push(v)});
+    const service=await createDesktopService({dataRoot:path.join(temp,profile+'-history'),core,environment:manager&&engineeringProfile?createEnvironmentEngine(manager):null,chooseFolder:async()=>root,copyText:v=>copied.push(v),openExternal:v=>opened.push(v)});
+    page.setDefaultTimeout(manager?240000:30000);
     await page.exposeFunction('qaCall',async(name,input)=>{
       if(!Object.hasOwn(service,name))return {ok:false,error:{message:'Unknown method'}};
       try{return {ok:true,value:await service[name](input)};}catch(e){return {ok:false,error:publicError(e)};}
@@ -60,12 +71,24 @@ try {
     assert(await page.locator('input[name="agent"][value="web"]').isChecked(),'Default AI should be reflected in the form');
     await noOverflow(page,profile+' setup');
     await click(page,'Elegir carpeta →');await click(page,'Buscar carpeta en este equipo');await click(page,'Revisar preparación →');await click(page,'Preparar proyecto →');
-    if(['software','unity'].includes(profile)){await heading(page,'Un proceso claro para desarrollar.');await click(page,'Aplicar entorno →');}
+    if(engineeringProfile){
+      if(manager){await heading(page,'Tus herramientas, listas en este equipo.');await click(page,'Preparar herramientas y continuar →');}
+      await heading(page,'Un proceso claro para desarrollar.');await click(page,'Aplicar entorno →');
+      if(manager){await heading(page,'Un método de trabajo para tu IA.');await click(page,'Activar y continuar →');}
+    }
     await heading(page,'Fuentes a la mano, con sus límites claros.');
     await page.getByText('Excluir materiales de este contexto',{exact:true}).click();await page.getByLabel('Una ruta relativa por línea').fill('private-notes.txt');await click(page,'Revisar con estas exclusiones');
     await click(page,'Guardar contexto y continuar →');
     if(['software','unity'].includes(profile)){await heading(page,'Conectemos el contexto con tus instrucciones.');await click(page,'Sincronizar instrucciones');await heading(page,'Una última actualización del mapa.');await click(page,'Guardar y ver mi proyecto');}
     await heading(page,name);assert.equal(await page.locator('#view img').count(),0);
+    if(manager&&engineeringProfile){
+      await heading(page,'Mapa de código · No preparado');await click(page,'Revisar mapa de código');await click(page,'Crear mapa de código');
+      await heading(page,'Mapa de código · Verificado');await click(page,'Buscar símbolos');
+      await page.getByLabel('Nombre del símbolo').fill(profile==='unity'?'ResearchGame':'calculateBudget');await click(page,'Buscar en el mapa');
+      await page.getByRole('heading',{name:profile==='unity'?'ResearchGame':'calculateBudget',exact:true}).waitFor();
+      await capture(page,profile+'-verified-code-search');
+      evidence.checks.push(`${profile}: reviewed tools → constructor/adoption → official OpenSpec → context → real CodeGraph → symbol search PASS`);
+    }
     await click(page,'Buscar fuentes');await page.getByLabel('¿Qué necesitas encontrar?').fill('tokens');await click(page,'Buscar');
     await page.locator('.result').first().waitFor();const resultText=await page.locator('#search-results').innerText();assert(resultText.includes('notes.txt'));assert(!resultText.includes('private-notes.txt'));
     if(profile==='research'){assert(resultText.includes('paper.pdf · página 1'));assert(resultText.includes('protocol.docx · párrafo 1'));await capture(page,'research-sources');}
@@ -79,6 +102,18 @@ try {
     for(const width of [1180,768,480,240]){await page.setViewportSize({width,height:width===240?410:820});await noOverflow(page,`${profile} ${width}px`);}
     if(profile==='general')await capture(page,'minimum-equivalent-200-percent');
     await page.setViewportSize({width:480,height:820});await click(page,'Privacidad y alcance');await page.keyboard.press('Escape');await page.waitForFunction(()=>document.activeElement.id==='privacy');
+    if(manager&&engineeringProfile){
+      // Last in the journey: touching a source deliberately invalidates the document context too.
+      await page.setViewportSize({width:1180,height:820});
+      const source=path.join(root,profile==='unity'?'Game.cs':'budget.js'),prior=await readFile(source);
+      await writeFile(source,Buffer.concat([prior,Buffer.from('\n// changed source')]));await click(page,'Estado');await click(page,'Comprobar estado');await heading(page,'Mapa de código · Desactualizado');
+      await writeFile(source,prior);await click(page,'Comprobar estado');await heading(page,'Mapa de código · Verificado');
+      const index=path.join(root,'.project-os/companion/code/index.json'),saved=await readFile(index);
+      await writeFile(index,'corrupt');await click(page,'Comprobar estado');await heading(page,'Mapa de código · Corrupto');
+      await writeFile(index,saved);await click(page,'Comprobar estado');await heading(page,'Mapa de código · Verificado');
+      assert.deepEqual(await readFile(index),saved);
+      evidence.checks.push(`${profile}: code map stale and corrupt states are refused and recover without replacing the saved map PASS`);
+    }
     for(const [file,content] of originals)assert.deepEqual(await readFile(path.join(root,file)),content);
     assert.deepEqual(errors,[]);evidence.checks.push(`${profile}: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected`);
     await context.close();
