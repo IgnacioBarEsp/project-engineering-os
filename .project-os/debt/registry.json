@@ -408,6 +408,166 @@
       "createdAt": "2026-09-11",
       "updatedAt": "2026-09-11",
       "resolution": null
+    },
+    {
+      "id": "debt-8a9b74c15a3b",
+      "title": "El primer criterio del issue pide evidencia desde el instalador y ninguna comprobación recorre sus páginas",
+      "description": "El primer criterio del issue pide evidencia desde el instalador y ninguna comprobación recorre sus páginas",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-journeys.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/validate-companion-journeys/evidence/journeys.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "validate-companion-journeys",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-fc4309bcddbf",
+      "title": "Los recorridos conducen la capa de servicio instalada, no la interfaz ni a una persona usuaria",
+      "description": "Los recorridos conducen la capa de servicio instalada, no la interfaz ni a una persona usuaria",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/validate-companion-journeys/evidence/journeys.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "validate-companion-journeys",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-64538bb1a725",
+      "title": "El corpus medido es sintético y pequeño, y su PDF lleva el texto sin comprimir: otro corpus da otro resultado",
+      "description": "El corpus medido es sintético y pequeño, y su PDF lleva el texto sin comprimir: otro corpus da otro resultado",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-benchmark.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/validate-companion-journeys/evidence/benchmark.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "validate-companion-journeys",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-0f4ed704728a",
+      "title": "La comprobación de la landing no es una auditoría de accesibilidad ni se probó con lector de pantalla",
+      "description": "La comprobación de la landing no es una auditoría de accesibilidad ni se probó con lector de pantalla",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-landing.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/validate-companion-journeys/evidence/landing.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "validate-companion-journeys",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-ae9412074b30",
+      "title": "Los recorridos y la medición no pueden correr en CI porque necesitan la aplicación instalada desde un artefacto",
+      "description": "Los recorridos y la medición no pueden correr en CI porque necesitan la aplicación instalada desde un artefacto",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": ".github/workflows/ci.yml",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/validate-companion-journeys/evidence/independent-review.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "validate-companion-journeys",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
     }
   ]
 }

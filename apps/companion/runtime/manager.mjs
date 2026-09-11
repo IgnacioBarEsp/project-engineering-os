@@ -1,5 +1,6 @@
 import { mkdir, mkdtemp, cp, rename, rm, lstat, realpath } from 'node:fs/promises';
 import path from 'node:path';
+import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { assertPath, canonicalFolder, snapshot, writeChecked, withLock, json, fail } from '../engine/files.mjs';
 import { extractZip } from './archive.mjs';
@@ -10,7 +11,14 @@ import { isolatedEnvironment, runFixedProcess } from './process.mjs';
 import { reviewCacheRepair, replaceReviewedCache } from './cache-repair.mjs';
 import { randomUUID } from 'node:crypto';
 
+// The reviewed npm distribution is pinned by the digest of its complete tree, vendored dependencies
+// included. Packagers deduplicate and drop nested node_modules, which prunes exactly those and leaves
+// an installation that cannot prepare tools. Beside a packaged application it therefore travels as a
+// single archive that no file filter can thin out, extracted here by the same reviewed extractor used
+// for downloads. A development run copies it from the dependency tree, the bytes the pin came from.
+const npmArchive = fileURLToPath(new URL('../../npm-dist.zip', import.meta.url));
 const npmSource = fileURLToPath(new URL('../node_modules/npm', import.meta.url));
+const npmIsPackaged = () => existsSync(npmArchive);
 const codegraphNotice = fileURLToPath(new URL('./notices/CodeGraph-LICENSE', import.meta.url));
 const slotName = tool => `${tool.id}-${tool.version}-${tool.treeHash.slice(0, 12)}`;
 function selectedEntries(id, name) {
@@ -82,7 +90,10 @@ export async function createRuntimeManager({ root: target, transport = fetch } =
         const stage = await mkdtemp(path.join(root, '.stage-')), stageName = path.basename(stage), payload = path.join(stage, 'payload');
         try {
           onProgress({ stage: 'runtime', label: `Preparando ${tool.name}`, completed: 0, total: tool.bytes });
-          if (tool.bundled) await cp(npmSource, payload, { recursive: true, force: false, errorOnExist: true, verbatimSymlinks: true, filter: () => { signal?.throwIfAborted(); return true; } });
+          if (tool.bundled) {
+            if (npmIsPackaged()) await extractZip(npmArchive, payload, { signal });
+            else await cp(npmSource, payload, { recursive: true, force: false, errorOnExist: true, verbatimSymlinks: true, filter: () => { signal?.throwIfAborted(); return true; } });
+          }
           else {
             const archive = path.join(stage, 'download.zip');
             await downloadArtifact(tool, archive, { signal, transport, onProgress: progress => onProgress({ stage: 'download', label: `Descargando ${tool.name}`, ...progress }) });

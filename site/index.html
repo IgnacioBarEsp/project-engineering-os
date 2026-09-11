@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Engineering OS — prepara tu proyecto para trabajar con tu IA</title>
+<meta name="description" content="Una aplicación local que prepara una carpeta, deja contexto con fuentes citables y te devuelve a la IA que ya usas. Sin cuenta, sin telemetría, sin servicios de pago obligatorios.">
+<meta name="color-scheme" content="dark light">
+<style>
+:root{
+  --dark:#14251b; --deep:#0d1a13; --green:#245e41; --leaf:#367d57; --mint:#dcebdd;
+  --paper:#f8f8f3; --ink:#17251d; --muted:#59635c; --line:#d9dfd7; --rule:#2c4436;
+  --measure:66ch;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font:16px/1.6 "Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+}
+a{color:var(--green)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #426ad5;outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:16px;top:-64px;background:#fff;color:var(--ink);padding:12px 16px;border-radius:8px;z-index:9}
+.skip:focus{top:16px}
+.wrap{width:min(1120px,100% - 2.5rem);margin-inline:auto}
+h1,h2,h3{line-height:1.1;letter-spacing:-.03em;margin:0 0 .6em}
+h1{font-size:clamp(2.1rem,6.2vw,4.2rem);font-weight:560}
+h2{font-size:clamp(1.5rem,3.2vw,2.2rem);font-weight:600;margin-top:0}
+h3{font-size:1.05rem;font-weight:650}
+p{margin:0 0 1rem;max-width:var(--measure)}
+.eyebrow{font:600 11px/1.4 ui-monospace,"Cascadia Mono",Consolas,monospace;letter-spacing:.16em;text-transform:uppercase}
+
+/* Hero */
+.hero{background:var(--deep);color:#eaf2ea;padding:clamp(2.5rem,7vw,5.5rem) 0 clamp(3rem,8vw,6rem);position:relative;overflow:hidden}
+.hero .eyebrow{color:#8fb69c}
+.hero h1{color:#f2f7f1;max-width:18ch}
+.hero h1 em{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-weight:400;color:var(--mint)}
+.hero p{color:#c4d4c6;font-size:clamp(1rem,1.6vw,1.16rem);max-width:56ch}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:clamp(1.5rem,4vw,3rem);align-items:center}
+.mark{width:200px;height:200px;justify-self:end}
+.cta{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.8rem}
+.button{display:inline-block;padding:.85rem 1.4rem;border-radius:9px;font-weight:650;text-decoration:none;border:1px solid transparent}
+.button-main{background:var(--mint);color:#14251b}
+.button-main:hover{background:#eef6ee}
+.button-quiet{color:var(--mint);border-color:#3d5a48}
+.button-quiet:hover{background:#1b2e22}
+.note{margin-top:1.1rem;font-size:.86rem;color:#9db8a4;max-width:56ch}
+
+/* Sections */
+section{padding:clamp(2.5rem,6vw,4.5rem) 0;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+.lead{font-size:1.05rem;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:1.5rem;margin-top:2rem}
+.card{border-top:2px solid var(--green);padding-top:1.1rem}
+.card b{display:block;font:600 11px/1.4 ui-monospace,"Cascadia Mono",Consolas,monospace;color:var(--green);letter-spacing:.1em;margin-bottom:.6rem}
+.card p{font-size:.94rem;color:var(--muted);margin:0}
+
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:clamp(1.5rem,4vw,3rem)}
+.claim{background:#eef2ea;border-radius:14px;padding:1.6rem}
+.claim h3{margin-bottom:.8rem}
+.claim ul{margin:0;padding-left:1.15rem}
+.claim li{margin-bottom:.55rem;font-size:.94rem;color:var(--muted)}
+.claim li::marker{color:var(--green)}
+.claim.plain{background:#f4ece6}
+.claim.plain li::marker{color:#8a5a3c}
+
+.table-scroll{overflow-x:auto;margin-top:1.6rem}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:.9rem}
+caption{text-align:left;color:var(--muted);font-size:.86rem;padding-bottom:.8rem;max-width:var(--measure)}
+th,td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:650;white-space:nowrap}
+tbody tr:nth-child(odd){background:#f1f4ee}
+td b{color:var(--green)}
+.foot{font-size:.84rem;color:var(--muted);margin-top:1rem}
+
+.steps{counter-reset:step;list-style:none;padding:0;margin:2rem 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:1.5rem}
+.steps li{counter-increment:step}
+.steps li::before{content:counter(step,decimal-leading-zero);display:block;font:600 11px/1 ui-monospace,Consolas,monospace;color:var(--green);margin-bottom:.7rem}
+.steps h3{margin-bottom:.4rem}
+.steps p{font-size:.92rem;color:var(--muted);margin:0}
+
+footer{background:var(--dark);color:#c0d2c3;padding:clamp(2rem,5vw,3.5rem) 0}
+footer a{color:var(--mint)}
+footer p{max-width:var(--measure);font-size:.9rem}
+.links{display:flex;flex-wrap:wrap;gap:1.4rem;margin:1.4rem 0 0;padding:0;list-style:none;font-size:.92rem}
+
+@media (prefers-reduced-motion: no-preference){
+  .button{transition:background 140ms ease}
+}
+@media (max-width:760px){
+  .hero-grid{grid-template-columns:1fr}
+  .mark{justify-self:start;width:132px;height:132px}
+}
+@media (prefers-color-scheme: dark){
+  :root{--paper:#101a14;--ink:#e7efe7;--muted:#a3b4a6;--line:#28382e;--green:#7fc79c}
+  .claim{background:#17251d}
+  .claim.plain{background:#22201c}
+  tbody tr:nth-child(odd){background:#16211a}
+  .button-main{background:var(--mint);color:#14251b}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#contenido">Ir al contenido</a>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Preparación local · Sin cuenta</p>
+      <h1>Tu proyecto, listo para <em>la IA que ya usas</em>.</h1>
+      <p>Project Engineering OS prepara una carpeta de tu equipo, deja el contexto con sus fuentes citables y te devuelve a tu asistente habitual. No es un chat, no es una nube y no pide una cuenta.</p>
+      <div class="cta">
+        <a class="button button-main" href="https://github.com/IgnacioBarEsp/project-engineering-os">Ver el proyecto</a>
+        <a class="button button-quiet" href="https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/companion/INSTALLER.md">Cómo se instala</a>
+      </div>
+      <p class="note">La aplicación de escritorio es para Windows y todavía no está firmada: Windows mostrará una advertencia y esa advertencia es correcta. La documentación explica cómo comprobar el archivo antes de instalarlo.</p>
+    </div>
+    <svg class="mark" viewBox="0 0 200 200" role="img" aria-label="Marca de Project Engineering OS: tres órbitas entrelazadas">
+      <circle cx="100" cy="100" r="66" fill="none" stroke="#dcebdd" stroke-width="5"/>
+      <ellipse cx="100" cy="100" rx="66" ry="33" fill="none" stroke="#367d57" stroke-width="4" transform="rotate(40 100 100)"/>
+      <ellipse cx="100" cy="100" rx="66" ry="33" fill="none" stroke="#367d57" stroke-width="4" transform="rotate(-40 100 100)"/>
+      <circle cx="100" cy="100" r="13" fill="#dcebdd"/>
+    </svg>
+  </div>
+</header>
+
+<main id="contenido">
+
+<section class="wrap">
+  <p class="eyebrow" style="color:var(--green)">Qué hace hoy</p>
+  <h2>Cuatro cosas, comprobadas por ejecución real</h2>
+  <p class="lead">Cada una está respaldada por pruebas automáticas y por un recorrido completo sobre la aplicación instalada. Lo que no se pudo comprobar aparece más abajo, con el mismo detalle.</p>
+  <div class="cards">
+    <div class="card">
+      <b>01 · Prepara</b>
+      <h3>Revisa antes de escribir</h3>
+      <p>Te muestra qué archivos va a crear y dónde, antes de tocar nada. Si ya tienes un <code>package.json</code> o un historial de Git, los conserva y los adopta por su hash en vez de sobrescribirlos.</p>
+    </div>
+    <div class="card">
+      <b>02 · Instala herramientas</b>
+      <h3>Solo lo que autorizas</h3>
+      <p>Descarga versiones fijas de Node, Git portátil y, si lo eliges, un extractor de símbolos de código, cada una con su identidad, licencia, tamaño y destino a la vista. Verifica el hash completo antes de activarlas.</p>
+    </div>
+    <div class="card">
+      <b>03 · Deja contexto</b>
+      <h3>Con la fuente a la vista</h3>
+      <p>Busca en tus documentos y devuelve el fragmento con su línea, su página de PDF o su párrafo de Word. Vuelve a comprobar los originales antes de responder: si cambiaron, te lo dice en vez de citar algo viejo.</p>
+    </div>
+    <div class="card">
+      <b>04 · Te devuelve a tu IA</b>
+      <h3>Sin hablar por ti</h3>
+      <p>Abre tu aplicación local si su firma y editor se pueden comprobar, o te deja una exportación revisable para pegar en un chat web. Nunca dice que la IA leyó tu proyecto.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <p class="eyebrow" style="color:var(--green)">Medición</p>
+  <h2>Qué se midió, y dónde no gana</h2>
+  <p class="lead">Diez preguntas con respuesta conocida sobre el mismo corpus de 6812 bytes, resueltas de tres maneras. El resultado completo, con los datos crudos y el método, está en el repositorio.</p>
+  <div class="table-scroll">
+    <table>
+      <caption>Comparación entre métodos de recuperación sobre el mismo corpus. No compara productos ni personas.</caption>
+      <thead>
+        <tr><th scope="col">Método</th><th scope="col">Devolvió la respuesta</th><th scope="col">Localizador</th><th scope="col">Bytes devueltos</th><th scope="col">Bytes leídos</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Abrir todo el corpus</td><td>8 / 10</td><td>archivo</td><td>68 120</td><td>6812</td></tr>
+        <tr><td>Barrido literal, como <code>grep -a -n -r</code></td><td>8 / 10</td><td>archivo:línea</td><td><b>1129</b></td><td><b>6812</b></td></tr>
+        <tr><td>Contexto preparado</td><td><b>10 / 10</b></td><td>pasaje</td><td>957</td><td>88 814</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="foot">La columna principal cuenta las preguntas cuya respuesta conocida estaba realmente en el texto devuelto: encontrar el archivo correcto no es responder. <strong>Un barrido literal responde ocho de diez, las mismas ocho que abrir el corpus entero</strong>, y lo hace leyendo 6812 bytes por consulta frente a los 88 814 de índice que lee el contexto preparado. Las dos que el barrido falla están en el documento de Word, cuyas partes van comprimidas. El PDF de este corpus sí lo lee, porque lleva su texto sin comprimir; con un PDF comprimido o escaneado el resultado sería otro. Así que lo que el contexto preparado aporta sobre un barrido competente, medido y sin adornos, son <strong>dos preguntas más y un localizador de pasaje en lugar de un número de línea</strong>. Preparar ese corpus costó 668 ms y escribió 97 271 bytes, catorce veces el tamaño del corpus. Abrir el corpus entero surte la fuente correcta diez de diez por construcción, no por acertar: devuelve todas.</p>
+</section>
+
+<section class="wrap">
+  <div class="split">
+    <div class="claim">
+      <h3>Lo que sí se afirma</h3>
+      <ul>
+        <li>Funciona en tu equipo, sin cuenta, sin telemetría y sin servicios de pago obligatorios.</li>
+        <li>Conserva tus archivos: las operaciones se revisan antes de aplicarse y se pueden deshacer.</li>
+        <li>Desinstalar quita el programa y sus accesos directos, no tus proyectos ni tu historial.</li>
+        <li>Cada estado que informa está respaldado por una comprobación real, no por la presencia de una carpeta.</li>
+      </ul>
+    </div>
+    <div class="claim plain">
+      <h3>Lo que no se afirma</h3>
+      <ul>
+        <li>No se mide el consumo de tokens de ningún modelo, así que no se promete reducirlo.</li>
+        <li>No se afirma nada sobre alucinaciones: el método no puede observarlas.</li>
+        <li>No hay cifras de adopción, testimonios ni comparaciones con otros productos.</li>
+        <li>Probado en un equipo Windows. Eso no demuestra compatibilidad en otros.</li>
+        <li>No se afirma superioridad sobre un barrido literal: sobre este corpus responde las mismas ocho preguntas leyendo menos bytes.</li>
+        <li>Ningún recorrido publicado fue hecho por una persona usuaria: son pruebas, no un estudio.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <p class="eyebrow" style="color:var(--green)">Cómo se usa</p>
+  <h2>Cuatro pasos, sin terminal</h2>
+  <ol class="steps">
+    <li><h3>Elige tu carpeta</h3><p>Usa materiales que ya tienes o empieza con una carpeta nueva.</p></li>
+    <li><h3>Responde lo básico</h3><p>Qué proyecto es, qué quieres lograr y con qué IA trabajas.</p></li>
+    <li><h3>Revisa el plan</h3><p>Ves qué se creará y qué se descargará, con su tamaño y licencia, antes de aceptar.</p></li>
+    <li><h3>Sigue en tu IA</h3><p>Con el contexto listo, sus fuentes citables y las instrucciones en su sitio.</p></li>
+  </ol>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <h2 style="color:#eaf2ea">Núcleo libre, reversible y verificable</h2>
+    <p>El CLI y su blueprint son MIT. La aplicación de escritorio tiene su propio paquete y su propio ciclo: no se siembra en el núcleo neutral. Cada release publica su identidad, su checksum y el estado real de su firma.</p>
+    <ul class="links">
+      <li><a href="https://github.com/IgnacioBarEsp/project-engineering-os">Repositorio</a></li>
+      <li><a href="https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/README.md">Documentación</a></li>
+      <li><a href="https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/companion/INSTALLER.md">Instalación</a></li>
+      <li><a href="https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/LICENSE">Licencia MIT</a></li>
+    </ul>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,578 @@
+{
+  "date": "2026-09-11T20:54:48.290Z",
+  "application": {
+    "version": "0.1.0",
+    "root": "<localappdata>/Programs/Project Engineering OS/resources/app"
+  },
+  "machine": "win32-x64",
+  "runtimeRoot": "<localappdata>/Project Engineering OS/runtimes",
+  "cacheAtStart": "absent",
+  "drivenBy": "script through the installed application service layer, with native folder choice, clipboard and external launch injected",
+  "notADemonstrationOf": [
+    "the installer wizard pages",
+    "the application interface",
+    "anything a person did"
+  ],
+  "profiles": [
+    {
+      "profile": "research",
+      "name": "Revision de evidencia",
+      "engineering": false,
+      "root": "<localappdata>/Temp/companion-journeys-FQDvlm/research",
+      "steps": [
+        {
+          "name": "choose folder",
+          "result": {
+            "files": 4,
+            "recommended": "research"
+          }
+        },
+        {
+          "name": "review preparation",
+          "result": {
+            "files": 4
+          }
+        },
+        {
+          "name": "review sources",
+          "result": {
+            "sources": 4,
+            "chunks": 8,
+            "managedInstructions": 0,
+            "complete": true,
+            "limitations": [],
+            "excluded": 0,
+            "notIndexed": []
+          }
+        },
+        {
+          "name": "search sources",
+          "result": {
+            "hits": 6,
+            "sources": [
+              "articulo.pdf",
+              "metodo.md",
+              "notas.txt",
+              "protocolo.docx"
+            ],
+            "locators": [
+              "page 1",
+              "line 3",
+              "line 4"
+            ]
+          }
+        },
+        {
+          "name": "negative cases",
+          "result": {
+            "changedSource": "stale",
+            "searchRefusedWhenStale": true,
+            "recoveredByRegenerating": "current",
+            "corruptIndex": "requires-action",
+            "corruptIndexError": "CONTEXT_CONFLICT",
+            "recoveredFromCorrupt": "current",
+            "optionalToolRefused": "ENVIRONMENT_UNAVAILABLE",
+            "codeMapRefused": "GRAPH_PROFILE",
+            "documentSearchStillUsable": true,
+            "movedProjectContext": "current",
+            "sourcesByteIdenticalAfterRecovery": true
+          }
+        },
+        {
+          "name": "handoff preview",
+          "result": {
+            "mode": "web",
+            "projectAttached": false,
+            "copied": 0,
+            "opened": 0
+          }
+        },
+        {
+          "name": "reopen from history",
+          "result": {
+            "projects": 1,
+            "base": "prepared",
+            "context": "current",
+            "engineering": "not-requested",
+            "workflows": "not-requested",
+            "code": "not-requested"
+          }
+        }
+      ],
+      "elapsedMs": 1488
+    },
+    {
+      "profile": "software",
+      "name": "Servicio de presupuesto",
+      "engineering": true,
+      "root": "<localappdata>/Temp/companion-journeys-FQDvlm/software",
+      "steps": [
+        {
+          "name": "choose folder",
+          "result": {
+            "files": 5,
+            "recommended": "software"
+          }
+        },
+        {
+          "name": "review preparation",
+          "result": {
+            "files": 4
+          }
+        },
+        {
+          "name": "review tools",
+          "result": {
+            "status": "planned",
+            "downloadBytes": 79620371,
+            "tools": [
+              "node:missing",
+              "npm:missing",
+              "git:missing"
+            ]
+          }
+        },
+        {
+          "name": "prepare tools",
+          "result": {
+            "status": "prepared"
+          }
+        },
+        {
+          "name": "review engineering",
+          "result": {
+            "status": "planned",
+            "preserved": [
+              "package.json",
+              "README.md"
+            ]
+          }
+        },
+        {
+          "name": "review activation",
+          "result": {
+            "status": "planned",
+            "files": 77
+          }
+        },
+        {
+          "name": "activate workflows",
+          "result": {
+            "workflows": "verified",
+            "files": 75
+          }
+        },
+        {
+          "name": "review sources",
+          "result": {
+            "sources": 3,
+            "chunks": 8,
+            "managedInstructions": 106,
+            "complete": false,
+            "limitations": [],
+            "excluded": 1,
+            "notIndexed": []
+          }
+        },
+        {
+          "name": "search sources",
+          "result": {
+            "hits": 1,
+            "sources": [
+              "notas.txt"
+            ],
+            "locators": [
+              "line 1"
+            ]
+          }
+        },
+        {
+          "name": "review code map",
+          "result": {
+            "status": "planned",
+            "files": 2,
+            "discloses": [
+              "node@24.20.0:verified",
+              "codegraph@1.6.0:missing"
+            ],
+            "downloadBytes": 52593717
+          }
+        },
+        {
+          "name": "create code map",
+          "result": {
+            "status": "verified",
+            "symbols": 5
+          }
+        },
+        {
+          "name": "search symbols",
+          "result": {
+            "hits": [
+              "calculateProjectBudget src/budget.js:1"
+            ]
+          }
+        },
+        {
+          "name": "negative cases",
+          "result": {
+            "changedSource": "stale",
+            "searchRefusedWhenStale": true,
+            "recoveredByRegenerating": "current",
+            "corruptIndex": "requires-action",
+            "corruptIndexError": "CONTEXT_CONFLICT",
+            "recoveredFromCorrupt": "current",
+            "movedProjectContext": "current",
+            "movedProjectCodeMap": "requires-repair",
+            "sourcesByteIdenticalAfterRecovery": true
+          }
+        },
+        {
+          "name": "handoff preview",
+          "result": {
+            "mode": "web",
+            "projectAttached": false,
+            "copied": 0,
+            "opened": 0
+          }
+        },
+        {
+          "name": "reopen from history",
+          "result": {
+            "projects": 1,
+            "base": "prepared",
+            "context": "current",
+            "engineering": "prepared",
+            "workflows": "verified",
+            "code": "verified"
+          }
+        }
+      ],
+      "elapsedMs": 90771
+    },
+    {
+      "profile": "unity",
+      "name": "Prototipo de juego",
+      "engineering": true,
+      "root": "<localappdata>/Temp/companion-journeys-FQDvlm/unity",
+      "steps": [
+        {
+          "name": "choose folder",
+          "result": {
+            "files": 4,
+            "recommended": "unity"
+          }
+        },
+        {
+          "name": "review preparation",
+          "result": {
+            "files": 4
+          }
+        },
+        {
+          "name": "review tools",
+          "result": {
+            "status": "planned",
+            "downloadBytes": 0,
+            "tools": [
+              "node:verified",
+              "npm:verified",
+              "git:verified"
+            ]
+          }
+        },
+        {
+          "name": "prepare tools",
+          "result": {
+            "status": "prepared"
+          }
+        },
+        {
+          "name": "review engineering",
+          "result": {
+            "status": "planned",
+            "preserved": [
+              "package.json"
+            ]
+          }
+        },
+        {
+          "name": "review activation",
+          "result": {
+            "status": "planned",
+            "files": 77
+          }
+        },
+        {
+          "name": "activate workflows",
+          "result": {
+            "workflows": "verified",
+            "files": 75
+          }
+        },
+        {
+          "name": "review sources",
+          "result": {
+            "sources": 3,
+            "chunks": 5,
+            "managedInstructions": 106,
+            "complete": false,
+            "limitations": [],
+            "excluded": 1,
+            "notIndexed": []
+          }
+        },
+        {
+          "name": "search sources",
+          "result": {
+            "hits": 1,
+            "sources": [
+              "notas.txt"
+            ],
+            "locators": [
+              "line 1"
+            ]
+          }
+        },
+        {
+          "name": "review code map",
+          "result": {
+            "status": "planned",
+            "files": 1,
+            "discloses": [
+              "node@24.20.0:verified",
+              "codegraph@1.6.0:verified"
+            ],
+            "downloadBytes": 0
+          }
+        },
+        {
+          "name": "create code map",
+          "result": {
+            "status": "verified",
+            "symbols": 3
+          }
+        },
+        {
+          "name": "search symbols",
+          "result": {
+            "hits": [
+              "ResearchGame Assets/Scoring.cs:1"
+            ]
+          }
+        },
+        {
+          "name": "negative cases",
+          "result": {
+            "changedSource": "stale",
+            "searchRefusedWhenStale": true,
+            "recoveredByRegenerating": "current",
+            "corruptIndex": "requires-action",
+            "corruptIndexError": "CONTEXT_CONFLICT",
+            "recoveredFromCorrupt": "current",
+            "movedProjectContext": "current",
+            "movedProjectCodeMap": "requires-repair",
+            "sourcesByteIdenticalAfterRecovery": true
+          }
+        },
+        {
+          "name": "handoff preview",
+          "result": {
+            "mode": "web",
+            "projectAttached": false,
+            "copied": 0,
+            "opened": 0
+          }
+        },
+        {
+          "name": "reopen from history",
+          "result": {
+            "projects": 1,
+            "base": "prepared",
+            "context": "current",
+            "engineering": "prepared",
+            "workflows": "verified",
+            "code": "verified"
+          }
+        }
+      ],
+      "elapsedMs": 66844
+    },
+    {
+      "profile": "media",
+      "name": "Serie de imagenes",
+      "engineering": false,
+      "root": "<localappdata>/Temp/companion-journeys-FQDvlm/media",
+      "steps": [
+        {
+          "name": "choose folder",
+          "result": {
+            "files": 2,
+            "recommended": "general"
+          }
+        },
+        {
+          "name": "review preparation",
+          "result": {
+            "files": 4
+          }
+        },
+        {
+          "name": "review sources",
+          "result": {
+            "sources": 2,
+            "chunks": 2,
+            "managedInstructions": 0,
+            "complete": true,
+            "limitations": [],
+            "excluded": 0,
+            "notIndexed": []
+          }
+        },
+        {
+          "name": "search sources",
+          "result": {
+            "hits": 1,
+            "sources": [
+              "notas.txt"
+            ],
+            "locators": [
+              "line 1"
+            ]
+          }
+        },
+        {
+          "name": "negative cases",
+          "result": {
+            "changedSource": "stale",
+            "searchRefusedWhenStale": true,
+            "recoveredByRegenerating": "current",
+            "corruptIndex": "requires-action",
+            "corruptIndexError": "CONTEXT_CONFLICT",
+            "recoveredFromCorrupt": "current",
+            "optionalToolRefused": "ENVIRONMENT_UNAVAILABLE",
+            "codeMapRefused": "GRAPH_PROFILE",
+            "documentSearchStillUsable": true,
+            "movedProjectContext": "current",
+            "sourcesByteIdenticalAfterRecovery": true
+          }
+        },
+        {
+          "name": "handoff preview",
+          "result": {
+            "mode": "web",
+            "projectAttached": false,
+            "copied": 0,
+            "opened": 0
+          }
+        },
+        {
+          "name": "reopen from history",
+          "result": {
+            "projects": 1,
+            "base": "prepared",
+            "context": "current",
+            "engineering": "not-requested",
+            "workflows": "not-requested",
+            "code": "not-requested"
+          }
+        }
+      ],
+      "elapsedMs": 1018
+    },
+    {
+      "profile": "general",
+      "name": "Trabajo de la semana",
+      "engineering": false,
+      "root": "<localappdata>/Temp/companion-journeys-FQDvlm/general",
+      "steps": [
+        {
+          "name": "choose folder",
+          "result": {
+            "files": 2,
+            "recommended": "general"
+          }
+        },
+        {
+          "name": "review preparation",
+          "result": {
+            "files": 4
+          }
+        },
+        {
+          "name": "review sources",
+          "result": {
+            "sources": 2,
+            "chunks": 4,
+            "managedInstructions": 0,
+            "complete": true,
+            "limitations": [],
+            "excluded": 0,
+            "notIndexed": []
+          }
+        },
+        {
+          "name": "search sources",
+          "result": {
+            "hits": 2,
+            "sources": [
+              "acuerdos.md",
+              "notas.txt"
+            ],
+            "locators": [
+              "line 4",
+              "line 1"
+            ]
+          }
+        },
+        {
+          "name": "negative cases",
+          "result": {
+            "changedSource": "stale",
+            "searchRefusedWhenStale": true,
+            "recoveredByRegenerating": "current",
+            "corruptIndex": "requires-action",
+            "corruptIndexError": "CONTEXT_CONFLICT",
+            "recoveredFromCorrupt": "current",
+            "optionalToolRefused": "ENVIRONMENT_UNAVAILABLE",
+            "codeMapRefused": "GRAPH_PROFILE",
+            "documentSearchStillUsable": true,
+            "movedProjectContext": "current",
+            "sourcesByteIdenticalAfterRecovery": true
+          }
+        },
+        {
+          "name": "handoff preview",
+          "result": {
+            "mode": "web",
+            "projectAttached": false,
+            "copied": 0,
+            "opened": 0
+          }
+        },
+        {
+          "name": "reopen from history",
+          "result": {
+            "projects": 1,
+            "base": "prepared",
+            "context": "current",
+            "engineering": "not-requested",
+            "workflows": "not-requested",
+            "code": "not-requested"
+          }
+        }
+      ],
+      "elapsedMs": 1028
+    }
+  ],
+  "findings": [],
+  "summary": {
+    "profiles": 5,
+    "findings": 0,
+    "engineeringProfiles": [
+      "software",
+      "unity"
+    ],
+    "scope": "Recorrido completo por perfil sobre la aplicacion instalada, a traves de su capa de servicio. No demuestra el asistente del instalador, la interfaz, ni que una persona lo haya hecho."
+  }
+}

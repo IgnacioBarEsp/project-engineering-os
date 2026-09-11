@@ -8,3 +8,8 @@ coverage/
 .env.*
 !.env.example
 
+/apps/companion/build/npm-dist.zip
+# A file here makes the runtime manager take its packaged branch. It only ever exists inside a
+# built application, never in the working tree, and must not be able to appear unnoticed.
+/apps/npm-dist.zip
+/site/.project-os/

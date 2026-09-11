@@ -1,10 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, realpath, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { load as parseYaml } from 'js-yaml';
 import { productionPackages, renderNotices, packageNameFromKey, installedOnWindows } from '../scripts/notices.mjs';
+import { sealNpm } from '../scripts/seal-npm.mjs';
+import { extractZip } from '../runtime/archive.mjs';
+import { inspectTree } from '../runtime/tree.mjs';
 
 // Producing the artifact needs Windows, a downloaded Electron runtime and several minutes, so it is
 // not a test. What is testable everywhere is the contract the packaging depends on: the declared
@@ -180,4 +184,60 @@ test('the application icon is a real multi-size Windows icon', async () => {
   }
   assert.ok(sizes.has(256), 'Windows necesita la variante de 256 pixeles.');
   assert.ok(sizes.has(16) && sizes.has(32), 'Faltan los tamanos pequenos que usa la barra de tareas.');
+});
+
+test('sealing and extracting a distribution preserves the nested dependencies a packager prunes', async () => {
+  // A packaged application shipped npm as a directory and the packager deduplicated its vendored
+  // dependencies: 431 files where the pin expects 1970. The installed application then refused to
+  // prepare tools with an integrity error, after a person had installed it.
+  //
+  // This exercises the real sealing and the real extractor against a tree built here, rather than
+  // asserting that the packer's source still contains certain words. Replacing the packaged branch
+  // with the development one, or dropping nested directories while sealing, fails this test.
+  // realpath, because the extractor refuses a destination that passes through a symbolic link and on
+  // macOS the temporary directory is one. That refusal is the product behaving correctly.
+  const work = await realpath(await mkdtemp(path.join(tmpdir(), 'companion-seal-')));
+  try {
+    const source = path.join(work, 'dist');
+    // The shape that gets pruned: a dependency vendored inside another dependency.
+    const nested = path.join(source, 'node_modules', 'outer', 'node_modules', 'inner');
+    await mkdir(nested, { recursive: true });
+    await writeFile(path.join(source, 'index.js'), 'export const ok = 1;\n');
+    await writeFile(path.join(source, 'node_modules', 'outer', 'package.json'), '{"name":"outer"}\n');
+    await writeFile(path.join(nested, 'package.json'), '{"name":"inner"}\n');
+    await writeFile(path.join(nested, 'deep.js'), 'export const deep = true;\n');
+
+    const before = await inspectTree(source);
+    const archive = path.join(work, 'sealed.zip');
+    const sealed = await sealNpm(source, archive);
+    assert.equal(sealed.files, 4, 'El sellado debe llevar los cuatro archivos, incluidos los dos anidados.');
+
+    const target = path.join(work, 'extracted');
+    await extractZip(archive, target);
+    const after = await inspectTree(target);
+    // The pin is the digest of the complete tree. Equal digests mean nothing was dropped, reordered
+    // or rewritten on the way through the archive: exactly the property the regression violated.
+    assert.equal(after.sha256, before.sha256, 'El arbol extraido no coincide con el sellado.');
+    assert.equal(after.bytes, before.bytes);
+    assert.equal(JSON.parse(await readFile(path.join(target, 'node_modules/outer/node_modules/inner/package.json'), 'utf8')).name,
+      'inner', 'La dependencia anidada no sobrevivio al sellado.');
+
+    // Determinism: the same tree seals to the same bytes, so a rebuild does not invent a new artifact.
+    const again = path.join(work, 'sealed-again.zip');
+    await sealNpm(source, again);
+    assert.deepEqual(await readFile(again), await readFile(archive), 'El sellado no es reproducible.');
+  } finally {
+    await rm(work, { recursive: true, force: true });
+  }
+});
+
+test('the sealed archive is declared as an extra resource, outside every file filter', async () => {
+  // The archive only protects the distribution if it actually ships. `files` is an allowlist that a
+  // packager applies; `extraResources` is copied verbatim beside the application.
+  const extra = (await config()).extraResources;
+  assert.ok(Array.isArray(extra) && extra.length === 1, JSON.stringify(extra));
+  assert.deepEqual(extra[0], { from: 'build/npm-dist.zip', to: 'npm-dist.zip' });
+  const files = (await config()).files;
+  assert.ok(!files.some(entry => entry.includes('npm-dist')),
+    'El archivo sellado no debe depender de la lista de archivos empaquetados.');
 });

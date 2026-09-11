@@ -1,0 +1,483 @@
+{
+  "date": "2026-09-11T20:36:30.465Z",
+  "application": "0.1.0",
+  "machine": "win32-x64",
+  "corpus": {
+    "files": 6,
+    "bytes": 6812,
+    "sizes": {
+      "decisiones.md": 458,
+      "especificacion.md": 420,
+      "informe.pdf": 1085,
+      "notas.txt": 284,
+      "protocolo.docx": 355,
+      "registro.log": 4210
+    }
+  },
+  "questions": [
+    {
+      "id": "acuerdo-resumen",
+      "query": "resumen",
+      "source": "notas.txt",
+      "answer": "antes del viernes"
+    },
+    {
+      "id": "limite-reintentos",
+      "query": "reintentos",
+      "source": "especificacion.md",
+      "answer": "tres"
+    },
+    {
+      "id": "motivo-almacenamiento",
+      "query": "almacenamiento",
+      "source": "decisiones.md",
+      "answer": "servicios de pago"
+    },
+    {
+      "id": "alternativa-descartada",
+      "query": "alternativa",
+      "source": "decisiones.md",
+      "answer": "servicio gestionado"
+    },
+    {
+      "id": "tamano-grupo",
+      "query": "participantes",
+      "source": "informe.pdf",
+      "answer": "treinta"
+    },
+    {
+      "id": "instrumento",
+      "query": "instrumento",
+      "source": "informe.pdf",
+      "answer": "calibrado"
+    },
+    {
+      "id": "margen-error",
+      "query": "margen",
+      "source": "informe.pdf",
+      "answer": "dos por ciento"
+    },
+    {
+      "id": "veredicto-revision",
+      "query": "veredicto",
+      "source": "protocolo.docx",
+      "answer": "antes de integrar"
+    },
+    {
+      "id": "hallazgo-bloqueante",
+      "query": "bloqueante",
+      "source": "protocolo.docx",
+      "answer": "detiene la integracion"
+    },
+    {
+      "id": "operacion-incompleta",
+      "query": "incompleta",
+      "source": "especificacion.md",
+      "answer": "se declara incompleta"
+    }
+  ],
+  "preparation": {
+    "elapsedMs": 668,
+    "bytesWritten": 97271,
+    "note": "Costo pagado una vez por proyecto. Se vuelve a pagar cuando las fuentes cambian."
+  },
+  "methods": [
+    {
+      "id": "read-all",
+      "description": "Abrir todos los archivos del corpus para estar seguro",
+      "questions": 10,
+      "surfacedExpectedSource": 10,
+      "discriminates": false,
+      "answerInReturnedText": 8,
+      "sourceReadableWithoutAParser": 8,
+      "withLocator": 8,
+      "locatorKind": "file",
+      "contextBytesTotal": 68120,
+      "contextBytesMedian": 6812,
+      "bytesReadPerQuestion": 6812,
+      "filesOpenedTotal": 60
+    },
+    {
+      "id": "literal-scan",
+      "description": "Barrido literal sobre los bytes de los mismos archivos, como grep -a -n -r",
+      "questions": 10,
+      "surfacedExpectedSource": 8,
+      "discriminates": true,
+      "answerInReturnedText": 8,
+      "sourceReadableWithoutAParser": 8,
+      "withLocator": 8,
+      "locatorKind": "file-line",
+      "contextBytesTotal": 1129,
+      "contextBytesMedian": 101.5,
+      "bytesReadPerQuestion": 6812,
+      "filesOpenedTotal": 60
+    },
+    {
+      "id": "prepared-context",
+      "description": "Busqueda sobre el contexto preparado por la aplicacion instalada",
+      "questions": 10,
+      "surfacedExpectedSource": 10,
+      "discriminates": true,
+      "answerInReturnedText": 10,
+      "sourceReadableWithoutAParser": 10,
+      "withLocator": 10,
+      "locatorKind": "passage",
+      "contextBytesTotal": 957,
+      "contextBytesMedian": 90,
+      "bytesReadPerQuestion": 88814,
+      "filesOpenedTotal": 50
+    }
+  ],
+  "raw": {
+    "readEverything": [
+      {
+        "id": "acuerdo-resumen",
+        "found": true,
+        "discriminates": false,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 6812,
+        "filesOpened": 6,
+        "locator": true,
+        "locatorKind": "file"
+      },
+      {
+        "id": "limite-reintentos",
+        "found": true,
+        "discriminates": false,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 6812,
+        "filesOpened": 6,
+        "locator": true,
+        "locatorKind": "file"
+      },
+      {
+        "id": "motivo-almacenamiento",
+        "found": true,
+        "discriminates": false,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 6812,
+        "filesOpened": 6,
+        "locator": true,
+        "locatorKind": "file"
+      },
+      {
+        "id": "alternativa-descartada",
+        "found": true,
+        "discriminates": false,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 6812,
+        "filesOpened": 6,
+        "locator": true,
+        "locatorKind": "file"
+      },
+      {
+        "id": "tamano-grupo",
+        "found": true,
+        "discriminates": false,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 6812,
+        "filesOpened": 6,
+        "locator": true,
+        "locatorKind": "file"
+      },
+      {
+        "id": "instrumento",
+        "found": true,
+        "discriminates": false,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 6812,
+        "filesOpened": 6,
+        "locator": true,
+        "locatorKind": "file"
+      },
+      {
+        "id": "margen-error",
+        "found": true,
+        "discriminates": false,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 6812,
+        "filesOpened": 6,
+        "locator": true,
+        "locatorKind": "file"
+      },
+      {
+        "id": "veredicto-revision",
+        "found": true,
+        "discriminates": false,
+        "answerPresent": false,
+        "readable": false,
+        "contextBytes": 6812,
+        "filesOpened": 6,
+        "locator": false,
+        "locatorKind": "file"
+      },
+      {
+        "id": "hallazgo-bloqueante",
+        "found": true,
+        "discriminates": false,
+        "answerPresent": false,
+        "readable": false,
+        "contextBytes": 6812,
+        "filesOpened": 6,
+        "locator": false,
+        "locatorKind": "file"
+      },
+      {
+        "id": "operacion-incompleta",
+        "found": true,
+        "discriminates": false,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 6812,
+        "filesOpened": 6,
+        "locator": true,
+        "locatorKind": "file"
+      }
+    ],
+    "literal": [
+      {
+        "id": "acuerdo-resumen",
+        "found": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 79,
+        "filesOpened": 6,
+        "locator": true,
+        "locatorKind": "file-line"
+      },
+      {
+        "id": "limite-reintentos",
+        "found": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 110,
+        "filesOpened": 6,
+        "locator": true,
+        "locatorKind": "file-line"
+      },
+      {
+        "id": "motivo-almacenamiento",
+        "found": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 107,
+        "filesOpened": 6,
+        "locator": true,
+        "locatorKind": "file-line"
+      },
+      {
+        "id": "alternativa-descartada",
+        "found": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 415,
+        "filesOpened": 6,
+        "locator": true,
+        "locatorKind": "file-line"
+      },
+      {
+        "id": "tamano-grupo",
+        "found": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 96,
+        "filesOpened": 6,
+        "locator": true,
+        "locatorKind": "file-line"
+      },
+      {
+        "id": "instrumento",
+        "found": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 116,
+        "filesOpened": 6,
+        "locator": true,
+        "locatorKind": "file-line"
+      },
+      {
+        "id": "margen-error",
+        "found": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 96,
+        "filesOpened": 6,
+        "locator": true,
+        "locatorKind": "file-line"
+      },
+      {
+        "id": "veredicto-revision",
+        "found": false,
+        "answerPresent": false,
+        "readable": false,
+        "contextBytes": 0,
+        "filesOpened": 6,
+        "locator": false,
+        "locatorKind": "file-line"
+      },
+      {
+        "id": "hallazgo-bloqueante",
+        "found": false,
+        "answerPresent": false,
+        "readable": false,
+        "contextBytes": 0,
+        "filesOpened": 6,
+        "locator": false,
+        "locatorKind": "file-line"
+      },
+      {
+        "id": "operacion-incompleta",
+        "found": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 110,
+        "filesOpened": 6,
+        "locator": true,
+        "locatorKind": "file-line"
+      }
+    ],
+    "prepared": [
+      {
+        "id": "acuerdo-resumen",
+        "found": true,
+        "discriminates": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 67,
+        "filesOpened": 5,
+        "locator": true,
+        "locatorKind": "passage",
+        "locatorText": "line 1"
+      },
+      {
+        "id": "limite-reintentos",
+        "found": true,
+        "discriminates": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 90,
+        "filesOpened": 5,
+        "locator": true,
+        "locatorKind": "passage",
+        "locatorText": "line 3"
+      },
+      {
+        "id": "motivo-almacenamiento",
+        "found": true,
+        "discriminates": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 91,
+        "filesOpened": 5,
+        "locator": true,
+        "locatorKind": "passage",
+        "locatorText": "line 3"
+      },
+      {
+        "id": "alternativa-descartada",
+        "found": true,
+        "discriminates": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 174,
+        "filesOpened": 5,
+        "locator": true,
+        "locatorKind": "passage",
+        "locatorText": "line 4"
+      },
+      {
+        "id": "tamano-grupo",
+        "found": true,
+        "discriminates": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 72,
+        "filesOpened": 5,
+        "locator": true,
+        "locatorKind": "passage",
+        "locatorText": "page 1"
+      },
+      {
+        "id": "instrumento",
+        "found": true,
+        "discriminates": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 121,
+        "filesOpened": 5,
+        "locator": true,
+        "locatorKind": "passage",
+        "locatorText": "page 2"
+      },
+      {
+        "id": "margen-error",
+        "found": true,
+        "discriminates": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 121,
+        "filesOpened": 5,
+        "locator": true,
+        "locatorKind": "passage",
+        "locatorText": "page 2"
+      },
+      {
+        "id": "veredicto-revision",
+        "found": true,
+        "discriminates": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 68,
+        "filesOpened": 5,
+        "locator": true,
+        "locatorKind": "passage",
+        "locatorText": "paragraph 2"
+      },
+      {
+        "id": "hallazgo-bloqueante",
+        "found": true,
+        "discriminates": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 63,
+        "filesOpened": 5,
+        "locator": true,
+        "locatorKind": "passage",
+        "locatorText": "paragraph 3"
+      },
+      {
+        "id": "operacion-incompleta",
+        "found": true,
+        "discriminates": true,
+        "answerPresent": true,
+        "readable": true,
+        "contextBytes": 90,
+        "filesOpened": 5,
+        "locator": true,
+        "locatorKind": "passage",
+        "locatorText": "line 3"
+      }
+    ]
+  },
+  "notMeasured": {
+    "modelTokenUsage": "No lo expone esta medicion. No se estima a partir de bytes.",
+    "answerQualityByAModel": "No se evalua: seria juez y parte, y no es reproducible.",
+    "hallucinations": "El metodo no puede observarlas. No se afirma nada sobre ellas.",
+    "otherProducts": "No se compara con otro producto."
+  },
+  "limits": [
+    "Compara metodos de recuperacion sobre un corpus sintetico, no dos productos ni dos personas.",
+    "Un corpus de este tamano no predice el comportamiento en repositorios grandes.",
+    "El PDF de este corpus lleva sus flujos de texto sin comprimir, asi que un barrido literal si lo lee. Con un PDF comprimido o escaneado el resultado seria otro.",
+    "El documento de Word si es opaco a un barrido literal: sus partes van deflacionadas.",
+    "Las tres vias leen el corpus completo o un indice de tamano comparable. Difieren en lo que devuelven, no en lo que leen.",
+    "Los bytes son bytes. No son tokens y no se presentan como tokens."
+  ]
+}
