@@ -1,0 +1,156 @@
+{
+  "counts": {
+    "EXCEPTION": 0,
+    "FAIL": 0,
+    "PASS": 13
+  },
+  "mutationPerformed": false,
+  "ok": true,
+  "phase": "propose",
+  "results": [
+    {
+      "cause": "Issue #87 verificado.",
+      "evidence": {
+        "issue": 87,
+        "url": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/87"
+      },
+      "id": "issue.identity",
+      "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+      "status": "PASS",
+      "summary": "Issue #87 verificado."
+    },
+    {
+      "cause": "El issue permanece abierto.",
+      "evidence": {
+        "state": "OPEN"
+      },
+      "id": "issue.state",
+      "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+      "status": "PASS",
+      "summary": "El issue permanece abierto."
+    },
+    {
+      "cause": "## Historia Original está presente.",
+      "evidence": {},
+      "id": "issue.section.historia-original",
+      "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+      "status": "PASS",
+      "summary": "## Historia Original está presente."
+    },
+    {
+      "cause": "## Enriquecida está presente.",
+      "evidence": {},
+      "id": "issue.section.enriquecida",
+      "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+      "status": "PASS",
+      "summary": "## Enriquecida está presente."
+    },
+    {
+      "cause": "El bloque de metadata contiene JSON válido.",
+      "evidence": {},
+      "id": "metadata.parse",
+      "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+      "status": "PASS",
+      "summary": "El bloque de metadata contiene JSON válido."
+    },
+    {
+      "cause": "La metadata DoR cumple el contrato v1.",
+      "evidence": {
+        "change": "activate-companion-environment",
+        "surfaces": [
+          "documentation",
+          "harness-tooling",
+          "ui",
+          "auth-security"
+        ]
+      },
+      "id": "metadata.contract",
+      "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+      "status": "PASS",
+      "summary": "La metadata DoR cumple el contrato v1."
+    },
+    {
+      "cause": "La metadata contiene valores concretos y no conserva placeholders.",
+      "evidence": {
+        "fields": []
+      },
+      "id": "metadata.placeholders",
+      "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+      "status": "PASS",
+      "summary": "La metadata contiene valores concretos y no conserva placeholders."
+    },
+    {
+      "cause": "La metadata no declara comandos ni rutas ejecutables.",
+      "evidence": {},
+      "id": "metadata.command-injection",
+      "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+      "status": "PASS",
+      "summary": "La metadata no declara comandos ni rutas ejecutables."
+    },
+    {
+      "cause": "No se detectaron secretos literales en metadata.",
+      "evidence": {},
+      "id": "metadata.secrets",
+      "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+      "status": "PASS",
+      "summary": "No se detectaron secretos literales en metadata."
+    },
+    {
+      "cause": "Las intervenciones manuales están aprobadas o justificadas como no aplicables.",
+      "evidence": {},
+      "id": "metadata.manual-interventions",
+      "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+      "status": "PASS",
+      "summary": "Las intervenciones manuales están aprobadas o justificadas como no aplicables."
+    },
+    {
+      "cause": "Costos y licencias están aprobados o justificados como no aplicables.",
+      "evidence": {},
+      "id": "metadata.cost-license",
+      "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+      "status": "PASS",
+      "summary": "Costos y licencias están aprobados o justificados como no aplicables."
+    },
+    {
+      "cause": "El issue pertenece a Project Engineering OS.",
+      "evidence": {
+        "expectedProject": "Project Engineering OS",
+        "visibleProjects": [
+          "Project Engineering OS"
+        ]
+      },
+      "id": "github.project-membership",
+      "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+      "status": "PASS",
+      "summary": "El issue pertenece a Project Engineering OS."
+    },
+    {
+      "cause": "Todas las dependencias declaradas están cerradas.",
+      "evidence": {
+        "dependencies": [
+          {
+            "number": 79,
+            "state": "CLOSED",
+            "url": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/79"
+          },
+          {
+            "number": 85,
+            "state": "CLOSED",
+            "url": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/85"
+          },
+          {
+            "number": 89,
+            "state": "CLOSED",
+            "url": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/89"
+          }
+        ]
+      },
+      "id": "issue.dependencies",
+      "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+      "status": "PASS",
+      "summary": "Todas las dependencias declaradas están cerradas."
+    }
+  ],
+  "schemaVersion": "1.0.0",
+  "verdict": "PASS"
+}

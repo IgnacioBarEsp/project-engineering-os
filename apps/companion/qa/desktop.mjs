@@ -129,3 +129,15 @@ test('interrupted real engineering transaction can resume or roll back through a
     await assert.rejects(f.service.rollbackEngineering({plan:preview.id}),code('PLAN_UNKNOWN'));
   }
 });
+
+test('runtime status checks share each desktop operation signal, including reopen and post-write status',async t=>{
+  const seen=[];let cancelOnVerify=false,service;
+  const environment={core,verify:async(_root,controls)=>{seen.push(controls);if(cancelOnVerify){await service.cancel();controls.signal.throwIfAborted();}return {status:'not-prepared'};}};
+  const f=await fixture(t,'software',{environment});service=f.service;
+  const base=await service.previewBase({id:f.project.id,selection:f.selection});await service.applyBase({plan:base.id});
+  assert.ok(seen.at(-1).signal instanceof AbortSignal);assert.equal(seen.at(-1).signal.aborted,false);
+  const priorSignal=seen.at(-1).signal;await service.openProject({id:f.project.id});assert.ok(seen.at(-1).signal instanceof AbortSignal);assert.notEqual(seen.at(-1).signal,priorSignal);
+  cancelOnVerify=true;
+  await assert.rejects(service.openProject({id:f.project.id}),e=>e.name==='AbortError');
+  assert.equal(await service.job(),null);assert.equal(seen.at(-1).signal.aborted,true);
+});

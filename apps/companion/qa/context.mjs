@@ -239,3 +239,36 @@ test('context routes compose with constructor-owned engineering instructions wit
   assert.ok((await readFile(path.join(root,'AGENTS.md'),'utf8')).includes(ROUTE_TEXT));
   assert.equal((await engine.verify(root)).context,'current');
 });
+
+test('generated engineering instructions never consume the budget that belongs to the person documents', async t => {
+  const { root, engine } = await fixture(t,{'brief.txt':'Landing for research teams about medicion de tokens'},'software',['codex','web']);
+  execFileSync('git',['init','-q',root],{windowsHide:true});
+  // Before any engineering preparation there is nothing managed to leave out.
+  assert.deepEqual((await engine.plan(root)).coverage.managedInstructions, []);
+  const adapter = createConstructorAdapter(constructor), plan = await adapter.plan(root);
+  assert.equal(plan.status,'planned'); await adapter.apply(plan.id);
+  const seeded = await prepare(engine, root);
+  assert.ok(seeded.coverage.managedInstructions.length >= 40, `managed ${seeded.coverage.managedInstructions.length}`);
+  assert.ok(seeded.coverage.managedInstructions.includes('docs/engineering/SDD_WORKFLOW.md'));
+  assert.ok(!seeded.coverage.managedInstructions.includes('brief.txt'));
+  // Official activation adds more generated instruction files on top of the constructor blueprint.
+  const activated = ['.claude/commands/opsx/apply.md','.claude/commands/opsx/archive.md','.claude/commands/opsx/propose.md'];
+  for (const relative of activated) {
+    await mkdir(path.dirname(path.join(root, relative)), { recursive: true });
+    await writeFile(path.join(root, relative), 'Generated workflow\n'.repeat(400));
+  }
+  await mkdir(path.join(root,'.project-os/companion'), { recursive: true });
+  await writeFile(path.join(root,'.project-os/companion/activation.json'), JSON.stringify({ format: 1, files: activated.map(p => ({ path: p, hash: 'x' })) }));
+  const after = await prepare(engine, root);
+  assert.equal(after.coverage.managedInstructions.length, seeded.coverage.managedInstructions.length + activated.length);
+  for (const relative of activated) assert.ok(after.coverage.managedInstructions.includes(relative));
+  // The person's own document stays fully indexed and searchable after activation.
+  const brief = after.coverage.sources.find(s => s.path === 'brief.txt');
+  assert.deepEqual(brief.issues, []); assert.equal(brief.status, 'indexed');
+  assert.ok(after.coverage.chunks <= seeded.coverage.chunks, `chunks ${after.coverage.chunks} vs ${seeded.coverage.chunks}`);
+  const found = await engine.search(root, 'tokens');
+  assert.ok(found.hits.some(h => h.path === 'brief.txt'), JSON.stringify(found).slice(0, 400));
+  assert.ok(!found.hits.some(h => activated.includes(h.path) || h.path.startsWith('docs/engineering/')));
+  // Generated instructions are counted for the person, never listed as their own sources.
+  assert.ok(!after.coverage.sources.some(s => s.path.startsWith('docs/engineering/') || activated.includes(s.path)));
+});

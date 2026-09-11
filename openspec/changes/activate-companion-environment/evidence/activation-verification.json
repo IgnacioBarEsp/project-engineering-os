@@ -1,0 +1,78 @@
+{
+  "date": "2026-09-11",
+  "scope": "Real pinned Node, MinGit, npm, CodeGraph 1.6.0 and core 0.5.0 on Windows 11 x64 against synthetic projects. No installer, no native Electron packaging, no model benchmark.",
+  "codeGraph": {
+    "status": "PASS",
+    "result": {
+      "status": "verified",
+      "symbols": 5,
+      "relations": 3,
+      "verification": {
+        "method": "CodeGraph.searchNodes",
+        "query": "ResearchGame",
+        "matched": true
+      },
+      "coverage": {
+        "filesIndexed": 2,
+        "filesSkipped": 0,
+        "filesErrored": 0
+      }
+    },
+    "originalIndexPreserved": true,
+    "restartQuery": true,
+    "staleSourceRefused": true,
+    "elapsedMs": 1906
+  },
+  "engineering": {
+    "status": "PASS",
+    "result": {
+      "status": "prepared",
+      "workflows": "verified",
+      "files": 75,
+      "transaction": "ccaf7271-8429-4689-bb38-72ce47736f26"
+    },
+    "reopened": {
+      "workflows": "verified",
+      "files": 75
+    },
+    "agentStatus": {
+      "tools": "verified",
+      "files": "IN_SYNC",
+      "workflows": "PASS",
+      "gitStatus": "not-inspected",
+      "agentReadProject": false
+    },
+    "openspecVersion": "1.6.0",
+    "persistentCoreCheck": "IN_SYNC",
+    "changedToolchainSelectionRejected": true,
+    "productManifestPreserved": true,
+    "movedFolderRequiresReview": {
+      "entry": "TOOLS_MOVED",
+      "app": "ENVIRONMENT_MOVED"
+    },
+    "restoredLocationStillReady": true,
+    "powershellLauncher": {
+      "status": "IN_SYNC",
+      "workflows": "PASS",
+      "editedModuleRejected": true
+    },
+    "elapsedMs": 81340
+  },
+  "browser": {
+    "profiles": 5,
+    "widths": [
+      1180,
+      768,
+      480,
+      240
+    ],
+    "realRuntime": true,
+    "source": "browser-evidence.json"
+  },
+  "automated": {
+    "companionTests": "56/56 PASS (node --test qa/*.mjs)",
+    "rootTests": "304/304 PASS (npm run check)",
+    "openspecStrict": "16/16 PASS (validate --all --strict)",
+    "audit": "0 vulnerabilities in the app and the core, production and development"
+  }
+}

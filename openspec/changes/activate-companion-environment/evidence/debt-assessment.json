@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "flow": "activate-companion-environment",
+  "date": "2026-09-11",
+  "kind": "feature",
+  "result": "debt",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Independent adversarial review of the change diff and the pinned CLIs, re-run after the corrections",
+        "result": "reproduced and reviewed",
+        "date": "2026-09-11"
+      },
+      "title": "Sin reglas de ignore revisadas para las carpetas que Companion escribe dentro de .project-os",
+      "artifact": "apps/companion/runtime/toolchain.mjs",
+      "source": "adversarial-review",
+      "category": "decision-required",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "severity": "minor"
+    },
+    {
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Independent adversarial review of the change diff and the pinned CLIs, re-run after the corrections",
+        "result": "reproduced and reviewed",
+        "date": "2026-09-11"
+      },
+      "title": "La aplicación local se abre con un entorno reducido que no incluye PATH",
+      "artifact": "apps/companion/desktop/local-apps.mjs",
+      "source": "adversarial-review",
+      "category": "decision-required",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "severity": "minor"
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/activate-companion-environment/evidence/validation.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Recorrido real del navegador con runtimes verificados: restaurar bytes idénticos dejó el contexto desactualizado",
+        "result": "reproducido",
+        "date": "2026-09-11"
+      },
+      "title": "La frescura del contexto documental usa la fecha de modificación además del contenido",
+      "artifact": "apps/companion/engine/inventory.mjs",
+      "source": "browser-journey",
+      "category": "technical-debt",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "severity": "minor"
+    },
+    {
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Independent adversarial review of the change diff and the pinned CLIs, re-run after the corrections",
+        "result": "reproduced and reviewed",
+        "date": "2026-09-11"
+      },
+      "title": "CI ejecuta las travesías del navegador sin cache de runtimes, así que las pantallas de herramientas y mapa de código solo se cubren localmente",
+      "artifact": ".github/workflows/ci.yml",
+      "source": "adversarial-review",
+      "category": "technical-debt",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "severity": "minor"
+    },
+    {
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Independent adversarial review of the change diff and the pinned CLIs, re-run after the corrections",
+        "result": "reproduced and reviewed",
+        "date": "2026-09-11"
+      },
+      "title": "Cada invocación de la entrada local vuelve a leer unos 200 MB de árboles fijados, incluso para consultar símbolos",
+      "artifact": "apps/companion/runtime/agent-entry.mjs",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Independent adversarial review of the change diff and the pinned CLIs, re-run after the corrections",
+        "result": "reproduced and reviewed",
+        "date": "2026-09-11"
+      },
+      "title": "Un archivo preexistente sin UTF-8 válido en una ruta generada aborta todo el plan de activación",
+      "artifact": "apps/companion/runtime/activation.mjs",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    }
+  ]
+}

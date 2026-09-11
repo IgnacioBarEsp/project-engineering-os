@@ -4,6 +4,9 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import * as core from 'create-project-engineering-os';
 import { createDesktopService, publicError } from './service.mjs';
+import { createRuntimeManager } from '../runtime/manager.mjs';
+import { createEnvironmentEngine } from '../runtime/environment.mjs';
+import { createLocalAppLauncher } from './local-apps.mjs';
 
 const APP_URL = 'peos://app/index.html';
 const assets=new Map([['/index.html','text/html; charset=utf-8'],['/app.css','text/css; charset=utf-8'],['/app.mjs','text/javascript; charset=utf-8']]);
@@ -34,7 +37,16 @@ else void app.whenReady().then(async () => {
   window.webContents.on('will-navigate',event=>event.preventDefault());
   window.webContents.on('will-frame-navigate',event=>event.preventDefault());
   window.webContents.on('will-attach-webview',event=>event.preventDefault());
-  const service=await createDesktopService({dataRoot:path.join(app.getPath('userData'),'projects'),core,
+  // Managed runtimes are Windows x64 only, and their location can be unusable on any system.
+  // Neither case may break startup or the in-process preparation that already works without them:
+  // the app degrades to no environment capability and says so in the interface.
+  let environment=null;
+  if(process.platform==='win32'&&process.arch==='x64'){
+    try{
+      environment=createEnvironmentEngine(await createRuntimeManager({root:path.join(process.env.LOCALAPPDATA??app.getPath('userData'),'Project Engineering OS','runtimes')}));
+    }catch(error){console.error('Runtime location unavailable:',error.code??error.name);}
+  }
+  const service=await createDesktopService({dataRoot:path.join(app.getPath('userData'),'projects'),core,environment,localApps:createLocalAppLauncher(),
     chooseFolder:async()=>{const result=await dialog.showOpenDialog(window,{title:'Elige la carpeta de tu proyecto',buttonLabel:'Usar esta carpeta',properties:['openDirectory','createDirectory','dontAddToRecent']});return result.canceled?null:result.filePaths[0];},
     copyText:value=>clipboard.writeText(value),openExternal:url=>shell.openExternal(url),
     onProgress:value=>{if(!window.isDestroyed())window.webContents.send('companion:progress',value);}});

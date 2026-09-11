@@ -29,6 +29,12 @@ Se pueden reducir los límites y excluir rutas relativas de archivos o carpetas 
 Las rutas propias de control, cachés e índices externos no forman parte del corpus de documentos.
 Las entradas de instrucciones de los agentes se conservan y se leen como política por separado; el
 índice enumera esas rutas en `controlPaths`. Otras fuentes, como `.github/workflows`, sí se inspeccionan.
+
+Los archivos de instrucciones que el constructor y la activación oficial de OpenSpec registran como
+propios tampoco entran al corpus: la IA ya los recibe por su propia ruta y, al recorrerse las fuentes
+en orden de ruta, su volumen consumiría el presupuesto antes de llegar a los documentos de la persona.
+La revisión de contexto informa cuántos quedan fuera; no se descartan en silencio. Un registro de
+ownership ilegible conserva el comportamiento anterior de indexarlos.
 La cobertura completa se refiere a ese alcance documental explícito. Se excluyen nombres
 habituales de credenciales; un reconocedor adicional retira fuentes con patrones de secretos. Ningún
 reconocedor garantiza encontrar todos los datos sensibles. La exportación siempre necesita revisar qué

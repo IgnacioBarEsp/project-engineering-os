@@ -199,8 +199,18 @@ test('Companion constructor adapter uses real neutral plan/apply/check/rollback 
   assert.equal(verified.files,'prepared'); assert.equal(verified.workflows,'not-verified');
   await adapter.rollback(root,applied.transaction.transactionId);
   assert.equal(await readFile(path.join(root,'original.txt'),'utf8'),'original');
-  const collision=await fixture(t,{'package.json':'{"name":"existing-product"}'});
-  execFileSync('git',['init','-q',collision],{windowsHide:true});
-  assert.equal((await adapter.plan(collision)).status,'conflict');
-  assert.equal(await readFile(path.join(collision,'package.json'),'utf8'),'{"name":"existing-product"}');
+  const existing=await fixture(t,{'package.json':'{"name":"existing-product"}'});
+  execFileSync('git',['init','-q',existing],{windowsHide:true});
+  // An eligible project-owned seed is adopted by reviewed hash instead of becoming a conflict.
+  const adoption=await adapter.plan(existing);
+  assert.equal(adoption.status,'planned');
+  assert.ok(adoption.preservedOriginals.includes('package.json'));
+  assert.equal(await readFile(path.join(existing,'package.json'),'utf8'),'{"name":"existing-product"}');
+  // A constructor-owned original is never adoptable, so it still stops the plan.
+  await writeFile(path.join(existing,'AGENTS.md'),'User-owned instructions must not be replaced.');
+  const collision=await adapter.plan(existing);
+  assert.equal(collision.status,'conflict');
+  assert.ok(!collision.preservedOriginals.includes('AGENTS.md'));
+  assert.equal(await readFile(path.join(existing,'package.json'),'utf8'),'{"name":"existing-product"}');
+  assert.equal(await readFile(path.join(existing,'AGENTS.md'),'utf8'),'User-owned instructions must not be replaced.');
 });
