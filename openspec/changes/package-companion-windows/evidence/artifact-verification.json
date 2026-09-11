@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "artifact": "ProjectEngineeringOS-Setup-0.1.0-x64.exe",
+  "bytes": 129389671,
+  "sha256": "4012ee646629971df5ffacd196db274dae1e19dd1ecfa224ae4553334dae6b2f",
+  "commit": "5d175fcbfac9870725fb08feb85aa8a75b536607",
+  "tree": "clean",
+  "packagedFiles": 2535,
+  "packagedBytes": 68646604,
+  "installedFiles": 2606,
+  "installedBytes": 453034952,
+  "dependencies": 151,
+  "core": "0.5.0",
+  "signed": false,
+  "observedSignature": "NotSigned",
+  "scope": "Contenido completo, identidad, checksum y firma real del artefacto producido. No demuestra instalación ni compatibilidad en otro equipo."
+}

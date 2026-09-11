@@ -12,7 +12,7 @@ update channel, another platform, or an installation experience observed on a se
 | `openspec-strict` | `openspec validate --all --strict` with the pinned official 1.6.0 CLI. |
 | `opsx-check` | Unchanged by this change; the workflow contract is the one verified in #87 and re-run by the repository checks. |
 | `second-run-idempotence` | Measured, not assumed: two consecutive builds from the identical tree produced the same 2,535 packaged files with the same sizes, while the installer bytes and SHA-256 differed. The packager embeds non-deterministic data, which is why identity is published as a recorded SHA-256 per build instead of as a reproducible-build claim. See `build-idempotence.json`. |
-| Application tests | `npm test` in `apps/companion`: 63/63 pass, including the six new packaging-contract tests. |
+| Application tests | `npm test` in `apps/companion`: 65/65 pass, including the eight new packaging-contract tests: the allowlist cannot become a whole-tree include, the installation settings are what they claim, the custom installer steps exist, the license page states the data handling and the signing status, the notices match the lockfile, the declared identity is pinned, the build-time binaries stay pinned, and the icon is a real multi-size Windows icon. |
 | Dependency risk | `npm run check:audit` reports 0 high or critical findings with 0 exceptions; `npm run check:install-policy` passes; `npm audit` reports 0 vulnerabilities for the core and for the app, development dependencies included. |
 
 `npm run pack` cannot run in CI: it needs Windows, the downloaded Electron runtime and several minutes.
@@ -22,14 +22,19 @@ the identity the installer displays — while the build and the installation are
 
 ## Artifact and installation evidence
 
-`installation.md` records the full cycle on the maintainer's machine: artifact verification against the
-produced package, the assisted wizard, per-user installation, launch with a real window, uninstall that
-preserved the person's project, history and managed runtimes, and reinstall over that preserved state.
+`installation.md` records the full cycle on the maintainer's machine: verification against the produced
+installation rather than the configuration, the assisted wizard, per-user installation, launch from the
+desktop shortcut, uninstall that removed the program, its shortcuts and the update cache while preserving
+the person's project, history and managed runtimes, and reinstall over that preserved state.
+`artifact-verification.json` is the verifier's own output for the artifact that was installed.
 `artifact-manifest.json` records the identity published with the artifact that was actually installed. The packaged application contents of that artifact, 68,649,055 bytes across 2,535 files, are byte-identical to what the final tree produces, so the installation evidence applies to the code being merged.
 
-Two real defects were found by this change's own checks before any publication: the packager silently
-dropped a toolchain resource the application needs at runtime, and the package declared no author, which
-left an empty publisher in Add or remove programs. Both are fixed and covered.
+Five real defects were found before any publication. This change's own checks caught two: the packager
+silently dropped a toolchain resource the application needs at runtime, and the package declared no
+author, leaving an empty publisher in Add or remove programs. The independent review caught three more,
+all observable on this machine: an orphaned copy of the installer that survived uninstalling while the
+license page promised otherwise, an elevation helper shipping inside the artifact, and a recorded commit
+that did not contain the packaging. All five are fixed, covered and re-verified.
 
 ## Manual evidence
 
