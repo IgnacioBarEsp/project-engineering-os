@@ -70,16 +70,22 @@ export async function collectSources(target, options = {}) {
     controlPaths: inventory.controlPaths, managedInstructions: managedPaths };
 }
 
+// Starting a worker thread and loading its parser modules is not part of a document's reading
+// budget: on a cold or busy machine that start-up alone can exceed it, and a perfectly readable
+// document would be reported as a timeout. Start-up has its own bound, and the per-document limit
+// is armed only after the worker says its parsers are loaded.
+export const PARSER_STARTUP_MS = 60000;
 export function parseSource(bytes, extension, limits) {
   return new Promise(resolve => {
     const worker = new Worker(new URL('./parser-worker.mjs', import.meta.url), { workerData: { bytes, extension, limits },
       resourceLimits: { maxOldGenerationSizeMb: 128, maxYoungGenerationSizeMb: 16 }, stdout: true, stderr: true });
     // Drain parser diagnostics without logging document content or host paths.
     worker.stdout.resume(); worker.stderr.resume();
-    let settled = false;
+    let settled = false, timer;
     const finish = result => { if (settled) return; settled = true; clearTimeout(timer); void worker.terminate(); resolve(result); };
-    const timer = setTimeout(() => finish({ sections: [], issues: [{ reason: 'parser-timeout' }] }), limits.timeoutMs);
-    worker.once('message', finish);
+    const arm = ms => { clearTimeout(timer); timer = setTimeout(() => finish({ sections: [], issues: [{ reason: 'parser-timeout' }] }), ms); };
+    arm(PARSER_STARTUP_MS);
+    worker.on('message', message => { if (message?.ready === true) arm(limits.timeoutMs); else finish(message); });
     worker.once('error', () => finish({ sections: [], issues: [{ reason: 'parser-failed' }] }));
     worker.once('exit', () => finish({ sections: [], issues: [{ reason: 'parser-failed' }] }));
   });

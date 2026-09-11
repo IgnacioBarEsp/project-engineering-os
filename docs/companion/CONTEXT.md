@@ -22,9 +22,13 @@ es un sandbox del sistema operativo. Los bytes del documento se pasan directamen
 aceptan URL de documentos. Los workers no reciben rutas del proyecto.
 
 Los límites máximos iniciales son 8 MiB por archivo, 32 MiB de lectura de fuentes, 2 MiB de texto,
-3000 extractos, 100 páginas por PDF y 10 segundos por parser. El inventario tiene además sus propios
-límites de entradas/profundidad/lectura. Cualquier cobertura parcial aparece en el plan y el índice.
-Se pueden reducir los límites y excluir rutas relativas de archivos o carpetas antes de preparar.
+3000 extractos, 100 páginas por PDF y 10 segundos de análisis por documento. El inventario tiene además
+sus propios límites de entradas/profundidad/lectura. Cualquier cobertura parcial aparece en el plan y el
+índice. Se pueden reducir los límites y excluir rutas relativas de archivos o carpetas antes de preparar.
+
+El presupuesto de análisis empieza cuando el worker informa que cargó sus parsers. Arrancar el worker
+tiene su propio límite y no se cobra al documento: en un equipo frío o cargado, cobrarlo convertiría un
+PDF perfectamente legible en un falso agotamiento de tiempo.
 
 Las rutas propias de control, cachés e índices externos no forman parte del corpus de documentos.
 Las entradas de instrucciones de los agentes se conservan y se leen como política por separado; el

@@ -6,7 +6,7 @@ import path from 'node:path';
 import { zipSync, strToU8 } from 'fflate';
 import { createPreparationEngine } from '../engine/preparation.mjs';
 import { createContextEngine } from '../context/engine.mjs';
-import { parseSource, DEFAULT_LIMITS } from '../context/sources.mjs';
+import { parseSource, DEFAULT_LIMITS, PARSER_STARTUP_MS } from '../context/sources.mjs';
 import { recipesFor } from '../context/recipes.mjs';
 import { ROUTE_TEXT } from '../context/routes.mjs';
 import { graphOptions } from '../context/graph-tools.mjs';
@@ -271,4 +271,26 @@ test('generated engineering instructions never consume the budget that belongs t
   assert.ok(!found.hits.some(h => activated.includes(h.path) || h.path.startsWith('docs/engineering/')));
   // Generated instructions are counted for the person, never listed as their own sources.
   assert.ok(!after.coverage.sources.some(s => s.path.startsWith('docs/engineering/') || activated.includes(s.path)));
+});
+
+test('loading the parser modules never consumes the reading budget of a document', async t => {
+  // The worker announces readiness before parsing, so a slow start-up cannot be reported as a
+  // timeout on a document the parser can actually read.
+  const { Worker } = await import('node:worker_threads');
+  for (const [extension, bytes] of [['.pdf', pdf(['Readable page'])], ['.docx', docx(['Readable paragraph'])], ['.txt', Buffer.from('Readable line')]]) {
+    const messages = await new Promise((resolve, reject) => {
+      const seen = [], worker = new Worker(new URL('../context/parser-worker.mjs', import.meta.url),
+        { workerData: { bytes, extension, limits: DEFAULT_LIMITS }, stdout: true, stderr: true });
+      worker.stdout.resume(); worker.stderr.resume();
+      worker.on('message', m => { seen.push(m); if (seen.length === 2) { void worker.terminate(); resolve(seen); } });
+      worker.once('error', reject);
+      worker.once('exit', () => resolve(seen));
+    });
+    assert.equal(messages.length, 2, `${extension}: ${JSON.stringify(messages)}`);
+    assert.deepEqual(messages[0], { ready: true }, extension);
+    assert.ok(messages[1].sections.length >= 1, extension);
+    assert.ok(!messages[1].issues.some(i => i.reason === 'parser-timeout'), extension);
+  }
+  // A start-up allowance that is not larger than the document budget would restore the old failure.
+  assert.ok(PARSER_STARTUP_MS > DEFAULT_LIMITS.timeoutMs);
 });
