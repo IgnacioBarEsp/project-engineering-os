@@ -1,6 +1,10 @@
 {
   "name": "@project-engineering-os/companion",
   "version": "0.1.0",
+  "description": "Prepara carpetas de proyecto y su contexto para trabajar con la IA que ya usas, sin terminal.",
+  "author": {
+    "name": "Ignacio Barboza Espinoza"
+  },
   "private": true,
   "type": "module",
   "main": "desktop/main.mjs",
@@ -13,7 +17,9 @@
     "runtime:install": "node node_modules/electron/install.js",
     "test:ui": "node scripts/verify-ui.mjs",
     "test": "node --test qa/*.mjs",
-    "audit": "npm audit --omit=dev --audit-level=high"
+    "audit": "npm audit --omit=dev --audit-level=high",
+    "pack": "node scripts/pack-app.mjs",
+    "pack:verify": "node scripts/verify-app-artifact.mjs"
   },
   "dependencies": {
     "create-project-engineering-os": "0.5.0",
@@ -24,6 +30,8 @@
   },
   "devDependencies": {
     "electron": "44.1.1",
+    "electron-builder": "26.15.3",
+    "js-yaml": "4.3.2",
     "playwright": "1.62.1"
   }
 }

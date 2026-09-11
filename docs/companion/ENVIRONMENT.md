@@ -136,7 +136,8 @@ project, and copying prompts, opening the web or sharing documents always stays 
 
 ## Boundaries
 
-This page covers the development application. Installer packaging is #80; installer journeys, the landing
-page and measured same-model benchmarks are #81. No signed publisher, installation experience, token
+This page covers what the application installs into a project. How the application itself is installed and
+removed is in [the Windows installer](INSTALLER.md). Installer journeys, the landing page and measured
+same-model benchmarks are #81. No signed publisher, installation experience, token
 saving or external-agent activation is inferred from these automated tests. Return to the
 [documentation index](../README.md) or the [desktop app](DESKTOP.md).

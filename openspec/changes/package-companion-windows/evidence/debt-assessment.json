@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "flow": "package-companion-windows",
+  "date": "2026-09-11",
+  "kind": "feature",
+  "result": "debt",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/package-companion-windows/evidence/build-idempotence.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Construcción, verificación del artefacto e instalación real en el equipo del mantenedor",
+        "result": "medido",
+        "date": "2026-09-11"
+      },
+      "title": "Los bytes del instalador no son reproducibles entre construcciones del mismo árbol",
+      "artifact": "apps/companion/scripts/pack-app.mjs",
+      "source": "build-idempotence-probe",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/package-companion-windows/evidence/validation.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Construcción, verificación del artefacto e instalación real en el equipo del mantenedor",
+        "result": "medido",
+        "date": "2026-09-11"
+      },
+      "title": "CI no construye ni instala el artefacto: solo comprueba el contrato de empaquetado",
+      "artifact": ".github/workflows/ci.yml",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/package-companion-windows/evidence/validation.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Construcción, verificación del artefacto e instalación real en el equipo del mantenedor",
+        "result": "medido",
+        "date": "2026-09-11"
+      },
+      "title": "La aplicación se empaqueta sin asar, lo que aumenta tamaño y tiempo de arranque",
+      "artifact": "apps/companion/electron-builder.yml",
+      "source": "recorded-drift-decision",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    }
+  ]
+}

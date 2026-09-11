@@ -1,0 +1,12 @@
+{
+  "date": "2026-09-11",
+  "question": "¿Dos construcciones consecutivas del mismo árbol producen el mismo artefacto?",
+  "method": "Dos ejecuciones seguidas de npm run pack sobre el mismo árbol, comparando la lista completa de archivos empaquetados con sus tamaños y los manifiestos resultantes.",
+  "packagedFiles": { "a": 2535, "b": 2535, "identical": true },
+  "packagedBytes": 68649055,
+  "installerBytesIdentical": false,
+  "installerSha256Identical": false,
+  "conclusion": "El contenido empaquetado es idéntico entre construcciones; los bytes del instalador no lo son porque el empaquetador incorpora datos no deterministas. Por eso la identidad se publica como un SHA-256 registrado por construcción y no como una reconstrucción reproducible.",
+  "packagedBytesMatchInstalledArtifact": true,
+  "scope": "Windows 11 x64, el mismo equipo. No demuestra reproducibilidad entre equipos ni entre versiones del empaquetador."
+}

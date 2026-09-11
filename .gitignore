@@ -1,5 +1,7 @@
 node_modules/
 release/
+# Salida del empaquetado de la app: nunca entra al repositorio.
+/apps/companion/dist/
 coverage/
 *.log
 .env
