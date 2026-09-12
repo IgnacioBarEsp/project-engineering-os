@@ -25,7 +25,8 @@
     "evidence:launches": "node scripts/verify-local-launches.mjs",
     "evidence:model": "node scripts/verify-model-benchmark.mjs",
     "evidence:benchmark": "node scripts/verify-benchmark.mjs",
-    "evidence:landing": "node scripts/verify-landing.mjs"
+    "evidence:landing": "node scripts/verify-landing.mjs",
+    "evidence:contract": "node scripts/verify-interface-contract.mjs"
   },
   "dependencies": {
     "create-project-engineering-os": "0.5.0",

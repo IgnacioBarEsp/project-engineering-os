@@ -12,6 +12,27 @@ import { createCodeGraphEngine } from '../runtime/codegraph.mjs';
 
 const UUID = /^[a-f0-9-]{36}$/;
 const ROLES = ['researcher','student','developer','freelancer','creator','general'];
+// A read of a remembered folder can hang for as long as the operating system is willing to wait for a
+// network share. The project list reads every row before it can render anything, so an unreachable share
+// froze the whole window with no indicator and no way to stop. Exported so the bound itself can be tested
+// rather than only observed.
+export const SUMMARY_BUDGET_MS = 1500;
+export function withBudget(work, ms) {
+  let timer;
+  return Promise.race([
+    Promise.resolve(work).finally(() => clearTimeout(timer)),
+    new Promise((_, reject) => {
+      timer = setTimeout(() => reject(Object.assign(Error('summary budget exceeded'), {
+        code: 'FOLDER_UNREACHABLE', message: 'Esta carpeta no respondió a tiempo.',
+        action: 'Puede estar en una unidad de red o desconectada. Ábrelo para comprobarlo.' })), ms);
+      // Deliberately NOT unref'd. An earlier version did, reasoning that a pending timer should not hold
+      // the process open — but when the read it is bounding has stopped answering, this timer is the ONLY
+      // thing that can settle the race, and an unref'd timer lets the loop drain and the process exit
+      // before it fires. The timer is cleared as soon as the work settles, so it can outlive the operation
+      // by at most the budget, which is the bound itself.
+    }),
+  ]);
+}
 export const DESTINATIONS = Object.freeze({ web: 'https://chatgpt.com/', 'claude-code': 'https://claude.ai/',
   codex: 'https://chatgpt.com/codex', cursor: 'https://cursor.com/', 'github-copilot': 'https://github.com/copilot', opencode: 'https://opencode.ai/',
   antigravity: 'https://antigravity.google/' });
@@ -87,7 +108,27 @@ export async function createDesktopService({ dataRoot, core, environment = null,
   }
   async function safeStage(work,controls={}) {controls.signal?.throwIfAborted();try{const result=await work();controls.signal?.throwIfAborted();return result;}catch(e){if(controls.signal?.aborted)throw e;return {status:'requires-action',error:publicError(e)};}}
   return {
-    async listProjects(input={}) {exact(input,[]);noJob();const {items}=await history();return items.map(i=>({id:i.id,name:i.name,root:i.root}));},
+    // The list shows a state for every project, so it may not verify any of them: verifying re-inspects the
+    // folder, re-hashes the sources and, for software, checks the managed toolchain — minutes of work that
+    // belongs to opening one project. These are the recorded states, read from each stage's receipt and
+    // journal. The renderer says they are recorded. One unreadable or relocated folder becomes that entry's
+    // own state and never keeps the rest of the list from rendering.
+    //
+    // Each row is bounded. Reading a receipt is a filesystem call, and a remembered folder can be on a
+    // network share, an unplugged drive or a disconnected VPN — an independent review measured 21 seconds
+    // for a two-row list with one project on an unreachable share, with every control disabled and no way
+    // to stop. A row that does not answer within the budget becomes `unreadable` with that as its cause,
+    // which is true and is what the person can act on. Rows are read concurrently, so the whole list is
+    // bounded by the budget rather than by the sum of the rows.
+    async listProjects(input={}) {exact(input,[]);noJob();const {items}=await history();
+      return Promise.all(items.map(async i=>{
+        const entry={id:i.id,name:i.name,root:i.root,profile:i.selection?.profile??null,recorded:true};
+        try {
+          const [b,c]=await withBudget(Promise.all([base.summary(i.root),context.summary(i.root)]),SUMMARY_BUDGET_MS);
+          return {...entry,profile:b.selection?.profile??entry.profile,
+            state:b.interrupted||c.interrupted?'interrupted':!b.prepared?'not-prepared':c.prepared?'context':'prepared'};
+        } catch (error) {return {...entry,state:'unreadable',error:publicError(error)};}
+      }));},
     async chooseFolder(input={}) {exact(input,[]);return operation('Elegir carpeta',async()=>{
       const chosen=await chooseFolder();if(!chosen)return null;
       const root=await canonicalFolder(chosen), {items}=await history();

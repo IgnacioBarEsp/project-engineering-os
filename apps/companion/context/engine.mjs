@@ -230,6 +230,13 @@ export function createContextEngine() {
         return { status: 'rolled-back', transaction: value.id };
       });
     },
+    // Records only, for a list that must show a state per project. `verify` re-hashes every source to
+    // decide whether the index went stale; that cost belongs to opening one project, not to rendering a
+    // list. What comes back here is what was written down, and the caller has to present it as such.
+    async summary(target) {
+      const root = await canonicalFolder(target), prior = await readJournal(root), previous = await readReceipt(root);
+      return { interrupted: ['applying', 'interrupted'].includes(prior.value?.status ?? ''), prepared: !!previous.value };
+    },
     async verify(target) {
       try {
         const { index, previous } = await current(target);

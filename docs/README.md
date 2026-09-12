@@ -10,7 +10,9 @@ proyectos sin terminal. La [app de escritorio](companion/DESKTOP.md) permite rev
 la [activación del entorno](companion/ENVIRONMENT.md) describe qué herramientas instala, qué verifica y
 cómo recuperarlas. El [instalador de Windows](companion/INSTALLER.md) explica qué se instala, qué no se
 toca al desinstalar y cómo comprobar el archivo descargado. La [evidencia](companion/EVIDENCE.md) publica
-qué se midió, dónde la línea base es más barata y qué no se midió.
+qué se midió, dónde la línea base es más barata y qué no se midió. El [glosario](companion/GLOSSARY.md)
+define cada palabra técnica que aparece en la aplicación, y la [lectura en frío](companion/COLD_READING.md)
+es el procedimiento para comprobar con una persona que el lenguaje se entiende.
 
 1. [Guía del usuario](USER_GUIDE.md): entiende las cuatro etapas y llega desde una carpeta vacía hasta el
    primer cambio de producto.

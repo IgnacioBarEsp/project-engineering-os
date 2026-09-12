@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "flow": "restructure-companion-navigation",
+  "date": "2026-09-12",
+  "kind": "feature",
+  "result": "debt",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "docs/companion/COLD_READING.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "Ninguna: el criterio exige una persona que no conozca la aplicación y nadie lo ha ejecutado",
+        "result": "no-verificado",
+        "date": "2026-09-12"
+      },
+      "title": "Dos criterios del issue exigen una lectura en frío por una persona que no conoce la aplicación, y nadie la ha hecho; no se sustituyó por un agente ni por una heurística",
+      "artifact": "docs/companion/COLD_READING.md",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/keyboard-and-assistive-technology.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "Lectura del árbol de accesibilidad en 29 pantallas; ningún lector de pantalla se condujo y ninguna persona usuaria de tecnología asistiva participó",
+        "result": "medido-en-parte",
+        "date": "2026-09-12"
+      },
+      "title": "La mitad observable por máquina de la accesibilidad está verificada en 29 pantallas, pero no se condujo ningún lector de pantalla ni participó una persona usuaria de tecnología asistiva",
+      "artifact": "apps/companion/scripts/interface-contract.mjs",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/native-journeys.json",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "Cinco perfiles recorridos en la ventana de la aplicación instalada; diez etapas quedaron sin alcanzar y la pantalla explicó por qué",
+        "result": "medido",
+        "date": "2026-09-12"
+      },
+      "title": "Diez etapas nativas de software y Unity siguen sin verificar por un límite del harness: la aplicación rechaza con causa un plan que quedó viejo y el control de revisión no está en la pantalla alcanzable",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "Seis intentos de eludir el guarda contra una copia idéntica del árbol instalado, con una copia intacta como control",
+        "result": "medido",
+        "date": "2026-09-12"
+      },
+      "title": "El guarda de identidad de la aplicación instalada no compara el runtime de Electron ni los paquetes de node_modules distintos del núcleo fijado, y lo declara en lugar de cubrirlo",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "apps/companion/qa/project-list.mjs",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "Prueba del límite en sí, del error propio de una fila sobreviviendo a la carrera, y de que una fila rota no se lleva el listado",
+        "result": "medido",
+        "date": "2026-09-12"
+      },
+      "title": "El listado relee los recibos en cada visita con un límite fijo de 1500 ms, así que una carpeta lenta pero sana aparece como que no respondió hasta que se abre; el estado habla de la lectura y no del proyecto, y abrirlo verifica sin límite",
+      "artifact": "apps/companion/desktop/service.mjs",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/states-and-degradations.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "Decisión registrada con su motivo y mitigada con un panel de términos en la pantalla que muestra las recetas",
+        "result": "decidido",
+        "date": "2026-09-12"
+      },
+      "title": "El texto de las recetas conserva su vocabulario porque se entrega a un modelo además de mostrarse, así que su jerga llega a la pantalla mitigada por un panel de definiciones en vez de reescrita",
+      "artifact": "apps/companion/context/recipes.mjs",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "test/companion-language.test.mjs",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "Comprobación de origen sobre los tres caminos de construcción de un control, con una violación plantada que debe detectarse, más el conjunto cerrado de acciones leído de la página",
+        "result": "medido",
+        "date": "2026-09-12"
+      },
+      "title": "La identidad entre una etiqueta y la intención de la persona no es derivable por máquina: dos intenciones pueden compartir implementación y se declaran como dos acciones, así que esa correspondencia la declara quien escribe y la revisa una persona",
+      "artifact": "apps/companion/ui/app.mjs",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    }
+  ]
+}

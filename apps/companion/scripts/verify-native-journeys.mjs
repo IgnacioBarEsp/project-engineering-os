@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { spawn } from 'node:child_process';
-import { mkdir, mkdtemp, writeFile, readFile, readdir, stat, rm, realpath } from 'node:fs/promises';
+import { copyFile, mkdir, mkdtemp, writeFile, readFile, readdir, stat, rm, realpath } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { portable } from './portable-path.mjs';
 import { pdf, docx } from './fixtures.mjs';
 
@@ -25,17 +25,25 @@ import { pdf, docx } from './fixtures.mjs';
 // The application runs against its own isolated data directory, so a run never touches the projects or
 // history of whoever is using this machine.
 //
-//   node scripts/verify-native-journeys.mjs "<installed resources/app>" <evidence directory> [--keep]
+// The window must be running the application of the branch under review, or the record describes a
+// different application than the one being reviewed — which is how the previous change ended up publishing
+// a measurement taken against an artifact older than the one it delivered. The package ships `asar: false`,
+// so every source file is plain on disk: the digest of each one under `desktop/`, `ui/`, `engine/`,
+// `context/` and `runtime/` is compared against the branch before anything is driven, the comparison is
+// recorded, and a mismatch stops the run unless --sync-app is passed, which copies the branch's bytes in and
+// records what they replaced. `package.json` is excluded because the packager rewrites it by design.
+//
+// Interface alone is not enough, and the first run here proved it: a new interface module against the
+// previous main process is refused by its asset allowlist, and the window renders nothing.
+//
+// Syncing does not rebuild the installer. A release still comes from `npm run pack` on a clean commit.
+//
+//   node scripts/verify-native-journeys.mjs "<installed resources/app>" <evidence directory> [--keep] [--sync-app]
 const [installedRoot, output, ...flags] = process.argv.slice(2);
 assert(installedRoot && output, 'Indica el directorio resources/app instalado y un directorio de evidencia.');
 const keep = flags.includes('--keep');
 await mkdir(output, { recursive: true });
 
-const load = relative => import(pathToFileURL(path.join(installedRoot, relative)).href);
-const core = await load('node_modules/create-project-engineering-os/src/index.mjs');
-const { createDesktopService } = await load('desktop/service.mjs');
-const installedManifest = JSON.parse(await readFile(path.join(installedRoot, 'package.json'), 'utf8'));
-const executable = path.join(installedRoot, '..', '..', `${installedManifest.productName ?? 'Project Engineering OS'}.exe`);
 
 const PROFILES = {
   // The profiles the product defines as documents and as creative work carry the formats it names. A
@@ -75,10 +83,333 @@ async function hashesOf(root, relatives) {
   return out;
 }
 
+// Every source file of this branch, against the ones the installed window will actually load.
+//
+// Scope, stated rather than implied, because an independent review walked through three ways past the
+// earlier version: a module added at the installed app root, `package.json` rewritten to point `main` at
+// it, and the pinned core modified inside `node_modules`. All three now fail the guard.
+//
+//   - every file under the five source directories, on both sides, compared by SHA-256;
+//   - the top-level entries of the installed application, against a closed list;
+//   - every field of `package.json` that decides what runs: name, version, type, main, exports, imports, bin,
+//     files and dependencies. The rest is excluded because `removePackageScripts` and
+//     `removePackageKeywords` rewrite it by design. `imports` is in that list because a second review added
+//     one to the installed manifest and the guard reported a match: an import map changes module resolution;
+//   - **the Electron runtime the window actually runs on**: every payload file the packager copies from
+//     `node_modules/electron/dist` into the installation, compared by digest. The executable itself is not
+//     comparable — the packager renames it and rewrites its icon and version resource by design — so that
+//     one file is recorded as intentionally excluded with its reason rather than quietly skipped;
+//   - **the application's own dependency closure**, file by file: the packages `package.json` declares,
+//     minus `npm`, plus their own production dependencies, resolved by name. A second review modified
+//     `node_modules/fflate` — which `context/parser-worker.mjs` imports to read a Word document — and that
+//     passed a guard which only looked at the core;
+//   - **the presence of every other package** in the installed tree: one the installation has and this
+//     branch does not is refused outright, which is the injection vector that same review used. Their files
+//     are counted rather than compared, and the reason is declared: the rest of that tree is npm's own,
+//     hoisted there by the packager's deduplication, and npm's integrity is the sealed archive's job. Its
+//     vendored copies are different versions of the same names the branch has at top level for other
+//     reasons, so comparing them by name would be comparing two different packages and reporting the
+//     difference as drift. The sealed archive is compared by digest, and its contents are verified at use
+//     time by the application's extractor against the pinned whole-tree digest — the mechanism from #87 and
+//     #80 rather than something added here.
+//
+// Every digest is recorded, matching or not: the requirement this change adds says the evidence has to name
+// the interface it measured, and a record that only lists mismatches names nothing when nothing mismatched.
+const SOURCE_DIRECTORIES = ['desktop', 'ui', 'engine', 'context', 'runtime'];
+const ROOT_ENTRIES = ['LICENSE', 'THIRD-PARTY-NOTICES.md', 'context', 'desktop', 'engine', 'node_modules',
+  'package.json', 'runtime', 'ui'];
+const PINNED_CORE = 'node_modules/create-project-engineering-os';
+const branchRoot = fileURLToPath(new URL('../', import.meta.url));
+const syncApp = flags.includes('--sync-app');
+async function filesUnder(root, directories) {
+  const found = [];
+  for (const directory of directories) {
+    const walk = async relative => {
+      for (const entry of await readdir(path.join(root, relative), { withFileTypes: true }).then(v => v, () => [])) {
+        const next = `${relative}/${entry.name}`;
+        if (entry.isDirectory()) await walk(next); else found.push(next);
+      }
+    };
+    await walk(directory);
+  }
+  return found.sort();
+}
+// A single tree digest over the pinned core refuses a correct installation: the packager prunes files it
+// never needs, and the first run of this guard failed on `CHANGELOG.md`, `README.md` and a nested
+// `package-lock.json` with the code byte-identical and the version the same on both sides. Comparing the
+// whole tree as one hash cannot tell "the packager dropped a changelog" from "someone edited the core",
+// which are the two things that matter most to keep apart. So the comparison is per file, and each of the
+// three outcomes gets its own verdict: a file that differs on both sides is refused, a file the branch has
+// and the installation lacks is refused unless it is in the declared prune list, and a file only the
+// installation has is refused outright, because that is the injection vector.
+// What matters is the code the application can LOAD. The packager prunes what a runtime never reads —
+// changelogs, readmes, lockfiles, TypeScript declarations, source maps, licences — and a first version of
+// this comparison refused a correct installation over 1598 pruned files of `npm` and 75 `.d.ts` files of
+// `pdfjs-dist`. A guard that fails on a missing type declaration is a guard nobody reads twice.
+//
+// So the rule is by what Node can execute, not by a list of names that grows every time it fires:
+//
+//   - a LOADABLE file (`.js`, `.mjs`, `.cjs`, `.json`, `.node`, `.wasm`) that differs, or that the branch
+//     has and the installation lacks, is REFUSED. That is the case a review used: `fflate/esm/browser.js`
+//     modified in the installed tree, which `context/parser-worker.mjs` imports;
+//   - a non-loadable file that differs or is absent is RECORDED as pruned or as a non-loadable difference,
+//     and does not refuse;
+//   - a file only the installation has is REFUSED whatever its kind, because that is the injection vector;
+//   - a manifest is compared by the fields that decide what runs, because the packager rewrites the rest.
+const LOADABLE = /\.(js|mjs|cjs|json|node|wasm)$/i;
+// Declared by name because they are loadable by extension and never loaded: a lockfile is data for a
+// package manager, not a module.
+const NEVER_LOADED = [/(^|\/)package-lock\.json$/, /(^|\/)npm-shrinkwrap\.json$/];
+async function compareTree(relative) {
+  const ours = await filesUnder(branchRoot, [relative]);
+  const theirs = new Set(await filesUnder(installedRoot, [relative]));
+  const differing = [], missing = [], pruned = [], byIdentityFields = [], nonLoadableDiffering = [];
+  for (const file of ours) {
+    const loadable = LOADABLE.test(file) && !NEVER_LOADED.some(pattern => pattern.test(file));
+    if (!theirs.has(file)) {
+      (loadable ? missing : pruned).push(file);
+      continue;
+    }
+    // `removePackageScripts` and `removePackageKeywords` are on in the packager config, and they rewrite
+    // every nested manifest, not only the application's own. So a manifest is compared by the fields that
+    // decide what runs and everything else by its bytes.
+    if (path.basename(file) === 'package.json') {
+      const mine = manifestIdentity(JSON.parse(await readFile(path.join(branchRoot, file), 'utf8')));
+      const installed = await readFile(path.join(installedRoot, file), 'utf8')
+        .then(value => manifestIdentity(JSON.parse(value)), () => null);
+      if (JSON.stringify(mine) !== JSON.stringify(installed)) differing.push(file);
+      byIdentityFields.push(file);
+      continue;
+    }
+    const ourDigest = await digest(path.join(branchRoot, file));
+    const theirDigest = await digest(path.join(installedRoot, file)).then(value => value, () => null);
+    if (ourDigest !== theirDigest) (loadable ? differing : nonLoadableDiffering).push(file);
+  }
+  return { compared: ours.length, loadable: ours.filter(file => LOADABLE.test(file)).length,
+    differing, missing, pruned: pruned.length, prunedExamples: pruned.slice(0, 5),
+    nonLoadableDiffering: nonLoadableDiffering.length, byIdentityFields,
+    onlyInstalled: [...theirs].filter(file => !ours.includes(file)) };
+}
+function manifestIdentity(value) {
+  return { name: value.name ?? null, version: value.version ?? null, type: value.type ?? null,
+    main: value.main ?? null, exports: value.exports ?? null, imports: value.imports ?? null,
+    bin: value.bin ?? null, files: value.files ?? null, dependencies: value.dependencies ?? null };
+}
+
+const branchFiles = await filesUnder(branchRoot, SOURCE_DIRECTORIES);
+const installedFiles = await filesUnder(installedRoot, SOURCE_DIRECTORIES);
+const identity = { directories: SOURCE_DIRECTORIES,
+  comparedBeyondSources: ['top-level entries', 'package.json main/version/dependencies', PINNED_CORE],
+  notCompared: ['the rest of package.json, which the packager rewrites',
+    "the files of packages outside the application's own dependency closure: those are npm's tree, hoisted by the packager, and npm's integrity is the sealed archive's digest. Their presence is still checked",
+    'the renamed executable and its rewritten icon, version resource and licence, listed per run under runtime.excluded',
+    'the contents of the sealed npm archive, which the application verifies against its pinned tree digest when it uses it',
+
+    'the documentation the packager prunes, listed per run under each dependency as pruned'],
+  branchCommit: null, branchTreeClean: null, files: {},
+  onlyInstalled: installedFiles.filter(file => !branchFiles.includes(file)), synchronised: [], mismatched: [] };
+for (const file of branchFiles) {
+  const branch = await digest(path.join(branchRoot, file));
+  const target = path.join(installedRoot, file);
+  const before = await digest(target).then(value => value, () => null);
+  if (before !== branch && syncApp) {
+    await mkdir(path.dirname(target), { recursive: true });
+    await copyFile(path.join(branchRoot, file), target);
+    identity.synchronised.push({ file, replaced: before, installed: branch });
+  }
+  const installed = await digest(target).then(value => value, () => null);
+  identity.files[file] = { branch, installed };
+  if (installed !== branch) identity.mismatched.push(file);
+}
+identity.compared = branchFiles.length;
+identity.matched = branchFiles.length - identity.mismatched.length;
+
+// Anything at the installed root that this branch does not know about could be the module `main` points at.
+const rootEntries = (await readdir(installedRoot, { withFileTypes: true }).then(v => v, () => []))
+  .map(entry => entry.name).sort();
+identity.rootEntries = rootEntries;
+identity.unexpectedRootEntries = rootEntries.filter(name => !ROOT_ENTRIES.includes(name));
+
+const branchManifest = JSON.parse(await readFile(path.join(branchRoot, 'package.json'), 'utf8'));
+const installedManifestRaw = JSON.parse(await readFile(path.join(installedRoot, 'package.json'), 'utf8'));
+identity.manifest = { branch: manifestIdentity(branchManifest), installed: manifestIdentity(installedManifestRaw) };
+identity.manifestMatches = JSON.stringify(identity.manifest.branch) === JSON.stringify(identity.manifest.installed);
+
+// Every production dependency the application declares, because those are the modules it actually loads.
+// The packager hoists: a dependency nested inside another package gets moved to the top level, so the same
+// package lives at a different path in the installation than on this branch. Comparing paths reported 1598
+// files of `npm` as missing on a correct installation. Comparing by NAME asks the question that matters —
+// is this the same package, with the same loadable bytes.
+const SEALED_DEPENDENCY = 'npm';
+const SEALED_ARCHIVE = { branch: 'build/npm-dist.zip', installed: '../npm-dist.zip' };
+async function packagesUnder(root) {
+  const found = new Map();
+  const walk = async prefix => {
+    const base = path.join(root, prefix);
+    for (const entry of await readdir(base, { withFileTypes: true }).then(v => v, () => [])) {
+      if (!entry.isDirectory()) continue;
+      if (entry.name.startsWith('@')) {
+        for (const scoped of await readdir(path.join(base, entry.name), { withFileTypes: true }).then(v => v, () => [])) {
+          if (scoped.isDirectory()) {
+            const name = `${entry.name}/${scoped.name}`;
+            if (!found.has(name)) found.set(name, `${prefix}/${name}`);
+            await walk(`${prefix}/${name}/node_modules`);
+          }
+        }
+        continue;
+      }
+      if (!found.has(entry.name)) found.set(entry.name, `${prefix}/${entry.name}`);
+      await walk(`${prefix}/${entry.name}/node_modules`);
+    }
+  };
+  await walk('node_modules');
+  return found;
+}
+// A package's own tree, with its nested packages excluded: those are compared as packages of their own.
+async function packageFiles(root, relative) {
+  return (await filesUnder(root, [relative]))
+    .filter(file => !file.slice(relative.length).includes('/node_modules/'));
+}
+async function comparePackage(name, branchPath, installedPath) {
+  const ours = await packageFiles(branchRoot, branchPath);
+  const theirs = new Set((await packageFiles(installedRoot, installedPath))
+    .map(file => file.slice(installedPath.length)));
+  const differing = [], missing = [];
+  let compared = 0, pruned = 0;
+  for (const file of ours) {
+    const tail = file.slice(branchPath.length);
+    const loadable = LOADABLE.test(tail) && !NEVER_LOADED.some(pattern => pattern.test(tail));
+    if (!theirs.has(tail)) { if (loadable) missing.push(tail); else pruned += 1; continue; }
+    if (!loadable) continue;
+    if (path.basename(tail) === 'package.json') {
+      const mine = manifestIdentity(JSON.parse(await readFile(path.join(branchRoot, file), 'utf8')));
+      const installed = await readFile(path.join(installedRoot, installedPath + tail), 'utf8')
+        .then(value => manifestIdentity(JSON.parse(value)), () => null);
+      compared += 1;
+      if (JSON.stringify(mine) !== JSON.stringify(installed)) differing.push(tail);
+      continue;
+    }
+    compared += 1;
+    if (await digest(path.join(branchRoot, file))
+      !== await digest(path.join(installedRoot, installedPath + tail)).then(v => v, () => null)) differing.push(tail);
+  }
+  return { name, compared, pruned, differing, missing };
+}
+
+const branchPackages = await packagesUnder(branchRoot);
+const installedPackages = await packagesUnder(installedRoot);
+
+// The closure the application itself imports: what it declares, minus the one that travels sealed, plus
+// whatever those packages declare in turn.
+async function closureOf(declared) {
+  const closure = new Set(), queue = declared.filter(name => name !== SEALED_DEPENDENCY);
+  while (queue.length) {
+    const name = queue.shift();
+    if (closure.has(name) || !branchPackages.has(name)) continue;
+    closure.add(name);
+    const manifest = await readFile(path.join(branchRoot, branchPackages.get(name), 'package.json'), 'utf8')
+      .then(value => JSON.parse(value), () => ({}));
+    queue.push(...Object.keys(manifest.dependencies ?? {}));
+  }
+  return closure;
+}
+const closure = await closureOf(Object.keys(branchManifest.dependencies ?? {}));
+identity.closure = [...closure].sort();
+identity.packages = { installed: installedPackages.size, branch: branchPackages.size,
+  fileCompared: 0, loadableFiles: 0, presenceOnly: 0 };
+const dependencyProblems = [];
+identity.unknownPackages = [];
+for (const [name, installedPath] of installedPackages) {
+  const branchPath = branchPackages.get(name);
+  if (!branchPath) { identity.unknownPackages.push(name); continue; }
+  if (!closure.has(name)) { identity.packages.presenceOnly += 1; continue; }
+  const result = await comparePackage(name, branchPath, installedPath);
+  identity.packages.fileCompared += 1;
+  identity.packages.loadableFiles += result.compared;
+  for (const file of result.differing) dependencyProblems.push(`${name}: distinto ${file}`);
+  for (const file of result.missing) dependencyProblems.push(`${name}: falta ${file}`);
+}
+identity.dependencyProblems = dependencyProblems;
+// The runtime under the application. A second review pointed out that the guard claimed the window runs
+// this branch while never looking at the engine the window IS. The packager copies this payload verbatim,
+// so it compares cleanly; only the executable is rewritten, and that is stated rather than skipped.
+const RUNTIME_SOURCE = 'node_modules/electron/dist';
+// `default_app.asar` is Electron's placeholder application, and the packager replaces it with this one.
+const RUNTIME_REWRITTEN = [/\.exe$/i, /^LICENSE/i, /^version$/i, /^resources[\/]default_app\.asar$/i];
+async function compareRuntime() {
+  const ours = await filesUnder(branchRoot, [RUNTIME_SOURCE]);
+  const differing = [], missing = [], excluded = [];
+  let compared = 0;
+  for (const file of ours) {
+    const relative = file.slice(RUNTIME_SOURCE.length + 1);
+    if (RUNTIME_REWRITTEN.some(pattern => pattern.test(relative))) { excluded.push(relative); continue; }
+    const installed = path.join(installedRoot, '..', '..', relative);
+    const theirDigest = await digest(installed).then(value => value, () => null);
+    if (theirDigest === null) { missing.push(relative); continue; }
+    compared += 1;
+    if (theirDigest !== await digest(path.join(branchRoot, file))) differing.push(relative);
+  }
+  return { compared, differing, missing, excluded,
+    excludedReason: 'el empaquetador renombra el ejecutable y reescribe su icono, su recurso de version y su licencia, y reemplaza el app placeholder por esta aplicacion; esos archivos no son comparables byte a byte por diseno' };
+}
+identity.runtime = await compareRuntime();
+identity.runtimeMatches = identity.runtime.differing.length === 0 && identity.runtime.missing.length === 0;
+
+identity.sealedArchive = {
+  of: SEALED_DEPENDENCY,
+  branch: await digest(path.join(branchRoot, SEALED_ARCHIVE.branch)).then(value => value, () => null),
+  installed: await digest(path.join(installedRoot, SEALED_ARCHIVE.installed)).then(value => value, () => null),
+  contentsVerifiedBy: 'el extractor de la propia aplicación contra el digest del árbol fijado, en el momento de usarlo',
+};
+identity.sealedArchiveMatches = !!identity.sealedArchive.branch
+  && identity.sealedArchive.branch === identity.sealedArchive.installed;
+identity.pinnedCore = await compareTree(PINNED_CORE);
+identity.pinnedCoreMatches = dependencyProblems.length === 0 && identity.unknownPackages.length === 0;
+
+const commit = await new Promise(resolve => {
+  const child = spawn('git', ['-C', branchRoot, 'rev-parse', 'HEAD'], { windowsHide: true, stdio: ['ignore', 'pipe', 'ignore'] });
+  let out = ''; child.stdout.on('data', chunk => { out += chunk; });
+  child.on('close', () => resolve(out.trim() || null)); child.on('error', () => resolve(null));
+});
+const dirty = await new Promise(resolve => {
+  const child = spawn('git', ['-C', branchRoot, 'status', '--porcelain'], { windowsHide: true, stdio: ['ignore', 'pipe', 'ignore'] });
+  let out = ''; child.stdout.on('data', chunk => { out += chunk; });
+  child.on('close', () => resolve(out.trim())); child.on('error', () => resolve(null));
+});
+identity.branchTreeClean = dirty === '' ? true : dirty === null ? null : false;
+// A commit is an identity claim, so it is only recorded when the tree it names is the tree that was read.
+// A review found this field naming a commit whose `ui/app.mjs` digest did not match the one recorded beside
+// it: the run had happened before the fixes were committed. Now a dirty tree gets no commit name at all.
+identity.branchCommit = identity.branchTreeClean === true ? commit : null;
+identity.measuredSource = identity.branchTreeClean === true ? `commit ${commit}` : 'working tree (uncommitted)';
+identity.branchCommitWithheld = identity.branchTreeClean === true ? null
+  : 'el árbol tenía cambios sin confirmar, así que ningún commit contiene los bytes que se midieron; la identidad son los 47 digests';
+if (identity.branchTreeClean !== true) identity.branchCommitAtCapture = commit;
+
+assert.equal(identity.mismatched.length, 0, `La ventana instalada no corre la aplicación de esta rama (${identity.mismatched.join(', ')}). Ejecuta con --sync-app para copiarla y volver a medir.`);
+assert.equal(identity.onlyInstalled.length, 0, `El árbol instalado tiene archivos que esta rama no tiene (${identity.onlyInstalled.join(', ')}).`);
+assert.equal(identity.unexpectedRootEntries.length, 0, `El árbol instalado tiene entradas de raíz inesperadas (${identity.unexpectedRootEntries.join(', ')}).`);
+assert.ok(identity.manifestMatches, `El package.json instalado declara otro main, otra versión u otras dependencias: ${JSON.stringify(identity.manifest)}`);
+assert.deepEqual(dependencyProblems, [], 'Los paquetes instalados no coinciden con los de esta rama.');
+assert.deepEqual(identity.unknownPackages, [], 'El árbol instalado tiene paquetes que esta rama no tiene.');
+assert.ok(identity.sealedArchiveMatches, `El archivo sellado de ${SEALED_DEPENDENCY} instalado no coincide con el de esta rama (${identity.sealedArchive.installed} frente a ${identity.sealedArchive.branch}).`);
+assert.deepEqual(identity.runtime.differing, [], 'El runtime de Electron instalado tiene archivos distintos de los de esta rama.');
+assert.deepEqual(identity.runtime.missing, [], 'Al runtime de Electron instalado le faltan archivos de la carga que el empaquetador copia.');
+
+
+// Imported only after the guard: with --sync-app the driver would otherwise keep measuring through the
+// pre-sync modules while the window runs the post-sync bytes.
+const load = relative => import(pathToFileURL(path.join(installedRoot, relative)).href);
+const core = await load('node_modules/create-project-engineering-os/src/index.mjs');
+const { createDesktopService } = await load('desktop/service.mjs');
+const installedManifest = installedManifestRaw;
+const executable = path.join(installedRoot, '..', '..', `${installedManifest.productName ?? 'Project Engineering OS'}.exe`);
+
 const workspace = await realpath(await mkdtemp(path.join(tmpdir(), 'companion-native-')));
 const userData = path.join(workspace, 'userdata');
 const record = { date: new Date().toISOString(),
   application: { version: installedManifest.version, root: portable(installedRoot) },
+  installedApplication: identity,
   machine: `${process.platform}-${process.arch}`,
   drivenBy: 'the installed application window over its debugging port, against an isolated data directory',
   humanSteps: ['choosing the folder in the operating system picker'],
@@ -134,6 +465,22 @@ try {
   assert.ok(browser, `La aplicación instalada no respondió en el puerto ${port}.`);
   const page = browser.contexts()[0].pages()[0] ?? await browser.contexts()[0].waitForEvent('page');
   await page.waitForLoadState('domcontentloaded');
+  page.setDefaultTimeout(180000);
+  // Every control is disabled while an operation runs, so a click that arrives early fails on a disabled
+  // element rather than on a missing one, and a stall has to be recorded as a finding rather than end the
+  // run with a timeout that explains neither.
+  //
+  // Two different questions, and conflating them cost a spurious finding. `notBusy` asks whether the
+  // application is busy right now, and is what a click needs before it lands. `settle` asks whether the
+  // operation a click just started has finished — and that one has to wait for the busy indicator to
+  // APPEAR first: an operation takes a moment to start, so asking only "is it hidden" answers yes about
+  // the instant before the work began and returns while the screen is still the previous one.
+  const stop = page.getByRole('button', { name: /^Detener$/ });
+  const notBusy = (timeout = 180000) => stop.waitFor({ state: 'hidden', timeout }).then(() => true, () => false);
+  const settle = async (timeout = 180000) => {
+    await stop.waitFor({ state: 'visible', timeout: 4000 }).catch(() => {});
+    return notBusy(timeout);
+  };
 
   for (const [id, definition] of Object.entries(PROFILES)) {
     const started = performance.now();
@@ -160,21 +507,23 @@ try {
     step('opened from history', { project: definition.name, heading: await page.locator('h1,h2').first().innerText() });
 
     // Context preparation, reviewed and then applied, in the interface.
-    const reviewContext = page.getByRole('button', { name: /^Preparar contexto$|Preparar solo el contexto/ }).first();
+    const reviewContext = page.getByRole('button', { name: /^Leer mis archivos$/ }).first();
     if (await reviewContext.count()) {
       await reviewContext.click();
       await page.waitForTimeout(1500);
-      const save = page.getByRole('button', { name: /Guardar contexto y continuar|Revisar con estas exclusiones/ }).first();
+      const save = page.getByRole('button', { name: /Guardar y continuar|Revisar con estas exclusiones/ }).first();
       if (await save.count()) {
         await save.click();
-        await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 120000 }).catch(() => {});
+        if (!await settle()) finding(id, 'context', 'la aplicación siguió ocupada tres minutos después de guardar el contexto');
       } else finding(id, 'context', `la interfaz no ofreció guardar el contexto. Botones: ${(await page.locator('button:visible').allTextContents()).join(' | ')}`);
       step('context prepared in the interface', { screen: (await body()).slice(0, 100) });
     } else finding(id, 'context', `la interfaz no ofreció preparar el contexto. Botones visibles: ${(await page.locator('button:visible').allTextContents()).join(' | ')}`);
 
     // Context and a search whose answer is known in advance.
-    const sources = page.getByRole('button', { name: /Buscar fuentes/ });
+    const sources = page.getByRole('button', { name: /Buscar en mis archivos/ });
+    await sources.first().waitFor({ timeout: 180000 }).catch(() => {});
     if (await sources.count()) {
+      if (!await notBusy()) finding(id, 'search', 'la aplicación siguió ocupada al ir a buscar en los archivos');
       await sources.first().click();
       await page.waitForTimeout(1200);
       const field = page.locator('input[type="search"], input[type="text"]:visible').last();
@@ -214,7 +563,7 @@ try {
         }
       } else finding(id, 'search', `la búsqueda de "${definition.query}" no devolvió una cita comprobable`);
       step('search with citation', { query: definition.query, ...resolution ?? { citation: null } });
-    } else finding(id, 'context', `la interfaz no ofreció buscar fuentes. Botones visibles: ${(await page.locator('button:visible').allTextContents()).join(' | ')}`);
+    } else finding(id, 'context', `la interfaz no ofreció buscar en los archivos. Botones visibles: ${(await page.locator('button:visible').allTextContents()).join(' | ')}`);
 
     // The scenario this change added requires engineering, official OpenSpec workflows and the code map to
     // be verified for software and Unity. They are driven here, in the window, and a profile that cannot
@@ -223,6 +572,8 @@ try {
       const stages = {};
       const press = async (pattern, wait = 120000) => {
         const control = page.getByRole('button', { name: pattern }).first();
+        if (!await control.count()) return false;
+        await notBusy(wait);
         if (!await control.count()) return false;
         await control.click();
         await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: wait }).catch(() => {});
@@ -240,10 +591,11 @@ try {
       // presses whichever known stage control is on screen, repeatedly, and records the order the interface
       // actually led through — which is also the honest thing to publish.
       const STAGES = [
-        ['reviewEngineering', /Revisar ingeniería/],
+        ['reviewEngineering', /Revisar desarrollo/], // was /Revisar ingeniería/],
         ['prepareTools', /Preparar herramientas y continuar/],
-        ['applyEnvironment', /Aplicar entorno/],
-        ['applyEngineering', /Preparar mi proyecto|Guardar y ver mi proyecto|Preparar ingeniería|Revisar ingeniería de nuevo/],
+        // Same stage names as the archived record so the two are comparable; only the labels moved.
+        ['applyEnvironment', /Guardar estas instrucciones|Continuar lo que quedó a medias/],
+        ['applyEngineering', /Guardar y continuar|Guardar y ver mi proyecto/],
         ['activateWorkflows', /Activar y continuar/],
         ['reviewCodeMap', /Revisar mapa de código/],
         ['buildCodeMap', /Crear mapa de código/],
@@ -315,9 +667,11 @@ try {
     await reopened.getByRole('button', { name: 'Abrir →' }).click();
     await page.locator('article.project').first().waitFor({ state: 'detached', timeout: 120000 });
     await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 180000 }).catch(() => {});
-    const afterReopen = page.getByRole('button', { name: /Buscar fuentes/ });
+    const afterReopen = page.getByRole('button', { name: /Buscar en mis archivos/ });
+    await afterReopen.first().waitFor({ timeout: 180000 }).catch(() => {});
     let survived = null;
     if (await afterReopen.count()) {
+      if (!await notBusy()) finding(id, 'reopen', 'la aplicación siguió ocupada tras reabrir el proyecto');
       await afterReopen.first().click();
       await page.waitForTimeout(1200);
       const field = page.locator('input[type="search"], input[type="text"]:visible').last();
@@ -332,14 +686,14 @@ try {
         // is regenerated. Refusing honestly and losing the index look identical from a missing citation, so
         // the screen is read: a stated stale or review-needed state is correct behaviour and is recorded as
         // such; silence with no explanation is the finding.
-        const explained = /desactualizad|actualiza el contexto|revisar de nuevo|volver a preparar|cambi[oó]|Revisar fuentes de nuevo|revisa (la carpeta|sus instrucciones)/i.test(screen);
+        const explained = /desactualizad|actualiza el contexto|revisar de nuevo|volver a preparar|cambi[oó]|Leer mis archivos|vigente|revisa (la carpeta|sus instrucciones)/i.test(screen);
         if (explained) {
           step('context refused after reopen, with reason', { explained: true });
         } else {
           finding(id, 'reopen', `tras cerrar y reabrir no hubo cita ni explicación. Pantalla: ${screen.replace(/\s+/g, ' ').slice(0, 300)}`);
         }
       }
-    } else finding(id, 'reopen', 'tras reabrir, la interfaz no ofreció buscar fuentes');
+    } else finding(id, 'reopen', 'tras reabrir, la interfaz no ofreció buscar en los archivos');
     step('closed and reopened', { citationSurvived: survived });
 
     // Reflow at the widths the desktop window can reach.
@@ -362,20 +716,52 @@ try {
     console.log(`${id}: ${steps.length} pasos, ${record.findings.filter(f => f.profile === id).length} hallazgos`);
   }
 
-  // The window shows the project's absolute path, which carries the account name of whoever ran this.
-  // Every text record here is anchored through portable(), but no check reads an image, so a screenshot
-  // is the one place that discipline silently does not apply — and an image is exactly what gets looked
-  // at. The path is replaced with its anchored form in the page before the capture, not after.
-  const shown = await page.evaluate(anchored => {
-    const node = document.querySelector('.path');
-    const was = node?.textContent ?? null;
-    if (node) node.textContent = anchored;
-    return was !== null;
-  }, portable(prepared.general?.root ?? workspace));
-  await page.screenshot({ path: path.join(output, 'native-window.png') });
-  record.screenshots = ['native-window.png'];
-  record.screenshotPathAnchored = shown;
-  if (!shown) finding('general', 'captura', 'no se encontró la ruta en pantalla para anclarla antes de capturar');
+  // The window shows absolute paths, which carry the account name of whoever ran this. Every text record
+  // here is anchored through portable(), but no check reads an image, so a screenshot is the one place that
+  // discipline silently does not apply — and an image is exactly what gets looked at. So the anchoring is
+  // done in the page before each capture, on EVERY path element rather than the first one: the project list
+  // shows five of them, and anchoring one of five is the same failure with a smaller radius.
+  const anchor = async () => page.evaluate(({ raw, anchored }) => {
+    const forms = [raw, raw.replace(/\//g, '\\')];
+    const nodes = [...document.querySelectorAll('.path')];
+    let replaced = 0;
+    for (const node of nodes) {
+      const before = node.textContent;
+      for (const form of forms) {
+        while (node.textContent.toLowerCase().includes(form.toLowerCase())) {
+          const at = node.textContent.toLowerCase().indexOf(form.toLowerCase());
+          node.textContent = node.textContent.slice(0, at) + anchored + node.textContent.slice(at + form.length);
+        }
+      }
+      if (node.textContent !== before) replaced += 1;
+    }
+    // What matters is the state after: no element may still carry a drive letter or a users directory.
+    const leaking = nodes.filter(node => /^[a-z]:[\\/]/i.test(node.textContent.trim())
+      || /users[\\/]/i.test(node.textContent)).map(node => node.textContent.trim());
+    return { nodes: nodes.length, replaced, leaking };
+  }, { raw: workspace, anchored: portable(workspace) });
+
+  const captures = [];
+  const capture = async (name, before) => {
+    if (before) { await before(); await page.waitForTimeout(900); }
+    const anchored = await anchor();
+    // The property is the state after anchoring, not how many elements were rewritten: a screen that shows
+    // no path at all is a screen with nothing to leak, and reporting that as a finding would be the same
+    // mistake as concluding a defect from an absence.
+    if (anchored.leaking.length) finding('general', 'captura', `la captura ${name} habría mostrado una ruta sin anclar: ${anchored.leaking.join(' | ')}`);
+    await page.screenshot({ path: path.join(output, `${name}.png`) });
+    captures.push({ file: `${name}.png`, pathElements: anchored.nodes, anchored: anchored.replaced, leaking: anchored.leaking.length });
+  };
+  await capture('native-window');
+  await capture('native-inicio', () => page.getByRole('button', { name: 'Inicio', exact: true }).click());
+  await capture('native-proyectos', () => page.getByRole('button', { name: 'Tus proyectos', exact: true }).click());
+  await capture('native-ayuda', () => page.getByRole('button', { name: 'Ayuda', exact: true }).click());
+  // The four destinations, read off the installed window rather than asserted from the source.
+  record.navigation = await page.evaluate(() => [...document.querySelectorAll('nav [data-action]')]
+    .map(node => [node.dataset.action, node.textContent.replace(/\s+/g, ' ').trim()]));
+  if (record.navigation.length !== 4) finding('general', 'navegacion', `la ventana no muestra cuatro destinos: ${JSON.stringify(record.navigation)}`);
+  record.screenshots = captures;
+  record.screenshotPathAnchored = captures.every(entry => entry.leaking === 0);
 } finally {
   await browser?.close().catch(() => {});
   // Electron's children keep the data directory open, so end the whole tree rather than the wrapper.

@@ -1,0 +1,1304 @@
+{
+  "date": "2026-09-12T16:52:24.870Z",
+  "source": "<home>/Documents/Projects/project-engineering-os/apps/companion/ui",
+  "scope": "El renderer real servido desde una copia, con el servicio nativo reemplazado por respuestas fijas. Cubre Inicio, Ayuda, la lista, el asistente, el diálogo de un término, el ancho mínimo, la lista vacía, un error del servicio y la ventana con su módulo roto. No demuestra el motor ni la aplicación instalada.",
+  "glossaryTerms": 18,
+  "baseline": {
+    "screens": {
+      "inicio": {
+        "vocabulary": {
+          "missing": [],
+          "forbidden": [],
+          "openable": [
+            "openspec"
+          ],
+          "examinedChars": 1804,
+          "attributes": 2,
+          "terms": 18
+        },
+        "accessibility": {
+          "contrast": [],
+          "headingOrder": [],
+          "headings": [
+            1,
+            2,
+            3,
+            3,
+            3,
+            3,
+            2,
+            2
+          ],
+          "focusable": 8,
+          "dialogOpen": false,
+          "brokenWords": [],
+          "measured": 39,
+          "terms": 1,
+          "termsReachable": 1
+        },
+        "names": {
+          "controls": 8,
+          "unnamed": [],
+          "landmarks": [
+            "aside",
+            "nav",
+            "main",
+            "header"
+          ],
+          "navigationLabelled": true,
+          "liveRegions": 3,
+          "dialogNamed": false,
+          "pressedTabs": true
+        },
+        "purity": {
+          "cards": 0,
+          "stray": [
+            "TODO OCURRE EN ESTE EQUIPO",
+            "Esta aplicación lee la carpeta de tu proyecto, ordena lo que hay dentr",
+            "Preparar proyecto",
+            "Cómo trabaja",
+            "01",
+            "Eliges tu carpeta",
+            "Los archivos que ya tienes, donde ya están. No se copian ni se mueven ",
+            "02",
+            "Ves qué se va a escribir",
+            "Antes de tocar nada aparece la lista completa de archivos que se añade",
+            "03",
+            "Se lee lo que hay dentro",
+            "Queda un resumen consultable, y cada respuesta puede decir de qué arch",
+            "04",
+            "Sigues en tu IA",
+            "Abres tu IA de escritorio con esta carpeta, o preparas un texto para p",
+            "Qué se descarga, y por qué",
+            "Para investigación, contenido creativo o trabajo general: nada. Todo l",
+            "Para software o un videojuego: Node, Git y npm, las herramientas con l",
+            "OpenSpec",
+            "— ver qué significa",
+            "si lo pides. Se descargan revisadas, con su huella comprobada, a una c",
+            "Nunca un modelo de IA ni el motor que lo ejecuta. Un modelo pesa entre",
+            "Qué se queda en este equipo",
+            "Tus documentos se leen aquí y no se envían a ninguna IA durante la pre",
+            "Compartir es una acción tuya y aparte: primero ves el texto, y después",
+            "Privacidad y alcance"
+          ],
+          "textNodes": 29,
+          "headings": [
+            "h1",
+            "h2",
+            "h3",
+            "h3",
+            "h3",
+            "h3",
+            "h2",
+            "h2"
+          ]
+        },
+        "feedback": ""
+      },
+      "ayuda": {
+        "vocabulary": {
+          "missing": [],
+          "forbidden": [],
+          "openable": [
+            "cita",
+            "recuperacion"
+          ],
+          "examinedChars": 2036,
+          "attributes": 2,
+          "terms": 18
+        },
+        "accessibility": {
+          "contrast": [],
+          "headingOrder": [],
+          "headings": [
+            1,
+            2,
+            2,
+            2,
+            2
+          ],
+          "focusable": 7,
+          "dialogOpen": false,
+          "brokenWords": [],
+          "measured": 92,
+          "terms": 2,
+          "termsReachable": 2
+        },
+        "names": {
+          "controls": 7,
+          "unnamed": [],
+          "landmarks": [
+            "aside",
+            "nav",
+            "main",
+            "header"
+          ],
+          "navigationLabelled": true,
+          "liveRegions": 3,
+          "dialogNamed": false,
+          "pressedTabs": true
+        },
+        "purity": {
+          "cards": 0,
+          "stray": [
+            "Cómo trabaja esta aplicación, qué quiere decir que algo esté listo, y ",
+            "Cómo trabaja, en orden",
+            "Dices qué quieres lograr",
+            "Un objetivo en una frase y el tipo de trabajo. Eso ajusta la explicaci",
+            "Eliges la carpeta",
+            "La eliges tú en el diálogo de Windows. La aplicación no puede elegirla",
+            "Revisas y apruebas",
+            "Cada paso muestra primero la lista de archivos que se van a añadir, ac",
+            "Se leen tus archivos",
+            "Queda un resumen consultable con la ubicación de cada frase. Tus origi",
+            "Sigues en tu IA",
+            "Abrir tu IA de escritorio con esta carpeta, o preparar un texto para p",
+            "Qué quiere decir «listo»",
+            "Son tres cosas distintas, y se comprueban por separado. La aplicación ",
+            "La carpeta está preparada: existen los archivos de la preparación y co",
+            "Los archivos están leídos: hay un resumen consultable y cada respuesta",
+            "Cita",
+            "— ver qué significa",
+            ".",
+            "Las herramientas externas están comprobadas: responden de verdad, no s",
+            "Copiar un archivo de configuración solo demuestra que ese archivo exis",
+            "Si algo no sale",
+            "Cualquier paso se puede detener con «Detener»: termina el paso seguro ",
+            "Si una operación se interrumpe, el proyecto lo dice y ofrece continuar",
+            "Recuperación",
+            "— ver qué significa",
+            ": antes de tocar nada se comprueban los archivos, y si los editaste de",
+            "Glosario",
+            "Cuando una de estas palabras aparece en una pantalla, se puede abrir s",
+            "Contexto",
+            "Un resumen de tu carpeta que tu IA puede leer: qué archivos hay, qué c",
+            "Se arma en este equipo leyendo tus archivos. No es una copia de tus do",
+            "Fuente",
+            "Uno de tus archivos, cuando ya forma parte del resumen consultable.",
+            "Un archivo que quedó fuera sigue en tu carpeta, pero no se puede citar",
+            "Cita",
+            "El nombre del archivo y el lugar exacto de donde salió una frase: una ",
+            "Sirve para comprobar por tu cuenta. Que una IA muestre una cita no sig",
+            "Inventario",
+            "La lista de los archivos que se encontraron en tu carpeta, con su tipo",
+            "Incluye los archivos que no se pudieron leer, con el motivo. No guarda",
+            "Perfil",
+            "El tipo de trabajo que vas a hacer: documentos, software, un juego en ",
+            "Cambia qué se prepara y cómo se explica, no qué te deja hacer. Puedes ",
+            "Receta",
+            "Un recorrido corto para pedirle a tu IA un resultado concreto y compro",
+            "Dice cuándo usarla, qué necesitas a mano, los pasos, cómo revisar el r",
+            "Exclusión",
+            "Un archivo o una carpeta que decides dejar fuera de la lectura.",
+            "El archivo no se toca ni se mueve: simplemente no entra en el resumen ",
+            "Mapa de código",
+            "Un índice de las funciones y clases de tu proyecto, para encontrar dón",
+            "Solo para proyectos de software o de Unity, y solo si lo pides. Si el ",
+            "OpenSpec",
+            "Una herramienta que guarda por escrito qué va a cambiar en un proyecto",
+            "Se descarga solo para proyectos de software o de Unity. Copiar sus arc",
+            "SDD",
+            "Trabajar escribiendo primero qué se espera y después el código, en lug",
+            "Del inglés «spec-driven development». Es el método que OpenSpec ordena",
+            "Entorno de ingeniería",
+            "Las herramientas de desarrollo que un proyecto de software necesita: N",
+            "Se descargan revisadas y con su huella comprobada, en una carpeta prop",
+            "IA con acceso a archivos",
+            "Una IA instalada en tu equipo que puede abrir tu carpeta, a diferencia",
+            "Abrir la carpeta en esa aplicación es todo lo que esta aplicación pued",
+            "Firma",
+            "El sello con el que quien publica un programa demuestra que ese archiv",
+            "Esta aplicación solo abre programas cuya firma pudo comprobar. Si no p",
+            "Recuperación",
+            "Continuar o deshacer una preparación que quedó a medias.",
+            "Antes de recuperar se comprueban los archivos. Si los editaste después",
+            "Presupuesto de contexto",
+            "El máximo de texto que una receta entrega a tu IA de una vez, medido e",
+            "Es un límite de tamaño de archivo, no una medición de lo que tu IA cob",
+            "Token",
+            "La unidad en la que las IA miden el texto que leen y escriben, y con l",
+            "Esta aplicación no mide tokens. Cuando una pantalla habla de bytes, es",
+            "Deuda técnica",
+            "Un problema conocido que se deja anotado en lugar de arreglarse en el ",
+            "Aparece en las recetas de software porque forma parte del método: anot",
+            "Revisión adversarial",
+            "Revisar un trabajo buscando activamente en qué falla, en vez de confir",
+            "Aparece en las recetas de software. Quien revisa intenta romper el res"
+          ],
+          "textNodes": 84,
+          "headings": [
+            "h1",
+            "h2",
+            "h2",
+            "h2",
+            "h2"
+          ]
+        },
+        "feedback": ""
+      },
+      "asistente": {
+        "vocabulary": {
+          "missing": [],
+          "forbidden": [],
+          "openable": [
+            "perfil",
+            "recuperacion",
+            "exclusion",
+            "mapa-de-codigo"
+          ],
+          "examinedChars": 1417,
+          "attributes": 3,
+          "terms": 18
+        },
+        "accessibility": {
+          "contrast": [],
+          "headingOrder": [],
+          "headings": [
+            1
+          ],
+          "focusable": 24,
+          "dialogOpen": false,
+          "brokenWords": [],
+          "measured": 52,
+          "terms": 5,
+          "termsReachable": 5
+        },
+        "names": {
+          "controls": 24,
+          "unnamed": [],
+          "landmarks": [
+            "aside",
+            "nav",
+            "main",
+            "header"
+          ],
+          "navigationLabelled": true,
+          "liveRegions": 3,
+          "dialogNamed": true,
+          "pressedTabs": true
+        },
+        "purity": {
+          "cards": 0,
+          "stray": [
+            "01",
+            "Tu proyecto",
+            "02",
+            "Carpeta",
+            "03",
+            "Preparación",
+            "04",
+            "Archivos",
+            "La preparación se adapta a tu trabajo. Puedes usar una IA instalada en",
+            "Lo que elijas aquí queda como el",
+            "Perfil",
+            "— ver qué significa",
+            "del proyecto, y puedes cambiarlo después.",
+            "Nombre de tu proyecto",
+            "Por ejemplo: Evidencia para mi tesis",
+            "¿Con qué perfil te identificas?",
+            "Investigador/a",
+            "Estudiante",
+            "Desarrollador/a o área de TI",
+            "Freelancer",
+            "Creador/a de contenido",
+            "Usuario/a general",
+            "¿Qué quieres lograr?",
+            "Un objetivo concreto ayuda a tu IA a empezar con dirección.",
+            "¿Qué vas a hacer?",
+            "Investigación",
+            "Artículos, PDF, documentos y evidencia.",
+            "Software o página web",
+            "Código, especificaciones y pruebas.",
+            "Videojuego con Unity",
+            "Escenas, scripts y un proceso de desarrollo.",
+            "Contenido creativo",
+            "Imágenes, música, video y sus workflows.",
+            "Otro proyecto",
+            "Materiales de trabajo, ideas y tareas cotidianas.",
+            "¿Con qué IA quieres trabajar?",
+            "Codex",
+            "Claude",
+            "Cursor",
+            "GitHub Copilot",
+            "OpenCode",
+            "Antigravity",
+            "ChatGPT u otro chat web",
+            "Puedes elegir varias. No necesitas conectar cuentas ni entregar contra",
+            "¿Cuánta guía prefieres?",
+            "Paso a paso, con explicaciones",
+            "Conozco las herramientas de IA",
+            "Inicio",
+            "Elegir carpeta →"
+          ],
+          "textNodes": 50,
+          "headings": [
+            "h1"
+          ]
+        },
+        "feedback": ""
+      },
+      "tus proyectos": {
+        "vocabulary": {
+          "missing": [],
+          "forbidden": [],
+          "openable": [
+            "perfil",
+            "recuperacion",
+            "exclusion",
+            "mapa-de-codigo"
+          ],
+          "examinedChars": 609,
+          "attributes": 2,
+          "terms": 18
+        },
+        "accessibility": {
+          "contrast": [],
+          "headingOrder": [],
+          "headings": [
+            1,
+            2,
+            2
+          ],
+          "focusable": 9,
+          "dialogOpen": false,
+          "brokenWords": [],
+          "measured": 29,
+          "terms": 4,
+          "termsReachable": 4
+        },
+        "names": {
+          "controls": 9,
+          "unnamed": [],
+          "landmarks": [
+            "aside",
+            "nav",
+            "main",
+            "header"
+          ],
+          "navigationLabelled": true,
+          "liveRegions": 3,
+          "dialogNamed": true,
+          "pressedTabs": true
+        },
+        "purity": {
+          "cards": 2,
+          "stray": [],
+          "textNodes": 17,
+          "headings": [
+            "h1",
+            "h2",
+            "h2"
+          ]
+        },
+        "feedback": ""
+      }
+    },
+    "dialog": {
+      "title": "Cita",
+      "opened": true,
+      "vocabulary": {
+        "missing": [],
+        "forbidden": [],
+        "openable": [
+          "cita",
+          "recuperacion"
+        ],
+        "examinedChars": 2298,
+        "attributes": 3,
+        "terms": 18
+      },
+      "accessibility": {
+        "contrast": [],
+        "headingOrder": [],
+        "headings": [
+          1,
+          2,
+          2,
+          2,
+          2
+        ],
+        "focusable": 8,
+        "dialogOpen": true,
+        "brokenWords": [],
+        "measured": 96,
+        "terms": 2,
+        "termsReachable": 2
+      },
+      "names": {
+        "controls": 8,
+        "unnamed": [],
+        "landmarks": [
+          "aside",
+          "nav",
+          "main",
+          "header"
+        ],
+        "navigationLabelled": true,
+        "liveRegions": 3,
+        "dialogNamed": true,
+        "pressedTabs": true
+      },
+      "purity": {
+        "cards": 0,
+        "stray": [
+          "Cómo trabaja esta aplicación, qué quiere decir que algo esté listo, y ",
+          "Cómo trabaja, en orden",
+          "Dices qué quieres lograr",
+          "Un objetivo en una frase y el tipo de trabajo. Eso ajusta la explicaci",
+          "Eliges la carpeta",
+          "La eliges tú en el diálogo de Windows. La aplicación no puede elegirla",
+          "Revisas y apruebas",
+          "Cada paso muestra primero la lista de archivos que se van a añadir, ac",
+          "Se leen tus archivos",
+          "Queda un resumen consultable con la ubicación de cada frase. Tus origi",
+          "Sigues en tu IA",
+          "Abrir tu IA de escritorio con esta carpeta, o preparar un texto para p",
+          "Qué quiere decir «listo»",
+          "Son tres cosas distintas, y se comprueban por separado. La aplicación ",
+          "La carpeta está preparada: existen los archivos de la preparación y co",
+          "Los archivos están leídos: hay un resumen consultable y cada respuesta",
+          "Cita",
+          "— ver qué significa",
+          ".",
+          "Las herramientas externas están comprobadas: responden de verdad, no s",
+          "Copiar un archivo de configuración solo demuestra que ese archivo exis",
+          "Si algo no sale",
+          "Cualquier paso se puede detener con «Detener»: termina el paso seguro ",
+          "Si una operación se interrumpe, el proyecto lo dice y ofrece continuar",
+          "Recuperación",
+          "— ver qué significa",
+          ": antes de tocar nada se comprueban los archivos, y si los editaste de",
+          "Glosario",
+          "Cuando una de estas palabras aparece en una pantalla, se puede abrir s",
+          "Contexto",
+          "Un resumen de tu carpeta que tu IA puede leer: qué archivos hay, qué c",
+          "Se arma en este equipo leyendo tus archivos. No es una copia de tus do",
+          "Fuente",
+          "Uno de tus archivos, cuando ya forma parte del resumen consultable.",
+          "Un archivo que quedó fuera sigue en tu carpeta, pero no se puede citar",
+          "Cita",
+          "El nombre del archivo y el lugar exacto de donde salió una frase: una ",
+          "Sirve para comprobar por tu cuenta. Que una IA muestre una cita no sig",
+          "Inventario",
+          "La lista de los archivos que se encontraron en tu carpeta, con su tipo",
+          "Incluye los archivos que no se pudieron leer, con el motivo. No guarda",
+          "Perfil",
+          "El tipo de trabajo que vas a hacer: documentos, software, un juego en ",
+          "Cambia qué se prepara y cómo se explica, no qué te deja hacer. Puedes ",
+          "Receta",
+          "Un recorrido corto para pedirle a tu IA un resultado concreto y compro",
+          "Dice cuándo usarla, qué necesitas a mano, los pasos, cómo revisar el r",
+          "Exclusión",
+          "Un archivo o una carpeta que decides dejar fuera de la lectura.",
+          "El archivo no se toca ni se mueve: simplemente no entra en el resumen ",
+          "Mapa de código",
+          "Un índice de las funciones y clases de tu proyecto, para encontrar dón",
+          "Solo para proyectos de software o de Unity, y solo si lo pides. Si el ",
+          "OpenSpec",
+          "Una herramienta que guarda por escrito qué va a cambiar en un proyecto",
+          "Se descarga solo para proyectos de software o de Unity. Copiar sus arc",
+          "SDD",
+          "Trabajar escribiendo primero qué se espera y después el código, en lug",
+          "Del inglés «spec-driven development». Es el método que OpenSpec ordena",
+          "Entorno de ingeniería",
+          "Las herramientas de desarrollo que un proyecto de software necesita: N",
+          "Se descargan revisadas y con su huella comprobada, en una carpeta prop",
+          "IA con acceso a archivos",
+          "Una IA instalada en tu equipo que puede abrir tu carpeta, a diferencia",
+          "Abrir la carpeta en esa aplicación es todo lo que esta aplicación pued",
+          "Firma",
+          "El sello con el que quien publica un programa demuestra que ese archiv",
+          "Esta aplicación solo abre programas cuya firma pudo comprobar. Si no p",
+          "Recuperación",
+          "Continuar o deshacer una preparación que quedó a medias.",
+          "Antes de recuperar se comprueban los archivos. Si los editaste después",
+          "Presupuesto de contexto",
+          "El máximo de texto que una receta entrega a tu IA de una vez, medido e",
+          "Es un límite de tamaño de archivo, no una medición de lo que tu IA cob",
+          "Token",
+          "La unidad en la que las IA miden el texto que leen y escriben, y con l",
+          "Esta aplicación no mide tokens. Cuando una pantalla habla de bytes, es",
+          "Deuda técnica",
+          "Un problema conocido que se deja anotado en lugar de arreglarse en el ",
+          "Aparece en las recetas de software porque forma parte del método: anot",
+          "Revisión adversarial",
+          "Revisar un trabajo buscando activamente en qué falla, en vez de confir",
+          "Aparece en las recetas de software. Quien revisa intenta romper el res"
+        ],
+        "textNodes": 84,
+        "headings": [
+          "h1",
+          "h2",
+          "h2",
+          "h2",
+          "h2"
+        ]
+      },
+      "feedback": ""
+    },
+    "narrow": {
+      "vocabulary": {
+        "missing": [],
+        "forbidden": [],
+        "openable": [
+          "perfil",
+          "recuperacion",
+          "exclusion",
+          "mapa-de-codigo"
+        ],
+        "examinedChars": 609,
+        "attributes": 2,
+        "terms": 18
+      },
+      "accessibility": {
+        "contrast": [],
+        "headingOrder": [],
+        "headings": [
+          1,
+          2,
+          2
+        ],
+        "focusable": 9,
+        "dialogOpen": false,
+        "brokenWords": [],
+        "measured": 24,
+        "terms": 4,
+        "termsReachable": 4
+      },
+      "names": {
+        "controls": 9,
+        "unnamed": [],
+        "landmarks": [
+          "aside",
+          "nav",
+          "main",
+          "header"
+        ],
+        "navigationLabelled": true,
+        "liveRegions": 3,
+        "dialogNamed": true,
+        "pressedTabs": true
+      },
+      "purity": {
+        "cards": 2,
+        "stray": [],
+        "textNodes": 17,
+        "headings": [
+          "h1",
+          "h2",
+          "h2"
+        ]
+      },
+      "feedback": ""
+    },
+    "unreachable": [],
+    "glossaryEntries": 18,
+    "glossaryTerms": 18,
+    "actions": [
+      [
+        "open-start",
+        [
+          "Inicio"
+        ]
+      ],
+      [
+        "open-project-list",
+        [
+          "Tus proyectos"
+        ]
+      ],
+      [
+        "prepare-project",
+        [
+          "Preparar proyecto"
+        ]
+      ],
+      [
+        "open-help",
+        [
+          "Ayuda"
+        ]
+      ],
+      [
+        "privacy-scope",
+        [
+          "Privacidad y alcance"
+        ]
+      ]
+    ],
+    "duplicated": [],
+    "undeclared": [],
+    "termLabelMismatches": [],
+    "rendererErrors": [],
+    "brokenModule": {
+      "bootText": "La aplicación no terminó de cargar. Esta pantalla es la que queda cuando el programa no pudo leer sus propios archivos. Tus proyectos y tus carpetas no se tocaron: nada de lo que ves aquí escribe en disco. Cierra esta ventana y vuelve a abrir Project Engineering OS desde su acceso directo. Si sigue igual, la instalación está incompleta y conviene instalarla de nuevo; desinstalar no borra los proyectos que ya preparaste.",
+      "navButtons": 0
+    }
+  },
+  "mutations": [
+    {
+      "id": "two-names-for-one-action-deeper-in-the-wizard",
+      "reason": "una acción declarada se ofrece con otro nombre en una pantalla del asistente",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [
+          "prepare-project: \"Preparar proyecto\" (tus proyectos) vs \"Preparar una carpeta\" (asistente)"
+        ],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-second-name-only-assistive-technology-hears",
+      "reason": "una acción declarada lleva un aria-label distinto de su texto visible, que es el nombre que dice un lector de pantalla",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [
+          "privacy-scope: \"Privacidad y alcance\" (tus proyectos) vs \"Alcance y datos que salen de aquí\" (tus proyectos (hablado))"
+        ],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-duplicate-action-inside-a-dialog",
+      "reason": "una acción declarada se ofrece con otro nombre dentro de un diálogo, que es donde la recogida anterior nunca miraba",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [
+          "open-project-list: \"Tus proyectos\" (tus proyectos) vs \"Ver la lista de carpetas\" (tus proyectos (diálogo))"
+        ],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "an-action-offered-under-an-undeclared-id",
+      "reason": "un control declara una acción que no está en el conjunto cerrado",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [
+          "go-somewhere"
+        ],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "greeting-back-in-the-list-as-a-paragraph",
+      "reason": "la lista de proyectos recupera un saludo explicativo",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 1,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "greeting-back-in-the-list-as-a-div",
+      "reason": "el mismo saludo, en un elemento que la comprobación anterior no miraba",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 1,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "greeting-back-in-the-list-as-a-details",
+      "reason": "el mismo saludo, plegado dentro de un details",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 2,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "numbered-steps-back-in-the-list",
+      "reason": "los tres pasos vuelven a la lista, como lista ordenada",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 2,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "term-without-definition-on-inicio",
+      "reason": "un término técnico vuelve a aparecer en Inicio como prosa",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [
+          "inicio:openspec"
+        ],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "forbidden-word-on-the-help-screen",
+      "reason": "una palabra de la jerga de este repositorio aparece en una pantalla que no es Inicio",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [
+          "ayuda:harness"
+        ],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "term-as-prose-on-a-screen-with-no-control-for-it",
+      "reason": "un término aparece como prosa en una pantalla donde su definición no se puede abrir",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [
+          "ayuda:inventario",
+          "ayuda:perfil"
+        ],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "term-as-prose-inside-a-placeholder",
+      "reason": "un término llega a la pantalla por un placeholder, que se dibuja pero no es textContent",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [
+          "asistente:firma"
+        ],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "term-as-prose-inside-an-aria-label",
+      "reason": "un término llega a la pantalla por un aria-label, que es lo que dice un lector de pantalla, y este está en todas",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [
+          "inicio:inventario",
+          "ayuda:inventario",
+          "asistente:inventario",
+          "tus proyectos:inventario"
+        ],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "action-removed-from-the-page",
+      "reason": "se retira la declaración de una acción, que es la forma de satisfacer la comprobación por omisión",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [
+          "ayuda"
+        ],
+        "glossaryEntries": 0,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "glossary-stops-listing-every-term",
+      "reason": "la ayuda deja de reunir todas las definiciones",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 5,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "state-text-loses-its-contrast",
+      "reason": "el estado de cada proyecto se vuelve ilegible sobre su fondo",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [
+          "tus proyectos:project-state state-context:1.43",
+          "tus proyectos:recorded:1.43",
+          "tus proyectos:project-state state-unreadable:1.43",
+          "tus proyectos:recorded:1.43"
+        ],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "contrast-broken-inside-the-definition-dialog",
+      "reason": "el texto del diálogo que define un término se vuelve ilegible",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [
+          "diálogo:null:1.17"
+        ],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "contrast-broken-on-the-persistent-navigation",
+      "reason": "la navegación, que está en todas las pantallas, se vuelve ilegible",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [
+          "inicio:nav-button:1.33",
+          "inicio:nav-button:1.33",
+          "inicio:nav-button:1.33",
+          "inicio:nav-button:1.33",
+          "ayuda:nav-button:1.33",
+          "ayuda:nav-button:1.33",
+          "ayuda:nav-button:1.33",
+          "asistente:nav-button:1.33",
+          "asistente:nav-button:1.33",
+          "asistente:nav-button:1.33",
+          "tus proyectos:nav-button:1.33",
+          "tus proyectos:nav-button:1.33",
+          "tus proyectos:nav-button:1.33",
+          "diálogo:nav-button:1.33",
+          "diálogo:nav-button:1.33",
+          "diálogo:nav-button:1.33",
+          "diálogo:nav-button:1.33"
+        ],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "navigation-entries-break-mid-word",
+      "reason": "las entradas de navegación vuelven a partirse por la mitad de una palabra en el ancho mínimo",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [
+          "Inicio en 3 renglones para 1 palabra(s)",
+          "Tus proyectos en 3 renglones para 2 palabra(s)",
+          "Ayuda en 3 renglones para 1 palabra(s)"
+        ],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-term-stops-being-a-control",
+      "reason": "un término deja de poder activarse con el teclado y pasa a ser texto",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [
+          "inicio",
+          "ayuda",
+          "asistente",
+          "tus proyectos"
+        ],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-term-control-opens-another-concepts-definition",
+      "reason": "un control dice una palabra y abre la definición de otra",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 0,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [
+          "ayuda:recuperacion"
+        ],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-control-loses-its-accessible-name",
+      "reason": "un control queda sin nombre accesible, así que con un lector de pantalla es inservible",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [
+          "privacy-scope: \"\" (tus proyectos) vs \"Privacidad y alcance\" (inicio)"
+        ],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [
+          "inicio:button.quiet",
+          "ayuda:button.quiet",
+          "asistente:button.quiet",
+          "tus proyectos:button.quiet"
+        ],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "the-boot-shell-loses-its-stated-cause",
+      "reason": "si el módulo no carga, la ventana vuelve a quedar en blanco sin decir por qué",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 0
+      }
+    }
+  ],
+  "findings": [],
+  "states": {
+    "empty": {
+      "text": "Ir al contenido P↗ Project Engineering OS COMPANION 01 Inicio Tus proyectos Preparar proyecto Ayuda ✳ Tu proyecto. Tus archivos. Tu siguiente paso. Todo en este equipo · Sin cuenta TUS PROYECTOS Privacidad y alcance Tus proyectos Aún no hay proyectos en esta lista. Preparar proyecto",
+      "feedbackVisible": false,
+      "offersTheAction": true,
+      "accessibility": {
+        "contrast": [],
+        "headingOrder": [],
+        "headings": [
+          1
+        ],
+        "focusable": 6,
+        "dialogOpen": false,
+        "brokenWords": [],
+        "measured": 15,
+        "terms": 0,
+        "termsReachable": 0
+      },
+      "rendererErrors": []
+    },
+    "error": {
+      "text": "Ir al contenido P↗ Project Engineering OS COMPANION 01 Inicio Tus proyectos Preparar proyecto Ayuda ✳ Tu proyecto. Tus archivos. Tu siguiente paso. Todo en este equipo · Sin cuenta INICIO Privacidad y alcance No se puede leer el historial local. La carpeta de tus proyectos sigue intacta. Conserva el registro para recuperarlo. HISTORY_INVALID TODO OCURRE EN ESTE EQUIPO Dale a tu IA un buen punto de",
+      "feedbackVisible": true,
+      "offersTheAction": true,
+      "accessibility": {
+        "contrast": [],
+        "headingOrder": [],
+        "headings": [
+          1,
+          2,
+          3,
+          3,
+          3,
+          3,
+          2,
+          2
+        ],
+        "focusable": 8,
+        "dialogOpen": false,
+        "brokenWords": [],
+        "measured": 42,
+        "terms": 1,
+        "termsReachable": 1
+      },
+      "rendererErrors": []
+    },
+    "unreachableRowShowsItsCause": true,
+    "brokenModule": {
+      "bootText": "La aplicación no terminó de cargar. Esta pantalla es la que queda cuando el programa no pudo leer sus propios archivos. Tus proyectos y tus carpetas no se tocaron: nada de lo que ves aquí escribe en disco. Cierra esta ventana y vuelve a abrir Project Engineering OS desde su acceso directo. Si sigue igual, la instalación está incompleta y conviene instalarla de nuevo; desinstalar no borra los proyectos que ya preparaste.",
+      "navButtons": 0
+    }
+  },
+  "constructionProbes": [
+    {
+      "id": "renaming-an-action-renames-every-control-at-once",
+      "property": "la etiqueta vive con la acción, así que no se puede romper en un solo sitio",
+      "holds": true,
+      "by": null
+    }
+  ],
+  "summary": {
+    "mutations": 23,
+    "detected": 23,
+    "constructionProbes": 1,
+    "constructionHeld": 1,
+    "findings": 0,
+    "screens": 9,
+    "denominators": {
+      "inicio": {
+        "contrast": 39,
+        "vocabularyChars": 1804,
+        "controls": 8
+      },
+      "ayuda": {
+        "contrast": 92,
+        "vocabularyChars": 2036,
+        "controls": 7
+      },
+      "asistente": {
+        "contrast": 52,
+        "vocabularyChars": 1417,
+        "controls": 24
+      },
+      "tus proyectos": {
+        "contrast": 29,
+        "vocabularyChars": 609,
+        "controls": 9
+      }
+    }
+  }
+}
