@@ -51,17 +51,26 @@ realidad una página de bienvenida con los proyectos al final. Decisión del man
 | **Preparar proyecto** | El asistente de ocho pasos descrito abajo. | — |
 | **Ayuda** | El método en palabras llanas y el [glosario](GLOSSARY.md). | Controles que cambien un proyecto. |
 
-Una acción se ofrece siempre con el mismo nombre, esté en la navegación o en el cuerpo de otra pantalla. Es
-una propiedad comprobada sobre la página renderizada, no una convención: cada control declara qué acción es,
-y dos nombres para una misma acción hacen fallar la comprobación.
+Una acción se ofrece siempre con el mismo nombre, esté en la navegación o en el cuerpo de otra pantalla. No
+es una convención ni una comprobación posterior: el nombre vive junto a la acción, en una tabla cerrada, y el
+constructor de botones no acepta una etiqueta. Dos nombres para una acción son **irrepresentables**, no solo
+detectables. La primera versión sí pasaba la etiqueta, y una revisión independiente encontró seis nombres
+distintos que llevaban a la pantalla del proyecto y tres a la lectura de archivos; ahora son «Ver mi
+proyecto», «Leer mis archivos», «Comprobar de nuevo» y «Revisar desarrollo».
+
+La regla no cubre la navegación relativa: «Volver» significa un paso atrás desde aquí, su sentido es
+posicional, y darle el nombre de un destino sería exactamente el defecto que la regla quita.
 
 El estado que muestra la lista es el **registrado**, leído del recibo de cada etapa sin volver a inspeccionar
 la carpeta, y la pantalla lo dice. Verificar de verdad cuesta releer los archivos y, en software, comprobar
 las herramientas: eso ocurre al abrir el proyecto. «Preparado» es la palabra más fuerte que usa la lista;
 «Verificado» pertenece a una comprobación que sí volvió a leer la carpeta.
 
-Cada término técnico que sobrevive en la interfaz es un control que abre su propia definición desde donde
-aparece, y todas se reúnen en el glosario. La regla al reescribir el lenguaje fue que **se elimina el
+Cada término técnico que sobrevive en la interfaz es un control que abre su propia definición **desde la
+pantalla donde aparece**, y todas se reúnen en el glosario. Esa es la propiedad que se comprueba, pantalla
+por pantalla y palabra por palabra: si la palabra está en el texto de una pantalla y su definición no se
+puede abrir desde ahí, la comprobación falla. Dos palabras de la jerga de este repositorio, `harness` y
+`RAG`, no tienen definición y no pueden aparecer en ninguna parte. La regla al reescribir el lenguaje fue que **se elimina el
 vocabulario técnico y el tono defensivo, no la verdad**: ninguna frase que declare un límite del resultado se
 quitó, y ningún beneficio sin medir se suavizó hasta parecer cierto.
 

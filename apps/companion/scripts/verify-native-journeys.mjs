@@ -44,11 +44,6 @@ assert(installedRoot && output, 'Indica el directorio resources/app instalado y 
 const keep = flags.includes('--keep');
 await mkdir(output, { recursive: true });
 
-const load = relative => import(pathToFileURL(path.join(installedRoot, relative)).href);
-const core = await load('node_modules/create-project-engineering-os/src/index.mjs');
-const { createDesktopService } = await load('desktop/service.mjs');
-const installedManifest = JSON.parse(await readFile(path.join(installedRoot, 'package.json'), 'utf8'));
-const executable = path.join(installedRoot, '..', '..', `${installedManifest.productName ?? 'Project Engineering OS'}.exe`);
 
 const PROFILES = {
   // The profiles the product defines as documents and as creative work carry the formats it names. A
@@ -89,12 +84,28 @@ async function hashesOf(root, relatives) {
 }
 
 // Every source file of this branch, against the ones the installed window will actually load.
+//
+// Scope, stated rather than implied, because an independent review walked through three ways past the
+// earlier version: a module added at the installed app root, `package.json` rewritten to point `main` at
+// it, and the pinned core modified inside `node_modules`. All three now fail the guard.
+//
+//   - every file under the five source directories, on both sides, compared by SHA-256;
+//   - the top-level entries of the installed application, against a closed list;
+//   - `package.json`'s `main`, `version` and `dependencies`, which is what decides which process starts and
+//     which core it loads. The rest of that file is excluded because the packager rewrites it by design;
+//   - the whole tree digest of the pinned core inside `node_modules`, which the application actually runs.
+//
+// Every digest is recorded, matching or not: the requirement this change adds says the evidence has to name
+// the interface it measured, and a record that only lists mismatches names nothing when nothing mismatched.
 const SOURCE_DIRECTORIES = ['desktop', 'ui', 'engine', 'context', 'runtime'];
+const ROOT_ENTRIES = ['LICENSE', 'THIRD-PARTY-NOTICES.md', 'context', 'desktop', 'engine', 'node_modules',
+  'package.json', 'runtime', 'ui'];
+const PINNED_CORE = 'node_modules/create-project-engineering-os';
 const branchRoot = fileURLToPath(new URL('../', import.meta.url));
 const syncApp = flags.includes('--sync-app');
-async function sourceFiles(root) {
+async function filesUnder(root, directories) {
   const found = [];
-  for (const directory of SOURCE_DIRECTORIES) {
+  for (const directory of directories) {
     const walk = async relative => {
       for (const entry of await readdir(path.join(root, relative), { withFileTypes: true }).then(v => v, () => [])) {
         const next = `${relative}/${entry.name}`;
@@ -105,9 +116,58 @@ async function sourceFiles(root) {
   }
   return found.sort();
 }
-const branchFiles = await sourceFiles(branchRoot), installedFiles = await sourceFiles(installedRoot);
-const identity = { directories: SOURCE_DIRECTORIES, excluded: ['package.json', 'node_modules'],
-  files: {}, onlyInstalled: installedFiles.filter(file => !branchFiles.includes(file)), synchronised: [] };
+// A single tree digest over the pinned core refuses a correct installation: the packager prunes files it
+// never needs, and the first run of this guard failed on `CHANGELOG.md`, `README.md` and a nested
+// `package-lock.json` with the code byte-identical and the version the same on both sides. Comparing the
+// whole tree as one hash cannot tell "the packager dropped a changelog" from "someone edited the core",
+// which are the two things that matter most to keep apart. So the comparison is per file, and each of the
+// three outcomes gets its own verdict: a file that differs on both sides is refused, a file the branch has
+// and the installation lacks is refused unless it is in the declared prune list, and a file only the
+// installation has is refused outright, because that is the injection vector.
+const PACKAGER_PRUNES = [/^.*\/CHANGELOG\.md$/, /^.*\/README\.md$/, /^.*\/package-lock\.json$/];
+async function compareTree(relative) {
+  const ours = await filesUnder(branchRoot, [relative]);
+  const theirs = new Set(await filesUnder(installedRoot, [relative]));
+  const differing = [], missing = [], pruned = [], byIdentityFields = [];
+  for (const file of ours) {
+    if (!theirs.has(file)) {
+      (PACKAGER_PRUNES.some(pattern => pattern.test(file)) ? pruned : missing).push(file);
+      continue;
+    }
+    // `removePackageScripts` and `removePackageKeywords` are on in the packager config, and they rewrite
+    // every nested manifest, not only the application's own. So a manifest is compared by the fields that
+    // decide what runs — name, version, type, main, exports, bin, files, dependencies — and everything else
+    // by its bytes. Comparing the whole manifest would refuse a correct installation for a missing keyword
+    // list, which trains a reader to ignore the guard.
+    if (path.basename(file) === 'package.json') {
+      const ours = manifestIdentity(JSON.parse(await readFile(path.join(branchRoot, file), 'utf8')));
+      const theirs = await readFile(path.join(installedRoot, file), 'utf8')
+        .then(value => manifestIdentity(JSON.parse(value)), () => null);
+      if (JSON.stringify(ours) !== JSON.stringify(theirs)) differing.push(file);
+      byIdentityFields.push(file);
+      continue;
+    }
+    const ourDigest = await digest(path.join(branchRoot, file));
+    const theirDigest = await digest(path.join(installedRoot, file)).then(value => value, () => null);
+    if (ourDigest !== theirDigest) differing.push(file);
+  }
+  return { compared: ours.length, differing, missing, pruned, byIdentityFields,
+    onlyInstalled: [...theirs].filter(file => !ours.includes(file)) };
+}
+function manifestIdentity(value) {
+  return { name: value.name ?? null, version: value.version ?? null, type: value.type ?? null,
+    main: value.main ?? null, exports: value.exports ?? null, bin: value.bin ?? null,
+    files: value.files ?? null, dependencies: value.dependencies ?? null };
+}
+
+const branchFiles = await filesUnder(branchRoot, SOURCE_DIRECTORIES);
+const installedFiles = await filesUnder(installedRoot, SOURCE_DIRECTORIES);
+const identity = { directories: SOURCE_DIRECTORIES,
+  comparedBeyondSources: ['top-level entries', 'package.json main/version/dependencies', PINNED_CORE],
+  notCompared: ['the rest of package.json, which the packager rewrites', 'node_modules other than the pinned core',
+    'the documentation the packager prunes from the pinned core, listed per run under pinnedCore.pruned'],
+  branchCommit: null, branchTreeClean: null, files: {},
+  onlyInstalled: installedFiles.filter(file => !branchFiles.includes(file)), synchronised: [], mismatched: [] };
 for (const file of branchFiles) {
   const branch = await digest(path.join(branchRoot, file));
   const target = path.join(installedRoot, file);
@@ -115,22 +175,65 @@ for (const file of branchFiles) {
   if (before !== branch && syncApp) {
     await mkdir(path.dirname(target), { recursive: true });
     await copyFile(path.join(branchRoot, file), target);
-    identity.synchronised.push({ file, replaced: before });
+    identity.synchronised.push({ file, replaced: before, installed: branch });
   }
   const installed = await digest(target).then(value => value, () => null);
-  if (installed !== branch) identity.files[file] = { branch, installed };
+  identity.files[file] = { branch, installed };
+  if (installed !== branch) identity.mismatched.push(file);
 }
-const drifted = Object.keys(identity.files);
-identity.matched = branchFiles.length - drifted.length;
 identity.compared = branchFiles.length;
-assert.equal(drifted.length, 0, `La ventana instalada no corre la aplicación de esta rama (${drifted.join(', ')}). Ejecuta con --sync-app para copiarla y volver a medir.`);
+identity.matched = branchFiles.length - identity.mismatched.length;
+
+// Anything at the installed root that this branch does not know about could be the module `main` points at.
+const rootEntries = (await readdir(installedRoot, { withFileTypes: true }).then(v => v, () => []))
+  .map(entry => entry.name).sort();
+identity.rootEntries = rootEntries;
+identity.unexpectedRootEntries = rootEntries.filter(name => !ROOT_ENTRIES.includes(name));
+
+const branchManifest = JSON.parse(await readFile(path.join(branchRoot, 'package.json'), 'utf8'));
+const installedManifestRaw = JSON.parse(await readFile(path.join(installedRoot, 'package.json'), 'utf8'));
+identity.manifest = { branch: manifestIdentity(branchManifest), installed: manifestIdentity(installedManifestRaw) };
+identity.manifestMatches = JSON.stringify(identity.manifest.branch) === JSON.stringify(identity.manifest.installed);
+
+identity.pinnedCore = await compareTree(PINNED_CORE);
+identity.pinnedCoreMatches = identity.pinnedCore.differing.length === 0
+  && identity.pinnedCore.missing.length === 0 && identity.pinnedCore.onlyInstalled.length === 0;
+
+const commit = await new Promise(resolve => {
+  const child = spawn('git', ['-C', branchRoot, 'rev-parse', 'HEAD'], { windowsHide: true, stdio: ['ignore', 'pipe', 'ignore'] });
+  let out = ''; child.stdout.on('data', chunk => { out += chunk; });
+  child.on('close', () => resolve(out.trim() || null)); child.on('error', () => resolve(null));
+});
+const dirty = await new Promise(resolve => {
+  const child = spawn('git', ['-C', branchRoot, 'status', '--porcelain'], { windowsHide: true, stdio: ['ignore', 'pipe', 'ignore'] });
+  let out = ''; child.stdout.on('data', chunk => { out += chunk; });
+  child.on('close', () => resolve(out.trim())); child.on('error', () => resolve(null));
+});
+identity.branchCommit = commit;
+identity.branchTreeClean = dirty === '' ? true : dirty === null ? null : false;
+
+assert.equal(identity.mismatched.length, 0, `La ventana instalada no corre la aplicación de esta rama (${identity.mismatched.join(', ')}). Ejecuta con --sync-app para copiarla y volver a medir.`);
 assert.equal(identity.onlyInstalled.length, 0, `El árbol instalado tiene archivos que esta rama no tiene (${identity.onlyInstalled.join(', ')}).`);
+assert.equal(identity.unexpectedRootEntries.length, 0, `El árbol instalado tiene entradas de raíz inesperadas (${identity.unexpectedRootEntries.join(', ')}).`);
+assert.ok(identity.manifestMatches, `El package.json instalado declara otro main, otra versión u otras dependencias: ${JSON.stringify(identity.manifest)}`);
+assert.deepEqual(identity.pinnedCore.differing, [], `El núcleo fijado instalado tiene archivos distintos de los de esta rama.`);
+assert.deepEqual(identity.pinnedCore.missing, [], `Al núcleo fijado instalado le faltan archivos que esta rama sí tiene y que el empaquetador no poda.`);
+assert.deepEqual(identity.pinnedCore.onlyInstalled, [], `El núcleo fijado instalado tiene archivos que esta rama no tiene.`);
+
+
+// Imported only after the guard: with --sync-app the driver would otherwise keep measuring through the
+// pre-sync modules while the window runs the post-sync bytes.
+const load = relative => import(pathToFileURL(path.join(installedRoot, relative)).href);
+const core = await load('node_modules/create-project-engineering-os/src/index.mjs');
+const { createDesktopService } = await load('desktop/service.mjs');
+const installedManifest = installedManifestRaw;
+const executable = path.join(installedRoot, '..', '..', `${installedManifest.productName ?? 'Project Engineering OS'}.exe`);
 
 const workspace = await realpath(await mkdtemp(path.join(tmpdir(), 'companion-native-')));
 const userData = path.join(workspace, 'userdata');
 const record = { date: new Date().toISOString(),
   application: { version: installedManifest.version, root: portable(installedRoot) },
-  installedSource: identity,
+  installedApplication: identity,
   machine: `${process.platform}-${process.arch}`,
   drivenBy: 'the installed application window over its debugging port, against an isolated data directory',
   humanSteps: ['choosing the folder in the operating system picker'],
@@ -228,7 +331,7 @@ try {
     step('opened from history', { project: definition.name, heading: await page.locator('h1,h2').first().innerText() });
 
     // Context preparation, reviewed and then applied, in the interface.
-    const reviewContext = page.getByRole('button', { name: /^Preparar contexto$|Solo leer mis archivos/ }).first();
+    const reviewContext = page.getByRole('button', { name: /^Leer mis archivos$/ }).first();
     if (await reviewContext.count()) {
       await reviewContext.click();
       await page.waitForTimeout(1500);
@@ -241,10 +344,10 @@ try {
     } else finding(id, 'context', `la interfaz no ofreció preparar el contexto. Botones visibles: ${(await page.locator('button:visible').allTextContents()).join(' | ')}`);
 
     // Context and a search whose answer is known in advance.
-    const sources = page.getByRole('button', { name: /Buscar fuentes/ });
+    const sources = page.getByRole('button', { name: /Buscar en mis archivos/ });
     await sources.first().waitFor({ timeout: 180000 }).catch(() => {});
     if (await sources.count()) {
-      if (!await notBusy()) finding(id, 'search', 'la aplicación siguió ocupada al ir a buscar fuentes');
+      if (!await notBusy()) finding(id, 'search', 'la aplicación siguió ocupada al ir a buscar en los archivos');
       await sources.first().click();
       await page.waitForTimeout(1200);
       const field = page.locator('input[type="search"], input[type="text"]:visible').last();
@@ -284,7 +387,7 @@ try {
         }
       } else finding(id, 'search', `la búsqueda de "${definition.query}" no devolvió una cita comprobable`);
       step('search with citation', { query: definition.query, ...resolution ?? { citation: null } });
-    } else finding(id, 'context', `la interfaz no ofreció buscar fuentes. Botones visibles: ${(await page.locator('button:visible').allTextContents()).join(' | ')}`);
+    } else finding(id, 'context', `la interfaz no ofreció buscar en los archivos. Botones visibles: ${(await page.locator('button:visible').allTextContents()).join(' | ')}`);
 
     // The scenario this change added requires engineering, official OpenSpec workflows and the code map to
     // be verified for software and Unity. They are driven here, in the window, and a profile that cannot
@@ -312,7 +415,7 @@ try {
       // presses whichever known stage control is on screen, repeatedly, and records the order the interface
       // actually led through — which is also the honest thing to publish.
       const STAGES = [
-        ['reviewEngineering', /Revisar ingeniería/],
+        ['reviewEngineering', /Revisar desarrollo/], // was /Revisar ingeniería/],
         ['prepareTools', /Preparar herramientas y continuar/],
         // Same stage names as the archived record so the two are comparable; only the labels moved.
         ['applyEnvironment', /Guardar estas instrucciones|Continuar lo que quedó a medias/],
@@ -388,7 +491,7 @@ try {
     await reopened.getByRole('button', { name: 'Abrir →' }).click();
     await page.locator('article.project').first().waitFor({ state: 'detached', timeout: 120000 });
     await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 180000 }).catch(() => {});
-    const afterReopen = page.getByRole('button', { name: /Buscar fuentes/ });
+    const afterReopen = page.getByRole('button', { name: /Buscar en mis archivos/ });
     await afterReopen.first().waitFor({ timeout: 180000 }).catch(() => {});
     let survived = null;
     if (await afterReopen.count()) {
@@ -407,14 +510,14 @@ try {
         // is regenerated. Refusing honestly and losing the index look identical from a missing citation, so
         // the screen is read: a stated stale or review-needed state is correct behaviour and is recorded as
         // such; silence with no explanation is the finding.
-        const explained = /desactualizad|actualiza el contexto|revisar de nuevo|volver a preparar|cambi[oó]|Revisar fuentes de nuevo|revisa (la carpeta|sus instrucciones)/i.test(screen);
+        const explained = /desactualizad|actualiza el contexto|revisar de nuevo|volver a preparar|cambi[oó]|Leer mis archivos|vigente|revisa (la carpeta|sus instrucciones)/i.test(screen);
         if (explained) {
           step('context refused after reopen, with reason', { explained: true });
         } else {
           finding(id, 'reopen', `tras cerrar y reabrir no hubo cita ni explicación. Pantalla: ${screen.replace(/\s+/g, ' ').slice(0, 300)}`);
         }
       }
-    } else finding(id, 'reopen', 'tras reabrir, la interfaz no ofreció buscar fuentes');
+    } else finding(id, 'reopen', 'tras reabrir, la interfaz no ofreció buscar en los archivos');
     step('closed and reopened', { citationSurvived: survived });
 
     // Reflow at the widths the desktop window can reach.

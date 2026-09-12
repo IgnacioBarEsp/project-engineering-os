@@ -19,7 +19,7 @@ main:has(.steps){padding-bottom:145px}main:has(.steps) #view .enter>.actions,mai
 .project-list{margin-top:8px}
 .project-state{font-size:.86rem;color:var(--muted);margin:10px 0 8px;line-height:1.55}
 .project-state b{color:var(--ink);font-weight:600}
-.project-state small{display:block;font-size:.76rem;margin-top:3px}
+.project-state .recorded{display:block;margin-top:3px}
 .project-state.state-interrupted b,.project-state.state-unreadable b{color:var(--error)}
 .empty-state{margin-top:8px}
 .empty-state .actions{margin-top:20px}
@@ -34,3 +34,4 @@ main:has(.steps){padding-bottom:145px}main:has(.steps) #view .enter>.actions,mai
 .section-title+.feature-row{margin-top:18px;border-top:0;padding-top:0}
 .status-card h2,.folder-card h2{font-size:1.05rem;font-weight:600}
 .folder-card h2{font-size:1.2rem}
+.project-state .recorded{display:block;margin-top:3px;font-size:inherit}

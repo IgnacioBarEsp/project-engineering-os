@@ -763,6 +763,230 @@
       "createdAt": "2026-09-12",
       "updatedAt": "2026-09-12",
       "resolution": null
+    },
+    {
+      "id": "debt-b1d0e4086495",
+      "title": "Dos criterios del issue exigen una lectura en frío por una persona que no conoce la aplicación, y nadie la ha hecho; no se sustituyó por un agente ni por una heurística",
+      "description": "Dos criterios del issue exigen una lectura en frío por una persona que no conoce la aplicación, y nadie la ha hecho; no se sustituyó por un agente ni por una heurística",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "docs/companion/COLD_READING.md",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "docs/companion/COLD_READING.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-3357b1fa1b44",
+      "title": "La mitad observable por máquina de la accesibilidad está verificada en 29 pantallas, pero no se condujo ningún lector de pantalla ni participó una persona usuaria de tecnología asistiva",
+      "description": "La mitad observable por máquina de la accesibilidad está verificada en 29 pantallas, pero no se condujo ningún lector de pantalla ni participó una persona usuaria de tecnología asistiva",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/interface-contract.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/keyboard-and-assistive-technology.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-a75a69baccc3",
+      "title": "Diez etapas nativas de software y Unity siguen sin verificar por un límite del harness: la aplicación rechaza con causa un plan que quedó viejo y el control de revisión no está en la pantalla alcanzable",
+      "description": "Diez etapas nativas de software y Unity siguen sin verificar por un límite del harness: la aplicación rechaza con causa un plan que quedó viejo y el control de revisión no está en la pantalla alcanzable",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/native-journeys.json",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-bee2fa0c0549",
+      "title": "El guarda de identidad de la aplicación instalada no compara el runtime de Electron ni los paquetes de node_modules distintos del núcleo fijado, y lo declara en lugar de cubrirlo",
+      "description": "El guarda de identidad de la aplicación instalada no compara el runtime de Electron ni los paquetes de node_modules distintos del núcleo fijado, y lo declara en lugar de cubrirlo",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-7a5becc4cd20",
+      "title": "El listado relee los recibos en cada visita con un límite fijo de 1500 ms, así que una carpeta lenta pero sana aparece como que no respondió hasta que se abre; el estado habla de la lectura y no del proyecto, y abrirlo verifica sin límite",
+      "description": "El listado relee los recibos en cada visita con un límite fijo de 1500 ms, así que una carpeta lenta pero sana aparece como que no respondió hasta que se abre; el estado habla de la lectura y no del proyecto, y abrirlo verifica sin límite",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/desktop/service.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "apps/companion/qa/project-list.mjs",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-b98b078fd930",
+      "title": "El texto de las recetas conserva su vocabulario porque se entrega a un modelo además de mostrarse, así que su jerga llega a la pantalla mitigada por un panel de definiciones en vez de reescrita",
+      "description": "El texto de las recetas conserva su vocabulario porque se entrega a un modelo además de mostrarse, así que su jerga llega a la pantalla mitigada por un panel de definiciones en vez de reescrita",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/context/recipes.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/states-and-degradations.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-5608a07e98a3",
+      "title": "La identidad entre una etiqueta y la intención de la persona no es derivable por máquina: dos intenciones pueden compartir implementación y se declaran como dos acciones, así que esa correspondencia la declara quien escribe y la revisa una persona",
+      "description": "La identidad entre una etiqueta y la intención de la persona no es derivable por máquina: dos intenciones pueden compartir implementación y se declaran como dos acciones, así que esa correspondencia la declara quien escribe y la revisa una persona",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/ui/app.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "test/companion-language.test.mjs",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
     }
   ]
 }

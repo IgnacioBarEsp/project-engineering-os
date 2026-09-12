@@ -1,5 +1,7 @@
 ## Why
 
+Issue [#97](https://github.com/IgnacioBarEsp/project-engineering-os/issues/97).
+
 The maintainer walked the installed application and found four concrete faults. Two sidebar entries with
 different names start the same action. "Tus proyectos" is not the project list — it is a home page with a
 greeting, three explanatory steps, and the projects last. "Preparar contexto para compartir" was read aloud

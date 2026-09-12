@@ -1,14 +1,16 @@
 {
-  "date": "2026-09-12T11:23:03.603Z",
+  "date": "2026-09-12T12:34:26.099Z",
   "scope": "Real renderer and engines in browser; native transport/picker/clipboard/provider injected",
   "checks": [
     "research: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
     "software: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
     "unity: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
     "media: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
+    "general: recovery rehearsal for one transaction — the file reading was undone from the interface, the application then refused to claim it, the original documents were byte-identical, and reading again restored the state PASS",
     "general: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
-    "Contraste, orden de encabezados y alcance por teclado comprobados en Inicio, Ayuda, las cuatro pantallas del asistente, el proyecto y la lista, en los cinco perfiles PASS",
-    "One name per action across 5 navigable actions: open-start=\"Inicio\", open-project-list=\"Tus proyectos\", prepare-project=\"Preparar proyecto\", open-help=\"Ayuda\", privacy-scope=\"Privacidad y alcance\" PASS",
+    "Contraste, orden de encabezados, teclado, nombres accesibles y la regla de vocabulario comprobados en 29 pantallas de los cinco perfiles: 0 hallazgos PASS",
+    "336 controles de definición comprobados contra el término que abren: 0 desajustes PASS",
+    "One name per action across 9 navigable actions: open-start=\"Inicio\", open-project-list=\"Tus proyectos\", prepare-project=\"Preparar proyecto\", open-help=\"Ayuda\", privacy-scope=\"Privacidad y alcance\", open-workspace=\"Ver mi proyecto\", read-files=\"Leer mis archivos\", recheck-project=\"Comprobar de nuevo\", review-development=\"Revisar desarrollo\" PASS",
     "No renderer exceptions across five journeys; source markup rendered as text; original documents preserved."
   ],
   "screenshots": [

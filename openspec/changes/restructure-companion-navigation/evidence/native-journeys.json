@@ -1,10 +1,10 @@
 {
-  "date": "2026-09-12T11:23:40.790Z",
+  "date": "2026-09-12T12:39:44.073Z",
   "application": {
     "version": "0.1.0",
     "root": "<localappdata>/Programs/Project Engineering OS/resources/app"
   },
-  "installedSource": {
+  "installedApplication": {
     "directories": [
       "desktop",
       "ui",
@@ -12,24 +12,276 @@
       "context",
       "runtime"
     ],
-    "excluded": [
-      "package.json",
-      "node_modules"
+    "comparedBeyondSources": [
+      "top-level entries",
+      "package.json main/version/dependencies",
+      "node_modules/create-project-engineering-os"
     ],
-    "files": {},
-    "onlyInstalled": [],
-    "synchronised": [
-      {
-        "file": "ui/app.css",
-        "replaced": "edee72688cd14d357e3d51de19703c9d5629b9afb763cf06c0ad8dccbd4fd5d9"
+    "notCompared": [
+      "the rest of package.json, which the packager rewrites",
+      "node_modules other than the pinned core",
+      "the documentation the packager prunes from the pinned core, listed per run under pinnedCore.pruned"
+    ],
+    "branchCommit": "1bf3de425d054a33016d2314c7538f79cfee879f",
+    "branchTreeClean": false,
+    "files": {
+      "context/engine.mjs": {
+        "branch": "1ab5fbd6f4202fd5fcd92f1039f884a12a5b88f322b0e509db3ade6b1cdf9c77",
+        "installed": "1ab5fbd6f4202fd5fcd92f1039f884a12a5b88f322b0e509db3ade6b1cdf9c77"
       },
-      {
-        "file": "ui/app.mjs",
-        "replaced": "04d13758bfc867440330c009e8c749c9b74150a19a29c552de426db72edc5e41"
+      "context/graph-tools.mjs": {
+        "branch": "93e6c7f7aa8d5cfc8a34b29d4a74ca2de2b12eb0254505aa1fd2d03a0b66360b",
+        "installed": "93e6c7f7aa8d5cfc8a34b29d4a74ca2de2b12eb0254505aa1fd2d03a0b66360b"
+      },
+      "context/parser-worker.mjs": {
+        "branch": "c2aa9abffa3cc19b90672e41aac031df1b40382f6bc5ea3ae3e21c69f15a5192",
+        "installed": "c2aa9abffa3cc19b90672e41aac031df1b40382f6bc5ea3ae3e21c69f15a5192"
+      },
+      "context/recipes.mjs": {
+        "branch": "5b5b289d302ee7580e5475d79ac6d28b9479575b744ebaa9f4998ab2bd3bdef7",
+        "installed": "5b5b289d302ee7580e5475d79ac6d28b9479575b744ebaa9f4998ab2bd3bdef7"
+      },
+      "context/retrieval.mjs": {
+        "branch": "8f617160b731bd9554dba7c31b36c7354141572d2e078a766943bd0ecaa1d5c2",
+        "installed": "8f617160b731bd9554dba7c31b36c7354141572d2e078a766943bd0ecaa1d5c2"
+      },
+      "context/routes.mjs": {
+        "branch": "466d21cd1fed81779da3b88a8d1b23fea0064425fcfb056a6380663cfca1e5ce",
+        "installed": "466d21cd1fed81779da3b88a8d1b23fea0064425fcfb056a6380663cfca1e5ce"
+      },
+      "context/sources.mjs": {
+        "branch": "cb3621285022aa0db4ed7bd7b5bce352a40c5dfe26f8f422972aead6dc774dba",
+        "installed": "cb3621285022aa0db4ed7bd7b5bce352a40c5dfe26f8f422972aead6dc774dba"
+      },
+      "desktop/local-apps.mjs": {
+        "branch": "a8953f5cf75e44e30ff34986acd70e89fe3a681136484e5bf165844e3b131619",
+        "installed": "a8953f5cf75e44e30ff34986acd70e89fe3a681136484e5bf165844e3b131619"
+      },
+      "desktop/main.mjs": {
+        "branch": "73fbf4348cb47366651b6eca443a9ca7a3e2cca36a80b6701fc60d7648c53ce5",
+        "installed": "73fbf4348cb47366651b6eca443a9ca7a3e2cca36a80b6701fc60d7648c53ce5"
+      },
+      "desktop/preload.cjs": {
+        "branch": "50ad808cb112513db7ae4dcafa0bd7cd8386ab47da6d095d22a7b11888c5c223",
+        "installed": "50ad808cb112513db7ae4dcafa0bd7cd8386ab47da6d095d22a7b11888c5c223"
+      },
+      "desktop/service.mjs": {
+        "branch": "b4b3ddb18946852dd5d5d1c201fec2775f7d1598b92f6222dfc266f1e58bba73",
+        "installed": "b4b3ddb18946852dd5d5d1c201fec2775f7d1598b92f6222dfc266f1e58bba73"
+      },
+      "engine/constructor-adapter.mjs": {
+        "branch": "25a6964eeb68d23174262b18feef498b7d22f7367ce06094067fdf3ade40ec9c",
+        "installed": "25a6964eeb68d23174262b18feef498b7d22f7367ce06094067fdf3ade40ec9c"
+      },
+      "engine/files.mjs": {
+        "branch": "1c6c33179604564f928735bc52c9aad47045f031f56e61492783a854b598e5f6",
+        "installed": "1c6c33179604564f928735bc52c9aad47045f031f56e61492783a854b598e5f6"
+      },
+      "engine/inventory.mjs": {
+        "branch": "1c54ea5178ef1db52291f424d38538216e2bb64a114c232176ca8c724faa23ef",
+        "installed": "1c54ea5178ef1db52291f424d38538216e2bb64a114c232176ca8c724faa23ef"
+      },
+      "engine/preparation.mjs": {
+        "branch": "01a86feb8e2306c43194ee462fd45b0b2a91cd6ce30731b28bdea46f6697629e",
+        "installed": "01a86feb8e2306c43194ee462fd45b0b2a91cd6ce30731b28bdea46f6697629e"
+      },
+      "runtime/activation.mjs": {
+        "branch": "87e854b952aecc01a9cb63d425e203ff4c78fcb8d40ee512bb3cd43ce542f3e8",
+        "installed": "87e854b952aecc01a9cb63d425e203ff4c78fcb8d40ee512bb3cd43ce542f3e8"
+      },
+      "runtime/agent-entry.mjs": {
+        "branch": "92c97e4d50962aff0bdacf6f2cfea93f21681cf3fcda5fbb086a55a602537015",
+        "installed": "92c97e4d50962aff0bdacf6f2cfea93f21681cf3fcda5fbb086a55a602537015"
+      },
+      "runtime/agent-integrity.mjs": {
+        "branch": "ac5fe1f3f46f0bb8e5f8accad82ea0b99ff0fe188dff6328591b76a40de6be14",
+        "installed": "ac5fe1f3f46f0bb8e5f8accad82ea0b99ff0fe188dff6328591b76a40de6be14"
+      },
+      "runtime/agent-tools.mjs": {
+        "branch": "93d8d76ac30a1ff9890709ddbc0b785bec2986a103fc3590a733115200ae9877",
+        "installed": "93d8d76ac30a1ff9890709ddbc0b785bec2986a103fc3590a733115200ae9877"
+      },
+      "runtime/agent-worker.mjs": {
+        "branch": "b8ac319828fd5e7a938f06aaa45d85115c2c21760a7046a827fe06fefcfe7bbc",
+        "installed": "b8ac319828fd5e7a938f06aaa45d85115c2c21760a7046a827fe06fefcfe7bbc"
+      },
+      "runtime/archive.mjs": {
+        "branch": "d7c92ff113d60a84984abdce5fa7580b9ec35e1ac0b94f08300e3c516304df2d",
+        "installed": "d7c92ff113d60a84984abdce5fa7580b9ec35e1ac0b94f08300e3c516304df2d"
+      },
+      "runtime/cache-repair.mjs": {
+        "branch": "70abb497aa15e7af8032d9387edc492fe6afa7a0bba0c37719b857259c69df53",
+        "installed": "70abb497aa15e7af8032d9387edc492fe6afa7a0bba0c37719b857259c69df53"
+      },
+      "runtime/catalog.mjs": {
+        "branch": "7e337a50c24e672d9f8d7301d6444bb255602c3a00ce63128e6cf43d33feb4d3",
+        "installed": "7e337a50c24e672d9f8d7301d6444bb255602c3a00ce63128e6cf43d33feb4d3"
+      },
+      "runtime/codegraph-worker.mjs": {
+        "branch": "67825ee6a940671f941f79b61d825debcd12744494ef629f3b74964677c6cb04",
+        "installed": "67825ee6a940671f941f79b61d825debcd12744494ef629f3b74964677c6cb04"
+      },
+      "runtime/codegraph.mjs": {
+        "branch": "fe8b7123bc36b9934b21b2d116cdabbdd53eb69ee9db74bd7baa9f64c747b307",
+        "installed": "fe8b7123bc36b9934b21b2d116cdabbdd53eb69ee9db74bd7baa9f64c747b307"
+      },
+      "runtime/core-arguments.mjs": {
+        "branch": "150b4fed9cb1e1cb26329de517b8c2e2137ae93cb5993f986b091448ce789810",
+        "installed": "150b4fed9cb1e1cb26329de517b8c2e2137ae93cb5993f986b091448ce789810"
+      },
+      "runtime/core-bridge.mjs": {
+        "branch": "0cfb4f4d2e833b0417f70d51acec144173f5e64a9ec1aef1c811446078515b63",
+        "installed": "0cfb4f4d2e833b0417f70d51acec144173f5e64a9ec1aef1c811446078515b63"
+      },
+      "runtime/core-worker.mjs": {
+        "branch": "c598f2d00e9f9ad2efddac935845f9da406aafeff404fa9ede7d431422414b71",
+        "installed": "c598f2d00e9f9ad2efddac935845f9da406aafeff404fa9ede7d431422414b71"
+      },
+      "runtime/download.mjs": {
+        "branch": "86f1f0f8cf54b2c24c501c595546357e1bf0e37e54a8530aa1b4a6557ecc034e",
+        "installed": "86f1f0f8cf54b2c24c501c595546357e1bf0e37e54a8530aa1b4a6557ecc034e"
+      },
+      "runtime/environment.mjs": {
+        "branch": "9f8a24393ed94e7b95da29acd213da23bd9a3dc62577740adf50428c29805788",
+        "installed": "9f8a24393ed94e7b95da29acd213da23bd9a3dc62577740adf50428c29805788"
+      },
+      "runtime/git-boundary.mjs": {
+        "branch": "d0303bb2c0ae70ba505a44c3647b776c423fdaaa9978c06e1f435ddea41ca9dc",
+        "installed": "d0303bb2c0ae70ba505a44c3647b776c423fdaaa9978c06e1f435ddea41ca9dc"
+      },
+      "runtime/manager.mjs": {
+        "branch": "749f4c1a59534fd15e354f346ab56be298995074319826c47384f666d8a18bb4",
+        "installed": "749f4c1a59534fd15e354f346ab56be298995074319826c47384f666d8a18bb4"
+      },
+      "runtime/notices/CodeGraph-LICENSE": {
+        "branch": "e6d98f98c666bebe065ac2492a0a19232cc318d4d67bac3ca42ffb77bacc8809",
+        "installed": "e6d98f98c666bebe065ac2492a0a19232cc318d4d67bac3ca42ffb77bacc8809"
+      },
+      "runtime/notices/README.md": {
+        "branch": "8943b7f010161882421b9bc615884fb8a306f1e97d8d51b18dd47ca4d60ffce9",
+        "installed": "8943b7f010161882421b9bc615884fb8a306f1e97d8d51b18dd47ca4d60ffce9"
+      },
+      "runtime/openspec-arguments.mjs": {
+        "branch": "431b134ba9591ea3146e021a72b2fb95959635f1871413f51937c48966bc7187",
+        "installed": "431b134ba9591ea3146e021a72b2fb95959635f1871413f51937c48966bc7187"
+      },
+      "runtime/process.mjs": {
+        "branch": "46a07379ff52362ed86c2e3178193ca211bf692edefbb512af18094ddbcc08ea",
+        "installed": "46a07379ff52362ed86c2e3178193ca211bf692edefbb512af18094ddbcc08ea"
+      },
+      "runtime/project-boundary.mjs": {
+        "branch": "631092692fee339b5c676d4adba85613949c3589420725e23d9db6d95548819e",
+        "installed": "631092692fee339b5c676d4adba85613949c3589420725e23d9db6d95548819e"
+      },
+      "runtime/toolchain-pin.mjs": {
+        "branch": "3c74a81d74161069abcfa074305b664feeab217ad02ad9c44baca22febf6f007",
+        "installed": "3c74a81d74161069abcfa074305b664feeab217ad02ad9c44baca22febf6f007"
+      },
+      "runtime/toolchain.mjs": {
+        "branch": "f41bbf8d2618d630fc33a43e43d1c6ac1950985a591506775a4f6797e9dfd201",
+        "installed": "f41bbf8d2618d630fc33a43e43d1c6ac1950985a591506775a4f6797e9dfd201"
+      },
+      "runtime/toolchain/artifact-sizes.json": {
+        "branch": "5bd3a18872a2549a12d5ce583b0541fc38e5beb7cd5c32bef403b8378e36d183",
+        "installed": "5bd3a18872a2549a12d5ce583b0541fc38e5beb7cd5c32bef403b8378e36d183"
+      },
+      "runtime/toolchain/package.json": {
+        "branch": "68c845fc1c00cf69b1cb1b91219b53cfd3c1f36b2bc4672b71171f2ecf6d7f0c",
+        "installed": "68c845fc1c00cf69b1cb1b91219b53cfd3c1f36b2bc4672b71171f2ecf6d7f0c"
+      },
+      "runtime/toolchain/toolchain-lock.json": {
+        "branch": "dde0f0c4c8702f156c7660915954ea0b2996f2ef5712645c247c0ed6df7f8a0c",
+        "installed": "dde0f0c4c8702f156c7660915954ea0b2996f2ef5712645c247c0ed6df7f8a0c"
+      },
+      "runtime/tree.mjs": {
+        "branch": "4b8c0a92b7d824758b0da9c155cf64297a1b1a8abcad88543ba9c05839bd03c2",
+        "installed": "4b8c0a92b7d824758b0da9c155cf64297a1b1a8abcad88543ba9c05839bd03c2"
+      },
+      "ui/app.css": {
+        "branch": "caf1cb43169eed3656d757c02b2ef1f0a748ce42eb8e49cce05bf217914cba4a",
+        "installed": "caf1cb43169eed3656d757c02b2ef1f0a748ce42eb8e49cce05bf217914cba4a"
+      },
+      "ui/app.mjs": {
+        "branch": "7ae501aa5a8adf062d31d9f17fa64635f863cb1aa8172d4de7f7ea2f0f8672b4",
+        "installed": "7ae501aa5a8adf062d31d9f17fa64635f863cb1aa8172d4de7f7ea2f0f8672b4"
+      },
+      "ui/glossary.mjs": {
+        "branch": "127f3ac2312ecf7531cb6915be5cead57cdb1d447dc06bc1955d9dc0652ad78e",
+        "installed": "127f3ac2312ecf7531cb6915be5cead57cdb1d447dc06bc1955d9dc0652ad78e"
+      },
+      "ui/index.html": {
+        "branch": "b2360d09397a37e2686a178df4492f4d29c6ab0295049b53467a6e5fdd2d0991",
+        "installed": "b2360d09397a37e2686a178df4492f4d29c6ab0295049b53467a6e5fdd2d0991"
       }
-    ],
+    },
+    "onlyInstalled": [],
+    "synchronised": [],
+    "mismatched": [],
+    "compared": 47,
     "matched": 47,
-    "compared": 47
+    "rootEntries": [
+      "LICENSE",
+      "THIRD-PARTY-NOTICES.md",
+      "context",
+      "desktop",
+      "engine",
+      "node_modules",
+      "package.json",
+      "runtime",
+      "ui"
+    ],
+    "unexpectedRootEntries": [],
+    "manifest": {
+      "branch": {
+        "name": "@project-engineering-os/companion",
+        "version": "0.1.0",
+        "type": "module",
+        "main": "desktop/main.mjs",
+        "exports": null,
+        "bin": null,
+        "files": null,
+        "dependencies": {
+          "create-project-engineering-os": "0.5.0",
+          "fflate": "0.8.3",
+          "npm": "11.19.1",
+          "pdfjs-dist": "6.3.289",
+          "saxes": "6.0.0"
+        }
+      },
+      "installed": {
+        "name": "@project-engineering-os/companion",
+        "version": "0.1.0",
+        "type": "module",
+        "main": "desktop/main.mjs",
+        "exports": null,
+        "bin": null,
+        "files": null,
+        "dependencies": {
+          "create-project-engineering-os": "0.5.0",
+          "fflate": "0.8.3",
+          "npm": "11.19.1",
+          "pdfjs-dist": "6.3.289",
+          "saxes": "6.0.0"
+        }
+      }
+    },
+    "manifestMatches": true,
+    "pinnedCore": {
+      "compared": 177,
+      "differing": [],
+      "missing": [],
+      "pruned": [
+        "node_modules/create-project-engineering-os/CHANGELOG.md",
+        "node_modules/create-project-engineering-os/README.md",
+        "node_modules/create-project-engineering-os/blueprint/core/package-lock.json"
+      ],
+      "byIdentityFields": [
+        "node_modules/create-project-engineering-os/blueprint/core/package.json",
+        "node_modules/create-project-engineering-os/package.json"
+      ],
+      "onlyInstalled": []
+    },
+    "pinnedCoreMatches": true
   },
   "machine": "win32-x64",
   "drivenBy": "the installed application window over its debugging port, against an isolated data directory",
@@ -102,7 +354,7 @@
           }
         }
       ],
-      "elapsedMs": 10674
+      "elapsedMs": 10641
     },
     {
       "profile": "software",
@@ -147,8 +399,9 @@
               "Ayuda",
               "Privacidad y alcance",
               "OpenSpec — ver qué significa",
-              "Ver estado",
-              "Solo leer mis archivos",
+              "SDD — ver qué significa",
+              "Ver mi proyecto",
+              "Leer mis archivos",
               "Activar y continuar  →"
             ],
             "walked": [
@@ -192,7 +445,7 @@
           }
         }
       ],
-      "elapsedMs": 134137
+      "elapsedMs": 83250
     },
     {
       "profile": "unity",
@@ -237,8 +490,9 @@
               "Ayuda",
               "Privacidad y alcance",
               "OpenSpec — ver qué significa",
-              "Ver estado",
-              "Solo leer mis archivos",
+              "SDD — ver qué significa",
+              "Ver mi proyecto",
+              "Leer mis archivos",
               "Activar y continuar  →"
             ],
             "walked": [
@@ -282,7 +536,7 @@
           }
         }
       ],
-      "elapsedMs": 97110
+      "elapsedMs": 78516
     },
     {
       "profile": "media",
@@ -341,7 +595,7 @@
           }
         }
       ],
-      "elapsedMs": 10518
+      "elapsedMs": 10450
     },
     {
       "profile": "general",
@@ -400,7 +654,7 @@
           }
         }
       ],
-      "elapsedMs": 10680
+      "elapsedMs": 10590
     }
   ],
   "findings": [],
@@ -413,17 +667,17 @@
     {
       "profile": "software",
       "stage": "applyEngineering",
-      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | Ver estado | Solo leer mis archivos | Activar y continuar  →"
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | SDD — ver qué significa | Ver mi proyecto | Leer mis archivos | Activar y continuar  →"
     },
     {
       "profile": "software",
       "stage": "reviewCodeMap",
-      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | Ver estado | Solo leer mis archivos | Activar y continuar  →"
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | SDD — ver qué significa | Ver mi proyecto | Leer mis archivos | Activar y continuar  →"
     },
     {
       "profile": "software",
       "stage": "buildCodeMap",
-      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | Ver estado | Solo leer mis archivos | Activar y continuar  →"
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | SDD — ver qué significa | Ver mi proyecto | Leer mis archivos | Activar y continuar  →"
     },
     {
       "profile": "software",
@@ -438,17 +692,17 @@
     {
       "profile": "unity",
       "stage": "applyEngineering",
-      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | Ver estado | Solo leer mis archivos | Activar y continuar  →"
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | SDD — ver qué significa | Ver mi proyecto | Leer mis archivos | Activar y continuar  →"
     },
     {
       "profile": "unity",
       "stage": "reviewCodeMap",
-      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | Ver estado | Solo leer mis archivos | Activar y continuar  →"
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | SDD — ver qué significa | Ver mi proyecto | Leer mis archivos | Activar y continuar  →"
     },
     {
       "profile": "unity",
       "stage": "buildCodeMap",
-      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | Ver estado | Solo leer mis archivos | Activar y continuar  →"
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | SDD — ver qué significa | Ver mi proyecto | Leer mis archivos | Activar y continuar  →"
     },
     {
       "profile": "unity",

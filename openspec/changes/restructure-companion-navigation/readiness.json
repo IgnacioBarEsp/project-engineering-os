@@ -11,7 +11,7 @@
     {
       "id": "accessibility-check",
       "status": "passed",
-      "evidence": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/keyboard-and-assistive-technology.md",
       "justification": null,
       "profileCondition": null
     },
@@ -157,7 +157,7 @@
       "id": "keyboard-and-assistive-technology-review",
       "kind": "manual",
       "status": "verified",
-      "ref": "openspec/changes/restructure-companion-navigation/evidence/interface-contract.json",
+      "ref": "openspec/changes/restructure-companion-navigation/evidence/keyboard-and-assistive-technology.md",
       "justification": null,
       "profileCondition": null
     },
@@ -165,7 +165,7 @@
       "id": "loading-empty-error-and-constrained-connectivity-states",
       "kind": "manual",
       "status": "verified",
-      "ref": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "ref": "openspec/changes/restructure-companion-navigation/evidence/states-and-degradations.md",
       "justification": null,
       "profileCondition": null
     },
@@ -181,7 +181,7 @@
       "id": "recorded-drift-decisions",
       "kind": "manual",
       "status": "verified",
-      "ref": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "ref": "openspec/changes/restructure-companion-navigation/evidence/states-and-degradations.md",
       "justification": null,
       "profileCondition": null
     },
@@ -189,7 +189,7 @@
       "id": "review-of-declared-degradations",
       "kind": "manual",
       "status": "verified",
-      "ref": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "ref": "openspec/changes/restructure-companion-navigation/evidence/states-and-degradations.md",
       "justification": null,
       "profileCondition": null
     },
@@ -197,7 +197,7 @@
       "id": "recovery-rehearsal-for-one-transaction",
       "kind": "manual",
       "status": "verified",
-      "ref": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "ref": "openspec/changes/restructure-companion-navigation/evidence/browser-journeys.json",
       "justification": null,
       "profileCondition": null
     }

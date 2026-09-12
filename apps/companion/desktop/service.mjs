@@ -12,6 +12,24 @@ import { createCodeGraphEngine } from '../runtime/codegraph.mjs';
 
 const UUID = /^[a-f0-9-]{36}$/;
 const ROLES = ['researcher','student','developer','freelancer','creator','general'];
+// A read of a remembered folder can hang for as long as the operating system is willing to wait for a
+// network share. The project list reads every row before it can render anything, so an unreachable share
+// froze the whole window with no indicator and no way to stop. Exported so the bound itself can be tested
+// rather than only observed.
+export const SUMMARY_BUDGET_MS = 1500;
+export function withBudget(work, ms) {
+  let timer;
+  return Promise.race([
+    Promise.resolve(work).finally(() => clearTimeout(timer)),
+    new Promise((_, reject) => {
+      timer = setTimeout(() => reject(Object.assign(Error('summary budget exceeded'), {
+        code: 'FOLDER_UNREACHABLE', message: 'Esta carpeta no respondió a tiempo.',
+        action: 'Puede estar en una unidad de red o desconectada. Ábrelo para comprobarlo.' })), ms);
+      // A pending timer must not hold the process open when nothing else is waiting on it.
+      timer.unref?.();
+    }),
+  ]);
+}
 export const DESTINATIONS = Object.freeze({ web: 'https://chatgpt.com/', 'claude-code': 'https://claude.ai/',
   codex: 'https://chatgpt.com/codex', cursor: 'https://cursor.com/', 'github-copilot': 'https://github.com/copilot', opencode: 'https://opencode.ai/',
   antigravity: 'https://antigravity.google/' });
@@ -92,11 +110,18 @@ export async function createDesktopService({ dataRoot, core, environment = null,
     // belongs to opening one project. These are the recorded states, read from each stage's receipt and
     // journal. The renderer says they are recorded. One unreadable or relocated folder becomes that entry's
     // own state and never keeps the rest of the list from rendering.
+    //
+    // Each row is bounded. Reading a receipt is a filesystem call, and a remembered folder can be on a
+    // network share, an unplugged drive or a disconnected VPN — an independent review measured 21 seconds
+    // for a two-row list with one project on an unreachable share, with every control disabled and no way
+    // to stop. A row that does not answer within the budget becomes `unreadable` with that as its cause,
+    // which is true and is what the person can act on. Rows are read concurrently, so the whole list is
+    // bounded by the budget rather than by the sum of the rows.
     async listProjects(input={}) {exact(input,[]);noJob();const {items}=await history();
       return Promise.all(items.map(async i=>{
         const entry={id:i.id,name:i.name,root:i.root,profile:i.selection?.profile??null,recorded:true};
         try {
-          const b=await base.summary(i.root), c=await context.summary(i.root);
+          const [b,c]=await withBudget(Promise.all([base.summary(i.root),context.summary(i.root)]),SUMMARY_BUDGET_MS);
           return {...entry,profile:b.selection?.profile??entry.profile,
             state:b.interrupted||c.interrupted?'interrupted':!b.prepared?'not-prepared':c.prepared?'context':'prepared'};
         } catch (error) {return {...entry,state:'unreadable',error:publicError(error)};}

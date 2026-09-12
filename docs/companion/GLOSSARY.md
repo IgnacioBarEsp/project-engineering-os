@@ -19,9 +19,9 @@ Se arma en este equipo leyendo tus archivos. No es una copia de tus documentos: 
 
 ### Fuente
 
-Uno de tus archivos, cuando ya forma parte del contexto.
+Uno de tus archivos, cuando ya forma parte del resumen consultable.
 
-Un archivo que quedó fuera del contexto sigue en tu carpeta, pero no se puede citar. La pantalla de contexto dice cuáles entraron y cuáles no.
+Un archivo que quedó fuera sigue en tu carpeta, pero no se puede citar. La pantalla que revisa la lectura dice cuáles entraron y cuáles no.
 
 ### Cita
 
@@ -31,7 +31,7 @@ Sirve para comprobar por tu cuenta. Que una IA muestre una cita no significa que
 
 ### Inventario
 
-La lista de los archivos que se encontraron en tu carpeta, con su tamaño y su tipo.
+La lista de los archivos que se encontraron en tu carpeta, con su tipo y su tamaño.
 
 Incluye los archivos que no se pudieron leer, con el motivo. No guarda el contenido completo.
 
@@ -49,7 +49,7 @@ Dice cuándo usarla, qué necesitas a mano, los pasos, cómo revisar el resultad
 
 ### Exclusión
 
-Un archivo o una carpeta que decides dejar fuera del contexto.
+Un archivo o una carpeta que decides dejar fuera de la lectura.
 
 El archivo no se toca ni se mueve: simplemente no entra en el resumen que tu IA puede leer, así que tampoco se puede citar.
 
