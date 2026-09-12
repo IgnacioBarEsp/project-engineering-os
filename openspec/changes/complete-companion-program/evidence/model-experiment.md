@@ -129,6 +129,18 @@ Las seis regresiones del instrumento prueban estas reglas, incluso valores erró
 IDs repetidos, uso de herramientas y un método preparado que pierde. **La corrida nueva no rompió la
 comparación exacta**, así que no se aplicó normalización alguna para mejorar sus resultados.
 
+## Sobre qué versión se midió
+
+Este experimento corrió contra la aplicación instalada **antes** de que los cambios de código de esta rama
+entraran en el artefacto entregado. `protocol.json` guarda el hash de cada módulo que usó, así que puede
+comprobarse cuál fue; `desktop/service.mjs` quedó en `412d90a9…` y el entregado es `0d7dfb3e…`.
+
+Lo detectó una revisión adversarial independiente. Los recorridos nativos sí se reejecutaron contra el
+artefacto entregado y reprodujeron su resultado; **esta medición no se repitió**, porque repetirla consume
+inferencia de pago y el resultado publicado —un empate— no se vuelve más favorable al producto por medirlo
+de nuevo. Se declara en vez de corregirse en silencio: las cifras de abajo describen la versión que
+`protocol.json` identifica, no necesariamente la que se entrega.
+
 ## Reproducir y continuar
 
 Desde `apps/companion`, usar el CLI instalado descubierto y revisado y un directorio de evidencia nuevo:

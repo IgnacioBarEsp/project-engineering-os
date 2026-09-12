@@ -29,7 +29,7 @@
 ## 3. Evaluation and delivery
 - [x] 3.1 Freeze and execute paired model experiment; keep prompts, responses, usage and failures.
       Six real v2 trials: tied 15/15 grounded answers and 15/15 abstentions per condition; prepared slower
-      (9.597 s median vs 8.427 s). See `evidence/model-experiment.md` and the six raw run records.
+      (9597 ms median vs 8427 ms). See `evidence/model-experiment.md` and the six raw run records.
       Outside this measurement: new questions/models, model snapshot identity, controlled provider cache,
       billing savings and generalised quality; one abstention question has a numeric-format limitation.
 - [x] 3.2 Review current visual references and correct public state documentation. Two live Sites of the

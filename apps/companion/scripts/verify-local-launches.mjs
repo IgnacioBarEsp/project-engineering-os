@@ -69,7 +69,9 @@ for (const agent of AGENTS) {
   }
   if (found.unverified) {
     record.applications.push({ agent, label: found.label, installed: true, verified: false,
-      code: found.code, message: found.message });
+      code: found.code,
+      // A refusal from the filesystem carries the path it failed on, and this record is versioned.
+      message: portable(found.message ?? '') });
     // A refusal has to carry a code a person can act on, not just fail.
     if (!found.code) finding(agent, 'una aplicación rechazada no informó ningún código');
     continue;

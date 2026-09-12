@@ -66,9 +66,11 @@ if ($handle -eq [IntPtr]::Zero) {
   exit 0
 }
 $dialog = [System.Windows.Automation.AutomationElement]::FromHandle($handle)
+# Only what was observed. Whether a person answers the dialog is not something this can see, and
+# reporting it as a measured field would be inventing an observation.
 [pscustomobject]@{
   open = $true
   title = $dialog.Current.Name
   ownedByApplication = $true
-  answeredByAPerson = $true
+  note = 'Este script observa el diálogo; no lo responde ni puede ver quién lo responde.'
 } | ConvertTo-Json -Compress

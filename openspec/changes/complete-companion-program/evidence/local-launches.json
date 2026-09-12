@@ -1,11 +1,11 @@
 {
-  "date": "2026-09-12T03:13:01.581Z",
+  "date": "2026-09-12T04:23:41.695Z",
   "application": {
     "version": "0.1.0",
     "root": "<localappdata>/Programs/Project Engineering OS/resources/app"
   },
   "machine": "win32-x64",
-  "syntheticFolder": "<localappdata>/Temp/companion-launch-puTlbZ/carpeta sintetica & literal",
+  "syntheticFolder": "<localappdata>/Temp/companion-launch-h98yKo/carpeta sintetica & literal",
   "launched": "ninguna (usa --launch <agente> para abrir una)",
   "applications": [
     {
@@ -41,7 +41,7 @@
       "installed": true,
       "verified": false,
       "code": "APP_UNTRUSTED",
-      "message": "La firma o el editor de la aplicación no se pudo verificar."
+      "message": "<home>/Documents/Projects/project-engineering-os/apps/companion/La firma o el editor de la aplicación no se pudo verificar."
     }
   ],
   "findings": [],
