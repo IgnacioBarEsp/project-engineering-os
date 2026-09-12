@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-12T17:20:28.277Z",
+  "date": "2026-09-12T17:32:20.181Z",
   "application": {
     "version": "0.1.0",
     "root": "<localappdata>/Programs/Project Engineering OS/resources/app"
@@ -24,8 +24,8 @@
       "the contents of the sealed npm archive, which the application verifies against its pinned tree digest when it uses it",
       "the documentation the packager prunes, listed per run under each dependency as pruned"
     ],
-    "branchCommit": null,
-    "branchTreeClean": false,
+    "branchCommit": "cb257fac27421506b5a0336e6de0845f080b3e11",
+    "branchTreeClean": true,
     "files": {
       "context/engine.mjs": {
         "branch": "1ab5fbd6f4202fd5fcd92f1039f884a12a5b88f322b0e509db3ade6b1cdf9c77",
@@ -326,9 +326,8 @@
       "onlyInstalled": []
     },
     "pinnedCoreMatches": true,
-    "measuredSource": "working tree (uncommitted)",
-    "branchCommitWithheld": "el árbol tenía cambios sin confirmar, así que ningún commit contiene los bytes que se midieron; la identidad son los 47 digests",
-    "branchCommitAtCapture": "1bb4a7ab0ed7dedbf4855bd187e1b9c7c63ca6c6"
+    "measuredSource": "commit cb257fac27421506b5a0336e6de0845f080b3e11",
+    "branchCommitWithheld": null
   },
   "machine": "win32-x64",
   "drivenBy": "the installed application window over its debugging port, against an isolated data directory",
@@ -401,7 +400,7 @@
           }
         }
       ],
-      "elapsedMs": 10512
+      "elapsedMs": 10523
     },
     {
       "profile": "software",
@@ -492,7 +491,7 @@
           }
         }
       ],
-      "elapsedMs": 71146
+      "elapsedMs": 77537
     },
     {
       "profile": "unity",
@@ -583,7 +582,7 @@
           }
         }
       ],
-      "elapsedMs": 71000
+      "elapsedMs": 71187
     },
     {
       "profile": "media",
@@ -642,7 +641,7 @@
           }
         }
       ],
-      "elapsedMs": 10345
+      "elapsedMs": 10397
     },
     {
       "profile": "general",
@@ -701,7 +700,7 @@
           }
         }
       ],
-      "elapsedMs": 10226
+      "elapsedMs": 10248
     }
   ],
   "findings": [],

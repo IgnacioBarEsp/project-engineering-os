@@ -183,6 +183,12 @@ The guard earned itself on its first run: syncing only the interface left the pr
 place, its asset allowlist refused the new interface module, and the window rendered nothing. A record taken
 then would have described neither version.
 
+**The archived run names commit `cb257fa` with a clean tree**, which is the commit that contains the
+measured bytes. Committing this evidence afterwards moves `HEAD`, but it changes no file the guard compares:
+the 47 source digests, the closure, the runtime payload and the manifest fields are all identical at
+`cb257fa` and at the commit that adds these records, which is why the run was done from a clean tree
+before them rather than after.
+
 **The commit is recorded only when the tree that produced it was clean.** A second review found this field
 naming `1bf3de4` beside a digest that equalled HEAD's working tree: the run had happened before the fixes
 were committed. A dirty tree now records no commit at all, with `measuredSource: working tree
