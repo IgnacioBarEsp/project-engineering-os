@@ -1,0 +1,71 @@
+name: Landing
+
+# Publishes the static landing page in site/ to GitHub Pages.
+#
+# It is a separate workflow on purpose. The required gate is `CI / required`, and nothing here is added to
+# it: a deployment that fails must not be able to block a merge, and a deployment that succeeds must not be
+# able to stand in for the tests. The page's own contract — no external request, contrast and reflow in both
+# colour schemes, and every published number reconciling with the raw measurement — is enforced inside that
+# CI job, so a page that drifts from its evidence never reaches this workflow.
+#
+# Actions are pinned to the commit behind a release tag, as everywhere else in this repository.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - '.github/workflows/landing.yml'
+  workflow_dispatch:
+
+# Least privilege: read the tree, write a Pages deployment, and nothing else.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time. A queued run is not cancelled, so a push never leaves the site half-updated.
+concurrency:
+  group: landing
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Landing / deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Refuse anything but the page itself
+        # The landing is one static file. Publishing a directory that quietly grew a script, an asset from
+        # somewhere else, or the preparation artifacts the application writes would contradict what the page
+        # claims about itself, so the contents are checked before they are uploaded rather than after.
+        run: |
+          set -euo pipefail
+          unexpected="$(find site -mindepth 1 -not -path 'site/index.html' -not -path 'site/NOTAS.md' -print)"
+          if [ -n "$unexpected" ]; then
+            echo "site/ contiene archivos que no se publican:"; echo "$unexpected"; exit 1
+          fi
+          # Links to other pages are fine; loading anything from elsewhere is not. Only the attributes and
+          # rules that fetch a resource are checked, so a footer link to the repository is not a failure.
+          if grep -qiE '<script' site/index.html; then
+            echo 'La página no necesita JavaScript y no puede traerlo.'; exit 1
+          fi
+          if grep -qiE '(src|srcset)="https?:|@import|url\(https?:' site/index.html; then
+            echo 'La página no puede cargar recursos externos.'; exit 1
+          fi
+      - name: Configure Pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+        with:
+          enablement: true
+      - name: Upload the page
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: site
+      - name: Deploy
+        id: deploy
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
