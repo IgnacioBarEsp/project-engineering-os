@@ -141,10 +141,56 @@ verified, one refused, zero findings.
 Installing that artifact over the existing one preserved both of the maintainer's projects, their history
 and their prepared folders.
 
+## What the strengthened journeys found
+
+The first version of this matrix was reviewed adversarially and failed. Three of its problems mattered:
+
+- **The corpus had been narrowed to what the verifier could read.** The citation check was an extension
+  allowlist of `txt|md|json|js`, and the five fixtures contained exactly those four extensions and nothing
+  else — in the two profiles the product itself defines as "artículos, **PDF**, documentos" and "**imágenes**,
+  música, video y sus workflows". That is the #81 pattern in its coverage form. A PDF and a Word document are
+  back in those fixtures, and both are now cited by the product: `articulo.pdf` and `ficha.docx · párrafo 1`.
+- **Every locator was resolved as a line number**, including `página` and `párrafo`, which would have meant
+  checking an arbitrary offset of a binary read as text and calling it verified. Resolution now depends on
+  the kind: a line is resolved exactly against that line of that file; a page or a paragraph is resolved as
+  far as it honestly can be — the file exists and the passage the interface displayed contains the term —
+  and the record carries which of the two each citation got.
+- **Two clauses of the requirement were marked done without being verified**: preservation after closing and
+  reopening, and engineering, official OpenSpec and the code map for software and Unity. Both are now driven.
+
+## Closing and reopening: a real finding
+
+Each project is now closed back to the history and opened again, and the citation has to survive the round
+trip. Three profiles survive it. **Two do not**: after the engineering stages run, software and Unity stop
+returning a citation when reopened.
+
+That is recorded as a finding rather than explained away. It may well be correct behaviour — installing
+tools and activating workflows changes what is inside the folder, and a context that noticed its sources
+moved *should* refuse to cite until it is regenerated. But this check cannot tell an honest refusal from a
+lost index, and guessing which one it is would be the kind of claim this whole change exists to avoid.
+**It needs a person to look before the conference.**
+
+## Engineering stages: what was reached, and what stays unverified
+
+Driven in the window, for software and Unity, the interface led through `reviewEngineering`,
+`prepareTools` and `applyEnvironment`. Then `activateWorkflows` stopped advancing: the control stayed on
+screen after being pressed three times, so `applyEngineering`, `reviewCodeMap`, `buildCodeMap` and the
+symbol search were never reached.
+
+Whether the activation did not complete or simply needs a step this automation does not perform cannot be
+distinguished from here. The change's own rule decides what to do with that: a native step that cannot be
+completed stays **unverified with its cause**, and is never replaced by a silent success. The record keeps
+findings and unverified steps in separate lists for exactly this reason — 2 findings, 10 unverified — and
+task 2.3 says so instead of claiming the clause.
+
 ## What this does not cover yet
 
-The installer's own wizard pages are still unexercised: reaching them means running the installer, and its
-security prompts need a person for the same reason the folder picker does. Trusted local launches have not
-No public release or landing deployment exists yet, and no artifact has been built from the current tree,
-so nothing native exercises Antigravity, the interview answer that this change added. Those remain open
-tasks here, not satisfied ones.
+The installer's own wizard pages are unexercised: the artifact was installed silently, and its prompts need
+a person for the same reason the folder picker does. The activation, engineering-apply and code-map stages
+are unverified in the native window, with their cause recorded. No release is published and the landing is
+not deployed.
+
+One more limit, found by the same review and worth stating plainly: the five native journeys and the paired
+model experiment were measured against an **installed artifact built before this branch's source changes**.
+Re-running the journeys against the delivered artifact reproduces the result, and that re-run is what the
+record above describes; the model experiment was not re-measured, and its record is of the earlier build.

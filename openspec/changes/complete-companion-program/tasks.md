@@ -12,9 +12,13 @@
       matched against the catalog pin (`evidence/artifact-manifest.json`). The installer's own wizard pages
       remain unexercised: it was installed silently, and its prompts need a person for the same reason the
       folder picker does.
-- [x] 2.3 Run five native profile journeys and persistence with original hashes preserved. Five profiles
-      through the installed window, 0 findings, citations resolved against the files on disk
-      (`evidence/native-journeys.json`, `npm run evidence:native`).
+- [~] 2.3 Run five native profile journeys and persistence with original hashes preserved. Five profiles in
+      the installed window; fixtures restored to include the PDF and Word document the profiles promise, and
+      both are cited by the product. Closing and reopening is now driven: three profiles keep their citation,
+      **software and Unity do not**, recorded as a finding for a person to look at. Engineering reached
+      reviewEngineering, prepareTools and applyEnvironment; activation stopped advancing, so that stage, the
+      engineering apply, the code map and the symbol search stay **unverified with their cause** rather than
+      claimed (`evidence/native-journeys.json`, `evidence/native-acceptance.md`).
 - [x] 2.4 Observe trusted local launches with the synthetic folder. Cursor launched against a folder whose
       name holds a space and an ampersand; all three verified applications refuse a recorded identity that
       no longer matches their bytes (`evidence/local-launches.json`, `npm run evidence:launches`). The
@@ -34,7 +38,9 @@
 - [~] 3.3 Build and verify clean-commit EXE and publish Companion release and landing. Built from clean
       commit 9db2689 and verified PASS (`evidence/artifact-manifest.json`, `SHA256SUMS`): 133 229 173 bytes,
       sha256 926cfc1e, bundled npm matching its pin, signed:false reported honestly. **Publishing the
-      release and deploying the landing is not done**: both are outward-facing and await the maintainer.
+      release is not published yet**. The maintainer authorised publishing the release, deploying the landing
+      and installing the build; the artifact is built and verified and the landing workflow is in place, and
+      publication follows the merge so the released manifest names a commit reachable from `main`.
 - [ ] 3.4 Verify public download hashes and live landing behavior.
 
 ## 4. Closeout
