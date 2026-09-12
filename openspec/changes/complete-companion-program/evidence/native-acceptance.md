@@ -80,8 +80,36 @@ obstacle to route around. So `scripts/observe-folder-dialog.ps1` observes instea
 that the application asked the operating system and what the prompt says, which is what can honestly be
 verified. **A person choosing a folder remains part of this product's acceptance.**
 
+## The five profiles through the installed window
+
+`native-journeys.json` records the matrix, reproducible with `npm run evidence:native`. **Five profiles,
+zero findings.** Per profile: opened from the application's own history, context prepared in the interface,
+a search whose answer was known in advance, reflow at three widths, and the person's files re-hashed.
+
+| Profile | Citation the interface returned | Resolves on disk | Files changed |
+| --- | --- | --- | --- |
+| Investigación | `metodo.md · línea 3` | yes | none |
+| Software | `README.md · línea 3` | yes | none |
+| Unity | `notas.txt · línea 1` | yes | none |
+| Contenido | `notas.txt · línea 1` | yes | none |
+| General | `notas.txt · línea 1` | yes | none |
+
+A string shaped like a citation is not a citation, so each one is resolved against the file it names and
+the line it points at must actually contain the term that was searched for. A plausible pointer to the
+wrong place is a finding, not a pass.
+
+**What the engine did and the interface did not.** Two steps only, and they are the two that cannot be
+reached without answering the operating system's picker: choosing the folder, and applying the base
+preparation — which is the moment a project first enters the history, because that is when the engine
+remembers the folder for crash recovery. Everything the table above reports happened in the window.
+
+The run uses the application's own isolated data directory, so it never touches the projects or history of
+whoever is using this machine. Earlier iterations of this script produced ten findings before the selectors
+matched the real interface, which is the evidence that it can fail rather than pass by construction.
+
 ## What this does not cover yet
 
-The other four profiles have not been run through the installed window. The installer's own wizard pages
-are still unexercised. Trusted local launches have not been observed against a synthetic folder. No paired
-model measurement has been run. Those remain open tasks in this change, not satisfied ones.
+The installer's own wizard pages are still unexercised: reaching them means running the installer, and its
+security prompts need a person for the same reason the folder picker does. Trusted local launches have not
+been observed against a synthetic folder. No paired model measurement has been run, and no public release
+or landing deployment exists yet. Those remain open tasks in this change, not satisfied ones.

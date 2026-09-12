@@ -1,0 +1,286 @@
+{
+  "date": "2026-09-12T02:29:12.258Z",
+  "application": {
+    "version": "0.1.0",
+    "root": "<localappdata>/Programs/Project Engineering OS/resources/app"
+  },
+  "machine": "win32-x64",
+  "drivenBy": "the installed application window over its debugging port, against an isolated data directory",
+  "humanSteps": [
+    "choosing the folder in the operating system picker"
+  ],
+  "doneByTheEngineNotTheInterface": [
+    "choosing the folder",
+    "applying the base preparation"
+  ],
+  "notADemonstrationOf": [
+    "the installer's own wizard pages",
+    "anything a person judged by reading it"
+  ],
+  "profiles": [
+    {
+      "profile": "research",
+      "name": "Revisión de evidencia",
+      "steps": [
+        {
+          "name": "open history",
+          "result": {
+            "entries": 5
+          }
+        },
+        {
+          "name": "opened from history",
+          "result": {
+            "project": "Revisión de evidencia",
+            "heading": "Revisión de evidencia"
+          }
+        },
+        {
+          "name": "context prepared in the interface",
+          "result": {
+            "screen": "Ir al contenido\nP↗\nProject\nEngineering OS\n\nCOMPANION\n01\n\nTus proyectos\n↗\nPreparar una carpeta\n＋\n✳\n\nT"
+          }
+        },
+        {
+          "name": "search with citation",
+          "result": {
+            "query": "instrumento",
+            "citation": "metodo.md · línea 3",
+            "resolvesOnDisk": true
+          }
+        },
+        {
+          "name": "reflow",
+          "result": {
+            "widths": [
+              1180,
+              900,
+              600
+            ]
+          }
+        },
+        {
+          "name": "original files preserved",
+          "result": {
+            "files": 2,
+            "changed": []
+          }
+        }
+      ],
+      "elapsedMs": 6317
+    },
+    {
+      "profile": "software",
+      "name": "Servicio de presupuesto",
+      "steps": [
+        {
+          "name": "open history",
+          "result": {
+            "entries": 5
+          }
+        },
+        {
+          "name": "opened from history",
+          "result": {
+            "project": "Servicio de presupuesto",
+            "heading": "Servicio de presupuesto"
+          }
+        },
+        {
+          "name": "context prepared in the interface",
+          "result": {
+            "screen": "Ir al contenido\nP↗\nProject\nEngineering OS\n\nCOMPANION\n01\n\nTus proyectos\n↗\nPreparar una carpeta\n＋\n✳\n\nT"
+          }
+        },
+        {
+          "name": "search with citation",
+          "result": {
+            "query": "presupuesto",
+            "citation": "README.md · línea 3",
+            "resolvesOnDisk": true
+          }
+        },
+        {
+          "name": "reflow",
+          "result": {
+            "widths": [
+              1180,
+              900,
+              600
+            ]
+          }
+        },
+        {
+          "name": "original files preserved",
+          "result": {
+            "files": 2,
+            "changed": []
+          }
+        }
+      ],
+      "elapsedMs": 7628
+    },
+    {
+      "profile": "unity",
+      "name": "Prototipo de juego",
+      "steps": [
+        {
+          "name": "open history",
+          "result": {
+            "entries": 5
+          }
+        },
+        {
+          "name": "opened from history",
+          "result": {
+            "project": "Prototipo de juego",
+            "heading": "Prototipo de juego"
+          }
+        },
+        {
+          "name": "context prepared in the interface",
+          "result": {
+            "screen": "Ir al contenido\nP↗\nProject\nEngineering OS\n\nCOMPANION\n01\n\nTus proyectos\n↗\nPreparar una carpeta\n＋\n✳\n\nT"
+          }
+        },
+        {
+          "name": "search with citation",
+          "result": {
+            "query": "puntaje",
+            "citation": "notas.txt · línea 1",
+            "resolvesOnDisk": true
+          }
+        },
+        {
+          "name": "reflow",
+          "result": {
+            "widths": [
+              1180,
+              900,
+              600
+            ]
+          }
+        },
+        {
+          "name": "original files preserved",
+          "result": {
+            "files": 2,
+            "changed": []
+          }
+        }
+      ],
+      "elapsedMs": 7481
+    },
+    {
+      "profile": "media",
+      "name": "Serie de imágenes",
+      "steps": [
+        {
+          "name": "open history",
+          "result": {
+            "entries": 5
+          }
+        },
+        {
+          "name": "opened from history",
+          "result": {
+            "project": "Serie de imágenes",
+            "heading": "Serie de imágenes"
+          }
+        },
+        {
+          "name": "context prepared in the interface",
+          "result": {
+            "screen": "Ir al contenido\nP↗\nProject\nEngineering OS\n\nCOMPANION\n01\n\nTus proyectos\n↗\nPreparar una carpeta\n＋\n✳\n\nT"
+          }
+        },
+        {
+          "name": "search with citation",
+          "result": {
+            "query": "semilla",
+            "citation": "notas.txt · línea 1",
+            "resolvesOnDisk": true
+          }
+        },
+        {
+          "name": "reflow",
+          "result": {
+            "widths": [
+              1180,
+              900,
+              600
+            ]
+          }
+        },
+        {
+          "name": "original files preserved",
+          "result": {
+            "files": 2,
+            "changed": []
+          }
+        }
+      ],
+      "elapsedMs": 6167
+    },
+    {
+      "profile": "general",
+      "name": "Trabajo de la semana",
+      "steps": [
+        {
+          "name": "open history",
+          "result": {
+            "entries": 5
+          }
+        },
+        {
+          "name": "opened from history",
+          "result": {
+            "project": "Trabajo de la semana",
+            "heading": "Trabajo de la semana"
+          }
+        },
+        {
+          "name": "context prepared in the interface",
+          "result": {
+            "screen": "Ir al contenido\nP↗\nProject\nEngineering OS\n\nCOMPANION\n01\n\nTus proyectos\n↗\nPreparar una carpeta\n＋\n✳\n\nT"
+          }
+        },
+        {
+          "name": "search with citation",
+          "result": {
+            "query": "acuerdo",
+            "citation": "notas.txt · línea 1",
+            "resolvesOnDisk": true
+          }
+        },
+        {
+          "name": "reflow",
+          "result": {
+            "widths": [
+              1180,
+              900,
+              600
+            ]
+          }
+        },
+        {
+          "name": "original files preserved",
+          "result": {
+            "files": 2,
+            "changed": []
+          }
+        }
+      ],
+      "elapsedMs": 6259
+    }
+  ],
+  "findings": [],
+  "screenshots": [
+    "native-window.png"
+  ],
+  "summary": {
+    "profiles": 5,
+    "findings": 0,
+    "scope": "Cada perfil abierto y recorrido en la ventana de la aplicación instalada. El motor de la propia aplicación hizo dos pasos, elegir carpeta y aplicar la base, porque no se llega a ellos sin responder el selector del sistema. Contexto, búsqueda con cita, reflujo y conservación de archivos se comprobaron en la interfaz. No demuestra el asistente del instalador."
+  }
+}

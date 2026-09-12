@@ -9,7 +9,9 @@
 - [~] 2.2 Complete wizard pages and verify installer provenance. Application wizard driven through the
       installed window; the folder picker is a measured human boundary (`evidence/native-acceptance.md`).
       The installer's own pages remain unexercised.
-- [ ] 2.3 Run five native profile journeys and persistence with original hashes preserved.
+- [x] 2.3 Run five native profile journeys and persistence with original hashes preserved. Five profiles
+      through the installed window, 0 findings, citations resolved against the files on disk
+      (`evidence/native-journeys.json`, `npm run evidence:native`).
 - [ ] 2.4 Observe trusted local launches with the synthetic folder.
 
 ## 3. Evaluation and delivery
