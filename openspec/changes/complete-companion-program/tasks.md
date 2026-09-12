@@ -23,8 +23,13 @@
       (9.597 s median vs 8.427 s). See `evidence/model-experiment.md` and the six raw run records.
       Outside this measurement: new questions/models, model snapshot identity, controlled provider cache,
       billing savings and generalised quality; one abstention question has a numeric-format limitation.
-- [ ] 3.2 Review current visual references and correct public state documentation.
-- [ ] 3.3 Build and verify clean-commit EXE and publish Companion release and landing.
+- [x] 3.2 Review current visual references and correct public state documentation. Two live Sites of the
+      Day observed, nothing imported (`evidence/visual-review.md`); the landing no longer claims every
+      release publishes its checksum when no release exists.
+- [~] 3.3 Build and verify clean-commit EXE and publish Companion release and landing. Built from clean
+      commit 9db2689 and verified PASS (`evidence/artifact-manifest.json`, `SHA256SUMS`): 133 229 173 bytes,
+      sha256 926cfc1e, bundled npm matching its pin, signed:false reported honestly. **Publishing the
+      release and deploying the landing is not done**: both are outward-facing and await the maintainer.
 - [ ] 3.4 Verify public download hashes and live landing behavior.
 
 ## 4. Closeout

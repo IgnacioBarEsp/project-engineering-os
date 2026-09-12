@@ -1,0 +1,21 @@
+{
+  "product": "Project Engineering OS Companion",
+  "version": "0.1.0",
+  "commit": "9db26895de804bf108c094905dfa6449c57ce4c6",
+  "tree": "clean",
+  "platform": "win32-x64",
+  "artifact": "ProjectEngineeringOS-Setup-0.1.0-x64.exe",
+  "bytes": 133229173,
+  "sha256": "926cfc1e317bdeb7619404f71538da04631035104a301a80bf5b74461ec5d120",
+  "core": "0.5.0",
+  "electron": "44.1.1",
+  "packager": "electron-builder 26.15.3",
+  "packages": 151,
+  "bundledNpm": {
+    "files": 1970,
+    "archiveBytes": 4197192
+  },
+  "signed": false,
+  "signingNote": "Sin certificado de editor. Windows advertirá al ejecutarlo; esa advertencia es correcta y no se evita.",
+  "built": "2026-09-12T03:05:41.877Z"
+}
