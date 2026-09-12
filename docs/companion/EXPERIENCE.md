@@ -26,8 +26,9 @@ propia, suscripción, telemetría ni servicios de pago obligatorios.
 | IA | Usar la IA habitual; exportar contexto para chat web. Respuesta explícita del mantenedor el 7 de septiembre. |
 | Recorridos | Investigación, software, Unity, contenido y uso general son pruebas obligatorias, no ejemplos opcionales. |
 | Diseño | Calidad profesional, accesibilidad, comodidad y landing distintiva. No implica afiliación con Google ni premio Awwwards. |
-| Instalaciones externas | Supuesto provisional: detectar/configurar lo existente y ofrecer descargas opcionales revisables; profundidad pendiente de respuesta. |
-| Fecha / IA de conferencia | Pendiente; no se inventa fecha ni proveedor obligatorio. |
+| Instalaciones externas | Detectar y configurar lo que ya existe; descargar solo la cadena de herramientas revisada y fijada por hash. **No** instalar modelos ni motores de inferencia. Decisión conjunta con el mantenedor el 11 de septiembre de 2026. |
+| Fecha de conferencia | **24 de septiembre de 2026**, con la aplicación lista antes del **20 de septiembre** para ensayar una entrevista. Respuesta del mantenedor el 11 de septiembre de 2026. |
+| IA imprescindibles | **OpenCode, Claude, ChatGPT, Cursor y Antigravity**, «de momento». Respuesta del mantenedor el 11 de septiembre de 2026. |
 | Prueba real | Instalar en el computador del mantenedor y preparar la landing desde la interfaz; autorización explícita. |
 | Evidencia | Medir antes/después; los objetivos de calidad no se convierten en porcentajes comerciales sin ensayo. |
 

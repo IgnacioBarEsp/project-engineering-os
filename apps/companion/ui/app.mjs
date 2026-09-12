@@ -1,7 +1,7 @@
 const api=window.companion;
 const $=id=>document.getElementById(id);
 const profiles={research:['Investigación','Artículos, PDF, documentos y evidencia.'],software:['Software o página web','Código, especificaciones y pruebas.'],unity:['Videojuego con Unity','Escenas, scripts y un proceso de desarrollo.'],media:['Contenido creativo','Imágenes, música, video y sus workflows.'],general:['Otro proyecto','Materiales de trabajo, ideas y tareas cotidianas.']};
-const agents={codex:'Codex','claude-code':'Claude','cursor':'Cursor','github-copilot':'GitHub Copilot',opencode:'OpenCode',web:'ChatGPT u otro chat web'};
+const agents={codex:'Codex','claude-code':'Claude','cursor':'Cursor','github-copilot':'GitHub Copilot',opencode:'OpenCode',antigravity:'Antigravity',web:'ChatGPT u otro chat web'};
 const roles={researcher:'Investigador/a',student:'Estudiante',developer:'Desarrollador/a o área de TI',freelancer:'Freelancer',creator:'Creador/a de contenido',general:'Usuario/a general'};
 const state={page:'home',tab:'overview',busy:false,projects:[],project:null,plan:null,status:null,query:'',selection:{name:'',goal:'',role:'researcher',profile:'research',experience:'guided',agents:['web']}};
 function el(tag,props={},...children){const node=document.createElement(tag);for(const [k,v] of Object.entries(props)){if(k==='class')node.className=v;else if(k==='text')node.textContent=v;else if(k.startsWith('on'))node.addEventListener(k.slice(2).toLowerCase(),v);else if(v!==false&&v!==undefined&&v!==null)node.setAttribute(k,v===true?'':v);}for(const c of children.flat(Infinity)){if(c!==null&&c!==undefined)node.append(c instanceof Node?c:document.createTextNode(String(c)));}return node;}
@@ -207,7 +207,7 @@ function handoffView(s){return el('section',{},panel(el('h2',{text:'Sigue en la 
     })))))
 }
 let dialogReturn=null;
-function openDialog(title,content){dialogReturn=state.busy?actionOrigin:document.activeElement;$('dialog-title').textContent=title;$('dialog-body').replaceChildren(...content);$('dialog').showModal();$('close-dialog').focus();}
+function openDialog(title,content){dialogReturn=state.busy?actionOrigin:document.activeElement;$('dialog-title').textContent=title;$('dialog-body').replaceChildren(...content.filter(node=>node!==null&&node!==undefined));$('dialog').showModal();$('close-dialog').focus();}
 function closeDialog(){$('dialog').close();}
 $('dialog').addEventListener('close',()=>{if(dialogReturn?.isConnected)dialogReturn.focus();});
 $('close-dialog').addEventListener('click',closeDialog);

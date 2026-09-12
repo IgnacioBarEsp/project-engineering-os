@@ -3,7 +3,7 @@ import { canonicalFolder, NAMESPACE, hash, json, fail, snapshot, writeChecked, w
 import { inspectFolder, normalizeScanLimits, PROFILE_IDS } from './inventory.mjs';
 
 const VERSION = 1;
-const AGENTS = new Set(['codex','claude-code','cursor','github-copilot','opencode','web']);
+const AGENTS = new Set(['codex','claude-code','cursor','github-copilot','opencode','antigravity','web']);
 const OWNED = Object.freeze(['project.json','START.md','inventory.json']);
 const RECEIPT = `${NAMESPACE}/receipt.json`, JOURNAL = `${NAMESPACE}/transaction.json`;
 const MAX_STATE = 2 * 1024 * 1024;

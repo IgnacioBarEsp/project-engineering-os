@@ -2,7 +2,10 @@ import { fail } from '../engine/files.mjs';
 
 export const BEGIN = '<!-- project-os-companion:start -->';
 export const END = '<!-- project-os-companion:end -->';
-export const AGENT_PATHS = Object.freeze({ codex: 'AGENTS.md', opencode: 'AGENTS.md', 'claude-code': 'CLAUDE.md',
+// Antigravity is routed to AGENTS.md, the cross-tool file Codex and OpenCode already read. Whether that
+// build reads it is NOT verified here, so nothing claims the instructions are active: the canonical route
+// and the reviewed export stay available, and the block itself says its presence proves nothing.
+export const AGENT_PATHS = Object.freeze({ codex: 'AGENTS.md', opencode: 'AGENTS.md', antigravity: 'AGENTS.md', 'claude-code': 'CLAUDE.md',
   cursor: '.cursor/rules/project-os-companion.mdc', 'github-copilot': '.github/copilot-instructions.md' });
 export const CANONICAL_ROUTE = '.project-os/instructions.md';
 export const ROUTE_PATHS = [...new Set(Object.values(AGENT_PATHS)), CANONICAL_ROUTE];

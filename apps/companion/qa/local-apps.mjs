@@ -50,3 +50,55 @@ test('an installed application that cannot be verified is reported instead of si
   assert.equal(await absent.detect('cursor'), null);
   assert.equal(await absent.detect('web'), null);
 });
+
+test('known installation locations distinguish absent executables from existing untrusted apps', async t => {
+  const root=await realpath(await mkdtemp(path.join(tmpdir(),'companion-discovery-')));
+  t.after(()=>rm(root,{recursive:true,force:true}));
+  let signatures=0;
+  const system={LOCALAPPDATA:root,ProgramFiles:path.join(root,'machine')};
+  const launcher=createLocalAppLauncher({platform:'win32',system,
+    signature:async()=>{signatures++;return {status:'NotSigned',publisher:''};},
+    launch:async()=>assert.fail('discovery must not launch')});
+  for(const agent of ['cursor','github-copilot'])assert.equal(await launcher.detect(agent),null);
+  assert.equal(signatures,0,'nonexistent candidates never reach signature verification');
+  const exe=path.join(root,'Programs','cursor','Cursor.exe');
+  await mkdir(path.dirname(exe),{recursive:true});await writeFile(exe,'unsigned fixture');
+  const found=await launcher.detect('cursor');
+  assert.equal(found.unverified,true);assert.equal(found.code,'APP_UNTRUSTED');assert.equal(signatures,1);
+  const inaccessible=createLocalAppLauncher({platform:'win32',system,
+    inspectFile:async()=>{throw Object.assign(new Error('Access denied'),{code:'EACCES'});},
+    launch:async()=>assert.fail('must not launch')});
+  assert.equal((await inaccessible.detect('cursor')).code,'EACCES');
+});
+
+test('a recognised application with no verified folder contract is reported, never launched',async t=>{
+  // Antigravity is on the maintainer's must-have list, and on the machine this was written for its
+  // executable is not signed. Both facts have to reach the person without either one becoming a
+  // promise: the application is recognised and reported, and it is not opened from here, because how
+  // its build takes a folder has not been observed. A guess would be a fabricated capability.
+  const root=await realpath(await mkdtemp(path.join(tmpdir(),'companion-antigravity-')));
+  t.after(()=>rm(root,{recursive:true,force:true}));
+  const executable=path.join(root,'Antigravity.exe'),project=path.join(root,'proyecto');
+  await mkdir(project);await writeFile(executable,'antigravity fixture');
+  let status='NotSigned',publisher='';
+  const launched=[];
+  const adapter=createLocalAppLauncher({discover:async()=>[{executable}],signature:async()=>({status,publisher}),
+    launch:async(...args)=>launched.push(args)});
+
+  // Unsigned, as installed here: present, and refused for the signature.
+  const unsigned=await adapter.detect('antigravity');
+  assert.equal(unsigned.unverified,true);assert.equal(unsigned.code,'APP_UNTRUSTED');
+  assert.equal(unsigned.label,'Antigravity','La persona debe leer el nombre de la aplicación, no un identificador.');
+
+  // Correctly signed by its publisher: still not opened, and the reason changes to say why.
+  status='Valid';publisher='Google LLC';
+  const signed=await adapter.detect('antigravity');
+  assert.equal(signed.unverified,true);assert.equal(signed.code,'APP_UNSUPPORTED');
+  assert.match(signed.message,/abre una carpeta/);
+
+  // Neither state may reach a launch, and a wrong publisher stays refused.
+  await assert.rejects(adapter.open({agent:'antigravity',executable,files:[]},project),e=>e.code==='APP_UNSUPPORTED');
+  publisher='Someone Else, Inc.';
+  assert.equal((await adapter.detect('antigravity')).code,'APP_UNTRUSTED');
+  assert.deepEqual(launched,[],'Ninguna de estas rutas puede abrir la aplicación.');
+});
