@@ -755,6 +755,10 @@
         {
           "flow": "complete-companion-program-remediation",
           "date": "2026-09-12"
+        },
+        {
+          "flow": "restructure-companion-navigation-remediation-2",
+          "date": "2026-09-12"
         }
       ],
       "issue": null,
@@ -854,11 +858,14 @@
         }
       ],
       "issue": null,
-      "status": "open",
+      "status": "refuted",
       "exception": null,
       "createdAt": "2026-09-12",
       "updatedAt": "2026-09-12",
-      "resolution": null
+      "resolution": {
+        "flow": "restructure-companion-navigation-remediation-2",
+        "evidence": "refutado"
+      }
     },
     {
       "id": "debt-bee2fa0c0549",
@@ -987,6 +994,111 @@
       "createdAt": "2026-09-12",
       "updatedAt": "2026-09-12",
       "resolution": null
+    },
+    {
+      "id": "debt-ada43bf01664",
+      "title": "Reclasificado tras la segunda revision: el septimo criterio pide accesibilidad verificada y solo esta medida la mitad observable por maquina, sin lector de pantalla ni persona usuaria de tecnologia asistiva",
+      "description": "Reclasificado tras la segunda revision: el septimo criterio pide accesibilidad verificada y solo esta medida la mitad observable por maquina, sin lector de pantalla ni persona usuaria de tecnologia asistiva",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/interface-contract.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/independent-review.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation-remediation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "refuted",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": {
+        "flow": "restructure-companion-navigation-remediation-2",
+        "evidence": "refutado"
+      }
+    },
+    {
+      "id": "debt-25431ff4ae7f",
+      "title": "Reclasificado tras la segunda revision: diez etapas nativas de software y Unity siguen sin verificar porque el arnes no vuelve a pedir un plan nuevo cuando la aplicacion rechaza el viejo",
+      "description": "Reclasificado tras la segunda revision: diez etapas nativas de software y Unity siguen sin verificar porque el arnes no vuelve a pedir un plan nuevo cuando la aplicacion rechaza el viejo",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/native-journeys.json",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation-remediation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "refuted",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": {
+        "flow": "restructure-companion-navigation-remediation-2",
+        "evidence": "refutado"
+      }
+    },
+    {
+      "id": "debt-53f4fcdb6a67",
+      "title": "Reclasificado tras la segunda revision: el guarda de identidad afirma que la ventana corre esta rama y no compara el runtime de Electron ni las dependencias transitivas izadas",
+      "description": "Reclasificado tras la segunda revision: el guarda de identidad afirma que la ventana corre esta rama y no compara el runtime de Electron ni las dependencias transitivas izadas",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation-remediation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "resolved",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": {
+        "flow": "restructure-companion-navigation-remediation-2",
+        "evidence": "resuelto"
+      }
     }
   ]
 }

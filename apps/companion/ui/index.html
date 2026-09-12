@@ -20,7 +20,18 @@
       <header class="topbar"><span id="breadcrumb">INICIO</span><span id="topbar-actions"></span></header>
       <div id="feedback" class="feedback" role="alert" hidden></div>
       <div id="activity" class="activity" role="status" aria-live="polite" hidden><span class="spinner" aria-hidden="true"></span><span id="activity-text"></span><button id="cancel" class="quiet">Detener</button></div>
-      <div id="view"></div>
+      <!--
+        The navigation and the first screen are rendered by app.mjs. If that module never loads, everything
+        below is what the person is left with, so it has to say what happened rather than be a blank panel:
+        a review broke the module chain on purpose and found an empty shell with no navigation, no content
+        and no stated cause. The renderer removes this on its first render.
+      -->
+      <div id="view"><section class="panel boot" id="boot"><h1>La aplicación no terminó de cargar.</h1>
+        <p>Esta pantalla es la que queda cuando el programa no pudo leer sus propios archivos. Tus proyectos y
+        tus carpetas no se tocaron: nada de lo que ves aquí escribe en disco.</p>
+        <p>Cierra esta ventana y vuelve a abrir Project Engineering OS desde su acceso directo. Si sigue
+        igual, la instalación está incompleta y conviene instalarla de nuevo; desinstalar no borra los
+        proyectos que ya preparaste.</p></section></div>
       <p id="notice" class="notice" role="status" aria-live="polite"></p>
     </main>
   </div>

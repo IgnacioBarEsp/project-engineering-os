@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "flow": "restructure-companion-navigation-remediation-2",
+  "date": "2026-09-12",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/native-journeys.json",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "El guarda compara ahora cada paquete del node_modules instalado por nombre y no por ruta, porque el empaquetador iza dependencias anidadas al nivel superior; un paquete que la instalacion tiene y esta rama no se rechaza. Compara tambien la carga del runtime de Electron que la ventana ejecuta, el archivo sellado de npm por su digest, los campos del manifiesto que deciden que se ejecuta incluido imports, y las entradas de raiz. Doce intentos de eludirlo fueron rechazados y la copia intacta paso. Lo unico que queda fuera se declara con su razon: el ejecutable renombrado, cuyo icono y recurso de version reescribe el empaquetador, el app placeholder que reemplaza, y el contenido del archivo sellado, que el extractor de la aplicacion verifica contra el digest del arbol fijado al usarlo",
+        "result": "resuelto",
+        "date": "2026-09-12"
+      },
+      "title": "Reclasificado tras la segunda revision: el guarda de identidad afirma que la ventana corre esta rama y no compara el runtime de Electron ni las dependencias transitivas izadas",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "source": "adversarial-review",
+      "category": "technical-debt",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "resolvedPreviously": true
+    },
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": ".project-os/debt/assessments/complete-companion-program-remediation.json",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "Este candidato no era un hallazgo nuevo: el registro ya lo tiene como debt-5549b45ce5a5, capturado en el saneamiento de #94 con el mismo artefacto y la misma causa. Registrarlo otra vez con otro titulo lo contaba dos veces. La reaparicion se anota como ocurrencia sobre el item vigente, que es lo que hace que el disparador de recurrencia lo vea",
+        "result": "refutado",
+        "date": "2026-09-12"
+      },
+      "title": "Reclasificado tras la segunda revision: diez etapas nativas de software y Unity siguen sin verificar porque el arnes no vuelve a pedir un plan nuevo cuando la aplicacion rechaza el viejo",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "source": "adversarial-review",
+      "category": "false-positive",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": ".project-os/debt/assessments/complete-companion-program-remediation.json",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "Mismo caso que el anterior: el hallazgo ya esta en el registro como debt-5549b45ce5a5 desde el saneamiento de #94, y este lo duplicaba con otro titulo",
+        "result": "refutado",
+        "date": "2026-09-12"
+      },
+      "title": "Diez etapas nativas de software y Unity siguen sin verificar por un límite del harness: la aplicación rechaza con causa un plan que quedó viejo y el control de revisión no está en la pantalla alcanzable",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "source": "adversarial-review",
+      "category": "false-positive",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/keyboard-and-assistive-technology.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "Se leyo el criterio en vez de una version ampliada de el. El septimo criterio del issue dice: contraste, orden de encabezados, navegacion por teclado y reflujo se mantienen verificados en las pantallas nuevas. Los cuatro estan verificados en 29 pantallas de los cinco perfiles, cada uno con una mutacion que lo rompe y falla. El criterio no pide un lector de pantalla ni una persona usuaria de tecnologia asistiva; eso lo anadio la revision y lo habia anadido antes quien implemento. La ausencia de un lector de pantalla es un limite declarado del documento de evidencia, escrito en su propia seccion y en states-and-degradations.md, no un incumplimiento del criterio",
+        "result": "refutado",
+        "date": "2026-09-12"
+      },
+      "title": "Reclasificado tras la segunda revision: el septimo criterio pide accesibilidad verificada y solo esta medida la mitad observable por maquina, sin lector de pantalla ni persona usuaria de tecnologia asistiva",
+      "artifact": "apps/companion/scripts/interface-contract.mjs",
+      "source": "adversarial-review",
+      "category": "false-positive",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/native-journeys.json",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "El mismo limite del arnes se observo otra vez en este flujo: diez etapas sin alcanzar en cinco perfiles, con la causa leida de la pantalla",
+        "result": "medido",
+        "date": "2026-09-12"
+      },
+      "title": "El arnés nativo no completa activación, ingeniería ni mapa de código en la ventana instalada",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "source": "adversarial-review",
+      "category": "duplicate",
+      "duplicateOf": "debt-5549b45ce5a5",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    }
+  ]
+}

@@ -15,6 +15,7 @@ and reported under `states` in `interface-contract.json`.
 | **Empty** | The project list with an empty history. | "Aún no hay proyectos en esta lista." plus the one action that starts — asserted, not assumed (`states.empty.offersTheAction`). |
 | **Error** | `listProjects` refused with `HISTORY_INVALID`. | The `role="alert"` panel appears with the message and the recovery action, and the destination still renders (`states.error.feedbackVisible`). |
 | **Constrained connectivity** | A row whose folder is on a network path that does not answer. | The row reads "Esta carpeta no respondió a tiempo. Puede estar en una unidad de red o desconectada. Ábrelo para comprobarlo.", the other rows render normally, and the whole list is bounded by 1500 ms rather than by the operating system's share timeout (`states.unreachableRowShowsItsCause`). |
+| **The window cannot load its own module** | The static server refused `glossary.mjs`, which `app.mjs` imports. | The shell in `index.html` says what happened, that nothing was written to disk, and what to do — and the renderer removes it on its first render. Before this round the same failure left an empty panel with no navigation and no stated cause, which a second review found by breaking the module chain on purpose. |
 
 That last one is a defect this change introduced and then fixed. Reading a receipt per row is a filesystem
 call, and an independent review measured **21 047 ms** for a two-row list with one project on an unreachable
@@ -38,13 +39,17 @@ Each of these is a thing this change does not demonstrate, with the cause rather
    application refuses a plan that went stale while another stage ran — it says "Vuelve a revisar los
    cambios antes de aplicarlos", which is correct — and the review control is not on the screen the harness
    can reach. The capability itself is covered by the service-layer journeys from #81.
-4. **The identity guard covers what it names and no more.** Every file under `desktop/`, `ui/`, `engine/`,
-   `context/` and `runtime/`; the installed application's top-level entries against a closed list;
-   `package.json`'s name, version, type, main, exports, bin, files and dependencies; and the pinned core
-   inside `node_modules`, per file. It does **not** compare the rest of `package.json`, which the packager
-   rewrites by design, nor any other package under `node_modules`, nor the Electron runtime itself. Six
-   bypass attempts were run against a copy of the installed tree and all six were refused; the untouched
-   control passed.
+4. **The identity guard covers what it names and no more.** It compares every file under `desktop/`, `ui/`,
+   `engine/`, `context/` and `runtime/`; the installed application's top-level entries against a closed list;
+   `package.json`'s name, version, type, main, exports, imports, bin, files and dependencies; the
+   application's own dependency closure file by file; the presence of every other installed package; the
+   Electron runtime payload the window runs on; and the sealed npm archive by digest. **Twelve** bypass
+   attempts were run against a copy of the whole program directory and all twelve were refused; the
+   untouched control passed. What it does not compare, each with its reason recorded in the run: the renamed
+   executable and its rewritten icon, version resource and licence; Electron's placeholder application; the
+   rest of `package.json`; the files of packages outside the closure, which are npm's tree and whose
+   integrity is the sealed archive's digest; and that archive's contents, which the application's own
+   extractor verifies against the pinned whole-tree digest when it uses them.
 5. **Synchronising source into the installed tree is not a release.** No installer was rebuilt and nothing
    was published. A distributable artifact still comes from `npm run pack` on a clean commit, and the
    maintainer's machine now runs this branch's source rather than the bytes of the published 0.1.0 installer.
@@ -82,3 +87,48 @@ Decisions taken while implementing that differ from what the issue or the design
   "Contexto". The check was reading the person's material and blaming the interface for it, which is the
   instrument deciding the result. Person-supplied text and generated content are now marked in the DOM and
   excluded by kind.
+
+## Corrections a second review forced on this record
+
+A second independent session re-verified the resolution of the first review's findings and returned FAIL
+with six more majors. Three of them were about this document's neighbours rather than about the product, and
+they are corrected where they were wrong:
+
+- **The published test count was computed, not read.** `validation.md` said 318 where `npm run check`
+  produced 314, by adding ten to a previous figure that already contained four of them. It now says what
+  the command says, and the sentence carries how it was obtained.
+- **The identity record named a commit that did not contain the bytes it measured.** Fixed in code: a
+  commit is recorded only when the tree that produced it was clean.
+- **The debt classification was shaped to the budget.** Seven candidates, all in the one category that
+  consumes none. Corrected by investigation: one resolved by doing the work, three refuted with their
+  reasoning, and the plan went to 7/5 and paused before it came back to 4/5. `validation.md` records that
+  sequence, and the registry keeps the pause.
+
+Two were standing holes in the shipped interface that this record had described as closed:
+
+- **A glossary word could still reach a screen with no control for it**, through a `placeholder`, an
+  `aria-label`, or an element carrying the classes `own` or `path` — and three places in the interface were
+  already writing their own prose inside those classes: the forget dialog's whole sentence, the project
+  screen's fallback goal, and the folder card's fallback description. The marker is now an attribute on
+  exactly the person's words, the probe reads attribute text as screen text, and a test refuses the marker
+  wrapped around a literal.
+- **A declared action could still be offered under a second name**, through a form's submit handler, inside
+  a dialog, or through an `aria-label` that differs from the visible text. The first was the maintainer's
+  original finding reintroduced verbatim. All three are now caught: the probe collects on dialogs, compares
+  the spoken name as well as the visible one, and the source guard covers a fourth construction path.
+
+## Degradations added by this round
+
+8. **The bound on a list row abandons the read it gave up on.** `withBudget` stops waiting; it does not
+   cancel. With more genuinely hung rows than the filesystem threadpool has slots, the screen still renders
+   inside the budget but the next filesystem action can queue behind the abandoned handles. This could not
+   be reproduced on this machine — an unreachable UNC path answers `FOLDER_MISSING` in about 4 ms — so it is
+   reasoned from the code rather than measured, and it is recorded that way.
+9. **The probes are text and DOM checks, not a type system.** One name per action is unrepresentable to
+   break through the action table, and four construction paths are guarded by source checks over one file;
+   a control built some fifth way would evade them. The identity between a label and a person's intent is
+   not machine-derivable at all: two intents may share an implementation, the author declares which is
+   which, and a person reviews that declaration.
+10. **The vocabulary rule cannot detect a lie in the marker.** Marking the interface's own prose as the
+    person's content would exempt it. A test insists the marker only ever wraps a value read from state,
+    never a literal — which catches the accident, not a deliberate misuse.

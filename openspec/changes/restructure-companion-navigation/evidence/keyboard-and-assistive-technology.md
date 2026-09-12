@@ -57,6 +57,17 @@ with **0 findings**:
 - **Colour is not the only carrier** of the project states by construction — each state has a word — but no
   colour-vision-deficiency simulation was run.
 
+## What the criterion actually asks
+
+Worth stating precisely, because both reviews and this session's first draft broadened it. The issue's
+seventh criterion reads: *"Contraste, orden de encabezados, navegación por teclado y reflujo se mantienen
+verificados en las pantallas nuevas."* Four things, and all four are verified above on 29 screens, each with
+a mutation that breaks it and fails. The criterion does not ask for a screen reader or for a person who uses
+assistive technology.
+
+That is not an argument for stopping here. It is the difference between a criterion that is met and a review
+that is complete, and this document is where the second one is bounded.
+
 ## The line
 
 What is verified here is the machine-observable half: names, roles, landmarks, live regions, heading

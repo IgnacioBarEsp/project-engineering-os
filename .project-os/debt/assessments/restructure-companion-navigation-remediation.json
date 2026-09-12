@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "flow": "restructure-companion-navigation-remediation",
+  "date": "2026-09-12",
+  "kind": "remediation",
+  "result": "debt",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/independent-review.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "Una segunda revision independiente juzgo los siete candidatos uno por uno y encontro que seis estaban en la unica categoria que no consume presupuesto. Se reviso cada uno de nuevo: tres son deuda tecnica de verdad y se reclasifican aqui. El registro no permite cambiar la categoria de un item, asi que el item original queda como se archivo y este lo sustituye en la categoria honesta; el presupuesto cuenta esta",
+        "result": "reclasificado",
+        "date": "2026-09-12"
+      },
+      "title": "Reclasificado tras la segunda revision: el septimo criterio pide accesibilidad verificada y solo esta medida la mitad observable por maquina, sin lector de pantalla ni persona usuaria de tecnologia asistiva",
+      "artifact": "apps/companion/scripts/interface-contract.mjs",
+      "source": "adversarial-review",
+      "category": "technical-debt",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/native-journeys.json",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "Diez etapas no se alcanzaron en cinco perfiles. La causa esta leida de la pantalla y no deducida de una ausencia: tras aplicar una etapa el plan de la siguiente queda viejo y la aplicacion lo rechaza con su causa. Es un hueco del arnes que arrastra la linea base archivada, no una mejora opcional",
+        "result": "reclasificado",
+        "date": "2026-09-12"
+      },
+      "title": "Reclasificado tras la segunda revision: diez etapas nativas de software y Unity siguen sin verificar porque el arnes no vuelve a pedir un plan nuevo cuando la aplicacion rechaza el viejo",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "source": "adversarial-review",
+      "category": "technical-debt",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "El guarda se amplio en este saneamiento a las cuatro dependencias de produccion que viajan como directorio, al archivo sellado de npm, a los campos del manifiesto que deciden que se ejecuta incluido imports, y a las entradas de raiz; nueve intentos de eludirlo fueron rechazados y una copia intacta paso. Lo que queda fuera es el runtime de Electron y las dependencias transitivas izadas, y eso sigue siendo un hueco de la afirmacion que el guarda hace",
+        "result": "reclasificado",
+        "date": "2026-09-12"
+      },
+      "title": "Reclasificado tras la segunda revision: el guarda de identidad afirma que la ventana corre esta rama y no compara el runtime de Electron ni las dependencias transitivas izadas",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "source": "adversarial-review",
+      "category": "technical-debt",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/interface-contract.json",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "Tres de las dieciocho mutaciones se contaban como detectadas por un tiempo de espera del arnes de treinta segundos, con sus campos observados en null. El arnes navega ahora por la accion declarada en vez de por la etiqueta, una excepcion ya no cuenta como deteccion, y la que no era un defecto se separo a una sonda de construccion: 23 mutaciones, 23 detectadas por su propiedad, mas una sonda de construccion que se sostuvo",
+        "result": "resuelto",
+        "date": "2026-09-12"
+      },
+      "title": "Tres mutaciones del contrato estructural se contaban como detectadas por un tiempo de espera del arnes y no por la propiedad que nombran",
+      "artifact": "apps/companion/scripts/verify-interface-contract.mjs",
+      "source": "adversarial-review",
+      "category": "technical-debt",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "resolvedPreviously": true
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "test/companion-language.test.mjs",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "La frase que una lectura en frio parafrasea queda fijada al texto exacto revisado, asi que ninguna variante la evade: las tres que la segunda revision colo ahora fallan. La mitad que exige las frases de limite se lee del texto sin comentarios, asi que mover una a un comentario ya no la satisface",
+        "result": "resuelto",
+        "date": "2026-09-12"
+      },
+      "title": "El guarda de lenguaje era una cerradura ortografica y su mitad de frases de limite se podia satisfacer con un comentario",
+      "artifact": "test/companion-language.test.mjs",
+      "source": "adversarial-review",
+      "category": "technical-debt",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "resolvedPreviously": true
+    }
+  ]
+}

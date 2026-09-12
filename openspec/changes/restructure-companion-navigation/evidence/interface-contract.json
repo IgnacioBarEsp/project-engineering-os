@@ -1,7 +1,7 @@
 {
-  "date": "2026-09-12T12:35:58.367Z",
+  "date": "2026-09-12T16:52:24.870Z",
   "source": "<home>/Documents/Projects/project-engineering-os/apps/companion/ui",
-  "scope": "El renderer real servido desde una copia, con el servicio nativo reemplazado por respuestas fijas. Cubre Inicio, Ayuda, la lista, el asistente, un proyecto, el diálogo de un término, la lista vacía y un error del servicio. No demuestra el motor ni la aplicación instalada.",
+  "scope": "El renderer real servido desde una copia, con el servicio nativo reemplazado por respuestas fijas. Cubre Inicio, Ayuda, la lista, el asistente, el diálogo de un término, el ancho mínimo, la lista vacía, un error del servicio y la ventana con su módulo roto. No demuestra el motor ni la aplicación instalada.",
   "glossaryTerms": 18,
   "baseline": {
     "screens": {
@@ -11,7 +11,10 @@
           "forbidden": [],
           "openable": [
             "openspec"
-          ]
+          ],
+          "examinedChars": 1804,
+          "attributes": 2,
+          "terms": 18
         },
         "accessibility": {
           "contrast": [],
@@ -28,6 +31,8 @@
           ],
           "focusable": 8,
           "dialogOpen": false,
+          "brokenWords": [],
+          "measured": 39,
           "terms": 1,
           "termsReachable": 1
         },
@@ -76,6 +81,7 @@
             "Compartir es una acción tuya y aparte: primero ves el texto, y después",
             "Privacidad y alcance"
           ],
+          "textNodes": 29,
           "headings": [
             "h1",
             "h2",
@@ -86,7 +92,8 @@
             "h2",
             "h2"
           ]
-        }
+        },
+        "feedback": ""
       },
       "ayuda": {
         "vocabulary": {
@@ -95,7 +102,10 @@
           "openable": [
             "cita",
             "recuperacion"
-          ]
+          ],
+          "examinedChars": 2036,
+          "attributes": 2,
+          "terms": 18
         },
         "accessibility": {
           "contrast": [],
@@ -109,6 +119,8 @@
           ],
           "focusable": 7,
           "dialogOpen": false,
+          "brokenWords": [],
+          "measured": 92,
           "terms": 2,
           "termsReachable": 2
         },
@@ -213,6 +225,7 @@
             "Revisar un trabajo buscando activamente en qué falla, en vez de confir",
             "Aparece en las recetas de software. Quien revisa intenta romper el res"
           ],
+          "textNodes": 84,
           "headings": [
             "h1",
             "h2",
@@ -220,15 +233,22 @@
             "h2",
             "h2"
           ]
-        }
+        },
+        "feedback": ""
       },
       "asistente": {
         "vocabulary": {
           "missing": [],
           "forbidden": [],
           "openable": [
-            "perfil"
-          ]
+            "perfil",
+            "recuperacion",
+            "exclusion",
+            "mapa-de-codigo"
+          ],
+          "examinedChars": 1417,
+          "attributes": 3,
+          "terms": 18
         },
         "accessibility": {
           "contrast": [],
@@ -238,8 +258,10 @@
           ],
           "focusable": 24,
           "dialogOpen": false,
-          "terms": 1,
-          "termsReachable": 1
+          "brokenWords": [],
+          "measured": 52,
+          "terms": 5,
+          "termsReachable": 5
         },
         "names": {
           "controls": 24,
@@ -308,16 +330,26 @@
             "Inicio",
             "Elegir carpeta →"
           ],
+          "textNodes": 50,
           "headings": [
             "h1"
           ]
-        }
+        },
+        "feedback": ""
       },
       "tus proyectos": {
         "vocabulary": {
           "missing": [],
           "forbidden": [],
-          "openable": []
+          "openable": [
+            "perfil",
+            "recuperacion",
+            "exclusion",
+            "mapa-de-codigo"
+          ],
+          "examinedChars": 609,
+          "attributes": 2,
+          "terms": 18
         },
         "accessibility": {
           "contrast": [],
@@ -329,8 +361,10 @@
           ],
           "focusable": 9,
           "dialogOpen": false,
-          "terms": 0,
-          "termsReachable": 0
+          "brokenWords": [],
+          "measured": 29,
+          "terms": 4,
+          "termsReachable": 4
         },
         "names": {
           "controls": 9,
@@ -349,23 +383,29 @@
         "purity": {
           "cards": 2,
           "stray": [],
+          "textNodes": 17,
           "headings": [
             "h1",
             "h2",
             "h2"
           ]
-        }
+        },
+        "feedback": ""
       }
     },
     "dialog": {
       "title": "Cita",
+      "opened": true,
       "vocabulary": {
         "missing": [],
         "forbidden": [],
         "openable": [
           "cita",
           "recuperacion"
-        ]
+        ],
+        "examinedChars": 2298,
+        "attributes": 3,
+        "terms": 18
       },
       "accessibility": {
         "contrast": [],
@@ -379,6 +419,8 @@
         ],
         "focusable": 8,
         "dialogOpen": true,
+        "brokenWords": [],
+        "measured": 96,
         "terms": 2,
         "termsReachable": 2
       },
@@ -483,6 +525,7 @@
           "Revisar un trabajo buscando activamente en qué falla, en vez de confir",
           "Aparece en las recetas de software. Quien revisa intenta romper el res"
         ],
+        "textNodes": 84,
         "headings": [
           "h1",
           "h2",
@@ -490,9 +533,67 @@
           "h2",
           "h2"
         ]
-      }
+      },
+      "feedback": ""
     },
+    "narrow": {
+      "vocabulary": {
+        "missing": [],
+        "forbidden": [],
+        "openable": [
+          "perfil",
+          "recuperacion",
+          "exclusion",
+          "mapa-de-codigo"
+        ],
+        "examinedChars": 609,
+        "attributes": 2,
+        "terms": 18
+      },
+      "accessibility": {
+        "contrast": [],
+        "headingOrder": [],
+        "headings": [
+          1,
+          2,
+          2
+        ],
+        "focusable": 9,
+        "dialogOpen": false,
+        "brokenWords": [],
+        "measured": 24,
+        "terms": 4,
+        "termsReachable": 4
+      },
+      "names": {
+        "controls": 9,
+        "unnamed": [],
+        "landmarks": [
+          "aside",
+          "nav",
+          "main",
+          "header"
+        ],
+        "navigationLabelled": true,
+        "liveRegions": 3,
+        "dialogNamed": true,
+        "pressedTabs": true
+      },
+      "purity": {
+        "cards": 2,
+        "stray": [],
+        "textNodes": 17,
+        "headings": [
+          "h1",
+          "h2",
+          "h2"
+        ]
+      },
+      "feedback": ""
+    },
+    "unreachable": [],
     "glossaryEntries": 18,
+    "glossaryTerms": 18,
     "actions": [
       [
         "open-start",
@@ -526,55 +627,85 @@
       ]
     ],
     "duplicated": [],
-    "missing": [
-      "open-workspace",
-      "recheck-project",
-      "read-files",
-      "review-development",
-      "review-code-map",
-      "repair-tools"
-    ],
     "undeclared": [],
-    "jargonAnywhere": [],
     "termLabelMismatches": [],
-    "rendererErrors": []
+    "rendererErrors": [],
+    "brokenModule": {
+      "bootText": "La aplicación no terminó de cargar. Esta pantalla es la que queda cuando el programa no pudo leer sus propios archivos. Tus proyectos y tus carpetas no se tocaron: nada de lo que ves aquí escribe en disco. Cierra esta ventana y vuelve a abrir Project Engineering OS desde su acceso directo. Si sigue igual, la instalación está incompleta y conviene instalarla de nuevo; desinstalar no borra los proyectos que ya preparaste.",
+      "navButtons": 0
+    }
   },
   "mutations": [
     {
-      "id": "two-names-for-one-action-in-navigation",
-      "reason": "la entrada de navegación vuelve a llamarse distinto que el botón que hace lo mismo",
-      "note": "la etiqueta vive con la acción, así que cambiarla las cambia todas a la vez; lo que la mutación demuestra es que el nombre único no se puede romper en un solo sitio",
-      "detected": true,
-      "by": "la comprobación no pudo completarse: locator.click: Timeout 30000ms exceeded.",
-      "observed": null
-    },
-    {
       "id": "two-names-for-one-action-deeper-in-the-wizard",
-      "reason": "una acción declarada se ofrece con otro nombre en una pantalla del asistente, que es donde el harness anterior no miraba",
+      "reason": "una acción declarada se ofrece con otro nombre en una pantalla del asistente",
       "note": null,
       "detected": true,
-      "by": null,
+      "by": "la propiedad que nombra",
       "observed": {
         "duplicated": [
           "prepare-project: \"Preparar proyecto\" (tus proyectos) vs \"Preparar una carpeta\" (asistente)"
         ],
-        "missing": [
-          "open-workspace",
-          "recheck-project",
-          "read-files",
-          "review-development",
-          "review-code-map",
-          "repair-tools"
-        ],
         "undeclared": [],
-        "jargonAnywhere": [],
-        "termLabelMismatches": [],
+        "unreachable": [],
         "glossaryEntries": 18,
+        "termLabelMismatches": [],
         "rendererErrors": [],
         "stray": 0,
+        "vocabulary": [],
         "contrast": [],
+        "brokenWords": [],
         "unnamed": [],
-        "termsUnreachable": []
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-second-name-only-assistive-technology-hears",
+      "reason": "una acción declarada lleva un aria-label distinto de su texto visible, que es el nombre que dice un lector de pantalla",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [
+          "privacy-scope: \"Privacidad y alcance\" (tus proyectos) vs \"Alcance y datos que salen de aquí\" (tus proyectos (hablado))"
+        ],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-duplicate-action-inside-a-dialog",
+      "reason": "una acción declarada se ofrece con otro nombre dentro de un diálogo, que es donde la recogida anterior nunca miraba",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [
+          "open-project-list: \"Tus proyectos\" (tus proyectos) vs \"Ver la lista de carpetas\" (tus proyectos (diálogo))"
+        ],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
       }
     },
     {
@@ -582,28 +713,23 @@
       "reason": "un control declara una acción que no está en el conjunto cerrado",
       "note": null,
       "detected": true,
-      "by": null,
+      "by": "la propiedad que nombra",
       "observed": {
         "duplicated": [],
-        "missing": [
-          "open-workspace",
-          "recheck-project",
-          "read-files",
-          "review-development",
-          "review-code-map",
-          "repair-tools"
-        ],
         "undeclared": [
           "go-somewhere"
         ],
-        "jargonAnywhere": [],
-        "termLabelMismatches": [],
+        "unreachable": [],
         "glossaryEntries": 18,
+        "termLabelMismatches": [],
         "rendererErrors": [],
         "stray": 0,
+        "vocabulary": [],
         "contrast": [],
+        "brokenWords": [],
         "unnamed": [],
-        "termsUnreachable": []
+        "termsUnreachable": [],
+        "bootText": 80
       }
     },
     {
@@ -611,26 +737,21 @@
       "reason": "la lista de proyectos recupera un saludo explicativo",
       "note": null,
       "detected": true,
-      "by": null,
+      "by": "la propiedad que nombra",
       "observed": {
         "duplicated": [],
-        "missing": [
-          "open-workspace",
-          "recheck-project",
-          "read-files",
-          "review-development",
-          "review-code-map",
-          "repair-tools"
-        ],
         "undeclared": [],
-        "jargonAnywhere": [],
-        "termLabelMismatches": [],
+        "unreachable": [],
         "glossaryEntries": 18,
+        "termLabelMismatches": [],
         "rendererErrors": [],
         "stray": 1,
+        "vocabulary": [],
         "contrast": [],
+        "brokenWords": [],
         "unnamed": [],
-        "termsUnreachable": []
+        "termsUnreachable": [],
+        "bootText": 80
       }
     },
     {
@@ -638,26 +759,21 @@
       "reason": "el mismo saludo, en un elemento que la comprobación anterior no miraba",
       "note": null,
       "detected": true,
-      "by": null,
+      "by": "la propiedad que nombra",
       "observed": {
         "duplicated": [],
-        "missing": [
-          "open-workspace",
-          "recheck-project",
-          "read-files",
-          "review-development",
-          "review-code-map",
-          "repair-tools"
-        ],
         "undeclared": [],
-        "jargonAnywhere": [],
-        "termLabelMismatches": [],
+        "unreachable": [],
         "glossaryEntries": 18,
+        "termLabelMismatches": [],
         "rendererErrors": [],
         "stray": 1,
+        "vocabulary": [],
         "contrast": [],
+        "brokenWords": [],
         "unnamed": [],
-        "termsUnreachable": []
+        "termsUnreachable": [],
+        "bootText": 80
       }
     },
     {
@@ -665,26 +781,21 @@
       "reason": "el mismo saludo, plegado dentro de un details",
       "note": null,
       "detected": true,
-      "by": null,
+      "by": "la propiedad que nombra",
       "observed": {
         "duplicated": [],
-        "missing": [
-          "open-workspace",
-          "recheck-project",
-          "read-files",
-          "review-development",
-          "review-code-map",
-          "repair-tools"
-        ],
         "undeclared": [],
-        "jargonAnywhere": [],
-        "termLabelMismatches": [],
+        "unreachable": [],
         "glossaryEntries": 18,
+        "termLabelMismatches": [],
         "rendererErrors": [],
         "stray": 2,
+        "vocabulary": [],
         "contrast": [],
+        "brokenWords": [],
         "unnamed": [],
-        "termsUnreachable": []
+        "termsUnreachable": [],
+        "bootText": 80
       }
     },
     {
@@ -692,26 +803,21 @@
       "reason": "los tres pasos vuelven a la lista, como lista ordenada",
       "note": null,
       "detected": true,
-      "by": null,
+      "by": "la propiedad que nombra",
       "observed": {
         "duplicated": [],
-        "missing": [
-          "open-workspace",
-          "recheck-project",
-          "read-files",
-          "review-development",
-          "review-code-map",
-          "repair-tools"
-        ],
         "undeclared": [],
-        "jargonAnywhere": [],
-        "termLabelMismatches": [],
+        "unreachable": [],
         "glossaryEntries": 18,
+        "termLabelMismatches": [],
         "rendererErrors": [],
         "stray": 2,
+        "vocabulary": [],
         "contrast": [],
+        "brokenWords": [],
         "unnamed": [],
-        "termsUnreachable": []
+        "termsUnreachable": [],
+        "bootText": 80
       }
     },
     {
@@ -719,28 +825,23 @@
       "reason": "un término técnico vuelve a aparecer en Inicio como prosa",
       "note": null,
       "detected": true,
-      "by": null,
+      "by": "la propiedad que nombra",
       "observed": {
         "duplicated": [],
-        "missing": [
-          "open-workspace",
-          "recheck-project",
-          "read-files",
-          "review-development",
-          "review-code-map",
-          "repair-tools"
-        ],
         "undeclared": [],
-        "jargonAnywhere": [
-          "inicio: openspec"
-        ],
-        "termLabelMismatches": [],
+        "unreachable": [],
         "glossaryEntries": 18,
+        "termLabelMismatches": [],
         "rendererErrors": [],
         "stray": 0,
+        "vocabulary": [
+          "inicio:openspec"
+        ],
         "contrast": [],
+        "brokenWords": [],
         "unnamed": [],
-        "termsUnreachable": []
+        "termsUnreachable": [],
+        "bootText": 80
       }
     },
     {
@@ -748,28 +849,23 @@
       "reason": "una palabra de la jerga de este repositorio aparece en una pantalla que no es Inicio",
       "note": null,
       "detected": true,
-      "by": null,
+      "by": "la propiedad que nombra",
       "observed": {
         "duplicated": [],
-        "missing": [
-          "open-workspace",
-          "recheck-project",
-          "read-files",
-          "review-development",
-          "review-code-map",
-          "repair-tools"
-        ],
         "undeclared": [],
-        "jargonAnywhere": [
-          "ayuda: harness"
-        ],
-        "termLabelMismatches": [],
+        "unreachable": [],
         "glossaryEntries": 18,
+        "termLabelMismatches": [],
         "rendererErrors": [],
         "stray": 0,
+        "vocabulary": [
+          "ayuda:harness"
+        ],
         "contrast": [],
+        "brokenWords": [],
         "unnamed": [],
-        "termsUnreachable": []
+        "termsUnreachable": [],
+        "bootText": 80
       }
     },
     {
@@ -777,29 +873,75 @@
       "reason": "un término aparece como prosa en una pantalla donde su definición no se puede abrir",
       "note": null,
       "detected": true,
-      "by": null,
+      "by": "la propiedad que nombra",
       "observed": {
         "duplicated": [],
-        "missing": [
-          "open-workspace",
-          "recheck-project",
-          "read-files",
-          "review-development",
-          "review-code-map",
-          "repair-tools"
-        ],
         "undeclared": [],
-        "jargonAnywhere": [
-          "ayuda: inventario",
-          "ayuda: perfil"
-        ],
-        "termLabelMismatches": [],
+        "unreachable": [],
         "glossaryEntries": 18,
+        "termLabelMismatches": [],
         "rendererErrors": [],
         "stray": 0,
+        "vocabulary": [
+          "ayuda:inventario",
+          "ayuda:perfil"
+        ],
         "contrast": [],
+        "brokenWords": [],
         "unnamed": [],
-        "termsUnreachable": []
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "term-as-prose-inside-a-placeholder",
+      "reason": "un término llega a la pantalla por un placeholder, que se dibuja pero no es textContent",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [
+          "asistente:firma"
+        ],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "term-as-prose-inside-an-aria-label",
+      "reason": "un término llega a la pantalla por un aria-label, que es lo que dice un lector de pantalla, y este está en todas",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [
+          "inicio:inventario",
+          "ayuda:inventario",
+          "asistente:inventario",
+          "tus proyectos:inventario"
+        ],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
       }
     },
     {
@@ -807,34 +949,45 @@
       "reason": "se retira la declaración de una acción, que es la forma de satisfacer la comprobación por omisión",
       "note": null,
       "detected": true,
-      "by": "la comprobación no pudo completarse: locator.click: Timeout 30000ms exceeded.",
-      "observed": null
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [
+          "ayuda"
+        ],
+        "glossaryEntries": 0,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
     },
     {
       "id": "glossary-stops-listing-every-term",
       "reason": "la ayuda deja de reunir todas las definiciones",
       "note": null,
       "detected": true,
-      "by": null,
+      "by": "la propiedad que nombra",
       "observed": {
         "duplicated": [],
-        "missing": [
-          "open-workspace",
-          "recheck-project",
-          "read-files",
-          "review-development",
-          "review-code-map",
-          "repair-tools"
-        ],
         "undeclared": [],
-        "jargonAnywhere": [],
-        "termLabelMismatches": [],
+        "unreachable": [],
         "glossaryEntries": 5,
+        "termLabelMismatches": [],
         "rendererErrors": [],
         "stray": 0,
+        "vocabulary": [],
         "contrast": [],
+        "brokenWords": [],
         "unnamed": [],
-        "termsUnreachable": []
+        "termsUnreachable": [],
+        "bootText": 80
       }
     },
     {
@@ -842,60 +995,50 @@
       "reason": "el estado de cada proyecto se vuelve ilegible sobre su fondo",
       "note": null,
       "detected": true,
-      "by": null,
+      "by": "la propiedad que nombra",
       "observed": {
         "duplicated": [],
-        "missing": [
-          "open-workspace",
-          "recheck-project",
-          "read-files",
-          "review-development",
-          "review-code-map",
-          "repair-tools"
-        ],
         "undeclared": [],
-        "jargonAnywhere": [],
-        "termLabelMismatches": [],
+        "unreachable": [],
         "glossaryEntries": 18,
+        "termLabelMismatches": [],
         "rendererErrors": [],
         "stray": 0,
+        "vocabulary": [],
         "contrast": [
           "tus proyectos:project-state state-context:1.43",
           "tus proyectos:recorded:1.43",
           "tus proyectos:project-state state-unreadable:1.43",
           "tus proyectos:recorded:1.43"
         ],
+        "brokenWords": [],
         "unnamed": [],
-        "termsUnreachable": []
+        "termsUnreachable": [],
+        "bootText": 80
       }
     },
     {
       "id": "contrast-broken-inside-the-definition-dialog",
-      "reason": "el texto del diálogo que define un término se vuelve ilegible, en la superficie que el harness anterior no miraba",
+      "reason": "el texto del diálogo que define un término se vuelve ilegible",
       "note": null,
       "detected": true,
-      "by": null,
+      "by": "la propiedad que nombra",
       "observed": {
         "duplicated": [],
-        "missing": [
-          "open-workspace",
-          "recheck-project",
-          "read-files",
-          "review-development",
-          "review-code-map",
-          "repair-tools"
-        ],
         "undeclared": [],
-        "jargonAnywhere": [],
-        "termLabelMismatches": [],
+        "unreachable": [],
         "glossaryEntries": 18,
+        "termLabelMismatches": [],
         "rendererErrors": [],
         "stray": 0,
+        "vocabulary": [],
         "contrast": [
           "diálogo:null:1.17"
         ],
+        "brokenWords": [],
         "unnamed": [],
-        "termsUnreachable": []
+        "termsUnreachable": [],
+        "bootText": 80
       }
     },
     {
@@ -903,23 +1046,16 @@
       "reason": "la navegación, que está en todas las pantallas, se vuelve ilegible",
       "note": null,
       "detected": true,
-      "by": null,
+      "by": "la propiedad que nombra",
       "observed": {
         "duplicated": [],
-        "missing": [
-          "open-workspace",
-          "recheck-project",
-          "read-files",
-          "review-development",
-          "review-code-map",
-          "repair-tools"
-        ],
         "undeclared": [],
-        "jargonAnywhere": [],
-        "termLabelMismatches": [],
+        "unreachable": [],
         "glossaryEntries": 18,
+        "termLabelMismatches": [],
         "rendererErrors": [],
         "stray": 0,
+        "vocabulary": [],
         "contrast": [
           "inicio:nav-button:1.33",
           "inicio:nav-button:1.33",
@@ -939,8 +1075,36 @@
           "diálogo:nav-button:1.33",
           "diálogo:nav-button:1.33"
         ],
+        "brokenWords": [],
         "unnamed": [],
-        "termsUnreachable": []
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "navigation-entries-break-mid-word",
+      "reason": "las entradas de navegación vuelven a partirse por la mitad de una palabra en el ancho mínimo",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [
+          "Inicio en 3 renglones para 1 palabra(s)",
+          "Tus proyectos en 3 renglones para 2 palabra(s)",
+          "Ayuda en 3 renglones para 1 palabra(s)"
+        ],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
       }
     },
     {
@@ -948,30 +1112,26 @@
       "reason": "un término deja de poder activarse con el teclado y pasa a ser texto",
       "note": null,
       "detected": true,
-      "by": null,
+      "by": "la propiedad que nombra",
       "observed": {
         "duplicated": [],
-        "missing": [
-          "open-workspace",
-          "recheck-project",
-          "read-files",
-          "review-development",
-          "review-code-map",
-          "repair-tools"
-        ],
         "undeclared": [],
-        "jargonAnywhere": [],
-        "termLabelMismatches": [],
+        "unreachable": [],
         "glossaryEntries": 18,
+        "termLabelMismatches": [],
         "rendererErrors": [],
         "stray": 0,
+        "vocabulary": [],
         "contrast": [],
+        "brokenWords": [],
         "unnamed": [],
         "termsUnreachable": [
           "inicio",
           "ayuda",
-          "asistente"
-        ]
+          "asistente",
+          "tus proyectos"
+        ],
+        "bootText": 80
       }
     },
     {
@@ -979,41 +1139,74 @@
       "reason": "un control dice una palabra y abre la definición de otra",
       "note": null,
       "detected": true,
-      "by": "la comprobación no pudo completarse: locator.waitFor: Timeout 30000ms exceeded.",
-      "observed": null
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 0,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [
+          "ayuda:recuperacion"
+        ],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
     },
     {
       "id": "a-control-loses-its-accessible-name",
       "reason": "un control queda sin nombre accesible, así que con un lector de pantalla es inservible",
       "note": null,
       "detected": true,
-      "by": null,
+      "by": "la propiedad que nombra",
       "observed": {
         "duplicated": [
           "privacy-scope: \"\" (tus proyectos) vs \"Privacidad y alcance\" (inicio)"
         ],
-        "missing": [
-          "open-workspace",
-          "recheck-project",
-          "read-files",
-          "review-development",
-          "review-code-map",
-          "repair-tools"
-        ],
         "undeclared": [],
-        "jargonAnywhere": [],
-        "termLabelMismatches": [],
+        "unreachable": [],
         "glossaryEntries": 18,
+        "termLabelMismatches": [],
         "rendererErrors": [],
         "stray": 0,
+        "vocabulary": [],
         "contrast": [],
+        "brokenWords": [],
         "unnamed": [
           "inicio:button.quiet",
           "ayuda:button.quiet",
           "asistente:button.quiet",
           "tus proyectos:button.quiet"
         ],
-        "termsUnreachable": []
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "the-boot-shell-loses-its-stated-cause",
+      "reason": "si el módulo no carga, la ventana vuelve a quedar en blanco sin decir por qué",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 0
       }
     }
   ],
@@ -1031,6 +1224,8 @@
         ],
         "focusable": 6,
         "dialogOpen": false,
+        "brokenWords": [],
+        "measured": 15,
         "terms": 0,
         "termsReachable": 0
       },
@@ -1055,17 +1250,55 @@
         ],
         "focusable": 8,
         "dialogOpen": false,
+        "brokenWords": [],
+        "measured": 42,
         "terms": 1,
         "termsReachable": 1
       },
       "rendererErrors": []
     },
-    "unreachableRowShowsItsCause": true
+    "unreachableRowShowsItsCause": true,
+    "brokenModule": {
+      "bootText": "La aplicación no terminó de cargar. Esta pantalla es la que queda cuando el programa no pudo leer sus propios archivos. Tus proyectos y tus carpetas no se tocaron: nada de lo que ves aquí escribe en disco. Cierra esta ventana y vuelve a abrir Project Engineering OS desde su acceso directo. Si sigue igual, la instalación está incompleta y conviene instalarla de nuevo; desinstalar no borra los proyectos que ya preparaste.",
+      "navButtons": 0
+    }
   },
+  "constructionProbes": [
+    {
+      "id": "renaming-an-action-renames-every-control-at-once",
+      "property": "la etiqueta vive con la acción, así que no se puede romper en un solo sitio",
+      "holds": true,
+      "by": null
+    }
+  ],
   "summary": {
-    "mutations": 18,
-    "detected": 18,
+    "mutations": 23,
+    "detected": 23,
+    "constructionProbes": 1,
+    "constructionHeld": 1,
     "findings": 0,
-    "screens": 7
+    "screens": 9,
+    "denominators": {
+      "inicio": {
+        "contrast": 39,
+        "vocabularyChars": 1804,
+        "controls": 8
+      },
+      "ayuda": {
+        "contrast": 92,
+        "vocabularyChars": 2036,
+        "controls": 7
+      },
+      "asistente": {
+        "contrast": 52,
+        "vocabularyChars": 1417,
+        "controls": 24
+      },
+      "tus proyectos": {
+        "contrast": 29,
+        "vocabularyChars": 609,
+        "controls": 9
+      }
+    }
   }
 }

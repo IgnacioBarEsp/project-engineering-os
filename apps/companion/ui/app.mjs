@@ -40,8 +40,14 @@ const ACTIONS={
 const doBtn=(id,cls='secondary')=>{const action=ACTIONS[id];if(!action)throw Error(`Acción sin declarar: ${id}`);
   return el('button',{type:'button',class:cls,'data-action':id,onClick:()=>run(action.run)},action.label);};
 const heading=(title,description)=>[el('h1',{tabindex:'-1',text:title}),p(description,'intro')];
-// The person's own words. Marked so a check can tell the interface's vocabulary from their content.
-const ownHeading=(title,description)=>[el('h1',{tabindex:'-1',class:'own',text:title}),p(description,'intro own')];
+// The person's own words, and only those. `data-content="person"` says whose words these are; it is not a
+// class, because a class is also a styling decision and an independent review found three places where the
+// interface wrote its own prose inside one and was read as the person's content. `own()` wraps exactly the
+// text that came from them, so a fallback sentence the interface supplies stays interface text.
+const own=(text,tag='span',extra={})=>el(tag,{...extra,'data-content':'person',text});
+const ownHeading=(title,description,fromPerson)=>[
+  el('h1',{tabindex:'-1','data-content':'person',text:title}),
+  fromPerson?own(description,'p',{class:'intro'}):p(description,'intro')];
 const actions=(...buttons)=>el('div',{class:'actions'},buttons);
 const panel=(...content)=>el('section',{class:'panel'},content);
 const term=makeTerm(el,id=>showTerm(id));
@@ -96,7 +102,7 @@ async function showProjects(){state.page='projects';state.projects=await call('l
   state.projects.length?el('div',{class:'project-list'},state.projects.map(project=>{
     const [label,detail]=projectStates[project.state]??['Estado desconocido','Ábrelo para comprobarlo.'];
     return el('article',{class:'project'},
-      el('div',{},el('h2',{class:'own',text:project.name}),p(project.root,'path'),
+      el('div',{},own(project.name,'h2'),own(project.root,'p',{class:'path'}),
         el('p',{class:`project-state state-${project.state}`},el('b',{text:label}),' ',
           project.state==='unreadable'?(project.error?.message??detail):detail,
           el('span',{class:'recorded',text:' Estado guardado la última vez; se comprueba al abrirlo.'})),
@@ -160,7 +166,8 @@ function showSetup(){state.page='setup';const s=state.selection;
 }
 function showFolder(){state.page='folder';const chosen=state.project;
   render([steps(1),...heading('Tu trabajo empieza en una carpeta.','Elige solo los materiales de este proyecto. Si empiezas de cero, crea una carpeta nueva desde el mismo diálogo.'),
-    el('div',{class:'folder-card'},el('h2',{class:chosen?'own':'',text:chosen?chosen.name:'¿Dónde está tu proyecto?'}),p(chosen?chosen.root:'Puede tener código, documentos, PDF o tus materiales de trabajo.','path'),actions(btn(chosen?'Cambiar carpeta':'Buscar carpeta en este equipo',async()=>{const result=await call('chooseFolder');if(result){state.project=result;showFolder();}},'primary'))),
+    el('div',{class:'folder-card'},chosen?own(chosen.name,'h2'):el('h2',{text:'¿Dónde está tu proyecto?'}),
+      chosen?own(chosen.root,'p',{class:'path'}):p('Puede tener código, documentos, PDF o tus materiales de trabajo.','subtle'),actions(btn(chosen?'Cambiar carpeta':'Buscar carpeta en este equipo',async()=>{const result=await call('chooseFolder');if(result){state.project=result;showFolder();}},'primary'))),
     chosen?panel(el('h2',{text:'Una primera mirada'}),p(`${chosen.inspection?.files.length??0} archivos dentro de lo que se va a leer.`),
       el('p',{class:'subtle'},`Tipo detectado: ${profiles[chosen.inspection?.recommendation]?.[0]??'por confirmar'}. Se usará el `,term('perfil'),` que elegiste: ${profiles[state.selection.profile][0]}.`),
       doBtn('open-workspace','quiet')):null,
@@ -170,7 +177,7 @@ function showFolder(){state.page='folder';const chosen=state.project;
 function changes(files){return el('details',{},el('summary',{text:`Ver archivos previstos (${files.length})`}),el('ul',{class:'file-list'},files.map(f=>el('li',{text:`${{create:'Añadir',update:'Actualizar',remove:'Retirar',unchanged:'Conservar',adopt:'Conservar original',preserve:'Conservar',noop:'Sin cambios'}[f.action]??f.action} · ${f.path}`}))));}
 function showBaseReview(){state.page='base-review';const s=state.selection;
   render([steps(2),...heading('Esto es lo que se va a escribir.','Primero se guardan tus elecciones y la lista de lo que hay en la carpeta. Después revisas qué archivos se leen y qué instrucciones recibe tu IA.'),
-    panel(el('dl',{class:'review-grid'},[['Proyecto',s.name,true],['Tipo de trabajo',profiles[s.profile][0],false],['Tu objetivo',s.goal,true],['Tu IA',s.agents.map(a=>agents[a]).join(', '),false]].flatMap(([k,v,own])=>[el('div',{},el('dt',{text:k}),el('dd',{class:own?'own':'',text:v}))])),p(state.project.root,'path'),changes(state.plan.files)),
+    panel(el('dl',{class:'review-grid'},[['Proyecto',s.name,true],['Tipo de trabajo',profiles[s.profile][0],false],['Tu objetivo',s.goal,true],['Tu IA',s.agents.map(a=>agents[a]).join(', '),false]].flatMap(([k,v,fromPerson])=>[el('div',{},el('dt',{text:k}),fromPerson?own(v,'dd'):el('dd',{text:v}))])),own(state.project.root,'p',{class:'path'}),changes(state.plan.files)),
     el('p',{class:'subtle'},'Uno de esos archivos es el ',term('inventario'),': la lista de lo que se encontró, con su tipo y su tamaño, y los archivos que no se pudieron leer con su motivo. No guarda el contenido completo.'),
     p('Tus archivos originales no se modifican. Se guarda un registro para poder comprobar cambios y deshacer una operación que quede a medias.','subtle'),
     actions(btn('Volver',()=>showFolder()),btn('Guardar esta preparación  →',async()=>{const r=await call('applyBase',{plan:state.plan.id});state.status=r.status;state.project={...state.project,...r.status.project};
@@ -184,7 +191,7 @@ async function reviewEngineering(){
 const downloadSize=bytes=>`${(bytes/(1024*1024)).toLocaleString('es',{maximumFractionDigits:1})} MiB`;
 async function reviewRepair(){state.plan=await call('previewRepair',{id:state.project.id});const plan=state.plan;
   render([...heading('Recuperemos tus herramientas.','Se comprueban otra vez la ubicación y el registro de cada herramienta antes de reemplazar su copia.'),
-    panel(p(plan.message),...(plan.items??[]).map(item=>el('article',{},el('h2',{text:item.name}),p(`${downloadSize(item.downloadBytes)} de descarga · ${downloadSize(item.replacedBytes)} por reemplazar`),p(item.destination,'path')))),
+    panel(p(plan.message),...(plan.items??[]).map(item=>el('article',{},el('h2',{text:item.name}),p(`${downloadSize(item.downloadBytes)} de descarga · ${downloadSize(item.replacedBytes)} por reemplazar`),own(item.destination,'p',{class:'path'})))),
     ...(plan.blocked??[]).map(item=>panel(el('h2',{text:item.tool}),p(item.message),p(item.action))),
     p('Tus proyectos y los índices que ya usabas se conservan. Una carpeta sin registro válido se deja como está para que la revises; no se borra sola.','subtle'),
     actions(doBtn('open-workspace'),plan.id?btn('Reparar herramientas revisadas',async()=>{state.status=(await call('applyRepair',{plan:plan.id})).status;await showWorkspace(false);},'primary'):null)],'TU PROYECTO / REPARACIÓN');}
@@ -192,7 +199,7 @@ function showEnvironmentReview(){state.page='environment-review';const plan=stat
   render([steps(2),...heading('Tus herramientas, listas en este equipo.','Se descargan las herramientas con las que se programa y se conservan las dependencias que tu proyecto ya tenía. Revisa esta instalación antes de continuar.'),
     allowed?panel(el('span',{class:'tag',text:plan.downloadBytes?`Descarga prevista: ${downloadSize(plan.downloadBytes)}`:'Ya están en este equipo y comprobadas'}),
       ...(plan.tools??[]).map(tool=>el('article',{class:'recipe'},el('h2',{text:tool.name}),p(tool.purpose),p(tool.status==='verified'?'Lista para reutilizar':tool.downloadBytes?`${downloadSize(tool.downloadBytes)} de descarga`:'Incluida en la aplicación','subtle'),
-        el('details',{},el('summary',{text:'Versión, licencia y ubicación'}),p(`${tool.version} · ${tool.license}`),p(tool.source,'path'),p(tool.destination,'path')))),
+        el('details',{},el('summary',{text:'Versión, licencia y ubicación'}),p(`${tool.version} · ${tool.license}`),own(tool.source,'p',{class:'path'}),own(tool.destination,'p',{class:'path'})))),
       el('p',{},term('openspec',`OpenSpec ${plan.engineering.openspec}`),` y Project Engineering OS ${plan.engineering.core}: ${downloadSize(plan.engineering.downloadBytes)} de descarga.`),
       p(plan.git==='initialize-local'?'Se creará un historial de versiones local para este proyecto.':'Se conservará el historial de versiones que este proyecto ya tiene.'),changes(plan.files)):
       panel(el('h2',{text:plan.message??'Las herramientas necesitan atención'}),p(plan.action??'Revísalas antes de volver a intentarlo.')),
@@ -253,7 +260,7 @@ function showCodeReview(){state.page='code-review';const plan=state.plan,allowed
   render([...heading('Encuentra las piezas de tu código.','Un índice opcional de funciones, clases y cómo se relacionan. Sirve para localizar el archivo correcto antes de proponer un cambio.'),
     allowed?panel(el('span',{class:'tag',text:'CodeGraph 1.6.0 · MIT'}),p(`${plan.coverage.sources.length} archivos revisados · ${downloadSize(plan.bytes)} de código · ${downloadSize(plan.downloadBytes)} de descarga.`),
       p('Se analizan copias locales. Tus archivos y cualquier índice que ya uses se conservan.'),
-      el('details',{},el('summary',{text:'Ver herramientas y archivos'}),...plan.tools.map(t=>el('div',{},p(`${t.name} · ${t.version} · ${t.license}`),p(t.source,'path'),p(t.destination,'path'))),
+      el('details',{},el('summary',{text:'Ver herramientas y archivos'}),...plan.tools.map(t=>el('div',{},p(`${t.name} · ${t.version} · ${t.license}`),own(t.source,'p',{class:'path'}),own(t.destination,'p',{class:'path'}))),
         el('ul',{class:'file-list'},plan.coverage.sources.map(f=>el('li',{text:f.path})))),changes(plan.files)):
       panel(el('h2',{text:plan.message??'El mapa necesita atención'}),p(plan.action??'La búsqueda en tus documentos sigue disponible.')),
     plan.coverage?.omitted.length?p(`${plan.coverage.omitted.length} archivos de código quedan fuera por exclusiones, formato, contenido sensible o límites.`,'subtle'):null,
@@ -262,10 +269,10 @@ function showCodeReview(){state.page='code-review';const plan=state.plan,allowed
   ],'TU PROYECTO / MAPA DE CÓDIGO');}
 async function openProject(id){state.status=await call('openProject',{id});state.project=state.status.project;state.selection={...state.selection,...state.project.selection};state.tab='overview';await showWorkspace(false);}
 async function forget(project){openDialog('Quitar de la lista',[
-  el('p',{class:'own',text:`Se quita ${project.name} de esta lista. Los archivos de la carpeta se quedan donde están.`}),actions(btn('Conservar',async()=>closeDialog()),btn('Quitar de la lista',async()=>{await call('forgetProject',{id:project.id});closeDialog();await showProjects();},'danger'))]);}
+  el('p',{},'Se quita ',own(project.name),' de esta lista. Los archivos de la carpeta se quedan donde están.'),actions(btn('Conservar',async()=>closeDialog()),btn('Quitar de la lista',async()=>{await call('forgetProject',{id:project.id});closeDialog();await showProjects();},'danger'))]);}
 function statusCard(title,done,detail){const label=done==='not-requested'?'No aplica':done?'Preparado':'Por revisar';return el('article',{class:'status-card'},el('span',{class:'status-icon','aria-hidden':true,text:done==='not-requested'?'—':done?'✓':'○'}),el('h2',{text:`${title} · ${label}`}),p(detail));}
 async function showWorkspace(refresh=true){state.page='workspace';if(refresh)state.status=await call('status',{id:state.project.id});const s=state.status;
-  const content=[el('p',{class:'eyebrow',text:profiles[s.base.selection?.profile]?.[0]??'TU PROYECTO'}),...ownHeading(s.project.name,s.project.selection?.goal??'Comprueba cómo está y elige tu siguiente paso.'),p(s.project.root,'path'),
+  const content=[el('p',{class:'eyebrow',text:profiles[s.base.selection?.profile]?.[0]??'TU PROYECTO'}),...ownHeading(s.project.name,s.project.selection?.goal??'Comprueba cómo está y elige tu siguiente paso.',!!s.project.selection?.goal),own(s.project.root,'p',{class:'path'}),
     el('div',{class:'tool-tabs','aria-label':'Herramientas del proyecto'},Object.entries({overview:'Estado',search:'Buscar en mis archivos',recipes:'Recetas',handoff:'Continuar con mi IA'}).map(([id,label])=>{
       const b=btn(label,async()=>{state.tab=id;await showWorkspace(false);},'');b.setAttribute('aria-pressed',String(state.tab===id));return b;})),
   ];
@@ -340,4 +347,12 @@ $('topbar-actions').replaceChildren(doBtn('privacy-scope','quiet'));
 $('cancel').addEventListener('click',async()=>{try{await call('cancel');$('activity-text').textContent='Deteniendo al terminar el paso seguro actual…';}catch(e){error(e);}});
 document.querySelector('.skip').addEventListener('click',e=>{e.preventDefault();$('content').focus();});
 api?.onProgress(value=>{$('activity').hidden=value.stage==='idle';if(value.stage!=='idle')$('activity-text').textContent=value.label+(Number.isInteger(value.completed)&&Number.isInteger(value.total)?` · ${value.completed} de ${value.total}`:'…');});
-if(api)void run(async()=>showStart());else error({message:'No se pudo conectar con la aplicación.',action:'Cierra esta ventana y abre Project Engineering OS desde su acceso directo.'});
+// The static shell in index.html said the module never loaded. It did, so that shell is replaced either by
+// the first screen or by the reason this window cannot reach the application behind it.
+if(api)void run(async()=>showStart());
+else{
+  render([el('h1',{tabindex:'-1',text:'No se pudo conectar con la aplicación.'}),
+    p('La ventana abrió, pero no encontró el programa que prepara las carpetas. Tus proyectos y tus archivos no se tocaron.','intro'),
+    panel(p('Cierra esta ventana y vuelve a abrir Project Engineering OS desde su acceso directo. Si vuelve a pasar, la instalación está incompleta y conviene instalarla de nuevo; desinstalar no borra los proyectos que ya preparaste.'))],'INICIO');
+  error({message:'No se pudo conectar con la aplicación.',action:'Cierra esta ventana y abre Project Engineering OS desde su acceso directo.'});
+}

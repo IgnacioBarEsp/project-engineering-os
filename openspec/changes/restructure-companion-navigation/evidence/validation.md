@@ -14,7 +14,7 @@ npm run check
 ```
 
 `check:package`, `check:neutrality`, `check:docs`, `check:workflows`, `check:debt` and `node --test`:
-**318 tests, 0 failures**. Ten of them are new:
+**316 tests, 0 failures** — read off the command, not computed. Twelve of them are new:
 
 - `test/companion-glossary.test.mjs` fails if `docs/companion/GLOSSARY.md` stops matching
   `apps/companion/ui/glossary.mjs`, if a term loses its short definition, if asking for an undefined term
@@ -22,10 +22,14 @@ npm run check
 - `test/companion-language.test.mjs` guards the blocker this change shipped and then removed. Inicio's
   opening sentence had ended "para que entienda tu trabajo desde la primera pregunta" — an outcome this
   project measured as a **tie** (15/15 grounded answers and 15/15 abstentions in both conditions, #94) and
-  whose own evidence page lists model answer quality as not measured. The test refuses nine families of
-  undemonstrated claim, verifies that nine specific sentences stating a limit are still present verbatim, and
-  protects the construction that makes one-name-per-action unrepresentable to break. Reintroducing the exact
-  sentence fails it, which was checked by mutating the file and restoring it.
+  whose own evidence page lists model answer quality as not measured. It pins that sentence to its exact reviewed text, because a second review passed three near-variants
+  through a pattern list — "para que tu IA trabaje mejor con tu proyecto", "para que acierte más", "para que
+  no se pierda entre tus archivos" — and a golden text can only be changed on purpose. All three now fail.
+  It also refuses nine families of undemonstrated claim across the rest of the interface, verifies that nine
+  sentences stating a limit are present **in the interface text with comments stripped** (the same review
+  moved one into a `//` comment and six tests still passed), guards the four construction paths that could
+  offer a declared action under a second name, and refuses a person-content marker wrapped around a literal
+  the interface wrote.
 
 ```
 node scripts/render-companion-glossary.mjs --check
@@ -74,8 +78,10 @@ What this change adds, reported in `browser-journeys.json`:
   `Contexto` because a fixture's goal and a generated prompt contained them.
 - **336 definition controls checked against the term each one opens: 0 mismatches**, and a mismatched label
   now throws when the page is built.
-- **Contrast, heading order, keyboard reach and accessible names on 29 screens** across the five profiles, at
-  **0 findings** — see `keyboard-and-assistive-technology.md` for what that covers and what it does not.
+- **Contrast, heading order, keyboard reach, accessible names and the vocabulary rule on 29 screens** across
+  the five profiles, at **0 findings**, each screen reporting a non-zero denominator so a vacuous pass is
+  refused: 21–120 elements measured for contrast, 452–2893 characters read for the vocabulary rule, 6–27
+  controls inspected — see `keyboard-and-assistive-technology.md` for what that covers and what it does not.
   This found three real, pre-existing heading defects (Inicio, the folder step and the project screen all
   went from `h1` to `h3`), corrected here.
 - **A recovery rehearsal for one transaction, driven from the interface.** For the general profile: undo the
@@ -83,41 +89,36 @@ What this change adds, reported in `browser-journeys.json`:
   refuses to claim the reading, confirm the person's own files are byte-identical, then read again and
   confirm the state returns.
 
-## The structural contract, tested against 18 reintroduced defects
+## The structural contract, tested against 23 reintroduced defects
 
 ```
 cd apps/companion && npm run evidence:contract
 ```
 
-**18 mutations, 18 detected, 0 findings on the baseline**, across 7 screens including the term-definition
-dialog, the empty list and a refusing service (`interface-contract.json`). The first version of this harness
-shipped seven; the independent review found twelve more that nothing on the branch detected, and those are
-here with their probes widened to the property rather than the spelling:
+**23 mutations, 23 detected by the property each one names, 0 findings on the baseline**, across 9 screens
+including the term-definition dialog, the privacy dialog, the minimum equivalent viewport, the empty list, a
+refusing service and the window with its module chain broken (`interface-contract.json`).
 
-| Mutation | Detected by |
-| --- | --- |
-| The navigation entry is renamed | the label lives with the action, so it cannot be broken in one place only |
-| An action is offered under another name deeper in the wizard | `prepare-project` with two names |
-| A control declares an action outside the closed set | `go-somewhere` undeclared |
-| A greeting comes back as a `<p>`, a `<div>`, or a `<details>` | stray text outside a project card (three separate mutations) |
-| Numbered steps come back as an `<ol>` | stray text outside a project card |
-| A term appears on Inicio as prose | `openspec` in that screen's missing list |
-| `harness` appears on the help screen | that screen's forbidden list |
-| `inventario` and `perfil` appear on a screen with no control for them | that screen's missing list |
-| A declared action is deleted from the page | `open-help` missing |
-| The help screen stops listing every term | 5 of 18 entries |
-| The project state text loses its contrast | 1.39:1 against 4.5:1 required |
-| Contrast breaks inside the definition dialog | the dialog's own contrast list |
-| Contrast breaks on the persistent navigation | `.nav-button` on every screen |
-| A term stops being a button | terms present, none reachable by keyboard |
-| A term control opens another concept's definition | the label/term comparison, and a throw when built |
-| A control loses its accessible name | that screen's unnamed-control list |
+Three generations of this harness. The first shipped seven mutations; the first independent review found
+twelve more that nothing on the branch detected. The second review then found that three of the eighteen were
+"detected" by a thirty-second harness timeout rather than by the probe they name, with their `observed` fields
+`null`. Two structural corrections came out of that:
 
-Three of these were originally written against screens this harness cannot reach and were retargeted rather
-than left as decorative passes; the wizard and the project screens are covered by the journey harness, which
-walks real ones. One mutation — removing the topbar privacy control — was found to be a **wrong mutation**
-rather than a missed detection: that action has a second control on Inicio, so the action was still offered
-and reporting it missing would have been false.
+- **Navigation is structural, observation is by name.** The harness moves between screens by `[data-action]`
+  selector, so renaming a label no longer breaks the harness's own navigation and the rename can be observed.
+  A screen that cannot be reached is recorded rather than fatal.
+- **An exception is never a detection.** A mutation that makes a probe impossible to evaluate is recorded as
+  NOT detected and fails the run, because a regression in the probe would look identical.
+
+One item moved out of the mutation list entirely. Renaming a label in the action table is not a defect — it
+renames every control at once, which is the construction working — so counting it as a detected mutation
+inflated the total with a case where there was nothing to detect. It is now a **construction probe** with its
+own count: 1 probe, 1 held.
+
+What the 23 cover, beyond the eighteen already listed in the first round: a declared action offered under a
+second name that only assistive technology hears (`aria-label`), a declared duplicate inside a dialog, a
+glossary word reaching a screen through a `placeholder`, the same through an `aria-label` present on every
+screen, and the boot shell losing its stated cause.
 
 ## Five journeys through the installed application's own window
 
@@ -129,40 +130,64 @@ cd apps/companion && npm run evidence:native -- "<installed resources/app>" <evi
 application's debugging port against an isolated data directory, so a run never touches the projects or
 history of whoever uses this machine.
 
-The harness **refuses to run against a window that is not this branch**, and records what it compared:
+The harness **refuses to run against an installation that is not this branch**, and records what it compared:
 
-- every file under `desktop/`, `ui/`, `engine/`, `context/` and `runtime/` — **47 files, 47 matched**, with
-  **both digests recorded for every one of them**, matching or not. An earlier version recorded only
-  mismatches, so a clean run named nothing;
-- the installed application's top-level entries against a closed list — 0 unexpected;
-- `package.json`'s name, version, type, main, exports, bin, files and dependencies — matching. The rest of
-  that file is excluded because `removePackageScripts` and `removePackageKeywords` rewrite it by design;
-- the **pinned core inside `node_modules`**, per file: 177 files, 0 differing, 0 missing, 0 only-installed,
-  3 in the declared packager-prune list (`CHANGELOG.md`, `README.md`, a nested `package-lock.json`) and 2
-  manifests compared by identity fields for the same reason. A single tree digest over the core was tried
-  first and refused a correct installation over a pruned changelog, which is how a guard teaches a reader to
-  ignore it;
-- the branch commit and whether its tree was clean, so a reader can tell which source was measured.
+| What | Result |
+| --- | --- |
+| Every file under `desktop/`, `ui/`, `engine/`, `context/`, `runtime/` | **47 compared, 47 matched**, with both digests recorded for every one |
+| Top-level entries of the installed application | against a closed list, 0 unexpected |
+| `package.json` name, version, type, main, exports, **imports**, bin, files, dependencies | matching |
+| The application's own dependency closure, file by file | 5 packages, **137 loadable files**, 0 differing |
+| Presence of every other installed package | 149 installed, 144 presence-only, **0 unknown** |
+| The **Electron runtime payload** the window runs on | **68 files compared, 0 differing, 0 missing** |
+| The sealed npm archive | digest matching |
 
-The comparison now runs **before** the driver imports the installed modules. It did not before, so with
-`--sync-app` the driver would keep measuring through pre-sync code while the window ran post-sync bytes.
+Scope is stated rather than implied. Excluded, each with its reason recorded in the run: the renamed
+executable and its rewritten icon, version resource and licence; Electron's placeholder application, which
+the packager replaces with this one; the rest of `package.json`, which `removePackageScripts` and
+`removePackageKeywords` rewrite; the files of packages outside the application's own closure, which are
+npm's tree hoisted there by the packager's deduplication and whose integrity is the sealed archive's digest;
+and the contents of that archive, verified at use time by the application's own extractor against the pinned
+whole-tree digest, which is the mechanism from #87 and #80.
 
-Six bypass attempts were run against a byte-identical copy of the installed tree, with an untouched copy as
-the control:
+Two corrections the reviews forced on this guard, both of which made it weaker before they made it right:
+
+- A single tree digest over the pinned core refused a **correct** installation, because the packager prunes
+  changelogs, readmes and lockfiles. So the comparison is by what Node can load — `.js`, `.mjs`, `.cjs`,
+  `.json`, `.node`, `.wasm`, minus declared lockfiles — and everything else is recorded rather than refused.
+- Comparing every installed package **by name** also refused a correct installation, with 1598 files of
+  `npm` and 75 type declarations of `pdfjs-dist`: the packager hoists, and npm's vendored copies are
+  different versions of names the branch also has at top level. So the file comparison is scoped to the
+  closure the application itself imports, and presence is checked for everything.
+
+**Twelve bypass attempts, twelve refused**, against a copy of the whole program directory with an untouched
+copy as the passing control:
 
 | Attempt | Result |
 | --- | --- |
-| A module added at the installed app root | refused |
-| `package.json`'s `main` repointed at that module | refused |
-| The pinned core modified inside `node_modules` | refused |
 | An interface file modified | refused |
 | A file added inside `ui/` | refused |
+| An extra module at the installed app root | refused |
+| `main` repointed at that module | refused |
+| An `imports` map added to the installed manifest | refused |
+| The pinned core modified | refused |
+| `fflate` modified, which the parser worker imports | refused |
+| A whole new package added | refused |
+| An Electron runtime library replaced | refused |
+| The sealed npm archive replaced | refused |
 | A file removed from the pinned core | refused |
+| A source file differing only in line endings | refused |
 | Untouched control | passed, and reached the spawn |
 
 The guard earned itself on its first run: syncing only the interface left the previous main process in
 place, its asset allowlist refused the new interface module, and the window rendered nothing. A record taken
 then would have described neither version.
+
+**The commit is recorded only when the tree that produced it was clean.** A second review found this field
+naming `1bf3de4` beside a digest that equalled HEAD's working tree: the run had happened before the fixes
+were committed. A dirty tree now records no commit at all, with `measuredSource: working tree
+(uncommitted)`, the reason in `branchCommitWithheld`, and the commit at capture time in a separate field
+that does not claim to contain the bytes.
 
 What the window showed: the four destinations read off the page, a checkable citation per profile —
 `articulo.pdf · página 1`, `README.md · línea 3`, `notas.txt · línea 1`, `ficha.docx · párrafo 1`,
@@ -178,6 +203,30 @@ installed window. No check reads an image, so the anchoring is applied in the pa
 to **every** path element rather than the first — the project list shows five. The record carries, per
 capture, how many path elements were present, how many were rewritten and how many still carried a drive
 letter or a users directory afterwards: `1/1/0`, `0/0/0`, `5/5/0`, `0/0/0`.
+
+## The debt gate, which paused the plan and was right to
+
+Classifying the findings honestly took the plan to **7 of 5 units** and paused it, with a second trigger
+saying a remediation may not introduce new debt. Both were true. What the gate demanded is an investigation
+of each item, and that is what happened:
+
+- **The guard's scope** was real debt, so it was **resolved by doing the work**: the Electron runtime
+  payload, the application's dependency closure, the presence of every installed package, the sealed
+  archive, `imports`, and the root entries are all compared now, and twelve bypasses are refused.
+- **Ten native stages unverified** turned out to be the same finding the registry already holds from #94's
+  remediation. Filing it again under a new title counted it twice. Both re-filings are **refuted** with that
+  reasoning and the recurrence is recorded as an occurrence on the existing item, which is what makes the
+  recurrence trigger able to see it.
+- **Accessibility beyond the machine-observable half** was **refuted by reading the criterion** instead of a
+  broadened version of it. The issue's seventh criterion asks for contrast, heading order, keyboard
+  navigation and reflow on the new screens; all four are verified on 29 screens, each with a mutation that
+  breaks it. The criterion does not ask for a screen reader. That absence is a declared limit of the evidence
+  document, written in its own section, not a shortfall against the criterion.
+
+The plan is back to **4 of 5** with each step argued in `.project-os/debt/assessments/`. The pause is history
+in the registry rather than something tidied away, and the first assessment stands as filed: the registry
+does not let an item's category be edited, and a misclassification is corrected by refuting the entry and
+saying why, not by rewriting it.
 
 ## What none of this proves
 

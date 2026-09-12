@@ -13,7 +13,8 @@ import { createEnvironmentEngine } from '../runtime/environment.mjs';
 import { GLOSSARY, FORBIDDEN_WORDS, labelMatchesTerm, byId } from '../ui/glossary.mjs';
 const VOCABULARY={terms:GLOSSARY.map(e=>({id:e.id,forms:e.forms,caseSensitive:!!e.caseSensitive})),forbidden:FORBIDDEN_WORDS};
 import { ACTION_PAIRS, UNDEFINED_VOCABULARY, TERM_LABELS, LIST_PURITY, ACCESSIBILITY, ACCESSIBLE_NAMES,
-  EXPECTED_ACTIONS, RUNTIME_ONLY_ACTIONS, duplicateActionNames, missingActions, undeclaredActions } from './interface-contract.mjs';
+  EXPECTED_ACTIONS, RUNTIME_ONLY_ACTIONS, collectActionPairs, duplicateActionNames, missingActions,
+  undeclaredActions, vacuous } from './interface-contract.mjs';
 
 // Browser verification uses the shipping renderer and engines. Only native picker/clipboard/external
 // launch and IPC transport are injected. It does not claim installer or Electron sandbox coverage.
@@ -47,16 +48,13 @@ async function noOverflow(page,label){const size=await page.evaluate(()=>({width
 // chosen in advance. They now run wherever the journey goes, which is where the real screens are.
 const actionsSeen=new Map(),termsSeen=[];
 async function collectActions(page,where){
-  for(const [action,name] of await page.evaluate(ACTION_PAIRS)){
-    if(!actionsSeen.has(action))actionsSeen.set(action,new Map());
-    actionsSeen.get(action).set(name,where);
-  }
+  collectActionPairs(await page.evaluate(ACTION_PAIRS),actionsSeen,where);
   for(const [id,label] of await page.evaluate(TERM_LABELS))termsSeen.push([where,id,label]);
 }
 // Contrast, heading order and keyboard reach measured on each screen as it is walked, rather than asserted
 // once on a screen chosen for being easy. Collected and reported together so one run names every screen that
 // fails instead of stopping at the first.
-const a11y=new Set(),screensSeen=new Set();
+const a11y=new Set(),screensSeen=new Set(),screenDenominators=[];
 async function checkScreen(page,where){
   screensSeen.add(where);
   await collectActions(page,where);
@@ -69,10 +67,15 @@ async function checkScreen(page,where){
   for(const entry of vocabulary.missing)a11y.add(`${where}: "${entry.word}" aparece y su definición no se puede abrir desde ahí · …${entry.context}…`);
   for(const word of vocabulary.forbidden)a11y.add(`${where}: "${word}" no tiene definición y no debe aparecer`);
   const names=await page.evaluate(ACCESSIBLE_NAMES);
+  // A probe that reports only its failures cannot be told apart from a probe that examined nothing.
+  for(const empty of vacuous({accessibility:result,vocabulary,names}))a11y.add(`${where}: ${empty}`);
+  for(const broken of result.brokenWords)a11y.add(`${where}: una entrada se parte entre líneas: ${broken}`);
   for(const control of names.unnamed)a11y.add(`${where}: control sin nombre accesible ${control}`);
   if(!names.navigationLabelled)a11y.add(`${where}: la navegación no tiene nombre accesible`);
   if(!names.liveRegions)a11y.add(`${where}: no hay región en vivo para anunciar progreso o errores`);
   if(!names.pressedTabs)a11y.add(`${where}: una pestaña no declara si está activa`);
+  screenDenominators.push({screen:where,contrastMeasured:result.measured,vocabularyChars:vocabulary.examinedChars,
+    attributes:vocabulary.attributes,controls:names.controls,focusable:result.focusable,terms:result.terms});
   return result;
 }
 const checkAccessibility=checkScreen;
@@ -161,6 +164,7 @@ try {
     const purity=await page.evaluate(LIST_PURITY);
     assert.equal(purity.cards,1,`The list must show the prepared project: ${JSON.stringify(purity)}`);
     assert.deepEqual(purity.stray,[],'With entries on screen the only text outside a project card is the heading');
+    assert.ok(purity.textNodes>0,'The purity probe has to have read some text to have checked anything');
     assert.deepEqual(purity.headings,['h1','h2'],`The list is a heading and one card per project: ${JSON.stringify(purity.headings)}`);
     assert(/Carpeta preparada/.test(await page.locator('article.project').first().innerText()),'Each entry shows its recorded state');
 
@@ -211,6 +215,9 @@ try {
   assert.deepEqual(termMismatches,[],'A control that opens a definition has to name the term it opens');
   evidence.checks.push(`Contraste, orden de encabezados, teclado, nombres accesibles y la regla de vocabulario comprobados en ${screensSeen.size} pantallas de los cinco perfiles: 0 hallazgos PASS`);
   evidence.checks.push(`${termsSeen.length} controles de definición comprobados contra el término que abren: 0 desajustes PASS`);
+  const thin=screenDenominators.filter(entry=>!entry.contrastMeasured||!entry.vocabularyChars||!entry.controls);
+  assert.deepEqual(thin,[],'Every screen has to report a non-zero denominator, or the pass is vacuous');
+  evidence.checks.push(`Denominadores: ${Math.min(...screenDenominators.map(e=>e.contrastMeasured))}–${Math.max(...screenDenominators.map(e=>e.contrastMeasured))} elementos medidos para contraste por pantalla, ${Math.min(...screenDenominators.map(e=>e.vocabularyChars))}–${Math.max(...screenDenominators.map(e=>e.vocabularyChars))} caracteres leídos para vocabulario, ${Math.min(...screenDenominators.map(e=>e.controls))}–${Math.max(...screenDenominators.map(e=>e.controls))} controles inspeccionados PASS`);
   const duplicated=duplicateActionNames(actionsSeen);
   // Without the managed toolchain the code map and its repair do not exist, so they are out of scope here
   // rather than missing. The run says which of the two it was.

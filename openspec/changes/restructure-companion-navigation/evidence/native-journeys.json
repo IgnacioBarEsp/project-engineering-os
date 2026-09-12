@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-12T12:39:44.073Z",
+  "date": "2026-09-12T17:20:28.277Z",
   "application": {
     "version": "0.1.0",
     "root": "<localappdata>/Programs/Project Engineering OS/resources/app"
@@ -19,10 +19,12 @@
     ],
     "notCompared": [
       "the rest of package.json, which the packager rewrites",
-      "node_modules other than the pinned core",
-      "the documentation the packager prunes from the pinned core, listed per run under pinnedCore.pruned"
+      "the files of packages outside the application's own dependency closure: those are npm's tree, hoisted by the packager, and npm's integrity is the sealed archive's digest. Their presence is still checked",
+      "the renamed executable and its rewritten icon, version resource and licence, listed per run under runtime.excluded",
+      "the contents of the sealed npm archive, which the application verifies against its pinned tree digest when it uses it",
+      "the documentation the packager prunes, listed per run under each dependency as pruned"
     ],
-    "branchCommit": "1bf3de425d054a33016d2314c7538f79cfee879f",
+    "branchCommit": null,
     "branchTreeClean": false,
     "files": {
       "context/engine.mjs": {
@@ -198,20 +200,20 @@
         "installed": "4b8c0a92b7d824758b0da9c155cf64297a1b1a8abcad88543ba9c05839bd03c2"
       },
       "ui/app.css": {
-        "branch": "caf1cb43169eed3656d757c02b2ef1f0a748ce42eb8e49cce05bf217914cba4a",
-        "installed": "caf1cb43169eed3656d757c02b2ef1f0a748ce42eb8e49cce05bf217914cba4a"
+        "branch": "e7df7ad0a2a8c577ba5f980786d62c19e9e32024effdd707459868d0b72dcf83",
+        "installed": "e7df7ad0a2a8c577ba5f980786d62c19e9e32024effdd707459868d0b72dcf83"
       },
       "ui/app.mjs": {
-        "branch": "7ae501aa5a8adf062d31d9f17fa64635f863cb1aa8172d4de7f7ea2f0f8672b4",
-        "installed": "7ae501aa5a8adf062d31d9f17fa64635f863cb1aa8172d4de7f7ea2f0f8672b4"
+        "branch": "75fc00169abb098d28471436230eea4f582319051253910855694d04e9d6d799",
+        "installed": "75fc00169abb098d28471436230eea4f582319051253910855694d04e9d6d799"
       },
       "ui/glossary.mjs": {
         "branch": "127f3ac2312ecf7531cb6915be5cead57cdb1d447dc06bc1955d9dc0652ad78e",
         "installed": "127f3ac2312ecf7531cb6915be5cead57cdb1d447dc06bc1955d9dc0652ad78e"
       },
       "ui/index.html": {
-        "branch": "b2360d09397a37e2686a178df4492f4d29c6ab0295049b53467a6e5fdd2d0991",
-        "installed": "b2360d09397a37e2686a178df4492f4d29c6ab0295049b53467a6e5fdd2d0991"
+        "branch": "fb50f7a872900b0e2579e077ae80237ee371597b19ab6d0ade4098586831dbf5",
+        "installed": "fb50f7a872900b0e2579e077ae80237ee371597b19ab6d0ade4098586831dbf5"
       }
     },
     "onlyInstalled": [],
@@ -238,6 +240,7 @@
         "type": "module",
         "main": "desktop/main.mjs",
         "exports": null,
+        "imports": null,
         "bin": null,
         "files": null,
         "dependencies": {
@@ -254,6 +257,7 @@
         "type": "module",
         "main": "desktop/main.mjs",
         "exports": null,
+        "imports": null,
         "bin": null,
         "files": null,
         "dependencies": {
@@ -266,22 +270,65 @@
       }
     },
     "manifestMatches": true,
-    "pinnedCore": {
-      "compared": 177,
+    "closure": [
+      "create-project-engineering-os",
+      "fflate",
+      "pdfjs-dist",
+      "saxes",
+      "xmlchars"
+    ],
+    "packages": {
+      "installed": 149,
+      "branch": 355,
+      "fileCompared": 5,
+      "loadableFiles": 137,
+      "presenceOnly": 144
+    },
+    "unknownPackages": [],
+    "dependencyProblems": [],
+    "runtime": {
+      "compared": 68,
       "differing": [],
       "missing": [],
-      "pruned": [
+      "excluded": [
+        "LICENSE",
+        "LICENSES.chromium.html",
+        "electron.exe",
+        "resources/default_app.asar",
+        "version"
+      ],
+      "excludedReason": "el empaquetador renombra el ejecutable y reescribe su icono, su recurso de version y su licencia, y reemplaza el app placeholder por esta aplicacion; esos archivos no son comparables byte a byte por diseno"
+    },
+    "runtimeMatches": true,
+    "sealedArchive": {
+      "of": "npm",
+      "branch": "b74594a484576558d05348130784e2c76c713bebc1321e2a4bbde79d2fec7a80",
+      "installed": "b74594a484576558d05348130784e2c76c713bebc1321e2a4bbde79d2fec7a80",
+      "contentsVerifiedBy": "el extractor de la propia aplicación contra el digest del árbol fijado, en el momento de usarlo"
+    },
+    "sealedArchiveMatches": true,
+    "pinnedCore": {
+      "compared": 177,
+      "loadable": 93,
+      "differing": [],
+      "missing": [],
+      "pruned": 3,
+      "prunedExamples": [
         "node_modules/create-project-engineering-os/CHANGELOG.md",
         "node_modules/create-project-engineering-os/README.md",
         "node_modules/create-project-engineering-os/blueprint/core/package-lock.json"
       ],
+      "nonLoadableDiffering": 0,
       "byIdentityFields": [
         "node_modules/create-project-engineering-os/blueprint/core/package.json",
         "node_modules/create-project-engineering-os/package.json"
       ],
       "onlyInstalled": []
     },
-    "pinnedCoreMatches": true
+    "pinnedCoreMatches": true,
+    "measuredSource": "working tree (uncommitted)",
+    "branchCommitWithheld": "el árbol tenía cambios sin confirmar, así que ningún commit contiene los bytes que se midieron; la identidad son los 47 digests",
+    "branchCommitAtCapture": "1bb4a7ab0ed7dedbf4855bd187e1b9c7c63ca6c6"
   },
   "machine": "win32-x64",
   "drivenBy": "the installed application window over its debugging port, against an isolated data directory",
@@ -354,7 +401,7 @@
           }
         }
       ],
-      "elapsedMs": 10641
+      "elapsedMs": 10512
     },
     {
       "profile": "software",
@@ -445,7 +492,7 @@
           }
         }
       ],
-      "elapsedMs": 83250
+      "elapsedMs": 71146
     },
     {
       "profile": "unity",
@@ -536,7 +583,7 @@
           }
         }
       ],
-      "elapsedMs": 78516
+      "elapsedMs": 71000
     },
     {
       "profile": "media",
@@ -595,7 +642,7 @@
           }
         }
       ],
-      "elapsedMs": 10450
+      "elapsedMs": 10345
     },
     {
       "profile": "general",
@@ -654,7 +701,7 @@
           }
         }
       ],
-      "elapsedMs": 10590
+      "elapsedMs": 10226
     }
   ],
   "findings": [],

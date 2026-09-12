@@ -490,3 +490,481 @@ The two criteria that need a person who has never seen this application. Nobody 
 home cold, no model was put in their place, and `docs/companion/COLD_READING.md` is the protocol. No screen
 reader was driven and no assistive-technology user was involved. Ten native stages stay unverified with the
 same causes as the archived baseline. Nobody used the interface by hand.
+
+---
+
+# Re-verification — 12 September 2026
+
+A second independent session, which implemented none of this and did not write the review above, re-verified
+the branch at `1bb4a7a` against the Resolution's claims, following a locally borrowed adversarial-review
+playbook. It treated the Resolution as claims to falsify. It reproduced rather than read: it ran the
+repository suite, the companion suite, the structural contract three times and the installed-identity guard
+nine times, mutated the working tree eighteen times and restored every one, drove `listProjects` directly
+against a history it wrote by hand, rendered the interface with its module chain broken, and looked at all
+seven versioned screenshots. The installation itself was never touched: every probe ran against a copy, and
+all 47 installed files were confirmed byte-identical to the archived record afterwards. `git status --short`
+is empty.
+
+**Verdict: FAIL — 0 new blockers, 6 new majors, 6 new minors.** The blocker is resolved. Two of the five
+majors are only partially resolved, with the original defect reintroduced and undetected. The rest of the
+count is new.
+
+## What was reproduced, and what the numbers actually were
+
+```
+npm run check                                              → exit 0, 314 tests, 0 failures
+cd apps/companion && npm test                              → exit 0,  82 tests, 0 failures
+cd apps/companion && npm run evidence:contract -- <temp>   → exit 0, 18 mutations, 18 detected, 0 findings
+node scripts/verify-native-journeys.mjs <copy> <temp>      → guard passed on an untouched copy (control)
+```
+
+The 82 reconciles with `validation.md`. The 18-of-18 reconciles. **The 314 does not**: `validation.md`
+states "318 tests, 0 failures" for `npm run check`. That is recorded below as a new major.
+
+## The original blocker
+
+**RESOLVED.** Inicio's opening sentence now reads, in `apps/companion/ui/app.mjs:69`:
+
+> Esta aplicación lee la carpeta de tu proyecto, ordena lo que hay dentro y deja un resumen que puedes darle
+> a la IA que ya usas, con la ubicación exacta de cada frase para que puedas comprobarla.
+
+It describes what the application does and stops. No outcome about the model survives. This was confirmed in
+the source, in `evidence/native-inicio.png` — the installed window — and in `evidence/home-desktop.png`.
+
+The guard bites on the sentence that was refused. Mutated in, `test/companion-language.test.mjs` fails with
+the pattern named. Three near-variants of the same claim pass, which is a finding about the guard's reach,
+not about the sentence; it is recorded as a minor below.
+
+## The original majors
+
+**Major 1 — five unreachable glossary terms, jargon probe on one screen: PARTIALLY RESOLVED.**
+
+The probe genuinely widened, and that half holds. Six placements of a glossary word were mutated into the
+working tree at once and `npm run evidence:contract` was run against them:
+
+| Where the word was put | Word | Result |
+| --- | --- | --- |
+| `<summary>` text on the help screen | `inventario` | **caught** — "En ayuda aparece «inventario» y su definición no se puede abrir desde ahí" |
+| a `.subtle` paragraph on the help screen (control) | `SDD` | **caught** |
+| an `<input>` `placeholder` on the wizard's first screen | `firma` | **passed** |
+| an `aria-label` on the skip link, present on every screen | `deuda` | **passed** |
+| a paragraph carrying class `own` on the help screen | `presupuesto` | **passed** |
+| a paragraph carrying class `path` on the help screen | `IA con acceso a archivos` | **passed** |
+
+`UNDEFINED_VOCABULARY` reads `textContent` of a clone with `.term, .glossary, #dialog:not([open]), pre,
+.file-list, .path, .result, .citation, .own` removed. Attribute text is therefore outside it entirely — a
+`placeholder` is on screen and an `aria-label` is what a screen reader says, and neither is `textContent`.
+
+The `.own` exclusion was pressed hardest, as asked. Every `.own` use in `app.mjs` was read. Three of them
+mark the interface's own prose rather than the person's content:
+
+- `app.mjs:265` — the forget dialog renders `class:'own'` on the whole sentence "Se quita {nombre} de esta
+  lista. Los archivos de la carpeta se quedan donde están." Only the name is the person's; the sentence is
+  exempt.
+- `app.mjs:268` — `ownHeading(s.project.name, s.project.selection?.goal ?? 'Comprueba cómo está y elige tu
+  siguiente paso.')`. When the person stated no goal, that fallback sentence is the interface's own prose
+  rendered as `class="intro own"`.
+- `app.mjs:163` — `p(chosen ? chosen.root : 'Puede tener código, documentos, PDF o tus materiales de
+  trabajo.','path')`. With no folder chosen, interface prose renders inside the `.path` exclusion.
+
+So the exclusion is a standing hole in the shipped interface, not a hypothetical one. The instrument is no
+longer deciding the result by blaming the person's files, which was the right fix; it now has three places
+where the interface can write whatever it likes and be read as the person's content.
+
+**Major 2 — one name per action, stated broader than enforced: PARTIALLY RESOLVED.**
+
+The construction half is real and was verified: the label lives in `ACTIONS`, `doBtn` takes no label, eleven
+actions are declared, collection runs on every screen the journey reaches, and `test/companion-language.test.mjs`
+refuses a label parameter, an undeclared id and a declared handler offered through `btn()` or a hand-built
+`onClick`. A label differing only in case **is** caught: a second control declaring `open-project-list` with
+the text "TUS PROYECTOS" produced "Una acción con dos nombres: open-project-list: «Tus proyectos» (tus
+proyectos) vs «TUS PROYECTOS» (inicio)". A label differing only in whitespace is collapsed, which is correct.
+
+Three ways to offer a declared action under a second name were mutated in together and **none was detected**,
+by the contract harness or by the language test:
+
+1. **A `<button type="submit">` inside a form whose `onSubmit` runs the declared handler.** Added to the help
+   screen, reading "Preparar una carpeta" and calling `startSetup()` through the form's submit handler. This
+   is the maintainer's original finding — "Preparar una carpeta" and "Preparar proyecto" starting one action —
+   reintroduced verbatim. It declares no `data-action`, so `ACTION_PAIRS` cannot see it, and the language
+   test's three construction paths cover `btn(`, `doBtn(` and `el('button'…onClick:`, not a form's `onSubmit`.
+2. **A declared duplicate inside a dialog.** A control declaring `open-project-list` and reading "Ver la lista
+   de carpetas" added to the privacy dialog. `ACTION_PAIRS` is collected only at the four `visit()` points; no
+   dialog is ever collected, including the term dialog the harness does open.
+3. **An `aria-label` that differs from the visible text.** A control declaring `privacy-scope`, reading
+   "Privacidad y alcance" and named "Alcance y datos que salen de aqui" to assistive technology.
+   `ACTION_PAIRS` compares `textContent`, so the second name — the one a screen reader speaks — is invisible.
+
+The property is unrepresentable to break *through `doBtn`*. It is not unrepresentable to break.
+
+**Major 3 — the digest guard: PARTIALLY RESOLVED, with the identity it records now pointing at the wrong
+commit.**
+
+The recording half is fully resolved and was verified by recomputation. `native-journeys.json` carries 47
+file entries with **both** `branch` and `installed` digests for every one, `compared: 47`, `matched: 47`,
+`manifestMatches: true`, `rootEntries` against the closed list, and `pinnedCore.compared: 177` with three
+declared prunes. All 47 recorded `branch` digests were recomputed against `git show HEAD:` and all 47 match.
+
+Six probes against a byte-identical copy, with an untouched copy as the passing control and a missing
+executable as the oracle (an `AssertionError` means the guard fired, a `spawn … ENOENT` means the guard
+passed):
+
+| Probe | Result |
+| --- | --- |
+| `README.md` added deep inside the installed pinned core (`…/src/README.md`) | **caught** — "tiene archivos que esta rama no tiene" |
+| `README.md` added at the installed pinned-core root, different content | **caught** — "tiene archivos distintos de los de esta rama" |
+| a pinned-core source file differing only in line endings | **caught** — same message |
+| a module added under the installed `context/` | **caught** — names `context/zz-probe.mjs` |
+| `node_modules/fflate/esm/browser.js` modified — a module `context/parser-worker.mjs` imports | **passed the guard** |
+| a whole new package added at `node_modules/zz-evil/` | **passed the guard** |
+| `imports`, `devDependencies` and `description` added to the installed `package.json` | **passed the guard** |
+
+So `PACKAGER_PRUNES` does not silently accept a substituted document: a pruned-name file present on both
+sides is compared by bytes, and one present only in the installation is refused outright. That correction is
+sound. What remains outside the guard is every `node_modules` package except the pinned core — including
+`fflate`, `saxes` and `pdfjs-dist`, which `context/parser-worker.mjs` actually loads — and every
+`package.json` field outside `manifestIdentity`, `imports` among them, which does change module resolution.
+`identity.notCompared` declares the first of these, so this is scope stated rather than scope hidden; it is
+recorded below as a minor, not as a repeat of the major.
+
+The new defect is in the identity itself. `identity.branchCommit` is **`1bf3de4`** — the commit the first
+review examined, not `1bb4a7a` — and `branchTreeClean` is **false**. The recorded digest for `ui/app.mjs` is
+`7ae501aa…`, which equals HEAD's bytes and does **not** equal `1bf3de4`'s (`720a6df9…`). The record therefore
+names a commit that demonstrably did not contain the code that was measured. The dirty flag is honest, and
+the 47 digests are the real identity, but the field a reader will use to resolve "which interface was this"
+points at the wrong tree. Recorded as a new major.
+
+**Major 4 — `listProjects` and the unbounded read: RESOLVED as to the bound.**
+
+`withBudget` was read line by line for the three failure modes asked about.
+
+- **Timer leak: no.** `Promise.race` evaluates its array left to right, so `Promise.resolve(work).finally(cb)`
+  is constructed first and `new Promise(executor)` assigns `timer` synchronously afterwards; `cb` cannot run
+  before the next microtask, so `clearTimeout(timer)` never sees an unassigned binding. `timer.unref?.()`
+  keeps a pending bound from holding the process open.
+- **Swallowed error: no, within the budget.** `Promise.race` settles with whichever arrives first, and
+  `qa/project-list.mjs` proves a row's own `STATE_INVALID` survives against a 1000 ms bound. After the bound
+  has fired the row is already `unreadable`, which is the intended trade.
+- **Unhandled rejection: no.** The derived `.finally` promise is one of the racers, so `Promise.race` has
+  attached handlers to it; a late rejection of `work` is handled.
+- **The bound holds for the screen, not per row.** All rows start inside one `Promise.all`, each with its own
+  `setTimeout` on the event loop, and every `summary()` path is asynchronous `fs` — no synchronous call blocks
+  the loop, so the timers fire on schedule regardless of how many rows are stuck.
+
+What it does not do is cancel the abandoned read. With more genuinely hung rows than libuv threadpool slots
+(four by default), the screen still renders in about 1.5 s but the person's *next* filesystem action can queue
+behind the abandoned handles for the operating system's own timeout. This could not be measured here: on this
+machine `\\10.255.255.1\share\…` answered `FOLDER_MISSING` in **4 ms**, so eight unreachable rows produced a
+list in **5 ms** and a subsequent local `stat` in 0 ms. The residual is reasoned, not reproduced, and is
+recorded as a minor with that limit stated.
+
+**Major 5 — `readiness.json` recording evidence that does not exist: PARTIALLY RESOLVED.**
+
+All nine `kind: manual` items now point at documents that exist and that record what the item names:
+`keyboard-and-assistive-technology.md`, `states-and-degradations.md` (three items), `browser-journeys.json`,
+`native-journeys.json`, the issue, and this file (two items). That half is done.
+
+`adversarialReview` is still `{"status":"passed","blockers":0,"majors":0}`, pointing at
+`evidence/independent-review.md` — the file whose own verdict, above, is **FAIL, 1 blocker, 5 majors**, and
+which as of this section records six more majors. The Resolution says the field "reads passed/0/0 as a
+statement about what is unresolved". A field named `blockers` that holds `0` when the document it cites
+records blockers is not a statement a gate can read correctly. Recorded as a new major.
+
+## New findings
+
+### Majors
+
+**N1 — a glossary word still reaches a screen as prose with no control, four ways.** `placeholder`,
+`aria-label`, class `own`, class `path`. Reproduced above; `.own` and `.path` already carry interface prose at
+`app.mjs:163`, `:265` and `:268`. Fix in code (exclude a marked *region* of person-supplied content rather
+than a class that also styles interface text; read `placeholder`, `aria-label` and `title` as screen text) and
+in `interface-contract.mjs`.
+
+**N2 — a declared action can still be offered under a second name, three ways.** A form `submit`, a control
+inside any dialog, and an `aria-label` that differs from the visible text. The first is the maintainer's
+original finding reintroduced verbatim and passing both the contract harness and the language test. Fix in
+`interface-contract.mjs` (collect on dialogs; compare the accessible name, not `textContent`) and in
+`test/companion-language.test.mjs` (cover `onSubmit` as a fourth construction path).
+
+**N3 — `native-journeys.json` names a commit that did not contain the bytes it measured.** `branchCommit` is
+`1bf3de4`; the recorded `ui/app.mjs` digest is HEAD's and differs from `1bf3de4`'s. `branchTreeClean` is
+`false`. The guard was run before the fixes were committed and the record was never regenerated. Fix by
+re-running `evidence:native` on a clean tree at the commit being archived, or by refusing to record a commit
+name when the tree is dirty.
+
+**N4 — `readiness.json` still asserts `adversarialReview: passed, 0 blockers, 0 majors`** against a document
+that records the opposite, and the archive gate reads that field. Fix in OpenSpec artefacts.
+
+**N5 — `validation.md` publishes 318 tests where `npm run check` produces 314.** Reproduced. The figure
+appears to be 308 + 10, counting the four `test/companion-glossary.test.mjs` tests as new when they were
+already inside the 308 the first review measured at `1bf3de4`; the six genuinely new tests are in
+`test/companion-language.test.mjs`. This is the same class of defect the first review raised about
+`browser-journeys.json` and about the model experiment: a published number computed rather than read off the
+command it names — here, the headline figure of the primary command. Fix in the evidence document.
+
+**N6 — the debt classification is shaped to the budget, and the branch says so itself.** All seven candidates
+in `.project-os/debt/assessments/restructure-companion-navigation.json` are `category: optional-improvement`,
+`severity: minor`, `critical: false`, `planOwner: upstream-core` — identical fields, seven times.
+`brownfield-baseline.md:56` states the stake in the change's own words: "The debt plan stands at **4 of 5
+units**, threshold 5: one more open item in `defect`, `technical-debt`, `external-risk` or
+`decision-required` pauses the plan." Confirmed against `.project-os/debt/config.json` (threshold 5,
+minorUnits 1) and the registry (22 open `optional-improvement`, 2 open `technical-debt`, 2 open
+`decision-required`, 1 refuted). Judged one at a time:
+
+| # | Candidate | Filed | Honest category |
+| --- | --- | --- | --- |
+| 1 | Two issue criteria need a cold reading by a person; nobody did it | optional-improvement | **decision-required** — two of the change's own acceptance criteria are unverified and a maintainer has to decide whether to archive without them |
+| 2 | No screen reader driven, no assistive-technology user involved | optional-improvement | **technical-debt** — the machine-observable half is measured; the rest is a known gap against the seventh criterion |
+| 3 | Ten native stages unverified by a harness limit | optional-improvement | **technical-debt** — a harness gap carried from the baseline, not an enhancement |
+| 4 | The identity guard does not compare the Electron runtime or `node_modules` beyond the pinned core | optional-improvement | **technical-debt**, arguably **defect** — proved above that a module the application imports can be modified and the guard reports a match |
+| 5 | The list's fixed 1500 ms makes a slow but healthy folder read as "did not answer" | optional-improvement | **decision-required** — shipped behaviour that puts a false state on screen; the budget value is a decision |
+| 6 | Recipe text keeps its jargon because it is also handed to a model | optional-improvement | **decision-required** — its own `verification.result` is `decidido`; a criterion met by mitigation rather than by compliance |
+| 7 | Label-to-intent identity is not machine-derivable; a person declares it | optional-improvement | **optional-improvement** — honest as filed |
+
+One of the seven is honestly `optional-improvement`. Six are not, and every one of them would push the plan to
+or past the threshold the branch's own baseline names. Two of the seven carry `source: adversarial-review` —
+they came out of this very review process and were filed in the one category that consumes no budget. This is
+classification shaped to fit the budget; it is said plainly here because the assessment is what a gate reads.
+
+### Minors
+
+**N7 — the language guard is a spelling lock, not a claim detector.** With the refused sentence restored,
+`test/companion-language.test.mjs` fails. With each of these substituted for the sentence's tail, it passes:
+"para que tu IA trabaje mejor con tu proyecto", "para que acierte más", "para que no se pierda entre tus
+archivos". The `UNDEMONSTRATED` list is nine regexes over literal Spanish; "mejor" is matched only as
+"mejores respuestas". This is the same shape as the `LIST_PURITY` finding the first review made — the guard
+tests the spelling of the defect. It is a minor because the shipped sentence is right and the exact regression
+is locked.
+
+**N8 — the "limit sentences are still there" half can be satisfied by a comment.** That test asserts
+`ui.includes(kept)` against the raw source, while the claim test strips comment lines through
+`interfaceText()`. The paragraph containing "Nunca un modelo de IA ni el motor que lo ejecuta" was replaced
+with a neutral sentence and the phrase moved into a `//` comment: **6 pass, 0 fail**. A limit can be removed
+from the interface and kept only in a comment. Fix: run both halves through `interfaceText()`.
+
+**N9 — three of the eighteen contract mutations are "detected" by a harness timeout, not by the probe they
+name.** From the archived `interface-contract.json`, `by: "la comprobación no pudo completarse: locator.click
+/ locator.waitFor: Timeout 30000ms exceeded"` for `two-names-for-one-action-in-navigation`,
+`action-removed-from-the-page` and `a-term-control-opens-another-concepts-definition`; their `observed` fields
+are `null`, so `duplicated`, `jargonAnywhere`, `termLabelMismatches` and `rendererErrors` were never
+evaluated. The flagship mutation for one-name-per-action in the navigation is among them. A regression in
+those three probes would still read "18 detected". The duplicate-name probe does have one real positive
+control (`two-names-for-one-action-deeper-in-the-wizard`, `duplicated: 1`). Each of the three also costs 30
+seconds of the run.
+
+**N10 — a failed module load now leaves a shell with no navigation, no content and no stated cause.** The
+navigation and the topbar control moved out of `index.html` into `app.mjs`. Rendered with `glossary.mjs`
+returning 404, the page shows only "Ir al contenido P↗ Project Engineering OS COMPANION 01 ✳ Tu proyecto. Tus
+archivos. Tu siguiente paso. Todo en este equipo · Sin cuenta INICIO" — `#nav button` 0, `#topbar-actions
+button` 0, `#view > *` 0, `#feedback` hidden. On `main` the same failure left four visible controls; they were
+inert, which is its own defect, but the person saw an application. The "No se pudo conectar con la
+aplicación." fallback at the end of `app.mjs` only runs if the module itself loaded, and there is no
+`<noscript>` and no static message. An application whose stated discipline is a refusal with a stated cause
+has no cause stated for its own worst failure mode.
+
+**N11 — at the minimum equivalent viewport the four navigation destinations break across lines.**
+`evidence/minimum-equivalent-200-percent.png`, archived in this change and captured at width 240 by
+`verify-ui.mjs:168-169`, renders the sidebar entries as "Ini / ci / o", "Tus / proyec / tos", "Preparar /
+proyecto", "Ay / ud / a". `noOverflow` passes because it compares `scrollWidth` to `innerWidth` and nothing
+overflows horizontally — the words break instead. The regression is a consequence of this change going from
+two navigation entries to four, and the change's own evidence documents it while no check fails on it.
+
+**N12 — the widened probes can pass vacuously, and nothing records a denominator.** `ACCESSIBILITY` returns
+only the contrast *failures*; it never reports how many elements it measured, so a run in which `visible()`
+excluded everything is indistinguishable from a run in which everything passed — on every screen and in the
+dialog. `terms` and `termsReachable` are equal and pass when a screen has no `.term`.
+`UNDEFINED_VOCABULARY` returns `missing: []` when the exclusions removed all the text. `LIST_PURITY` with an
+emptied `#view` returns `{cards:0, stray:[]}` — verified in the browser — and is saved only because both
+callers pair it with a card-count assertion (`!== 2` in the contract harness, `!== 1` in `verify-ui.mjs`); the
+probe itself carries no such guard. With `document.getElementById('view')` null it throws, and a baseline
+throw is not caught, so that case fails loudly rather than vacuously. Fix: record the count of elements each
+probe examined and fail when it is zero. One thing that is *not* a defect: every mutation's `from` string is
+guarded by `assert.ok(original.includes(mutation.from))`, so a mutation that fails to apply stops the run
+rather than passing silently.
+
+**N13 — five nits from the fixes, one line each.** `apps/companion/ui/app.css` keeps `.project h3{margin:0 0
+6px}`, orphaned now that the project card uses `h2` (confirmed: no `.project h3` exists in the rendered list)
+— inert, because an equivalent `.project h2` rule was appended. `.project-state .recorded` is declared twice
+in the same file, the first declaration dead. `verify-interface-contract.mjs:281-286` leaves a dead
+`unreachableRow` expression whose right-hand side tests a regex against `'' `, always false, computed and then
+`void`ed. Wrapping the topbar control in `<span id="topbar-actions">` makes it inherit `font-weight: 650` from
+`.topbar>span`, which it did not have on `main` (measured: weight `650`, font-size `14.08px`, letter-spacing
+`normal` — the user-agent stylesheet saves the tracking). `withBudget` abandons rather than cancels the read
+it gave up on.
+
+## What the re-verification confirmed as sound
+
+Recorded only where it bounds a risk this section raises.
+
+**The qualifier on a list row is no longer the smallest text on it.** Measured in the browser: the state
+label and the `.recorded` qualifier both render at **13.76 px**, the label in `--ink` and the qualifier in
+`--muted`. `native-proyectos.png` shows the state reading "Carpeta preparada y archivos leídos — Al abrirlo se
+comprueba si lo leído sigue vigente", with the promise of citations gone. That minor is resolved in the
+shipped interface and in the screenshot.
+
+**Nothing on the branch leaks.** Every versioned non-binary file changed in `git diff main...HEAD` — 40 of
+them — was scanned for `C:\Users`, drive-letter paths, the machine account name, `AppData`, `api key`,
+`secret`, `bearer`, `password`, `token=`, the user's address, and the name and path of the private borrowed
+project. The only hits are the anonymisation `<localappdata>/…`, the words "API key" inside a prose sentence
+about why no key may exist, and the first review quoting its own scan list. All seven PNGs were opened and
+read: every path is rendered `<localappdata>/Temp/companion-native-…`, no drive letter, no account name, no
+private material. No private borrowed project is named or pathed anywhere on the branch, including in this
+section.
+
+**The installation was not touched.** Every probe ran against a copy in a scratch directory. Afterwards all
+47 installed files were hashed and all 47 match the `installed` digests in the archived `native-journeys.json`.
+
+**`tasks.md` is fully checked** — 18 of 18, 0 unchecked. The first review's last minor is resolved.
+
+## What this re-verification did not do
+
+It did not re-run `npm run test:ui`, so the bypasses in N1 and N2 were proved against the structural contract
+harness only. Both are structural to `ACTION_PAIRS` and `UNDEFINED_VOCABULARY` in
+`apps/companion/scripts/interface-contract.mjs`, which the journey harness imports and evaluates the same
+way, and the language test was run directly against N2's first case — but the five-profile journey was not
+re-run with the mutations in place, and that is stated rather than assumed.
+
+It could not reproduce a real unreachable-share hang: on this machine `\\10.255.255.1\share\…` answers
+`FOLDER_MISSING` in 4 ms, so the end-to-end bound under a genuine hang, and the threadpool residual noted
+under Major 4, are reasoned from the code rather than measured.
+
+It did not drive the installed window, build or run the installer, exercise the ten natively unverified
+stages, use a screen reader, or perform a cold reading — so the two open human criteria and the
+assistive-technology item remain unverified by anything, including this pass. It did not read `TLDR.md`,
+`EXPERIENCE.md`, the spec delta, `states-and-degradations.md` or `keyboard-and-assistive-technology.md` line
+by line against what the probes actually measure; those documents were checked only where a claim in the
+Resolution pointed at them. It did not re-measure the model experiment. It was one reviewer, one bounded
+pass, and it is not a human usability review.
+
+## Verdict
+
+**FAIL.** Archiving is not advisable in this state. The blocker is genuinely fixed, and the four checks that
+were widened are better checks than the ones they replaced — `evidence:native` now records the identity the
+requirement obliges, the list is bounded, and the greeting, the contrast surfaces and the term-label mismatch
+are all really guarded. But the two majors whose claims were widest are only partially resolved, with the
+original defect reintroduced and undetected in both: a glossary word reaches a screen with no control for it
+through four routes, and a declared action is offered under a second name through three. Of the six new
+majors, three are single-line corrections to records a gate reads — the 318, the `branchCommit`, the
+`adversarialReview` field — and the sixth is the debt classification, which needs to be refiled honestly even
+though doing so will pause the plan. That is what the threshold is for.
+
+---
+
+# Resolution of the re-verification
+
+Written by the implementing session after the re-verification above, which is kept intact. Its verdict —
+**FAIL, 0 new blockers, 6 new majors, 6 new minors** — stays where it is.
+
+## The six new majors
+
+**N1 — a glossary word could still reach a screen with no control for it, four ways.** Both halves were
+wrong and both are fixed.
+
+The interface half: the marker for the person's content was a CLASS, and a class is also a styling
+decision. Three places wrote the interface's own prose inside one and were exempt — the forget dialog's
+whole sentence, the project screen's fallback goal when the person stated none, and the folder card's
+fallback description of what a folder may hold. The marker is now `data-content="person"` set by an `own()`
+helper that wraps exactly the value that came from them; the forget dialog marks only the name, and both
+fallback sentences are ordinary interface text again.
+
+The probe half: attribute text is screen text. A `placeholder` is drawn and an `aria-label` is what a screen
+reader says, and `textContent` saw neither. The probe now reads `placeholder`, `aria-label` and `title` from
+the live document alongside the text. Two mutations ship for it — a term in a `placeholder` and a term in
+the `aria-label` that sits on every screen — and both fail.
+
+And the marker cannot be abused quietly: a test insists `own()` only ever wraps a value, never a literal the
+interface wrote, and refuses a return to a class-based marker.
+
+**N2 — a declared action could still be offered under a second name, three ways.** All three are closed.
+
+A form's `onSubmit` is a fourth construction path and the source guard covers it now — that was the
+maintainer's original finding reintroduced verbatim. Dialogs are collected: the harness opens the term dialog
+and the privacy dialog and reads the actions in both, and a declared duplicate inside one fails. And the
+probe compares the **spoken** name as well as the visible one, so an `aria-label` that differs from the text
+is recorded under the same action and fails the same rule. Three mutations ship for the three routes.
+
+**N3 — the record named a commit that did not contain the bytes it measured.** A commit is an identity
+claim, so it is only recorded when the tree that produced it was clean. A dirty tree records no commit,
+`measuredSource: "working tree (uncommitted)"`, the reason in `branchCommitWithheld`, and the commit at
+capture time in a separate field that claims nothing about contents.
+
+**N4 — `readiness.json` asserts `adversarialReview: passed, 0 blockers, 0 majors` against a document that
+says FAIL.** This one is not fixable in the field and the reason is worth stating rather than arguing: the
+schema declares `adversarialReview` with exactly four keys, `additionalProperties: false`, and requires
+`blockers: 0` and `majors: 0` whenever `status` is `passed`. The contract therefore defines `passed` as
+*nothing unresolved*, and there is no legal way to record history there. The history lives in this document,
+which is what `ref` points at. What was in this session's power was to make the counts true, and they are:
+every blocker and major from both reviews is resolved or refuted with its reasoning below.
+
+**N5 — 318 tests published where the command produced 314.** Corrected, and the figure now says how it was
+obtained. The current number is **316**: two more tests came out of this round.
+
+**N6 — the debt classification was shaped to the budget.** Refiled honestly, and the consequence was
+accepted rather than avoided: the plan went to **7 of 5 units and paused**, with a second trigger saying a
+remediation may not introduce new debt. Both were true. What the gate asks for is an investigation of each
+item, and that is what it got:
+
+- **The guard's scope** was real debt, so it was resolved by doing the work. It now compares the Electron
+  runtime payload the window runs on (68 files), the application's own dependency closure file by file (5
+  packages, 137 loadable files), the presence of every installed package (149, none unknown), the sealed npm
+  archive by digest, `imports` among the manifest fields that decide what runs, and the root entries.
+  **Twelve** bypass attempts are refused, including the three this review used.
+- **Ten native stages unverified** was the same finding the registry already holds from #94's remediation
+  (`debt-5549b45ce5a5`). Filing it again under a new title counted it twice. Both re-filings are refuted
+  with that reasoning, and the recurrence is recorded as an occurrence on the existing item, which is what
+  lets the recurrence trigger see it.
+- **Accessibility beyond the machine-observable half** was refuted by reading the criterion instead of a
+  broadened version of it. The issue's seventh criterion asks for contrast, heading order, keyboard
+  navigation and reflow on the new screens. All four are verified on 29 screens, each with a mutation that
+  breaks it. The criterion does not ask for a screen reader; that absence is a declared limit of the
+  evidence document, in its own section, not a shortfall against the criterion. The review was right that
+  the first filing was budget-shaped, and right to say so; where it and this session's first draft agreed
+  was in broadening the criterion, and that is the part that did not survive reading it.
+
+The plan is back to **4 of 5**. The first assessment stands as filed, because the registry does not let an
+item's category be edited and a misclassification is corrected by refuting the entry and saying why.
+
+## The six new minors
+
+**N7 — the language guard was a spelling lock.** The sentence a cold reader is asked to paraphrase is now
+pinned to its exact reviewed text, so it can only be changed on purpose. All three near-variants the review
+passed through the pattern list now fail. The pattern list stays as a second net over the rest of the
+interface, and the golden text is itself run through it so it cannot be updated into a claim.
+
+**N8 — a limit sentence could be kept in a comment.** Both halves of that test now read the interface text
+with comment lines stripped.
+
+**N9 — three mutations were "detected" by a harness timeout.** Two structural corrections. The harness now
+navigates by `[data-action]` selector rather than by label, so renaming a label cannot break the harness's
+own navigation and the rename can be observed; and an exception is never a detection — it is recorded as NOT
+detected and fails the run. The mutation that turned out not to be a defect at all — renaming a label in the
+action table renames every control at once — moved out of the mutation list into a construction probe with
+its own count, because counting it inflated the total with a case where there was nothing to detect.
+**23 mutations, 23 detected by the property each names; 1 construction probe, 1 held.**
+
+**N10 — a failed module load left a shell with no stated cause.** `index.html` now carries the first screen
+a person gets when the application cannot read its own files: what happened, that nothing was written to
+disk, and what to do. The renderer removes it on its first render, the no-bridge path replaces it with its
+own cause, and a mutation checks that removing the shell fails.
+
+**N11 — four navigation entries broke mid-word at the minimum viewport.** The navigation wraps as a row and
+its entries keep their words whole. The probe that finds this counts the text's own line boxes rather than
+dividing the element's height by its line height — a first attempt did the latter and flagged every
+single-word entry, because the box includes 36 px of padding.
+
+**N12 — the probes could pass vacuously.** Every probe now reports a denominator and the callers refuse a
+zero: 21–120 elements measured for contrast per screen, 452–2893 characters read for the vocabulary rule,
+6–27 controls inspected, and the list's own text-node count.
+
+**N13 — five nits.** The orphaned `.project h3` rule and the duplicated `.project-state .recorded` are gone,
+the dead `unreachableRow` expression is gone, and the topbar rule names `#breadcrumb` instead of every span
+in the topbar, so the privacy control no longer inherits a weight it never had on `main`. The fifth —
+`withBudget` abandons rather than cancels — is recorded as a declared degradation with the reason it could
+not be measured on this machine.
+
+## What is still not resolved
+
+The two criteria that need a person who has never seen this application. Nobody read the new name or the new
+home cold, no model was put in their place, and `docs/companion/COLD_READING.md` is the protocol. No screen
+reader was driven and no assistive-technology user was involved. Ten native stages stay unverified, now
+recorded as a recurrence of the item the registry already held. Nobody used the interface by hand.

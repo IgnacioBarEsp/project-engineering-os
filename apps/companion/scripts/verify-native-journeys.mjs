@@ -91,9 +91,27 @@ async function hashesOf(root, relatives) {
 //
 //   - every file under the five source directories, on both sides, compared by SHA-256;
 //   - the top-level entries of the installed application, against a closed list;
-//   - `package.json`'s `main`, `version` and `dependencies`, which is what decides which process starts and
-//     which core it loads. The rest of that file is excluded because the packager rewrites it by design;
-//   - the whole tree digest of the pinned core inside `node_modules`, which the application actually runs.
+//   - every field of `package.json` that decides what runs: name, version, type, main, exports, imports, bin,
+//     files and dependencies. The rest is excluded because `removePackageScripts` and
+//     `removePackageKeywords` rewrite it by design. `imports` is in that list because a second review added
+//     one to the installed manifest and the guard reported a match: an import map changes module resolution;
+//   - **the Electron runtime the window actually runs on**: every payload file the packager copies from
+//     `node_modules/electron/dist` into the installation, compared by digest. The executable itself is not
+//     comparable — the packager renames it and rewrites its icon and version resource by design — so that
+//     one file is recorded as intentionally excluded with its reason rather than quietly skipped;
+//   - **the application's own dependency closure**, file by file: the packages `package.json` declares,
+//     minus `npm`, plus their own production dependencies, resolved by name. A second review modified
+//     `node_modules/fflate` — which `context/parser-worker.mjs` imports to read a Word document — and that
+//     passed a guard which only looked at the core;
+//   - **the presence of every other package** in the installed tree: one the installation has and this
+//     branch does not is refused outright, which is the injection vector that same review used. Their files
+//     are counted rather than compared, and the reason is declared: the rest of that tree is npm's own,
+//     hoisted there by the packager's deduplication, and npm's integrity is the sealed archive's job. Its
+//     vendored copies are different versions of the same names the branch has at top level for other
+//     reasons, so comparing them by name would be comparing two different packages and reporting the
+//     difference as drift. The sealed archive is compared by digest, and its contents are verified at use
+//     time by the application's extractor against the pinned whole-tree digest — the mechanism from #87 and
+//     #80 rather than something added here.
 //
 // Every digest is recorded, matching or not: the requirement this change adds says the evidence has to name
 // the interface it measured, and a record that only lists mismatches names nothing when nothing mismatched.
@@ -124,48 +142,70 @@ async function filesUnder(root, directories) {
 // three outcomes gets its own verdict: a file that differs on both sides is refused, a file the branch has
 // and the installation lacks is refused unless it is in the declared prune list, and a file only the
 // installation has is refused outright, because that is the injection vector.
-const PACKAGER_PRUNES = [/^.*\/CHANGELOG\.md$/, /^.*\/README\.md$/, /^.*\/package-lock\.json$/];
+// What matters is the code the application can LOAD. The packager prunes what a runtime never reads —
+// changelogs, readmes, lockfiles, TypeScript declarations, source maps, licences — and a first version of
+// this comparison refused a correct installation over 1598 pruned files of `npm` and 75 `.d.ts` files of
+// `pdfjs-dist`. A guard that fails on a missing type declaration is a guard nobody reads twice.
+//
+// So the rule is by what Node can execute, not by a list of names that grows every time it fires:
+//
+//   - a LOADABLE file (`.js`, `.mjs`, `.cjs`, `.json`, `.node`, `.wasm`) that differs, or that the branch
+//     has and the installation lacks, is REFUSED. That is the case a review used: `fflate/esm/browser.js`
+//     modified in the installed tree, which `context/parser-worker.mjs` imports;
+//   - a non-loadable file that differs or is absent is RECORDED as pruned or as a non-loadable difference,
+//     and does not refuse;
+//   - a file only the installation has is REFUSED whatever its kind, because that is the injection vector;
+//   - a manifest is compared by the fields that decide what runs, because the packager rewrites the rest.
+const LOADABLE = /\.(js|mjs|cjs|json|node|wasm)$/i;
+// Declared by name because they are loadable by extension and never loaded: a lockfile is data for a
+// package manager, not a module.
+const NEVER_LOADED = [/(^|\/)package-lock\.json$/, /(^|\/)npm-shrinkwrap\.json$/];
 async function compareTree(relative) {
   const ours = await filesUnder(branchRoot, [relative]);
   const theirs = new Set(await filesUnder(installedRoot, [relative]));
-  const differing = [], missing = [], pruned = [], byIdentityFields = [];
+  const differing = [], missing = [], pruned = [], byIdentityFields = [], nonLoadableDiffering = [];
   for (const file of ours) {
+    const loadable = LOADABLE.test(file) && !NEVER_LOADED.some(pattern => pattern.test(file));
     if (!theirs.has(file)) {
-      (PACKAGER_PRUNES.some(pattern => pattern.test(file)) ? pruned : missing).push(file);
+      (loadable ? missing : pruned).push(file);
       continue;
     }
     // `removePackageScripts` and `removePackageKeywords` are on in the packager config, and they rewrite
     // every nested manifest, not only the application's own. So a manifest is compared by the fields that
-    // decide what runs — name, version, type, main, exports, bin, files, dependencies — and everything else
-    // by its bytes. Comparing the whole manifest would refuse a correct installation for a missing keyword
-    // list, which trains a reader to ignore the guard.
+    // decide what runs and everything else by its bytes.
     if (path.basename(file) === 'package.json') {
-      const ours = manifestIdentity(JSON.parse(await readFile(path.join(branchRoot, file), 'utf8')));
-      const theirs = await readFile(path.join(installedRoot, file), 'utf8')
+      const mine = manifestIdentity(JSON.parse(await readFile(path.join(branchRoot, file), 'utf8')));
+      const installed = await readFile(path.join(installedRoot, file), 'utf8')
         .then(value => manifestIdentity(JSON.parse(value)), () => null);
-      if (JSON.stringify(ours) !== JSON.stringify(theirs)) differing.push(file);
+      if (JSON.stringify(mine) !== JSON.stringify(installed)) differing.push(file);
       byIdentityFields.push(file);
       continue;
     }
     const ourDigest = await digest(path.join(branchRoot, file));
     const theirDigest = await digest(path.join(installedRoot, file)).then(value => value, () => null);
-    if (ourDigest !== theirDigest) differing.push(file);
+    if (ourDigest !== theirDigest) (loadable ? differing : nonLoadableDiffering).push(file);
   }
-  return { compared: ours.length, differing, missing, pruned, byIdentityFields,
+  return { compared: ours.length, loadable: ours.filter(file => LOADABLE.test(file)).length,
+    differing, missing, pruned: pruned.length, prunedExamples: pruned.slice(0, 5),
+    nonLoadableDiffering: nonLoadableDiffering.length, byIdentityFields,
     onlyInstalled: [...theirs].filter(file => !ours.includes(file)) };
 }
 function manifestIdentity(value) {
   return { name: value.name ?? null, version: value.version ?? null, type: value.type ?? null,
-    main: value.main ?? null, exports: value.exports ?? null, bin: value.bin ?? null,
-    files: value.files ?? null, dependencies: value.dependencies ?? null };
+    main: value.main ?? null, exports: value.exports ?? null, imports: value.imports ?? null,
+    bin: value.bin ?? null, files: value.files ?? null, dependencies: value.dependencies ?? null };
 }
 
 const branchFiles = await filesUnder(branchRoot, SOURCE_DIRECTORIES);
 const installedFiles = await filesUnder(installedRoot, SOURCE_DIRECTORIES);
 const identity = { directories: SOURCE_DIRECTORIES,
   comparedBeyondSources: ['top-level entries', 'package.json main/version/dependencies', PINNED_CORE],
-  notCompared: ['the rest of package.json, which the packager rewrites', 'node_modules other than the pinned core',
-    'the documentation the packager prunes from the pinned core, listed per run under pinnedCore.pruned'],
+  notCompared: ['the rest of package.json, which the packager rewrites',
+    "the files of packages outside the application's own dependency closure: those are npm's tree, hoisted by the packager, and npm's integrity is the sealed archive's digest. Their presence is still checked",
+    'the renamed executable and its rewritten icon, version resource and licence, listed per run under runtime.excluded',
+    'the contents of the sealed npm archive, which the application verifies against its pinned tree digest when it uses it',
+
+    'the documentation the packager prunes, listed per run under each dependency as pruned'],
   branchCommit: null, branchTreeClean: null, files: {},
   onlyInstalled: installedFiles.filter(file => !branchFiles.includes(file)), synchronised: [], mismatched: [] };
 for (const file of branchFiles) {
@@ -195,9 +235,136 @@ const installedManifestRaw = JSON.parse(await readFile(path.join(installedRoot, 
 identity.manifest = { branch: manifestIdentity(branchManifest), installed: manifestIdentity(installedManifestRaw) };
 identity.manifestMatches = JSON.stringify(identity.manifest.branch) === JSON.stringify(identity.manifest.installed);
 
+// Every production dependency the application declares, because those are the modules it actually loads.
+// The packager hoists: a dependency nested inside another package gets moved to the top level, so the same
+// package lives at a different path in the installation than on this branch. Comparing paths reported 1598
+// files of `npm` as missing on a correct installation. Comparing by NAME asks the question that matters —
+// is this the same package, with the same loadable bytes.
+const SEALED_DEPENDENCY = 'npm';
+const SEALED_ARCHIVE = { branch: 'build/npm-dist.zip', installed: '../npm-dist.zip' };
+async function packagesUnder(root) {
+  const found = new Map();
+  const walk = async prefix => {
+    const base = path.join(root, prefix);
+    for (const entry of await readdir(base, { withFileTypes: true }).then(v => v, () => [])) {
+      if (!entry.isDirectory()) continue;
+      if (entry.name.startsWith('@')) {
+        for (const scoped of await readdir(path.join(base, entry.name), { withFileTypes: true }).then(v => v, () => [])) {
+          if (scoped.isDirectory()) {
+            const name = `${entry.name}/${scoped.name}`;
+            if (!found.has(name)) found.set(name, `${prefix}/${name}`);
+            await walk(`${prefix}/${name}/node_modules`);
+          }
+        }
+        continue;
+      }
+      if (!found.has(entry.name)) found.set(entry.name, `${prefix}/${entry.name}`);
+      await walk(`${prefix}/${entry.name}/node_modules`);
+    }
+  };
+  await walk('node_modules');
+  return found;
+}
+// A package's own tree, with its nested packages excluded: those are compared as packages of their own.
+async function packageFiles(root, relative) {
+  return (await filesUnder(root, [relative]))
+    .filter(file => !file.slice(relative.length).includes('/node_modules/'));
+}
+async function comparePackage(name, branchPath, installedPath) {
+  const ours = await packageFiles(branchRoot, branchPath);
+  const theirs = new Set((await packageFiles(installedRoot, installedPath))
+    .map(file => file.slice(installedPath.length)));
+  const differing = [], missing = [];
+  let compared = 0, pruned = 0;
+  for (const file of ours) {
+    const tail = file.slice(branchPath.length);
+    const loadable = LOADABLE.test(tail) && !NEVER_LOADED.some(pattern => pattern.test(tail));
+    if (!theirs.has(tail)) { if (loadable) missing.push(tail); else pruned += 1; continue; }
+    if (!loadable) continue;
+    if (path.basename(tail) === 'package.json') {
+      const mine = manifestIdentity(JSON.parse(await readFile(path.join(branchRoot, file), 'utf8')));
+      const installed = await readFile(path.join(installedRoot, installedPath + tail), 'utf8')
+        .then(value => manifestIdentity(JSON.parse(value)), () => null);
+      compared += 1;
+      if (JSON.stringify(mine) !== JSON.stringify(installed)) differing.push(tail);
+      continue;
+    }
+    compared += 1;
+    if (await digest(path.join(branchRoot, file))
+      !== await digest(path.join(installedRoot, installedPath + tail)).then(v => v, () => null)) differing.push(tail);
+  }
+  return { name, compared, pruned, differing, missing };
+}
+
+const branchPackages = await packagesUnder(branchRoot);
+const installedPackages = await packagesUnder(installedRoot);
+
+// The closure the application itself imports: what it declares, minus the one that travels sealed, plus
+// whatever those packages declare in turn.
+async function closureOf(declared) {
+  const closure = new Set(), queue = declared.filter(name => name !== SEALED_DEPENDENCY);
+  while (queue.length) {
+    const name = queue.shift();
+    if (closure.has(name) || !branchPackages.has(name)) continue;
+    closure.add(name);
+    const manifest = await readFile(path.join(branchRoot, branchPackages.get(name), 'package.json'), 'utf8')
+      .then(value => JSON.parse(value), () => ({}));
+    queue.push(...Object.keys(manifest.dependencies ?? {}));
+  }
+  return closure;
+}
+const closure = await closureOf(Object.keys(branchManifest.dependencies ?? {}));
+identity.closure = [...closure].sort();
+identity.packages = { installed: installedPackages.size, branch: branchPackages.size,
+  fileCompared: 0, loadableFiles: 0, presenceOnly: 0 };
+const dependencyProblems = [];
+identity.unknownPackages = [];
+for (const [name, installedPath] of installedPackages) {
+  const branchPath = branchPackages.get(name);
+  if (!branchPath) { identity.unknownPackages.push(name); continue; }
+  if (!closure.has(name)) { identity.packages.presenceOnly += 1; continue; }
+  const result = await comparePackage(name, branchPath, installedPath);
+  identity.packages.fileCompared += 1;
+  identity.packages.loadableFiles += result.compared;
+  for (const file of result.differing) dependencyProblems.push(`${name}: distinto ${file}`);
+  for (const file of result.missing) dependencyProblems.push(`${name}: falta ${file}`);
+}
+identity.dependencyProblems = dependencyProblems;
+// The runtime under the application. A second review pointed out that the guard claimed the window runs
+// this branch while never looking at the engine the window IS. The packager copies this payload verbatim,
+// so it compares cleanly; only the executable is rewritten, and that is stated rather than skipped.
+const RUNTIME_SOURCE = 'node_modules/electron/dist';
+// `default_app.asar` is Electron's placeholder application, and the packager replaces it with this one.
+const RUNTIME_REWRITTEN = [/\.exe$/i, /^LICENSE/i, /^version$/i, /^resources[\/]default_app\.asar$/i];
+async function compareRuntime() {
+  const ours = await filesUnder(branchRoot, [RUNTIME_SOURCE]);
+  const differing = [], missing = [], excluded = [];
+  let compared = 0;
+  for (const file of ours) {
+    const relative = file.slice(RUNTIME_SOURCE.length + 1);
+    if (RUNTIME_REWRITTEN.some(pattern => pattern.test(relative))) { excluded.push(relative); continue; }
+    const installed = path.join(installedRoot, '..', '..', relative);
+    const theirDigest = await digest(installed).then(value => value, () => null);
+    if (theirDigest === null) { missing.push(relative); continue; }
+    compared += 1;
+    if (theirDigest !== await digest(path.join(branchRoot, file))) differing.push(relative);
+  }
+  return { compared, differing, missing, excluded,
+    excludedReason: 'el empaquetador renombra el ejecutable y reescribe su icono, su recurso de version y su licencia, y reemplaza el app placeholder por esta aplicacion; esos archivos no son comparables byte a byte por diseno' };
+}
+identity.runtime = await compareRuntime();
+identity.runtimeMatches = identity.runtime.differing.length === 0 && identity.runtime.missing.length === 0;
+
+identity.sealedArchive = {
+  of: SEALED_DEPENDENCY,
+  branch: await digest(path.join(branchRoot, SEALED_ARCHIVE.branch)).then(value => value, () => null),
+  installed: await digest(path.join(installedRoot, SEALED_ARCHIVE.installed)).then(value => value, () => null),
+  contentsVerifiedBy: 'el extractor de la propia aplicación contra el digest del árbol fijado, en el momento de usarlo',
+};
+identity.sealedArchiveMatches = !!identity.sealedArchive.branch
+  && identity.sealedArchive.branch === identity.sealedArchive.installed;
 identity.pinnedCore = await compareTree(PINNED_CORE);
-identity.pinnedCoreMatches = identity.pinnedCore.differing.length === 0
-  && identity.pinnedCore.missing.length === 0 && identity.pinnedCore.onlyInstalled.length === 0;
+identity.pinnedCoreMatches = dependencyProblems.length === 0 && identity.unknownPackages.length === 0;
 
 const commit = await new Promise(resolve => {
   const child = spawn('git', ['-C', branchRoot, 'rev-parse', 'HEAD'], { windowsHide: true, stdio: ['ignore', 'pipe', 'ignore'] });
@@ -209,16 +376,25 @@ const dirty = await new Promise(resolve => {
   let out = ''; child.stdout.on('data', chunk => { out += chunk; });
   child.on('close', () => resolve(out.trim())); child.on('error', () => resolve(null));
 });
-identity.branchCommit = commit;
 identity.branchTreeClean = dirty === '' ? true : dirty === null ? null : false;
+// A commit is an identity claim, so it is only recorded when the tree it names is the tree that was read.
+// A review found this field naming a commit whose `ui/app.mjs` digest did not match the one recorded beside
+// it: the run had happened before the fixes were committed. Now a dirty tree gets no commit name at all.
+identity.branchCommit = identity.branchTreeClean === true ? commit : null;
+identity.measuredSource = identity.branchTreeClean === true ? `commit ${commit}` : 'working tree (uncommitted)';
+identity.branchCommitWithheld = identity.branchTreeClean === true ? null
+  : 'el árbol tenía cambios sin confirmar, así que ningún commit contiene los bytes que se midieron; la identidad son los 47 digests';
+if (identity.branchTreeClean !== true) identity.branchCommitAtCapture = commit;
 
 assert.equal(identity.mismatched.length, 0, `La ventana instalada no corre la aplicación de esta rama (${identity.mismatched.join(', ')}). Ejecuta con --sync-app para copiarla y volver a medir.`);
 assert.equal(identity.onlyInstalled.length, 0, `El árbol instalado tiene archivos que esta rama no tiene (${identity.onlyInstalled.join(', ')}).`);
 assert.equal(identity.unexpectedRootEntries.length, 0, `El árbol instalado tiene entradas de raíz inesperadas (${identity.unexpectedRootEntries.join(', ')}).`);
 assert.ok(identity.manifestMatches, `El package.json instalado declara otro main, otra versión u otras dependencias: ${JSON.stringify(identity.manifest)}`);
-assert.deepEqual(identity.pinnedCore.differing, [], `El núcleo fijado instalado tiene archivos distintos de los de esta rama.`);
-assert.deepEqual(identity.pinnedCore.missing, [], `Al núcleo fijado instalado le faltan archivos que esta rama sí tiene y que el empaquetador no poda.`);
-assert.deepEqual(identity.pinnedCore.onlyInstalled, [], `El núcleo fijado instalado tiene archivos que esta rama no tiene.`);
+assert.deepEqual(dependencyProblems, [], 'Los paquetes instalados no coinciden con los de esta rama.');
+assert.deepEqual(identity.unknownPackages, [], 'El árbol instalado tiene paquetes que esta rama no tiene.');
+assert.ok(identity.sealedArchiveMatches, `El archivo sellado de ${SEALED_DEPENDENCY} instalado no coincide con el de esta rama (${identity.sealedArchive.installed} frente a ${identity.sealedArchive.branch}).`);
+assert.deepEqual(identity.runtime.differing, [], 'El runtime de Electron instalado tiene archivos distintos de los de esta rama.');
+assert.deepEqual(identity.runtime.missing, [], 'Al runtime de Electron instalado le faltan archivos de la carga que el empaquetador copia.');
 
 
 // Imported only after the guard: with --sync-app the driver would otherwise keep measuring through the

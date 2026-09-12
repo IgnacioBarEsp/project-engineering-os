@@ -37,6 +37,24 @@ function interfaceText(source) {
   return source.split(/\r?\n/).filter(line => !/^\s*\/\//.test(line)).join('\n');
 }
 
+// The one sentence a cold reader is asked to paraphrase, pinned exactly. A pattern list can only refuse the
+// claims someone thought of: an independent review passed "para que tu IA trabaje mejor con tu proyecto",
+// "para que acierte más" and "para que no se pierda entre tus archivos" through the nine regexes below.
+// A golden text cannot be evaded — it can only be changed on purpose, which is the point.
+const INICIO_SENTENCE = 'Esta aplicación lee la carpeta de tu proyecto, ordena lo que hay dentro y deja un '
+  + 'resumen que puedes darle a la IA que ya usas, con la ubicación exacta de cada frase para que puedas '
+  + 'comprobarla.';
+
+test('the sentence a cold reader is asked to paraphrase is exactly the reviewed one', () => {
+  assert.ok(ui.includes(`p('${INICIO_SENTENCE}','intro')`),
+    'La frase de Inicio cambió. Cualquier cambio en ella es deliberado y necesita revisión: es la que '
+    + 'afirmaba un resultado que este proyecto midió como empate, y la que una lectura en frío parafrasea.');
+  // And it still has to survive the pattern list, so the golden text cannot be updated to a claim.
+  for (const [pattern, name] of UNDEMONSTRATED) {
+    assert.doesNotMatch(INICIO_SENTENCE, pattern, `La frase de Inicio afirma ${name}`);
+  }
+});
+
 test('the interface claims no benefit this project measured as a tie or never measured', () => {
   const text = interfaceText(ui);
   for (const [pattern, name] of UNDEMONSTRATED) {
@@ -47,9 +65,14 @@ test('the interface claims no benefit this project measured as a tie or never me
   }
 });
 
-test('every sentence that states a limit of the result is still there', () => {
+test('every sentence that states a limit of the result is still there, in the interface and not in a comment', () => {
   // These are the sentences the defensive-tone rewrite was NOT allowed to remove. They are what a person
   // needs at the moment they read them, and each one corresponds to something this project refuses to claim.
+  //
+  // Read from the interface text with comments stripped. An earlier version read the raw source, and an
+  // independent review moved "Nunca un modelo de IA ni el motor que lo ejecuta" out of the interface and
+  // into a `//` comment: six tests passed with the limit gone from the screen.
+  const shown = interfaceText(ui);
   for (const kept of [
     'no demuestra que la IA la haya leído',
     'No se ha comprobado que la IA la haya leído',
@@ -61,7 +84,7 @@ test('every sentence that states a limit of the result is still there', () => {
     'tus documentos no se envían solos',
     'Estado guardado la última vez; se comprueba al abrirlo',
   ]) {
-    assert.ok(ui.includes(kept), `Falta la frase que declara un límite: «${kept}»`);
+    assert.ok(shown.includes(kept), `Falta la frase que declara un límite en la interfaz: «${kept}»`);
   }
 });
 
@@ -108,14 +131,19 @@ test('no declared action is ever offered through the unnamed button helper', () 
         `${handler} es una acción declarada y se ofrece por btn() en «${hit[0].slice(0, 90)}»; usa doBtn.`);
     }
   }
-  // The third construction path. `doBtn` and `btn` are not the only ways to make a button: a raw element
-  // with its own click handler would evade both the DOM checks (it declares no action) and the rule above.
-  // The interface builds raw buttons only for form submits and the project tabs, and none of them may offer
-  // a declared action.
+  // The third and fourth construction paths. `doBtn` and `btn` are not the only ways to make a button: a raw
+  // element with its own click handler, or a form whose submit handler runs the action, would evade both the
+  // DOM checks (neither declares an action) and the rule above. An independent review used the form path to
+  // reintroduce the maintainer's original finding verbatim — "Preparar una carpeta" next to
+  // "Preparar proyecto", one action — and nothing on the branch detected it.
   for (const handler of new Set(handlers)) {
-    const raw = new RegExp(`el\\('button'[^\\n]{0,240}?onClick:\\s*(?:async\\s*)?\\(\\)\\s*=>\\s*\\{?\\s*(?:await\\s+)?${handler}\\(\\s*\\)`, 'g');
-    assert.deepEqual([...body.matchAll(raw)].map(hit => hit[0].slice(0, 90)), [],
-      `${handler} se ofrece desde un botón construido a mano, que ninguna comprobación del DOM puede ver.`);
+    for (const [what, pattern] of [
+      ['un botón construido a mano', `el\\('button'[^\\n]{0,240}?onClick:\\s*(?:async\\s*)?\\(\\)\\s*=>\\s*\\{?\\s*(?:await\\s+)?${handler}\\(\\s*\\)`],
+      ['el envío de un formulario', `onSubmit:[^\\n]{0,300}?${handler}\\(\\s*\\)`],
+    ]) {
+      assert.deepEqual([...body.matchAll(new RegExp(pattern, 'g'))].map(hit => hit[0].slice(0, 110)), [],
+        `${handler} se ofrece desde ${what}, que ninguna comprobación del DOM puede ver.`);
+    }
   }
 
   // The rule has to bite: a control that offers a declared action under its own label must fail.
@@ -147,4 +175,23 @@ test('every term declares how its word appears, as a usable pattern', () => {
     assert.ok(matches, `${entry.id}: ninguna forma coincide con su propio término «${entry.term}»`);
   }
   assert.match(glossarySource, /FORBIDDEN_WORDS/, 'La jerga sin definición se declara aparte.');
+});
+
+// The person-content marker is a claim about whose words these are, and a claim can be abused: marking the
+// interface's own prose would exempt it from the vocabulary rule. An independent review found three places
+// where the previous class-based marker did exactly that by accident. A machine cannot tell a lie in the
+// marker from the truth, but it can insist the marker only ever wraps a VALUE — something read from state,
+// from the project or from the plan — and never a string the interface wrote.
+test('the person-content marker never wraps a literal the interface wrote', () => {
+  const calls = [...ui.matchAll(/\bown\((.{0,80}?)[,)]/g)].map(match => match[1].trim());
+  assert.ok(calls.length >= 6, `Solo se encontraron ${calls.length} usos del marcador.`);
+  for (const argument of calls) {
+    assert.doesNotMatch(argument, /^['"`]/,
+      `El marcador de contenido de la persona envuelve un literal: own(${argument}…). `
+      + 'Solo puede envolver un valor que venga de la persona, del proyecto o del plan.');
+  }
+  // And the marker has to be the attribute, not a class that also styles something.
+  assert.match(ui, /'data-content':\s*'person'/, 'El marcador es un atributo, no una clase.');
+  assert.doesNotMatch(ui, /class:\s*'own'|class:\s*`own|intro own/,
+    'Una clase no puede volver a ser el marcador: una clase es una decisión de estilo.');
 });

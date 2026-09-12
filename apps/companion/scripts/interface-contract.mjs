@@ -3,14 +3,23 @@
 //
 // Each probe is a function handed to `page.evaluate`, so it closes over nothing and runs in the page. Where
 // a probe needs the vocabulary, it is passed in as data.
+//
+// Every probe reports a DENOMINATOR — how much it actually examined. A probe that returns only its failures
+// cannot be told apart from a probe that examined nothing, and an independent review showed each of these
+// passing vacuously against an emptied screen. `vacuous()` at the bottom is what the callers refuse on.
 
 // Every control that offers a navigable action declares which action it is, and `doBtn` takes the label from
-// the action table rather than from the caller, so a declared action cannot carry two labels. This reads the
-// pairs off the rendered page so the table and the page cannot disagree either.
+// the action table rather than from the caller, so a declared action cannot carry two labels through that
+// path. Two names are reported per control: the text a reader sees and the name a screen reader speaks. A
+// review offered a declared action under a second name through `aria-label` alone, which `textContent` could
+// not see, so both are collected and a disagreement between them is itself a second name.
 export const ACTION_PAIRS = () => [...document.querySelectorAll('[data-action]')].map(node => {
   const clone = node.cloneNode(true);
   clone.querySelectorAll('.sr-only').forEach(hidden => hidden.remove());
-  return [node.dataset.action, clone.textContent.replace(/\s+/g, ' ').trim()];
+  const visible = clone.textContent.replace(/\s+/g, ' ').trim();
+  const label = node.getAttribute('aria-label')?.replace(/\s+/g, ' ').trim();
+  return { action: node.dataset.action, visible, spoken: label || visible,
+    inDialog: !!node.closest('#dialog') };
 });
 
 // The real question, asked per screen: is a word of this repository's vocabulary on this screen without its
@@ -18,19 +27,32 @@ export const ACTION_PAIRS = () => [...document.querySelectorAll('[data-action]')
 // on Inicio only — and an independent review put `harness` on the help screen and passed both harnesses.
 //
 // The whole document is inspected, not just `#view`: the sidebar and the topbar are on every screen, and an
-// open dialog is the screen the person is looking at. The glossary's own definition list is excluded, since
-// defining a word is not using it, and so is the text of every control that opens a definition.
-// What is NOT interface text: the person's own files and the text generated from them. A search result, a
-// planned file list, a folder path, a citation and the first instruction for an AI are all content passing
-// through the screen. The first run of this probe reported `tokens` and `Contexto` as undefined vocabulary
-// because a fixture file said "tokens must be measured" and a generated prompt said "Contexto" — the check
-// was reading the person's material and blaming the interface for it. That is the instrument deciding the
-// result, so it is excluded by kind rather than by word.
+// open dialog is the screen the person is looking at. Attribute text counts as screen text — a `placeholder`
+// is drawn and an `aria-label` is spoken, and a review got a glossary word onto a screen through each of
+// them while `textContent` saw neither.
+//
+// What is NOT the interface's own text: the person's words, marked at the point they are rendered with
+// `data-content="person"`, and content generated from their files — a search result, a planned file list, a
+// citation, a first instruction for an AI. An earlier version keyed this off the `own` and `path` CLASSES,
+// and the same review found three places where the interface wrote its own prose inside one of them and was
+// therefore exempt. A class is a styling decision; whose words these are is not.
 export const UNDEFINED_VOCABULARY = vocabulary => {
+  const notInterface = '[data-content="person"], pre, .file-list, .result, .citation';
   const clone = document.body.cloneNode(true);
-  clone.querySelectorAll('.term, .glossary, #dialog:not([open]), pre, .file-list, .path, .result, .citation, .own')
-    .forEach(node => node.remove());
-  const text = clone.textContent.replace(/\s+/g, ' ');
+  clone.querySelectorAll(`.term, .glossary, #dialog:not([open]), ${notInterface}`).forEach(node => node.remove());
+  const parts = [clone.textContent];
+  // Attributes are read from the live document: removing an element's text nodes from a clone says nothing
+  // about a placeholder or a label it is still carrying.
+  const attributeSources = [];
+  for (const element of document.body.querySelectorAll('[placeholder], [aria-label], [title]')) {
+    if (element.closest(`.term, .glossary, ${notInterface}`)) continue;
+    if (element.closest('#dialog') && !document.getElementById('dialog')?.open) continue;
+    for (const attribute of ['placeholder', 'aria-label', 'title']) {
+      const value = element.getAttribute(attribute);
+      if (value) { parts.push(value); attributeSources.push(`${element.tagName.toLowerCase()}[${attribute}]`); }
+    }
+  }
+  const text = parts.join('   ').replace(/\s+/g, ' ');
   const openable = new Set([...document.querySelectorAll('.term[data-term]')].map(node => node.dataset.term));
   const missing = [];
   for (const entry of vocabulary.terms) {
@@ -46,7 +68,8 @@ export const UNDEFINED_VOCABULARY = vocabulary => {
   for (const [name, form, caseSensitive] of vocabulary.forbidden) {
     if (new RegExp(`(^|[^\\p{L}])(${form})([^\\p{L}]|$)`, caseSensitive ? 'u' : 'iu').test(text)) forbidden.push(name);
   }
-  return { missing, forbidden, openable: [...openable] };
+  return { missing, forbidden, openable: [...openable],
+    examinedChars: text.length, attributes: attributeSources.length, terms: vocabulary.terms.length };
 };
 
 // A control that opens a definition must name the term it opens. `makeTerm` refuses a mismatched label when
@@ -67,14 +90,16 @@ export const LIST_PURITY = () => {
   const view = document.getElementById('view');
   const walker = document.createTreeWalker(view, NodeFilter.SHOW_TEXT);
   const stray = [];
+  let textNodes = 0;
   for (let node = walker.nextNode(); node; node = walker.nextNode()) {
     const value = node.textContent.replace(/\s+/g, ' ').trim();
     if (!value) continue;
+    textNodes += 1;
     if (node.parentElement?.closest('article.project')) continue;
     if (node.parentElement?.closest('h1')) continue;
     stray.push(value.slice(0, 70));
   }
-  return { cards: view.querySelectorAll('article.project').length, stray,
+  return { cards: view.querySelectorAll('article.project').length, stray, textNodes,
     headings: [...view.querySelectorAll('h1,h2,h3,h4,h5,h6')].map(node => node.tagName.toLowerCase()) };
 };
 
@@ -84,14 +109,24 @@ export const EXPECTED_ACTIONS = ['open-start', 'open-project-list', 'prepare-pro
   'privacy-scope', 'open-workspace', 'recheck-project', 'read-files', 'review-development',
   'review-code-map', 'repair-tools'];
 
+// Two of them only exist when the managed toolchain is available: the code map and its repair belong to the
+// runtime, and a probe run without it would report them as missing rather than as out of scope.
+export const RUNTIME_ONLY_ACTIONS = ['review-code-map', 'repair-tools'];
+
 export function duplicateActionNames(seen) {
   return [...seen].filter(([, names]) => names.size > 1)
     .map(([action, names]) => `${action}: ${[...names].map(([name, where]) => `"${name}" (${where})`).join(' vs ')}`);
 }
 
-// Two of them only exist when the managed toolchain is available: the code map and its repair belong to the
-// runtime, and a probe run without it would report them as missing rather than as out of scope.
-export const RUNTIME_ONLY_ACTIONS = ['review-code-map', 'repair-tools'];
+// A name only assistive technology hears is still a name, so it is recorded under the same action and a
+// control whose spoken name differs from its visible one fails the same rule.
+export function collectActionPairs(pairs, into, where) {
+  for (const pair of pairs) {
+    if (!into.has(pair.action)) into.set(pair.action, new Map());
+    into.get(pair.action).set(pair.visible, pair.inDialog ? `${where} (diálogo)` : where);
+    if (pair.spoken !== pair.visible) into.get(pair.action).set(pair.spoken, `${where} (hablado)`);
+  }
+}
 
 export function missingActions(seen, { runtime = true } = {}) {
   return EXPECTED_ACTIONS
@@ -145,9 +180,11 @@ export const ACCESSIBILITY = () => {
     return element.offsetParent !== null || element === document.body || !!element.closest('#dialog');
   };
   const contrast = [];
+  let measured = 0;
   for (const element of [...document.body.querySelectorAll('*')]) {
     const own = [...element.childNodes].some(node => node.nodeType === 3 && node.textContent.trim().length > 1);
     if (!own || !visible(element)) continue;
+    measured += 1;
     const style = getComputedStyle(element);
     const size = parseFloat(style.fontSize);
     const large = size >= 24 || (size >= 18.66 && Number(style.fontWeight) >= 700);
@@ -175,8 +212,30 @@ export const ACCESSIBILITY = () => {
     .filter(node => !node.disabled && node.tabIndex >= 0 && (node.offsetParent !== null || node.closest('#dialog')?.open))
     .length;
   const terms = [...document.querySelectorAll('.term')];
+  // Words that wrap mid-word are unreadable even when nothing overflows. `noOverflow` compares scrollWidth
+  // to innerWidth, so a navigation entry breaking into "Ini / ci / o" passes it — a review found exactly
+  // that at the minimum equivalent viewport, in this change's own screenshot.
+  //
+  // The line count comes from the text's own client rects, not from the element's height: a first attempt
+  // divided the bounding box by the line height and flagged every single-word entry, because the box
+  // includes 36 px of padding. A range over the text node reports the line boxes the text actually occupies,
+  // and a word cannot have been split unless there are more lines than words.
+  const broken = [];
+  for (const node of document.querySelectorAll('nav button, .tool-tabs button')) {
+    if (node.offsetParent === null) continue;
+    const text = [...node.childNodes].find(child => child.nodeType === 3 && child.textContent.trim());
+    if (!text) continue;
+    const range = document.createRange();
+    range.selectNodeContents(text);
+    const lines = range.getClientRects().length;
+    const words = text.textContent.trim().split(/\s+/).length;
+    if (lines > words) {
+      broken.push(`${node.textContent.replace(/\s+/g, ' ').trim()} en ${lines} renglones para ${words} palabra(s)`);
+    }
+  }
   return { contrast, headingOrder: [...view.problems, ...dialogOutline.problems.map(p => `diálogo: ${p}`)],
-    headings: view.levels, focusable, dialogOpen: !!open,
+    headings: view.levels, focusable, dialogOpen: !!open, brokenWords: broken,
+    measured,
     terms: terms.length,
     termsReachable: terms.filter(node => node.tagName === 'BUTTON' && !node.disabled && node.tabIndex >= 0).length };
 };
@@ -211,3 +270,14 @@ export const ACCESSIBLE_NAMES = () => {
     pressedTabs: [...document.querySelectorAll('.tool-tabs button')].every(node => node.hasAttribute('aria-pressed')),
   };
 };
+
+// Every probe's denominator in one place, so a caller can refuse a vacuous pass without knowing each probe's
+// internals. An emptied screen used to be indistinguishable from a screen where everything passed.
+export function vacuous(screen) {
+  const empty = [];
+  if (!screen.accessibility?.measured) empty.push('ningún elemento con texto medido para contraste');
+  if (!screen.accessibility?.focusable) empty.push('ningún control alcanzable con el teclado');
+  if (!screen.vocabulary?.examinedChars) empty.push('ningún texto leído para la regla de vocabulario');
+  if (!screen.names?.controls) empty.push('ningún control inspeccionado para nombre accesible');
+  return empty;
+}

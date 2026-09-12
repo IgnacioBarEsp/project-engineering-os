@@ -32,17 +32,22 @@ apartado". And the interface spoke the vocabulary of whoever wrote it.
 
 - **Five profiles through the installed application's own window: 0 findings.** The harness refuses to run
   against an installation that is not this branch: 47 source files with both digests recorded either way,
-  the top-level entries against a closed list, the manifest fields that decide what runs, and the pinned core
-  compared per file. Six bypass attempts were refused; an untouched copy passed.
+  the top-level entries against a closed list, the manifest fields that decide what runs including `imports`,
+  the application's own dependency closure file by file, the presence of every one of the 149 installed
+  packages, the Electron runtime payload the window runs on, and the sealed npm archive by digest.
+  **Twelve bypass attempts were refused**; an untouched copy passed.
 - **Five browser journeys with the real renderer and engines: 0 findings**, including a recovery rehearsal
   driven from the interface.
-- **18 deliberate mutations, 18 detected**, across 7 screens. Twelve of them exist because a review found
-  them undetected: a duplicate name on a screen the harness never visited, a greeting reintroduced as a
-  `<div>` or a `<details>`, `harness` as prose on the help screen, a term control opening another concept's
-  definition, and contrast broken in the dialog and the sidebar.
-- **Contrast, heading order, keyboard reach, accessible names and the vocabulary rule on 29 screens.** This
-  found three real, pre-existing defects: Inicio, the folder step and the project screen all jumped from `h1`
-  to `h3`.
+- **23 deliberate mutations, 23 detected by the property each one names**, across 9 screens, plus one
+  construction probe that held. Sixteen of them exist because a review found them undetected — a duplicate
+  name on a screen the harness never visited, a greeting as a `<div>` or a `<details>`, `harness` as prose on
+  the help screen, a term reaching a screen through a `placeholder` or an `aria-label`, a declared action
+  renamed only for a screen reader or duplicated inside a dialog, contrast broken in the dialog and the
+  sidebar, and the window losing the stated cause of its own worst failure.
+- **Contrast, heading order, keyboard reach, accessible names and the vocabulary rule on 29 screens**, each
+  reporting a non-zero denominator so a vacuous pass is refused. This found four real, pre-existing defects:
+  Inicio, the folder step and the project screen all jumped from `h1` to `h3`, and four navigation entries
+  broke mid-word at the minimum viewport.
 
 ## What it does not demonstrate
 
@@ -60,11 +65,25 @@ Ten native stages stay unverified with their cause — the same ten as the archi
 source into the installed tree is not a release: no installer was rebuilt, nothing was published, and the
 core stays at 0.5.0. Nobody used the interface by hand.
 
-## The review
+## Two independent reviews, both FAIL, both resolved
 
-An independent adversarial review returned **FAIL — 1 blocker, 5 majors, 8 minors**. The blocker was
-Inicio's own opening sentence: it claimed the AI would understand your work from the first question, which
-this project measured as a **tie** (15/15 against 15/15) and whose evidence page lists as not measured. That
-sentence is gone and a test refuses nine families of that claim. Every blocker and major is resolved and
-every minor addressed; `evidence/independent-review.md` keeps the verdict and everything that was wrong,
-followed by what was done about each one.
+The first returned **FAIL — 1 blocker, 5 majors, 8 minors**. The blocker was Inicio's own opening sentence:
+it claimed the AI would understand your work from the first question, which this project measured as a
+**tie** (15/15 against 15/15) and whose evidence page lists as not measured. That sentence is gone, and it is
+now pinned to its exact reviewed text so it can only change on purpose.
+
+A second independent session then re-verified that resolution and returned **FAIL — 6 more majors, 6 more
+minors**, because two of the widest claims were only partly true: a glossary word could still reach a screen
+with no control for it through a `placeholder`, an `aria-label` or a class that also styled interface prose,
+and a declared action could still be offered under a second name through a form submit, inside a dialog, or
+through an `aria-label`. All six routes are closed. It also found three mutations "detected" by a harness
+timeout rather than by their own probe, a record naming a commit that did not contain the bytes it measured,
+a published test count that was computed instead of read, and a debt classification shaped to the budget.
+
+That last one is worth naming: refiling it honestly took the plan to **7 of 5 units and paused it**. The
+pause was correct. One item was resolved by doing the work, two were refuted as double-counts of a finding
+the registry already held, and one was refuted by reading the criterion instead of a broadened version of it.
+The plan is back to 4 of 5 with every step argued.
+
+`evidence/independent-review.md` keeps both verdicts and everything that was wrong, each followed by what
+was done about it.
