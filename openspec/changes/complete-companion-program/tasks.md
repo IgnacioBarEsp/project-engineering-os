@@ -12,7 +12,10 @@
 - [x] 2.3 Run five native profile journeys and persistence with original hashes preserved. Five profiles
       through the installed window, 0 findings, citations resolved against the files on disk
       (`evidence/native-journeys.json`, `npm run evidence:native`).
-- [ ] 2.4 Observe trusted local launches with the synthetic folder.
+- [x] 2.4 Observe trusted local launches with the synthetic folder. Cursor launched against a folder whose
+      name holds a space and an ampersand; all three verified applications refuse a recorded identity that
+      no longer matches their bytes (`evidence/local-launches.json`, `npm run evidence:launches`). The
+      installed artifact predates Antigravity support, so verifying that needs 3.3 first.
 
 ## 3. Evaluation and delivery
 - [x] 3.1 Freeze and execute paired model experiment; keep prompts, responses, usage and failures.

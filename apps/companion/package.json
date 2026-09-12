@@ -22,6 +22,7 @@
     "pack:verify": "node scripts/verify-app-artifact.mjs",
     "evidence:journeys": "node scripts/verify-journeys.mjs",
     "evidence:native": "node scripts/verify-native-journeys.mjs",
+    "evidence:launches": "node scripts/verify-local-launches.mjs",
     "evidence:benchmark": "node scripts/verify-benchmark.mjs",
     "evidence:landing": "node scripts/verify-landing.mjs"
   },

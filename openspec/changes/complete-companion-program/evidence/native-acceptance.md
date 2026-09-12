@@ -107,9 +107,39 @@ The run uses the application's own isolated data directory, so it never touches 
 whoever is using this machine. Earlier iterations of this script produced ten findings before the selectors
 matched the real interface, which is the evidence that it can fail rather than pass by construction.
 
+## Opening a project in a local application
+
+`local-launches.json`, reproducible with `npm run evidence:launches`. Launching puts a window on someone's
+screen, so it is opt-in: without `--launch` the check verifies recognition and every refusal path and opens
+nothing.
+
+Against the applications really installed here, with nothing injected:
+
+| Agent | Result | Refuses a changed identity |
+| --- | --- | --- |
+| Codex | verified, OpenAI OpCo, LLC | yes |
+| Cursor | verified, Anysphere, Inc. | yes |
+| Visual Studio Code | verified, Microsoft Corporation | yes |
+| Antigravity | **the installed artifact does not offer it yet** | — |
+
+"Refuses a changed identity" is checked against the real signed application: the recorded identity is
+altered and `open` must fail with `APP_CHANGED` rather than launch. All three refuse.
+
+One launch was observed. Cursor received a folder deliberately named with a space and an ampersand — if the
+path were ever passed through a shell, that is where it would break — and the process count went from 0 to
+1. The result reports `projectAttached: true` and `agentReadProject: false`: handing a folder to an editor
+is not evidence that an assistant read it, and the record refuses to imply otherwise.
+
+**A gap this check found.** Antigravity is installed on this machine and this working tree recognises it,
+but the installed artifact was built before that change, so it reports the agent as absent. Reporting that
+as "not installed" would have hidden the difference, so the record separates *not on this machine* from
+*not offered by the installed build*. Verifying Antigravity natively needs a new artifact first, which is
+task 3.3.
+
 ## What this does not cover yet
 
 The installer's own wizard pages are still unexercised: reaching them means running the installer, and its
 security prompts need a person for the same reason the folder picker does. Trusted local launches have not
-been observed against a synthetic folder. No paired model measurement has been run, and no public release
-or landing deployment exists yet. Those remain open tasks in this change, not satisfied ones.
+No public release or landing deployment exists yet, and no artifact has been built from the current tree,
+so nothing native exercises Antigravity, the interview answer that this change added. Those remain open
+tasks here, not satisfied ones.
