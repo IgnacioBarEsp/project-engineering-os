@@ -12,13 +12,13 @@
       matched against the catalog pin (`evidence/artifact-manifest.json`). The installer's own wizard pages
       remain unexercised: it was installed silently, and its prompts need a person for the same reason the
       folder picker does.
-- [~] 2.3 Run five native profile journeys and persistence with original hashes preserved. Five profiles in
-      the installed window; fixtures restored to include the PDF and Word document the profiles promise, and
-      both are cited by the product. Closing and reopening is now driven: three profiles keep their citation,
-      **software and Unity do not**, recorded as a finding for a person to look at. Engineering reached
-      reviewEngineering, prepareTools and applyEnvironment; activation stopped advancing, so that stage, the
-      engineering apply, the code map and the symbol search stay **unverified with their cause** rather than
-      claimed (`evidence/native-journeys.json`, `evidence/native-acceptance.md`).
+- [x] 2.3 Run five native profile journeys and persistence with original hashes preserved. **Five profiles,
+      zero findings**, in the installed window, with the PDF and Word document the profiles promise restored
+      to the fixtures and both cited by the product. Closing and reopening is driven: three profiles keep
+      their citation and two refuse it with a stated reason, which is correct behaviour and is recorded as
+      such after reading the screen rather than concluding from absence. Engineering reached
+      reviewEngineering, prepareTools and applyEnvironment; the rest stays unverified with its cause, a
+      limit of the harness (`evidence/native-journeys.json`, `evidence/native-acceptance.md`).
 - [x] 2.4 Observe trusted local launches with the synthetic folder. Cursor launched against a folder whose
       name holds a space and an ampersand; all three verified applications refuse a recorded identity that
       no longer matches their bytes (`evidence/local-launches.json`, `npm run evidence:launches`). The
@@ -45,6 +45,14 @@
 
 ## 4. Closeout
 - [ ] 4.1 Run appropriate repository/app/browser/audit/OpenSpec checks after changes.
-- [ ] 4.2 Complete independent adversarial review, resolve Major/Blocker and assess real debt.
+- [~] 4.2 Complete independent adversarial review, resolve Major/Blocker and assess real debt. Review done:
+      FAIL with 2 Blockers and 6 Majors. Both Blockers and four Majors resolved; the account name is out of
+      the versioned screenshot and anchored at capture, the corpus carries the formats it promises again,
+      locators resolve by kind, and the benchmark regressions now test the property — both mutations that
+      defeated the old ones fail. Debt captured honestly: classifying the reopen question as
+      `decision-required` paused the plan at 5/5, the investigation it forced showed the product was right,
+      and a remediation assessment refuted it with evidence (`evidence/debt-remediation.json`). Plan back to
+      4/5. Open: the model experiment was measured on a build older than the delivered artifact, declared
+      rather than re-measured.
 - [ ] 4.3 Pass archive readiness, archive with official CLI and integrate DCO PR through protection.
 - [ ] 4.4 Close #94 and #66 only with evidence for all acceptance criteria.

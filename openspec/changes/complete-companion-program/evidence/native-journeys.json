@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-12T04:06:26.398Z",
+  "date": "2026-09-12T04:38:21.218Z",
   "application": {
     "version": "0.1.0",
     "root": "<localappdata>/Programs/Project Engineering OS/resources/app"
@@ -75,7 +75,7 @@
           }
         }
       ],
-      "elapsedMs": 10590
+      "elapsedMs": 10605
     },
     {
       "profile": "software",
@@ -127,8 +127,15 @@
               "applyEnvironment",
               "activateWorkflows",
               "activateWorkflows",
+              "activateWorkflows",
               "activateWorkflows"
             ]
+          }
+        },
+        {
+          "name": "context refused after reopen, with reason",
+          "result": {
+            "explained": true
           }
         },
         {
@@ -155,7 +162,7 @@
           }
         }
       ],
-      "elapsedMs": 75548
+      "elapsedMs": 68294
     },
     {
       "profile": "unity",
@@ -207,8 +214,15 @@
               "applyEnvironment",
               "activateWorkflows",
               "activateWorkflows",
+              "activateWorkflows",
               "activateWorkflows"
             ]
+          }
+        },
+        {
+          "name": "context refused after reopen, with reason",
+          "result": {
+            "explained": true
           }
         },
         {
@@ -235,7 +249,7 @@
           }
         }
       ],
-      "elapsedMs": 75628
+      "elapsedMs": 68288
     },
     {
       "profile": "media",
@@ -294,7 +308,7 @@
           }
         }
       ],
-      "elapsedMs": 10493
+      "elapsedMs": 10264
     },
     {
       "profile": "general",
@@ -353,41 +367,30 @@
           }
         }
       ],
-      "elapsedMs": 10563
+      "elapsedMs": 10387
     }
   ],
-  "findings": [
-    {
-      "profile": "software",
-      "stage": "reopen",
-      "detail": "tras cerrar y reabrir, la búsqueda dejó de devolver una cita"
-    },
-    {
-      "profile": "unity",
-      "stage": "reopen",
-      "detail": "tras cerrar y reabrir, la búsqueda dejó de devolver una cita"
-    }
-  ],
+  "findings": [],
   "unverified": [
     {
       "profile": "software",
       "stage": "activateWorkflows",
-      "cause": "el control siguió en pantalla tras accionarlo tres veces; no se distingue desde aquí si la etapa no completó o si necesita un paso que esta automatización no da"
+      "cause": "el control siguió en pantalla y la interfaz explicó: \"Preparación local · Sin cuenta PREPARACIÓN / MÉTODO DE TRABAJO Privacidad y alcance Vuelve a revisar los cambios antes de aplicarlos.\""
     },
     {
       "profile": "software",
       "stage": "applyEngineering",
-      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Tus proyectos ↗ | Preparar una carpeta ＋ | Privacidad y alcance | Ver estado | Preparar solo el contexto | Activar y continuar  →"
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Tus proyectos ↗ | Preparar una carpeta ＋ | Privacidad y alcance | Ver estado | Preparar solo el contexto | Activar y continuar  →"
     },
     {
       "profile": "software",
       "stage": "reviewCodeMap",
-      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Tus proyectos ↗ | Preparar una carpeta ＋ | Privacidad y alcance | Ver estado | Preparar solo el contexto | Activar y continuar  →"
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Tus proyectos ↗ | Preparar una carpeta ＋ | Privacidad y alcance | Ver estado | Preparar solo el contexto | Activar y continuar  →"
     },
     {
       "profile": "software",
       "stage": "buildCodeMap",
-      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Tus proyectos ↗ | Preparar una carpeta ＋ | Privacidad y alcance | Ver estado | Preparar solo el contexto | Activar y continuar  →"
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Tus proyectos ↗ | Preparar una carpeta ＋ | Privacidad y alcance | Ver estado | Preparar solo el contexto | Activar y continuar  →"
     },
     {
       "profile": "software",
@@ -397,22 +400,22 @@
     {
       "profile": "unity",
       "stage": "activateWorkflows",
-      "cause": "el control siguió en pantalla tras accionarlo tres veces; no se distingue desde aquí si la etapa no completó o si necesita un paso que esta automatización no da"
+      "cause": "el control siguió en pantalla y la interfaz explicó: \"Preparación local · Sin cuenta PREPARACIÓN / MÉTODO DE TRABAJO Privacidad y alcance Vuelve a revisar los cambios antes de aplicarlos.\""
     },
     {
       "profile": "unity",
       "stage": "applyEngineering",
-      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Tus proyectos ↗ | Preparar una carpeta ＋ | Privacidad y alcance | Ver estado | Preparar solo el contexto | Activar y continuar  →"
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Tus proyectos ↗ | Preparar una carpeta ＋ | Privacidad y alcance | Ver estado | Preparar solo el contexto | Activar y continuar  →"
     },
     {
       "profile": "unity",
       "stage": "reviewCodeMap",
-      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Tus proyectos ↗ | Preparar una carpeta ＋ | Privacidad y alcance | Ver estado | Preparar solo el contexto | Activar y continuar  →"
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Tus proyectos ↗ | Preparar una carpeta ＋ | Privacidad y alcance | Ver estado | Preparar solo el contexto | Activar y continuar  →"
     },
     {
       "profile": "unity",
       "stage": "buildCodeMap",
-      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Tus proyectos ↗ | Preparar una carpeta ＋ | Privacidad y alcance | Ver estado | Preparar solo el contexto | Activar y continuar  →"
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Tus proyectos ↗ | Preparar una carpeta ＋ | Privacidad y alcance | Ver estado | Preparar solo el contexto | Activar y continuar  →"
     },
     {
       "profile": "unity",
@@ -426,7 +429,7 @@
   "screenshotPathAnchored": true,
   "summary": {
     "profiles": 5,
-    "findings": 2,
+    "findings": 0,
     "unverified": 10,
     "scope": "Cada perfil abierto y recorrido en la ventana de la aplicación instalada. El motor de la propia aplicación hizo dos pasos, elegir carpeta y aplicar la base, porque no se llega a ellos sin responder el selector del sistema. Contexto, búsqueda con cita, reflujo y conservación de archivos se comprobaron en la interfaz. No demuestra el asistente del instalador."
   }

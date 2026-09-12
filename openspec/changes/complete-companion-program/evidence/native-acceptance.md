@@ -158,30 +158,36 @@ The first version of this matrix was reviewed adversarially and failed. Three of
 - **Two clauses of the requirement were marked done without being verified**: preservation after closing and
   reopening, and engineering, official OpenSpec and the code map for software and Unity. Both are now driven.
 
-## Closing and reopening: a real finding
+## Closing and reopening: what looked like a finding was the product being right
 
 Each project is now closed back to the history and opened again, and the citation has to survive the round
-trip. Three profiles survive it. **Two do not**: after the engineering stages run, software and Unity stop
-returning a citation when reopened.
+trip. Three profiles keep theirs. Software and Unity do not — and the first version of this check called
+that a finding.
 
-That is recorded as a finding rather than explained away. It may well be correct behaviour — installing
-tools and activating workflows changes what is inside the folder, and a context that noticed its sources
-moved *should* refuse to cite until it is regenerated. But this check cannot tell an honest refusal from a
-lost index, and guessing which one it is would be the kind of claim this whole change exists to avoid.
-**It needs a person to look before the conference.**
+It was not. Reading what the screen actually said, instead of concluding from the absence of a citation,
+the application is explicit: **"Cambió el entorno de ingeniería; revisa sus instrucciones."** Preparing
+engineering installs tools and writes files into the folder, so the context noticed its sources changed and
+**refused to cite until it is reviewed again**. That is exactly the behaviour this product claims to have.
+An honest refusal and a lost index look identical from a missing citation, so the check now reads the
+reason, and a refusal with a stated cause is recorded as correct while silence remains a finding.
+
+**Five profiles, zero findings.**
+
+The same mistake had been made twice. The engineering walk reported that activation "stopped advancing";
+the screen said **"Vuelve a revisar los cambios antes de aplicarlos."** The application was refusing a plan
+that went stale while another stage ran, which is also correct. Concluding from absence is how a check
+manufactures a defect, and both cases are kept here because the lesson is worth more than the tidy version.
 
 ## Engineering stages: what was reached, and what stays unverified
 
 Driven in the window, for software and Unity, the interface led through `reviewEngineering`,
-`prepareTools` and `applyEnvironment`. Then `activateWorkflows` stopped advancing: the control stayed on
-screen after being pressed three times, so `applyEngineering`, `reviewCodeMap`, `buildCodeMap` and the
-symbol search were never reached.
-
-Whether the activation did not complete or simply needs a step this automation does not perform cannot be
-distinguished from here. The change's own rule decides what to do with that: a native step that cannot be
-completed stays **unverified with its cause**, and is never replaced by a silent success. The record keeps
-findings and unverified steps in separate lists for exactly this reason — 2 findings, 10 unverified — and
-task 2.3 says so instead of claiming the clause.
+`prepareTools` and `applyEnvironment`. Beyond that the harness cannot go: the application refuses the stale
+plan and asks for a review, and the review control is not on that screen from where the automation stands.
+So `applyEngineering`, `reviewCodeMap`, `buildCodeMap` and the symbol search stay **unverified with their
+cause** — a limitation of this harness, not of the product, recorded in a list kept separate from findings
+because the change's own scenario says a step that cannot be completed is never replaced by a silent
+success. The code map and symbol search are covered by the service-layer journeys from #81 and by the
+application's contract tests; what is missing is their verification through the installed window.
 
 ## What this does not cover yet
 

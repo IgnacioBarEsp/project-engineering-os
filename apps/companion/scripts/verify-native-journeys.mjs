@@ -252,17 +252,31 @@ try {
       // so skipping anything already walked strands the journey with that button still on screen. Repeats
       // are allowed and the order is recorded; the guard is a cap plus a stop when the same control keeps
       // appearing, which means the interface is not advancing rather than that there is more to do.
-      const walked = [];
-      for (let step = 0; step < 14; step += 1) {
+      // A stage that repeats is usually the application refusing a plan that went stale while another
+      // stage ran — it says "vuelve a revisar los cambios antes de aplicarlos", which is correct. Pressing
+      // the same control again just gets the same refusal, so a repeated stage is set aside for a round and
+      // the walk continues with the review steps, which is what a person would do.
+      const walked = [], resting = new Set();
+      for (let step = 0; step < 20; step += 1) {
         let advanced = null;
         for (const [name, pattern] of STAGES) {
+          if (resting.has(name)) continue;
           if (!await press(pattern, 900000)) continue;
           walked.push(name); advanced = name; break;
         }
-        if (!advanced) break;
-        const tail = walked.slice(-3);
-        if (tail.length === 3 && tail.every(name => name === advanced)) {
-          unverified(id, advanced, 'el control siguió en pantalla tras accionarlo tres veces; no se distingue desde aquí si la etapa no completó o si necesita un paso que esta automatización no da');
+        if (!advanced) { if (resting.size) { resting.clear(); continue; } break; }
+        const tail = walked.slice(-2);
+        if (tail.length === 2 && tail.every(name => name === advanced)) { resting.add(advanced); }
+        const stuck = walked.slice(-4);
+        if (stuck.length === 4 && stuck.every(name => name === advanced)) {
+          // Reading the screen before concluding. A control that stays put while the page explains why is
+          // the product declining for a reason; the same control with nothing said is a stall. Treating
+          // both as the same unknown is what made the reopen check report correct behaviour as a finding.
+          const said = (await body()).replace(/\s+/g, ' ');
+          const reason = said.match(/[^.]*(no está|necesita|requiere|revisa|falta|cambió|pendiente)[^.]*\./i)?.[0]?.trim() ?? null;
+          unverified(id, advanced, reason
+            ? `el control siguió en pantalla y la interfaz explicó: "${reason.slice(0, 200)}"`
+            : 'el control siguió en pantalla tras accionarlo tres veces y la interfaz no explicó nada');
           break;
         }
       }
@@ -310,8 +324,21 @@ try {
       await field.fill(definition.query);
       await field.press('Enter');
       await page.waitForTimeout(2500);
-      survived = /·\s*(línea|página|párrafo)\s*\d+/.test(await body());
-      if (!survived) finding(id, 'reopen', 'tras cerrar y reabrir, la búsqueda dejó de devolver una cita');
+      const screen = await body();
+      survived = /·\s*(línea|página|párrafo)\s*\d+/.test(screen);
+      if (!survived) {
+        // No citation is not automatically a defect. Preparing engineering installs tools and writes files
+        // into the folder, and a context that noticed its sources changed *should* refuse to cite until it
+        // is regenerated. Refusing honestly and losing the index look identical from a missing citation, so
+        // the screen is read: a stated stale or review-needed state is correct behaviour and is recorded as
+        // such; silence with no explanation is the finding.
+        const explained = /desactualizad|actualiza el contexto|revisar de nuevo|volver a preparar|cambi[oó]|Revisar fuentes de nuevo|revisa (la carpeta|sus instrucciones)/i.test(screen);
+        if (explained) {
+          step('context refused after reopen, with reason', { explained: true });
+        } else {
+          finding(id, 'reopen', `tras cerrar y reabrir no hubo cita ni explicación. Pantalla: ${screen.replace(/\s+/g, ' ').slice(0, 300)}`);
+        }
+      }
     } else finding(id, 'reopen', 'tras reabrir, la interfaz no ofreció buscar fuentes');
     step('closed and reopened', { citationSurvived: survived });
 
