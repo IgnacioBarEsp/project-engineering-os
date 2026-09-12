@@ -35,17 +35,20 @@
 - [x] 3.2 Review current visual references and correct public state documentation. Two live Sites of the
       Day observed, nothing imported (`evidence/visual-review.md`); the landing no longer claims every
       release publishes its checksum when no release exists.
-- [~] 3.3 Build and verify clean-commit EXE and publish Companion release and landing. Built from clean
-      commit 9db2689 and verified PASS (`evidence/artifact-manifest.json`, `SHA256SUMS`): 133 229 173 bytes,
-      sha256 926cfc1e, bundled npm matching its pin, signed:false reported honestly. **Publishing the
-      release is not published yet**. The maintainer authorised publishing the release, deploying the landing
-      and installing the build; the artifact is built and verified and the landing workflow is in place, and
-      publication follows the merge so the released manifest names a commit reachable from `main`.
-- [ ] 3.4 Verify public download hashes and live landing behavior.
+- [x] 3.3 Build and verify clean-commit EXE and publish Companion release and landing. Built from the merge
+      commit `4b863af`, verified PASS, and published as `companion-v0.1.0` with its checksum and manifest.
+      The landing deployed to GitHub Pages by its own workflow (`evidence/public-delivery.md`).
+- [x] 3.4 Verify public download hashes and live landing behavior. The released asset was downloaded from
+      the network and re-hashed: `7ee11c66…`, matching `SHA256SUMS`, the manifest and the byte count, with
+      the observed signature `NotSigned` matching what the manifest declares. The live page answers 200 at
+      13 728 bytes, byte-identical to the deployed `site/index.html`. Publishing made the page's "no release
+      yet" sentence false within the hour; it now names the release and its unsigned status.
 
 ## 4. Closeout
-- [ ] 4.1 Run appropriate repository/app/browser/audit/OpenSpec checks after changes.
-- [~] 4.2 Complete independent adversarial review, resolve Major/Blocker and assess real debt. Review done:
+- [x] 4.1 Run appropriate repository/app/browser/audit/OpenSpec checks after changes. `npm test` 78/78,
+      `npm run check` 304/304, five browser journeys, `openspec validate --all --strict` 19/19, docs,
+      neutrality and audit PASS, and `debt check` PASS at 4/5.
+- [x] 4.2 Complete independent adversarial review, resolve Major/Blocker and assess real debt. Review done:
       FAIL with 2 Blockers and 6 Majors. Both Blockers and four Majors resolved; the account name is out of
       the versioned screenshot and anchored at capture, the corpus carries the formats it promises again,
       locators resolve by kind, and the benchmark regressions now test the property — both mutations that
@@ -54,5 +57,10 @@
       and a remediation assessment refuted it with evidence (`evidence/debt-remediation.json`). Plan back to
       4/5. Open: the model experiment was measured on a build older than the delivered artifact, declared
       rather than re-measured.
-- [ ] 4.3 Pass archive readiness, archive with official CLI and integrate DCO PR through protection.
-- [ ] 4.4 Close #94 and #66 only with evidence for all acceptance criteria.
+- [x] 4.3 Pass archive readiness, archive with official CLI and integrate DCO PR through protection. Two
+      protected pull requests: the work itself, then this archive, because publication had to follow the
+      merge for the released manifest to name a reachable commit.
+- [x] 4.4 Close #94 and #66 only with evidence for all acceptance criteria, and only for the criteria the
+      evidence actually carries. What it does not carry is named in the issues rather than implied: the
+      installer's own wizard pages and the folder picker need a person, and the native window does not
+      exercise activation, engineering apply or the code map.
