@@ -15,7 +15,11 @@
 - [ ] 2.4 Observe trusted local launches with the synthetic folder.
 
 ## 3. Evaluation and delivery
-- [ ] 3.1 Freeze and execute paired model experiment; keep prompts, responses, usage and failures.
+- [x] 3.1 Freeze and execute paired model experiment; keep prompts, responses, usage and failures.
+      Six real v2 trials: tied 15/15 grounded answers and 15/15 abstentions per condition; prepared slower
+      (9.597 s median vs 8.427 s). See `evidence/model-experiment.md` and the six raw run records.
+      Outside this measurement: new questions/models, model snapshot identity, controlled provider cache,
+      billing savings and generalised quality; one abstention question has a numeric-format limitation.
 - [ ] 3.2 Review current visual references and correct public state documentation.
 - [ ] 3.3 Build and verify clean-commit EXE and publish Companion release and landing.
 - [ ] 3.4 Verify public download hashes and live landing behavior.

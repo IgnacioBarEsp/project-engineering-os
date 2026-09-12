@@ -1,0 +1,161 @@
+{
+  "order": 4,
+  "repetition": 2,
+  "condition": "full",
+  "elapsedMs": 8799.621,
+  "contextBytes": 9349,
+  "usage": {
+    "input_tokens": 14482,
+    "cached_input_tokens": 13824,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 284,
+    "reasoning_output_tokens": 0
+  },
+  "response": {
+    "answers": [
+      {
+        "id": "research-known",
+        "answer": "47",
+        "citation": "investigacion.md:L2",
+        "quote": "El grupo de control incluye 47 participantes.",
+        "abstain": false
+      },
+      {
+        "id": "research-unknown",
+        "answer": "",
+        "citation": "",
+        "quote": "",
+        "abstain": true
+      },
+      {
+        "id": "software-known",
+        "answer": "7",
+        "citation": "software.md:L2",
+        "quote": "El limite de reintentos es 7.",
+        "abstain": false
+      },
+      {
+        "id": "software-unknown",
+        "answer": "",
+        "citation": "",
+        "quote": "",
+        "abstain": true
+      },
+      {
+        "id": "unity-known",
+        "answer": "11",
+        "citation": "videojuego.md:L2",
+        "quote": "La velocidad maxima del personaje es 11 metros por segundo.",
+        "abstain": false
+      },
+      {
+        "id": "unity-unknown",
+        "answer": "",
+        "citation": "",
+        "quote": "",
+        "abstain": true
+      },
+      {
+        "id": "creative-known",
+        "answer": "23",
+        "citation": "creacion.md:L2",
+        "quote": "La entrega usa 23 fotogramas por segundo.",
+        "abstain": false
+      },
+      {
+        "id": "creative-unknown",
+        "answer": "",
+        "citation": "",
+        "quote": "",
+        "abstain": true
+      },
+      {
+        "id": "general-known",
+        "answer": "37",
+        "citation": "trabajo.md:L2",
+        "quote": "La tarifa acordada es 37 unidades por hora.",
+        "abstain": false
+      },
+      {
+        "id": "general-unknown",
+        "answer": "",
+        "citation": "",
+        "quote": "",
+        "abstain": true
+      }
+    ]
+  },
+  "scores": [
+    {
+      "id": "research-known",
+      "correct": true,
+      "supported": true,
+      "unsupportedAnswer": false,
+      "appropriateAbstention": false
+    },
+    {
+      "id": "research-unknown",
+      "correct": true,
+      "supported": true,
+      "unsupportedAnswer": false,
+      "appropriateAbstention": true
+    },
+    {
+      "id": "software-known",
+      "correct": true,
+      "supported": true,
+      "unsupportedAnswer": false,
+      "appropriateAbstention": false
+    },
+    {
+      "id": "software-unknown",
+      "correct": true,
+      "supported": true,
+      "unsupportedAnswer": false,
+      "appropriateAbstention": true
+    },
+    {
+      "id": "unity-known",
+      "correct": true,
+      "supported": true,
+      "unsupportedAnswer": false,
+      "appropriateAbstention": false
+    },
+    {
+      "id": "unity-unknown",
+      "correct": true,
+      "supported": true,
+      "unsupportedAnswer": false,
+      "appropriateAbstention": true
+    },
+    {
+      "id": "creative-known",
+      "correct": true,
+      "supported": true,
+      "unsupportedAnswer": false,
+      "appropriateAbstention": false
+    },
+    {
+      "id": "creative-unknown",
+      "correct": true,
+      "supported": true,
+      "unsupportedAnswer": false,
+      "appropriateAbstention": true
+    },
+    {
+      "id": "general-known",
+      "correct": true,
+      "supported": true,
+      "unsupportedAnswer": false,
+      "appropriateAbstention": false
+    },
+    {
+      "id": "general-unknown",
+      "correct": true,
+      "supported": true,
+      "unsupportedAnswer": false,
+      "appropriateAbstention": true
+    }
+  ],
+  "failure": null
+}

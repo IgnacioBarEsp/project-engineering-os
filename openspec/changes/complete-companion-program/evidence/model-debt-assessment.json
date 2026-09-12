@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "flow": "complete-companion-program",
+  "date": "2026-09-12",
+  "kind": "feature",
+  "result": "debt",
+  "candidates": [
+    {
+      "title": "Una pregunta de abstención no numérica queda condicionada por la instrucción numérica global",
+      "artifact": "openspec/changes/complete-companion-program/evidence/protocol.json",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "evidence": [{"type":"test","ref":"openspec/changes/complete-companion-program/evidence/model-review.md","date":"2026-09-12"}],
+      "verification": {"method":"Revisión independiente del protocolo y rescoring de los seis ensayos; publicación separada de q02 y de las cuatro preguntas numéricas sin respuesta.","result":"Limitación confirmada y declarada; un protocolo futuro puede usar solo preguntas numéricas sin alterar esta medición.","date":"2026-09-12"}
+    },
+    {
+      "title": "El fixture contiene mucho relleno repetitivo y consultas lexicales elegidas previamente",
+      "artifact": "openspec/changes/complete-companion-program/evidence/protocol.json",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "evidence": [{"type":"test","ref":"openspec/changes/complete-companion-program/evidence/model-review.md","date":"2026-09-12"}],
+      "verification": {"method":"Reconstrucción independiente del corpus: 90 de 105 líneas son registro auxiliar; inspección de las consultas fijadas antes de inferir.","result":"Limitación confirmada y declarada; se conserva el empate y la latencia desfavorable a prepared sin generalizar a búsqueda convencional.","date":"2026-09-12"}
+    }
+  ]
+}
