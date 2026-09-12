@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "flow": "complete-companion-program-remediation",
+  "date": "2026-09-11",
+  "kind": "remediation",
+  "result": "debt",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/native-journeys.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Se leyó lo que la interfaz responde en cada rechazo en vez de concluir por la ausencia de una cita: dice 'Cambió el entorno de ingeniería; revisa sus instrucciones' al reabrir, y 'Vuelve a revisar los cambios antes de aplicarlos' en la activación. Ambos son rechazos honestos con causa, no pérdidas de estado. Recorridos reejecutados: cinco perfiles, cero hallazgos.",
+        "result": "refutado",
+        "date": "2026-09-11"
+      },
+      "title": "Tras cerrar y reabrir, software y Unity dejan de devolver cita, y la activación no avanza: falta decidir si es correcto o un defecto",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "source": "adversarial-review",
+      "category": "false-positive",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/native-acceptance.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "El arnés acciona el control de activación, la aplicación rechaza el plan obsoleto con su causa, y el control de revisión no está en esa pantalla. El mapa de código y la búsqueda de símbolos sí están cubiertos por los recorridos de capa de servicio de #81 y por las pruebas de contrato de la aplicación.",
+        "result": "medido",
+        "date": "2026-09-11"
+      },
+      "title": "El arnés nativo no completa activación, ingeniería ni mapa de código en la ventana instalada",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    }
+  ]
+}

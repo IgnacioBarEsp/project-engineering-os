@@ -1,0 +1,55 @@
+{
+  "date": "2026-09-12T04:23:41.695Z",
+  "application": {
+    "version": "0.1.0",
+    "root": "<localappdata>/Programs/Project Engineering OS/resources/app"
+  },
+  "machine": "win32-x64",
+  "syntheticFolder": "<localappdata>/Temp/companion-launch-h98yKo/carpeta sintetica & literal",
+  "launched": "ninguna (usa --launch <agente> para abrir una)",
+  "applications": [
+    {
+      "agent": "codex",
+      "label": "Codex",
+      "installed": true,
+      "verified": true,
+      "publisher": "OpenAI OpCo, LLC",
+      "executable": "<localappdata>/OpenAI/Codex/bin/7ac07f4ce733f89a/codex.exe",
+      "refusesChangedIdentity": true
+    },
+    {
+      "agent": "cursor",
+      "label": "Cursor",
+      "installed": true,
+      "verified": true,
+      "publisher": "Anysphere, Inc.",
+      "executable": "<localappdata>/Programs/cursor/Cursor.exe",
+      "refusesChangedIdentity": true
+    },
+    {
+      "agent": "github-copilot",
+      "label": "Visual Studio Code",
+      "installed": true,
+      "verified": true,
+      "publisher": "Microsoft Corporation",
+      "executable": "<localappdata>/Programs/Microsoft VS Code/Code.exe",
+      "refusesChangedIdentity": true
+    },
+    {
+      "agent": "antigravity",
+      "label": "Antigravity",
+      "installed": true,
+      "verified": false,
+      "code": "APP_UNTRUSTED",
+      "message": "<home>/Documents/Projects/project-engineering-os/apps/companion/La firma o el editor de la aplicación no se pudo verificar."
+    }
+  ],
+  "findings": [],
+  "summary": {
+    "installed": 4,
+    "verified": 3,
+    "refused": 1,
+    "findings": 0,
+    "scope": "Reconocimiento, verificación de firma y editor, y las rutas de rechazo sobre las aplicaciones realmente instaladas. Una sola apertura, contra una carpeta sintética, cuando se pide con --launch. Abrir una carpeta no demuestra que la IA la haya leído, y el registro lo dice."
+  }
+}

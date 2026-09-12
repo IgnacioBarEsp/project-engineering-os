@@ -97,6 +97,7 @@ try {
     await click(page,'Preparar contexto para compartir');await click(page,'Copiar este contexto');assert.equal(copied.length,1);assert(copied[0].includes('notes.txt'));assert.equal(opened.length,0);
     await click(page,'Recetas');await page.locator('.recipe').first().waitFor();assert.equal(await page.locator('.recipe').count(),3);
     await click(page,'Continuar con mi IA');await click(page,'Abrir ChatGPT u otro chat web ↗');await page.getByRole('dialog').waitFor();
+    assert(!/^(null|undefined)$/m.test(await page.getByRole('dialog').innerText()),'Absent optional handoff content must not render as literal text');
     const shown=await page.getByLabel('Instrucción inicial').innerText();await click(page,'Copiar instrucción y abrir');assert.equal(copied[1],shown);assert.equal(opened.length,1);
     await click(page,'Tus proyectos');await click(page,'Abrir →');await heading(page,name);
     for(const width of [1180,768,480,240]){await page.setViewportSize({width,height:width===240?410:820});await noOverflow(page,`${profile} ${width}px`);}

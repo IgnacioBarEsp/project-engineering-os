@@ -7,8 +7,15 @@ import path from 'node:path';
 import { canonicalFolder, fail } from '../engine/files.mjs';
 
 const exec = promisify(execFile);
-const publishers = { codex: ['OpenAI OpCo, LLC','OpenAI, L.L.C.'], cursor: ['Anysphere, Inc.'], 'github-copilot': ['Microsoft Corporation'] };
-const labels = { codex: 'Codex', cursor: 'Cursor', 'github-copilot': 'Visual Studio Code' };
+const publishers = { codex: ['OpenAI OpCo, LLC','OpenAI, L.L.C.'], cursor: ['Anysphere, Inc.'], 'github-copilot': ['Microsoft Corporation'],
+  antigravity: ['Google LLC'] };
+const labels = { codex: 'Codex', cursor: 'Cursor', 'github-copilot': 'Visual Studio Code', antigravity: 'Antigravity' };
+// Recognising an application is not the same as knowing how to hand it a folder. Antigravity is listed so
+// that a person who uses it is told whether it is installed and whether its publisher checks out, and it
+// is deliberately never launched: this repository has not verified how its build opens a project, and
+// guessing an argument would be claiming a capability nobody here observed. Remove an entry from this set
+// only once a folder-open contract is verified the way Codex's is.
+const noVerifiedFolderContract = new Set(['antigravity']);
 function cleanEnvironment(system) {
   const allow = new Set(['systemroot','windir','systemdrive','userprofile','appdata','localappdata','temp','tmp','programfiles','programfiles(x86)','programdata','username','userdomain','homedrive','homepath','comspec']);
   return Object.fromEntries(Object.entries(system).filter(([key]) => allow.has(key.toLowerCase())));
@@ -38,6 +45,7 @@ export function createLocalAppLauncher({ system = process.env, platform = proces
     const local = system.LOCALAPPDATA, program = system.ProgramFiles ?? system.PROGRAMFILES;
     if (agent === 'cursor') return [local && path.join(local,'Programs','cursor','Cursor.exe'),program && path.join(program,'cursor','Cursor.exe')].filter(Boolean).map(executable=>({executable}));
     if (agent === 'github-copilot') return [local && path.join(local,'Programs','Microsoft VS Code','Code.exe'),program && path.join(program,'Microsoft VS Code','Code.exe')].filter(Boolean).map(executable=>({executable}));
+    if (agent === 'antigravity') return [local && path.join(local,'Programs','antigravity','Antigravity.exe'),program && path.join(program,'antigravity','Antigravity.exe')].filter(Boolean).map(executable=>({executable}));
     if (agent !== 'codex' || !program) return [];
     const data = JSON.parse((await ps("@(Get-AppxPackage -Name OpenAI.Codex | Select-Object -ExpandProperty InstallLocation) | ConvertTo-Json -Compress")) || '[]');
     const packages=(Array.isArray(data)?data:[data]).filter(p=>typeof p==='string' && path.dirname(p).toLowerCase()===path.join(program,'WindowsApps').toLowerCase()
@@ -64,6 +72,9 @@ export function createLocalAppLauncher({ system = process.env, platform = proces
     }
     if (agent==='codex'&&!candidate.desktop) fail('APP_UNTRUSTED','No se encontró la aplicación de escritorio de Codex instalada.');
     if (agent==='codex'&&!/Usage: codex app[^\r\n]*\[PATH\]/.test(await supportedHelp(files[0].executable))) fail('APP_UNSUPPORTED','Esta versión de Codex no confirmó cómo abrir una carpeta.');
+    // Checked after the signature so the person learns both facts: whether the publisher verified, and
+    // that this application still will not be opened from here.
+    if (noVerifiedFolderContract.has(agent)) fail('APP_UNSUPPORTED','Todavía no se comprobó cómo esta aplicación abre una carpeta, así que no se abre desde aquí.','Abre la carpeta del proyecto desde la propia aplicación, o comparte el contexto exportado.');
     return { agent, ...candidate, files, label:labels[agent] };
   }
   return {
@@ -73,7 +84,13 @@ export function createLocalAppLauncher({ system = process.env, platform = proces
       // "Not installed" and "installed but not verifiable" are different answers for the person:
       // the second one means an application is there and this app refused to launch it.
       let refused=null;
-      for(const candidate of found){try{return await check(agent,candidate);}catch(error){refused??=error;}}
+      for(const candidate of found){try{return await check(agent,candidate);}catch(error){
+        // A candidate is a known location, not proof of an installation. Ignore only a missing
+        // primary executable from the filesystem inspection; missing desktop companions, signature
+        // helpers, permissions and invalid signatures remain refusals.
+        if(error.code==='ENOENT' && error.syscall==='lstat' && error.path===candidate.executable)continue;
+        refused??=error;
+      }}
       if(refused)return {agent,label:labels[agent],unverified:true,code:refused.code??'APP_UNTRUSTED',message:refused.message};
       return null;
     },

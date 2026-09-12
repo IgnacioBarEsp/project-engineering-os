@@ -13,7 +13,8 @@ import { createCodeGraphEngine } from '../runtime/codegraph.mjs';
 const UUID = /^[a-f0-9-]{36}$/;
 const ROLES = ['researcher','student','developer','freelancer','creator','general'];
 export const DESTINATIONS = Object.freeze({ web: 'https://chatgpt.com/', 'claude-code': 'https://claude.ai/',
-  codex: 'https://chatgpt.com/codex', cursor: 'https://cursor.com/', 'github-copilot': 'https://github.com/copilot', opencode: 'https://opencode.ai/' });
+  codex: 'https://chatgpt.com/codex', cursor: 'https://cursor.com/', 'github-copilot': 'https://github.com/copilot', opencode: 'https://opencode.ai/',
+  antigravity: 'https://antigravity.google/' });
 export function publicError(error) {
   if(error?.name==='AbortError')return {code:'CANCELLED',message:'La operación se detuvo a petición tuya.',action:'Se conservó el trabajo completado. Revisa el estado antes de continuar.'};
   const known = typeof error?.code === 'string' && (error.action || error.remediation);

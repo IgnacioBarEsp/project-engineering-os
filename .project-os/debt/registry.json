@@ -568,6 +568,201 @@
       "createdAt": "2026-09-11",
       "updatedAt": "2026-09-11",
       "resolution": null
+    },
+    {
+      "id": "debt-8058c027fc30",
+      "title": "Tras cerrar y reabrir, software y Unity dejan de devolver cita, y la activación no avanza: falta decidir si es correcto o un defecto",
+      "description": "Tras cerrar y reabrir, software y Unity dejan de devolver cita, y la activación no avanza: falta decidir si es correcto o un defecto",
+      "category": "decision-required",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/native-journeys.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "complete-companion-program",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "refuted",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": {
+        "flow": "complete-companion-program-remediation",
+        "evidence": "refutado"
+      }
+    },
+    {
+      "id": "debt-49914ab4fee0",
+      "title": "De las cinco IA imprescindibles, solo Cursor tiene apertura local verificada; Antigravity llega sin firma y Claude y OpenCode no exponen forma comprobada de recibir una carpeta",
+      "description": "De las cinco IA imprescindibles, solo Cursor tiene apertura local verificada; Antigravity llega sin firma y Claude y OpenCode no exponen forma comprobada de recibir una carpeta",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/desktop/local-apps.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/local-launches.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "complete-companion-program",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-eac137c63b3c",
+      "title": "Elegir carpeta y las páginas del instalador requieren una persona: ninguna comprobación automática puede cubrirlas",
+      "description": "Elegir carpeta y las páginas del instalador requieren una persona: ninguna comprobación automática puede cubrirlas",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/observe-folder-dialog.ps1",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/native-acceptance.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "complete-companion-program",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-6d7898c76dd0",
+      "title": "Una pregunta de abstención no numérica queda condicionada por la instrucción numérica global",
+      "description": "Una pregunta de abstención no numérica queda condicionada por la instrucción numérica global",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-model-benchmark.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/model-experiment.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "complete-companion-program",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-6cb925491f6b",
+      "title": "El corpus medido es sintético y con relleno, las consultas se eligieron de antemano, y la medición corrió sobre una versión anterior a la entregada",
+      "description": "El corpus medido es sintético y con relleno, las consultas se eligieron de antemano, y la medición corrió sobre una versión anterior a la entregada",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "openspec/changes/complete-companion-program/evidence/protocol.json",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/model-benchmark.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "complete-companion-program",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-5549b45ce5a5",
+      "title": "El arnés nativo no completa activación, ingeniería ni mapa de código en la ventana instalada",
+      "description": "El arnés nativo no completa activación, ingeniería ni mapa de código en la ventana instalada",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/native-acceptance.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "complete-companion-program-remediation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
     }
   ]
 }

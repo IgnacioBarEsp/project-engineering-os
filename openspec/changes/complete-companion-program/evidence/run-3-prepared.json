@@ -1,0 +1,226 @@
+{
+  "order": 3,
+  "repetition": 2,
+  "condition": "prepared",
+  "beganAt": "2026-09-12T02:46:59.213Z",
+  "elapsedMs": 9149.0837,
+  "promptSha256": "9e801249efc38253a0598c4c496e44bbff9d342b9367532c7ae122fe4479d2b0",
+  "contextBytes": 312,
+  "valid": true,
+  "usage": {
+    "input_tokens": 12309,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 318,
+    "reasoning_output_tokens": 37
+  },
+  "usageEvents": [
+    {
+      "type": "turn.completed",
+      "usage": {
+        "input_tokens": 12309,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 318,
+        "reasoning_output_tokens": 37
+      }
+    }
+  ],
+  "rawResponse": "{\"answers\":[{\"id\":\"q01\",\"answer\":\"47\",\"citation\":\"investigacion.md:L2\",\"quote\":\"El grupo de control incluye 47 participantes.\",\"abstain\":false},{\"id\":\"q02\",\"answer\":\"\",\"citation\":\"\",\"quote\":\"\",\"abstain\":true},{\"id\":\"q03\",\"answer\":\"7\",\"citation\":\"software.md:L2\",\"quote\":\"El limite de reintentos es 7.\",\"abstain\":false},{\"id\":\"q04\",\"answer\":\"\",\"citation\":\"\",\"quote\":\"\",\"abstain\":true},{\"id\":\"q05\",\"answer\":\"11\",\"citation\":\"videojuego.md:L2\",\"quote\":\"La velocidad maxima del personaje es 11 metros por segundo.\",\"abstain\":false},{\"id\":\"q06\",\"answer\":\"\",\"citation\":\"\",\"quote\":\"\",\"abstain\":true},{\"id\":\"q07\",\"answer\":\"23\",\"citation\":\"creacion.md:L2\",\"quote\":\"La entrega usa 23 fotogramas por segundo.\",\"abstain\":false},{\"id\":\"q08\",\"answer\":\"\",\"citation\":\"\",\"quote\":\"\",\"abstain\":true},{\"id\":\"q09\",\"answer\":\"37\",\"citation\":\"trabajo.md:L2\",\"quote\":\"La tarifa acordada es 37 unidades por hora.\",\"abstain\":false},{\"id\":\"q10\",\"answer\":\"\",\"citation\":\"\",\"quote\":\"\",\"abstain\":true}]}",
+  "response": {
+    "answers": [
+      {
+        "id": "q01",
+        "answer": "47",
+        "citation": "investigacion.md:L2",
+        "quote": "El grupo de control incluye 47 participantes.",
+        "abstain": false
+      },
+      {
+        "id": "q02",
+        "answer": "",
+        "citation": "",
+        "quote": "",
+        "abstain": true
+      },
+      {
+        "id": "q03",
+        "answer": "7",
+        "citation": "software.md:L2",
+        "quote": "El limite de reintentos es 7.",
+        "abstain": false
+      },
+      {
+        "id": "q04",
+        "answer": "",
+        "citation": "",
+        "quote": "",
+        "abstain": true
+      },
+      {
+        "id": "q05",
+        "answer": "11",
+        "citation": "videojuego.md:L2",
+        "quote": "La velocidad maxima del personaje es 11 metros por segundo.",
+        "abstain": false
+      },
+      {
+        "id": "q06",
+        "answer": "",
+        "citation": "",
+        "quote": "",
+        "abstain": true
+      },
+      {
+        "id": "q07",
+        "answer": "23",
+        "citation": "creacion.md:L2",
+        "quote": "La entrega usa 23 fotogramas por segundo.",
+        "abstain": false
+      },
+      {
+        "id": "q08",
+        "answer": "",
+        "citation": "",
+        "quote": "",
+        "abstain": true
+      },
+      {
+        "id": "q09",
+        "answer": "37",
+        "citation": "trabajo.md:L2",
+        "quote": "La tarifa acordada es 37 unidades por hora.",
+        "abstain": false
+      },
+      {
+        "id": "q10",
+        "answer": "",
+        "citation": "",
+        "quote": "",
+        "abstain": true
+      }
+    ]
+  },
+  "assistantMessages": [
+    "{\"answers\":[{\"id\":\"q01\",\"answer\":\"47\",\"citation\":\"investigacion.md:L2\",\"quote\":\"El grupo de control incluye 47 participantes.\",\"abstain\":false},{\"id\":\"q02\",\"answer\":\"\",\"citation\":\"\",\"quote\":\"\",\"abstain\":true},{\"id\":\"q03\",\"answer\":\"7\",\"citation\":\"software.md:L2\",\"quote\":\"El limite de reintentos es 7.\",\"abstain\":false},{\"id\":\"q04\",\"answer\":\"\",\"citation\":\"\",\"quote\":\"\",\"abstain\":true},{\"id\":\"q05\",\"answer\":\"11\",\"citation\":\"videojuego.md:L2\",\"quote\":\"La velocidad maxima del personaje es 11 metros por segundo.\",\"abstain\":false},{\"id\":\"q06\",\"answer\":\"\",\"citation\":\"\",\"quote\":\"\",\"abstain\":true},{\"id\":\"q07\",\"answer\":\"23\",\"citation\":\"creacion.md:L2\",\"quote\":\"La entrega usa 23 fotogramas por segundo.\",\"abstain\":false},{\"id\":\"q08\",\"answer\":\"\",\"citation\":\"\",\"quote\":\"\",\"abstain\":true},{\"id\":\"q09\",\"answer\":\"37\",\"citation\":\"trabajo.md:L2\",\"quote\":\"La tarifa acordada es 37 unidades por hora.\",\"abstain\":false},{\"id\":\"q10\",\"answer\":\"\",\"citation\":\"\",\"quote\":\"\",\"abstain\":true}]}"
+  ],
+  "itemTypes": [
+    "agent_message"
+  ],
+  "scores": [
+    {
+      "id": "q01",
+      "answerable": true,
+      "correctValue": true,
+      "validCitation": true,
+      "groundedCorrect": true,
+      "appropriateAbstention": false,
+      "falseAbstention": false,
+      "answeredWithoutEvidence": false,
+      "correct": true
+    },
+    {
+      "id": "q02",
+      "answerable": false,
+      "correctValue": false,
+      "validCitation": false,
+      "groundedCorrect": false,
+      "appropriateAbstention": true,
+      "falseAbstention": false,
+      "answeredWithoutEvidence": false,
+      "correct": true
+    },
+    {
+      "id": "q03",
+      "answerable": true,
+      "correctValue": true,
+      "validCitation": true,
+      "groundedCorrect": true,
+      "appropriateAbstention": false,
+      "falseAbstention": false,
+      "answeredWithoutEvidence": false,
+      "correct": true
+    },
+    {
+      "id": "q04",
+      "answerable": false,
+      "correctValue": false,
+      "validCitation": false,
+      "groundedCorrect": false,
+      "appropriateAbstention": true,
+      "falseAbstention": false,
+      "answeredWithoutEvidence": false,
+      "correct": true
+    },
+    {
+      "id": "q05",
+      "answerable": true,
+      "correctValue": true,
+      "validCitation": true,
+      "groundedCorrect": true,
+      "appropriateAbstention": false,
+      "falseAbstention": false,
+      "answeredWithoutEvidence": false,
+      "correct": true
+    },
+    {
+      "id": "q06",
+      "answerable": false,
+      "correctValue": false,
+      "validCitation": false,
+      "groundedCorrect": false,
+      "appropriateAbstention": true,
+      "falseAbstention": false,
+      "answeredWithoutEvidence": false,
+      "correct": true
+    },
+    {
+      "id": "q07",
+      "answerable": true,
+      "correctValue": true,
+      "validCitation": true,
+      "groundedCorrect": true,
+      "appropriateAbstention": false,
+      "falseAbstention": false,
+      "answeredWithoutEvidence": false,
+      "correct": true
+    },
+    {
+      "id": "q08",
+      "answerable": false,
+      "correctValue": false,
+      "validCitation": false,
+      "groundedCorrect": false,
+      "appropriateAbstention": true,
+      "falseAbstention": false,
+      "answeredWithoutEvidence": false,
+      "correct": true
+    },
+    {
+      "id": "q09",
+      "answerable": true,
+      "correctValue": true,
+      "validCitation": true,
+      "groundedCorrect": true,
+      "appropriateAbstention": false,
+      "falseAbstention": false,
+      "answeredWithoutEvidence": false,
+      "correct": true
+    },
+    {
+      "id": "q10",
+      "answerable": false,
+      "correctValue": false,
+      "validCitation": false,
+      "groundedCorrect": false,
+      "appropriateAbstention": true,
+      "falseAbstention": false,
+      "answeredWithoutEvidence": false,
+      "correct": true
+    }
+  ],
+  "failures": [],
+  "localTransport": "<experiment>/inference/transport-3.json",
+  "transportSha256": "381826e35d0d8300a5d8ad988877a733c9db2e165c6acdb8640351f200ddb4f9",
+  "stderrSha256": "011998a088a80f0224a116454efd7a4f70221e46aefc8ac7f86e79c49ddc6686"
+}

@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "flow": "complete-companion-program",
+  "date": "2026-09-11",
+  "kind": "feature",
+  "result": "debt",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/native-journeys.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Cinco recorridos por perfil en la ventana de la aplicación instalada, con cierre y reapertura",
+        "result": "medido",
+        "date": "2026-09-11"
+      },
+      "title": "Tras cerrar y reabrir, software y Unity dejan de devolver cita, y la activación no avanza: falta decidir si es correcto o un defecto",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "source": "adversarial-review",
+      "category": "decision-required",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/local-launches.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Descubrimiento y verificación de firma contra las aplicaciones realmente instaladas",
+        "result": "medido",
+        "date": "2026-09-11"
+      },
+      "title": "De las cinco IA imprescindibles, solo Cursor tiene apertura local verificada; Antigravity llega sin firma y Claude y OpenCode no exponen forma comprobada de recibir una carpeta",
+      "artifact": "apps/companion/desktop/local-apps.mjs",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/native-acceptance.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Tres intentos independientes de conducir el selector del sistema, todos registrados",
+        "result": "medido",
+        "date": "2026-09-11"
+      },
+      "title": "Elegir carpeta y las páginas del instalador requieren una persona: ninguna comprobación automática puede cubrirlas",
+      "artifact": "apps/companion/scripts/observe-folder-dialog.ps1",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/model-experiment.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Seis ensayos pareados de inferencia real y revisión independiente del protocolo",
+        "result": "medido",
+        "date": "2026-09-11"
+      },
+      "title": "Una pregunta de abstención no numérica queda condicionada por la instrucción numérica global",
+      "artifact": "apps/companion/scripts/verify-model-benchmark.mjs",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/model-benchmark.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "verification": {
+        "method": "Seis ensayos pareados de inferencia real y revisión independiente del protocolo",
+        "result": "medido",
+        "date": "2026-09-11"
+      },
+      "title": "El corpus medido es sintético y con relleno, las consultas se eligieron de antemano, y la medición corrió sobre una versión anterior a la entregada",
+      "artifact": "openspec/changes/complete-companion-program/evidence/protocol.json",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    }
+  ]
+}
