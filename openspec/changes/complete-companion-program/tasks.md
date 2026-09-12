@@ -8,14 +8,19 @@
 - [x] 2.1 Fix absent-app discovery and add a negative regression.
 - [~] 2.2 Complete wizard pages and verify installer provenance. Application wizard driven through the
       installed window; the folder picker is a measured human boundary (`evidence/native-acceptance.md`).
-      The installer's own pages remain unexercised.
+      Installer provenance verified: built from clean commit 9db2689, artifact rehashed and its bundled npm
+      matched against the catalog pin (`evidence/artifact-manifest.json`). The installer's own wizard pages
+      remain unexercised: it was installed silently, and its prompts need a person for the same reason the
+      folder picker does.
 - [x] 2.3 Run five native profile journeys and persistence with original hashes preserved. Five profiles
       through the installed window, 0 findings, citations resolved against the files on disk
       (`evidence/native-journeys.json`, `npm run evidence:native`).
 - [x] 2.4 Observe trusted local launches with the synthetic folder. Cursor launched against a folder whose
       name holds a space and an ampersand; all three verified applications refuse a recorded identity that
       no longer matches their bytes (`evidence/local-launches.json`, `npm run evidence:launches`). The
-      installed artifact predates Antigravity support, so verifying that needs 3.3 first.
+      artifact built from a clean commit was then installed, closing that gap: Antigravity is recognised and
+      refused with `APP_UNTRUSTED` because its executable is unsigned. Four recognised, three verified, one
+      refused, zero findings. The install preserved the maintainer's projects and history.
 
 ## 3. Evaluation and delivery
 - [x] 3.1 Freeze and execute paired model experiment; keep prompts, responses, usage and failures.

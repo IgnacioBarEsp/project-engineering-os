@@ -120,7 +120,7 @@ Against the applications really installed here, with nothing injected:
 | Codex | verified, OpenAI OpCo, LLC | yes |
 | Cursor | verified, Anysphere, Inc. | yes |
 | Visual Studio Code | verified, Microsoft Corporation | yes |
-| Antigravity | **the installed artifact does not offer it yet** | — |
+| Antigravity | present, refused: `APP_UNTRUSTED` | not reached: refused first |
 
 "Refuses a changed identity" is checked against the real signed application: the recorded identity is
 altered and `open` must fail with `APP_CHANGED` rather than launch. All three refuse.
@@ -130,11 +130,16 @@ path were ever passed through a shell, that is where it would break — and the 
 1. The result reports `projectAttached: true` and `agentReadProject: false`: handing a folder to an editor
 is not evidence that an assistant read it, and the record refuses to imply otherwise.
 
-**A gap this check found.** Antigravity is installed on this machine and this working tree recognises it,
-but the installed artifact was built before that change, so it reports the agent as absent. Reporting that
-as "not installed" would have hidden the difference, so the record separates *not on this machine* from
-*not offered by the installed build*. Verifying Antigravity natively needs a new artifact first, which is
-task 3.3.
+**A gap this check found, and closed.** On the first run Antigravity came back as absent, because the
+installed artifact had been built before the change that added it. Reporting that as "not installed" would
+have hidden the difference, so the check separates *not on this machine* from *not offered by the installed
+build*. A new artifact was then built from a clean commit and installed, and the re-run shows what the
+product actually does: Antigravity is recognised, its executable is found, and it is refused with
+`APP_UNTRUSTED` because that executable carries no publisher signature. Four applications recognised, three
+verified, one refused, zero findings.
+
+Installing that artifact over the existing one preserved both of the maintainer's projects, their history
+and their prepared folders.
 
 ## What this does not cover yet
 

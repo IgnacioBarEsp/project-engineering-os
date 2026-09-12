@@ -1,12 +1,12 @@
 {
-  "date": "2026-09-12T03:01:07.374Z",
+  "date": "2026-09-12T03:13:01.581Z",
   "application": {
     "version": "0.1.0",
     "root": "<localappdata>/Programs/Project Engineering OS/resources/app"
   },
   "machine": "win32-x64",
-  "syntheticFolder": "<localappdata>/Temp/companion-launch-xmgOMk/carpeta sintetica & literal",
-  "launched": "cursor",
+  "syntheticFolder": "<localappdata>/Temp/companion-launch-puTlbZ/carpeta sintetica & literal",
+  "launched": "ninguna (usa --launch <agente> para abrir una)",
   "applications": [
     {
       "agent": "codex",
@@ -24,15 +24,7 @@
       "verified": true,
       "publisher": "Anysphere, Inc.",
       "executable": "<localappdata>/Programs/cursor/Cursor.exe",
-      "refusesChangedIdentity": true,
-      "launch": {
-        "application": "Cursor",
-        "processesBefore": 0,
-        "processesAfter": 1,
-        "appeared": true,
-        "projectAttached": true,
-        "agentReadProject": false
-      }
+      "refusesChangedIdentity": true
     },
     {
       "agent": "github-copilot",
@@ -45,23 +37,19 @@
     },
     {
       "agent": "antigravity",
-      "installed": false,
-      "presentOnThisMachine": true,
-      "offeredByInstalledArtifact": false,
-      "note": "La aplicación está en este equipo y el árbol de trabajo la reconoce; el artefacto instalado es anterior a ese cambio. Hace falta construir e instalar un artefacto nuevo para comprobarlo aquí."
+      "label": "Antigravity",
+      "installed": true,
+      "verified": false,
+      "code": "APP_UNTRUSTED",
+      "message": "La firma o el editor de la aplicación no se pudo verificar."
     }
   ],
-  "findings": [
-    {
-      "agent": "antigravity",
-      "detail": "el artefacto instalado no ofrece esta IA todavía: la reconoce el código, no la versión instalada"
-    }
-  ],
+  "findings": [],
   "summary": {
-    "installed": 3,
+    "installed": 4,
     "verified": 3,
-    "refused": 0,
-    "findings": 1,
+    "refused": 1,
+    "findings": 0,
     "scope": "Reconocimiento, verificación de firma y editor, y las rutas de rechazo sobre las aplicaciones realmente instaladas. Una sola apertura, contra una carpeta sintética, cuando se pide con --launch. Abrir una carpeta no demuestra que la IA la haya leído, y el registro lo dice."
   }
 }
