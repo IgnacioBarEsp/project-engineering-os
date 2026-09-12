@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, realpath, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
@@ -39,7 +39,11 @@ test('the budget is short enough to be a bound on a screen rather than a wait', 
 });
 
 test('the list carries a recorded state and a profile per row, and one broken row does not take the rest', async () => {
-  const temp = await mkdtemp(path.join(tmpdir(), 'peos-list-'));
+  // Through realpath, like every other harness here. On macOS `os.tmpdir()` is `/var/folders/…`, a symlink
+  // to `/private/var/folders/…`, and the preparation engine refuses a folder reached through a link — a
+  // security property, not an obstacle. CI on macOS reported exactly that: "La carpeta seleccionada pasa por
+  // un vínculo." The product was right and this test was handing it a linked path.
+  const temp = await realpath(await mkdtemp(path.join(tmpdir(), 'peos-list-')));
   try {
     const live = path.join(temp, 'vivo'), gone = path.join(temp, 'borrado');
     await mkdir(live); await mkdir(gone);

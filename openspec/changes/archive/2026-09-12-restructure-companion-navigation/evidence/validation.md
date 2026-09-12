@@ -43,7 +43,22 @@ OK: the published glossary is generated from the interface module, so the screen
 cd apps/companion && npm test
 ```
 
-**82 tests, 0 failures** — 78 from `main` plus four new in `qa/project-list.mjs` covering the bound on the
+**82 tests, 0 failures** on Windows, Linux and macOS.
+
+The macOS run of CI found the one thing three local runs could not, and it was the test that was wrong
+rather than the product. `os.tmpdir()` on macOS is `/var/folders/…`, a symlink to `/private/var/folders/…`,
+and the preparation engine refuses a folder reached through a link. The new test handed it that path and CI
+answered **"La carpeta seleccionada pasa por un vínculo."** — a refusal with a stated cause, which is the
+security property working. The test resolves the link first now, the way every other harness in that
+directory already did. Reading what the failure said before deciding what was broken is what kept this from
+becoming a change to the engine.
+
+The same reading pass found a latent flaw in `withBudget` that was **not** the cause: the timeout was
+`unref`'d, and when the read it bounds has stopped answering that timer is the only thing that can settle
+the race, so an empty event loop could let the process exit before the bound fires. It is no longer
+`unref`'d; it is cleared as soon as the work settles, so it can outlive the operation by at most the budget.
+
+**82 tests** — 78 from `main` plus four new in `qa/project-list.mjs` covering the bound on the
 project list's reads, the survival of a row's own error through the race, that one unreadable row does not
 take the rest of the list, and that no absolute path travels in a row's cause.
 

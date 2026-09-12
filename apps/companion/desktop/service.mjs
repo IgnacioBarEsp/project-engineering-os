@@ -25,8 +25,11 @@ export function withBudget(work, ms) {
       timer = setTimeout(() => reject(Object.assign(Error('summary budget exceeded'), {
         code: 'FOLDER_UNREACHABLE', message: 'Esta carpeta no respondió a tiempo.',
         action: 'Puede estar en una unidad de red o desconectada. Ábrelo para comprobarlo.' })), ms);
-      // A pending timer must not hold the process open when nothing else is waiting on it.
-      timer.unref?.();
+      // Deliberately NOT unref'd. An earlier version did, reasoning that a pending timer should not hold
+      // the process open — but when the read it is bounding has stopped answering, this timer is the ONLY
+      // thing that can settle the race, and an unref'd timer lets the loop drain and the process exit
+      // before it fires. The timer is cleared as soon as the work settles, so it can outlive the operation
+      // by at most the budget, which is the bound itself.
     }),
   ]);
 }
