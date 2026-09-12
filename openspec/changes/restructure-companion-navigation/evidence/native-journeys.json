@@ -1,0 +1,510 @@
+{
+  "date": "2026-09-12T11:23:40.790Z",
+  "application": {
+    "version": "0.1.0",
+    "root": "<localappdata>/Programs/Project Engineering OS/resources/app"
+  },
+  "installedSource": {
+    "directories": [
+      "desktop",
+      "ui",
+      "engine",
+      "context",
+      "runtime"
+    ],
+    "excluded": [
+      "package.json",
+      "node_modules"
+    ],
+    "files": {},
+    "onlyInstalled": [],
+    "synchronised": [
+      {
+        "file": "ui/app.css",
+        "replaced": "edee72688cd14d357e3d51de19703c9d5629b9afb763cf06c0ad8dccbd4fd5d9"
+      },
+      {
+        "file": "ui/app.mjs",
+        "replaced": "04d13758bfc867440330c009e8c749c9b74150a19a29c552de426db72edc5e41"
+      }
+    ],
+    "matched": 47,
+    "compared": 47
+  },
+  "machine": "win32-x64",
+  "drivenBy": "the installed application window over its debugging port, against an isolated data directory",
+  "humanSteps": [
+    "choosing the folder in the operating system picker"
+  ],
+  "doneByTheEngineNotTheInterface": [
+    "choosing the folder",
+    "applying the base preparation"
+  ],
+  "notADemonstrationOf": [
+    "the installer's own wizard pages",
+    "anything a person judged by reading it"
+  ],
+  "profiles": [
+    {
+      "profile": "research",
+      "name": "Revisión de evidencia",
+      "steps": [
+        {
+          "name": "open history",
+          "result": {
+            "entries": 5
+          }
+        },
+        {
+          "name": "opened from history",
+          "result": {
+            "project": "Revisión de evidencia",
+            "heading": "Revisión de evidencia"
+          }
+        },
+        {
+          "name": "context prepared in the interface",
+          "result": {
+            "screen": "Ir al contenido\nP↗\nProject\nEngineering OS\n\nCOMPANION\n01\n\nInicio\nTus proyectos\nPreparar proyecto\nAyud"
+          }
+        },
+        {
+          "name": "search with citation",
+          "result": {
+            "query": "instrumento",
+            "citation": "articulo.pdf · página 1",
+            "kind": "página",
+            "resolvedBy": "file-exists-and-passage-contains-query",
+            "ok": true
+          }
+        },
+        {
+          "name": "closed and reopened",
+          "result": {
+            "citationSurvived": true
+          }
+        },
+        {
+          "name": "reflow",
+          "result": {
+            "widths": [
+              1180,
+              900,
+              600
+            ]
+          }
+        },
+        {
+          "name": "original files preserved",
+          "result": {
+            "files": 3,
+            "changed": []
+          }
+        }
+      ],
+      "elapsedMs": 10674
+    },
+    {
+      "profile": "software",
+      "name": "Servicio de presupuesto",
+      "steps": [
+        {
+          "name": "open history",
+          "result": {
+            "entries": 5
+          }
+        },
+        {
+          "name": "opened from history",
+          "result": {
+            "project": "Servicio de presupuesto",
+            "heading": "Servicio de presupuesto"
+          }
+        },
+        {
+          "name": "context prepared in the interface",
+          "result": {
+            "screen": "Ir al contenido\nP↗\nProject\nEngineering OS\n\nCOMPANION\n01\n\nInicio\nTus proyectos\nPreparar proyecto\nAyud"
+          }
+        },
+        {
+          "name": "search with citation",
+          "result": {
+            "query": "presupuesto",
+            "citation": "README.md · línea 3",
+            "kind": "línea",
+            "resolvedBy": "exact-line",
+            "ok": true
+          }
+        },
+        {
+          "name": "engineering, OpenSpec and code map",
+          "result": {
+            "visibleControls": [
+              "Inicio",
+              "Tus proyectos",
+              "Preparar proyecto",
+              "Ayuda",
+              "Privacidad y alcance",
+              "OpenSpec — ver qué significa",
+              "Ver estado",
+              "Solo leer mis archivos",
+              "Activar y continuar  →"
+            ],
+            "walked": [
+              "reviewEngineering",
+              "prepareTools",
+              "applyEnvironment",
+              "activateWorkflows",
+              "activateWorkflows",
+              "activateWorkflows",
+              "activateWorkflows"
+            ]
+          }
+        },
+        {
+          "name": "context refused after reopen, with reason",
+          "result": {
+            "explained": true
+          }
+        },
+        {
+          "name": "closed and reopened",
+          "result": {
+            "citationSurvived": false
+          }
+        },
+        {
+          "name": "reflow",
+          "result": {
+            "widths": [
+              1180,
+              900,
+              600
+            ]
+          }
+        },
+        {
+          "name": "original files preserved",
+          "result": {
+            "files": 2,
+            "changed": []
+          }
+        }
+      ],
+      "elapsedMs": 134137
+    },
+    {
+      "profile": "unity",
+      "name": "Prototipo de juego",
+      "steps": [
+        {
+          "name": "open history",
+          "result": {
+            "entries": 5
+          }
+        },
+        {
+          "name": "opened from history",
+          "result": {
+            "project": "Prototipo de juego",
+            "heading": "Prototipo de juego"
+          }
+        },
+        {
+          "name": "context prepared in the interface",
+          "result": {
+            "screen": "Ir al contenido\nP↗\nProject\nEngineering OS\n\nCOMPANION\n01\n\nInicio\nTus proyectos\nPreparar proyecto\nAyud"
+          }
+        },
+        {
+          "name": "search with citation",
+          "result": {
+            "query": "puntaje",
+            "citation": "notas.txt · línea 1",
+            "kind": "línea",
+            "resolvedBy": "exact-line",
+            "ok": true
+          }
+        },
+        {
+          "name": "engineering, OpenSpec and code map",
+          "result": {
+            "visibleControls": [
+              "Inicio",
+              "Tus proyectos",
+              "Preparar proyecto",
+              "Ayuda",
+              "Privacidad y alcance",
+              "OpenSpec — ver qué significa",
+              "Ver estado",
+              "Solo leer mis archivos",
+              "Activar y continuar  →"
+            ],
+            "walked": [
+              "reviewEngineering",
+              "prepareTools",
+              "applyEnvironment",
+              "activateWorkflows",
+              "activateWorkflows",
+              "activateWorkflows",
+              "activateWorkflows"
+            ]
+          }
+        },
+        {
+          "name": "context refused after reopen, with reason",
+          "result": {
+            "explained": true
+          }
+        },
+        {
+          "name": "closed and reopened",
+          "result": {
+            "citationSurvived": false
+          }
+        },
+        {
+          "name": "reflow",
+          "result": {
+            "widths": [
+              1180,
+              900,
+              600
+            ]
+          }
+        },
+        {
+          "name": "original files preserved",
+          "result": {
+            "files": 2,
+            "changed": []
+          }
+        }
+      ],
+      "elapsedMs": 97110
+    },
+    {
+      "profile": "media",
+      "name": "Serie de imágenes",
+      "steps": [
+        {
+          "name": "open history",
+          "result": {
+            "entries": 5
+          }
+        },
+        {
+          "name": "opened from history",
+          "result": {
+            "project": "Serie de imágenes",
+            "heading": "Serie de imágenes"
+          }
+        },
+        {
+          "name": "context prepared in the interface",
+          "result": {
+            "screen": "Ir al contenido\nP↗\nProject\nEngineering OS\n\nCOMPANION\n01\n\nInicio\nTus proyectos\nPreparar proyecto\nAyud"
+          }
+        },
+        {
+          "name": "search with citation",
+          "result": {
+            "query": "semilla",
+            "citation": "ficha.docx · párrafo 1",
+            "kind": "párrafo",
+            "resolvedBy": "file-exists-and-passage-contains-query",
+            "ok": true
+          }
+        },
+        {
+          "name": "closed and reopened",
+          "result": {
+            "citationSurvived": true
+          }
+        },
+        {
+          "name": "reflow",
+          "result": {
+            "widths": [
+              1180,
+              900,
+              600
+            ]
+          }
+        },
+        {
+          "name": "original files preserved",
+          "result": {
+            "files": 3,
+            "changed": []
+          }
+        }
+      ],
+      "elapsedMs": 10518
+    },
+    {
+      "profile": "general",
+      "name": "Trabajo de la semana",
+      "steps": [
+        {
+          "name": "open history",
+          "result": {
+            "entries": 5
+          }
+        },
+        {
+          "name": "opened from history",
+          "result": {
+            "project": "Trabajo de la semana",
+            "heading": "Trabajo de la semana"
+          }
+        },
+        {
+          "name": "context prepared in the interface",
+          "result": {
+            "screen": "Ir al contenido\nP↗\nProject\nEngineering OS\n\nCOMPANION\n01\n\nInicio\nTus proyectos\nPreparar proyecto\nAyud"
+          }
+        },
+        {
+          "name": "search with citation",
+          "result": {
+            "query": "acuerdo",
+            "citation": "notas.txt · línea 1",
+            "kind": "línea",
+            "resolvedBy": "exact-line",
+            "ok": true
+          }
+        },
+        {
+          "name": "closed and reopened",
+          "result": {
+            "citationSurvived": true
+          }
+        },
+        {
+          "name": "reflow",
+          "result": {
+            "widths": [
+              1180,
+              900,
+              600
+            ]
+          }
+        },
+        {
+          "name": "original files preserved",
+          "result": {
+            "files": 2,
+            "changed": []
+          }
+        }
+      ],
+      "elapsedMs": 10680
+    }
+  ],
+  "findings": [],
+  "unverified": [
+    {
+      "profile": "software",
+      "stage": "activateWorkflows",
+      "cause": "el control siguió en pantalla y la interfaz explicó: \"Todo en este equipo · Sin cuenta PREPARAR PROYECTO / MÉTODO Privacidad y alcance Vuelve a revisar los cambios antes de aplicarlos.\""
+    },
+    {
+      "profile": "software",
+      "stage": "applyEngineering",
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | Ver estado | Solo leer mis archivos | Activar y continuar  →"
+    },
+    {
+      "profile": "software",
+      "stage": "reviewCodeMap",
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | Ver estado | Solo leer mis archivos | Activar y continuar  →"
+    },
+    {
+      "profile": "software",
+      "stage": "buildCodeMap",
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | Ver estado | Solo leer mis archivos | Activar y continuar  →"
+    },
+    {
+      "profile": "software",
+      "stage": "searchSymbols",
+      "cause": "no se llegó al mapa de código, así que la búsqueda de símbolos no se pudo intentar"
+    },
+    {
+      "profile": "unity",
+      "stage": "activateWorkflows",
+      "cause": "el control siguió en pantalla y la interfaz explicó: \"Todo en este equipo · Sin cuenta PREPARAR PROYECTO / MÉTODO Privacidad y alcance Vuelve a revisar los cambios antes de aplicarlos.\""
+    },
+    {
+      "profile": "unity",
+      "stage": "applyEngineering",
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | Ver estado | Solo leer mis archivos | Activar y continuar  →"
+    },
+    {
+      "profile": "unity",
+      "stage": "reviewCodeMap",
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | Ver estado | Solo leer mis archivos | Activar y continuar  →"
+    },
+    {
+      "profile": "unity",
+      "stage": "buildCodeMap",
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | Ver estado | Solo leer mis archivos | Activar y continuar  →"
+    },
+    {
+      "profile": "unity",
+      "stage": "searchSymbols",
+      "cause": "no se llegó al mapa de código, así que la búsqueda de símbolos no se pudo intentar"
+    }
+  ],
+  "navigation": [
+    [
+      "open-start",
+      "Inicio"
+    ],
+    [
+      "open-project-list",
+      "Tus proyectos"
+    ],
+    [
+      "prepare-project",
+      "Preparar proyecto"
+    ],
+    [
+      "open-help",
+      "Ayuda"
+    ]
+  ],
+  "screenshots": [
+    {
+      "file": "native-window.png",
+      "pathElements": 1,
+      "anchored": 1,
+      "leaking": 0
+    },
+    {
+      "file": "native-inicio.png",
+      "pathElements": 0,
+      "anchored": 0,
+      "leaking": 0
+    },
+    {
+      "file": "native-proyectos.png",
+      "pathElements": 5,
+      "anchored": 5,
+      "leaking": 0
+    },
+    {
+      "file": "native-ayuda.png",
+      "pathElements": 0,
+      "anchored": 0,
+      "leaking": 0
+    }
+  ],
+  "screenshotPathAnchored": true,
+  "summary": {
+    "profiles": 5,
+    "findings": 0,
+    "unverified": 10,
+    "scope": "Cada perfil abierto y recorrido en la ventana de la aplicación instalada. El motor de la propia aplicación hizo dos pasos, elegir carpeta y aplicar la base, porque no se llega a ellos sin responder el selector del sistema. Contexto, búsqueda con cita, reflujo y conservación de archivos se comprobaron en la interfaz. No demuestra el asistente del instalador."
+  }
+}

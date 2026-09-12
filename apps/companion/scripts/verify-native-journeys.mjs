@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { spawn } from 'node:child_process';
-import { mkdir, mkdtemp, writeFile, readFile, readdir, stat, rm, realpath } from 'node:fs/promises';
+import { copyFile, mkdir, mkdtemp, writeFile, readFile, readdir, stat, rm, realpath } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { portable } from './portable-path.mjs';
 import { pdf, docx } from './fixtures.mjs';
 
@@ -25,7 +25,20 @@ import { pdf, docx } from './fixtures.mjs';
 // The application runs against its own isolated data directory, so a run never touches the projects or
 // history of whoever is using this machine.
 //
-//   node scripts/verify-native-journeys.mjs "<installed resources/app>" <evidence directory> [--keep]
+// The window must be running the application of the branch under review, or the record describes a
+// different application than the one being reviewed — which is how the previous change ended up publishing
+// a measurement taken against an artifact older than the one it delivered. The package ships `asar: false`,
+// so every source file is plain on disk: the digest of each one under `desktop/`, `ui/`, `engine/`,
+// `context/` and `runtime/` is compared against the branch before anything is driven, the comparison is
+// recorded, and a mismatch stops the run unless --sync-app is passed, which copies the branch's bytes in and
+// records what they replaced. `package.json` is excluded because the packager rewrites it by design.
+//
+// Interface alone is not enough, and the first run here proved it: a new interface module against the
+// previous main process is refused by its asset allowlist, and the window renders nothing.
+//
+// Syncing does not rebuild the installer. A release still comes from `npm run pack` on a clean commit.
+//
+//   node scripts/verify-native-journeys.mjs "<installed resources/app>" <evidence directory> [--keep] [--sync-app]
 const [installedRoot, output, ...flags] = process.argv.slice(2);
 assert(installedRoot && output, 'Indica el directorio resources/app instalado y un directorio de evidencia.');
 const keep = flags.includes('--keep');
@@ -75,10 +88,49 @@ async function hashesOf(root, relatives) {
   return out;
 }
 
+// Every source file of this branch, against the ones the installed window will actually load.
+const SOURCE_DIRECTORIES = ['desktop', 'ui', 'engine', 'context', 'runtime'];
+const branchRoot = fileURLToPath(new URL('../', import.meta.url));
+const syncApp = flags.includes('--sync-app');
+async function sourceFiles(root) {
+  const found = [];
+  for (const directory of SOURCE_DIRECTORIES) {
+    const walk = async relative => {
+      for (const entry of await readdir(path.join(root, relative), { withFileTypes: true }).then(v => v, () => [])) {
+        const next = `${relative}/${entry.name}`;
+        if (entry.isDirectory()) await walk(next); else found.push(next);
+      }
+    };
+    await walk(directory);
+  }
+  return found.sort();
+}
+const branchFiles = await sourceFiles(branchRoot), installedFiles = await sourceFiles(installedRoot);
+const identity = { directories: SOURCE_DIRECTORIES, excluded: ['package.json', 'node_modules'],
+  files: {}, onlyInstalled: installedFiles.filter(file => !branchFiles.includes(file)), synchronised: [] };
+for (const file of branchFiles) {
+  const branch = await digest(path.join(branchRoot, file));
+  const target = path.join(installedRoot, file);
+  const before = await digest(target).then(value => value, () => null);
+  if (before !== branch && syncApp) {
+    await mkdir(path.dirname(target), { recursive: true });
+    await copyFile(path.join(branchRoot, file), target);
+    identity.synchronised.push({ file, replaced: before });
+  }
+  const installed = await digest(target).then(value => value, () => null);
+  if (installed !== branch) identity.files[file] = { branch, installed };
+}
+const drifted = Object.keys(identity.files);
+identity.matched = branchFiles.length - drifted.length;
+identity.compared = branchFiles.length;
+assert.equal(drifted.length, 0, `La ventana instalada no corre la aplicación de esta rama (${drifted.join(', ')}). Ejecuta con --sync-app para copiarla y volver a medir.`);
+assert.equal(identity.onlyInstalled.length, 0, `El árbol instalado tiene archivos que esta rama no tiene (${identity.onlyInstalled.join(', ')}).`);
+
 const workspace = await realpath(await mkdtemp(path.join(tmpdir(), 'companion-native-')));
 const userData = path.join(workspace, 'userdata');
 const record = { date: new Date().toISOString(),
   application: { version: installedManifest.version, root: portable(installedRoot) },
+  installedSource: identity,
   machine: `${process.platform}-${process.arch}`,
   drivenBy: 'the installed application window over its debugging port, against an isolated data directory',
   humanSteps: ['choosing the folder in the operating system picker'],
@@ -134,6 +186,22 @@ try {
   assert.ok(browser, `La aplicación instalada no respondió en el puerto ${port}.`);
   const page = browser.contexts()[0].pages()[0] ?? await browser.contexts()[0].waitForEvent('page');
   await page.waitForLoadState('domcontentloaded');
+  page.setDefaultTimeout(180000);
+  // Every control is disabled while an operation runs, so a click that arrives early fails on a disabled
+  // element rather than on a missing one, and a stall has to be recorded as a finding rather than end the
+  // run with a timeout that explains neither.
+  //
+  // Two different questions, and conflating them cost a spurious finding. `notBusy` asks whether the
+  // application is busy right now, and is what a click needs before it lands. `settle` asks whether the
+  // operation a click just started has finished — and that one has to wait for the busy indicator to
+  // APPEAR first: an operation takes a moment to start, so asking only "is it hidden" answers yes about
+  // the instant before the work began and returns while the screen is still the previous one.
+  const stop = page.getByRole('button', { name: /^Detener$/ });
+  const notBusy = (timeout = 180000) => stop.waitFor({ state: 'hidden', timeout }).then(() => true, () => false);
+  const settle = async (timeout = 180000) => {
+    await stop.waitFor({ state: 'visible', timeout: 4000 }).catch(() => {});
+    return notBusy(timeout);
+  };
 
   for (const [id, definition] of Object.entries(PROFILES)) {
     const started = performance.now();
@@ -160,21 +228,23 @@ try {
     step('opened from history', { project: definition.name, heading: await page.locator('h1,h2').first().innerText() });
 
     // Context preparation, reviewed and then applied, in the interface.
-    const reviewContext = page.getByRole('button', { name: /^Preparar contexto$|Preparar solo el contexto/ }).first();
+    const reviewContext = page.getByRole('button', { name: /^Preparar contexto$|Solo leer mis archivos/ }).first();
     if (await reviewContext.count()) {
       await reviewContext.click();
       await page.waitForTimeout(1500);
-      const save = page.getByRole('button', { name: /Guardar contexto y continuar|Revisar con estas exclusiones/ }).first();
+      const save = page.getByRole('button', { name: /Guardar y continuar|Revisar con estas exclusiones/ }).first();
       if (await save.count()) {
         await save.click();
-        await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 120000 }).catch(() => {});
+        if (!await settle()) finding(id, 'context', 'la aplicación siguió ocupada tres minutos después de guardar el contexto');
       } else finding(id, 'context', `la interfaz no ofreció guardar el contexto. Botones: ${(await page.locator('button:visible').allTextContents()).join(' | ')}`);
       step('context prepared in the interface', { screen: (await body()).slice(0, 100) });
     } else finding(id, 'context', `la interfaz no ofreció preparar el contexto. Botones visibles: ${(await page.locator('button:visible').allTextContents()).join(' | ')}`);
 
     // Context and a search whose answer is known in advance.
     const sources = page.getByRole('button', { name: /Buscar fuentes/ });
+    await sources.first().waitFor({ timeout: 180000 }).catch(() => {});
     if (await sources.count()) {
+      if (!await notBusy()) finding(id, 'search', 'la aplicación siguió ocupada al ir a buscar fuentes');
       await sources.first().click();
       await page.waitForTimeout(1200);
       const field = page.locator('input[type="search"], input[type="text"]:visible').last();
@@ -224,6 +294,8 @@ try {
       const press = async (pattern, wait = 120000) => {
         const control = page.getByRole('button', { name: pattern }).first();
         if (!await control.count()) return false;
+        await notBusy(wait);
+        if (!await control.count()) return false;
         await control.click();
         await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: wait }).catch(() => {});
         await page.waitForTimeout(800);
@@ -242,8 +314,9 @@ try {
       const STAGES = [
         ['reviewEngineering', /Revisar ingeniería/],
         ['prepareTools', /Preparar herramientas y continuar/],
-        ['applyEnvironment', /Aplicar entorno/],
-        ['applyEngineering', /Preparar mi proyecto|Guardar y ver mi proyecto|Preparar ingeniería|Revisar ingeniería de nuevo/],
+        // Same stage names as the archived record so the two are comparable; only the labels moved.
+        ['applyEnvironment', /Guardar estas instrucciones|Continuar lo que quedó a medias/],
+        ['applyEngineering', /Guardar y continuar|Guardar y ver mi proyecto/],
         ['activateWorkflows', /Activar y continuar/],
         ['reviewCodeMap', /Revisar mapa de código/],
         ['buildCodeMap', /Crear mapa de código/],
@@ -316,8 +389,10 @@ try {
     await page.locator('article.project').first().waitFor({ state: 'detached', timeout: 120000 });
     await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 180000 }).catch(() => {});
     const afterReopen = page.getByRole('button', { name: /Buscar fuentes/ });
+    await afterReopen.first().waitFor({ timeout: 180000 }).catch(() => {});
     let survived = null;
     if (await afterReopen.count()) {
+      if (!await notBusy()) finding(id, 'reopen', 'la aplicación siguió ocupada tras reabrir el proyecto');
       await afterReopen.first().click();
       await page.waitForTimeout(1200);
       const field = page.locator('input[type="search"], input[type="text"]:visible').last();
@@ -362,20 +437,52 @@ try {
     console.log(`${id}: ${steps.length} pasos, ${record.findings.filter(f => f.profile === id).length} hallazgos`);
   }
 
-  // The window shows the project's absolute path, which carries the account name of whoever ran this.
-  // Every text record here is anchored through portable(), but no check reads an image, so a screenshot
-  // is the one place that discipline silently does not apply — and an image is exactly what gets looked
-  // at. The path is replaced with its anchored form in the page before the capture, not after.
-  const shown = await page.evaluate(anchored => {
-    const node = document.querySelector('.path');
-    const was = node?.textContent ?? null;
-    if (node) node.textContent = anchored;
-    return was !== null;
-  }, portable(prepared.general?.root ?? workspace));
-  await page.screenshot({ path: path.join(output, 'native-window.png') });
-  record.screenshots = ['native-window.png'];
-  record.screenshotPathAnchored = shown;
-  if (!shown) finding('general', 'captura', 'no se encontró la ruta en pantalla para anclarla antes de capturar');
+  // The window shows absolute paths, which carry the account name of whoever ran this. Every text record
+  // here is anchored through portable(), but no check reads an image, so a screenshot is the one place that
+  // discipline silently does not apply — and an image is exactly what gets looked at. So the anchoring is
+  // done in the page before each capture, on EVERY path element rather than the first one: the project list
+  // shows five of them, and anchoring one of five is the same failure with a smaller radius.
+  const anchor = async () => page.evaluate(({ raw, anchored }) => {
+    const forms = [raw, raw.replace(/\//g, '\\')];
+    const nodes = [...document.querySelectorAll('.path')];
+    let replaced = 0;
+    for (const node of nodes) {
+      const before = node.textContent;
+      for (const form of forms) {
+        while (node.textContent.toLowerCase().includes(form.toLowerCase())) {
+          const at = node.textContent.toLowerCase().indexOf(form.toLowerCase());
+          node.textContent = node.textContent.slice(0, at) + anchored + node.textContent.slice(at + form.length);
+        }
+      }
+      if (node.textContent !== before) replaced += 1;
+    }
+    // What matters is the state after: no element may still carry a drive letter or a users directory.
+    const leaking = nodes.filter(node => /^[a-z]:[\\/]/i.test(node.textContent.trim())
+      || /users[\\/]/i.test(node.textContent)).map(node => node.textContent.trim());
+    return { nodes: nodes.length, replaced, leaking };
+  }, { raw: workspace, anchored: portable(workspace) });
+
+  const captures = [];
+  const capture = async (name, before) => {
+    if (before) { await before(); await page.waitForTimeout(900); }
+    const anchored = await anchor();
+    // The property is the state after anchoring, not how many elements were rewritten: a screen that shows
+    // no path at all is a screen with nothing to leak, and reporting that as a finding would be the same
+    // mistake as concluding a defect from an absence.
+    if (anchored.leaking.length) finding('general', 'captura', `la captura ${name} habría mostrado una ruta sin anclar: ${anchored.leaking.join(' | ')}`);
+    await page.screenshot({ path: path.join(output, `${name}.png`) });
+    captures.push({ file: `${name}.png`, pathElements: anchored.nodes, anchored: anchored.replaced, leaking: anchored.leaking.length });
+  };
+  await capture('native-window');
+  await capture('native-inicio', () => page.getByRole('button', { name: 'Inicio', exact: true }).click());
+  await capture('native-proyectos', () => page.getByRole('button', { name: 'Tus proyectos', exact: true }).click());
+  await capture('native-ayuda', () => page.getByRole('button', { name: 'Ayuda', exact: true }).click());
+  // The four destinations, read off the installed window rather than asserted from the source.
+  record.navigation = await page.evaluate(() => [...document.querySelectorAll('nav [data-action]')]
+    .map(node => [node.dataset.action, node.textContent.replace(/\s+/g, ' ').trim()]));
+  if (record.navigation.length !== 4) finding('general', 'navegacion', `la ventana no muestra cuatro destinos: ${JSON.stringify(record.navigation)}`);
+  record.screenshots = captures;
+  record.screenshotPathAnchored = captures.every(entry => entry.leaking === 0);
 } finally {
   await browser?.close().catch(() => {});
   // Electron's children keep the data directory open, so end the whole tree rather than the wrapper.

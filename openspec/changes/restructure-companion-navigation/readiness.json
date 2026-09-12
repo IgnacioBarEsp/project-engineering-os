@@ -1,0 +1,218 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 97,
+  "change": "restructure-companion-navigation",
+  "surfaces": [
+    "documentation",
+    "harness-tooling",
+    "ui"
+  ],
+  "validations": [
+    {
+      "id": "accessibility-check",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "capability-matrix-check",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "component-or-interaction-tests",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/browser-journeys.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "constructor-tests",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "critical-document-presence",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "doctor-json-check",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "findability-two-hop-check",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "neutrality-check",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "openspec-strict",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "opsx-check",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "relative-link-check",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "responsive-check-when-configured",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/browser-journeys.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "second-run-idempotence",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "secret-scan",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "sync-check",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "visual-check-when-configured",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/native-journeys.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "dependency-signal-review",
+      "status": "passed",
+      "evidence": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "adversarial-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/restructure-companion-navigation/evidence/independent-review.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "issue-link",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/97",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "ground-truth-comparison",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/restructure-companion-navigation/evidence/native-journeys.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "keyboard-and-assistive-technology-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/restructure-companion-navigation/evidence/interface-contract.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "loading-empty-error-and-constrained-connectivity-states",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "qualitative-review-for-clarity-and-current-ownership",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/restructure-companion-navigation/evidence/independent-review.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recorded-drift-decisions",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "review-of-declared-degradations",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recovery-rehearsal-for-one-transaction",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "rollback": {
+    "strategy": "Revert the pull request. The interface returns to its previous structure and language, and the two read-only summaries added to the service and its engines disappear with it. Nothing in this change writes into a person's folder, so no prepared project, history entry or downloaded tool cache is touched. The installed application on the maintainer's machine keeps whatever source was last synchronised into it; restoring the previous interface there is a re-run of the native check with --sync-app from the reverted branch.",
+    "status": "verified",
+    "evidence": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "passed",
+    "ref": "openspec/changes/restructure-companion-navigation/evidence/independent-review.md",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}

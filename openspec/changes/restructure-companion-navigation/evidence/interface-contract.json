@@ -1,0 +1,760 @@
+{
+  "date": "2026-09-12T11:21:05.771Z",
+  "source": "<home>/Documents/Projects/project-engineering-os/apps/companion/ui",
+  "scope": "El renderer real servido desde una copia, con el servicio nativo reemplazado por una respuesta fija. No demuestra el motor ni la aplicación instalada.",
+  "glossaryTerms": 18,
+  "baseline": {
+    "jargon": [],
+    "purity": {
+      "cards": 1,
+      "strayParagraphs": [],
+      "furniture": []
+    },
+    "glossaryEntries": 18,
+    "accessibility": {
+      "inicio": {
+        "contrast": [],
+        "headingOrder": [],
+        "headings": [
+          1,
+          2,
+          3,
+          3,
+          3,
+          3,
+          2,
+          2
+        ],
+        "focusable": 8,
+        "terms": 1,
+        "termsReachable": 1
+      },
+      "ayuda": {
+        "contrast": [],
+        "headingOrder": [],
+        "headings": [
+          1,
+          2,
+          2,
+          2,
+          2
+        ],
+        "focusable": 6,
+        "terms": 1,
+        "termsReachable": 1
+      },
+      "tus proyectos": {
+        "contrast": [],
+        "headingOrder": [],
+        "headings": [
+          1,
+          2
+        ],
+        "focusable": 7,
+        "terms": 0,
+        "termsReachable": 0
+      }
+    },
+    "actions": [
+      [
+        "open-start",
+        [
+          "Inicio"
+        ]
+      ],
+      [
+        "open-project-list",
+        [
+          "Tus proyectos"
+        ]
+      ],
+      [
+        "prepare-project",
+        [
+          "Preparar proyecto"
+        ]
+      ],
+      [
+        "open-help",
+        [
+          "Ayuda"
+        ]
+      ],
+      [
+        "privacy-scope",
+        [
+          "Privacidad y alcance"
+        ]
+      ]
+    ],
+    "duplicated": [],
+    "missing": []
+  },
+  "mutations": [
+    {
+      "id": "two-names-for-one-action",
+      "reason": "la entrada de navegación vuelve a llamarse distinto que el botón que hace lo mismo",
+      "detected": true,
+      "observed": {
+        "jargon": [],
+        "purity": {
+          "cards": 1,
+          "strayParagraphs": [],
+          "furniture": []
+        },
+        "glossaryEntries": 18,
+        "accessibility": {
+          "inicio": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2,
+              3,
+              3,
+              3,
+              3,
+              2,
+              2
+            ],
+            "focusable": 8,
+            "terms": 1,
+            "termsReachable": 1
+          },
+          "ayuda": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2,
+              2,
+              2,
+              2
+            ],
+            "focusable": 6,
+            "terms": 1,
+            "termsReachable": 1
+          },
+          "tus proyectos": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2
+            ],
+            "focusable": 7,
+            "terms": 0,
+            "termsReachable": 0
+          }
+        },
+        "actions": [
+          [
+            "open-start",
+            [
+              "Inicio"
+            ]
+          ],
+          [
+            "open-project-list",
+            [
+              "Tus proyectos"
+            ]
+          ],
+          [
+            "prepare-project",
+            [
+              "Preparar una carpeta",
+              "Preparar proyecto"
+            ]
+          ],
+          [
+            "open-help",
+            [
+              "Ayuda"
+            ]
+          ],
+          [
+            "privacy-scope",
+            [
+              "Privacidad y alcance"
+            ]
+          ]
+        ],
+        "duplicated": [
+          "prepare-project: \"Preparar una carpeta\" (tus proyectos) vs \"Preparar proyecto\" (inicio)"
+        ],
+        "missing": []
+      }
+    },
+    {
+      "id": "greeting-back-in-the-list",
+      "reason": "la lista de proyectos recupera un saludo explicativo",
+      "detected": true,
+      "observed": {
+        "jargon": [],
+        "purity": {
+          "cards": 1,
+          "strayParagraphs": [
+            "Hola. Aquí están las carpetas que preparaste."
+          ],
+          "furniture": [
+            ".intro"
+          ]
+        },
+        "glossaryEntries": 18,
+        "accessibility": {
+          "inicio": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2,
+              3,
+              3,
+              3,
+              3,
+              2,
+              2
+            ],
+            "focusable": 8,
+            "terms": 1,
+            "termsReachable": 1
+          },
+          "ayuda": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2,
+              2,
+              2,
+              2
+            ],
+            "focusable": 6,
+            "terms": 1,
+            "termsReachable": 1
+          },
+          "tus proyectos": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2
+            ],
+            "focusable": 7,
+            "terms": 0,
+            "termsReachable": 0
+          }
+        },
+        "actions": [
+          [
+            "open-start",
+            [
+              "Inicio"
+            ]
+          ],
+          [
+            "open-project-list",
+            [
+              "Tus proyectos"
+            ]
+          ],
+          [
+            "prepare-project",
+            [
+              "Preparar proyecto"
+            ]
+          ],
+          [
+            "open-help",
+            [
+              "Ayuda"
+            ]
+          ],
+          [
+            "privacy-scope",
+            [
+              "Privacidad y alcance"
+            ]
+          ]
+        ],
+        "duplicated": [],
+        "missing": []
+      }
+    },
+    {
+      "id": "term-without-definition",
+      "reason": "un término técnico vuelve a aparecer en Inicio como prosa, sin definición alcanzable",
+      "detected": true,
+      "observed": {
+        "jargon": [
+          "OpenSpec"
+        ],
+        "purity": {
+          "cards": 1,
+          "strayParagraphs": [],
+          "furniture": []
+        },
+        "glossaryEntries": 18,
+        "accessibility": {
+          "inicio": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2,
+              3,
+              3,
+              3,
+              3,
+              2,
+              2
+            ],
+            "focusable": 7,
+            "terms": 0,
+            "termsReachable": 0
+          },
+          "ayuda": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2,
+              2,
+              2,
+              2
+            ],
+            "focusable": 6,
+            "terms": 1,
+            "termsReachable": 1
+          },
+          "tus proyectos": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2
+            ],
+            "focusable": 7,
+            "terms": 0,
+            "termsReachable": 0
+          }
+        },
+        "actions": [
+          [
+            "open-start",
+            [
+              "Inicio"
+            ]
+          ],
+          [
+            "open-project-list",
+            [
+              "Tus proyectos"
+            ]
+          ],
+          [
+            "prepare-project",
+            [
+              "Preparar proyecto"
+            ]
+          ],
+          [
+            "open-help",
+            [
+              "Ayuda"
+            ]
+          ],
+          [
+            "privacy-scope",
+            [
+              "Privacidad y alcance"
+            ]
+          ]
+        ],
+        "duplicated": [],
+        "missing": []
+      }
+    },
+    {
+      "id": "action-removed-from-the-page",
+      "reason": "se retira la declaración de una acción, que es la forma de satisfacer la comprobación por omisión",
+      "detected": true,
+      "observed": {
+        "jargon": [],
+        "purity": {
+          "cards": 1,
+          "strayParagraphs": [],
+          "furniture": []
+        },
+        "glossaryEntries": 18,
+        "accessibility": {
+          "inicio": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2,
+              3,
+              3,
+              3,
+              3,
+              2,
+              2
+            ],
+            "focusable": 8,
+            "terms": 1,
+            "termsReachable": 1
+          },
+          "ayuda": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2,
+              2,
+              2,
+              2
+            ],
+            "focusable": 6,
+            "terms": 1,
+            "termsReachable": 1
+          },
+          "tus proyectos": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2
+            ],
+            "focusable": 7,
+            "terms": 0,
+            "termsReachable": 0
+          }
+        },
+        "actions": [
+          [
+            "open-start",
+            [
+              "Inicio"
+            ]
+          ],
+          [
+            "open-project-list",
+            [
+              "Tus proyectos"
+            ]
+          ],
+          [
+            "prepare-project",
+            [
+              "Preparar proyecto"
+            ]
+          ],
+          [
+            "privacy-scope",
+            [
+              "Privacidad y alcance"
+            ]
+          ]
+        ],
+        "duplicated": [],
+        "missing": [
+          "open-help"
+        ]
+      }
+    },
+    {
+      "id": "glossary-stops-listing-every-term",
+      "reason": "la ayuda deja de reunir todas las definiciones",
+      "detected": true,
+      "observed": {
+        "jargon": [],
+        "purity": {
+          "cards": 1,
+          "strayParagraphs": [],
+          "furniture": []
+        },
+        "glossaryEntries": 5,
+        "accessibility": {
+          "inicio": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2,
+              3,
+              3,
+              3,
+              3,
+              2,
+              2
+            ],
+            "focusable": 8,
+            "terms": 1,
+            "termsReachable": 1
+          },
+          "ayuda": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2,
+              2,
+              2,
+              2
+            ],
+            "focusable": 6,
+            "terms": 1,
+            "termsReachable": 1
+          },
+          "tus proyectos": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2
+            ],
+            "focusable": 7,
+            "terms": 0,
+            "termsReachable": 0
+          }
+        },
+        "actions": [
+          [
+            "open-start",
+            [
+              "Inicio"
+            ]
+          ],
+          [
+            "open-project-list",
+            [
+              "Tus proyectos"
+            ]
+          ],
+          [
+            "prepare-project",
+            [
+              "Preparar proyecto"
+            ]
+          ],
+          [
+            "open-help",
+            [
+              "Ayuda"
+            ]
+          ],
+          [
+            "privacy-scope",
+            [
+              "Privacidad y alcance"
+            ]
+          ]
+        ],
+        "duplicated": [],
+        "missing": []
+      }
+    },
+    {
+      "id": "state-text-loses-its-contrast",
+      "reason": "el estado de cada proyecto se vuelve ilegible sobre su fondo",
+      "detected": true,
+      "observed": {
+        "jargon": [],
+        "purity": {
+          "cards": 1,
+          "strayParagraphs": [],
+          "furniture": []
+        },
+        "glossaryEntries": 18,
+        "accessibility": {
+          "inicio": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2,
+              3,
+              3,
+              3,
+              3,
+              2,
+              2
+            ],
+            "focusable": 8,
+            "terms": 1,
+            "termsReachable": 1
+          },
+          "ayuda": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2,
+              2,
+              2,
+              2
+            ],
+            "focusable": 6,
+            "terms": 1,
+            "termsReachable": 1
+          },
+          "tus proyectos": {
+            "contrast": [
+              {
+                "tag": "p",
+                "class": "project-state state-context",
+                "size": 13.76,
+                "ratio": 1.43,
+                "required": 4.5,
+                "text": "Carpeta preparada y archivos leídos Puedes buscar "
+              }
+            ],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2
+            ],
+            "focusable": 7,
+            "terms": 0,
+            "termsReachable": 0
+          }
+        },
+        "actions": [
+          [
+            "open-start",
+            [
+              "Inicio"
+            ]
+          ],
+          [
+            "open-project-list",
+            [
+              "Tus proyectos"
+            ]
+          ],
+          [
+            "prepare-project",
+            [
+              "Preparar proyecto"
+            ]
+          ],
+          [
+            "open-help",
+            [
+              "Ayuda"
+            ]
+          ],
+          [
+            "privacy-scope",
+            [
+              "Privacidad y alcance"
+            ]
+          ]
+        ],
+        "duplicated": [],
+        "missing": []
+      }
+    },
+    {
+      "id": "a-term-stops-being-a-control",
+      "reason": "un término deja de poder activarse con el teclado y pasa a ser texto",
+      "detected": true,
+      "observed": {
+        "jargon": [],
+        "purity": {
+          "cards": 1,
+          "strayParagraphs": [],
+          "furniture": []
+        },
+        "glossaryEntries": 18,
+        "accessibility": {
+          "inicio": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2,
+              3,
+              3,
+              3,
+              3,
+              2,
+              2
+            ],
+            "focusable": 7,
+            "terms": 1,
+            "termsReachable": 0
+          },
+          "ayuda": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2,
+              2,
+              2,
+              2
+            ],
+            "focusable": 5,
+            "terms": 1,
+            "termsReachable": 0
+          },
+          "tus proyectos": {
+            "contrast": [],
+            "headingOrder": [],
+            "headings": [
+              1,
+              2
+            ],
+            "focusable": 7,
+            "terms": 0,
+            "termsReachable": 0
+          }
+        },
+        "actions": [
+          [
+            "open-start",
+            [
+              "Inicio"
+            ]
+          ],
+          [
+            "open-project-list",
+            [
+              "Tus proyectos"
+            ]
+          ],
+          [
+            "prepare-project",
+            [
+              "Preparar proyecto"
+            ]
+          ],
+          [
+            "open-help",
+            [
+              "Ayuda"
+            ]
+          ],
+          [
+            "privacy-scope",
+            [
+              "Privacidad y alcance"
+            ]
+          ]
+        ],
+        "duplicated": [],
+        "missing": []
+      }
+    }
+  ],
+  "findings": [],
+  "rendererErrors": [],
+  "summary": {
+    "mutations": 7,
+    "detected": 7,
+    "findings": 0
+  }
+}

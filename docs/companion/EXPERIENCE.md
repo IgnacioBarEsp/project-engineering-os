@@ -37,6 +37,38 @@ ayuda, no crea límites artificiales. Una investigadora también puede desarroll
 puede organizar una carpeta de PDFs. Objetivo y contenido observado determinan el perfil; la persona puede
 corregir la recomendación antes de aplicar cambios.
 
+## Cuatro destinos
+
+La aplicación tiene cuatro destinos y cada uno hace un trabajo que ningún otro hace. La estructura anterior
+tenía dos entradas con nombres distintos para la misma acción, y la entrada llamada «Tus proyectos» era en
+realidad una página de bienvenida con los proyectos al final. Decisión del mantenedor el 12 de septiembre de
+2026, tras recorrer la aplicación instalada ([#97](https://github.com/IgnacioBarEsp/project-engineering-os/issues/97)).
+
+| Destino | Su trabajo | Lo que no contiene |
+| --- | --- | --- |
+| **Inicio** | Bienvenida, qué hace la aplicación en una frase, cómo trabaja, qué se descarga y por qué, qué se queda en este equipo, y la acción para empezar. | La lista de proyectos. |
+| **Tus proyectos** | Solo la lista, con el estado registrado de cada proyecto y su perfil. | Saludo, explicaciones, pasos numerados. |
+| **Preparar proyecto** | El asistente de ocho pasos descrito abajo. | — |
+| **Ayuda** | El método en palabras llanas y el [glosario](GLOSSARY.md). | Controles que cambien un proyecto. |
+
+Una acción se ofrece siempre con el mismo nombre, esté en la navegación o en el cuerpo de otra pantalla. Es
+una propiedad comprobada sobre la página renderizada, no una convención: cada control declara qué acción es,
+y dos nombres para una misma acción hacen fallar la comprobación.
+
+El estado que muestra la lista es el **registrado**, leído del recibo de cada etapa sin volver a inspeccionar
+la carpeta, y la pantalla lo dice. Verificar de verdad cuesta releer los archivos y, en software, comprobar
+las herramientas: eso ocurre al abrir el proyecto. «Preparado» es la palabra más fuerte que usa la lista;
+«Verificado» pertenece a una comprobación que sí volvió a leer la carpeta.
+
+Cada término técnico que sobrevive en la interfaz es un control que abre su propia definición desde donde
+aparece, y todas se reúnen en el glosario. La regla al reescribir el lenguaje fue que **se elimina el
+vocabulario técnico y el tono defensivo, no la verdad**: ninguna frase que declare un límite del resultado se
+quitó, y ningún beneficio sin medir se suavizó hasta parecer cierto.
+
+Que el lenguaje funcione con alguien que no conoce la aplicación no lo puede comprobar una máquina ni un
+agente. La [lectura en frío](COLD_READING.md) es el procedimiento para medirlo con una persona; hasta que
+alguien lo ejecute, esos dos criterios quedan sin verificar con su causa.
+
 ## Recorrido principal
 
 1. **Instalar la aplicación.** Ubicación de la app, licencia y aviso comprensible, instalar y abrir. Instalación
@@ -49,7 +81,7 @@ corregir la recomendación antes de aplicar cambios.
 7. **Preparar y comprobar.** Pasos con nombres útiles, progreso real, cancelación segura y reintento. No inventar un porcentaje si la duración es desconocida.
 8. **Continuar.** Resultado verificado, próximo paso y abrir IA/carpeta o exportar contexto. Un paso pendiente tiene explicación y acción concreta.
 
-El uso posterior ofrece un listado sencillo de proyectos con ruta, perfil y última comprobación. Dentro
+El uso posterior ofrece un listado sencillo de proyectos con ruta, perfil y estado registrado. Dentro
 de un proyecto: estado, búsqueda con fuentes, recetas útiles y recuperación. Las acciones frecuentes se
 completan con pocos pasos; configuración avanzada queda a un nivel adicional, accesible por teclado.
 
@@ -110,8 +142,10 @@ sincronización en nube y descargas indiscriminadas de modelos.
 | [#79](https://github.com/IgnacioBarEsp/project-engineering-os/issues/79) | Aplicación visual e integración del motor. |
 | [#80](https://github.com/IgnacioBarEsp/project-engineering-os/issues/80) | Instalador, empaquetado, actualización y límites de distribución. |
 | [#81](https://github.com/IgnacioBarEsp/project-engineering-os/issues/81) | QA real, landing y benchmarks; correcciones repetidas hasta cumplir aceptación. |
+| [#94](https://github.com/IgnacioBarEsp/project-engineering-os/issues/94) | Aceptación nativa, medición con modelo y entrega pública verificable. |
+| [#97](https://github.com/IgnacioBarEsp/project-engineering-os/issues/97) | Cuatro destinos, lenguaje entendible y glosario alcanzable desde donde aparece cada término. |
 
 Cada entrega conserva su flujo SDD. El programa sigue abierto mientras falte un criterio; una prueba local
-no demuestra compatibilidad universal. Consulta [arquitectura](ARCHITECTURE.md), [diseño](DESIGN.md) y
-[evaluación](EVALUATION.md). El [motor de preparación](PREPARATION.md) documenta la primera etapa de implementación.
+no demuestra compatibilidad universal. Consulta [arquitectura](ARCHITECTURE.md), [diseño](DESIGN.md),
+[glosario](GLOSSARY.md) y [evaluación](EVALUATION.md). El [motor de preparación](PREPARATION.md) documenta la primera etapa de implementación.
 El [contexto local](CONTEXT.md) detalla fuentes, recetas, rutas y límites de extracción.

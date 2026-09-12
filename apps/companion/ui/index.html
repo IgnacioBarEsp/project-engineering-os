@@ -13,11 +13,11 @@
     <aside class="sidebar" aria-label="Project Engineering OS">
       <div class="brand"><span class="brand-mark" aria-hidden="true">P<span>↗</span></span><span>Project<br>Engineering OS</span></div>
       <p class="edition">COMPANION <span>01</span></p>
-      <nav aria-label="Navegación principal"><button id="home" class="nav-button">Tus proyectos <span aria-hidden="true">↗</span></button><button id="new" class="nav-button">Preparar una carpeta <span aria-hidden="true">＋</span></button></nav>
-      <div class="sidebar-bottom"><div class="orbit" aria-hidden="true"><i></i><i></i><i></i><b>✳</b></div><p>Tu proyecto.<br>Tu contexto.<br><em>Tu siguiente paso.</em></p><small>Preparación local · Sin cuenta</small></div>
+      <nav aria-label="Navegación principal"><button id="start" class="nav-button" data-action="open-start">Inicio</button><button id="projects" class="nav-button" data-action="open-project-list">Tus proyectos</button><button id="new" class="nav-button" data-action="prepare-project">Preparar proyecto</button><button id="help" class="nav-button" data-action="open-help">Ayuda</button></nav>
+      <div class="sidebar-bottom"><div class="orbit" aria-hidden="true"><i></i><i></i><i></i><b>✳</b></div><p>Tu proyecto.<br>Tu contexto.<br><em>Tu siguiente paso.</em></p><small>Todo en este equipo · Sin cuenta</small></div>
     </aside>
     <main id="content" tabindex="-1">
-      <header class="topbar"><span id="breadcrumb">TU ESPACIO DE TRABAJO</span><button id="privacy" class="quiet">Privacidad y alcance</button></header>
+      <header class="topbar"><span id="breadcrumb">INICIO</span><button id="privacy" class="quiet" data-action="privacy-scope">Privacidad y alcance</button></header>
       <div id="feedback" class="feedback" role="alert" hidden></div>
       <div id="activity" class="activity" role="status" aria-live="polite" hidden><span class="spinner" aria-hidden="true"></span><span id="activity-text"></span><button id="cancel" class="quiet">Detener</button></div>
       <div id="view"></div>

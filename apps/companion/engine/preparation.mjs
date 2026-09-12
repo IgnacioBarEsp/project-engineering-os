@@ -197,6 +197,16 @@ export function createPreparationEngine() {
         return { status: 'rolled-back', transaction: value.id };
       });
     },
+    // What the records say, without re-reading the folder. `verify` re-inspects every file to detect a
+    // stale inventory, which is right when a person opens one project and wrong when a list has to show
+    // a state for each of them. This reads the receipt and the journal only: no inspection, no hashing of
+    // sources, no network. It is therefore a recorded state, not a verified one, and the interface that
+    // shows it has to say so.
+    async summary(target) {
+      const root = await canonicalFolder(target), journal = await readJournal(root), receipt = await readReceipt(root);
+      return { interrupted: ['applying', 'interrupted'].includes(journal.value?.status ?? ''),
+        prepared: !!receipt.value, selection: receipt.value?.selection ?? null };
+    },
     async verify(target) {
       const root = await canonicalFolder(target), journal = await readJournal(root), receipt = await readReceipt(root);
       if (journal.value && ['applying','interrupted'].includes(journal.value.status)) return { base: 'interrupted', context: 'pending', externalTools: 'not-verified' };

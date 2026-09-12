@@ -87,7 +87,20 @@ export async function createDesktopService({ dataRoot, core, environment = null,
   }
   async function safeStage(work,controls={}) {controls.signal?.throwIfAborted();try{const result=await work();controls.signal?.throwIfAborted();return result;}catch(e){if(controls.signal?.aborted)throw e;return {status:'requires-action',error:publicError(e)};}}
   return {
-    async listProjects(input={}) {exact(input,[]);noJob();const {items}=await history();return items.map(i=>({id:i.id,name:i.name,root:i.root}));},
+    // The list shows a state for every project, so it may not verify any of them: verifying re-inspects the
+    // folder, re-hashes the sources and, for software, checks the managed toolchain — minutes of work that
+    // belongs to opening one project. These are the recorded states, read from each stage's receipt and
+    // journal. The renderer says they are recorded. One unreadable or relocated folder becomes that entry's
+    // own state and never keeps the rest of the list from rendering.
+    async listProjects(input={}) {exact(input,[]);noJob();const {items}=await history();
+      return Promise.all(items.map(async i=>{
+        const entry={id:i.id,name:i.name,root:i.root,profile:i.selection?.profile??null,recorded:true};
+        try {
+          const b=await base.summary(i.root), c=await context.summary(i.root);
+          return {...entry,profile:b.selection?.profile??entry.profile,
+            state:b.interrupted||c.interrupted?'interrupted':!b.prepared?'not-prepared':c.prepared?'context':'prepared'};
+        } catch (error) {return {...entry,state:'unreadable',error:publicError(error)};}
+      }));},
     async chooseFolder(input={}) {exact(input,[]);return operation('Elegir carpeta',async()=>{
       const chosen=await chooseFolder();if(!chosen)return null;
       const root=await canonicalFolder(chosen), {items}=await history();
