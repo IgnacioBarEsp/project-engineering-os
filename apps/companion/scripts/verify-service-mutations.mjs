@@ -20,10 +20,39 @@ import { fileURLToPath } from 'node:url';
 const output = process.argv[2] ?? path.join(tmpdir(), 'project-os-closeout', 'companion-service-mutations');
 await mkdir(output, { recursive: true });
 const companion = fileURLToPath(new URL('../', import.meta.url));
-const target = path.join(companion, 'desktop', 'service.mjs');
-const suite = path.join('qa', 'project-list.mjs');
+const targets = { service: path.join(companion, 'desktop', 'service.mjs'),
+  inference: path.join(companion, 'runtime', 'inference.mjs'),
+  prompts: path.join(companion, 'context', 'prompts.mjs') };
+const suites = { service: path.join('qa', 'project-list.mjs'), inference: path.join('qa', 'prompts.mjs'),
+  prompts: path.join('qa', 'prompts.mjs') };
 
 const MUTATIONS = [
+  // What decides whether a person's material can leave this machine. An independent review got a file name
+  // into a request with nothing but a different capitalisation, so these are the ones that matter most.
+  { id: 'the-guard-stops-refusing-a-payload-with-project-data', file: 'inference',
+    reason: 'el guardia deja de mirar el cuerpo, así que una ruta del proyecto puede viajar hacia un modelo',
+    from: "      const leaking = projectDataIn(body, paths);",
+    to: "      const leaking = [];" },
+  { id: 'the-guard-compares-without-normalising', file: 'inference',
+    reason: 'el guardia vuelve a comparar tal cual, así que un nombre con otra caja o con otra normalización pasa',
+    from: "const comparable = value => String(value).normalize('NFC').toLowerCase();",
+    to: "const comparable = value => String(value);" },
+  { id: 'the-outbound-shape-passes-its-input-through', file: 'inference',
+    reason: 'los datos que viajan dejan de construirse campo por campo y se reenvía lo que llegue',
+    from: "export function shareableFacts(input = {}) {",
+    to: "export function shareableFacts(input = {}) { if (input) return input;" },
+  { id: 'a-model-answer-replaces-the-rules', file: 'inference',
+    reason: 'lo que devuelve un modelo vuelve a quedarse solo, sin las reglas que esta aplicación impone',
+    from: '    modelText.trim(), rules.trim()].join(',
+    to: '    modelText.trim()].join(' },
+  { id: 'the-floor-accepts-anything-long-enough', file: 'inference',
+    reason: 'el piso vuelve a medir solo el largo, así que un texto sobre cualquier otra cosa lo supera',
+    from: "    if (covered < 3) problems.push('no cubre qué preparar, cómo trabajar y qué reglas seguir');",
+    to: "    if (covered < 0) problems.push('no cubre qué preparar, cómo trabajar y qué reglas seguir');" },
+  { id: 'the-aggregate-carries-the-paths', file: 'prompts',
+    reason: 'el agregado del inventario deja de ser un agregado y lleva la lista de archivos con sus rutas',
+    from: "  return {\n    total: inventory?.files?.length ?? 0,",
+    to: "  return {\n    files: inventory?.files ?? [],\n    total: inventory?.files?.length ?? 0," },
   { id: 'the-witness-never-reports-a-change',
     reason: 'la comparación de resúmenes deja de encontrar diferencias, así que un proyecto sigue listo después de cambiar un archivo del que dependía',
     from: '    for (const item of verdict.witness) if (await witnessHash(root, item.path) !== item.hash) changed.add(item.stage);',
@@ -70,7 +99,7 @@ const MUTATIONS = [
     to: "const reason = (...values) => values.find(value => typeof value === 'string' && value) ?? 'ready';" },
 ];
 
-const run = () => {
+const run = (suite) => {
   const result = spawnSync(process.execPath, ['--test', suite],
     { cwd: companion, encoding: 'utf8', windowsHide: true });
   const text = `${result.stdout ?? ''}${result.stderr ?? ''}`;
@@ -86,26 +115,33 @@ const run = () => {
   return { status: result.status, failed, crashed: result.status === null };
 };
 
-const original = await readFile(target, 'utf8');
-const record = { date: new Date().toISOString(), target: 'apps/companion/desktop/service.mjs', suite,
+const originals = {};
+for (const [name, file] of Object.entries(targets)) originals[name] = await readFile(file, 'utf8');
+const record = { date: new Date().toISOString(),
+  targets: Object.fromEntries(Object.entries(targets).map(([name, file]) => [name, path.relative(companion, file).split(path.sep).join('/')])),
   note: 'La detección se atribuye a la prueba que falló, no al código de salida.', mutations: [] };
 try {
-  const baseline = run();
-  assert.equal(baseline.status, 0, `La suite tiene que pasar sin mutar: ${baseline.failed.join(', ')}`);
-  record.baseline = { status: baseline.status, failed: baseline.failed };
+  for (const [name, suite] of Object.entries(suites)) {
+    const baseline = run(suite);
+    assert.equal(baseline.status, 0, `${suite} tiene que pasar sin mutar: ${baseline.failed.join(', ')}`);
+  }
+  record.baseline = { suites: Object.values(suites) };
   for (const mutation of MUTATIONS) {
+    const which = mutation.file ?? 'service';
+    const file = targets[which], original = originals[which];
     assert.ok(original.includes(mutation.from), `La mutación ${mutation.id} no encontró su punto de inserción.`);
-    await writeFile(target, original.replace(mutation.from, mutation.to));
-    const result = run();
-    record.mutations.push({ id: mutation.id, reason: mutation.reason,
+    await writeFile(file, original.replace(mutation.from, mutation.to));
+    const result = run(suites[which]);
+    record.mutations.push({ id: mutation.id, target: which, reason: mutation.reason,
       detected: result.failed.length > 0, caughtBy: result.failed, exitCode: result.status,
       by: result.failed.length ? null : result.crashed ? 'la suite no pudo ejecutarse' : 'ninguna prueba falló' });
-    await writeFile(target, original);
+    await writeFile(file, original);
   }
 } finally {
-  await writeFile(target, original);
+  for (const [name, file] of Object.entries(targets)) await writeFile(file, originals[name]);
 }
-record.restored = (await readFile(target, 'utf8')) === original;
+record.restored = (await Promise.all(Object.entries(targets)
+  .map(async ([name, file]) => (await readFile(file, 'utf8')) === originals[name]))).every(Boolean);
 record.summary = { mutations: record.mutations.length,
   detected: record.mutations.filter(entry => entry.detected).length, restored: record.restored };
 await writeFile(path.join(output, 'service-mutations.json'), `${JSON.stringify(record, null, 2)}\n`);

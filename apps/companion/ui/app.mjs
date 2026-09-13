@@ -29,7 +29,7 @@ const stageList=stages=>stages.flatMap((stage,index)=>{
   return index?[', ',node]:[node];});
 const onDate=value=>{const when=new Date(value??'');return Number.isNaN(when.getTime())?null
   :when.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});};
-const state={page:'start',tab:'overview',busy:false,projects:[],project:null,plan:null,status:null,query:'',selection:{name:'',goal:'',role:'researcher',profile:'research',experience:'guided',agents:['web']}};
+const state={page:'start',tab:'overview',busy:false,projects:[],project:null,plan:null,status:null,query:'',inference:null,notes:null,selection:{name:'',goal:'',role:'researcher',profile:'research',experience:'guided',agents:['web']}};
 function el(tag,props={},...children){const node=document.createElement(tag);for(const [k,v] of Object.entries(props)){if(k==='class')node.className=v;else if(k==='text')node.textContent=v;else if(k.startsWith('on'))node.addEventListener(k.slice(2).toLowerCase(),v);else if(v!==false&&v!==undefined&&v!==null)node.setAttribute(k,v===true?'':v);}for(const c of children.flat(Infinity)){if(c!==null&&c!==undefined)node.append(c instanceof Node?c:document.createTextNode(String(c)));}return node;}
 const p=(text,cls='')=>el('p',{class:cls,text});
 const btn=(text,action,cls='secondary')=>el('button',{type:'button',class:cls,onClick:()=>run(action)},text);
@@ -380,6 +380,10 @@ async function showWorkspace(refresh=true){state.page='workspace';if(refresh)sta
   const content=[el('p',{class:'eyebrow',text:profiles[s.base.selection?.profile]?.[0]??'TU PROYECTO'}),...ownHeading(s.project.name,s.project.selection?.goal??'Comprueba cómo está y elige tu siguiente paso.',!!s.project.selection?.goal),own(s.project.root,'p',{class:'path'}),
     el('div',{class:'tool-tabs','aria-label':'Herramientas del proyecto'},Object.entries({overview:'Estado',search:'Buscar en mis archivos',recipes:'Recetas',handoff:'Continuar con mi IA'}).map(([id,label])=>{
       const b=btn(label,async()=>{state.tab=id;await showWorkspace(false);},'');b.setAttribute('aria-pressed',String(state.tab===id));return b;})),
+    // One of those tabs is named with a word of this vocabulary, so its definition has to be openable from
+    // every tab and not only from the one that explains it. The stricter reading of the vocabulary rule found
+    // this: the word used to hide in the seam between two adjacent tab labels.
+    el('p',{class:'subtle tab-note'},'Cada ',term('receta'),' es un recorrido corto para pedir un resultado concreto y comprobarlo.'),
   ];
   if(state.tab==='overview')content.push(
     el('div',{class:'status-grid'},statusCard('Tus elecciones',s.base.base==='prepared'&&s.base.inventory!=='stale',s.base.inventory==='stale'?'La carpeta cambió desde la primera mirada, así que este resumen ya no la describe. Vuelve a guardar tus elecciones para actualizarlo.':'El tipo de trabajo y las IA que elegiste.'),
@@ -411,7 +415,7 @@ async function showWorkspace(refresh=true){state.page='workspace';if(refresh)sta
         ...['sdd','openspec','deuda','revision-adversarial','cita','fuente','contexto','inventario','ingenieria','exclusion','perfil','firma','recuperacion','mapa-de-codigo','agente'].flatMap((id,i)=>i?[', ',term(id)]:[term(id)]),'.')),
       panel(el('h2',{text:'Herramientas de relaciones entre archivos'}),p('El mapa de código de esta aplicación y los índices externos tienen estados separados. Cambiar a otra alternativa necesita revisar antes sus requisitos, su licencia y que funcione.'),...w.graphs.options.map(g=>p(`${g.id} · ${g.license} · ${g.presence==='artifact-present'?'Se encontró un índice externo sin comprobar':'Índice externo no comprobado'}.`,'subtle'))));
   }
-  if(state.tab==='handoff')content.push(handoffView(s));
+  if(state.tab==='handoff')content.push(await handoffView(s));
   render(content,'TU PROYECTO / '+({overview:'ESTADO',search:'ARCHIVOS',recipes:'RECETAS',handoff:'TU IA'}[state.tab]));
 }
 function recovery(s){const stages=s.capabilities?.environment?['base','context','activation']:['base','context'];const labels={base:'tus elecciones',context:'la lectura de archivos',activation:'la activación de OpenSpec'};const interrupted=stages.filter(k=>k==='activation'?s.engineering.activationInterrupted:(k==='base'?s.base.base:s.context.context)==='interrupted');return el('details',{},el('summary',{text:'Continuar o deshacer una operación'}),el('p',{class:'subtle'},'Continúa una operación que quedó a medias o deshaz el último cambio de una etapa. Es la ',term('recuperacion'),': se comprueban los archivos antes de tocar nada, y una edición posterior puede impedirlo.'),
@@ -433,7 +437,79 @@ function codeSearchView(){const results=el('div',{'aria-live':'polite'}),query=i
       ...result.hits.map(h=>el('article',{class:'result'},el('h3',{text:h.name}),p(`${h.path} · líneas ${h.start}–${h.end}`,'citation'),p(h.kind,'subtle'))));});}},
       el('div',{class:'search-line'},field('Nombre del símbolo','symbol-query',query,'Por ejemplo: calculateBudget o PlayerController.'),el('button',{type:'submit',class:'primary',text:'Buscar en el mapa'}))),results);
 }
-function handoffView(s){return el('section',{},panel(el('h2',{text:'Sigue en la herramienta que ya usas.'}),el('p',{},'Si tu IA está instalada en el equipo, se abre con la carpeta de este proyecto. Si es un chat en el navegador, busca y copia solo los fragmentos que quieras compartir. La diferencia es qué es una ',term('agente','IA con acceso a archivos'),'.'),
+// Which model writes the instructions, what it receives and what it never receives, said where the
+// instructions are offered rather than in a settings screen nobody opens. The level that leaves this machine
+// ships off: free tiers commonly train on what they receive, and nobody can accept that on someone else's
+// behalf.
+function modelPanel(status,prompt){
+  const refresh=async()=>{state.inference=await call('inferenceStatus');await showWorkspace(false);};
+  const set=async patch=>{await call('setInference',{level:status.level,provider:status.provider,model:status.model,key:null,...patch});await refresh();};
+  const chosen=id=>id===status.level;
+  return panel(el('h2',{text:'Quién escribe estas instrucciones'}),
+    el('p',{},`Ahora mismo: ${prompt.levelLabel}.`,prompt.reason?` ${prompt.reason.charAt(0).toUpperCase()}${prompt.reason.slice(1)}.`:''),
+    el('p',{class:'subtle'},'La plantilla de esta aplicación es el piso. Un modelo solo puede reemplazarla si lo que devuelve trae las secciones completas, habla de este proyecto y no afirma nada que aquí no se afirme.'),
+    el('div',{class:'levels'},status.levels.map(level=>{
+      const unavailable=level.id==='local'&&!status.local.available;
+      const control=el('button',{type:'button',class:chosen(level.id)?'secondary chosen':'quiet',
+        'aria-pressed':String(chosen(level.id)),disabled:unavailable||undefined,
+        onClick:()=>run(()=>set({level:level.id}))},level.label);
+      return el('div',{class:'level'},control,
+        level.id==='local'?el('small',{text:status.local.available
+          ?`Hay ${status.local.models.length} modelo(s) respondiendo en tu equipo.`
+          :'No hay ningún modelo respondiendo en tu equipo ahora mismo.'}):null,
+        level.id==='provider'?el('small',{text:'Viene apagado. Se enciende con tu clave, y la clave no se guarda: vive solo mientras la aplicación está abierta.'}):null);})),
+    ['provider','own-key'].includes(status.level)?el('div',{class:'fields'},
+      field('Proveedor','inference-provider',select('inference-provider',Object.fromEntries(status.providers.map(entry=>[entry.id,entry.label])),status.provider,value=>run(()=>set({provider:value})))),
+      el('div',{class:'field'},el('label',{for:'inference-model',text:'Modelo'}),
+        el('input',{type:'text',id:'inference-model',maxlength:'120',value:status.model,autocomplete:'off',
+          onChange:e=>run(()=>set({model:e.target.value}))}),
+        el('small',{text:'El identificador exacto que usa tu proveedor. Se guarda al salir del campo.'}))):null,
+    status.level==='local'&&status.local.available?field('Modelo','inference-model',
+      select('inference-model',Object.fromEntries(status.local.models.map(id=>[id,id])),status.model||status.local.models[0],value=>run(()=>set({model:value}))),
+      'La primera respuesta puede tardar mientras tu equipo carga el modelo. Puedes detenerla.'):null,
+    ['provider','own-key'].includes(status.level)?el('div',{class:'field'},
+      el('label',{for:'inference-key',text:'Tu clave'}),
+      el('input',{type:'password',id:'inference-key',autocomplete:'off',spellcheck:'false',
+        onChange:e=>run(async()=>{await call('setInference',{level:status.level,provider:status.provider,model:status.model,key:e.target.value});await refresh();})}),
+      el('small',{text:'No se guarda en ninguna parte. Si cierras la aplicación, se pide de nuevo.'})):null,
+    el('div',{class:'sends'},
+      el('div',{},el('h3',{text:'Qué se envía'}),el('ul',{},status.sends.map(item=>el('li',{text:item}))),
+        el('small',{},'Tu ',term('perfil'),' es el tipo de trabajo que elegiste, no quién eres.')),
+      el('div',{},el('h3',{text:'Qué nunca se envía'}),el('ul',{},status.neverSends.map(item=>el('li',{text:item}))))),
+    status.level==='off'?p('Con esto apagado la aplicación está completa: las instrucciones las escribe la plantilla, aquí, sin enviar nada a ninguna parte.','subtle'):null);
+}
+// Deeper without reading: the person's own AI already has access to that folder, so it investigates and they
+// paste the summary back. This application still opens nothing.
+function investigationPanel(){
+  const stored=state.notes??null;
+  return panel(el('h2',{text:'Pídele a tu IA que investigue tu carpeta'}),
+    p('Esta aplicación no abre tus archivos para escribir estas instrucciones. Si quieres que sean más específicas, dale este texto a la IA que ya usas y pega aquí lo que te conteste.'),
+    stored?el('pre',{class:'prompt',text:stored}):null,
+    actions(btn('Ver el texto para tu IA',async()=>{
+      const value=await call('investigationPrompt',{id:state.project.id});
+      openDialog('Para tu IA',[p('Pégale esto a la IA que ya usas. Responde con una descripción, no con el contenido de tus archivos.'),
+        el('pre',{text:value.text,tabindex:'0','aria-label':'Texto para tu IA'}),
+        el('div',{class:'field'},el('label',{for:'notes',text:'Lo que te contestó'}),
+          el('textarea',{id:'notes',rows:'6',placeholder:'Pega aquí la respuesta'}),
+          el('small',{text:'Se usa para escribir tus instrucciones y no sale de este equipo, ni siquiera hacia un modelo.'})),
+        actions(btn('Volver',async()=>closeDialog()),btn('Guardar lo que me contestó',async()=>{
+          const value=$('notes').value;await call('applyNotes',{id:state.project.id,notes:value});
+          state.notes=value.trim()||null;closeDialog();await showWorkspace(false);
+          notice(state.notes?'Guardado. Tus instrucciones ahora lo incluyen.':'Se quitó lo que habías pegado.');},'primary'))]);
+    })));
+}
+async function handoffView(s){
+  state.inference=state.inference??await call('inferenceStatus');
+  const prompt=await call('promptPreview',{id:state.project.id});
+  state.notes=prompt.notes??null;
+  return el('section',{},panel(el('h2',{text:'Las instrucciones para tu IA sobre este proyecto'}),
+      el('p',{},'Están escritas a partir de lo que elegiste y de cuántos archivos de cada tipo hay en la carpeta. Ningún archivo se abrió para escribirlas.'),
+      prompt.fromModel?el('p',{class:'subtle'},`Parte de este texto lo escribió ${prompt.levelLabel.toLowerCase()} a partir de tus respuestas. Las reglas del final son de esta aplicación y van siempre, escriba quien escriba el resto.`):null,
+      el('pre',{class:'prompt',text:prompt.text,tabindex:'0','aria-label':'Instrucciones para tu IA'}),
+      prompt.pending.length?p('Las instrucciones dicen además qué etapas de este proyecto no están listas, para que tu IA no las dé por hechas.','subtle'):null),
+    modelPanel(state.inference,prompt),
+    investigationPanel(),
+    panel(el('h2',{text:'Sigue en la herramienta que ya usas.'}),el('p',{},'Si tu IA está instalada en el equipo, se abre con la carpeta de este proyecto. Si es un chat en el navegador, busca y copia solo los fragmentos que quieras compartir. La diferencia es qué es una ',term('agente','IA con acceso a archivos'),'.'),
     el('p',{class:'subtle'},'Solo se abre una aplicación cuya ',term('firma'),' se pudo comprobar. Abrir la carpeta no demuestra que la IA la haya leído.'),
     actions(...(s.base.selection?.agents??[]).map(a=>btn(`Abrir ${agents[a]} ↗`,async()=>{
       const preview=await call('handoffPreview',{id:state.project.id,agent:a});

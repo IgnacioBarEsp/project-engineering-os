@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "flow": "compose-project-specific-prompts-remediation",
+  "date": "2026-09-13",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/compose-project-specific-prompts/evidence/native-journeys.json",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "El item pedia decidir si dejar de devolver cita tras cerrar y reabrir en software y Unity es correcto o un defecto. Ya se puede decidir, y con medicion en vez de opinion. Los cinco recorridos nativos de esta rama registran, para esos dos perfiles, citationSurvived=false junto con 'context refused after reopen, with reason: explained=true': la aplicacion no devuelve una cita y dice por que. La causa es la misma que el issue 98 dejo medida y escrita: las etapas de desarrollo escriben archivos administrados dentro de la carpeta, asi que el indice de contexto deja de describirla y la aplicacion se niega a citar desde un indice que ya no corresponde. Los tres perfiles que no escriben archivos administrados conservan su cita en la misma corrida, que es el control. Negarse y explicarlo es el comportamiento correcto: devolver una cita desde un indice viejo seria afirmar una ubicacion que puede haber cambiado. Se decide que es correcto, no un defecto. La segunda mitad del titulo, que la activacion no avanza, no se decide aqui porque es otra cosa y ya esta registrada como debt-25431ff4ae7f desde el saneamiento de #94: contarla otra vez seria contarla dos veces",
+        "result": "resuelto",
+        "date": "2026-09-13"
+      },
+      "title": "Tras cerrar y reabrir, software y Unity dejan de devolver cita, y la activación no avanza: falta decidir si es correcto o un defecto",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "source": "adversarial-review",
+      "category": "decision-required",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "resolvedPreviously": true
+    }
+  ]
+}

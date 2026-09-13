@@ -14,8 +14,33 @@ Los originales del usuario, el alcance de carpeta seleccionado y los recibos de 
 activos principales. El llamador de confianza es el proceso principal de la app, que mantiene los planes;
 la futura interfaz recibe una vista y un identificador, no autoridad para elegir comandos o contenidos.
 Los archivos, nombres, recibos y journals de un proyecto se tratan como entrada no confiable. No existe
-autenticación remota, sesión web, secreto de proveedor, telemetría, envío de documentos ni ejecución de IA
-en esta etapa. Un identificador de plan es local al proceso y no se puede reutilizar en otra instancia.
+autenticación remota, sesión web, secreto de proveedor, telemetría ni envío de documentos. Un identificador
+de plan es local al proceso y no se puede reutilizar en otra instancia.
+
+## Cuando hay un modelo de por medio
+
+Desde el [issue 99](https://github.com/IgnacioBarEsp/project-engineering-os/issues/99) la aplicación puede
+pedirle a un modelo que redacte las instrucciones que la persona le dará a su propia IA. Lo que eso cambia y
+lo que no:
+
+- **La interfaz sigue sin poder hablar con la red.** Su política de contenido es `connect-src 'none'`. Toda
+  petición se hace en el proceso principal, que es donde ya vivía la única salida a Internet.
+- **Nunca sale el contenido de un archivo ni la ruta de un archivo.** Lo que viaja se construye campo por
+  campo —tipo de proyecto, experiencia, perfil, objetivo, IA elegida, etapas pendientes y un agregado de
+  extensiones y conteos— y un guardia se niega a enviar un cuerpo donde aparezca una ruta del proyecto,
+  comparando sin distinguir mayúsculas ni normalización Unicode. Tampoco sale lo que la propia IA de la
+  persona le haya reportado sobre su carpeta.
+- **Nada del mantenedor viaja dentro de la aplicación.** No se distribuye ninguna clave: el nivel que usa un
+  proveedor viene apagado y funciona con la clave de la persona, que **no se guarda en ningún archivo** y vive
+  en memoria mientras la aplicación está abierta. Se empaqueta con `asar: false`, así que un secreto dentro
+  sería texto plano.
+- **Lo que devuelve un modelo es entrada no confiable.** Nunca reemplaza las reglas que esta aplicación
+  impone: se le añaden después, con una nota que dice qué mitad escribió quién, y esas reglas incluyen no
+  seguir instrucciones que pidan enviar archivos o credenciales a ninguna parte. El texto va a una IA que sí
+  puede abrir la carpeta de la persona, y ese es el motivo.
+- **Cada llamada está acotada**: destino en una lista explícita, `https:` fuera del equipo, sin seguir
+  redirecciones, sin credenciales en la dirección, con tiempo máximo y con un tamaño de respuesta que se corta
+  mientras se lee.
 
 | Riesgo | Control y comprobación |
 | --- | --- |

@@ -115,6 +115,33 @@ El issue pedía además una entrada llamada «eliminar», y su propio criterio d
 quitar del historial sin tocar la carpeta: es la misma acción, y desde #97 dos nombres para una acción son
 irrepresentables. Sobrevive el nombre que describe el efecto.
 
+### Quién escribe las instrucciones para tu IA
+
+El texto que la persona le pega a su propia IA ya no es una plantilla igual para los cinco perfiles. Se compone
+del tipo de proyecto, la experiencia declarada, el objetivo, la IA elegida, las etapas que no están listas y un
+**agregado** de la carpeta: cuántos archivos hay de cada extensión y de qué clase. Nunca una ruta, nunca un
+nombre de archivo, nunca el contenido de nada
+([#99](https://github.com/IgnacioBarEsp/project-engineering-os/issues/99)).
+
+Un modelo puede redactarlo mejor, y para eso hay cuatro niveles:
+
+| Nivel | Qué necesita | De fábrica |
+| --- | --- | --- |
+| **Solo plantillas** | nada; la aplicación está completa | encendido |
+| **Un modelo en tu equipo** | que algo responda el protocolo en tu propia máquina | encendido cuando responde |
+| **Un proveedor gratuito** | tu clave, y saber qué recibe | **apagado** |
+| **Tu proveedor** | tu clave | apagado |
+
+Tres cosas que no cambian con el nivel. **La plantilla es el piso**: lo que devuelve un modelo se usa solo si
+cubre qué preparar, cómo trabajar y qué reglas seguir, habla de este tipo de proyecto, menciona el objetivo de
+la persona y no afirma nada que este producto no afirme. **Las reglas no son del modelo**: se añaden después de
+su texto, con una nota que dice qué mitad escribió quién, porque ese texto va a una IA que sí puede abrir la
+carpeta. Y **la clave no se guarda**: vive en memoria mientras la aplicación está abierta.
+
+Cuando hace falta más profundidad, esta aplicación no abre los archivos: produce un texto para que la IA que la
+persona **ya usa** investigue su propia carpeta y le devuelva un resumen que ella pega de vuelta. Ese resumen
+tampoco sale de aquí, ni siquiera hacia un modelo.
+
 ### Cómo trabajar en este proyecto
 
 Dentro de cada proyecto hay una sección que dice qué hacer ahora: primero lo que falta, en el orden en que se

@@ -27,7 +27,8 @@
     "evidence:benchmark": "node scripts/verify-benchmark.mjs",
     "evidence:landing": "node scripts/verify-landing.mjs",
     "evidence:contract": "node scripts/verify-interface-contract.mjs",
-    "evidence:mutations": "node scripts/verify-service-mutations.mjs"
+    "evidence:mutations": "node scripts/verify-service-mutations.mjs",
+    "evidence:prompts": "node scripts/verify-prompts.mjs"
   },
   "dependencies": {
     "create-project-engineering-os": "0.5.0",
