@@ -1053,13 +1053,17 @@
         {
           "flow": "restructure-companion-navigation-remediation",
           "date": "2026-09-12"
+        },
+        {
+          "flow": "show-verified-project-state",
+          "date": "2026-09-13"
         }
       ],
       "issue": null,
       "status": "refuted",
       "exception": null,
       "createdAt": "2026-09-12",
-      "updatedAt": "2026-09-12",
+      "updatedAt": "2026-09-13",
       "resolution": {
         "flow": "restructure-companion-navigation-remediation-2",
         "evidence": "refutado"
@@ -1099,6 +1103,70 @@
         "flow": "restructure-companion-navigation-remediation-2",
         "evidence": "resuelto"
       }
+    },
+    {
+      "id": "debt-210d9c0fcca8",
+      "title": "Cualquier archivo nuevo en la carpeta deja al proyecto fuera del estado listo hasta que se revisa la preparacion otra vez, y ese paso lo tiene que iniciar la persona",
+      "description": "Cualquier archivo nuevo en la carpeta deja al proyecto fuera del estado listo hasta que se revisa la preparacion otra vez, y ese paso lo tiene que iniciar la persona",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/desktop/service.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/show-verified-project-state/design.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "show-verified-project-state",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-6ec4205b019a",
+      "title": "El resumen que respalda la marca no cubre la cadena de herramientas administrada, porque vive fuera de la carpeta del proyecto",
+      "description": "El resumen que respalda la marca no cubre la cadena de herramientas administrada, porque vive fuera de la carpeta del proyecto",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/runtime/environment.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/show-verified-project-state/evidence/states-and-degradations.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "show-verified-project-state",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
     }
   ]
 }

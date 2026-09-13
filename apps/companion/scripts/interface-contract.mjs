@@ -106,12 +106,15 @@ export const LIST_PURITY = () => {
 // Declared explicitly, because a check that only inspects the controls it finds can be satisfied by removing
 // one. The set has to match, not merely be consistent.
 export const EXPECTED_ACTIONS = ['open-start', 'open-project-list', 'prepare-project', 'open-help',
-  'privacy-scope', 'open-workspace', 'recheck-project', 'read-files', 'review-development',
+  'privacy-scope', 'open-workspace', 'recheck-project', 'read-files', 'resave-base', 'review-development',
   'review-code-map', 'repair-tools'];
 
 // Two of them only exist when the managed toolchain is available: the code map and its repair belong to the
-// runtime, and a probe run without it would report them as missing rather than as out of scope.
+// runtime, and a probe run without it would report them as missing rather than as out of scope. One more
+// only exists when a project's saved answers no longer describe its folder, which no journey can force
+// without editing the person's folder from outside the interface.
 export const RUNTIME_ONLY_ACTIONS = ['review-code-map', 'repair-tools'];
+export const CONDITIONAL_ACTIONS = ['resave-base'];
 
 export function duplicateActionNames(seen) {
   return [...seen].filter(([, names]) => names.size > 1)
@@ -128,15 +131,171 @@ export function collectActionPairs(pairs, into, where) {
   }
 }
 
-export function missingActions(seen, { runtime = true } = {}) {
+export function missingActions(seen, { runtime = true, conditional = true } = {}) {
   return EXPECTED_ACTIONS
     .filter(action => runtime || !RUNTIME_ONLY_ACTIONS.includes(action))
+    .filter(action => conditional || !CONDITIONAL_ACTIONS.includes(action))
     .filter(action => !seen.has(action));
 }
 
 export function undeclaredActions(seen) {
   return [...seen.keys()].filter(action => !EXPECTED_ACTIONS.includes(action));
 }
+
+// The controls that act on one listed project. They are not destinations, so they are not in the action
+// table, but the same rule applies: one name per action. The project's own name is content marked as the
+// person's and is removed before the name is read, which is what lets a screen reader announce which row a
+// control belongs to without the interface's own name for the action multiplying by the number of rows.
+export const EXPECTED_ROW_ACTIONS = ['open-project', 'duplicate-project', 'forget-project'];
+export const PRIMARY_ROW_ACTIONS = ['open-project'];
+export const ROW_ACTION_PAIRS = () => [...document.querySelectorAll('[data-row-action]')].map(node => {
+  const clone = node.cloneNode(true);
+  clone.querySelectorAll('[data-content="person"]').forEach(part => part.remove());
+  const visible = clone.textContent.replace(/\s+/g, ' ').replace(/^[\s—-]+|[\s—-]+$/g, '').trim();
+  const label = node.getAttribute('aria-label')?.replace(/\s+/g, ' ').trim();
+  return { action: node.dataset.rowAction, visible, spoken: label || visible, inMenu: !!node.closest('details') };
+});
+
+// One control per declared action per screen. Since the label lives with the action, two controls cannot
+// carry two names any more — but they can still make a screen ambiguous, and an ambiguous screen is read as
+// two different things to do. This was found by the journey harness clicking a name that resolved to two
+// controls: the guidance for the project offered the file reading as its pending step while a second panel
+// offered it as the next step.
+//
+// Scoped to the screen's own content. The persistent navigation and the topbar are a different region, read as
+// such, and a screen whose own call to action repeats a navigation entry is not ambiguous — removing Inicio's
+// primary control because the sidebar also lists that destination would be a worse screen, not a clearer one.
+// Two controls for one action inside the content is what a person reads as two different things to do.
+export const ACTION_COUNTS = () => {
+  const open = !!document.getElementById('dialog')?.open;
+  const counts = {};
+  const regions = [document.getElementById('view'), open ? document.getElementById('dialog') : null].filter(Boolean);
+  for (const region of regions) {
+    for (const node of region.querySelectorAll('[data-action]')) {
+      if (region.id !== 'dialog' && node.offsetParent === null) continue;
+      counts[node.dataset.action] = (counts[node.dataset.action] ?? 0) + 1;
+    }
+  }
+  return counts;
+};
+export const repeatedActions = counts => Object.entries(counts).filter(([, count]) => count > 1)
+  .map(([action, count]) => `${action} en ${count} controles`);
+
+// Read off the rendered page, not reviewed by eye: which row actions each card offers, which of them are
+// inside the secondary menu, and whether the card itself is the control that opens the project.
+export const ROW_MENUS = () => [...document.querySelectorAll('article.project')].map(card => {
+  const controls = [...card.querySelectorAll('[data-row-action]')];
+  // The card opens the project only if the control that does it is the card's own heading and is NOT inside
+  // the secondary menu. Without the second half, moving the opener into a disclosure inside the heading
+  // would still read as "the card opens it".
+  const opener = card.querySelector('h2 [data-row-action="open-project"]');
+  return { actions: controls.map(node => node.dataset.rowAction),
+    outside: controls.filter(node => !node.closest('details')).map(node => node.dataset.rowAction),
+    opensFromCard: !!opener && !opener.closest('details'),
+    menus: card.querySelectorAll('details.more').length };
+});
+export function rowMenuProblems(cards) {
+  const problems = [];
+  cards.forEach((card, index) => {
+    for (const action of PRIMARY_ROW_ACTIONS) {
+      if (!card.outside.includes(action)) problems.push(`fila ${index + 1}: ${action} solo vive en el menú`);
+    }
+    if (!card.opensFromCard) problems.push(`fila ${index + 1}: la tarjeta no abre el proyecto`);
+    if (card.menus !== 1) problems.push(`fila ${index + 1}: ${card.menus} menús secundarios`);
+    const missing = EXPECTED_ROW_ACTIONS.filter(action => !card.actions.includes(action));
+    if (missing.length) problems.push(`fila ${index + 1}: falta ${missing.join(', ')}`);
+    const undeclared = card.actions.filter(action => !EXPECTED_ROW_ACTIONS.includes(action));
+    if (undeclared.length) problems.push(`fila ${index + 1}: acción sin declarar ${undeclared.join(', ')}`);
+    // One control per row action per card, for the same reason as on a screen: two controls for one action
+    // read as two different things to do, even when they carry the same name.
+    for (const action of new Set(card.actions)) {
+      const count = card.actions.filter(entry => entry === action).length;
+      if (count > 1) problems.push(`fila ${index + 1}: ${action} en ${count} controles`);
+    }
+  });
+  return problems;
+}
+
+// A mark that says a project is ready is a claim, so the check reads three things off the page: that the mark
+// appears only where the state is `verified`, that every row says where its state came from at no smaller a
+// size than the state itself, and that a ready row says what the check did not cover. The internal token of
+// a stage may never appear in the row's text.
+export const READY_CLAIMS = () => {
+  const size = node => (node ? parseFloat(getComputedStyle(node).fontSize) : 0);
+  return [...document.querySelectorAll('article.project')].map(card => {
+    const state = card.querySelector('.project-state'), qualifier = card.querySelector('.project-state .recorded');
+    return { className: state?.className ?? '', mark: card.querySelector('.state-mark')?.textContent.trim() ?? null,
+      qualifier: qualifier?.textContent.replace(/\s+/g, ' ').trim() ?? null,
+      text: state?.textContent.replace(/\s+/g, ' ').trim() ?? '',
+      namedStages: card.querySelectorAll('.project-state .stage').length,
+      stageTexts: [...card.querySelectorAll('.project-state .stage')].map(node => node.textContent.replace(/\s+/g, ' ').trim()),
+      stateSize: size(state), qualifierSize: size(qualifier) };
+  });
+};
+export const STAGE_NAMES = ['base', 'context', 'environment', 'engineering', 'code'];
+export const INTERNAL_TOKENS = /\b(not-prepared|not-verified|requires-action|requires-repair|inventory-stale|not-available|not-requested|unknown)\b/;
+export function readyProblems(cards) {
+  const problems = [];
+  cards.forEach((card, index) => {
+    const ready = /\bstate-verified\b/.test(card.className);
+    if (ready && card.mark !== '✓') problems.push(`fila ${index + 1}: lista sin su marca`);
+    if (!ready && card.mark === '✓') problems.push(`fila ${index + 1}: marca de listo en ${card.className}`);
+    if (!card.qualifier) problems.push(`fila ${index + 1}: no dice de dónde sale su estado`);
+    if (card.qualifierSize < card.stateSize) problems.push(`fila ${index + 1}: la aclaración es más chica que el estado`);
+    if (ready && !/no vuelve a leer tus archivos/i.test(card.qualifier ?? '')) {
+      problems.push(`fila ${index + 1}: lista sin decir qué no comprobó`);
+    }
+    // A state that comes from a check has to say when the check was, and a row that says something is missing
+    // or changed has to name what. Both are the difference between a state and an assertion nobody can act on.
+    const checked = /\bstate-(verified|incomplete|changed)\b/.test(card.className);
+    if (checked && !/\b20\d\d\b/.test(card.qualifier ?? '')) problems.push(`fila ${index + 1}: no dice cuándo se comprobó`);
+    if (/\bstate-(incomplete|changed)\b/.test(card.className) && !card.namedStages) {
+      problems.push(`fila ${index + 1}: no nombra qué le falta o qué cambió`);
+    }
+    if (INTERNAL_TOKENS.test(card.text)) problems.push(`fila ${index + 1}: un código interno en la fila`);
+    for (const stage of card.stageTexts ?? []) {
+      if (STAGE_NAMES.includes(stage)) problems.push(`fila ${index + 1}: "${stage}" es el nombre interno de una etapa, no una palabra`);
+    }
+  });
+  return problems;
+}
+
+// The guidance inside a project: its steps, whether each carries text for an AI or a control that does the
+// work here, and which definitions it offers. Compared between two projects by the steps themselves, never by
+// the whole panel: a panel that differed only by the project's name would look different without any of the
+// work being different.
+export const GUIDE = () => {
+  const list = document.querySelector('.guide');
+  if (!list) return null;
+  const panel = list.closest('.panel');
+  return { heading: panel.querySelector('h2')?.textContent.replace(/\s+/g, ' ').trim() ?? '',
+    terms: [...panel.querySelectorAll('.term[data-term]')].map(node => node.dataset.term),
+    steps: [...list.querySelectorAll('.guide-step')].map(step => ({
+      action: step.dataset.stepAction ?? null,
+      title: step.querySelector('h3')?.textContent.replace(/\s+/g, ' ').trim() ?? '',
+      why: step.querySelector('p')?.textContent.replace(/\s+/g, ' ').trim() ?? '',
+      promptChars: step.querySelector('pre.prompt')?.textContent.length ?? 0,
+      controls: [...step.querySelectorAll('button')]
+        .map(node => node.dataset.action ?? node.textContent.replace(/\s+/g, ' ').trim()) })) };
+};
+export function guideProblems(guide) {
+  if (!guide) return ['no se encontró la guía del proyecto'];
+  const problems = [];
+  if (!guide.steps.length) problems.push('la guía no tiene pasos');
+  guide.steps.forEach((step, index) => {
+    if (!step.title || !step.why) problems.push(`paso ${index + 1}: sin título o sin motivo`);
+    if (INTERNAL_TOKENS.test(`${step.title} ${step.why}`)) problems.push(`paso ${index + 1}: un código interno en la guía`);
+    // Two pending stages can be resolved by the same control — the managed tools and the development files
+    // are both reviewed in one flow — and drawing that control twice would put the same name on the screen
+    // twice. A later step covered by an earlier step's control is complete; anything else is not.
+    const covered = step.action && guide.steps.slice(0, index).some(earlier => earlier.action === step.action
+      && earlier.controls.includes(step.action));
+    if (!step.promptChars && !step.controls.length && !covered) problems.push(`paso ${index + 1}: no ofrece ni texto ni control`);
+    if (step.promptChars && !step.controls.length) problems.push(`paso ${index + 1}: texto sin forma de copiarlo`);
+  });
+  return problems;
+}
+export const guideSignature = guide => JSON.stringify((guide?.steps ?? []).map(step => [step.title, step.why]));
 
 // Contrast, heading order and keyboard reach, measured on the rendered page rather than asserted from the
 // stylesheet. The effective background is resolved by walking up until an opaque one is found, because a

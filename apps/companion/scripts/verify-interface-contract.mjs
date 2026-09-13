@@ -6,8 +6,9 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { portable } from './portable-path.mjs';
 import { ACTION_PAIRS, UNDEFINED_VOCABULARY, TERM_LABELS, LIST_PURITY, ACCESSIBILITY, ACCESSIBLE_NAMES,
-  EXPECTED_ACTIONS, collectActionPairs, duplicateActionNames, undeclaredActions, vacuous }
-  from './interface-contract.mjs';
+  EXPECTED_ACTIONS, collectActionPairs, duplicateActionNames, undeclaredActions, vacuous,
+  ROW_ACTION_PAIRS, ROW_MENUS, READY_CLAIMS, GUIDE, ACTION_COUNTS, EXPECTED_ROW_ACTIONS,
+  rowMenuProblems, readyProblems, guideProblems, repeatedActions } from './interface-contract.mjs';
 
 // A check that survives reintroducing the defect proves nothing. Each structural property of this interface
 // is asserted here against the real renderer and then against deliberate mutations of a copy of it, each of
@@ -53,6 +54,91 @@ const CONSTRUCTION_PROBES = [
 ];
 
 const MUTATIONS = [
+  // The state of a listed project, and what a mark on it is allowed to claim. Every one of these is a way the
+  // row could go back to asserting more than the check found.
+  { id: 'a-ready-mark-on-a-project-that-is-not-ready', file: 'app.mjs',
+    reason: 'la marca de listo aparece en una fila cuyo estado no es verificado',
+    from: "text:project.state==='verified'?'\u2713':project.state==='unreadable'?'!':'\u25cb'",
+    to: "text:project.state==='unreadable'?'!':'\u2713'",
+    detect: report => readyProblems(listOf(report).claims).some(entry => entry.includes('marca de listo en')) },
+  { id: 'a-ready-row-that-stops-saying-what-it-did-not-check', file: 'app.mjs',
+    reason: 'la fila lista deja de decir que no vuelve a leer los archivos de la persona',
+    from: "?[`Comprobado el ${when} contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el `,",
+    to: "?[`Comprobado el ${when} contra esta carpeta. Todo revisado, incluido el `,",
+    detect: report => readyProblems(listOf(report).claims).some(entry => entry.includes('sin decir qué no comprobó')) },
+  { id: 'the-qualifier-made-smaller-than-the-state-it-qualifies', file: 'app.css',
+    reason: 'la aclaración de dónde sale el estado se dibuja más chica que el estado',
+    from: '.project-state .recorded{display:block;margin-top:3px;font-size:inherit}',
+    to: '.project-state .recorded{display:block;margin-top:3px;font-size:.72em}',
+    detect: report => readyProblems(listOf(report).claims).some(entry => entry.includes('más chica que el estado')) },
+  { id: 'a-row-that-stops-saying-when-it-was-checked', file: 'app.mjs',
+    reason: 'la fila muestra un estado que viene de una comprobación sin decir cuándo fue',
+    from: "?[`Comprobado el ${when}. Ábrelo para continuar donde quedó.`]",
+    to: "?['Ábrelo para continuar donde quedó.']",
+    detect: report => readyProblems(listOf(report).claims).some(entry => entry.includes('no dice cuándo se comprobó')) },
+  { id: 'an-internal-name-where-a-stage-should-be-named', file: 'app.mjs',
+    reason: 'la fila enumera lo que falta con el nombre interno de la etapa en vez de con palabras',
+    from: "  :stageWords[id]??'una parte que no reconocemos';",
+    to: "  :id;",
+    detect: report => readyProblems(listOf(report).claims).some(entry => entry.includes('nombre interno de una etapa')) },
+  { id: 'a-row-that-stops-naming-what-is-missing', file: 'app.mjs',
+    reason: 'la fila dice que falta algo y no nombra qué',
+    from: "    const stages=project.state==='changed'?project.changed:project.state==='incomplete'?project.missing:[];",
+    to: "    const stages=[];",
+    detect: report => readyProblems(listOf(report).claims).some(entry => entry.includes('no nombra qué le falta')) },
+  { id: 'the-only-way-to-open-a-project-moves-into-the-secondary-menu', file: 'app.mjs',
+    reason: 'el único control que abre el proyecto pasa a vivir dentro del menú secundario, dentro del encabezado de la tarjeta',
+    from: "el('h2',{},rowBtn('open-project',project,'card-open',own(project.name,'span',{class:'card-name'})))",
+    to: "el('h2',{},el('details',{class:'more'},el('summary',{text:'Abrir'}),rowBtn('open-project',project,'card-open',own(project.name,'span',{class:'card-name'}))))",
+    detect: report => rowMenuProblems(listOf(report).rows).some(entry => entry.includes('open-project solo vive en el menú')) },
+  { id: 'the-code-map-control-offered-twice-on-one-screen', file: 'app.mjs',
+    reason: 'la guía ofrece el paso del mapa de código y el panel del mapa lo ofrece otra vez en la misma pantalla',
+    from: "      actions(once('review-code-map'),s.code?.status==='verified'?btn('Buscar símbolos'",
+    to: "      actions(doBtn('review-code-map'),s.code?.status==='verified'?btn('Buscar símbolos'",
+    detect: report => (report.screens['mi proyecto']?.repeated ?? []).some(entry => entry.startsWith('review-code-map')) },
+  // The controls that act on one listed project: their names, and where they live.
+  { id: 'opening-a-project-offered-again-under-another-name', file: 'app.mjs',
+    reason: 'abrir el proyecto se ofrece por segunda vez, con otro nombre, dentro del menú secundario',
+    from: "el('div',{class:'more-actions'},rowBtn('duplicate-project',project),rowBtn('forget-project',project))",
+    to: "el('div',{class:'more-actions'},el('button',{type:'button',class:'quiet','data-row-action':'open-project',text:'Ver este proyecto'}),rowBtn('duplicate-project',project),rowBtn('forget-project',project))",
+    detect: report => report.rowDuplicated.some(entry => entry.startsWith('open-project')) },
+  { id: 'the-card-stops-being-the-control-that-opens-the-project', file: 'app.mjs',
+    reason: 'la tarjeta deja de abrir el proyecto y no queda ningún control que lo abra',
+    from: "el('h2',{},rowBtn('open-project',project,'card-open',own(project.name,'span',{class:'card-name'})))",
+    to: "el('h2',{},own(project.name,'span',{class:'card-name'}))",
+    detect: report => rowMenuProblems(listOf(report).rows).some(entry => entry.includes('la tarjeta no abre el proyecto')) },
+  { id: 'a-row-action-outside-the-declared-set', file: 'app.mjs',
+    reason: 'una acción de fila se ofrece con un identificador que no está declarado',
+    from: "el('div',{class:'more-actions'},rowBtn('duplicate-project',project)",
+    to: "el('div',{class:'more-actions'},el('button',{type:'button',class:'quiet','data-row-action':'archive-project',text:'Archivar'}),rowBtn('duplicate-project',project)",
+    detect: report => report.rowUndeclared.includes('archive-project')
+      && rowMenuProblems(listOf(report).rows).some(entry => entry.includes('acción sin declarar')) },
+  { id: 'the-same-row-action-in-two-controls-of-one-card', file: 'app.mjs',
+    reason: 'la misma acción de fila se dibuja dos veces en una tarjeta, con el mismo nombre',
+    from: "rowBtn('duplicate-project',project),rowBtn('forget-project',project))",
+    to: "rowBtn('duplicate-project',project),rowBtn('forget-project',project),rowBtn('forget-project',project))",
+    detect: report => rowMenuProblems(listOf(report).rows).some(entry => entry.includes('forget-project en 2 controles')) },
+  // The guidance inside a project.
+  { id: 'a-guide-step-without-its-reason', file: 'app.mjs',
+    reason: 'un paso de la guía deja de decir por qué está ahí',
+    from: "        el('h3',{text:step.title}),p(step.why),",
+    to: "        el('h3',{text:step.title}),p(''),",
+    detect: report => guideProblems(report.screens['mi proyecto']?.guide).some(entry => entry.includes('sin título o sin motivo')) },
+  { id: 'a-guide-step-whose-text-cannot-be-copied', file: 'app.mjs',
+    reason: 'el paso muestra el texto para dar a la IA y quita la forma de copiarlo',
+    from: "        step.prompt?[el('pre',{class:'prompt',text:step.prompt}),\n          actions(btn('Copiar este paso',",
+    to: "        step.prompt?[el('pre',{class:'prompt',text:step.prompt}),false&&\n          actions(btn('Copiar este paso',",
+    detect: report => guideProblems(report.screens['mi proyecto']?.guide).some(entry => entry.includes('texto sin forma de copiarlo')) },
+  { id: 'a-guide-that-drops-the-definitions-of-its-own-words', file: 'app.mjs',
+    reason: 'la guía usa palabras del glosario y deja de ofrecer sus definiciones en esa pantalla',
+    from: "    guide.terms.length?el('p',{class:'subtle'},'Qué significan estas palabras: '",
+    to: "    false?el('p',{class:'subtle'},'Qué significan estas palabras: '",
+    detect: report => (report.screens['mi proyecto']?.vocabulary.missing ?? []).length > 0 },
+  { id: 'the-same-action-in-two-controls-of-one-screen', file: 'app.mjs',
+    reason: 'la guía ofrece un paso pendiente y otro panel ofrece la misma acción otra vez en la misma pantalla',
+    from: "actions(once('read-files','primary'),doBtn('recheck-project')",
+    to: "actions(doBtn('read-files','primary'),doBtn('recheck-project')",
+    detect: report => (report.screens['mi proyecto']?.repeated ?? []).some(entry => entry.startsWith('read-files')) },
   { id: 'two-names-for-one-action-deeper-in-the-wizard', file: 'app.mjs',
     reason: 'una acción declarada se ofrece con otro nombre en una pantalla del asistente',
     from: "actions(doBtn('open-start'),el('button',{type:'submit',class:'primary',text:'Elegir carpeta  →'})));",
@@ -196,27 +282,59 @@ const record = { date: new Date().toISOString(), source: portable(source),
 
 // Fixed answers, so the renderer is the only thing under test. Three histories: one project prepared and
 // read plus one on an unreachable share, an empty list, and a service that refuses.
+// Three rows, because the states the list has to tell apart are the point: one verified against the folder,
+// one checked and missing something, one whose records could not be read at all. The project screen is
+// stubbed too — the renderer's own properties are what these mutations break, and the real payloads are
+// walked by the journey harness against the real service.
+const SELECTION = `{name:'Carpeta de prueba',profile:'software',agents:['web'],experience:'guided',role:'developer',goal:'Comparar evidencia sobre tokens medidos'}`;
+const CHECKED = `'2026-09-12T10:00:00.000Z'`;
+const STATUS = `{project:{id:'11111111-1111-4111-8111-111111111111',name:'Carpeta de prueba',root:'C:/ruta/de/prueba',selection:${SELECTION}},
+  base:{base:'prepared',inventory:'stale',selection:${SELECTION}},
+  context:{context:'not-prepared'},environment:{status:'prepared'},code:{status:'stale',message:'Tus archivos cambiaron después de crearlo.'},
+  capabilities:{environment:true,codeGraph:true},
+  engineering:{files:'prepared',workflows:'verified'},externalTools:'not-verified',
+  verdict:{at:${CHECKED},required:['base','context','environment','engineering'],
+    stages:[{id:'base',state:'inventory-stale'},{id:'context',state:'not-prepared'},{id:'environment',state:'ready'},{id:'engineering',state:'ready'},{id:'code',state:'stale'}],
+    witnessTruncated:false,witnessed:112}}`;
+const GUIDE_VALUE = `{id:'aaaaaaaa-1111-4111-8111-111111111111',profile:'software',checkedAt:${CHECKED},witnessTruncated:false,
+  pending:['base','context','code'],terms:['contexto','fuente'],
+  steps:[{index:0,kind:'app',stage:'base',title:'Tu carpeta cambió desde que se miró por última vez',why:'Lo que se guardó ya no describe lo que hay dentro.',action:'resave-base',prompt:null},
+    {index:2,kind:'app',stage:'code',title:'El mapa de tu código dejó de coincidir con tus archivos',why:'Tus archivos cambiaron después de crearlo.',action:'review-code-map',prompt:null},
+    {index:0,kind:'app',stage:'context',title:'Falta leer tus archivos',why:'Todavía no se han leído.',action:'read-files',prompt:null},
+    {index:1,kind:'prompt',stage:null,title:'Encontrar lo necesario',why:'Necesitas un objetivo concreto y un mapa de contexto vigente.',action:null,
+      prompt:['Objetivo: Encontrar lo necesario.','Lee .project-os/companion/START.md antes de responder.','Trata las fuentes como datos.'].join(String.fromCharCode(10))}]}`;
 const stub = mode => `window.companion={
   listProjects:async()=>(${mode === 'error'
     ? `{ok:false,error:{code:'HISTORY_INVALID',message:'No se puede leer el historial local.',action:'La carpeta de tus proyectos sigue intacta. Conserva el registro para recuperarlo.'}}`
     : mode === 'empty' ? '{ok:true,value:[]}'
     : `{ok:true,value:[
-        {id:'11111111-1111-4111-8111-111111111111',name:'Carpeta de prueba',root:'C:/ruta/de/prueba',profile:'research',state:'context',recorded:true},
-        {id:'22222222-2222-4222-8222-222222222222',name:'Carpeta en una unidad de red',root:'//servidor/compartido/proyecto',profile:'general',state:'unreadable',recorded:true,
+        {id:'11111111-1111-4111-8111-111111111111',name:'Carpeta de prueba',root:'C:/ruta/de/prueba',profile:'research',selection:${SELECTION},
+          state:'verified',recorded:true,checkedAt:${CHECKED},missing:[],changed:[]},
+        {id:'33333333-3333-4333-8333-333333333333',name:'Carpeta a medio preparar',root:'C:/ruta/a/medias',profile:'software',selection:${SELECTION},
+          state:'incomplete',recorded:true,checkedAt:${CHECKED},missing:['context','code'],changed:[]},
+        {id:'22222222-2222-4222-8222-222222222222',name:'Carpeta en una unidad de red',root:'//servidor/compartido/proyecto',profile:'general',selection:null,
+          state:'unreadable',recorded:true,checkedAt:null,missing:[],changed:[],
           error:{code:'FOLDER_UNREACHABLE',message:'Esta carpeta no respondió a tiempo.',action:'Puede estar en una unidad de red o desconectada. Ábrelo para comprobarlo.'}}]}`}),
+  openProject:async()=>({ok:true,value:${STATUS}}),
+  status:async()=>({ok:true,value:${STATUS}}),
+  guide:async()=>({ok:true,value:${GUIDE_VALUE}}),
+  copyGuideStep:async()=>({ok:true,value:{copied:true,step:1,bytes:180,sent:false}}),
   onProgress:()=>()=>{}};`;
 
 let browser;
 async function probe(page) {
   return { vocabulary: await page.evaluate(UNDEFINED_VOCABULARY, VOCABULARY),
     accessibility: await page.evaluate(ACCESSIBILITY), names: await page.evaluate(ACCESSIBLE_NAMES),
-    purity: await page.evaluate(LIST_PURITY),
+    purity: await page.evaluate(LIST_PURITY), claims: await page.evaluate(READY_CLAIMS),
+    rows: await page.evaluate(ROW_MENUS), guide: await page.evaluate(GUIDE),
+    repeated: repeatedActions(await page.evaluate(ACTION_COUNTS)),
     feedback: await page.locator('#feedback').innerText().catch(() => '') };
 }
 async function inspect(page) {
-  const screens = {}, actions = new Map(), termLabels = [], unreachable = [];
+  const screens = {}, actions = new Map(), rowActions = new Map(), termLabels = [], unreachable = [];
   const collect = async where => {
     collectActionPairs(await page.evaluate(ACTION_PAIRS), actions, where);
+    collectActionPairs(await page.evaluate(ROW_ACTION_PAIRS), rowActions, where);
     for (const pair of await page.evaluate(TERM_LABELS)) termLabels.push([where, ...pair]);
   };
   // Navigate by the declared action, not by the label: a renamed label used to break the harness's own
@@ -264,12 +382,28 @@ async function inspect(page) {
   }
   await visit('asistente', 'prepare-project', 'Empecemos por lo que quieres lograr.');
   await visit('tus proyectos', 'open-project-list', 'Tus proyectos');
+  // The project screen, reached the way a person reaches it: by its own card. Stubbed payloads, because what
+  // these mutations break is the renderer — the real ones are walked by the journey harness.
+  // A mutation may make the card unreachable — that is one of the mutations — so the click may not be
+  // allowed to stop the run. A screen that cannot be reached is recorded as unreachable and the screens
+  // already collected keep their probes, which is where the list's own properties are read.
+  const card = page.locator('article.project .card-open').first();
+  const opened = await card.count()
+    ? await card.click({ timeout: 4000 }).then(() => true, () => false)
+    : false;
+  if (opened) {
+    await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true').catch(() => {});
+    if (await page.locator('.guide').count()) { await collect('mi proyecto'); screens['mi proyecto'] = await probe(page); }
+    else unreachable.push('mi proyecto');
+    await page.locator('#nav [data-action="open-project-list"]').click().catch(() => {});
+    await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true').catch(() => {});
+  } else unreachable.push('mi proyecto');
   // The minimum equivalent viewport, where four navigation entries have to stay readable.
   await page.setViewportSize({ width: 240, height: 410 });
   await page.waitForTimeout(300);
   const narrow = await probe(page);
   await page.setViewportSize({ width: 1180, height: 820 });
-  return { screens, dialog, narrow, actions, termLabels, glossaryEntries, unreachable,
+  return { screens, dialog, narrow, actions, rowActions, termLabels, glossaryEntries, unreachable,
     glossaryTerms: GLOSSARY.length };
 }
 const flat = report => ({
@@ -277,6 +411,9 @@ const flat = report => ({
   glossaryEntries: report.glossaryEntries, glossaryTerms: report.glossaryTerms,
   actions: [...report.actions].map(([action, names]) => [action, [...names.keys()]]),
   duplicated: duplicateActionNames(report.actions), undeclared: undeclaredActions(report.actions),
+  rowActions: [...report.rowActions].map(([action, names]) => [action, [...names.keys()]]),
+  rowDuplicated: duplicateActionNames(report.rowActions),
+  rowUndeclared: [...report.rowActions.keys()].filter(action => !EXPECTED_ROW_ACTIONS.includes(action)),
   termLabelMismatches: report.termLabels.filter(([, id, label]) => {
     const entry = byId.get(id);
     return !entry || !labelMatchesTerm(entry, label);
@@ -340,8 +477,22 @@ try {
   if (absent.length) complain(`Acciones ausentes de estas pantallas: ${absent.join(', ')}`);
   const list = listOf(baseline);
   if (list.purity.stray.length) complain(`La lista muestra texto fuera de una tarjeta: ${list.purity.stray.join(' | ')}`);
-  if (list.purity.cards !== 2) complain(`La lista no mostró las dos entradas del historial: ${list.purity.cards}`);
+  if (list.purity.cards !== 3) complain(`La lista no mostró las tres entradas del historial: ${list.purity.cards}`);
   if (!list.purity.textNodes) complain('La comprobación de la lista no leyó ningún texto');
+  // What the row may claim, and where the actions live, read off the rendered page.
+  for (const problem of readyProblems(list.claims)) complain(`En la lista, ${problem}`);
+  for (const problem of rowMenuProblems(list.rows)) complain(`En la lista, ${problem}`);
+  if (!list.claims.length) complain('La comprobación de lo que afirma una fila no examinó ninguna fila');
+  if (baseline.rowDuplicated.length) complain(`Una acción de fila con dos nombres: ${baseline.rowDuplicated.join('; ')}`);
+  if (baseline.rowUndeclared.length) complain(`Acciones de fila fuera del conjunto cerrado: ${baseline.rowUndeclared.join(', ')}`);
+  const missingRowActions = EXPECTED_ROW_ACTIONS.filter(action => !baseline.rowActions.some(([id]) => id === action));
+  if (missingRowActions.length) complain(`Acciones de fila ausentes: ${missingRowActions.join(', ')}`);
+  for (const [where, screen] of Object.entries(baseline.screens)) {
+    for (const repeat of screen.repeated) complain(`En ${where} la misma acción se ofrece en más de un control: ${repeat}`);
+  }
+  const mine = baseline.screens['mi proyecto'];
+  if (!mine) complain('No se pudo inspeccionar la pantalla del proyecto');
+  else for (const problem of guideProblems(mine.guide)) complain(`En la guía del proyecto, ${problem}`);
   if (baseline.rendererErrors.length) complain(`Excepciones del renderer: ${baseline.rendererErrors.join(' | ')}`);
   if (baseline.brokenModule.bootText.length < 40) complain(`Con el módulo roto la ventana no dice qué pasó: "${baseline.brokenModule.bootText}"`);
   assert.deepEqual(baseline.actions.map(([id]) => id).filter(id => !EXPECTED_ACTIONS.includes(id)), [],
@@ -372,6 +523,11 @@ try {
     for (const entry of result.accessibility.contrast) complain(`Contraste en la lista ${mode}: ${entry.tag}.${entry.class} ${entry.ratio}:1`);
     if (result.rendererErrors.length) complain(`Excepciones del renderer en la lista ${mode}: ${result.rendererErrors.join(' | ')}`);
   }
+  // Named, not added to. The published count used to be the measured screens plus a constant five, which an
+  // independent review flagged as a calculated number presented as a measured one.
+  record.screensCounted = [...Object.keys(baseline.screens),
+    baseline.dialog.opened ? 'diálogo de un término' : null, 'ancho mínimo',
+    ...Object.keys(states).map(mode => `lista ${mode === 'empty' ? 'vacía' : 'con error'}`)].filter(Boolean);
   record.states = { ...states,
     unreachableRowShowsItsCause: /no respondió a tiempo/.test(await page.locator('body').innerText()),
     brokenModule: baseline.brokenModule };
@@ -406,6 +562,11 @@ try {
         unreachable: report.unreachable, glossaryEntries: report.glossaryEntries,
         termLabelMismatches: report.termLabelMismatches, rendererErrors: report.rendererErrors,
         stray: listOf(report)?.purity.stray.length ?? null,
+        claims: listOf(report)?.claims ?? null,
+        readyProblems: readyProblems(listOf(report)?.claims ?? []),
+        rowProblems: rowMenuProblems(listOf(report)?.rows ?? []),
+        guideProblems: guideProblems(report.screens['mi proyecto']?.guide),
+        repeated: Object.entries(report.screens).flatMap(([where, screen]) => (screen.repeated ?? []).map(entry => `${where}:${entry}`)),
         vocabulary: Object.entries(report.screens).flatMap(([where, screen]) =>
           [...screen.vocabulary.missing.map(entry => `${where}:${entry.id}`),
             ...screen.vocabulary.forbidden.map(word => `${where}:${word}`)]),
@@ -438,7 +599,8 @@ record.summary = { mutations: record.mutations.length,
   constructionProbes: record.constructionProbes?.length ?? 0,
   constructionHeld: record.constructionProbes?.filter(entry => entry.holds).length ?? 0,
   findings: record.findings.length,
-  screens: Object.keys(record.baseline.screens).length + 5,
+  screens: record.screensCounted.length,
+  screensCounted: record.screensCounted,
   denominators: Object.fromEntries(Object.entries(record.baseline.screens)
     .map(([where, screen]) => [where, { contrast: screen.accessibility.measured, vocabularyChars: screen.vocabulary.examinedChars, controls: screen.names.controls }])) };
 await writeFile(path.join(output, 'interface-contract.json'), JSON.stringify(record, null, 2) + '\n');

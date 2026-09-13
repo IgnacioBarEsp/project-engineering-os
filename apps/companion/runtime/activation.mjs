@@ -184,5 +184,12 @@ export function createActivationEngine(environment, staging = {}) {
       const checked = await core.runOpsxCheck(root, controls);
       return { workflows: checked.status === 'PASS' ? 'verified' : 'requires-action', files: receipt.value.files.length };
     },
+    // Exactly the files `verify` compares one by one, plus the inputs it guards and its own two records.
+    // Whoever records a verdict hashes these, so a stale workflow shows up on a list the same way it shows
+    // up here.
+    async witnessPaths(target) {
+      const receipt = await readReceipt(await canonicalFolder(target));
+      return [RECEIPT, JOURNAL, ...INPUTS, ...(receipt.value?.files ?? []).map(file => file.path)];
+    },
   };
 }

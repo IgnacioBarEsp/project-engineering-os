@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "flow": "show-verified-project-state",
+  "date": "2026-09-12",
+  "kind": "feature",
+  "result": "debt",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/show-verified-project-state/design.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "Una revision adversarial independiente anadio un archivo a la carpeta de un proyecto listo y midio el resultado: el proyecto sale del estado listo y hay que revisar la preparacion de nuevo para recuperarlo. Se investigo si es un defecto y no lo es: el inventario de verdad quedo viejo, el estado mostrado es cierto, y la alternativa de refrescarlo dentro de la comprobacion escribiria en la carpeta de la persona sin un plan aprobado, que es justo el limite que este producto sostiene. Queda como mejora posible: el paso de revision podria proponerse solo. Lo que si era falso era la palabra y ya se corrigio: la fila decia que faltaban las elecciones guardadas cuando estaban guardadas",
+        "result": "medido-en-parte",
+        "date": "2026-09-12"
+      },
+      "title": "Cualquier archivo nuevo en la carpeta deja al proyecto fuera del estado listo hasta que se revisa la preparacion otra vez, y ese paso lo tiene que iniciar la persona",
+      "artifact": "apps/companion/desktop/service.mjs",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/show-verified-project-state/evidence/states-and-degradations.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "El testigo de la etapa de herramientas es un solo recibo dentro de la carpeta; la cadena administrada vive fuera de ella, asi que ningun resumen que la lista pueda releer notaria que se retiro. Una revision adversarial lo senalo como una afirmacion que nada podia desmentir. La marca no se quito, porque la etapa si se verifico de verdad cuando el veredicto se tomo: lo que se hizo fue nombrar esa exclusion en la misma frase que la marca, y solo en los perfiles que necesitan esas herramientas. Cubrir el runtime con un resumen es posible y no se hizo aqui",
+        "result": "medido-en-parte",
+        "date": "2026-09-12"
+      },
+      "title": "El resumen que respalda la marca no cubre la cadena de herramientas administrada, porque vive fuera de la carpeta del proyecto",
+      "artifact": "apps/companion/runtime/environment.mjs",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/show-verified-project-state/evidence/validation.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "Siete de los quince patrones que rechazan una afirmacion sin respaldo en la landing llevaban un caracter de retroceso donde debia ir un limite de palabra, asi que no podian coincidir con nada. Estaban asi en main desde antes de este cambio. Se repararon los catorce caracteres del archivo y la landing sigue pasando: no se ocultaba ninguna afirmacion prohibida, lo que habia era una comprobacion que no podia encontrarla. Un barrido del repositorio completo dejo cero caracteres de retroceso",
+        "result": "resuelto",
+        "date": "2026-09-12"
+      },
+      "title": "Siete patrones de la comprobacion de afirmaciones de la landing eran inertes por un caracter de retroceso en lugar de un limite de palabra",
+      "artifact": "apps/companion/scripts/verify-landing.mjs",
+      "source": "adversarial-review",
+      "category": "defect",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "resolvedPreviously": true
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/show-verified-project-state/evidence/native-journeys.json",
+          "date": "2026-09-12"
+        }
+      ],
+      "verification": {
+        "method": "La marca de listo no se demostro de punta a punta para software ni para videojuego: en las dos mediciones esos perfiles terminan incompletos. La causa es la misma que el registro ya tiene como debt-25431ff4ae7f desde el saneamiento de #94: las etapas nativas de la cadena administrada no se completan en esta maquina. Registrarlo como hallazgo propio lo contaria dos veces; se anota como ocurrencia del item vigente, que es lo que hace que el disparador de recurrencia lo vea",
+        "result": "refutado",
+        "date": "2026-09-12"
+      },
+      "title": "La marca de listo nunca se demostro de punta a punta para software ni para videojuego",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "source": "adversarial-review",
+      "category": "duplicate",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "duplicateOf": "debt-25431ff4ae7f"
+    }
+  ]
+}

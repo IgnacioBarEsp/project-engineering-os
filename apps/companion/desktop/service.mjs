@@ -1,7 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
-import { canonicalFolder, snapshot, writeChecked, withLock, fail, json } from '../engine/files.mjs';
+import { canonicalFolder, hash, snapshot, writeChecked, withLock, fail, json } from '../engine/files.mjs';
+import { glossaryIdsIn } from '../ui/glossary.mjs';
 import { createPreparationEngine, normalizeSelection } from '../engine/preparation.mjs';
 import { createContextEngine } from '../context/engine.mjs';
 import { createConstructorAdapter } from '../engine/constructor-adapter.mjs';
@@ -42,6 +43,132 @@ export function publicError(error) {
   return { code: known ? error.code : 'OPERATION_FAILED', message: known ? error.message : 'No pudimos terminar esta acción.',
     action: known ? (error.action ?? error.remediation) : 'Conservamos tus archivos. Comprueba que la carpeta esté disponible y vuelve a intentarlo.' };
 }
+// A verdict is what a real check found, saved so a list can show it without running it again. The check
+// re-inspects the folder, re-hashes the sources and, for software, verifies the managed toolchain — minutes
+// of work that belongs to opening one project. So the check records its result together with the digest of
+// every file it depended on, and the list re-reads those digests, which it already pays for because reading
+// receipts is what `summary()` does.
+//
+// The comparison is falsifiable in one direction only: a digest set that still matches does not prove the
+// project is ready now, it only fails to disprove it. Every doubt — no verdict, a moved folder, a witness
+// that could not be read or had to be truncated — therefore resolves away from ready, and the screen says
+// when the check ran and that it did not re-read the person's files.
+export const WITNESS_LIMIT = 200, WITNESS_MAX_BYTES = 8 * 1024 * 1024, UNREADABLE = 'unreadable';
+export const VERDICTS_MAX_BYTES = 8 * 1024 * 1024, WITNESS_PATH_MAX = 256;
+export const REQUIRED_STAGES = Object.freeze({ research: ['base', 'context'], media: ['base', 'context'],
+  general: ['base', 'context'], software: ['base', 'context', 'environment', 'engineering'],
+  unity: ['base', 'context', 'environment', 'engineering'] });
+export const STAGE_IDS = Object.freeze(['base', 'context', 'environment', 'engineering', 'code']);
+// A code map is an addition this interface offers, and a software project with no code files has nothing to
+// map, so never having created one is not a missing stage. A stale, corrupt or unrepaired one is: it is a
+// claim that stopped holding, and a project carrying it is not ready.
+const CODE_SOUND = ['verified', 'empty', 'not-prepared', 'not-requested'];
+const reason = (...values) => values.find(value => typeof value === 'string' && value) ?? 'unknown';
+export function stageReport(status) {
+  const profile = status.base?.selection?.profile ?? status.project?.selection?.profile ?? null;
+  const required = REQUIRED_STAGES[profile] ?? ['base', 'context'];
+  const stages = [{ id: 'base', state: status.base?.base === 'prepared' && status.base?.inventory === 'current' ? 'ready'
+      : status.base?.base === 'prepared' ? 'inventory-stale' : reason(status.base?.base, status.base?.status) },
+    { id: 'context', state: status.context?.context === 'current' ? 'ready' : reason(status.context?.context, status.context?.status) }];
+  if (required.includes('environment')) stages.push({ id: 'environment',
+    state: !status.capabilities?.environment ? 'not-available'
+      : status.environment?.status === 'prepared' ? 'ready' : reason(status.environment?.status) });
+  if (required.includes('engineering')) stages.push({ id: 'engineering',
+    state: status.engineering?.files === 'prepared' && status.engineering?.workflows === 'verified' ? 'ready'
+      : status.engineering?.files !== 'prepared' ? reason(status.engineering?.files) : reason(status.engineering?.workflows) });
+  const code = status.code?.status ?? 'not-requested';
+  if (!CODE_SOUND.includes(code)) stages.push({ id: 'code', state: reason(code) });
+  return { profile, required, stages };
+}
+export const pendingStages = report => report.stages.filter(stage => stage.state !== 'ready');
+const relative = value => typeof value === 'string' && !!value && value.length <= WITNESS_PATH_MAX && !path.isAbsolute(value)
+  && !value.split(/[\\/]/).includes('..') && !/[\x00-\x1f\x7f]/.test(value);
+const witnessDigest = value => value === null || value === UNREADABLE || (typeof value === 'string' && /^[a-f0-9]{64}$/.test(value));
+function validVerdict(value) {
+  return !!value && typeof value === 'object' && !Array.isArray(value) && UUID.test(value.id ?? '')
+    && typeof value.rootHash === 'string' && /^[a-f0-9]{64}$/.test(value.rootHash)
+    && typeof value.at === 'string' && value.at.length <= 40 && !Number.isNaN(Date.parse(value.at))
+    && (value.profile === null || (typeof value.profile === 'string' && Object.hasOwn(REQUIRED_STAGES, value.profile)))
+    && Array.isArray(value.required) && value.required.every(id => STAGE_IDS.includes(id))
+    && Array.isArray(value.stages) && value.stages.length <= STAGE_IDS.length
+    && value.stages.every(stage => !!stage && STAGE_IDS.includes(stage.id) && typeof stage.state === 'string'
+      && stage.state.length <= 40 && /^[a-z-]+$/.test(stage.state))
+    // Every stage the profile requires has to be present. An independent review wrote a verdict whose
+    // `required` named four stages and whose `stages` was empty, and the row carried the mark: nothing was
+    // not ready, because nothing was there. The spec says an absent stage counts as not ready, and this is
+    // where absent is decided. A verdict with no witness is refused for the same reason: it could never be
+    // disproved, so it would be a permanent mark.
+    && value.required.every(id => value.stages.some(stage => stage.id === id))
+    && Array.isArray(value.witness) && value.witness.length > 0 && value.witness.length <= WITNESS_LIMIT
+    && value.witness.every(item => !!item && relative(item.path) && witnessDigest(item.hash) && STAGE_IDS.includes(item.stage))
+    && typeof value.witnessTruncated === 'boolean';
+}
+// What a person is told about a stage that is not ready. The internal token never reaches a screen: every
+// state a stage can report has a sentence here, and a state without one falls back to a sentence that says
+// what is true — that this stage has to be checked again — instead of printing its code.
+const STAGE_GUIDE = Object.freeze({
+  // The title depends on the state, because the same stage fails for reasons that are not the same
+  // sentence: choices that were never written, and a folder that changed after they were.
+  base: { title: 'Falta guardar tus elecciones en esta carpeta', action: 'prepare-project',
+    titles: { 'inventory-stale': 'Tu carpeta cambió desde que se miró por última vez' },
+    causes: { 'not-prepared': 'Todavía no se ha escrito nada aquí.',
+      interrupted: 'Una operación quedó a medias y hay que continuarla o deshacerla.',
+      'inventory-stale': 'Lo que se guardó ya no describe lo que hay dentro. Volver a mirarla es un paso.' },
+    fallback: 'Hay que revisar esta preparación de nuevo.' },
+  context: { title: 'Falta leer tus archivos', action: 'read-files',
+    causes: { 'not-prepared': 'Todavía no se han leído.',
+      stale: 'Cambiaron después de la última lectura.',
+      interrupted: 'Una lectura quedó a medias y hay que continuarla o deshacerla.' },
+    fallback: 'Hay que volver a leerlos.' },
+  environment: { title: 'Faltan las herramientas de desarrollo', action: 'review-development',
+    causes: { 'not-prepared': 'Todavía no se han preparado.',
+      'not-available': 'Esta instalación no puede comprobarlas, así que no se afirma nada sobre ellas.',
+      'requires-action': 'Hay algo por resolver antes de poder usarlas.' },
+    fallback: 'Hay que revisarlas de nuevo.' },
+  engineering: { title: 'Faltan las instrucciones de desarrollo o falta comprobarlas', action: 'review-development',
+    causes: { 'requires-action': 'Hay diferencias o conflictos por resolver.',
+      'not-verified': 'Los archivos están, pero todavía no se comprobó que la herramienta responda.',
+      interrupted: 'Una operación quedó a medias y hay que continuarla o deshacerla.',
+      stale: 'Cambió un archivo desde que se comprobó.' },
+    fallback: 'Hay que revisarlas de nuevo.' },
+  code: { title: 'El mapa de tu código dejó de coincidir con tus archivos', action: 'review-code-map',
+    causes: { stale: 'Tus archivos cambiaron después de crearlo.',
+      corrupt: 'Su registro no se puede leer.',
+      'requires-repair': 'Una herramienta que necesita quedó en mal estado.' },
+    fallback: 'Hay que revisarlo de nuevo.' },
+});
+const causeOf = (id, state) => STAGE_GUIDE[id].causes[state] ?? STAGE_GUIDE[id].fallback;
+// The text a person hands to their AI. It names no folder and no project: the AI reads the preparation in the
+// folder it was given, and a guide whose text differed only by a name would make two projects look different
+// without any of their work being different.
+const promptFor = recipe => [`Objetivo: ${recipe.title}.`,
+  'Antes de responder, lee .project-os/companion/START.md y, si existe, .project-os/companion/context/MAP.md en la carpeta de este proyecto.',
+  `Necesitas: ${recipe.inputs.join('; ')}.`, 'Pasos:',
+  ...recipe.steps.map((step, index) => `${index + 1}. ${step}`),
+  `Entrega: ${recipe.outputs.join('; ')}.`, 'Antes de darlo por terminado, comprueba:',
+  ...recipe.validation.map(check => `- ${check}`), recipe.stop].join('\n');
+// Pending stages first, in the order they can be done, then the ways of working this kind of project has.
+// A pending stage carries no prompt on purpose: reading your files or preparing the managed tools is work
+// this application does, and handing someone text to ask an AI for it would be describing a capability the
+// AI does not have.
+export function guideSteps(report, recipes) {
+  const steps = [];
+  for (const id of [...report.required, 'code']) {
+    const stage = report.stages.find(entry => entry.id === id);
+    if (!stage || stage.state === 'ready' || !STAGE_GUIDE[id]) continue;
+    // A project that already has its answers saved must not be sent to a blank wizard to save them again.
+    // An independent review followed this step and landed on an empty form with the profile reset, having
+    // left the project — for the most common state a project can be in. When the answers exist, the step
+    // reviews them against this same folder; only a project that never had them starts the wizard.
+    const action = id === 'base' && report.profile && stage.state !== 'not-prepared' ? 'resave-base'
+      : STAGE_GUIDE[id].action;
+    steps.push({ kind: 'app', stage: id, title: STAGE_GUIDE[id].titles?.[stage.state] ?? STAGE_GUIDE[id].title,
+      why: causeOf(id, stage.state), action, prompt: null });
+  }
+  for (const recipe of recipes) steps.push({ kind: 'prompt', stage: null, title: recipe.title,
+    why: `Necesitas ${recipe.inputs.join(', ').toLowerCase()}.`, action: null, prompt: promptFor(recipe) });
+  return steps;
+}
 const text = (value, max, label) => {
   if (typeof value !== 'string' || !value.trim() || value.length > max || /[\x00-\x1f\x7f]/.test(value)) fail('INPUT_INVALID', `Revisa ${label}.`);
   return value.trim();
@@ -63,7 +190,7 @@ const startingPrompt = s => `Trabaja en el proyecto ${JSON.stringify(s.name)}. O
 export async function createDesktopService({ dataRoot, core, environment = null, localApps = null, chooseFolder, copyText, openExternal, onProgress = () => {} }) {
   await mkdir(dataRoot,{recursive:true});
   const historyRoot = await canonicalFolder(dataRoot), base = createPreparationEngine(), context = createContextEngine();
-  const engineering = createConstructorAdapter(environment?.core ?? core), projects = new Map(), plans = new Map(), exports = new Map(), handoffs = new Map();
+  const engineering = createConstructorAdapter(environment?.core ?? core), projects = new Map(), plans = new Map(), exports = new Map(), handoffs = new Map(), guides = new Map();
   const activation = environment ? createActivationEngine(environment) : null;
   const codeGraph = environment ? createCodeGraphEngine(environment.manager, { readOptions: root => context.configuration(root) }) : null;
   let job = null;
@@ -75,6 +202,78 @@ export async function createDesktopService({ dataRoot, core, environment = null,
     for (const item of value.items) if (item.selection) selection(item.selection);
     if (new Set(value.items.map(i=>i.id)).size!==value.items.length) fail('HISTORY_INVALID','El historial contiene identificadores repetidos.');
     return {state,items:value.items};
+  }
+  // Companion's own opinion about a project, kept beside the history rather than inside the person's folder:
+  // this application writes into that folder only what the person approved in a plan, a verdict copied with
+  // a folder would claim to be about the copy, and duplicating would then have to decide whether to copy it.
+  // A corrupt or unrecognised file degrades to "no verdict", which shows every project as unchecked — the
+  // safe direction. The history does not do that, and must not: losing it loses the person's projects.
+  async function readVerdicts() {
+    // Any failure degrades to "no verdict", not just an unparseable one: a file too large for the bound, a
+    // directory where the file should be, a permission error. An independent review put a nine-megabyte
+    // file there and the list stopped rendering and projects stopped opening, because the read threw from
+    // outside the per-row try. `readable: false` is carried so a write does not overwrite what it could not
+    // read.
+    let state;
+    try { state = await snapshot(historyRoot, 'verdicts.json', VERDICTS_MAX_BYTES); }
+    catch { return { state: { content: null, hash: null }, items: [], readable: false }; }
+    if (!state.content) return { state, items: [], readable: true };
+    let value; try { value = JSON.parse(state.content); } catch { return { state, items: [], readable: true }; }
+    if (value?.version !== 1 || !Array.isArray(value.items)) return { state, items: [], readable: true };
+    return { state, items: value.items.filter(validVerdict).slice(0, 50), readable: true };
+  }
+  const witnessHash = async (root, item) => {
+    try { return (await snapshot(root, item, WITNESS_MAX_BYTES)).hash; } catch { return UNREADABLE; }
+  };
+  // Every stage names its own files; the digests are all computed here, so no stage's verdict depends on
+  // another implementation's idea of a digest. A stage that cannot even list its files — an activation
+  // receipt written for a different folder, for instance — makes the witness truncated, and a truncated
+  // witness can never be shown as ready.
+  async function witnessFor(root, required, engineeringResult) {
+    const paths = new Map(); const failed = [];
+    const add = (stage, list) => { for (const item of list) if (relative(item) && !paths.has(item)) paths.set(item, stage); };
+    const collect = async (stage, work) => { try { add(stage, await work()); } catch { failed.push(stage); } };
+    await collect('base', () => base.witnessPaths(root));
+    await collect('context', () => context.witnessPaths(root));
+    if (required.includes('environment') && environment) await collect('environment', () => environment.witnessPaths());
+    if (required.includes('engineering')) {
+      if (activation) await collect('engineering', () => activation.witnessPaths(root));
+      add('engineering', (engineeringResult?.plan?.operations ?? []).map(operation => operation.target));
+    }
+    const entries = [...paths].sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
+    const witness = [];
+    for (const [item, stage] of entries.slice(0, WITNESS_LIMIT)) witness.push({ path: item, stage, hash: await witnessHash(root, item) });
+    return { witness, truncated: entries.length > WITNESS_LIMIT || !!failed.length || witness.some(entry => entry.hash === UNREADABLE) };
+  }
+  async function changedStages(root, verdict) {
+    const changed = new Set();
+    for (const item of verdict.witness) if (await witnessHash(root, item.path) !== item.hash) changed.add(item.stage);
+    return [...changed];
+  }
+  // Saving the verdict is a side effect of a check the person asked for, so it may not be able to fail that
+  // check. An abandoned write lock in this application's own data directory used to turn every "open
+  // project" into BUSY once the verdict was written from here, and a read-only data directory would do the
+  // same. A verdict that could not be saved simply is not there, and the list says the project has not been
+  // checked, which is true.
+  async function recordVerdict(p, result, engineeringResult) {
+    const report = stageReport(result);
+    let entry = null;
+    try {
+      const { witness, truncated } = await witnessFor(p.root, report.required, engineeringResult);
+      entry = { id: p.id, rootHash: hash(p.root), at: new Date().toISOString(), profile: report.profile,
+        required: report.required, stages: report.stages, witness, witnessTruncated: truncated || !witness.length };
+      await withLock(historyRoot, async () => {
+        const { state, items, readable } = await readVerdicts();
+        if (!readable) fail('VERDICT_UNREADABLE', 'No se pudo leer el registro de comprobaciones.');
+        let kept = [entry, ...items.filter(item => item.id !== entry.id)].slice(0, 50);
+        // The bound is on the file, not only on the number of entries: a run of large witnesses could
+        // otherwise write a file the next read has to refuse.
+        while (kept.length > 1 && Buffer.byteLength(json({ version: 1, items: kept })) > VERDICTS_MAX_BYTES) kept.pop();
+        await writeChecked(historyRoot, 'verdicts.json', json({ version: 1, items: kept }), state.hash, VERDICTS_MAX_BYTES);
+      });
+      return { ...entry, saved: true };
+    } catch (error) { return { ...(entry ?? { at: null, required: report.required, stages: report.stages,
+      witness: [], witnessTruncated: true }), saved: false, error: publicError(error) }; }
   }
   async function remember(project, chosen) {
     await withLock(historyRoot,async()=>{
@@ -103,16 +302,26 @@ export async function createDesktopService({ dataRoot, core, environment = null,
     const e=requested ? await safeStage(()=>engineering.verify(p.root,controls),controls) : {files:'not-requested',workflows:'not-requested'};
     const a=activation&&requested&&e.files==='prepared' ? await safeStage(()=>activation.verify(p.root,controls),controls) : null;
     const code=codeGraph&&requested ? await safeStage(async()=>codeGraph.verify(p.root,await context.configuration(p.root),controls),controls) : {status:'not-requested'};
-    return {project:{id:p.id,name:b.selection?.name??p.name,root:p.root,selection:b.selection??p.selection},base:b,context:c,
+    const result={project:{id:p.id,name:b.selection?.name??p.name,root:p.root,selection:b.selection??p.selection},base:b,context:c,
       environment:tools,code,capabilities:{environment:!!environment,codeGraph:!!codeGraph},engineering:{files:e.files,workflows:a?.workflows??e.workflows,code:e.code,message:e.message,error:a?.error??e.error,interrupted:!!e.result?.incompleteTransaction,activationInterrupted:a?.workflows==='interrupted'},externalTools:'not-verified'};
+    // This is the only place a verdict is written, because this is the only place a real check happens. The
+    // engineering witness comes from the targets the core's own check enumerated, so a managed file edited
+    // afterwards is visible from the list without the list knowing what the core manages.
+    const verdict=await recordVerdict(p,result,e.result);
+    return {...result,verdict:{at:verdict.at,required:verdict.required,stages:verdict.stages,
+      witnessTruncated:verdict.witnessTruncated,witnessed:verdict.witness.length,saved:verdict.saved,
+      error:verdict.error??null}};
   }
   async function safeStage(work,controls={}) {controls.signal?.throwIfAborted();try{const result=await work();controls.signal?.throwIfAborted();return result;}catch(e){if(controls.signal?.aborted)throw e;return {status:'requires-action',error:publicError(e)};}}
   return {
     // The list shows a state for every project, so it may not verify any of them: verifying re-inspects the
     // folder, re-hashes the sources and, for software, checks the managed toolchain — minutes of work that
-    // belongs to opening one project. These are the recorded states, read from each stage's receipt and
-    // journal. The renderer says they are recorded. One unreadable or relocated folder becomes that entry's
-    // own state and never keeps the rest of the list from rendering.
+    // belongs to opening one project. What it shows instead is the verdict of the last real check, together
+    // with a re-read of the digests that check depended on: `verified` only when every required stage was
+    // verified for real and nothing witnessed has changed, `changed` when something has, `incomplete` when
+    // the check found stages missing, `unverified` when there is no verdict for this folder. The renderer
+    // says when the check ran and that this does not re-read the person's files. One unreadable or relocated
+    // folder becomes that entry's own state and never keeps the rest of the list from rendering.
     //
     // Each row is bounded. Reading a receipt is a filesystem call, and a remembered folder can be on a
     // network share, an unplugged drive or a disconnected VPN — an independent review measured 21 seconds
@@ -120,13 +329,33 @@ export async function createDesktopService({ dataRoot, core, environment = null,
     // to stop. A row that does not answer within the budget becomes `unreadable` with that as its cause,
     // which is true and is what the person can act on. Rows are read concurrently, so the whole list is
     // bounded by the budget rather than by the sum of the rows.
-    async listProjects(input={}) {exact(input,[]);noJob();const {items}=await history();
+    async listProjects(input={}) {exact(input,[]);noJob();const {items}=await history(),saved=(await readVerdicts()).items;
       return Promise.all(items.map(async i=>{
-        const entry={id:i.id,name:i.name,root:i.root,profile:i.selection?.profile??null,recorded:true};
+        // The selection travels with the row because duplicating reuses the person's own answers, and those
+        // answers are already theirs. Nothing derived from the folder's contents is added here.
+        const entry={id:i.id,name:i.name,root:i.root,profile:i.selection?.profile??null,selection:i.selection??null,
+          recorded:true,checkedAt:null,missing:[],changed:[]};
         try {
-          const [b,c]=await withBudget(Promise.all([base.summary(i.root),context.summary(i.root)]),SUMMARY_BUDGET_MS);
-          return {...entry,profile:b.selection?.profile??entry.profile,
-            state:b.interrupted||c.interrupted?'interrupted':!b.prepared?'not-prepared':c.prepared?'context':'prepared'};
+          return await withBudget((async()=>{
+            const [b,c]=await Promise.all([base.summary(i.root),context.summary(i.root)]);
+            // A verdict belongs to the folder it was taken in. `rootHash` is the same digest the journals use
+            // to refuse an operation that belongs elsewhere, so a moved or replaced folder is unverified
+            // rather than inheriting someone else's result.
+            const verdict=saved.find(v=>v.id===i.id&&v.rootHash===hash(i.root))??null;
+            const changed=verdict&&!verdict.witnessTruncated?await changedStages(i.root,verdict):[];
+            // The state travels with the stage, because "your saved choices are missing" and "the snapshot of
+            // your folder is out of date" are different sentences and only one of them is true at a time.
+            const missing=(verdict?.stages??[]).filter(stage=>stage.state!=='ready')
+              .map(stage=>({id:stage.id,state:stage.state}));
+            return {...entry,profile:b.selection?.profile??verdict?.profile??entry.profile,
+              checkedAt:verdict?.at??null,missing,changed,
+              state:b.interrupted||c.interrupted?'interrupted'
+                :!b.prepared?'not-prepared'
+                :!verdict||verdict.witnessTruncated?'unverified'
+                :changed.length?'changed'
+                :missing.length?'incomplete'
+                :'verified'};
+          })(),SUMMARY_BUDGET_MS);
         } catch (error) {return {...entry,state:'unreadable',error:publicError(error)};}
       }));},
     async chooseFolder(input={}) {exact(input,[]);return operation('Elegir carpeta',async()=>{
@@ -137,7 +366,12 @@ export async function createDesktopService({ dataRoot, core, environment = null,
     });},
     async openProject(input) {exact(input,['id']);noJob();const {items}=await history(),p=items.find(i=>i.id===input.id);if(!p)fail('PROJECT_UNKNOWN','El proyecto ya no está en el historial.');
       projects.set(p.id,p);return operation('Comprobar proyecto',async controls=>status(await project(p.id),controls));},
-    async forgetProject(input) {exact(input,['id']);noJob();await withLock(historyRoot,async()=>{const {state,items}=await history();if(!items.some(i=>i.id===input.id))fail('PROJECT_UNKNOWN','El proyecto no está en el historial.');await writeChecked(historyRoot,'projects.json',json({version:1,items:items.filter(i=>i.id!==input.id)}),state.hash,256*1024);});projects.delete(input.id);return {forgotten:true,projectFilesChanged:false};},
+    async forgetProject(input) {exact(input,['id']);noJob();await withLock(historyRoot,async()=>{const {state,items}=await history();if(!items.some(i=>i.id===input.id))fail('PROJECT_UNKNOWN','El proyecto no está en el historial.');await writeChecked(historyRoot,'projects.json',json({version:1,items:items.filter(i=>i.id!==input.id)}),state.hash,256*1024);
+      // The verdict goes with the entry. Nothing inside the person's folder is read or written here: removing
+      // a project from this list is a change to this list.
+      const kept=await readVerdicts();
+      if(kept.items.some(v=>v.id===input.id))await writeChecked(historyRoot,'verdicts.json',json({version:1,items:kept.items.filter(v=>v.id!==input.id)}),kept.state.hash,8*1024*1024);
+    });projects.delete(input.id);return {forgotten:true,projectFilesChanged:false};},
     async previewBase(input) {exact(input,['id','selection']);noJob();const p=await project(input.id),chosen=selection(input.selection);
       return operation('Revisar preparación',async()=>{const plan=await base.plan(p.root,chosen);return {id:keepPlan(p,'base',plan,{selection:chosen}),files:fileList(plan),inventory:plan.inventory,selection:chosen};});},
     async applyBase(input) {exact(input,['plan']);const {p,plan}=await usePlan(input.plan,'base');return operation('Preparar proyecto',async controls=>{
@@ -201,6 +435,33 @@ export async function createDesktopService({ dataRoot, core, environment = null,
         const verified=await base.verify(p.root);if(verified.selection)await remember(p,verified.selection);
         return {result,status:await status(p,controls)};});},
     async search(input) {exact(input,['id','query']);noJob();const p=await project(input.id);return operation('Buscar fuentes',()=>context.search(p.root,input.query));},
+    // How to work in this project: what it is missing, in the order it can be done, and then the ways of
+    // working this kind of project has. Composed here rather than in the renderer for the same reason the
+    // context export is: the text that reaches the clipboard is text this application wrote. It reads the
+    // saved verdict instead of checking again, so opening this costs nothing, and it reports the glossary
+    // words its own visible text uses so the screen can offer their definitions.
+    async guide(input) {exact(input,['id']);noJob();const p=await project(input.id);
+      const {items}=await readVerdicts(),verdict=items.find(v=>v.id===p.id&&v.rootHash===hash(p.root))??null;
+      if(!verdict)fail('VERDICT_MISSING','Todavía no hay una comprobación de este proyecto.','Comprueba el proyecto para saber qué le falta.');
+      const steps=guideSteps({profile:verdict.profile,required:verdict.required,stages:verdict.stages},recipesFor(verdict.profile??'general'));
+      const id=randomUUID();
+      guides.set(id,{project:p.id,witness:verdict.witness,steps});
+      if(guides.size>10)guides.delete(guides.keys().next().value);
+      // The text handed to an AI is drawn on the screen too, and it is this application's own words. An
+      // independent review found `cita` and `firma` visible inside it with no way to open their definitions,
+      // because the vocabulary probe excludes `pre` by element type. Whoever composes the text reports the
+      // terms, so the whole panel is covered rather than only its headings.
+      return {id,profile:verdict.profile,checkedAt:verdict.at,witnessTruncated:verdict.witnessTruncated,
+        pending:steps.filter(step=>step.kind==='app').map(step=>step.stage),
+        terms:glossaryIdsIn(steps.map(step=>`${step.title} ${step.why} ${step.prompt??''}`).join(' ')),
+        steps:steps.map((step,index)=>({index,kind:step.kind,stage:step.stage,title:step.title,why:step.why,action:step.action,prompt:step.prompt}))};},
+    async copyGuideStep(input) {exact(input,['guide','step']);noJob();const value=guides.get(input.guide);
+      if(!value||!Number.isInteger(input.step)||input.step<0||input.step>=value.steps.length)fail('GUIDE_UNKNOWN','Vuelve a abrir la guía de este proyecto.');
+      const p=await project(value.project),step=value.steps[input.step];
+      if(!step.prompt)fail('GUIDE_STEP_LOCAL','Este paso se hace en esta aplicación, no en tu IA.','Usa el control que aparece en ese paso.');
+      return operation('Copiar un paso de la guía',async()=>{
+        for(const item of value.witness)if(await witnessHash(p.root,item.path)!==item.hash)fail('GUIDE_STALE','El proyecto cambió después de preparar esta guía.','Comprueba el proyecto de nuevo para actualizarla.');
+        await copyText(step.prompt);return {copied:true,step:input.step,bytes:Buffer.byteLength(step.prompt),sent:false};});},
     async workspace(input) {exact(input,['id']);noJob();const p=await project(input.id);return operation('Abrir herramientas del proyecto',async()=>{
       const b=await base.verify(p.root);return {recipes:recipesFor(b.selection?.profile),graphs:await graphOptions(p.root,b.selection?.profile??'general')};});},
     async exportPreview(input) {exact(input,['id','query','maxBytes']);noJob();const p=await project(input.id);

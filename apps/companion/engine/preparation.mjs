@@ -207,6 +207,14 @@ export function createPreparationEngine() {
       return { interrupted: ['applying', 'interrupted'].includes(journal.value?.status ?? ''),
         prepared: !!receipt.value, selection: receipt.value?.selection ?? null };
     },
+    // The files this stage would have to see changed for its verdict to be worth doubting, named by the
+    // receipt itself rather than by a list kept somewhere else: the receipt is what `validateOwned` compares
+    // against, so if it stops naming a file, that file stopped belonging to this stage. Only the paths are
+    // returned; whoever records a verdict hashes them, so every stage's digest is computed the same way.
+    async witnessPaths(target) {
+      const receipt = await readReceipt(await canonicalFolder(target));
+      return [RECEIPT, JOURNAL, ...Object.keys(receipt.value?.files ?? {}).map(ownPath)];
+    },
     async verify(target) {
       const root = await canonicalFolder(target), journal = await readJournal(root), receipt = await readReceipt(root);
       if (journal.value && ['applying','interrupted'].includes(journal.value.status)) return { base: 'interrupted', context: 'pending', externalTools: 'not-verified' };
