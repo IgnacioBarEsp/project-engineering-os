@@ -1,0 +1,214 @@
+{
+  "date": "2026-09-13T11:32:19.914Z",
+  "targets": {
+    "service": "desktop/service.mjs",
+    "inference": "runtime/inference.mjs",
+    "prompts": "context/prompts.mjs"
+  },
+  "note": "La detección se atribuye a la prueba que falló, no al código de salida.",
+  "mutations": [
+    {
+      "id": "the-guard-stops-refusing-a-payload-with-project-data",
+      "target": "inference",
+      "reason": "el guardia deja de mirar el cuerpo, así que una ruta del proyecto puede viajar hacia un modelo",
+      "detected": true,
+      "caughtBy": [
+        "a payload that carries project data is refused instead of sent"
+      ],
+      "exitCode": 1,
+      "by": null
+    },
+    {
+      "id": "the-guard-compares-without-normalising",
+      "target": "inference",
+      "reason": "el guardia vuelve a comparar tal cual, así que un nombre con otra caja o con otra normalización pasa",
+      "detected": true,
+      "caughtBy": [
+        "a name that differs only in capitalisation or normalisation is still the person's file"
+      ],
+      "exitCode": 1,
+      "by": null
+    },
+    {
+      "id": "the-outbound-shape-passes-its-input-through",
+      "target": "inference",
+      "reason": "los datos que viajan dejan de construirse campo por campo y se reenvía lo que llegue",
+      "detected": true,
+      "caughtBy": [
+        "no path of the person reaches the aggregate, the facts or the request",
+        "the application is complete with no model, ships the provider level off, and never stores a key"
+      ],
+      "exitCode": 1,
+      "by": null
+    },
+    {
+      "id": "a-model-answer-replaces-the-rules",
+      "target": "inference",
+      "reason": "lo que devuelve un modelo vuelve a quedarse solo, sin las reglas que esta aplicación impone",
+      "detected": true,
+      "caughtBy": [
+        "what a model returns never replaces the rules, and says which half it wrote"
+      ],
+      "exitCode": 1,
+      "by": null
+    },
+    {
+      "id": "the-floor-accepts-anything-long-enough",
+      "target": "inference",
+      "reason": "el piso vuelve a medir solo el largo, así que un texto sobre cualquier otra cosa lo supera",
+      "detected": true,
+      "caughtBy": [
+        "the template is the floor, and the floor asks for more than length"
+      ],
+      "exitCode": 1,
+      "by": null
+    },
+    {
+      "id": "the-aggregate-carries-the-paths",
+      "target": "prompts",
+      "reason": "el agregado del inventario deja de ser un agregado y lleva la lista de archivos con sus rutas",
+      "detected": true,
+      "caughtBy": [
+        "no path of the person reaches the aggregate, the facts or the request"
+      ],
+      "exitCode": 1,
+      "by": null
+    },
+    {
+      "id": "the-witness-never-reports-a-change",
+      "target": "service",
+      "reason": "la comparación de resúmenes deja de encontrar diferencias, así que un proyecto sigue listo después de cambiar un archivo del que dependía",
+      "detected": true,
+      "caughtBy": [
+        "a ready row stops being ready when a file the check depended on changes, and says which stage"
+      ],
+      "exitCode": 1,
+      "by": null
+    },
+    {
+      "id": "a-verdict-is-accepted-without-checking-its-folder",
+      "target": "service",
+      "reason": "el veredicto se acepta sin comprobar que fue tomado en esta carpeta",
+      "detected": true,
+      "caughtBy": [
+        "a verdict does not travel to another folder and a truncated witness is never ready"
+      ],
+      "exitCode": 1,
+      "by": null
+    },
+    {
+      "id": "a-truncated-witness-can-still-be-shown-as-ready",
+      "target": "service",
+      "reason": "un veredicto que no pudo registrar todo lo que dependía de él puede mostrarse como listo",
+      "detected": true,
+      "caughtBy": [
+        "a verdict does not travel to another folder and a truncated witness is never ready"
+      ],
+      "exitCode": 1,
+      "by": null
+    },
+    {
+      "id": "the-ready-mark-ignores-a-stale-inventory",
+      "target": "service",
+      "reason": "la palomita deja de exigir que el inventario de la carpeta siga vigente",
+      "detected": true,
+      "caughtBy": [
+        "a project whose answers are already saved is never sent to a blank wizard",
+        "the ready mark is refused whenever a required stage is not ready"
+      ],
+      "exitCode": 1,
+      "by": null
+    },
+    {
+      "id": "the-guidance-stops-refusing-a-stale-copy",
+      "target": "service",
+      "reason": "copiar un paso deja de rechazarse cuando el proyecto cambió después de componer la guía",
+      "detected": true,
+      "caughtBy": [
+        "the guidance says what is missing, differs between projects, and refuses a stale copy"
+      ],
+      "exitCode": 1,
+      "by": null
+    },
+    {
+      "id": "a-verdict-missing-a-required-stage-is-accepted",
+      "target": "service",
+      "reason": "un veredicto cuyo `required` nombra una etapa que su `stages` no lleva se acepta, así que nada está pendiente porque nada está",
+      "detected": true,
+      "caughtBy": [
+        "a verdict that could never be disproved, or that is missing a required stage, is refused"
+      ],
+      "exitCode": 1,
+      "by": null
+    },
+    {
+      "id": "a-verdict-with-no-witness-is-accepted",
+      "target": "service",
+      "reason": "un veredicto sin testigo se acepta, y como nada puede desmentirlo la marca sería permanente",
+      "detected": true,
+      "caughtBy": [
+        "a verdict that could never be disproved, or that is missing a required stage, is refused"
+      ],
+      "exitCode": 1,
+      "by": null
+    },
+    {
+      "id": "an-unreadable-verdict-store-takes-the-list-with-it",
+      "target": "service",
+      "reason": "un registro de comprobaciones que no se puede leer vuelve a romper la lista y a impedir abrir cualquier proyecto",
+      "detected": true,
+      "caughtBy": [
+        "a verdict store that cannot be read degrades instead of taking the list and the project with it"
+      ],
+      "exitCode": 1,
+      "by": null
+    },
+    {
+      "id": "a-verdict-that-cannot-be-written-fails-the-check",
+      "target": "service",
+      "reason": "no poder guardar el veredicto vuelve a tumbar la comprobación que la persona pidió",
+      "detected": true,
+      "caughtBy": [
+        "a verdict store that cannot be read degrades instead of taking the list and the project with it",
+        "a check still answers when this application cannot write its own record"
+      ],
+      "exitCode": 1,
+      "by": null
+    },
+    {
+      "id": "the-guidance-sends-a-prepared-project-to-a-blank-wizard",
+      "target": "service",
+      "reason": "el paso que resuelve una carpeta cambiada vuelve a mandar a la persona al asistente, que abandona el proyecto y borra sus respuestas",
+      "detected": true,
+      "caughtBy": [
+        "a project whose answers are already saved is never sent to a blank wizard"
+      ],
+      "exitCode": 1,
+      "by": null
+    },
+    {
+      "id": "a-required-stage-that-reports-nothing-counts-as-ready",
+      "target": "service",
+      "reason": "una etapa que no reportó nada reconocible se cuenta como lista en vez de resolverse en contra de la marca",
+      "detected": true,
+      "caughtBy": [
+        "the ready mark is refused whenever a required stage is not ready"
+      ],
+      "exitCode": 1,
+      "by": null
+    }
+  ],
+  "baseline": {
+    "suites": [
+      "qa\\project-list.mjs",
+      "qa\\prompts.mjs",
+      "qa\\prompts.mjs"
+    ]
+  },
+  "restored": true,
+  "summary": {
+    "mutations": 17,
+    "detected": 17,
+    "restored": true
+  }
+}

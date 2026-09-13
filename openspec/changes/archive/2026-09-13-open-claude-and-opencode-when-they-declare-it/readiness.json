@@ -1,0 +1,234 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 106,
+  "change": "open-claude-and-opencode-when-they-declare-it",
+  "surfaces": [
+    "documentation",
+    "harness-tooling",
+    "ui"
+  ],
+  "validations": [
+    {
+      "id": "accessibility-check",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "capability-matrix-check",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "component-or-interaction-tests",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/browser-evidence.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "constructor-tests",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "critical-document-presence",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "doctor-json-check",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "findability-two-hop-check",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "neutrality-check",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "openspec-strict",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "opsx-check",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "relative-link-check",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "responsive-check-when-configured",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/browser-evidence.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "second-run-idempotence",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "secret-scan",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "sync-check",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "visual-check-when-configured",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/native-journeys.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "dependency-signal-review",
+      "status": "passed",
+      "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "adversarial-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/independent-review.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "issue-link",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/106",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "ground-truth-comparison",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/native-journeys.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "keyboard-and-assistive-technology-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "loading-empty-error-and-constrained-connectivity-states",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "qualitative-review-for-clarity-and-current-ownership",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/independent-review.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recorded-drift-decisions",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "review-of-declared-degradations",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recovery-rehearsal-for-one-transaction",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/browser-evidence.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "deliberate-mutation-of-the-decision-logic",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/service-mutations.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "ground-truth-comparison-of-local-applications",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/local-launches.json",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "rollback": {
+    "strategy": "Revert the pull request. Claude and OpenCode go back to not being recognised and the reviewed export is the answer for both again. Nothing on the person's machine is modified in either direction: no application is installed, changed or closed, and no folder is touched.",
+    "status": "verified",
+    "evidence": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "passed",
+    "ref": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/independent-review.md",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}

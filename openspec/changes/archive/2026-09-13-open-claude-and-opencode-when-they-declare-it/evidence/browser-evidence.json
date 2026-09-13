@@ -1,0 +1,53 @@
+{
+  "date": "2026-09-13T12:09:02.506Z",
+  "scope": "Real renderer and engines in browser; native transport/picker/clipboard/provider injected",
+  "checks": [
+    "research: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
+    "software: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
+    "unity: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
+    "media: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
+    "general: a stage of a verified project undone from the interface removes the ready mark, names the stage in the list, and adds the step to the guidance PASS",
+    "general: duplicating reuses the answers, writes nothing into the new folder before the plan is approved, and copies none of the original preparation PASS",
+    "general: recovery rehearsal for one transaction — the file reading was undone from the interface, the application then refused to claim it, the original documents were byte-identical, and reading again restored the state PASS",
+    "general: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
+    "La guía difiere entre los 5 perfiles, comparada por sus pasos PASS",
+    "Estado mostrado por fila en la lista: research=verified, software=incomplete, unity=incomplete, media=verified, general=verified",
+    "Contraste, orden de encabezados, teclado, nombres accesibles y la regla de vocabulario comprobados en 36 pantallas de los cinco perfiles: 0 hallazgos PASS",
+    "502 controles de definición comprobados contra el término que abren: 0 desajustes PASS",
+    "Denominadores: 22–120 elementos medidos para contraste por pantalla, 542–3594 caracteres leídos para vocabulario, 6–37 controles inspeccionados PASS",
+    "One name per action across 10 navigable actions: open-start=\"Inicio\", open-project-list=\"Tus proyectos\", prepare-project=\"Preparar proyecto\", open-help=\"Ayuda\", privacy-scope=\"Privacidad y alcance\", open-workspace=\"Ver mi proyecto\", read-files=\"Leer mis archivos\", recheck-project=\"Comprobar de nuevo\", resave-base=\"Revisar tus elecciones otra vez\", review-development=\"Revisar desarrollo\" PASS",
+    "No renderer exceptions across five journeys; source markup rendered as text; original documents preserved."
+  ],
+  "screenshots": [
+    "home-desktop.png",
+    "research-sources.png",
+    "minimum-equivalent-200-percent.png"
+  ],
+  "listStates": [
+    {
+      "profile": "research",
+      "state": "verified",
+      "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 13 de septiembre de 2026 contra esta carpet"
+    },
+    {
+      "profile": "software",
+      "state": "incomplete",
+      "text": "○ Le falta algo Se comprobó y esto quedó pendiente: Inventario — ver qué significa, las herramientas de desarrollo, las "
+    },
+    {
+      "profile": "unity",
+      "state": "incomplete",
+      "text": "○ Le falta algo Se comprobó y esto quedó pendiente: Inventario — ver qué significa, las herramientas de desarrollo, las "
+    },
+    {
+      "profile": "media",
+      "state": "verified",
+      "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 13 de septiembre de 2026 contra esta carpet"
+    },
+    {
+      "profile": "general",
+      "state": "verified",
+      "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 13 de septiembre de 2026 contra esta carpet"
+    }
+  ]
+}

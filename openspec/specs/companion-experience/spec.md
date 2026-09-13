@@ -9,6 +9,11 @@ destinations whose jobs do not overlap, one name per action, a short definition 
 where a technical term appears, a listed state that says whether it was recorded or verified, and evidence
 about the installed application that names the source it measured.
 
+It also defines what an application has to declare before this one hands it a folder: a contract observed in
+the installation — a help line that says it takes a path, or a route its own build declares together with the
+system registering that scheme to that same verified executable — never an argument that looks plausible. An
+application that declares nothing is still recognised, its publisher still reported, and it is not opened.
+
 And it defines what a project's state may claim without being re-verified: the verdict of the last real check,
 saved outside the person's folder with the digest of every file it depended on, shown as current only while
 those digests still match. A ready mark is a claim about the stages that project's profile requires, dated,
@@ -16,7 +21,6 @@ and accompanied by what it does not cover; every doubt resolves away from it. Se
 actions never hold the only way to do something, removing a project from the list leaves the person's files
 untouched, duplicating copies no artefact of the original, and each project says what to do next given what it
 is missing.
-
 ## Requirements
 ### Requirement: Companion preparation is appropriate to the project
 The companion SHALL distinguish research/documents, software, Unity/game, media creation and general work
@@ -235,4 +239,34 @@ missing, and SHALL NOT present the same text for two projects whose profile or p
 #### Scenario: Two different projects are compared
 - **WHEN** two projects differ in profile or in which stages are pending
 - **THEN** their guidance SHALL differ, compared as rendered text rather than assumed from the composition
+
+### Requirement: An application is handed a folder only through what it declares
+The companion SHALL hand a folder to a local application only when that application's own installation
+declares how it receives one, SHALL treat a declaration as an observation of the installed software rather
+than of documentation, and SHALL NOT construct an argument or address that the installation does not declare.
+
+#### Scenario: An application declares a command-line contract
+- **WHEN** its own help output declares that it accepts a path
+- **THEN** the folder MAY be handed to it as that argument
+
+#### Scenario: An application declares an address instead of a command line
+- **WHEN** the installed build declares a route that takes a folder and the system registers that scheme to
+  that same verified executable
+- **THEN** the folder MAY be handed to it through exactly that route, with the folder encoded
+- **AND** both facts SHALL be re-read between the review and the launch, and either one missing SHALL refuse
+  the opening with its own reason
+
+#### Scenario: An application declares nothing
+- **WHEN** no contract is observed in the installation
+- **THEN** the application SHALL still be recognised and its publisher reported, it SHALL NOT be opened, and
+  the reviewed export SHALL remain the answer offered instead
+
+#### Scenario: Reading a declaration could cost more than it is worth
+- **WHEN** the declaration is read from the application's own resources
+- **THEN** the read SHALL be bounded in size and SHALL stop at the first match, and a resource that cannot be
+  read SHALL refuse the opening rather than allow it
+
+#### Scenario: An application is opened
+- **WHEN** the opening succeeds
+- **THEN** the screen SHALL NOT state or imply that the AI read the project
 

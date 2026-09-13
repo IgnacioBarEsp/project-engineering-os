@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "flow": "open-claude-and-opencode-when-they-declare-it",
+  "date": "2026-09-13",
+  "kind": "feature",
+  "result": "debt",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/local-launches.json",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "Se le entregó a la instalación real de Claude la dirección que su propio build declara, por el camino del producto y contra una carpeta sintética. Lo unico que este arnes puede observar es el conteo de procesos, que no cambio, que es lo esperable de una aplicacion ya abierta y es compatible tanto con que recibiera la direccion como con que la ignorara. Que su ventana muestre esa carpeta necesita que una persona lo mire. La revision independiente encontro ademas que el propio log de Claude registra un second-instance en el instante de la corrida, lo que corrobora que el argv llego, pero eso lo observo ella leyendo un log ajeno y no es algo que este arnes mida",
+        "result": "no-verificado",
+        "date": "2026-09-13"
+      },
+      "title": "Que la ventana de Claude muestre la carpeta entregada no se observa desde aqui: hace falta que una persona lo mire",
+      "artifact": "apps/companion/scripts/verify-local-launches.mjs",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "docs/companion/SECURITY.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "Cuatro de las seis comprobaciones estan ancladas a la firma del ejecutable. Las otras dos no: resources/app.asar no lo cubre el Authenticode del ejecutable, y HKCU\\Software\\Classes lo puede escribir la propia cuenta, y ninguna de las dos se congela entre la revision y la apertura como si se congelan los bytes del ejecutable. Una revision independiente lo senalo porque el design las presentaba al mismo nivel. Se investigo el alcance real: quien pueda escribir en cualquiera de las dos ya corre como esa persona, y lo que lograria es que Companion abra la aplicacion legitima con la carpeta de esa misma persona. Existen para distinguir un contrato observado de un argumento inventado, no como barrera contra alguien que ya esta dentro, y eso quedo escrito en el design y en la documentacion de seguridad en vez de implicito. Anclar el paquete por digesto es posible y no se hizo aqui",
+        "result": "medido-en-parte",
+        "date": "2026-09-13"
+      },
+      "title": "Dos de las seis comprobaciones que habilitan una apertura viven en rutas que la propia cuenta puede escribir y no estan ancladas a ninguna firma",
+      "artifact": "apps/companion/desktop/local-apps.mjs",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/independent-review.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "La interfaz decia de cualquier aplicacion que no se abre que no se pudo comprobar su firma o quien la publica. La de OpenCode si verifica: su rechazo es por no declarar como recibe una carpeta. La frase era cierta por accidente mientras la unica aplicacion rechazada era Antigravity, cuya firma si falla, y se volvio falsa en cuanto este cambio anadio una rechazada por otra razon. Resuelto: el rechazo lleva el editor y si se verifico, y la pantalla tiene una frase por causa, medido contra las tres instalaciones reales",
+        "result": "resuelto",
+        "date": "2026-09-13"
+      },
+      "title": "La pantalla afirmaba que no se pudo comprobar el editor de una aplicacion cuyo editor si verifica",
+      "artifact": "apps/companion/ui/app.mjs",
+      "source": "adversarial-review",
+      "category": "defect",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "resolvedPreviously": true
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/validation.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "Tres de las seis comprobaciones sobrevivian a una mutacion deliberada contra la suite completa: los bytes iguales, el guardia de vinculos, y la aguja de la declaracion debilitada, porque todas las pruebas inyectaban el lector y el real nunca se ejecutaba. Resuelto con dos pruebas que construyen paquetes reales, incluida la aguja partida en el limite de un mebibyte, el paquete ausente, un directorio en su lugar, bytes que cambian entre lecturas y un enlace duro",
+        "result": "resuelto",
+        "date": "2026-09-13"
+      },
+      "title": "Tres de las seis comprobaciones que habilitan una apertura sobrevivian a una mutacion deliberada",
+      "artifact": "apps/companion/qa/local-apps.mjs",
+      "source": "adversarial-review",
+      "category": "defect",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "resolvedPreviously": true
+    }
+  ]
+}

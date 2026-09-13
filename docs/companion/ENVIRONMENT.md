@@ -121,14 +121,22 @@ An interrupted preparation stays interrupted: verified tool bytes do not finish 
 
 ## Handing the project to an AI
 
-Companion is not a chat client. It can open a supported local application with the selected folder as a
-literal argument when that application is found in a known location, is a regular file reached without
-links, and carries a valid signature from the expected publisher: Codex from OpenAI through its
-documented `codex app [PATH]` interface, Cursor from Anysphere, and Visual Studio Code from Microsoft.
+Companion is not a chat client. It can open a supported local application with the selected folder when that
+application is found in a known location, is a regular file reached without links, and carries a valid
+signature from the expected publisher — and only through an interface that application itself declares:
+
+- **As a literal argument**: Codex from OpenAI through its `codex app [PATH]` interface, whose help output is
+  read and has to declare it; Cursor from Anysphere; and Visual Studio Code from Microsoft.
+- **As an address it declares it accepts**: Claude from Anthropic, whose installed build declares
+  `claude://code/new?folder=<encoded>` and whose scheme the system registers to that same verified executable.
+  Both facts are re-read between the review and the launch, and either one missing refuses the opening.
+
 A PATH shim is never trusted, and the launched application receives a reduced environment without `PATH`,
 so its own integrated terminal may not find tools the person expects. An application that is installed but
-whose signature or publisher cannot be verified is reported as such instead of quietly falling back to the
-browser. Automated tests use adapters and do not launch these applications.
+whose signature or publisher cannot be verified is reported as such; one whose publisher **does** verify but
+which declares no way to receive a folder — OpenCode from Anomaly Innovations — is reported as that instead,
+because they are different facts and a person is owed both. Neither is quietly downgraded to the browser.
+Automated tests use adapters and do not launch these applications.
 
 When a local launch is not supported, the app offers a reviewable context export and says what remains to
 be copied or attached. The app reports that a folder was passed; it never reports that the AI read the
