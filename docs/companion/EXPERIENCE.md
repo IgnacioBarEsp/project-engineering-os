@@ -47,7 +47,7 @@ realidad una página de bienvenida con los proyectos al final. Decisión del man
 | Destino | Su trabajo | Lo que no contiene |
 | --- | --- | --- |
 | **Inicio** | Bienvenida, qué hace la aplicación en una frase, cómo trabaja, qué se descarga y por qué, qué se queda en este equipo, y la acción para empezar. | La lista de proyectos. |
-| **Tus proyectos** | Solo la lista, con el estado registrado de cada proyecto y su perfil. | Saludo, explicaciones, pasos numerados. |
+| **Tus proyectos** | Solo la lista, con el estado de cada proyecto, su perfil y un menú secundario por fila. | Saludo, explicaciones, pasos numerados. |
 | **Preparar proyecto** | El asistente de ocho pasos descrito abajo. | — |
 | **Ayuda** | El método en palabras llanas y el [glosario](GLOSSARY.md). | Controles que cambien un proyecto. |
 
@@ -61,10 +61,72 @@ proyecto», «Leer mis archivos», «Comprobar de nuevo» y «Revisar desarrollo
 La regla no cubre la navegación relativa: «Volver» significa un paso atrás desde aquí, su sentido es
 posicional, y darle el nombre de un destino sería exactamente el defecto que la regla quita.
 
-El estado que muestra la lista es el **registrado**, leído del recibo de cada etapa sin volver a inspeccionar
-la carpeta, y la pantalla lo dice. Verificar de verdad cuesta releer los archivos y, en software, comprobar
-las herramientas: eso ocurre al abrir el proyecto. «Preparado» es la palabra más fuerte que usa la lista;
-«Verificado» pertenece a una comprobación que sí volvió a leer la carpeta.
+### El estado de cada proyecto en la lista
+
+Verificar de verdad cuesta releer la carpeta, rehashear las fuentes y, en software, comprobar la cadena de
+herramientas: minutos de trabajo que pertenecen a abrir **un** proyecto. La lista no puede hacerlo por fila y
+tampoco puede presentar la existencia de un archivo como una comprobación. Lo que muestra es el **veredicto de
+la última comprobación real**, guardado junto a los resúmenes de los archivos de los que dependió, y lo
+compara con esos archivos ahora ([#98](https://github.com/IgnacioBarEsp/project-engineering-os/issues/98)).
+
+| Estado | Qué afirma | Cuándo aparece |
+| --- | --- | --- |
+| **Listo** ✓ | Cada etapa que ese perfil necesita se comprobó contra la carpeta y nada de lo comprobado cambió desde entonces. | Es el único estado con palomita. |
+| **Le falta algo** | Se comprobó y alguna etapa quedó pendiente; la fila enumera cuáles en palabras. | Tras una comprobación incompleta. |
+| **Hay que comprobarlo de nuevo** | Cambió un archivo del que dependía el veredicto; la fila nombra la etapa. | Cuando el resumen guardado ya no coincide. |
+| **Sin comprobar** | Nunca se comprobó en esta carpeta, o la carpeta cambió de lugar, o el veredicto no pudo registrar todo. | Ante cualquier duda. |
+| **Quedó algo a medias** · **Sin preparar** · **No se pudo leer su registro** | Lo que dicen, con la causa que dio el servicio. | Sin cambios respecto a #97. |
+
+La comparación **solo puede desmentir**, nunca confirmar: que los resúmenes coincidan no prueba que el
+proyecto siga listo, únicamente que nada de lo que se puede comprobar desde aquí lo contradice. Por eso cada
+fila dice cuándo se comprobó, y la fila lista dice además lo que **no** cubre: no vuelve a leer los archivos de
+la persona, no comprueba el mapa de código, no comprueba las herramientas de desarrollo —viven fuera de la
+carpeta, así que nada de lo que la lista puede leer notaría que se quitaron— y no comprueba su IA. Esa
+aclaración se dibuja al mismo tamaño que el estado.
+
+Cuando falta algo, la fila nombra **lo que de verdad está pendiente**, no la etapa que lo contiene. Añadir un
+archivo a la carpeta no deja sin guardar las elecciones de nadie: lo que quedó viejo es el inventario, y eso es
+lo que dice. La distinción no es cosmética — decir «te faltan tus elecciones guardadas» cuando están guardadas
+manda a la persona a rehacer algo que ya hizo.
+
+Qué exige la palomita, por perfil: investigación, contenido y trabajo general necesitan la carpeta preparada
+con su inventario vigente y los archivos leídos; software y videojuego necesitan además las herramientas
+administradas preparadas, los archivos de desarrollo sin diferencias y OpenSpec respondiendo. Un mapa de
+código que nunca se creó no impide el estado listo — es una adición que la interfaz ofrece, y un proyecto sin
+código no tiene nada que mapear — pero uno desactualizado, corrupto o que necesita reparación sí, porque es una
+afirmación que dejó de sostenerse. El veredicto se guarda en el directorio de datos de la aplicación, nunca en
+la carpeta de la persona, y no contiene ninguna ruta absoluta.
+
+### Abrir, duplicar y quitar
+
+La tarjeta **es** el control que abre el proyecto: no hay un segundo control para abrir, así que tampoco hay un
+segundo nombre. Lo secundario y lo destructivo viven en un menú por fila — duplicar la preparación y quitar de
+la lista — y ninguna acción principal vive solo ahí, comprobado leyendo la página renderizada.
+
+**Duplicar** reusa las respuestas del original contra una carpeta que la persona elige, y nada se escribe hasta
+que aprueba el plan como en cualquier preparación. No copia ningún artefacto del original, porque **no existe
+ninguna operación que copie una carpeta preparada**: el criterio se cumple por ausencia de capacidad, no por
+una regla que alguien recuerde respetar. El nombre llega igual al del original, porque es la respuesta que la
+persona dio y la aplicación no va a inventarle otra; el campo está a la vista y editable, y las dos filas se
+distinguen por su carpeta.
+
+**Quitar de la lista** pide confirmación, dice que los archivos se quedan donde están, y solo quita la entrada.
+El issue pedía además una entrada llamada «eliminar», y su propio criterio de aceptación define *eliminar* como
+quitar del historial sin tocar la carpeta: es la misma acción, y desde #97 dos nombres para una acción son
+irrepresentables. Sobrevive el nombre que describe el efecto.
+
+### Cómo trabajar en este proyecto
+
+Dentro de cada proyecto hay una sección que dice qué hacer ahora: primero lo que falta, en el orden en que se
+puede hacer, y después las formas de trabajar que tiene ese tipo de proyecto. El paso que resuelve una carpeta
+cambiada revisa **las respuestas ya guardadas contra esa misma carpeta**; no abre el asistente, porque abrirlo
+saldría del proyecto y dejaría los campos en blanco. Un paso que esta aplicación
+ejecuta — leer tus archivos, preparar las herramientas — lleva el control que lo hace y **ningún texto para dar
+a una IA**, porque entregar un prompt para pedirle eso describiría una capacidad que la IA no tiene. Un paso
+que sí es trabajo de la IA lleva el texto completo, compuesto por la aplicación, y se copia por un control que
+lo rechaza si el proyecto cambió después de componerlo. El contenido de esos textos es el
+[issue #99](https://github.com/IgnacioBarEsp/project-engineering-os/issues/99); esta composición viene de las
+recetas y de las etapas pendientes que ya existen.
 
 Cada término técnico que sobrevive en la interfaz es un control que abre su propia definición **desde la
 pantalla donde aparece**, y todas se reúnen en el glosario. Esa es la propiedad que se comprueba, pantalla
@@ -90,9 +152,10 @@ alguien lo ejecute, esos dos criterios quedan sin verificar con su causa.
 7. **Preparar y comprobar.** Pasos con nombres útiles, progreso real, cancelación segura y reintento. No inventar un porcentaje si la duración es desconocida.
 8. **Continuar.** Resultado verificado, próximo paso y abrir IA/carpeta o exportar contexto. Un paso pendiente tiene explicación y acción concreta.
 
-El uso posterior ofrece un listado sencillo de proyectos con ruta, perfil y estado registrado. Dentro
-de un proyecto: estado, búsqueda con fuentes, recetas útiles y recuperación. Las acciones frecuentes se
-completan con pocos pasos; configuración avanzada queda a un nivel adicional, accesible por teclado.
+El uso posterior ofrece un listado sencillo de proyectos con ruta, perfil y el veredicto de su última
+comprobación. Dentro de un proyecto: estado, cómo trabajar en él, búsqueda con fuentes, recetas útiles y
+recuperación. Las acciones frecuentes se completan con pocos pasos; configuración avanzada queda a un nivel
+adicional, accesible por teclado.
 
 ## Qué significa listo
 

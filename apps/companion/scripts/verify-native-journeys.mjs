@@ -6,6 +6,8 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { portable } from './portable-path.mjs';
+import { READY_CLAIMS, ROW_MENUS, GUIDE, readyProblems, rowMenuProblems, guideProblems }
+  from './interface-contract.mjs';
 import { pdf, docx } from './fixtures.mjs';
 
 // Runs the five profiles through the INSTALLED application's own window: the packaged interface, driven
@@ -489,15 +491,22 @@ try {
     const body = () => page.locator('body').innerText();
 
     await page.getByRole('button', { name: /Tus proyectos/ }).click();
-    await page.getByRole('button', { name: /^Abrir/ }).first().waitFor();
-    const listed = await page.locator('button:visible').allTextContents();
-    step('open history', { entries: listed.filter(text => /^Abrir/.test(text)).length });
+    await page.locator('article.project .card-open').first().waitFor();
+    step('open history', { entries: await page.locator('article.project').count() });
 
     // Open this profile's own card, matched on the name the engine registered, so a run cannot silently
     // walk the same project five times.
     const card = page.locator('article.project').filter({ has: page.getByRole('heading', { name: definition.name }) });
     assert.equal(await card.count(), 1, `El historial no muestra exactamente una tarjeta de "${definition.name}".`);
-    await card.getByRole('button', { name: 'Abrir →' }).click();
+    // What the row claims about this project, read off the installed window before it is opened: the mark
+    // only where the state is verified, the qualifier at no smaller a size, and no internal token.
+    const rowClaims = await page.evaluate(READY_CLAIMS), rowMenus = await page.evaluate(ROW_MENUS);
+    for (const problem of readyProblems(rowClaims)) finding(id, 'list', `en la lista, ${problem}`);
+    for (const problem of rowMenuProblems(rowMenus)) finding(id, 'list', `en la lista, ${problem}`);
+    if (!rowClaims.length) finding(id, 'list', 'la comprobación de lo que afirma una fila no examinó ninguna fila');
+    step('row state', { states: rowClaims.map(entry => entry.className.replace(/^.*state-/, '')),
+      named: rowClaims.map(entry => entry.namedStages) });
+    await card.locator('.card-open').click();
     // Waiting for a heading with this name would pass without navigating: the history card carries the
     // same heading. Wait for the list itself to go, and for the application to stop being busy — opening
     // a project verifies its stages, and for a software profile that includes the managed tools.
@@ -505,6 +514,13 @@ try {
     await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 180000 })
       .catch(() => finding(id, 'open', 'la aplicación siguió ocupada tres minutos después de abrir el proyecto'));
     step('opened from history', { project: definition.name, heading: await page.locator('h1,h2').first().innerText() });
+    // The guidance for this project, in the installed window: every step with its reason, and either text to
+    // hand an AI or the control that does the work here.
+    const guide = await page.evaluate(GUIDE);
+    for (const problem of guideProblems(guide)) finding(id, 'guide', `en la guía del proyecto, ${problem}`);
+    step('project guidance', { steps: guide?.steps.length ?? 0,
+      pending: (guide?.steps ?? []).filter(entry => !entry.promptChars).map(entry => entry.action),
+      terms: guide?.terms ?? [] });
 
     // Context preparation, reviewed and then applied, in the interface.
     const reviewContext = page.getByRole('button', { name: /^Leer mis archivos$/ }).first();
@@ -663,8 +679,14 @@ try {
     // and opened again, and the citation has to survive the round trip.
     await page.getByRole('button', { name: /Tus proyectos/ }).click();
     await page.locator('article.project').first().waitFor({ timeout: 60000 });
+    // The same rows, now that this journey has read the files: this is where the mark can appear, and where a
+    // mark that appeared without the stages behind it would be visible in the installed window.
+    const afterReading = await page.evaluate(READY_CLAIMS);
+    for (const problem of readyProblems(afterReading)) finding(id, 'list', `en la lista tras leer los archivos, ${problem}`);
+    step('row state after reading', { states: afterReading.map(entry => entry.className.replace(/^.*state-/, '')),
+      marks: afterReading.map(entry => entry.mark), named: afterReading.map(entry => entry.namedStages) });
     const reopened = page.locator('article.project').filter({ has: page.getByRole('heading', { name: definition.name }) });
-    await reopened.getByRole('button', { name: 'Abrir →' }).click();
+    await reopened.locator('.card-open').click();
     await page.locator('article.project').first().waitFor({ state: 'detached', timeout: 120000 });
     await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 180000 }).catch(() => {});
     const afterReopen = page.getByRole('button', { name: /Buscar en mis archivos/ });

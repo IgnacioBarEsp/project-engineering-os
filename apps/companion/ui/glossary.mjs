@@ -76,6 +76,16 @@ export const byId = new Map(GLOSSARY.map(entry => [entry.id, entry]));
 // are not candidates for a definition; they are jargon with no place in a product a person downloads.
 export const FORBIDDEN_WORDS = [['harness', 'harness', false], ['RAG', 'RAG', true]];
 
+// Which terms a piece of text uses, asked with the same patterns the screen check asks with. Text composed
+// outside the renderer — the guidance for a project, built from the recipes and the pending stages — is the
+// interface's own words even though the screen did not write them, so the screen has to be able to offer
+// their definitions. Whoever composes that text reports the terms rather than the screen guessing them.
+export function glossaryIdsIn(text) {
+  const value = String(text ?? '').replace(/\s+/g, ' ');
+  return GLOSSARY.filter(entry => new RegExp(`(^|[^\\p{L}])(${entry.forms.join('|')})([^\\p{L}]|$)`,
+    entry.caseSensitive ? 'u' : 'iu').test(value)).map(entry => entry.id);
+}
+
 // A control may carry the term, one of its declared aliases, or the term followed by more words.
 export function labelMatchesTerm(entry, label) {
   const shown = label.replace(/\s+/g, ' ').trim();

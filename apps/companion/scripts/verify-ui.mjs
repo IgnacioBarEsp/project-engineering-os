@@ -14,7 +14,8 @@ import { GLOSSARY, FORBIDDEN_WORDS, labelMatchesTerm, byId } from '../ui/glossar
 const VOCABULARY={terms:GLOSSARY.map(e=>({id:e.id,forms:e.forms,caseSensitive:!!e.caseSensitive})),forbidden:FORBIDDEN_WORDS};
 import { ACTION_PAIRS, UNDEFINED_VOCABULARY, TERM_LABELS, LIST_PURITY, ACCESSIBILITY, ACCESSIBLE_NAMES,
   EXPECTED_ACTIONS, RUNTIME_ONLY_ACTIONS, collectActionPairs, duplicateActionNames, missingActions,
-  undeclaredActions, vacuous } from './interface-contract.mjs';
+  undeclaredActions, vacuous, ROW_ACTION_PAIRS, ROW_MENUS, READY_CLAIMS, GUIDE, EXPECTED_ROW_ACTIONS,
+  rowMenuProblems, readyProblems, guideProblems, guideSignature, ACTION_COUNTS, repeatedActions } from './interface-contract.mjs';
 
 // Browser verification uses the shipping renderer and engines. Only native picker/clipboard/external
 // launch and IPC transport are injected. It does not claim installer or Electron sandbox coverage.
@@ -46,15 +47,18 @@ async function noOverflow(page,label){const size=await page.evaluate(()=>({width
 // term control pointing at another concept's definition on a screen neither harness clicked, and this
 // repository's jargon inside a project card — and all three passed, because the probes ran on three screens
 // chosen in advance. They now run wherever the journey goes, which is where the real screens are.
-const actionsSeen=new Map(),termsSeen=[];
+const actionsSeen=new Map(),termsSeen=[],rowActionsSeen=new Map();
 async function collectActions(page,where){
   collectActionPairs(await page.evaluate(ACTION_PAIRS),actionsSeen,where);
+  // The controls that act on one listed project follow the same rule, and they are collected on every screen
+  // for the same reason: a second name added on a screen nobody clicked is still a second name.
+  collectActionPairs(await page.evaluate(ROW_ACTION_PAIRS),rowActionsSeen,where);
   for(const [id,label] of await page.evaluate(TERM_LABELS))termsSeen.push([where,id,label]);
 }
 // Contrast, heading order and keyboard reach measured on each screen as it is walked, rather than asserted
 // once on a screen chosen for being easy. Collected and reported together so one run names every screen that
 // fails instead of stopping at the first.
-const a11y=new Set(),screensSeen=new Set(),screenDenominators=[];
+const a11y=new Set(),screensSeen=new Set(),screenDenominators=[],listStates=[],guideSignatures=[];
 async function checkScreen(page,where){
   screensSeen.add(where);
   await collectActions(page,where);
@@ -66,6 +70,7 @@ async function checkScreen(page,where){
   const vocabulary=await page.evaluate(UNDEFINED_VOCABULARY,VOCABULARY);
   for(const entry of vocabulary.missing)a11y.add(`${where}: "${entry.word}" aparece y su definición no se puede abrir desde ahí · …${entry.context}…`);
   for(const word of vocabulary.forbidden)a11y.add(`${where}: "${word}" no tiene definición y no debe aparecer`);
+  for(const repeat of repeatedActions(await page.evaluate(ACTION_COUNTS)))a11y.add(`${where}: la misma acción se ofrece en más de un control · ${repeat}`);
   const names=await page.evaluate(ACCESSIBLE_NAMES);
   // A probe that reports only its failures cannot be told apart from a probe that examined nothing.
   for(const empty of vacuous({accessibility:result,vocabulary,names}))a11y.add(`${where}: ${empty}`);
@@ -99,9 +104,10 @@ try {
       if(!manager)execFileSync('git',['init','-q',root],{windowsHide:true});
     }
     const originals=new Map();for(const file of ['notes.txt','private-notes.txt'])originals.set(file,await readFile(path.join(root,file)));
+    let pickFolder=root;
     const context=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'}),page=await context.newPage(),errors=[],opened=[],copied=[];
     page.on('pageerror',e=>errors.push(e.message));
-    const service=await createDesktopService({dataRoot:path.join(temp,profile+'-history'),core,environment:manager&&engineeringProfile?createEnvironmentEngine(manager):null,chooseFolder:async()=>root,copyText:v=>copied.push(v),openExternal:v=>opened.push(v)});
+    const service=await createDesktopService({dataRoot:path.join(temp,profile+'-history'),core,environment:manager&&engineeringProfile?createEnvironmentEngine(manager):null,chooseFolder:async()=>pickFolder,copyText:v=>copied.push(v),openExternal:v=>opened.push(v)});
     page.setDefaultTimeout(manager?240000:30000);
     await page.exposeFunction('qaCall',async(name,input)=>{
       if(!Object.hasOwn(service,name))return {ok:false,error:{message:'Unknown method'}};
@@ -166,9 +172,39 @@ try {
     assert.deepEqual(purity.stray,[],'With entries on screen the only text outside a project card is the heading');
     assert.ok(purity.textNodes>0,'The purity probe has to have read some text to have checked anything');
     assert.deepEqual(purity.headings,['h1','h2'],`The list is a heading and one card per project: ${JSON.stringify(purity.headings)}`);
-    assert(/Carpeta preparada/.test(await page.locator('article.project').first().innerText()),'Each entry shows its recorded state');
+    // What the row may claim, read off the page: the mark only where the state is verified, every row saying
+    // where its state came from at no smaller a size, a ready row saying what the check did not cover, and no
+    // internal token anywhere in the row.
+    const claims=await page.evaluate(READY_CLAIMS);
+    assert.equal(claims.length,1,`One card, one claim: ${JSON.stringify(claims)}`);
+    assert.deepEqual(readyProblems(claims),[],`${profile}: ${JSON.stringify(claims)}`);
+    const menus=await page.evaluate(ROW_MENUS);
+    assert.deepEqual(rowMenuProblems(menus),[],`${profile}: ${JSON.stringify(menus)}`);
+    listStates.push({profile,state:claims[0].className.replace(/^.*state-/,''),text:claims[0].text.slice(0,120)});
+    // A profile whose stages this installation can all verify has to be able to reach the mark, or the mark
+    // is unreachable and the rule is vacuous.
+    if(!engineeringProfile){
+      assert.match(claims[0].className,/state-verified/,`${profile}: ${claims[0].text}`);
+      assert.equal(claims[0].mark,'✓');
+    }
 
-    await click(page,'Abrir →');await heading(page,name);
+    await page.locator('article.project .card-open').first().click();
+    await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')!=='true');
+    await heading(page,name);
+    await checkScreen(page,`${profile} mi proyecto`);
+    // The guidance for THIS project: no step without a reason, no step without either text for an AI or a
+    // control that does the work here, and no internal token.
+    const guide=await page.evaluate(GUIDE);
+    assert.deepEqual(guideProblems(guide),[],`${profile}: ${JSON.stringify(guide)}`);
+    guideSignatures.push([profile,guideSignature(guide)]);
+    if(guide.steps.some(step=>step.promptChars)){
+      const before=copied.length;
+      await page.locator('.guide-step').filter({has:page.locator('pre.prompt')}).first()
+        .getByRole('button',{name:'Copiar este paso',exact:true}).click();
+      await page.waitForFunction(()=>document.getElementById('notice').textContent.includes('bytes'));
+      assert.equal(copied.length,before+1,'Copying a step has to put that step on the clipboard');
+      assert.equal(copied.at(-1).includes(root),false,'The text handed to an AI names no absolute path');
+    }
     for(const width of [1180,768,480,240]){await page.setViewportSize({width,height:width===240?410:820});await noOverflow(page,`${profile} ${width}px`);}
     if(profile==='general')await capture(page,'minimum-equivalent-200-percent');
     await page.setViewportSize({width:480,height:820});await click(page,'Privacidad y alcance');await page.keyboard.press('Escape');await page.waitForFunction(()=>document.activeElement.dataset?.action==='privacy-scope');
@@ -200,6 +236,42 @@ try {
       await page.getByRole('heading',{name:'Archivos leídos · Por revisar',exact:true}).waitFor();
       for(const [file,content] of originals)assert.deepEqual(await readFile(path.join(root,file)),content,
         `Recovery must not touch ${file}`);
+      // A stage of a verified project broken on purpose, from the interface: the guidance gains the step that
+      // is now missing, and the list stops showing the project as ready and names the stage.
+      const undone=await page.evaluate(GUIDE);
+      assert.notEqual(guideSignature(undone),guideSignatures.at(-1)[1],
+        'Undoing a stage has to change the guidance for this project');
+      assert.match(undone.steps[0].title,/Falta leer tus archivos/,JSON.stringify(undone.steps[0]));
+      await click(page,'Tus proyectos');await heading(page,'Tus proyectos');
+      const broken=(await page.evaluate(READY_CLAIMS))[0];
+      assert.doesNotMatch(broken.className,/state-verified/,`${broken.className}: ${broken.text}`);
+      assert.notEqual(broken.mark,'✓','A project with a stage undone may not carry the mark');
+      assert.match(broken.text,/la lectura de tus archivos/,broken.text);
+      assert.deepEqual(readyProblems([broken]),[]);
+      evidence.checks.push('general: a stage of a verified project undone from the interface removes the ready mark, names the stage in the list, and adds the step to the guidance PASS');
+      // Duplicating: the answers are reused, the new folder is chosen, and nothing of the original travels
+      // with it. Measured on disk before anything is written, which is the only place it can be measured.
+      const copyRoot=path.join(temp,'general-copia');await mkdir(copyRoot);
+      await writeFile(path.join(copyRoot,'otras-notas.txt'),'Otro acuerdo, en otra carpeta.');
+      pickFolder=copyRoot;
+      await page.locator('article.project details.more > summary').first().click();
+      await page.locator('[data-row-action="duplicate-project"]').first().click();
+      await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')!=='true');
+      await heading(page,'Tu trabajo empieza en una carpeta.');
+      await checkScreen(page,'general duplicar carpeta');
+      assert.equal(await page.locator('.folder-card h2').innerText(),path.basename(copyRoot));
+      await assert.rejects(readFile(path.join(copyRoot,'.project-os/companion/receipt.json')),{code:'ENOENT'},
+        'Duplicating writes nothing into the new folder before the plan is approved');
+      await click(page,'Volver');await heading(page,'Empecemos por lo que quieres lograr.');
+      assert.equal(await page.getByLabel('Nombre de tu proyecto').inputValue(),name,
+        'Duplicating arrives with the original answers already filled in and editable');
+      assert.equal(await page.getByLabel('¿Qué quieres lograr?').inputValue(),'Comparar evidencia sobre tokens medidos');
+      pickFolder=root;
+      evidence.checks.push('general: duplicating reuses the answers, writes nothing into the new folder before the plan is approved, and copies none of the original preparation PASS');
+      await click(page,'Tus proyectos');await heading(page,'Tus proyectos');
+      await page.locator('article.project .card-open').first().click();
+      await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')!=='true');
+      await heading(page,name);
       await click(page,'Leer mis archivos');await heading(page,'Tus archivos, leídos y ubicables.');
       await click(page,'Guardar y continuar →');await heading(page,name);
       await page.getByRole('heading',{name:'Archivos leídos · Preparado',exact:true}).waitFor();
@@ -213,6 +285,19 @@ try {
   const termMismatches=termsSeen.filter(([,id,label])=>{const entry=byId.get(id);return !entry||!labelMatchesTerm(entry,label);})
     .map(([where,id,label])=>`${where}: "${label}" abre ${id}`);
   assert.deepEqual(termMismatches,[],'A control that opens a definition has to name the term it opens');
+  // One name per row action too, across every screen walked, and the set is closed so removing a control does
+  // not satisfy the check by omission.
+  assert.deepEqual(duplicateActionNames(rowActionsSeen),[],'A row action may not carry two names');
+  assert.deepEqual(EXPECTED_ROW_ACTIONS.filter(action=>!rowActionsSeen.has(action)),[],'Every declared row action has to appear');
+  assert.deepEqual([...rowActionsSeen.keys()].filter(action=>!EXPECTED_ROW_ACTIONS.includes(action)),[],'A row action outside the declared set has to fail');
+  // The guidance has to actually differ between kinds of project, compared by its steps rather than by the
+  // panel: a panel that differed only by the project name would look different with nothing else being.
+  const signatures=new Map(guideSignatures);
+  assert.equal(new Set(signatures.values()).size,signatures.size,
+    `Two kinds of project must not show the same guidance: ${JSON.stringify([...signatures.keys()])}`);
+  evidence.checks.push(`La guía difiere entre los ${signatures.size} perfiles, comparada por sus pasos PASS`);
+  evidence.checks.push(`Estado mostrado por fila en la lista: ${listStates.map(e=>`${e.profile}=${e.state}`).join(', ')}`);
+  evidence.listStates=listStates;
   evidence.checks.push(`Contraste, orden de encabezados, teclado, nombres accesibles y la regla de vocabulario comprobados en ${screensSeen.size} pantallas de los cinco perfiles: 0 hallazgos PASS`);
   evidence.checks.push(`${termsSeen.length} controles de definición comprobados contra el término que abren: 0 desajustes PASS`);
   const thin=screenDenominators.filter(entry=>!entry.contrastMeasured||!entry.vocabularyChars||!entry.controls);

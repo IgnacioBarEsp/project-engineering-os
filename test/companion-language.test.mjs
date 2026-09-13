@@ -82,7 +82,16 @@ test('every sentence that states a limit of the result is still there, in the in
     'no se envían a ninguna IA durante la preparación',
     'Nunca un modelo de IA',
     'tus documentos no se envían solos',
-    'Estado guardado la última vez; se comprueba al abrirlo',
+    // A listed project's state used to carry one sentence for every state: "Estado guardado la última vez;
+    // se comprueba al abrirlo". It was replaced by a sentence per state, because the states now differ in
+    // what they may claim, and every one of them still has to say where it came from and what it does not
+    // cover. The replacement is pinned here so the limit cannot be dropped by dropping a branch.
+    'No vuelve a leer tus archivos, ni comprueba el',
+    ', las herramientas de desarrollo',
+    'Se había comprobado el',
+    'Ábrelo para continuar donde quedó',
+    'Este estado sale de los registros de la carpeta, no de una comprobación',
+    'Esta guía sale de la comprobación del',
   ]) {
     assert.ok(shown.includes(kept), `Falta la frase que declara un límite en la interfaz: «${kept}»`);
   }
@@ -91,6 +100,26 @@ test('every sentence that states a limit of the result is still there, in the in
 // One name per action is enforced by construction: the label lives in the action table and `doBtn` takes no
 // label. These tests protect that construction, because reintroducing a label parameter would make the whole
 // property opt-in again.
+// The controls that act on one listed project follow the same construction, and the reason is the same: a
+// label parameter would make the property opt-in again. These read the source, because what they protect is
+// the shape of the code rather than the rendered result, which the two harnesses check.
+test('every control for a row action takes its label from the row action table', () => {
+  const table = ui.match(/const ROW_ACTIONS=\{[\s\S]*?\n\};/);
+  assert.ok(table, 'La tabla de acciones de fila tiene que existir.');
+  const declared = [...table[0].matchAll(/'([a-z][a-z-]*)':\{label:/g)].map(match => match[1]);
+  assert.deepEqual(declared, ['open-project', 'duplicate-project', 'forget-project'],
+    `Las acciones de fila declaradas son ${declared.join(', ')}.`);
+  const used = [...ui.matchAll(/rowBtn\('([a-z-]+)'/g)].map(match => match[1]);
+  assert.ok(used.length >= 3, `Solo se usaron ${used.length} controles de fila.`);
+  for (const id of used) assert.ok(declared.includes(id), `rowBtn usa una acción sin declarar: ${id}`);
+  // The helper may not accept a label, and no control may declare a row action by hand.
+  const helper = ui.match(/const rowBtn=\([^)]*\)=>/);
+  assert.ok(helper, 'El constructor de controles de fila tiene que existir.');
+  assert.equal(/\blabel\b/.test(helper[0]), false, `rowBtn no puede recibir una etiqueta: ${helper[0]}`);
+  const byHand = [...ui.matchAll(/'data-row-action':\s*'([a-z-]+)'/g)].map(match => match[1]);
+  assert.deepEqual(byHand, [], `Una acción de fila se declaró fuera de rowBtn: ${byHand.join(', ')}`);
+});
+
 test('every control for a navigable action takes its label from the action table', () => {
   const table = ui.match(/const ACTIONS=\{[\s\S]*?\n\};/);
   assert.ok(table, 'La tabla de acciones tiene que existir.');

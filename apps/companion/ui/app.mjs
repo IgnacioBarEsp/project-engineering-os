@@ -4,13 +4,31 @@ const $=id=>document.getElementById(id);
 const profiles={research:['Investigación','Artículos, PDF, documentos y evidencia.'],software:['Software o página web','Código, especificaciones y pruebas.'],unity:['Videojuego con Unity','Escenas, scripts y un proceso de desarrollo.'],media:['Contenido creativo','Imágenes, música, video y sus workflows.'],general:['Otro proyecto','Materiales de trabajo, ideas y tareas cotidianas.']};
 const agents={codex:'Codex','claude-code':'Claude',cursor:'Cursor','github-copilot':'GitHub Copilot',opencode:'OpenCode',antigravity:'Antigravity',web:'ChatGPT u otro chat web'};
 const roles={researcher:'Investigador/a',student:'Estudiante',developer:'Desarrollador/a o área de TI',freelancer:'Freelancer',creator:'Creador/a de contenido',general:'Usuario/a general'};
-// The state of a listed project comes from its records, so it may not sound verified and may not promise a
-// capability. "Preparado" is the strongest word here; what happens when you open it is stated, not implied.
-const projectStates={'not-prepared':['Sin preparar','Todavía no se ha escrito nada en esta carpeta.'],
+// What a listed project's state may say. Only `verified` carries the check mark, and it means two things at
+// once: every stage this kind of project needs was comprobado de verdad, and nothing that check depended on
+// has changed since. Anything else — no check, a folder that moved, a file that changed, a stage still
+// missing — says so instead of showing a hopeful mark.
+const projectStates={verified:['Listo','Cada parte que este proyecto necesita quedó comprobada.'],
+  incomplete:['Le falta algo','Se comprobó y esto quedó pendiente:'],
+  changed:['Hay que comprobarlo de nuevo','Cambió algo de lo que se había comprobado:'],
+  unverified:['Sin comprobar','Nunca se ha comprobado en esta carpeta, o la carpeta cambió de lugar.'],
+  'not-prepared':['Sin preparar','Todavía no se ha escrito nada en esta carpeta.'],
   interrupted:['Quedó algo a medias','Una operación se interrumpió. Al abrirlo puedes continuarla o deshacerla.'],
-  prepared:['Carpeta preparada','Falta leer los archivos. Al abrirlo se comprueba en qué quedó.'],
-  context:['Carpeta preparada y archivos leídos','Al abrirlo se comprueba si lo leído sigue vigente.'],
   unreadable:['No se pudo leer su registro','Tus archivos siguen donde están.']};
+// A stage in the person's words, and the word depends on WHY the stage is not ready: an independent review
+// added one file to a folder and the row said "tus elecciones guardadas" were missing, which was false — the
+// choices were saved and it was the folder's snapshot that no longer described it. The code map and the
+// inventory are named with their own terms rather than with a near-synonym that would dodge their definitions.
+const stageWords={base:'tus elecciones guardadas',context:'la lectura de tus archivos',
+  environment:'las herramientas de desarrollo',engineering:'las instrucciones de desarrollo'};
+const stageNode=(id,state)=>id==='code'?term('mapa-de-codigo')
+  :id==='base'&&state==='inventory-stale'?term('inventario')
+  :stageWords[id]??'una parte que no reconocemos';
+const stageList=stages=>stages.flatMap((stage,index)=>{
+  const node=el('span',{class:'stage'},stageNode(stage.id??stage,stage.state));
+  return index?[', ',node]:[node];});
+const onDate=value=>{const when=new Date(value??'');return Number.isNaN(when.getTime())?null
+  :when.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});};
 const state={page:'start',tab:'overview',busy:false,projects:[],project:null,plan:null,status:null,query:'',selection:{name:'',goal:'',role:'researcher',profile:'research',experience:'guided',agents:['web']}};
 function el(tag,props={},...children){const node=document.createElement(tag);for(const [k,v] of Object.entries(props)){if(k==='class')node.className=v;else if(k==='text')node.textContent=v;else if(k.startsWith('on'))node.addEventListener(k.slice(2).toLowerCase(),v);else if(v!==false&&v!==undefined&&v!==null)node.setAttribute(k,v===true?'':v);}for(const c of children.flat(Infinity)){if(c!==null&&c!==undefined)node.append(c instanceof Node?c:document.createTextNode(String(c)));}return node;}
 const p=(text,cls='')=>el('p',{class:cls,text});
@@ -33,12 +51,26 @@ const ACTIONS={
   'open-workspace':{label:'Ver mi proyecto',run:()=>showWorkspace()},
   'recheck-project':{label:'Comprobar de nuevo',run:()=>showWorkspace()},
   'read-files':{label:'Leer mis archivos',run:()=>prepareContext()},
+  'resave-base':{label:'Revisar tus elecciones otra vez',run:()=>resaveBase()},
   'review-development':{label:'Revisar desarrollo',run:()=>reviewEngineering()},
   'review-code-map':{label:'Revisar mapa de código',run:()=>reviewCode()},
   'repair-tools':{label:'Revisar reparación de herramientas',run:()=>reviewRepair()},
 };
 const doBtn=(id,cls='secondary')=>{const action=ACTIONS[id];if(!action)throw Error(`Acción sin declarar: ${id}`);
   return el('button',{type:'button',class:cls,'data-action':id,onClick:()=>run(action.run)},action.label);};
+// The same rule for the controls that act on one listed project. They are not destinations, so they are not
+// in the table above, but a row control can carry two names just as easily: the label lives with the action
+// and `rowBtn` takes none. The project's own name is added as content marked as the person's, so what a
+// screen reader announces identifies the row while the interface's own name for the action stays single.
+const ROW_ACTIONS={
+  'open-project':{label:'Abrir este proyecto',primary:true,run:project=>openProject(project.id)},
+  'duplicate-project':{label:'Duplicar esta preparación',primary:false,run:project=>duplicate(project)},
+  'forget-project':{label:'Quitar de la lista',primary:false,run:project=>forget(project)},
+};
+const rowBtn=(id,project,cls='quiet',...before)=>{const action=ROW_ACTIONS[id];if(!action)throw Error(`Acción de fila sin declarar: ${id}`);
+  return el('button',{type:'button',class:cls,'data-row-action':id,onClick:()=>run(()=>action.run(project))},
+    before,el('span',{class:cls==='card-open'?'sr-only':'row-label',text:action.label}),
+    el('span',{class:'sr-only','data-content':'person',text:` — ${project.name}`}));};
 const heading=(title,description)=>[el('h1',{tabindex:'-1',text:title}),p(description,'intro')];
 // The person's own words, and only those. `data-content="person"` says whose words these are; it is not a
 // class, because a class is also a styling decision and an independent review found three places where the
@@ -101,15 +133,45 @@ async function showProjects(){state.page='projects';state.projects=await call('l
   el('h1',{tabindex:'-1',text:'Tus proyectos'}),
   state.projects.length?el('div',{class:'project-list'},state.projects.map(project=>{
     const [label,detail]=projectStates[project.state]??['Estado desconocido','Ábrelo para comprobarlo.'];
+    const stages=project.state==='changed'?project.changed:project.state==='incomplete'?project.missing:[];
+    const when=onDate(project.checkedAt);
     return el('article',{class:'project'},
-      el('div',{},own(project.name,'h2'),own(project.root,'p',{class:'path'}),
-        el('p',{class:`project-state state-${project.state}`},el('b',{text:label}),' ',
-          project.state==='unreadable'?(project.error?.message??detail):detail,
-          el('span',{class:'recorded',text:' Estado guardado la última vez; se comprueba al abrirlo.'})),
-        project.profile?el('span',{class:'tag',text:profiles[project.profile]?.[0]??project.profile}):null),
-      el('div',{class:'project-actions'},btn('Abrir →',()=>openProject(project.id),'quiet'),btn('Quitar de la lista',()=>forget(project),'quiet')));
+      // The card is the control that opens the project. There is no second control for opening, so there is
+      // no second name for it either.
+      el('h2',{},rowBtn('open-project',project,'card-open',own(project.name,'span',{class:'card-name'}))),
+      own(project.root,'p',{class:'path'}),
+      el('p',{class:`project-state state-${project.state}`},
+        el('b',{},el('span',{class:'state-mark','aria-hidden':true,text:project.state==='verified'?'✓':project.state==='unreadable'?'!':'○'}),' ',label),' ',
+        project.state==='unreadable'?(project.error?.message??detail):detail,
+        stages.length?[' ',...stageList(stages),'.']:null,
+        // Said at the same size as the state, because what a check did not cover is part of what it found.
+        el('span',{class:'recorded'},project.state==='verified'&&when
+          // What the mark does not cover, named where the mark is. The managed tools are here because they
+          // live outside this folder: nothing the list can read would notice if they were removed, so a
+          // check from two weeks ago is all this row knows about them.
+          ?[`Comprobado el ${when} contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el `,term('mapa-de-codigo'),
+            ...(['software','unity'].includes(project.profile)?[', las herramientas de desarrollo']:[]),' ni tu IA: ábrelo para eso.']
+          :project.state==='changed'&&when?[`Se había comprobado el ${when}. Ábrelo para comprobarlo otra vez.`]
+          :project.state==='incomplete'&&when?[`Comprobado el ${when}. Ábrelo para continuar donde quedó.`]
+          :['Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.'])),
+      project.profile?el('span',{class:'tag',text:profiles[project.profile]?.[0]??project.profile}):null,
+      // Secondary and destructive only. Opening stays outside, which is what the check reads off the page.
+      el('details',{class:'more'},
+        el('summary',{},el('span',{'aria-hidden':true,text:'⋯'}),el('span',{class:'sr-only',text:'Más acciones'}),
+          el('span',{class:'sr-only','data-content':'person',text:` — ${project.name}`})),
+        el('div',{class:'more-actions'},rowBtn('duplicate-project',project),rowBtn('forget-project',project))));
   })):el('div',{class:'empty-state'},p('Aún no hay proyectos en esta lista.','empty'),actions(doBtn('prepare-project','primary'))),
 ],'TUS PROYECTOS');}
+// Duplicating reuses the answers and nothing else. The folder is chosen now, the answers arrive already
+// filled in and editable, and nothing is written until the plan is approved like any other preparation:
+// there is no call here that copies a prepared folder.
+async function duplicate(project){const chosen=await call('chooseFolder');if(!chosen)return;
+  const answers=project.selection??{};
+  state.project=chosen;
+  state.selection={name:answers.name??project.name,goal:answers.goal??'',role:answers.role??'general',
+    profile:answers.profile??project.profile??'research',experience:answers.experience??'guided',
+    agents:answers.agents?.length?[...answers.agents]:['web']};
+  showFolder();}
 function showHelp(){state.page='help';render([
   el('h1',{tabindex:'-1',text:'Ayuda'}),
   p('Cómo trabaja esta aplicación, qué quiere decir que algo esté listo, y qué significa cada palabra que aparece en pantalla.','intro'),
@@ -267,25 +329,72 @@ function showCodeReview(){state.page='code-review';const plan=state.plan,allowed
     el('p',{class:'subtle'},'Esto es el ',term('mapa-de-codigo'),', y se comprueba con una consulta real. Sus relaciones son aproximaciones: tu IA tiene que leer las líneas originales y verificar cada cambio. No se instalan modelos.'),
     actions(doBtn('open-workspace'),allowed?btn('Crear mapa de código',async()=>{state.status=(await call('applyCode',{plan:plan.id})).status;await showWorkspace(false);},'primary'):null)
   ],'TU PROYECTO / MAPA DE CÓDIGO');}
+// The answers of THIS project against THIS folder, reviewed like any other preparation. Not the wizard:
+// starting it would leave the project and clear the answers, which is what an independent review found when
+// it followed the guidance's own first step.
+async function resaveBase(){const s=state.selection;
+  state.plan=await call('previewBase',{id:state.project.id,selection:{name:s.name,goal:s.goal,role:s.role,
+    profile:s.profile,experience:s.experience,agents:s.agents}});
+  showBaseReview();}
 async function openProject(id){state.status=await call('openProject',{id});state.project=state.status.project;state.selection={...state.selection,...state.project.selection};state.tab='overview';await showWorkspace(false);}
 async function forget(project){openDialog('Quitar de la lista',[
   el('p',{},'Se quita ',own(project.name),' de esta lista. Los archivos de la carpeta se quedan donde están.'),actions(btn('Conservar',async()=>closeDialog()),btn('Quitar de la lista',async()=>{await call('forgetProject',{id:project.id});closeDialog();await showProjects();},'danger'))]);}
 function statusCard(title,done,detail){const label=done==='not-requested'?'No aplica':done?'Preparado':'Por revisar';return el('article',{class:'status-card'},el('span',{class:'status-icon','aria-hidden':true,text:done==='not-requested'?'—':done?'✓':'○'}),el('h2',{text:`${title} · ${label}`}),p(detail));}
+// What to do in THIS project: what it is missing, in the order it can be done, then the ways of working this
+// kind of project has. The application composes it — including the text handed to an AI, so what reaches the
+// clipboard is text this application wrote — and reports which of its words have a definition, so the
+// definitions are offered on the screen that used them.
+//
+// A step that this application performs carries no text for an AI on purpose. Reading your files or preparing
+// the managed tools happens here, and handing someone a prompt to ask their AI for it would be describing a
+// capability their AI does not have. Those steps carry the control that does the work instead.
+function guidePanel(guide,failure){
+  if(!guide)return panel(el('h2',{text:'Cómo trabajar en este proyecto'}),
+    p(failure?.message??'Todavía no se pudo preparar esta guía.'),p(failure?.action??'Comprueba el proyecto para prepararla.','subtle'));
+  const when=onDate(guide.checkedAt),drawn=new Set();
+  return panel(el('h2',{text:'Cómo trabajar en este proyecto'}),
+    p(guide.pending.length?'Primero lo que falta, en el orden en que se puede hacer. Después, las formas de trabajar que tiene este tipo de proyecto.'
+      :'Nada quedó pendiente. Estas son las formas de trabajar que tiene este tipo de proyecto.'),
+    guide.terms.length?el('p',{class:'subtle'},'Qué significan estas palabras: ',...guide.terms.flatMap((id,index)=>index?[', ',term(id)]:[term(id)]),'.'):null,
+    el('ol',{class:'guide'},guide.steps.map(step=>{
+      // Two pending stages can share the control that resolves them — the managed tools and the development
+      // files are reviewed in one flow — so the control is drawn on the first of them. Drawing it twice would
+      // put the same name on the screen twice, which reads as two different things to do.
+      const repeated=step.action&&drawn.has(step.action);
+      if(step.action)drawn.add(step.action);
+      return el('li',{class:`guide-step kind-${step.kind}`,'data-step-action':step.action??false},
+        el('h3',{text:step.title}),p(step.why),
+        step.prompt?[el('pre',{class:'prompt',text:step.prompt}),
+          actions(btn('Copiar este paso',async()=>{const copy=await call('copyGuideStep',{guide:guide.id,step:step.index});
+            notice(`Copiado: ${copy.bytes} bytes. Pégalo en tu IA.`);}))]
+          :repeated?p('Se resuelve con el control del paso anterior.','subtle'):actions(doBtn(step.action)));})),
+    when?p(`Esta guía sale de la comprobación del ${when}. Si cambiaste algo después, comprueba el proyecto otra vez.`,'subtle'):null);
+}
 async function showWorkspace(refresh=true){state.page='workspace';if(refresh)state.status=await call('status',{id:state.project.id});const s=state.status;
+  // A guidance that cannot be composed must not take the project screen down with it, so the cause is shown
+  // in its own panel instead of replacing the screen with an error.
+  let guide=null,guideError=null;
+  if(state.tab==='overview')try{guide=await call('guide',{id:state.project.id});}catch(failure){guideError=failure;}
+  const offered=new Set((guide?.steps??[]).map(step=>step.action).filter(Boolean));
+  const once=(id,cls)=>offered.has(id)?null:doBtn(id,cls);
   const content=[el('p',{class:'eyebrow',text:profiles[s.base.selection?.profile]?.[0]??'TU PROYECTO'}),...ownHeading(s.project.name,s.project.selection?.goal??'Comprueba cómo está y elige tu siguiente paso.',!!s.project.selection?.goal),own(s.project.root,'p',{class:'path'}),
     el('div',{class:'tool-tabs','aria-label':'Herramientas del proyecto'},Object.entries({overview:'Estado',search:'Buscar en mis archivos',recipes:'Recetas',handoff:'Continuar con mi IA'}).map(([id,label])=>{
       const b=btn(label,async()=>{state.tab=id;await showWorkspace(false);},'');b.setAttribute('aria-pressed',String(state.tab===id));return b;})),
   ];
   if(state.tab==='overview')content.push(
-    el('div',{class:'status-grid'},statusCard('Tus elecciones',s.base.base==='prepared',s.base.inventory==='stale'?'La carpeta cambió desde la primera mirada.':'El tipo de trabajo y las IA que elegiste.'),
+    el('div',{class:'status-grid'},statusCard('Tus elecciones',s.base.base==='prepared'&&s.base.inventory!=='stale',s.base.inventory==='stale'?'La carpeta cambió desde la primera mirada, así que este resumen ya no la describe. Vuelve a guardar tus elecciones para actualizarlo.':'El tipo de trabajo y las IA que elegiste.'),
       statusCard('Archivos leídos',s.context.context==='current',s.context.context==='current'?`${s.context.sources} archivos. ${s.context.coverage==='partial'?'Hay materiales fuera o con lectura pendiente.':'Cada respuesta puede decir de dónde salió.'}`:'Lee o actualiza tus archivos antes de buscar.'),
       statusCard('Desarrollo',s.engineering.files==='not-requested'?'not-requested':s.engineering.workflows==='verified',s.engineering.files==='not-requested'?'Este tipo de proyecto no necesita un proceso de software.':s.engineering.workflows==='verified'?'Herramientas e instrucciones comprobadas.':s.engineering.files==='prepared'?'Instrucciones listas; falta comprobar que OpenSpec responde.':'Hay requisitos o conflictos por resolver.')),
-    panel(el('h2',{text:'Tu siguiente paso'}),el('p',{},s.context.context==='current'?'Busca algo en tus archivos, mira una ':'Lee tus archivos para empezar a trabajar con ellos. Después habrá ',term('receta'),s.context.context==='current'?' o sigue en tu IA.':' que te ayuden a pedir un resultado concreto.'),
+    guidePanel(guide,guideError),
+    // What this project can do, once. An action the guidance is already offering as a pending step is not
+    // repeated here: one control per action per screen, because two controls for the same thing read as two
+    // different things to do. The journey harness found exactly that collision.
+    panel(el('h2',{text:'Herramientas de este proyecto'}),el('p',{},s.context.context==='current'?'Busca algo en tus archivos, mira una ':'Lee tus archivos para empezar a trabajar con ellos. Después habrá ',term('receta'),s.context.context==='current'?' o sigue en tu IA.':' que te ayuden a pedir un resultado concreto.'),
       ['software','unity'].includes(s.base.selection?.profile)?el('p',{class:'subtle'},'Este proyecto también usa ',term('openspec'),' y el ',term('ingenieria'),'.'):null,
-      actions(doBtn('read-files','primary'),doBtn('recheck-project'),['software','unity'].includes(s.base.selection?.profile)?doBtn('review-development'):null)),
+      actions(once('read-files','primary'),doBtn('recheck-project'),['software','unity'].includes(s.base.selection?.profile)?once('review-development'):null)),
     s.capabilities?.codeGraph&&['software','unity'].includes(s.base.selection?.profile)?panel(el('h2',{text:`Mapa de código · ${{'not-prepared':'No preparado',empty:'Vacío',verified:'Verificado',stale:'Desactualizado',corrupt:'Corrupto','requires-repair':'Requiere reparación','requires-action':'Requiere reparación'}[s.code?.status]??'Por revisar'}`}),
       el('p',{},'Un ',term('mapa-de-codigo'),'. ',s.code?.status==='verified'?`${s.code.symbols} símbolos y ${s.code.relations} relaciones comprobados con tus archivos actuales.`:s.code?.message??'Localiza funciones y clases antes de cambiar el proyecto. Puedes añadirlo cuando tengas código.'),
-      actions(doBtn('review-code-map'),s.code?.status==='verified'?btn('Buscar símbolos',async()=>{state.tab='search';await showWorkspace(false);}):null,
+      actions(once('review-code-map'),s.code?.status==='verified'?btn('Buscar símbolos',async()=>{state.tab='search';await showWorkspace(false);}):null,
         doBtn('repair-tools'))):null,
     // Named only where they exist: a document or a creative project has no OpenSpec and no code map, and
     // putting those words on its screen would be jargon with nothing behind it.

@@ -237,6 +237,13 @@ export function createContextEngine() {
       const root = await canonicalFolder(target), prior = await readJournal(root), previous = await readReceipt(root);
       return { interrupted: ['applying', 'interrupted'].includes(prior.value?.status ?? ''), prepared: !!previous.value };
     },
+    // The index, the map, the recipes and the instruction files this stage wrote for the chosen AI. The
+    // routes come from the receipt because they depend on the selection, and the receipt is validated
+    // against that selection before it is read.
+    async witnessPaths(target) {
+      const previous = await readReceipt(await canonicalFolder(target));
+      return [RECEIPT, JOURNAL, ...OWNED, ...(previous.value?.routes ?? [])];
+    },
     async verify(target) {
       try {
         const { index, previous } = await current(target);

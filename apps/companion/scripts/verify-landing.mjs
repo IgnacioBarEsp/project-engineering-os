@@ -206,11 +206,11 @@ try {
 
   // The page must not claim what the repository cannot evidence.
   const text = await tab.evaluate(() => document.body.innerText);
-  for (const forbidden of [/\d+\s*%\s*(menos|más|mas)/i, /miles de (usuarios|personas|equipos)/i,
+  for (const forbidden of [/\b\d+\s*%\s*(menos|más|mas)\b/i, /miles de (usuarios|personas|equipos)/i,
     /cientos de (usuarios|personas|equipos)/i, /sin alucinaciones/i, /menos alucinaciones/i,
-    /reduce (los )?tokens/i, /ahorro de tokens/i, /menos tokens/i, /la mitad del contexto/i,
-    /\d+\s*x(?!\s*\d)/i, /el mejor/i, /la mejor/i, /l[í i]der/i,
-    /(más|mas) r[áa]pido que/i, /garantizad[oa]/i]) {
+    /reduce (los )?tokens/i, /ahorro de tokens/i, /menos tokens/i, /\bla mitad del contexto\b/i,
+    /\b\d+\s*x\b(?!\s*\d)/i, /\bel mejor\b/i, /\bla mejor\b/i, /\bl[íi]der\b/i,
+    /\b(más|mas) r[áa]pido que\b/i, /garantizad[oa]/i]) {
     assert.ok(!forbidden.test(text), `La página afirma algo que no se puede respaldar: ${forbidden}`);
   }
   for (const [label, rule] of [

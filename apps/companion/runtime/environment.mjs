@@ -154,5 +154,8 @@ export function createEnvironmentEngine(manager) {
       }
       catch (error) { if (controls.signal?.aborted) throw error; return { status: 'requires-action', code: error.code, message: error.message, action: error.action }; }
     },
+    // This stage owns one record inside the project. The managed tools themselves live outside the folder and
+    // are verified by the toolchain, not by a digest a list could compare.
+    witnessPaths() { return [RECEIPT]; },
   };
 }
