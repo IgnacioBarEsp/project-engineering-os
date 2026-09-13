@@ -1,0 +1,124 @@
+{
+  "date": "2026-09-13T19:12:47.712Z",
+  "application": {
+    "version": "0.1.0",
+    "root": "<localappdata>/Programs/Project Engineering OS/resources/app"
+  },
+  "machine": "win32-x64",
+  "syntheticFolder": "<localappdata>/Temp/companion-launch-jFVYRb/carpeta sintetica & literal",
+  "launched": "ninguna (usa --launch <agente> para abrir una)",
+  "applications": [
+    {
+      "agent": "codex",
+      "label": "Codex",
+      "installed": true,
+      "verified": true,
+      "publisher": "OpenAI OpCo, LLC",
+      "executable": "<localappdata>/OpenAI/Codex/bin/7ac07f4ce733f89a/codex.exe",
+      "refusesChangedIdentity": true
+    },
+    {
+      "agent": "cursor",
+      "label": "Cursor",
+      "installed": true,
+      "verified": true,
+      "publisher": "Anysphere, Inc.",
+      "executable": "<localappdata>/Programs/cursor/Cursor.exe",
+      "refusesChangedIdentity": true
+    },
+    {
+      "agent": "github-copilot",
+      "label": "Visual Studio Code",
+      "installed": true,
+      "verified": true,
+      "publisher": "Microsoft Corporation",
+      "executable": "<localappdata>/Programs/Microsoft VS Code/Code.exe",
+      "refusesChangedIdentity": true
+    },
+    {
+      "agent": "antigravity",
+      "label": "Antigravity",
+      "installed": true,
+      "verified": false,
+      "code": "APP_UNTRUSTED",
+      "message": "<home>/Documents/Projects/project-engineering-os/apps/companion/La firma o el editor de la aplicación no se pudo verificar."
+    },
+    {
+      "agent": "claude-code",
+      "label": "Claude",
+      "installed": true,
+      "verified": true,
+      "publisher": "Anthropic, PBC",
+      "executable": "<localappdata>/AnthropicClaude/app-1.52386.3/claude.exe",
+      "refusesChangedIdentity": true
+    },
+    {
+      "agent": "opencode",
+      "label": "OpenCode",
+      "installed": true,
+      "verified": false,
+      "code": "APP_UNSUPPORTED",
+      "message": "<home>/Documents/Projects/project-engineering-os/apps/companion/Esta aplicación no declara cómo recibir una carpeta, así que no se abre desde aquí."
+    }
+  ],
+  "findings": [],
+  "unverified": [],
+  "desktopChoice": {
+    "measured": true,
+    "addressesHeld": [
+      "web"
+    ],
+    "addressesOpened": 0,
+    "agents": [
+      {
+        "agent": "codex",
+        "mode": "local",
+        "cause": null,
+        "opened": "no se pidio: abrirla pondria una ventana en la pantalla"
+      },
+      {
+        "agent": "cursor",
+        "mode": "local",
+        "cause": null,
+        "opened": "no se pidio: abrirla pondria una ventana en la pantalla"
+      },
+      {
+        "agent": "github-copilot",
+        "mode": "local",
+        "cause": null,
+        "opened": "no se pidio: abrirla pondria una ventana en la pantalla"
+      },
+      {
+        "agent": "antigravity",
+        "mode": "manual",
+        "cause": "signature",
+        "opened": "nothing",
+        "copiedTheInstruction": true,
+        "message": "Está instalada, pero no se pudo comprobar su firma o quién la publica, así que no se abre desde aquí."
+      },
+      {
+        "agent": "claude-code",
+        "mode": "local",
+        "cause": null,
+        "opened": "no se pidio: abrirla pondria una ventana en la pantalla"
+      },
+      {
+        "agent": "opencode",
+        "mode": "manual",
+        "cause": "no-contract",
+        "opened": "nothing",
+        "copiedTheInstruction": true,
+        "message": "Está instalada y su editor sí se pudo comprobar, pero no se observó cómo recibe una carpeta, así que no se abre desde aquí."
+      }
+    ]
+  },
+  "summary": {
+    "installed": 6,
+    "verified": 4,
+    "refused": 2,
+    "findings": 0,
+    "desktopChoiceMeasured": true,
+    "addressesOpenedForADesktopChoice": 0,
+    "scope": "Reconocimiento, verificación de firma y editor, y las rutas de rechazo sobre las aplicaciones realmente instaladas. Una sola apertura, contra una carpeta sintética, cuando se pide con --launch. Abrir una carpeta no demuestra que la IA la haya leído, y el registro lo dice."
+  }
+}

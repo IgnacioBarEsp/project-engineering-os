@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "flow": "ignore-rules-for-what-companion-regenerates",
+  "date": "2026-09-13",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "resolves": [
+    {
+      "id": "debt-ce9dd61a43b7",
+      "evidence": "Decision tomada, no diferida. Este cambio la volvio concreta: hasta ahora lo que Companion escribia dentro de .project-os eran recibos pequenos y un cache de herramientas de 13 MB, y ahora puede caer un node_modules de 23 MB y 135 archivos, asi que una persona que prepara su proyecto y lo commitea empujaria algo que nunca eligio versionar. Se escriben reglas en .project-os/.gitignore, dentro de lo que esta aplicacion administra y sin tocar ningun archivo de la persona, nombrando solo las dos carpetas que se regeneran y se comprueban por digesto y no por historial. Los recibos quedan fuera de las reglas a proposito: son pequenos y dicen que se preparo. Un archivo que la persona haya escrito ahi no se toca nunca, y las reglas explican en palabras como deshacerlas. Comprobado en apps/companion/qa/stack.mjs con el contenido exacto, con que una segunda llamada no cambia nada y con que un archivo ajeno se conserva, y anclado por la mutacion the-ignore-rules-overwrite-what-the-person-wrote, que la prueba detecta. Ver openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md"
+    }
+  ]
+}

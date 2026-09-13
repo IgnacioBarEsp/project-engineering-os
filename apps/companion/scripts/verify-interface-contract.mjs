@@ -293,6 +293,8 @@ const STATUS = `{project:{id:'11111111-1111-4111-8111-111111111111',name:'Carpet
   context:{context:'not-prepared'},environment:{status:'prepared'},code:{status:'stale',message:'Tus archivos cambiaron después de crearlo.'},
   capabilities:{environment:true,codeGraph:true},
   engineering:{files:'prepared',workflows:'verified'},externalTools:'not-verified',
+  stack:{installed:[{id:'typed-code',treeHash:'6b8717621a496905b68e41fbf5211d0d0cd71ff1f3dec0c588427073527cb7fe',at:'2026-09-12T10:00:00.000Z'}],
+    declined:[{id:'web-interface',at:'2026-09-12T10:00:00.000Z'}]},
   verdict:{at:${CHECKED},required:['base','context','environment','engineering'],
     stages:[{id:'base',state:'inventory-stale'},{id:'context',state:'not-prepared'},{id:'environment',state:'ready'},{id:'engineering',state:'ready'},{id:'code',state:'stale'}],
     witnessTruncated:false,witnessed:112}}`;
@@ -319,6 +321,17 @@ const stub = mode => `window.companion={
   status:async()=>({ok:true,value:${STATUS}}),
   guide:async()=>({ok:true,value:${GUIDE_VALUE}}),
   copyGuideStep:async()=>({ok:true,value:{copied:true,step:1,bytes:180,sent:false}}),
+  previewStack:async()=>({ok:true,value:{kind:'recommended',because:'Tu carpeta ya tiene 1 archivo de interfaz con React.',
+    id:'55555555-5555-4555-8555-555555555555',
+    items:[{id:'web-interface',name:'Interfaz web con React',purpose:'Construir pantallas web con componentes.',
+      packages:[{name:'react',version:'19.2.0',license:'MIT'},{name:'react-dom',version:'19.2.0',license:'MIT'},{name:'scheduler',version:'0.27.0',license:'MIT'}],
+      licenses:['MIT'],closure:3,downloadBytes:1311203,installedBytes:7576468,files:88,destination:'.project-os/stack/web-interface',status:'missing'}],
+    notOffered:[{id:'flutter',name:'Flutter',from:'Google, como SDK propio de más de un gigabyte',reason:'Llega con su propio instalador y su propio proceso de actualización, no como dependencias que se puedan revisar con un lockfile.'}]}}),
+  declineStack:async()=>({ok:true,value:{declined:[{id:'web-interface',at:${CHECKED}}],status:${STATUS}}}),
+  stackCatalog:async()=>({ok:true,value:{stacks:[
+    {id:'web-interface',name:'Interfaz web con React',purpose:'Construir pantallas web con componentes.',profiles:['software'],licenses:['MIT'],closure:3,downloadBytes:1311203,installedBytes:7576468,destination:'.project-os/stack/web-interface'},
+    {id:'typed-code',name:'TypeScript',purpose:'Escribir código con tipos y comprobarlo antes de ejecutarlo.',profiles:['software'],licenses:['Apache-2.0'],closure:1,downloadBytes:4377468,installedBytes:23626590,destination:'.project-os/stack/typed-code'}],
+    notOffered:[{id:'flutter',name:'Flutter',from:'Google, como SDK propio de más de un gigabyte',reason:'Llega con su propio instalador, no como dependencias revisables.'}]}}),
   onProgress:()=>()=>{}};`;
 
 let browser;
@@ -395,6 +408,18 @@ async function inspect(page) {
     await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true').catch(() => {});
     if (await page.locator('.guide').count()) { await collect('mi proyecto'); screens['mi proyecto'] = await probe(page); }
     else unreachable.push('mi proyecto');
+    // The technology review, reached the way a person reaches it. An independent review pointed out that the
+    // stub answered `stackCatalog` but not `previewStack`, so this screen never rendered here and stayed out of
+    // the names-and-counts table even though the journey harness walked it.
+    const toStack = page.locator('#view [data-action="review-stack"]').first();
+    const reachedStack = await toStack.count()
+      ? await toStack.click({ timeout: 4000 }).then(() => true, () => false)
+      : false;
+    if (reachedStack) {
+      await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true').catch(() => {});
+      if (await page.locator('#view .path').count()) { await collect('tecnología'); screens['tecnología'] = await probe(page); }
+      else unreachable.push('tecnología');
+    } else unreachable.push('tecnología');
     await page.locator('#nav [data-action="open-project-list"]').click().catch(() => {});
     await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true').catch(() => {});
   } else unreachable.push('mi proyecto');

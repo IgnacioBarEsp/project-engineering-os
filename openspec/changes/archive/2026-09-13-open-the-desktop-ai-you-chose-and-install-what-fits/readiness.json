@@ -1,0 +1,242 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 100,
+  "change": "open-the-desktop-ai-you-chose-and-install-what-fits",
+  "surfaces": [
+    "documentation",
+    "harness-tooling",
+    "ui"
+  ],
+  "validations": [
+    {
+      "id": "accessibility-check",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "capability-matrix-check",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "component-or-interaction-tests",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/interface-contract.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "constructor-tests",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "critical-document-presence",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "doctor-json-check",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "findability-two-hop-check",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "neutrality-check",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "openspec-strict",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "opsx-check",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "relative-link-check",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "responsive-check-when-configured",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/interface-contract.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "second-run-idempotence",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "secret-scan",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "sync-check",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "visual-check-when-configured",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/native-journeys.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "dependency-signal-review",
+      "status": "passed",
+      "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "adversarial-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/independent-review.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "issue-link",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/100",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "ground-truth-comparison",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/native-journeys.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "keyboard-and-assistive-technology-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "loading-empty-error-and-constrained-connectivity-states",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "qualitative-review-for-clarity-and-current-ownership",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/independent-review.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recorded-drift-decisions",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "review-of-declared-degradations",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recovery-rehearsal-for-one-transaction",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/stack-install.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "deliberate-mutation-of-the-decision-logic",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/service-mutations.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "ground-truth-comparison-of-local-applications",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/local-launches.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "measured-installation-of-project-technology",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/stack-install.json",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "rollback": {
+    "strategy": "Revert the pull request. The handover goes back to its previous behaviour and no technology is left to install. What was already installed into a folder is withdrawn by the same reversible path as the rest of the preparation: the tree is measured again and removed only while it still matches its pin. No file the person owns is written at any point.",
+    "status": "verified",
+    "evidence": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "passed",
+    "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/independent-review.md",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}

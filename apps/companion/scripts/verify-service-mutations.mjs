@@ -22,11 +22,103 @@ await mkdir(output, { recursive: true });
 const companion = fileURLToPath(new URL('../', import.meta.url));
 const targets = { service: path.join(companion, 'desktop', 'service.mjs'),
   inference: path.join(companion, 'runtime', 'inference.mjs'),
-  prompts: path.join(companion, 'context', 'prompts.mjs') };
+  prompts: path.join(companion, 'context', 'prompts.mjs'),
+  handoff: path.join(companion, 'desktop', 'service.mjs'),
+  launcher: path.join(companion, 'desktop', 'local-apps.mjs'),
+  stack: path.join(companion, 'runtime', 'stack.mjs'),
+  regenerable: path.join(companion, 'runtime', 'regenerable.mjs'),
+  catalog: path.join(companion, 'runtime', 'stack-catalog.mjs'),
+  selection: path.join(companion, 'engine', 'preparation.mjs') };
 const suites = { service: path.join('qa', 'project-list.mjs'), inference: path.join('qa', 'prompts.mjs'),
-  prompts: path.join('qa', 'prompts.mjs') };
+  prompts: path.join('qa', 'prompts.mjs'), handoff: path.join('qa', 'stack.mjs'),
+  launcher: path.join('qa', 'stack.mjs'), regenerable: path.join('qa', 'stack.mjs'),
+  stack: path.join('qa', 'stack.mjs'), catalog: path.join('qa', 'stack.mjs'),
+  selection: path.join('qa', 'stack.mjs') };
 
 const MUTATIONS = [
+  // The defect issue 100 exists for: a stated desktop choice being replaced by a web page. Each of these puts
+  // the substitution back in a different way — the mode decided by what is installed instead of by what was
+  // chosen, the branch that opens an address, and the address itself.
+  { id: 'the-mode-is-decided-by-what-is-installed', file: 'handoff',
+    reason: 'el modo vuelve a salir de si hay aplicación verificada, así que elegir escritorio sin poder abrirla manda a un navegador',
+    from: "      const mode=web?'web':local?'local':'manual';",
+    to: "      const mode=local?'local':'web';" },
+  // Written as a behaviour change, not as a parse error. The first version of this mutation deleted the `else if`
+  // and left two `else` clauses in a row, which made the suite fail to load — and a suite that cannot run credits
+  // no test with anything. The harness said so by naming the file instead of a test, which is exactly what it is
+  // there for.
+  { id: 'a-desktop-choice-reaches-the-branch-that-opens-an-address', file: 'handoff',
+    reason: 'la rama manual vuelve a abrir una dirección, así que elegir escritorio sin poder abrirla termina en un navegador',
+    from: "        else opened={opened:'nothing',cause:preview.cause,projectAttached:false,agentActivated:false,agentReadProject:false};",
+    to: "        else {await openExternal(DESTINATIONS.web);opened={opened:'web',projectAttached:false,agentActivated:false,agentReadProject:false};}" },
+  { id: 'the-desktop-applications-get-their-web-addresses-back', file: 'handoff',
+    reason: 'vuelven las URL por aplicación de escritorio, que es lo que hacía posible la sustitución',
+    from: "export const DESTINATIONS = Object.freeze({ web: 'https://chatgpt.com/' });",
+    to: "export const DESTINATIONS = Object.freeze({ web: 'https://chatgpt.com/', codex: 'https://chatgpt.com/codex', 'claude-code': 'https://claude.ai/', cursor: 'https://cursor.com/', 'github-copilot': 'https://github.com/copilot', opencode: 'https://opencode.ai/', antigravity: 'https://antigravity.google/' });" },
+  { id: 'a-launcher-that-was-never-asked-is-reported-as-not-installed', file: 'handoff',
+    reason: 'no haber podido comprobar se informa como no estar instalada, que es concluir de una ausencia que uno mismo creó',
+    from: "      const cause=mode!=='manual'?null:!localApps?'not-measured':!detected?'not-installed'",
+    to: "      const cause=mode!=='manual'?null:!detected?'not-installed'" },
+  // The sentence a person reads when the application they chose will not open. An independent review drove the
+  // real launcher through six distinguishable refusals and found three of the resulting sentences false, so each
+  // of these puts back the thing that made them false.
+  { id: 'the-cause-is-deduced-from-whether-a-publisher-came-attached', file: 'handoff',
+    reason: 'la causa vuelve a deducirse de si el rechazo traia editor, y situaciones distintas se aplastan en dos frases',
+    from: "        :Object.hasOwn(MANUAL_CAUSES,unverified.reason??'')?unverified.reason:'signature';",
+    to: "        :unverified.publisherVerified?'no-contract':'signature';" },
+  { id: 'a-refusal-stops-naming-the-check-that-failed', file: 'launcher',
+    reason: 'el rechazo deja de llevar que comprobacion fallo, asi que quien escribe la frase tiene que adivinarla',
+    from: "      catch (error) { error.publisher = verified[0] ?? null; error.reason = reason; throw error; }",
+    to: "      catch (error) { error.publisher = verified[0] ?? null; throw error; }" },
+  { id: 'the-codex-refusal-arrives-without-the-publisher-already-verified', file: 'launcher',
+    reason: 'vuelve a usar fail en vez de refuse, asi que la pantalla dice que no se pudo comprobar una firma que si se comprobo',
+    from: "    if (agent==='codex'&&!candidate.desktop) refuse('no-desktop-app','APP_UNTRUSTED'",
+    to: "    if (agent==='codex'&&!candidate.desktop) fail('APP_UNTRUSTED'" },
+  { id: 'an-enumeration-that-threw-is-reported-as-nothing-found', file: 'launcher',
+    reason: 'una sonda caida vuelve a informarse como que la aplicacion no esta instalada, que es concluir de una ausencia propia',
+    from: "      const found=await candidates(agent).catch(error=>{probeFailed=error;return [];});",
+    to: "      const found=await candidates(agent).catch(()=>[]);" },
+  // What protects the person's folder when something does get installed.
+  { id: 'the-installed-tree-is-accepted-without-comparing-its-digest', file: 'stack',
+    reason: 'lo instalado deja de compararse contra su pin, así que un árbol distinto del revisado se acepta y se puede borrar',
+    from: "  if (tree.sha256 !== entry.treeHash || tree.bytes !== entry.installedBytes) {",
+    to: "  if (false) {" },
+  { id: 'a-technology-can-be-installed-outside-what-the-application-administers', file: 'catalog',
+    reason: 'un destino deja de estar dentro de .project-os, así que una instalación escribe donde la persona guarda su trabajo',
+    from: "    id: 'typed-code', name: 'TypeScript', relative: '.project-os/stack/typed-code',",
+    to: "    id: 'typed-code', name: 'TypeScript', relative: 'node_modules-typed-code'," },
+  { id: 'the-record-writer-takes-the-lock-it-is-already-holding', file: 'stack',
+    reason: 'el escritor del registro vuelve a tomar el candado de la carpeta, y cualquier instalacion real muere con BUSY',
+    from: "    await writeChecked(root, RECORD, content, beforeHash, MAX_RECORD);",
+    to: "    await withLock(root, () => writeChecked(root, RECORD, content, beforeHash, MAX_RECORD));" },
+  { id: 'npm-runs-with-lifecycle-scripts-enabled', file: 'stack',
+    reason: 'se instala permitiendo que cada paquete ejecute codigo durante la instalacion',
+    from: "export const INSTALL_ARGUMENTS = Object.freeze(['ci', '--ignore-scripts', '--bin-links=false',",
+    to: "export const INSTALL_ARGUMENTS = Object.freeze(['ci', '--bin-links=false'," },
+  { id: 'the-registry-stops-being-pinned', file: 'stack',
+    reason: 'un mirror configurado puede sustituir los paquetes que el lockfile fijo',
+    from: "  '--workspaces=false', '--registry=https://registry.npmjs.org', '--min-release-age=7', '--fund=false', '--audit=false']);",
+    to: "  '--workspaces=false', '--fund=false', '--audit=false']);" },
+  { id: 'what-came-from-the-network-is-moved-without-being-verified', file: 'stack',
+    reason: 'lo que acaba de bajar de la red se renombra a la carpeta de la persona sin compararse contra su pin',
+    from: "          const verified = await verifyStackTree(entry, await canonicalFolder(payload), controls);",
+    to: "          const verified = { treeHash: entry.treeHash, bytes: entry.installedBytes, files: entry.files };" },
+  { id: 'the-ignore-rules-overwrite-what-the-person-wrote', file: 'regenerable',
+    reason: 'las reglas de ignore pisan un archivo que la persona escribio, que es decidir por ella en su propio repositorio',
+    from: "  if (current.content !== null) return { written: false, reason: 'ya existe un archivo ahí y es de quien lo escribió' };",
+    to: "  if (false) return { written: false, reason: 'ya existe un archivo ahí y es de quien lo escribió' };" },
+  { id: 'the-record-accepts-a-name-the-catalogue-does-not-know', file: 'stack',
+    reason: 'un registro forjado pinta texto arbitrario en la pantalla del proyecto',
+    from: "  value.installed = value.installed.filter(item => Object.hasOwn(STACKS, item.id));",
+    to: "  value.installed = value.installed.filter(() => true);" },
+  { id: 'the-recommendation-stops-depending-on-the-folder', file: 'catalog',
+    reason: 'la recomendación deja de leer el inventario y recomienda lo mismo a cualquiera',
+    from: "  const interfaceFiles = countOf(inventory, '.tsx') + countOf(inventory, '.jsx');",
+    to: "  const interfaceFiles = 1;" },
+  { id: 'technologies-can-be-recorded-without-having-been-chosen', file: 'selection',
+    reason: 'se pueden registrar tecnologías con una respuesta que no las pidió, así que una recomendación se vuelve una petición',
+    from: "    if (value.decision !== 'chosen' && requested.length) fail('STACK_INVALID', 'Solo se pueden elegir tecnologías si dijiste que ya sabes cuál quieres.', 'Vuelve al asistente y responde la pregunta de tecnología.');",
+    to: "" },
   // What decides whether a person's material can leave this machine. An independent review got a file name
   // into a request with nothing but a different capitalisation, so these are the ones that matter most.
   { id: 'the-guard-stops-refusing-a-payload-with-project-data', file: 'inference',
@@ -121,11 +213,13 @@ const record = { date: new Date().toISOString(),
   targets: Object.fromEntries(Object.entries(targets).map(([name, file]) => [name, path.relative(companion, file).split(path.sep).join('/')])),
   note: 'La detección se atribuye a la prueba que falló, no al código de salida.', mutations: [] };
 try {
-  for (const [name, suite] of Object.entries(suites)) {
+  // Two named targets can be the same file read for different reasons, and several targets can share one suite,
+  // so the baseline runs each distinct suite once instead of once per target.
+  for (const suite of new Set(Object.values(suites))) {
     const baseline = run(suite);
     assert.equal(baseline.status, 0, `${suite} tiene que pasar sin mutar: ${baseline.failed.join(', ')}`);
   }
-  record.baseline = { suites: Object.values(suites) };
+  record.baseline = { suites: [...new Set(Object.values(suites))] };
   for (const mutation of MUTATIONS) {
     const which = mutation.file ?? 'service';
     const file = targets[which], original = originals[which];

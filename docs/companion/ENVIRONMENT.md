@@ -24,6 +24,59 @@ The plan shows identity, purpose, license, download size, installed size and des
 is downloaded. Exact pins, hashes and sources are in the [runtime notices](../../apps/companion/runtime/notices/README.md).
 Models, Unity, graph providers and paid services are never installed by this catalog.
 
+## What gets installed for the project itself
+
+Those five are what every prepared project needs. What a *particular* project needs depends on what the
+person said, and there are three answers, not one:
+
+1. **They asked for a technology.** It is offered, and the review shows its identity, the licences of its
+   complete dependency closure, its download size, its installed size and its destination before anything is
+   written.
+2. **They do not know yet, or are starting out.** A recommendation is offered with a sentence saying why it
+   follows from their profile and what is in their folder — and it can be refused. Refusing leaves the project
+   exactly as ready as it was before the question was asked; technology is not a stage that can be missing.
+3. **It is too early, or the project is not about that.** Nothing is installed, and the screen says why that is
+   the correct outcome instead of leaving the absence unexplained.
+
+The recommendation is decided from the profile and the measured inventory alone. `off` is a first-class
+inference level, so a person with no model has the same right to an explained recommendation; a model, where
+one is configured, may widen the explanation but cannot add a technology or change which one is recommended.
+
+| Technology | Closure | Licences | Download | Installed | Destination |
+| --- | --- | --- | --- | --- | --- |
+| React (`react`, `react-dom`, `scheduler`) | 3 packages | MIT | 1.3 MB | 7.6 MB | `.project-os/stack/web-interface` |
+| TypeScript | 1 package | Apache-2.0 | 4.4 MB | 23.6 MB | `.project-os/stack/typed-code` |
+| Express | 68 packages | MIT, ISC, BSD-3-Clause | 0.7 MB | 2.4 MB | `.project-os/stack/http-service` |
+
+Each is installed from a reviewed lockfile with `npm ci --ignore-scripts --bin-links=false` in an environment
+with its own `HOME`, so neither user nor project configuration enters and no lifecycle script runs, and the
+installed tree is compared against a pinned digest before it is moved into place. A technology can only be
+offered if its whole closure declares a licence, runs no install script and constrains neither `os` nor `cpu` —
+a tree that differs per machine cannot be pinned by one digest. Unlike the engineering cache there is no shared
+cache between projects, so two projects asking for React download it twice; in exchange there is no shared
+state that can go stale and no repair flow for it.
+
+The project's own `package.json` is not written, and nothing lands outside `.project-os/`. Withdrawing a
+technology measures the tree again first: one that still matches its pin is removed, and one that no longer
+matches is preserved with its cause, because something in it was not put there by this application.
+
+**What regenerates says so.** The first install of either a technology or the engineering toolchain writes
+`.project-os/.gitignore` naming `/toolchain/` and `/stack/`: both are tens of megabytes, both are rebuilt from a
+pin, and both are verified by comparing a digest rather than by their history, so committing them costs a lot
+and proves nothing. The receipts under `.project-os/companion/` are deliberately *not* ignored — they are small
+and they say what was prepared. The file lives inside what Companion administers, it explains in words how to
+undo it, and a file a person already wrote there is never touched.
+
+### What is not installed from here
+
+Named rather than omitted, with where it comes from and why:
+
+| Not installed | Comes from | Why not from here |
+| --- | --- | --- |
+| Flutter | Google, as its own SDK over a gigabyte | Its own installer and update process, not a reviewable dependency closure, so what would end up installed cannot be pinned |
+| The Unity editor | Unity Technologies, with its own licence and version manager | Installed from Unity Hub by accepting its licence, which is the person's decision to make |
+| Python | the Python Software Foundation, as a system installer | Not an npm closure, and changing the system Python affects the whole machine rather than one project |
+
 ## What is verified
 
 Downloads accept only the pinned origins, validate every redirect, require the exact content length and
@@ -137,6 +190,24 @@ whose signature or publisher cannot be verified is reported as such; one whose p
 which declares no way to receive a folder — OpenCode from Anomaly Innovations — is reported as that instead,
 because they are different facts and a person is owed both. Neither is quietly downgraded to the browser.
 Automated tests use adapters and do not launch these applications.
+
+**A desktop choice is never replaced by a web page.** Where the handover goes is decided by what the person
+chose, and what is installed can only take a desktop choice from "it opens" to "open it yourself":
+
+| Chosen | State of the installation | What happens |
+| --- | --- | --- |
+| A desktop application | contract observed and every check passes | it opens with the folder |
+| A desktop application | absent, unverifiable, or declaring no folder route | nothing is launched, the instruction is copied, and the reason is said |
+| A web chat | — | the web chat opens and the instruction is copied |
+
+The application holds one web address, the one a person chooses when they choose a web chat. It holds none for
+the six desktop applications, so the substitution is absent rather than merely unreached. The four reasons a
+reasons a desktop choice can end in "open it yourself" are told apart, one sentence per check that can fail:
+not found on this machine; not measured, because the enumeration could not run — which is not the same as not
+installed; the signature or publisher not verifying; the command-line tool verified but its desktop application
+missing; this version's help not confirming it takes a path; the build not declaring a folder route; the build
+declaring one but the system handing that scheme to a different executable; and an application recognised with
+no observed contract at all. The launcher's own sentence about this application is shown beside the reason.
 
 When a local launch is not supported, the app offers a reviewable context export and says what remains to
 be copied or attached. The app reports that a folder was passed; it never reports that the AI read the

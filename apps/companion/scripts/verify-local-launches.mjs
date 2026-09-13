@@ -53,7 +53,7 @@ const record = { date: new Date().toISOString(),
   // where it would break, and the launcher promises it is handed over literally.
   syntheticFolder: portable(project),
   launched: launchAgent ?? 'ninguna (usa --launch <agente> para abrir una)',
-  applications: [], findings: [], unverified: [] };
+  applications: [], findings: [], unverified: [], desktopChoice: null };
 const finding = (agent, detail) => { record.findings.push({ agent, detail }); };
 
 for (const agent of AGENTS) {
@@ -143,6 +143,66 @@ for (const agent of AGENTS) {
   }
 }
 
+// The defect of issue 100, measured against the real installations of this machine rather than against a
+// fixture: a person who chose a desktop application may never be sent to a web page. This drives the service of
+// the INSTALLED artifact, with the real launcher underneath, and it asserts on the addresses that were actually
+// opened — an empty list, for every desktop application the person could have chosen.
+//
+// An installed artifact that predates this change still holds a web address per desktop application. That is
+// recorded as what it is, a build older than the rule, instead of failing: the same distinction this harness
+// already makes for an application the installed artifact does not know about yet.
+async function desktopChoiceNeverOpensAnAddress() {
+  const loadInstalled = relative => import(pathToFileURL(path.join(installedRoot, relative)).href);
+  const core = await loadInstalled('node_modules/create-project-engineering-os/src/index.mjs');
+  const { createDesktopService, DESTINATIONS } = await loadInstalled('desktop/service.mjs');
+  const addresses = Object.keys(DESTINATIONS ?? {});
+  const heldForDesktop = addresses.filter(id => id !== 'web');
+  if (heldForDesktop.length) {
+    // A finding, not a note. The first version recorded this as "not measured" and exited 0, and an independent
+    // review restored the defect whole in a copy of the installed artifact — the six URLs, the mode decided by
+    // what is installed, and the branch that opens an address — and this harness reported zero findings and
+    // passed. An instrument that cannot measure the one thing it exists for has not passed; it has abstained,
+    // and abstaining silently is how a measurement ends up favouring the product.
+    finding('todas', `el artefacto instalado guarda ${heldForDesktop.length} direccion(es) web por aplicacion de escritorio (${heldForDesktop.join(', ')}), asi que esta regla no se pudo medir aqui`);
+    return { measured: false, addressesHeld: addresses,
+      cause: 'El artefacto instalado todavia guarda una direccion web por aplicacion de escritorio, asi que es anterior a esta regla. Hace falta construir e instalar un artefacto nuevo para medirlo aqui.' };
+  }
+  const folder = path.join(workspace, 'eleccion de escritorio');
+  await mkdir(folder, { recursive: true });
+  await writeFile(path.join(folder, 'notas.txt'), 'Carpeta sintetica para comprobar que una eleccion de escritorio no abre un navegador.\n');
+  const opened = [], copied = [];
+  const service = await createDesktopService({ dataRoot: path.join(workspace, 'choice-data'), core,
+    localApps: launcher, chooseFolder: async () => folder, copyText: async value => copied.push(value),
+    openExternal: async value => opened.push(value) });
+  const project = await service.chooseFolder();
+  const base = await service.previewBase({ id: project.id, selection: { name: 'Eleccion de escritorio',
+    role: 'developer', goal: 'Comprobar que elegir escritorio no abre un navegador', profile: 'software',
+    experience: 'guided', agents: [...AGENTS] } });
+  await service.applyBase({ plan: base.id });
+  const context = await service.previewContext({ id: project.id });
+  await service.applyContext({ plan: context.id });
+  const results = [];
+  for (const agent of AGENTS) {
+    const preview = await service.handoffPreview({ id: project.id, agent });
+    if (preview.mode === 'local') {
+      // The one mode that does launch something. This check is about addresses, and it does not open windows.
+      results.push({ agent, mode: preview.mode, cause: null, opened: 'no se pidio: abrirla pondria una ventana en la pantalla' });
+      continue;
+    }
+    const handoff = await service.handoff({ preview: preview.id, copy: true });
+    results.push({ agent, mode: preview.mode, cause: preview.cause, opened: handoff.opened,
+      copiedTheInstruction: handoff.copied, message: preview.causeMessage ?? null });
+    if (handoff.opened === 'web') finding(agent, 'se eligio esta aplicacion de escritorio y se abrio una direccion web');
+    if (preview.mode === 'web') finding(agent, 'elegir esta aplicacion de escritorio dio el modo de chat web');
+  }
+  if (opened.length) finding('todas', `se abrieron ${opened.length} direcciones para elecciones de escritorio: ${opened.join(', ')}`);
+  return { measured: true, addressesHeld: addresses, addressesOpened: opened.length, agents: results };
+}
+record.desktopChoice = await desktopChoiceNeverOpensAnAddress();
+if (!record.desktopChoice.measured) {
+  record.unverified.push({ agent: 'todas', stage: 'desktop-choice', cause: record.desktopChoice.cause });
+}
+
 // Counting windows of an application by its executable name, which is all that is needed to tell whether
 // asking it to open a folder actually started something.
 async function running(label) {
@@ -160,6 +220,8 @@ record.summary = {
   verified: record.applications.filter(entry => entry.verified).length,
   refused: record.applications.filter(entry => entry.installed && !entry.verified).length,
   findings: record.findings.length,
+  desktopChoiceMeasured: record.desktopChoice?.measured ?? false,
+  addressesOpenedForADesktopChoice: record.desktopChoice?.addressesOpened ?? null,
   scope: 'Reconocimiento, verificación de firma y editor, y las rutas de rechazo sobre las aplicaciones realmente instaladas. Una sola apertura, contra una carpeta sintética, cuando se pide con --launch. Abrir una carpeta no demuestra que la IA la haya leído, y el registro lo dice.',
 };
 await writeFile(path.join(output, 'local-launches.json'), JSON.stringify(record, null, 2) + '\n');

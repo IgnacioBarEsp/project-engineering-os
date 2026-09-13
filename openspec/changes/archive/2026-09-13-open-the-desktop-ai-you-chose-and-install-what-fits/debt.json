@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "flow": "open-the-desktop-ai-you-chose-and-install-what-fits",
+  "date": "2026-09-13",
+  "kind": "feature",
+  "result": "debt",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/independent-review.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "La frase que lee una persona cuando su aplicacion no se abre se deducia de si el rechazo traia editor adjunto, no de que comprobacion fallo. Una revision independiente manejo el lanzador real por seis rechazos distinguibles y encontro tres frases falsas: un Claude firmado cuyo esquema el sistema entrega a otro ejecutable leia que nadie observo como recibe una carpeta, cuando si se observo, y los dos rechazos de Codex decian que no se pudo comprobar su firma cuando la misma funcion acababa de verificarla. Ademas el cambio habia borrado la frase especifica que la version anterior si mostraba. Resuelto: ocho causas en vez de cuatro, cada rechazo se nombra a si mismo, los de Codex llevan su editor verificado, la pantalla vuelve a mostrar la frase del lanzador, y una prueba nueva maneja createLocalAppLauncher real en vez de un doble de detect. Cuatro mutaciones lo defienden",
+        "result": "resuelto",
+        "date": "2026-09-13"
+      },
+      "title": "La causa que la pantalla daba por no abrir una aplicacion se deducia de un efecto colateral, y era falsa en tres situaciones alcanzables",
+      "artifact": "apps/companion/desktop/service.mjs",
+      "source": "adversarial-review",
+      "category": "defect",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "resolvedPreviously": true
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/local-launches.json",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "El arnes de aperturas, que es la evidencia nombrada de la regla central de este issue, pasaba con el defecto restaurado entero: una revision independiente copio el artefacto instalado, devolvio las seis URL web, el modo decidido por lo instalado y la rama que abre una direccion, y el arnes informo cero hallazgos y salio cero. No poder medir se anotaba como nota, no como hallazgo. Resuelto: es un hallazgo, comprobado restaurando el defecto entero en una copia y obteniendo salida 1 con su frase",
+        "result": "resuelto",
+        "date": "2026-09-13"
+      },
+      "title": "El arnes que mide que una eleccion de escritorio no abre un navegador pasaba con el defecto restaurado entero",
+      "artifact": "apps/companion/scripts/verify-local-launches.mjs",
+      "source": "adversarial-review",
+      "category": "defect",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "resolvedPreviously": true
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/service-mutations.json",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "Una revision independiente aplico doce mutaciones distintas de las declaradas y once sobrevivieron las 118 pruebas, cinco de ellas sobre la puerta por donde entra codigo de terceros: quitar --ignore-scripts, --bin-links=false, el registro fijado, el piso de antiguedad, y quitar la verificacion del arbol dentro de install, de modo que lo recien bajado de la red se renombra a la carpeta de la persona sin compararse contra su pin. La mutacion declarada vaciaba el cuerpo de verifyStackTree, que otras rutas si detectan. Resuelto: el ejecutor de procesos es inyectable y una prueba afirma el argv exacto, otra pone un payload distinto del pin y comprueba que no llega a la carpeta ni deja nada atras, y cuatro mutaciones nuevas lo defienden",
+        "result": "resuelto",
+        "date": "2026-09-13"
+      },
+      "title": "Los argumentos que impiden ejecutar codigo de terceros y la verificacion previa al rename no estaban anclados por ninguna prueba",
+      "artifact": "apps/companion/runtime/stack.mjs",
+      "source": "adversarial-review",
+      "category": "defect",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "resolvedPreviously": true
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/stack-install.json",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "El arnes afirmaba que el manifiesto de la persona quedaba intacto comprobando que no existiera ningun package.json, que es cierto por construccion de la carpeta sintetica y falso en cualquier proyecto real. Una revision independiente instalo sobre una carpeta que si tenia uno, demostro por digesto que quedo intacto, y el arnes lo informaba como tocado. Resuelto: la carpeta de prueba lleva manifiesto, lockfile y su propio node_modules, y los cinco archivos de la persona se comparan por digesto antes y despues",
+        "result": "resuelto",
+        "date": "2026-09-13"
+      },
+      "title": "Que el manifiesto de la persona quedara intacto se medida comprobando que no existiera, no que no cambiara",
+      "artifact": "apps/companion/scripts/verify-stack-install.mjs",
+      "source": "adversarial-review",
+      "category": "defect",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "resolvedPreviously": true
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/independent-review.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "El radio de perfil no volvia a renderizar, asi que una tecnologia elegida para software seguia marcada al cambiar a investigacion y la preparacion se bloqueaba tres pantallas despues, en la de carpeta, que no tiene ningun control de tecnologia, con un remedio que apuntaba a la carpeta. Una revision independiente lo reprodujo con el renderer y el servicio reales. Resuelto: el cambio de perfil vuelve a renderizar y descarta lo que ese perfil no ofrece, y las cuatro negativas de STACK_INVALID senalan el asistente",
+        "result": "resuelto",
+        "date": "2026-09-13"
+      },
+      "title": "El asistente dejaba arrastrar una tecnologia a un perfil que no la ofrece y el bloqueo caia en otra pantalla con el remedio equivocado",
+      "artifact": "apps/companion/ui/app.mjs",
+      "source": "adversarial-review",
+      "category": "defect",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "resolvedPreviously": true
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "Tres defectos propios los encontro la corrida de evidencia y no las pruebas. El arnes de pines informaba cero bytes de descarga como exito porque el registro responde a HEAD sin content-length y Number(null) es cero, asi que una medicion que falla y una que no encuentra nada se veian identicas. Un candado reentrante mataba toda instalacion real con BUSY, y ninguna prueba lo alcanzaba porque alcanzarlo exige una escritura que tenga exito. Y removeStack pisaba su propio campo status. Los tres corregidos, con prueba y mutacion cada uno",
+        "result": "resuelto",
+        "date": "2026-09-13"
+      },
+      "title": "Tres defectos que solo apareceieron al medir contra la aplicacion instalada: un cero silencioso, un candado reentrante y un campo pisado",
+      "artifact": "apps/companion/runtime/stack.mjs",
+      "source": "self-review",
+      "category": "defect",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "resolvedPreviously": true
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "El arbol instalado de cada tecnologia se ancla por el digesto que se midio en este equipo, con Windows y con npm 11.19.1. Que los otros dos sistemas operativos produzcan el mismo arbol es plausible y se comprobo lo que lo haria plausible: ninguno de los 72 paquetes del conjunto trae script de instalacion ni restringe os o cpu, y todos declaran integridad fijada. Pero plausible no es medido: aqui se corrio en un solo sistema, tres veces, con el mismo digesto cada vez, y ademas contra un artefacto realmente empaquetado para descartar que el empaquetador reescriba los manifiestos. Un pin medido en uno no es una afirmacion sobre tres, y asi queda dicho en el design en vez de implicito",
+        "result": "medido-en-parte",
+        "date": "2026-09-13"
+      },
+      "title": "El digesto que ancla cada tecnologia se midio en un solo sistema operativo, no en los tres que el repositorio soporta",
+      "artifact": "apps/companion/runtime/stack-catalog.mjs",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/design.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "Que el catalogo siga diciendo la verdad sobre lo que instalaria no lo comprueba ninguna prueba unitaria: cambiar a mano un tamano o un digesto no rompe nada en npm test, porque comprobarlo exige descargar e instalar. Una revision independiente lo demostro cambiando los dos. Lo detectan dos cosas que si miden: pin-stack.mjs, que ahora sale distinto de cero cuando lo medido no coincide, y verify-stack-install.mjs, que compara lo instalado contra lo que la pantalla mostro antes. Ninguna de las dos corre en CI, por la misma razon que el resto de arneses de maquina real, y eso queda escrito en el design en vez de implicito",
+        "result": "medido-en-parte",
+        "date": "2026-09-13"
+      },
+      "title": "La deriva del catalogo solo la detectan arneses de maquina real, no la suite que corre en CI",
+      "artifact": "apps/companion/scripts/pin-stack.mjs",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "docs/companion/ENVIRONMENT.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "Instalar una tecnologia deja los paquetes verificados dentro de la carpeta que administra la aplicacion, y no configura el proyecto de la persona para usarlos: no se escribe su package.json, que es deliberado, asi que nada apunta a esos paquetes. La pantalla dice donde quedaron y que el proyecto sigue siendo suyo. Conectarlos es trabajo de la persona, y eso es una frontera elegida, no un descuido: escribir en el manifiesto de alguien es exactamente lo que este producto decidio no hacer",
+        "result": "no-verificado",
+        "date": "2026-09-13"
+      },
+      "title": "Los paquetes instalados quedan verificados y ubicados, pero nada conecta el proyecto de la persona con ellos",
+      "artifact": "apps/companion/runtime/stack.mjs",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/stack-install.json",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "La decision abierta sobre reglas de ignore para lo que Companion escribe dentro de .project-os se vuelve mas urgente con este cambio: hasta ahora lo que caia ahi eran recibos y un cache de herramientas, y ahora puede caer un node_modules de 23 MB y 135 archivos dentro de la carpeta versionada de alguien. Es la misma decision del item existente con una ocurrencia mas, no una decision nueva",
+        "result": "medido-en-parte",
+        "date": "2026-09-13"
+      },
+      "title": "Sin reglas de ignore revisadas para las carpetas que Companion escribe dentro de .project-os",
+      "artifact": "apps/companion/runtime/stack.mjs",
+      "source": "adversarial-review",
+      "category": "duplicate",
+      "duplicateOf": "debt-ce9dd61a43b7",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    }
+  ]
+}

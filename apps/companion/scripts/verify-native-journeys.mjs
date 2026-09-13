@@ -727,6 +727,24 @@ try {
     await page.setViewportSize({ width: 1180, height: 900 });
     step('reflow', { widths: [1180, 900, 600] });
 
+    // Technology, read off the installed window. Every profile here was prepared without asking for one, so
+    // what the screen has to do is say that nothing is installed and why that is right — and for a project
+    // that is not about programming, say that in those words. An absence with no sentence is the finding.
+    // The panel lives on the project's state tab, and by this point the journey has been searching. Read where
+    // the thing being read actually is: the first version of this check looked from the search tab and reported
+    // the panel as missing, which is a finding about the check and not about the window.
+    await page.getByRole('button', { name: 'Estado', exact: true }).click();
+    await page.waitForTimeout(500);
+    const technology = await page.evaluate(() => {
+      const heading = [...document.querySelectorAll('#view h2')].find(node => node.textContent.includes('Tecnología de este proyecto'));
+      return heading ? heading.closest('section').innerText.replace(/\s+/g, ' ').trim() : null;
+    });
+    if (!technology) finding(id, 'technology', 'la ventana no muestra el estado de tecnología del proyecto');
+    else if (!/pronto para elegir tecnolog/i.test(technology)) {
+      finding(id, 'technology', `no se dijo por qué no hay tecnología instalada: ${technology.slice(0, 220)}`);
+    }
+    step('technology reported with its reason', { said: (technology ?? '').slice(0, 160) });
+
     // The person's own files must be untouched by everything above.
     const after = await hashesOf(prepared[id].root, Object.keys(prepared[id].before));
     const changed = Object.keys(after).filter(relative => after[relative] !== prepared[id].before[relative]);

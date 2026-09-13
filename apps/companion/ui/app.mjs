@@ -4,6 +4,9 @@ const $=id=>document.getElementById(id);
 const profiles={research:['Investigación','Artículos, PDF, documentos y evidencia.'],software:['Software o página web','Código, especificaciones y pruebas.'],unity:['Videojuego con Unity','Escenas, scripts y un proceso de desarrollo.'],media:['Contenido creativo','Imágenes, música, video y sus workflows.'],general:['Otro proyecto','Materiales de trabajo, ideas y tareas cotidianas.']};
 const agents={codex:'Codex','claude-code':'Claude',cursor:'Cursor','github-copilot':'GitHub Copilot',opencode:'OpenCode',antigravity:'Antigravity',web:'ChatGPT u otro chat web'};
 const roles={researcher:'Investigador/a',student:'Estudiante',developer:'Desarrollador/a o área de TI',freelancer:'Freelancer',creator:'Creador/a de contenido',general:'Usuario/a general'};
+const techDecisions={chosen:['Sí, ya sé cuál quiero','Se te ofrece instalarla, con su licencia, su tamaño y su destino a la vista.'],
+  unsure:['No sé todavía, o empiezo ahora','Se te recomienda una a partir de tu tipo de proyecto y de lo que hay en tu carpeta, y puedes decir que no.'],
+  'too-early':['Es pronto para decidirlo','No se instala ninguna tecnología, y el proyecto te dice por qué eso está bien.']};
 // What a listed project's state may say. Only `verified` carries the check mark, and it means two things at
 // once: every stage this kind of project needs was comprobado de verdad, and nothing that check depended on
 // has changed since. Anything else — no check, a folder that moved, a file that changed, a stage still
@@ -29,7 +32,7 @@ const stageList=stages=>stages.flatMap((stage,index)=>{
   return index?[', ',node]:[node];});
 const onDate=value=>{const when=new Date(value??'');return Number.isNaN(when.getTime())?null
   :when.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});};
-const state={page:'start',tab:'overview',busy:false,projects:[],project:null,plan:null,status:null,query:'',inference:null,notes:null,selection:{name:'',goal:'',role:'researcher',profile:'research',experience:'guided',agents:['web']}};
+const state={page:'start',tab:'overview',busy:false,projects:[],project:null,plan:null,status:null,query:'',inference:null,notes:null,stacks:null,selection:{name:'',goal:'',role:'researcher',profile:'research',experience:'guided',agents:['web'],stack:{decision:'too-early',requested:[]}}};
 function el(tag,props={},...children){const node=document.createElement(tag);for(const [k,v] of Object.entries(props)){if(k==='class')node.className=v;else if(k==='text')node.textContent=v;else if(k.startsWith('on'))node.addEventListener(k.slice(2).toLowerCase(),v);else if(v!==false&&v!==undefined&&v!==null)node.setAttribute(k,v===true?'':v);}for(const c of children.flat(Infinity)){if(c!==null&&c!==undefined)node.append(c instanceof Node?c:document.createTextNode(String(c)));}return node;}
 const p=(text,cls='')=>el('p',{class:cls,text});
 const btn=(text,action,cls='secondary')=>el('button',{type:'button',class:cls,onClick:()=>run(action)},text);
@@ -55,6 +58,7 @@ const ACTIONS={
   'review-development':{label:'Revisar desarrollo',run:()=>reviewEngineering()},
   'review-code-map':{label:'Revisar mapa de código',run:()=>reviewCode()},
   'repair-tools':{label:'Revisar reparación de herramientas',run:()=>reviewRepair()},
+  'review-stack':{label:'Revisar tecnología del proyecto',run:()=>reviewStack(()=>showWorkspace())},
 };
 const doBtn=(id,cls='secondary')=>{const action=ACTIONS[id];if(!action)throw Error(`Acción sin declarar: ${id}`);
   return el('button',{type:'button',class:cls,'data-action':id,onClick:()=>run(action.run)},action.label);};
@@ -170,8 +174,9 @@ async function duplicate(project){const chosen=await call('chooseFolder');if(!ch
   state.project=chosen;
   state.selection={name:answers.name??project.name,goal:answers.goal??'',role:answers.role??'general',
     profile:answers.profile??project.profile??'research',experience:answers.experience??'guided',
-    agents:answers.agents?.length?[...answers.agents]:['web']};
-  showFolder();}
+    agents:answers.agents?.length?[...answers.agents]:['web'],
+    stack:answers.stack?{decision:answers.stack.decision,requested:[...(answers.stack.requested??[])]}:{decision:'too-early',requested:[]}};
+  state.stacks=state.stacks??await call('stackCatalog');showFolder();}
 function showHelp(){state.page='help';render([
   el('h1',{tabindex:'-1',text:'Ayuda'}),
   p('Cómo trabaja esta aplicación, qué quiere decir que algo esté listo, y qué significa cada palabra que aparece en pantalla.','intro'),
@@ -212,15 +217,38 @@ function showPrivacy(){openDialog('Tu carpeta, bajo tu control',[
   p('Compartir con un proveedor de IA es una acción aparte y tuya. Revisa el texto y las condiciones de ese servicio antes de pegarlo. Los PDF escaneados, el audio, el video, las imágenes y los documentos complejos pueden necesitar otra herramienta.'),
   el('p',{},'Las herramientas de desarrollo y el ',term('mapa-de-codigo'),' se descargan aparte y se comprueban aparte. Preparar archivos no instala modelos ni demuestra que una IA externa haya leído tu proyecto.'),
 ]);}
-function startSetup(){state.project=null;state.selection={name:'',goal:'',role:'researcher',profile:'research',experience:'guided',agents:['web']};showSetup();}
+async function startSetup(){state.project=null;state.selection={name:'',goal:'',role:'researcher',profile:'research',experience:'guided',agents:['web'],stack:{decision:'too-early',requested:[]}};
+  state.stacks=state.stacks??await call('stackCatalog');showSetup();}
 function showSetup(){state.page='setup';const s=state.selection;
   const types=el('fieldset',{},el('legend',{text:'¿Qué vas a hacer?'}),el('div',{class:'choices'},Object.entries(profiles).map(([id,[label,hint]])=>{
-    const radio=el('input',{type:'radio',name:'profile',value:id,checked:s.profile===id,onChange:()=>{s.profile=id;}});
+    // Changing the kind of project changes which technologies exist for it, so it has to re-render and drop the
+    // ones that no longer do. Without this the checkbox stayed on screen, still checked, and the preparation was
+    // refused three screens later on the folder step — which has no technology control — with a remedy pointing
+    // at the folder. An independent review walked into that dead end in the real renderer.
+    const radio=el('input',{type:'radio',name:'profile',value:id,checked:s.profile===id,onChange:()=>{
+      s.profile=id;
+      const offeredHere=new Set((state.stacks?.stacks??[]).filter(entry=>entry.profiles.includes(id)).map(entry=>entry.id));
+      s.stack={decision:s.stack?.decision??'too-early',requested:(s.stack?.requested??[]).filter(chosen=>offeredHere.has(chosen))};
+      showSetup();}});
     return el('label',{class:'choice'},radio,el('span',{},el('strong',{text:label}),el('small',{text:hint})));})));
+  // The three answers the maintainer asked for, as three answers and not as a checkbox with a default. "Es
+  // pronto" is a finished state, so it is offered as plainly as the other two instead of being the fallback
+  // someone lands on by not choosing.
+  const techChoices=el('div',{class:'choices'},Object.entries(techDecisions).map(([id,[label,hint]])=>
+    el('label',{class:'choice'},el('input',{type:'radio',name:'stack-decision',value:id,checked:(s.stack?.decision??'too-early')===id,
+      onChange:()=>{s.stack={decision:id,requested:id==='chosen'?(s.stack?.requested??[]):[]};showSetup();}}),
+      el('span',{},el('strong',{text:label}),el('small',{text:hint})))));
+  const offered=(state.stacks?.stacks??[]).filter(entry=>entry.profiles.includes(s.profile));
+  const tech=el('fieldset',{},el('legend',{text:'¿Sabes con qué tecnología vas a trabajar?'}),techChoices,
+    (s.stack?.decision==='chosen'&&offered.length)?el('div',{class:'choices'},offered.map(entry=>
+      el('label',{class:'choice'},el('input',{type:'checkbox',name:'stack',value:entry.id,checked:(s.stack?.requested??[]).includes(entry.id),
+        onChange:e=>{const chosen=new Set(s.stack?.requested??[]);if(e.target.checked)chosen.add(entry.id);else chosen.delete(entry.id);s.stack={decision:'chosen',requested:[...chosen]};}}),
+        el('span',{},el('strong',{text:entry.name}),el('small',{text:`${entry.purpose} ${downloadSize(entry.downloadBytes)} de descarga, ${entry.licenses.join(', ')}.`}))))):null,
+    el('small',{text:s.stack?.decision==='chosen'&&!offered.length?'Para este tipo de proyecto no hay tecnologías que esta aplicación pueda instalar. Verás por qué en el proyecto.':'Nada se instala sin que antes veas qué es, su licencia, cuánto pesa y dónde queda.'}));
   const ai=el('fieldset',{},el('legend',{text:'¿Con qué IA quieres trabajar?'}),el('div',{class:'choices'},Object.entries(agents).map(([id,label])=>el('label',{class:'choice'},el('input',{type:'checkbox',name:'agent',value:id,checked:s.agents.includes(id),onChange:e=>{s.agents=e.target.checked?[...s.agents,id]:s.agents.filter(a=>a!==id);}}),el('span',{},el('strong',{text:label}))))),el('small',{text:'Puedes elegir varias. No necesitas conectar cuentas ni entregar contraseñas.'}));
   const form=el('form',{onSubmit:e=>{e.preventDefault();void run(async()=>{if(!s.agents.length)throw{message:'Elige al menos una IA.',action:'Marca la que usas habitualmente.'};showFolder();});}},
     el('div',{class:'fields'},field('Nombre de tu proyecto','name',input('name',s.name,100,v=>s.name=v),'Por ejemplo: Evidencia para mi tesis'),field('¿Con qué perfil te identificas?','role',select('role',roles,s.role,v=>s.role=v))),
-    field('¿Qué quieres lograr?','goal',input('goal',s.goal,500,v=>s.goal=v),'Un objetivo concreto ayuda a tu IA a empezar con dirección.'),types,ai,
+    field('¿Qué quieres lograr?','goal',input('goal',s.goal,500,v=>s.goal=v),'Un objetivo concreto ayuda a tu IA a empezar con dirección.'),types,tech,ai,
     field('¿Cuánta guía prefieres?','experience',select('experience',{guided:'Paso a paso, con explicaciones',familiar:'Conozco las herramientas de IA'},s.experience,v=>s.experience=v)),
     actions(doBtn('open-start'),el('button',{type:'submit',class:'primary',text:'Elegir carpeta  →'})));
   render([steps(0),...heading('Empecemos por lo que quieres lograr.','La preparación se adapta a tu trabajo. Puedes usar una IA instalada en tu equipo o pegar el texto en un chat web.'),
@@ -243,8 +271,62 @@ function showBaseReview(){state.page='base-review';const s=state.selection;
     el('p',{class:'subtle'},'Uno de esos archivos es el ',term('inventario'),': la lista de lo que se encontró, con su tipo y su tamaño, y los archivos que no se pudieron leer con su motivo. No guarda el contenido completo.'),
     p('Tus archivos originales no se modifican. Se guarda un registro para poder comprobar cambios y deshacer una operación que quede a medias.','subtle'),
     actions(btn('Volver',()=>showFolder()),btn('Guardar esta preparación  →',async()=>{const r=await call('applyBase',{plan:state.plan.id});state.status=r.status;state.project={...state.project,...r.status.project};
-      if(['software','unity'].includes(s.profile))await reviewEngineering();else await prepareContext();},'primary')),
+      // What the person answered about technology is asked here, once the selection is recorded and the folder
+      // has been looked at, because a recommendation is only honest after both. With nothing to offer this step
+      // does not exist, and the project screen is where the reason is said instead.
+      const after=async()=>{if(['software','unity'].includes(s.profile))await reviewEngineering();else await prepareContext();};
+      await reviewStack(after);},'primary')),
   ],'PREPARAR PROYECTO / REVISIÓN');}
+// Technology, in the three ways the person could have answered. `items` empty is not an error and not a gap: it
+// is the third answer, and it comes with the sentence that says why installing nothing is right. Nothing here
+// writes anything; installing is a second, separate act, and so is refusing.
+async function reviewStack(next){state.plan=await call('previewStack',{id:state.project.id});
+  if(!state.plan.items.length){await next();return;}
+  showStackReview(next);}
+function showStackReview(next){state.page='stack-review';const plan=state.plan;
+  const recommended=plan.kind==='recommended',canInstall=state.status?.capabilities?.environment!==false;
+  render([...heading(recommended?'Esto es lo que tu proyecto parece necesitar.':'Esto es lo que pediste instalar.',
+      'Nada se instala hasta que lo apruebes. Puedes decir que no y seguir con la preparación igual.'),
+    panel(p(plan.because),...plan.items.map(item=>el('article',{},el('h2',{text:item.name}),p(item.purpose),
+      p(`${item.closure} ${item.closure===1?'paquete':'paquetes'} · ${item.licenses.join(', ')} · ${downloadSize(item.downloadBytes)} de descarga · ${downloadSize(item.installedBytes)} instalados`),
+      el('p',{class:'subtle'},'Directos: ',item.packages.map(pkg=>`${pkg.name} ${pkg.version} (${pkg.license})`).join(', ')),
+      el('p',{class:'path',text:item.destination}),
+      item.status==='verified'?p('Ya está instalada y comprobada en esta carpeta.','subtle'):null))),
+    p('Queda dentro de la carpeta que administra esta aplicación. Tu package.json no se toca y tus archivos no se modifican.','subtle'),
+    notOfferedPanel(plan.notOffered),
+    // Installing needs the managed engine. Offering the control without it hands the person an error on click,
+    // so when it is not there the screen says what is missing instead of pretending the control works.
+    canInstall?null:p('Para instalar algo de esto hacen falta las herramientas de este proyecto, que todavía no están preparadas.','subtle'),
+    actions(btn(recommended?'No instalar nada de esto':'Volver',async()=>{
+      if(recommended&&plan.id){state.status=(await call('declineStack',{plan:plan.id})).status;notice('Registrado: no se instaló ninguna tecnología.');}
+      await next();}),
+      plan.id&&canInstall?btn('Instalar lo revisado',async()=>{const r=await call('applyStack',{plan:plan.id});state.status=r.status;
+        notice(`Instalado: ${r.results.map(item=>item.id).join(', ')}. Está en la carpeta de la aplicación, no en tu package.json.`);await next();},'primary'):null),
+  ],'TU PROYECTO / TECNOLOGÍA');}
+function notOfferedPanel(items){if(!items?.length)return null;
+  return el('details',{},el('summary',{text:`Lo que no se instala desde aquí (${items.length})`}),
+    el('div',{},items.map(item=>el('article',{},el('h3',{text:item.name}),p(`Viene de ${item.from}.`),p(item.reason,'subtle')))));}
+// What the record says, without re-measuring anything: this panel is rendered from the project's state, so it
+// reports what was installed or refused and when, and says so in those words.
+function stackPanel(s){const unreadable=!s.stack?.installed;
+  const record=unreadable?null:{installed:s.stack.installed,declined:s.stack.declined};
+  const decision=s.project.selection?.stack?.decision??'too-early';
+  const day=value=>String(value).slice(0,10);
+  return panel(el('h2',{text:'Tecnología de este proyecto'}),
+    record?.installed.length?el('ul',{},record.installed.map(item=>el('li',{text:`${stackName(s,item.id)} · instalada el ${day(item.at)}`}))):null,
+    record?.declined.length?el('ul',{class:'subtle'},record.declined.map(item=>el('li',{text:`${stackName(s,item.id)} · dijiste que no el ${day(item.at)}`}))):null,
+    // A record that could not be read says nothing about what is installed. The first version fell through to
+    // "todavía no hay ninguna tecnología instalada", which is the one claim it had no way to make: an
+    // independent review corrupted the record with a technology on disk and read that sentence back.
+    unreadable?p('No se pudo leer el registro de tecnologías de este proyecto, así que esta pantalla no puede decir qué hay instalado.'):null,
+    unreadable&&s.stack?.error?.message?p(s.stack.error.message,'subtle'):null,
+    unreadable&&s.stack?.error?.action?p(s.stack.error.action,'subtle'):null,
+    !unreadable&&!record.installed.length&&decision==='too-early'?p('Dijiste que todavía es pronto para elegir tecnología, así que no se instaló ninguna. Eso es correcto: un proyecto puede estar listo sin haber elegido una, y puedes decidirlo cuando lo pida.'):null,
+    !unreadable&&!record.installed.length&&decision!=='too-early'?p('Todavía no hay ninguna tecnología instalada en este proyecto.'):null,
+    actions(doBtn('review-stack'),...(record?.installed??[]).map(item=>btn(`Retirar ${stackName(s,item.id)}`,async()=>{
+      const withdrawn=await call('removeStack',{id:s.project.id,stack:item.id});state.status=withdrawn.status;
+      notice(withdrawn.removal==='removed'?'Se retiró: el árbol seguía coincidiendo con lo revisado.':'No había nada que retirar de esa tecnología.');await showWorkspace(false);}))));}
+const stackName=(s,id)=>state.stacks?.stacks.find(entry=>entry.id===id)?.name??id;
 async function reviewEngineering(){
   if(state.status?.capabilities?.environment&&state.status.environment?.status!=='prepared'){
     state.plan=await call('previewEnvironment',{id:state.project.id});showEnvironmentReview();
@@ -334,7 +416,7 @@ function showCodeReview(){state.page='code-review';const plan=state.plan,allowed
 // it followed the guidance's own first step.
 async function resaveBase(){const s=state.selection;
   state.plan=await call('previewBase',{id:state.project.id,selection:{name:s.name,goal:s.goal,role:s.role,
-    profile:s.profile,experience:s.experience,agents:s.agents}});
+    profile:s.profile,experience:s.experience,agents:s.agents,stack:s.stack}});
   showBaseReview();}
 async function openProject(id){state.status=await call('openProject',{id});state.project=state.status.project;state.selection={...state.selection,...state.project.selection};state.tab='overview';await showWorkspace(false);}
 async function forget(project){openDialog('Quitar de la lista',[
@@ -371,6 +453,7 @@ function guidePanel(guide,failure){
     when?p(`Esta guía sale de la comprobación del ${when}. Si cambiaste algo después, comprueba el proyecto otra vez.`,'subtle'):null);
 }
 async function showWorkspace(refresh=true){state.page='workspace';if(refresh)state.status=await call('status',{id:state.project.id});const s=state.status;
+  state.stacks=state.stacks??await call('stackCatalog');
   // A guidance that cannot be composed must not take the project screen down with it, so the cause is shown
   // in its own panel instead of replacing the screen with an error.
   let guide=null,guideError=null;
@@ -400,6 +483,7 @@ async function showWorkspace(refresh=true){state.page='workspace';if(refresh)sta
       el('p',{},'Un ',term('mapa-de-codigo'),'. ',s.code?.status==='verified'?`${s.code.symbols} símbolos y ${s.code.relations} relaciones comprobados con tus archivos actuales.`:s.code?.message??'Localiza funciones y clases antes de cambiar el proyecto. Puedes añadirlo cuando tengas código.'),
       actions(once('review-code-map'),s.code?.status==='verified'?btn('Buscar símbolos',async()=>{state.tab='search';await showWorkspace(false);}):null,
         doBtn('repair-tools'))):null,
+    stackPanel(s),
     // Named only where they exist: a document or a creative project has no OpenSpec and no code map, and
     // putting those words on its screen would be jargon with nothing behind it.
     ['software','unity'].includes(s.base.selection?.profile)
@@ -511,18 +595,27 @@ async function handoffView(s){
     investigationPanel(),
     panel(el('h2',{text:'Sigue en la herramienta que ya usas.'}),el('p',{},'Si tu IA está instalada en el equipo, se abre con la carpeta de este proyecto. Si es un chat en el navegador, busca y copia solo los fragmentos que quieras compartir. La diferencia es qué es una ',term('agente','IA con acceso a archivos'),'.'),
     el('p',{class:'subtle'},'Solo se abre una aplicación cuya ',term('firma'),' se pudo comprobar. Abrir la carpeta no demuestra que la IA la haya leído.'),
-    actions(...(s.base.selection?.agents??[]).map(a=>btn(`Abrir ${agents[a]} ↗`,async()=>{
+    actions(...(s.base.selection?.agents??[]).map(a=>btn(`Continuar con ${agents[a]}`,async()=>{
       const preview=await call('handoffPreview',{id:state.project.id,agent:a});
-      const local=preview.mode==='local';
-      const open=async copy=>{const result=await call('handoff',{preview:preview.id,copy});closeDialog();notice(result.opened==='local'?`Se pidió abrir la carpeta en ${result.application}. No se ha comprobado que la IA la haya leído.${copy?' Instrucción copiada.':''}`:'Sitio abierto e instrucción copiada. Revisa los datos antes de pegarlos o adjuntar documentos en tu chat.');};
-      openDialog(`Continuar con ${agents[a]}`,[p(local?`Se pedirá abrir esta carpeta en ${preview.destination}, cuya firma se comprobó. Abrir no envía una instrucción ni confirma que la IA haya leído el proyecto.`:`Se abrirá ${preview.destination} en tu navegador. La instrucción se copia al portapapeles; tus documentos no se envían solos.`),
-        // Two different refusals, told apart. An independent review found this sentence telling a person that
-        // OpenCode's publisher could not be verified — it verifies, and what it does not do is declare how it
-        // receives a folder. One sentence for two situations made the screen say something false.
-        preview.unverified?p(preview.unverified.publisherVerified
-          ? `${preview.unverified.label} está instalado en este equipo y su editor sí se pudo comprobar (${preview.unverified.publisher}), pero no se abre desde aquí. ${preview.unverified.message??''}`
-          : `${preview.unverified.label} está instalado en este equipo, pero no se pudo comprobar su firma o quién lo publica, así que no se abre desde aquí. ${preview.unverified.message??''}`,'subtle'):null,
-        el('pre',{text:preview.prompt,tabindex:'0','aria-label':'Instrucción inicial'}),actions(btn('Volver',async()=>closeDialog()),local?btn('Abrir aplicación con esta carpeta',()=>open(false),'primary'):null,btn('Copiar instrucción y abrir',()=>open(true),local?'secondary':'primary'))]);
+      const local=preview.mode==='local',manual=preview.mode==='manual';
+      const open=async copy=>{const result=await call('handoff',{preview:preview.id,copy});closeDialog();
+        notice(result.opened==='local'?`Se pidió abrir la carpeta en ${result.application}. No se ha comprobado que la IA la haya leído.${copy?' Instrucción copiada.':''}`
+          :result.opened==='web'?'Sitio abierto e instrucción copiada. Revisa los datos antes de pegarlos o adjuntar documentos en tu chat.'
+          :`No se abrió nada: ábrela tú y pega la instrucción.${copy?' Ya está copiada.':''}`);};
+      // Three modes, decided by what the person chose. A desktop choice that cannot be opened ends here, with the
+      // text copied and the reason said — never at a web address, which is what this screen used to promise.
+      openDialog(`Continuar con ${agents[a]}`,[p(local?`Se pedirá abrir esta carpeta en ${preview.destination}, cuya firma se comprobó. Abrir no envía una instrucción ni confirma que la IA haya leído el proyecto.`
+          :manual?`${agents[a]} es una aplicación de este equipo, así que ábrela tú y pega la instrucción. No se abrirá ningún sitio web: elegiste una aplicación de escritorio.`
+          :`Se abrirá ${preview.destination} en tu navegador. La instrucción se copia al portapapeles; tus documentos no se envían solos.`),
+        // One sentence per check that can fail, and then the launcher's own words about this application. The
+        // first version of this screen dropped `unverified.message` — the specific, true sentence the previous
+        // release already showed — and replaced it with a generic one deduced from whether a publisher happened
+        // to be attached. An independent review found three cases where that generic sentence was false.
+        manual?p(preview.causeMessage+(preview.unverified?.publisherVerified?` Su editor es ${preview.unverified.publisher}.`:''),'subtle'):null,
+        manual&&preview.unverified?.message?p(preview.unverified.message,'subtle'):null,
+        el('pre',{text:preview.prompt,tabindex:'0','aria-label':'Instrucción inicial'}),
+        actions(btn('Volver',async()=>closeDialog()),local?btn('Abrir aplicación con esta carpeta',()=>open(false),'primary'):null,
+          btn(manual?'Copiar instrucción':'Copiar instrucción y abrir',()=>open(true),local?'secondary':'primary'))]);
     })))))
 }
 let dialogReturn=null;

@@ -134,10 +134,31 @@ try {
     await page.getByLabel('Nombre de tu proyecto').fill(name);await page.getByLabel('¿Qué quieres lograr?').fill('Comparar evidencia sobre tokens medidos');
     await page.locator(`input[name="profile"][value="${profile}"]`).check();
     assert(await page.locator('input[name="agent"][value="web"]').isChecked(),'Default AI should be reflected in the form');
+    // The technology answer, and for a software project the first of the three, so the screen that shows what
+    // would be installed is visited by a journey instead of only by a unit test. Nothing is installed here: the
+    // journey reads the identity, the licence, the sizes and the destination and then declines.
+    assert(await page.locator('input[name="stack-decision"][value="too-early"]').isChecked(),'The third answer is the one a form with no choice records');
+    if(profile==='software'){await page.locator('input[name="stack-decision"][value="chosen"]').check();
+      await page.locator('input[name="stack"][value="typed-code"]').check();}
     await noOverflow(page,profile+' setup');
     await checkScreen(page,`${profile} asistente`);
     await click(page,'Elegir carpeta →');await click(page,'Buscar carpeta en este equipo');
     await click(page,'Revisar preparación →');await click(page,'Guardar esta preparación →');
+    if(profile==='software'){
+      await heading(page,'Esto es lo que pediste instalar.');
+      const shown=await page.locator('#view').innerText();
+      for(const expected of ['TypeScript','Apache-2.0','1 paquete','de descarga','instalados','.project-os/stack/typed-code']){
+        assert(shown.includes(expected),`La revisión de tecnología tiene que mostrar ${expected} antes de instalar nada`);
+      }
+      // Collapsed content is not visible text, so the list of what is not installed from here is opened and then
+      // read: a summary that promises a list is not the same as a list that names Flutter and says why.
+      await page.getByText('Lo que no se instala desde aquí',{exact:false}).first().click();
+      const refused=await page.locator('#view').innerText();
+      for(const expected of ['Flutter','editor de Unity','Python']) assert(refused.includes(expected),`Lo que no se instala desde aquí tiene que nombrar ${expected}`);
+      await checkScreen(page,`${profile} tecnología`);
+      await noOverflow(page,profile+' stack');
+      await click(page,'Volver');
+    }
     if(engineeringProfile){
       if(manager){await heading(page,'Tus herramientas, listas en este equipo.');await click(page,'Preparar herramientas y continuar →');}
       await heading(page,'Un proceso claro para desarrollar.');await click(page,'Guardar estas instrucciones →');
@@ -163,7 +184,7 @@ try {
     await page.waitForFunction(()=>document.activeElement.textContent==='Preparar un texto para pegar en tu chat');
     await click(page,'Preparar un texto para pegar en tu chat');await click(page,'Copiar este texto');assert.equal(copied.length,1);assert(copied[0].includes('notes.txt'));assert.equal(opened.length,0);
     await click(page,'Recetas');await page.locator('.recipe').first().waitFor();assert.equal(await page.locator('.recipe').count(),3);
-    await click(page,'Continuar con mi IA');await click(page,'Abrir ChatGPT u otro chat web ↗');await page.getByRole('dialog').waitFor();
+    await click(page,'Continuar con mi IA');await click(page,'Continuar con ChatGPT u otro chat web');await page.getByRole('dialog').waitFor();
     assert(!/^(null|undefined)$/m.test(await page.getByRole('dialog').innerText()),'Absent optional handoff content must not render as literal text');
     const shown=await page.getByLabel('Instrucción inicial').innerText();await click(page,'Copiar instrucción y abrir');assert.equal(copied[1],shown);assert.equal(opened.length,1);
     await click(page,'Tus proyectos');await heading(page,'Tus proyectos');await collectActions(page,'tus proyectos');
