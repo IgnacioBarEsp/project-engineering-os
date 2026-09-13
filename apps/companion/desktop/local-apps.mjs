@@ -8,14 +8,28 @@ import { canonicalFolder, fail } from '../engine/files.mjs';
 
 const exec = promisify(execFile);
 const publishers = { codex: ['OpenAI OpCo, LLC','OpenAI, L.L.C.'], cursor: ['Anysphere, Inc.'], 'github-copilot': ['Microsoft Corporation'],
-  antigravity: ['Google LLC'] };
-const labels = { codex: 'Codex', cursor: 'Cursor', 'github-copilot': 'Visual Studio Code', antigravity: 'Antigravity' };
+  antigravity: ['Google LLC'], 'claude-code': ['Anthropic, PBC'], opencode: ['Anomaly Innovations, Inc https://anoma.ly/'] };
+const labels = { codex: 'Codex', cursor: 'Cursor', 'github-copilot': 'Visual Studio Code', antigravity: 'Antigravity',
+  'claude-code': 'Claude', opencode: 'OpenCode' };
 // Recognising an application is not the same as knowing how to hand it a folder. Antigravity is listed so
 // that a person who uses it is told whether it is installed and whether its publisher checks out, and it
 // is deliberately never launched: this repository has not verified how its build opens a project, and
 // guessing an argument would be claiming a capability nobody here observed. Remove an entry from this set
 // only once a folder-open contract is verified the way Codex's is.
-const noVerifiedFolderContract = new Set(['antigravity']);
+const noVerifiedFolderContract = new Set(['antigravity','opencode']);
+// What each application has to declare before this one will hand it a folder, and how that declaration is
+// read. Codex answers a help command; Claude does not answer one at all — it forwards its arguments to the
+// instance already running — but its installed build declares the route it accepts, and the system has that
+// route registered to the same signed executable. Both are observations of the installation, which is the
+// standard this repository set for Antigravity and did not lower here.
+//
+// Measured on the maintainer's machine before any of this was written: Claude is signed by Anthropic, PBC and
+// its build contains `code/new?folder=` built from a path it first confirms is a directory; OpenCode is signed
+// by Anomaly Innovations, registers `opencode://`, forwards deep links to its renderer, and declares no route
+// with a parameter. That is why one of them can be opened and the other cannot.
+const PROTOCOL_ROUTE = { 'claude-code': { scheme: 'claude', declares: 'code/new?folder=',
+  url: root => `claude://code/new?folder=${encodeURIComponent(root)}` } };
+const DECLARATION_MAX_BYTES = 256 * 1024 * 1024, DECLARATION_MAX_MS = 15000;
 function cleanEnvironment(system) {
   const allow = new Set(['systemroot','windir','systemdrive','userprofile','appdata','localappdata','temp','tmp','programfiles','programfiles(x86)','programdata','username','userdomain','homedrive','homepath','comspec']);
   return Object.fromEntries(Object.entries(system).filter(([key]) => allow.has(key.toLowerCase())));
@@ -34,7 +48,7 @@ async function regularFile(executable) {
   for await (const chunk of createReadStream(resolved)) { bytes += chunk.length; if (bytes > 512*1024*1024) fail('APP_UNTRUSTED','El ejecutable supera el límite de comprobación.'); digest.update(chunk); }
   return { executable: resolved, sha256: digest.digest('hex') };
 }
-export function createLocalAppLauncher({ system = process.env, platform = process.platform, discover, signature, inspectFile = regularFile, help, launch } = {}) {
+export function createLocalAppLauncher({ system = process.env, platform = process.platform, discover, signature, inspectFile = regularFile, help, launch, declaration, handler } = {}) {
   const environment = cleanEnvironment(system);
   const powershell = path.join(system.SystemRoot ?? system.SYSTEMROOT ?? 'C:\\Windows','System32','WindowsPowerShell','v1.0','powershell.exe');
   const ps = async (script, extra = {}) => (await exec(powershell,['-NoLogo','-NoProfile','-NonInteractive','-Command',script],
@@ -46,6 +60,24 @@ export function createLocalAppLauncher({ system = process.env, platform = proces
     if (agent === 'cursor') return [local && path.join(local,'Programs','cursor','Cursor.exe'),program && path.join(program,'cursor','Cursor.exe')].filter(Boolean).map(executable=>({executable}));
     if (agent === 'github-copilot') return [local && path.join(local,'Programs','Microsoft VS Code','Code.exe'),program && path.join(program,'Microsoft VS Code','Code.exe')].filter(Boolean).map(executable=>({executable}));
     if (agent === 'antigravity') return [local && path.join(local,'Programs','antigravity','Antigravity.exe'),program && path.join(program,'antigravity','Antigravity.exe')].filter(Boolean).map(executable=>({executable}));
+    // Squirrel keeps one directory per installed version; enumerate a bounded set and let the checks decide.
+    if (agent === 'claude-code') {
+      if (!local) return [];
+      const home = path.join(local,'AnthropicClaude');
+      // Ordered by their numbers. Sorting the names put `app-1.9.0` above `app-1.52386.3`, so with more than
+      // five installed versions the real one could fall outside the window and the application would be
+      // reported as not installed.
+      const segments = name => name.slice(4).split('.').map(Number);
+      const versions = (await readdir(home,{withFileTypes:true}).catch(()=>[]))
+        .filter(entry=>entry.isDirectory()&&/^app-[0-9][0-9.]{0,20}$/.test(entry.name))
+        .map(entry=>entry.name)
+        .sort((a,b)=>{const x=segments(a),y=segments(b);
+          for(let i=0;i<Math.max(x.length,y.length);i+=1){const d=(y[i]??0)-(x[i]??0);if(d)return d;}return 0;})
+        .slice(0,5);
+      return versions.map(name=>({executable:path.join(home,name,'claude.exe')}));
+    }
+    if (agent === 'opencode') return [local && path.join(local,'Programs','@opencode-aidesktop','OpenCode.exe')]
+      .filter(Boolean).map(executable=>({executable}));
     if (agent !== 'codex' || !program) return [];
     const data = JSON.parse((await ps("@(Get-AppxPackage -Name OpenAI.Codex | Select-Object -ExpandProperty InstallLocation) | ConvertTo-Json -Compress")) || '[]');
     const packages=(Array.isArray(data)?data:[data]).filter(p=>typeof p==='string' && path.dirname(p).toLowerCase()===path.join(program,'WindowsApps').toLowerCase()
@@ -62,20 +94,68 @@ export function createLocalAppLauncher({ system = process.env, platform = proces
     child.once('error',reject);child.once('spawn',()=>{child.unref();resolve();});
   }));
   const supportedHelp = help ?? (async executable => (await exec(executable,['app','--help'],{cwd:path.dirname(executable),env:environment,shell:false,windowsHide:true,timeout:15000,maxBuffer:65536})).stdout);
+  // The route the installed build declares, read from its own resources in bounded chunks and stopped at the
+  // first match. Measured at 11 ms against Claude's 36.1 MiB bundle: the route sits at byte 7 457 548, so
+  // about 8 MiB are read before it is found.
+  const readsDeclaration = declaration ?? (async (executable, needle) => {
+    const bundle = path.join(path.dirname(executable),'resources','app.asar');
+    // Bounded three ways — bytes, time and the first match — and it fails closed. A missing or unreadable
+    // bundle is not a declaration, and its error may not reach a screen: an independent review watched an
+    // ENOENT carrying an absolute path with the account name in it get painted in the interface.
+    const deadline = Date.now() + DECLARATION_MAX_MS;
+    let carry = '', bytes = 0;
+    try {
+      for await (const chunk of createReadStream(bundle,{highWaterMark:1<<20})) {
+        bytes += chunk.length;
+        if (bytes > DECLARATION_MAX_BYTES || Date.now() > deadline) return false;
+        const text = carry + chunk.toString('latin1');
+        if (text.includes(needle)) return true;
+        carry = text.slice(-needle.length);
+      }
+    } catch { return false; }
+    return false;
+  });
+  // What the system says will receive that scheme. A handler pointing anywhere else is not this application's
+  // contract, so the opening is refused rather than guessed at.
+  const readsHandler = handler ?? (async scheme => {
+    const script = "$ErrorActionPreference='Stop'; (Get-ItemProperty -LiteralPath ('HKCU:\\Software\\Classes\\' + $env:COMPANION_SCHEME + '\\shell\\open\\command') -Name '(default)')."
+      + "'(default)'";
+    return (await ps(script,{ COMPANION_SCHEME: scheme })).trim();
+  });
   async function check(agent, candidate) {
     if (!publishers[agent]) fail('APP_UNSUPPORTED','No hay una apertura local revisada para esta IA.');
-    const files = [];
+    const files = [], verified = [];
+    // A refusal after the signature verified carries the publisher, so the screen can say "signed by X, and
+    // still not opened from here, because …" instead of one sentence for two very different situations.
+    const refuse = (code, message, action) => {
+      try { fail(code, message, action); }
+      catch (error) { error.publisher = verified[0] ?? null; throw error; }
+    };
     for (const executable of [candidate.executable,...(candidate.desktop?[candidate.desktop]:[])]) {
       const before = await inspectFile(executable), signed = await readSignature(before.executable), after = await inspectFile(executable);
       if (signed.status !== 'Valid' || !publishers[agent].includes(signed.publisher) || before.sha256 !== after.sha256) fail('APP_UNTRUSTED','La firma o el editor de la aplicación no se pudo verificar.');
       files.push({...after,publisher:signed.publisher});
+      verified.push(signed.publisher);
     }
     if (agent==='codex'&&!candidate.desktop) fail('APP_UNTRUSTED','No se encontró la aplicación de escritorio de Codex instalada.');
     if (agent==='codex'&&!/Usage: codex app[^\r\n]*\[PATH\]/.test(await supportedHelp(files[0].executable))) fail('APP_UNSUPPORTED','Esta versión de Codex no confirmó cómo abrir una carpeta.');
+    const route = PROTOCOL_ROUTE[agent];
+    if (route) {
+      // Two observations, both of the installation, both re-read at launch: the build declares the route, and
+      // the system hands that scheme to this same verified executable.
+      if (!await readsDeclaration(files[0].executable, route.declares)) {
+        refuse('APP_UNSUPPORTED','Esta versión de la aplicación no declara cómo recibir una carpeta.','Ábrela desde la propia aplicación, o comparte el contexto exportado.');
+      }
+      const registered = await readsHandler(route.scheme).catch(()=>'');
+      const target = (registered.match(/"([^"]+\.exe)"/i)?.[1] ?? registered.split(' ')[0] ?? '').trim();
+      if (!target || path.resolve(target).toLowerCase() !== path.resolve(files[0].executable).toLowerCase()) {
+        refuse('APP_UNSUPPORTED','El sistema no entrega esa dirección a esta misma aplicación.','Ábrela desde la propia aplicación, o comparte el contexto exportado.');
+      }
+    }
     // Checked after the signature so the person learns both facts: whether the publisher verified, and
     // that this application still will not be opened from here.
-    if (noVerifiedFolderContract.has(agent)) fail('APP_UNSUPPORTED','Todavía no se comprobó cómo esta aplicación abre una carpeta, así que no se abre desde aquí.','Abre la carpeta del proyecto desde la propia aplicación, o comparte el contexto exportado.');
-    return { agent, ...candidate, files, label:labels[agent] };
+    if (noVerifiedFolderContract.has(agent)) refuse('APP_UNSUPPORTED','Esta aplicación no declara cómo recibir una carpeta, así que no se abre desde aquí.','Abre la carpeta del proyecto desde la propia aplicación, o comparte el contexto exportado.');
+    return { agent, ...candidate, files, label:labels[agent], publisher:files[0].publisher };
   }
   return {
     async detect(agent) {
@@ -89,15 +169,22 @@ export function createLocalAppLauncher({ system = process.env, platform = proces
         // primary executable from the filesystem inspection; missing desktop companions, signature
         // helpers, permissions and invalid signatures remain refusals.
         if(error.code==='ENOENT' && error.syscall==='lstat' && error.path===candidate.executable)continue;
-        refused??=error;
+        // The most informative refusal wins. Keeping the first meant that with several installed versions a
+        // person read the reason for the one the system does not even point at.
+        if(!refused || (refused.code==='APP_UNTRUSTED' && error.code==='APP_UNSUPPORTED'))refused=error;
       }}
-      if(refused)return {agent,label:labels[agent],unverified:true,code:refused.code??'APP_UNTRUSTED',message:refused.message};
+      // Both facts, never one standing in for the other. An independent review found the interface telling
+      // a person that OpenCode's publisher could not be verified — it verifies — because the only refusal the
+      // screen knew how to describe was Antigravity's, whose signature really does fail here.
+      if(refused)return {agent,label:labels[agent],unverified:true,code:refused.code??'APP_UNTRUSTED',
+        message:refused.message,publisher:refused.publisher??null,
+        publisherVerified:refused.code==='APP_UNSUPPORTED'&&!!refused.publisher};
       return null;
     },
     async open(reviewed, target) {
       const root=await canonicalFolder(target), current=await check(reviewed.agent,reviewed);
       if(JSON.stringify(current.files)!==JSON.stringify(reviewed.files))fail('APP_CHANGED','La aplicación cambió después de la revisión.','Vuelve a revisar la apertura con tu IA.');
-      const args=reviewed.agent==='codex'?['app',root]:[root];
+      const args=reviewed.agent==='codex'?['app',root]:PROTOCOL_ROUTE[reviewed.agent]?[PROTOCOL_ROUTE[reviewed.agent].url(root)]:[root];
       await start(current.files[0].executable,args);
       return {opened:'local',application:current.label,projectAttached:true,agentActivated:false,agentReadProject:false};
     },

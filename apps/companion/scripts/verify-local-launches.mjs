@@ -36,7 +36,10 @@ const { createLocalAppLauncher: createSourceLauncher } = await import('../deskto
 // The real launcher, against whatever is really installed. Nothing is injected.
 const launcher = createLocalAppLauncher({});
 const sourceLauncher = createSourceLauncher({});
-const AGENTS = ['codex', 'cursor', 'github-copilot', 'antigravity'];
+const AGENTS = ['codex', 'cursor', 'github-copilot', 'antigravity', 'claude-code', 'opencode'];
+// The ones whose contract is an address handed to an instance that may already exist, where a new process is
+// not the signal. Everything else is expected to start one.
+const PROTOCOL_AGENTS = new Set(['claude-code']);
 
 const workspace = await realpath(await mkdtemp(path.join(tmpdir(), 'companion-launch-')));
 const project = path.join(workspace, 'carpeta sintetica & literal');
@@ -50,7 +53,7 @@ const record = { date: new Date().toISOString(),
   // where it would break, and the launcher promises it is handed over literally.
   syntheticFolder: portable(project),
   launched: launchAgent ?? 'ninguna (usa --launch <agente> para abrir una)',
-  applications: [], findings: [] };
+  applications: [], findings: [], unverified: [] };
 const finding = (agent, detail) => { record.findings.push({ agent, detail }); };
 
 for (const agent of AGENTS) {
@@ -99,16 +102,52 @@ for (const agent of AGENTS) {
   assert.equal(opened.agentActivated, false);
   await new Promise(resolve => setTimeout(resolve, 6000));
   const after = await running(found.label);
+  // A new process is the signal for an application that starts one. It is NOT the signal for an application
+  // that is already running and takes its instruction through a registered address: that one hands the
+  // address to the instance that exists and exits, so counting processes would report a working launch as a
+  // failure. Concluding from an absence is the mistake this repository keeps paying for, so the two shapes
+  // are told apart and the second one says plainly what it could and could not observe.
+  // `null` means this harness did not look, which is not the same as zero. Saying "there was no instance"
+  // when nobody counted is the same error as concluding a defect from an absence.
+  //
+  // And the relaxation is narrow on purpose. An independent review pointed out that the first version turned
+  // ANY launch that did nothing into a success whenever the application happened to be open, for every
+  // application, and counted a crash (`after < before`) as a delivery. It applies only to an application
+  // whose contract is an address handed to the instance that already exists, and only when the count is
+  // exactly unchanged.
+  const counted = Number.isInteger(before) && Number.isInteger(after);
+  const takesAnAddress = PROTOCOL_AGENTS.has(agent);
+  const handedToRunningInstance = counted && takesAnAddress && before > 0 && after === before;
   record.applications.at(-1).launch = { application: opened.label ?? found.label,
     processesBefore: before, processesAfter: after, appeared: after > before,
+    handedToRunningInstance,
+    counted,
+    // Said as what was observed, not as what probably happened. The count not changing is compatible with the
+    // running instance having received the address and with it having ignored it; this harness cannot tell
+    // those apart, and an independent review was right that the earlier wording asserted the first one.
+    confirmed: !counted ? null : after > before ? 'un proceso nuevo apareció'
+      : handedToRunningInstance ? 'no apareció ningún proceso nuevo y no desapareció ninguno, que es lo que se espera de una aplicación que ya está abierta y recibe la dirección; si la recibió y qué hizo con ella no se observó desde aquí'
+      : null,
     projectAttached: opened.projectAttached, agentReadProject: opened.agentReadProject };
-  if (after <= before) finding(agent, `se pidió abrir ${found.label} y no apareció ningún proceso nuevo`);
+  if (counted && after < before) {
+    finding(agent, `se pidió abrir ${found.label} y quedaron menos procesos que antes: ${before} → ${after}`);
+  } else if (!counted) {
+    record.unverified.push({ agent, stage: 'launch',
+      cause: `este arnés no sabe contar los procesos de ${found.label}, así que no midió si apareció uno nuevo` });
+  } else if (after <= before && !handedToRunningInstance) {
+    finding(agent, `se pidió abrir ${found.label}, no había ninguna instancia abierta y no apareció ningún proceso nuevo`);
+  }
+  if (handedToRunningInstance) {
+    record.unverified.push({ agent, stage: 'launch',
+      cause: `${found.label} ya estaba abierta. Este arnés observó que el conteo de procesos no cambió, que es lo esperable, y nada más: ni que la instancia recibiera la dirección ni que su ventana muestre esa carpeta. Las dos cosas necesitan que una persona lo mire.` });
+  }
 }
 
 // Counting windows of an application by its executable name, which is all that is needed to tell whether
 // asking it to open a folder actually started something.
 async function running(label) {
-  const names = { Cursor: 'Cursor.exe', 'Visual Studio Code': 'Code.exe', Codex: 'Codex.exe', Antigravity: 'Antigravity.exe' };
+  const names = { Cursor: 'Cursor.exe', 'Visual Studio Code': 'Code.exe', Codex: 'Codex.exe', Antigravity: 'Antigravity.exe',
+    Claude: 'claude.exe', OpenCode: 'OpenCode.exe' };
   const image = names[label];
   if (!image) return null;
   const { stdout } = await exec('tasklist', ['/FI', `IMAGENAME eq ${image}`, '/NH'], { windowsHide: true })

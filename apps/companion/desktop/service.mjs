@@ -611,7 +611,7 @@ export async function createDesktopService({ dataRoot, core, environment = null,
       const b=await base.verify(p.root);if(!Object.hasOwn(DESTINATIONS,input.agent)||!b.selection?.agents.includes(input.agent))fail('HANDOFF_INVALID','Elige una IA del proyecto.');
       const id=randomUUID(),prompt=(await composeForProject(p,b.selection,controls)).text,detected=await localApps?.detect(input.agent)??null;
       // An application found but not verifiable is never launched; the person is told why.
-      const local=detected?.unverified?null:detected, unverified=detected?.unverified?{label:detected.label,code:detected.code,message:detected.message}:null;
+      const local=detected?.unverified?null:detected, unverified=detected?.unverified?{label:detected.label,code:detected.code,message:detected.message,publisher:detected.publisher??null,publisherVerified:!!detected.publisherVerified}:null;
       handoffs.set(id,{project:p.id,agent:input.agent,prompt,local,selection:json(b.selection),receiptHash:(await snapshot(p.root,'.project-os/companion/context/receipt.json')).hash});
       if(handoffs.size>10)handoffs.delete(handoffs.keys().next().value);
       return {id,prompt,destination:local?.label??DESTINATIONS[input.agent],mode:local?'local':'web',projectAttached:false,folderWillBeRequested:!!local,unverified};

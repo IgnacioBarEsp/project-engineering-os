@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp,mkdir,writeFile,realpath,rm,symlink } from 'node:fs/promises';
+import { mkdtemp,mkdir,writeFile,realpath,rm,symlink,link,stat } from 'node:fs/promises';
 import path from 'node:path';
 import { tmpdir } from 'node:os';
 import { createLocalAppLauncher } from '../desktop/local-apps.mjs';
@@ -94,11 +94,179 @@ test('a recognised application with no verified folder contract is reported, nev
   status='Valid';publisher='Google LLC';
   const signed=await adapter.detect('antigravity');
   assert.equal(signed.unverified,true);assert.equal(signed.code,'APP_UNSUPPORTED');
-  assert.match(signed.message,/abre una carpeta/);
+  assert.match(signed.message,/no declara cómo recibir una carpeta/);
 
   // Neither state may reach a launch, and a wrong publisher stays refused.
   await assert.rejects(adapter.open({agent:'antigravity',executable,files:[]},project),e=>e.code==='APP_UNSUPPORTED');
   publisher='Someone Else, Inc.';
   assert.equal((await adapter.detect('antigravity')).code,'APP_UNTRUSTED');
   assert.deepEqual(launched,[],'Ninguna de estas rutas puede abrir la aplicación.');
+});
+
+test('an application that declares how it takes a folder is opened through exactly what it declared', async t => {
+  // Claude does not answer a help command — it forwards its arguments to the instance already running — so
+  // the contract cannot be read the way Codex's is. What the installed build does declare is a route,
+  // `claude://code/new?folder=`, built from a path it first confirms is a directory, and the system has that
+  // scheme registered to that same signed executable. Both are observations of the installation, which is the
+  // standard this repository set for Antigravity. Everything below is the shape of those two observations.
+  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'companion-claude-')));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const executable = path.join(root, 'claude.exe'), project = path.join(root, 'mi proyecto & notas');
+  await mkdir(project); await writeFile(executable, 'claude fixture');
+  const launched = [];
+  let declares = true, registered = `"${executable}" "%1"`, publisher = 'Anthropic, PBC', status = 'Valid';
+  const adapter = createLocalAppLauncher({ discover: async () => [{ executable }],
+    signature: async () => ({ status, publisher }), declaration: async () => declares,
+    handler: async () => registered, launch: async (...args) => launched.push(args) });
+
+  const found = await adapter.detect('claude-code');
+  assert.equal(found.unverified, undefined);
+  assert.equal(found.label, 'Claude');
+  assert.equal(found.files[0].publisher, 'Anthropic, PBC');
+
+  // Opened with the route it declared, with the folder encoded, and with nothing else.
+  await adapter.open(found, project);
+  assert.equal(launched.length, 1);
+  const [command, args] = launched[0];
+  assert.equal(command, await realpath(executable));
+  assert.equal(args.length, 1, 'Un solo argumento: la dirección que la aplicación declaró aceptar.');
+  const url = new URL(args[0]);
+  assert.equal(url.protocol, 'claude:');
+  assert.equal(`${url.host}${url.pathname}`, 'code/new');
+  assert.equal(url.searchParams.get('folder'), await realpath(project),
+    'La carpeta viaja codificada y sin perder un espacio ni un ampersand.');
+  assert.deepEqual([...url.searchParams.keys()], ['folder'],
+    'Un solo parámetro: nada se añade a la dirección que la aplicación declaró.');
+
+  // Each observation on its own is enough to refuse, and none of them opens anything.
+  declares = false;
+  assert.equal((await adapter.detect('claude-code')).code, 'APP_UNSUPPORTED');
+  assert.match((await adapter.detect('claude-code')).message, /no declara cómo recibir una carpeta/);
+  declares = true;
+  registered = '"C:\\Windows\\System32\\notepad.exe" "%1"';
+  assert.match((await adapter.detect('claude-code')).message, /no entrega esa dirección a esta misma aplicación/);
+  registered = '';
+  assert.equal((await adapter.detect('claude-code')).code, 'APP_UNSUPPORTED');
+  registered = `"${executable}" "%1"`;
+  status = 'NotSigned';
+  assert.equal((await adapter.detect('claude-code')).code, 'APP_UNTRUSTED');
+  status = 'Valid'; publisher = 'Otra Empresa, S.A.';
+  assert.equal((await adapter.detect('claude-code')).code, 'APP_UNTRUSTED');
+
+  // A refusal never becomes an opening.
+  await assert.rejects(adapter.open({ agent: 'claude-code', executable, files: [] }, project),
+    error => ['APP_UNTRUSTED', 'APP_UNSUPPORTED', 'APP_CHANGED'].includes(error.code));
+  assert.equal(launched.length, 1, 'Solo la primera, la que cumplia las seis comprobaciones.');
+});
+
+test('an application that declares nothing is recognised and never opened', async t => {
+  // OpenCode, measured on the maintainer's machine: signed by Anomaly Innovations, registers `opencode://`,
+  // forwards deep links to its renderer, and declares no route that takes a folder. Its signature verifying
+  // is one fact and being openable is another, and the person gets both.
+  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'companion-opencode-')));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const executable = path.join(root, 'OpenCode.exe'), project = path.join(root, 'proyecto');
+  await mkdir(project); await writeFile(executable, 'opencode fixture');
+  const launched = [];
+  const adapter = createLocalAppLauncher({ discover: async () => [{ executable }],
+    signature: async () => ({ status: 'Valid', publisher: 'Anomaly Innovations, Inc https://anoma.ly/' }),
+    launch: async (...args) => launched.push(args) });
+
+  const found = await adapter.detect('opencode');
+  assert.equal(found.unverified, true);
+  assert.equal(found.code, 'APP_UNSUPPORTED');
+  assert.equal(found.label, 'OpenCode');
+  assert.match(found.message, /no declara cómo recibir una carpeta/);
+  await assert.rejects(adapter.open({ agent: 'opencode', executable, files: [] }, project),
+    error => error.code === 'APP_UNSUPPORTED');
+  assert.deepEqual(launched, [], 'Sin contrato observado no hay apertura, y esa es una respuesta válida.');
+});
+
+test('the real declaration reader finds the route, misses what is not there, and fails closed', async t => {
+  // Three of the six checks survived a deliberate mutation until an independent review tried them, and the
+  // worst of the three was this one: every test injected `declaration`, so the reader that actually opens the
+  // other application's bundle was never run. These build real bundles and run it.
+  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'companion-declaration-')));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const needle = 'code/new?folder=';
+  const make = async (name, contents) => {
+    const home = path.join(root, name, 'resources');
+    await mkdir(home, { recursive: true });
+    await writeFile(path.join(home, 'app.asar'), contents);
+    const executable = path.join(root, name, 'claude.exe');
+    await writeFile(executable, 'stub');
+    return executable;
+  };
+  const launcher = createLocalAppLauncher({
+    signature: async () => ({ status: 'Valid', publisher: 'Anthropic, PBC' }),
+    handler: async () => `"${path.join(root, 'declares', 'claude.exe')}" "%1"`,
+    launch: async () => {} });
+  const detectOf = async executable => createLocalAppLauncher({
+    discover: async () => [{ executable }],
+    signature: async () => ({ status: 'Valid', publisher: 'Anthropic, PBC' }),
+    handler: async () => `"${executable}" "%1"`, launch: async () => {} }).detect('claude-code');
+
+  // Declared, and far enough in that the reader has to keep going.
+  const filler = 'x'.repeat(3 * 1024 * 1024);
+  assert.equal((await detectOf(await make('declares', `${filler}JIn(){return \`claude://${needle}\`}${filler}`))).unverified, undefined);
+
+  // Not declared: something that looks similar is not the route.
+  const near = (await detectOf(await make('near-miss', `${filler}code/new?source=desktop_action${filler}`)));
+  assert.equal(near.unverified, true);
+  assert.match(near.message, /no declara cómo recibir una carpeta/);
+
+  // Split exactly across the reader's chunk boundary: the carry between chunks is what makes this work, and
+  // without it the route would be invisible precisely when it straddles a megabyte.
+  const chunk = 1024 * 1024;
+  const half = Math.floor(needle.length / 2);
+  const straddling = 'y'.repeat(chunk - half) + needle + 'y'.repeat(1024);
+  assert.equal((await detectOf(await make('straddles', straddling))).unverified, undefined,
+    'La aguja partida entre dos trozos tiene que encontrarse igual.');
+
+  // No bundle at all, and a directory where the bundle should be: both are "no declaration", and neither may
+  // reach a person as a filesystem error carrying an absolute path.
+  const missing = path.join(root, 'no-bundle', 'claude.exe');
+  await mkdir(path.dirname(missing), { recursive: true }); await writeFile(missing, 'stub');
+  const absent = await detectOf(missing);
+  assert.equal(absent.code, 'APP_UNSUPPORTED');
+  assert.doesNotMatch(absent.message ?? '', /[A-Za-z]:[\\/]/, 'Ninguna ruta absoluta puede llegar a la pantalla.');
+  const asDirectory = path.join(root, 'bundle-is-a-directory', 'claude.exe');
+  await mkdir(path.join(path.dirname(asDirectory), 'resources', 'app.asar'), { recursive: true });
+  await writeFile(asDirectory, 'stub');
+  assert.equal((await detectOf(asDirectory)).code, 'APP_UNSUPPORTED');
+});
+
+test('bytes that change between the two readings, or a file with another name, refuse the opening', async t => {
+  // The other two checks the review mutated without anything noticing.
+  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'companion-bytes-')));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const executable = path.join(root, 'Cursor.exe');
+  await writeFile(executable, 'cursor fixture');
+  const launched = [];
+  let call = 0;
+  // The same file, read twice, answering with different bytes: an update that lands between the signature
+  // check and the decision has to refuse, not race.
+  const changing = createLocalAppLauncher({ discover: async () => [{ executable }],
+    signature: async () => ({ status: 'Valid', publisher: 'Anysphere, Inc.' }),
+    inspectFile: async value => ({ executable: value, sha256: String(call++).padStart(64, '0') }),
+    launch: async (...args) => launched.push(args) });
+  const changed = await changing.detect('cursor');
+  assert.equal(changed.unverified, true);
+  assert.equal(changed.code, 'APP_UNTRUSTED');
+  assert.deepEqual(launched, []);
+
+  // A hard link to the same bytes is a second name for one file, and a second name is a way to swap what runs
+  // under a path that was already reviewed.
+  const linked = path.join(root, 'Linked.exe');
+  await link(executable, linked).catch(() => null);
+  const stats = await stat(linked).catch(() => null);
+  if (stats && stats.nlink > 1) {
+    const hardLinked = createLocalAppLauncher({ discover: async () => [{ executable: linked }],
+      signature: async () => ({ status: 'Valid', publisher: 'Anysphere, Inc.' }),
+      launch: async (...args) => launched.push(args) });
+    const refused = await hardLinked.detect('cursor');
+    assert.equal(refused.unverified, true);
+    assert.equal(refused.code, 'APP_UNTRUSTED');
+    assert.deepEqual(launched, [], 'Un segundo nombre para el mismo archivo no abre nada.');
+  }
 });

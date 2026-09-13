@@ -17,6 +17,30 @@ Los archivos, nombres, recibos y journals de un proyecto se tratan como entrada 
 autenticación remota, sesión web, secreto de proveedor, telemetría ni envío de documentos. Un identificador
 de plan es local al proceso y no se puede reutilizar en otra instancia.
 
+## Cuando se abre otra aplicación del equipo
+
+Companion puede pedirle al sistema que abra la carpeta del proyecto en una aplicación que la persona ya tiene
+instalada. Antes de hacerlo comprueba seis cosas, y las vuelve a comprobar entre la revisión y la apertura:
+
+1. El ejecutable es un `.exe` en una ruta absoluta, alcanzado sin pasar por ningún vínculo, y es un archivo
+   regular con un solo nombre.
+2. Su firma Authenticode es válida.
+3. Su editor está en una lista cerrada, por aplicación.
+4. Sus bytes son idénticos antes y después de comprobar la firma, y otra vez al abrir.
+5. Para una aplicación que recibe una dirección en vez de un argumento: el sistema entrega ese esquema a **ese
+   mismo** ejecutable.
+6. Y esa aplicación **declara** en su propio paquete instalado la ruta que acepta.
+
+Las cuatro primeras están ancladas a la firma del ejecutable. **Las dos últimas no**, y conviene decirlo en vez
+de dejarlo implícito: `resources/app.asar` no lo cubre la firma de Authenticode del ejecutable, y
+`HKCU\Software\Classes` lo puede escribir la propia cuenta. Quien pueda escribir en cualquiera de los dos ya
+corre como esa persona; lo que conseguiría es que Companion abra la aplicación legítima con la carpeta de esa
+misma persona. Se comprueban porque son lo que distingue un contrato observado de un argumento inventado, no
+porque sean una barrera contra alguien que ya está dentro.
+
+Lo que **no** cambia: abrir una aplicación no demuestra que la IA haya leído nada, y la interfaz no lo afirma.
+Una aplicación que no declara cómo recibe una carpeta se reconoce, se dice si su editor verifica, y no se abre.
+
 ## Cuando hay un modelo de por medio
 
 Desde el [issue 99](https://github.com/IgnacioBarEsp/project-engineering-os/issues/99) la aplicación puede

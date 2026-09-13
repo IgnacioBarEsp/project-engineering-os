@@ -1266,6 +1266,70 @@
       "createdAt": "2026-09-13",
       "updatedAt": "2026-09-13",
       "resolution": null
+    },
+    {
+      "id": "debt-f504c38512a8",
+      "title": "Que la ventana de Claude muestre la carpeta entregada no se observa desde aqui: hace falta que una persona lo mire",
+      "description": "Que la ventana de Claude muestre la carpeta entregada no se observa desde aqui: hace falta que una persona lo mire",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-local-launches.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/local-launches.json",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "open-claude-and-opencode-when-they-declare-it",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-97dbe5f7b412",
+      "title": "Dos de las seis comprobaciones que habilitan una apertura viven en rutas que la propia cuenta puede escribir y no estan ancladas a ninguna firma",
+      "description": "Dos de las seis comprobaciones que habilitan una apertura viven en rutas que la propia cuenta puede escribir y no estan ancladas a ninguna firma",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/desktop/local-apps.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "docs/companion/SECURITY.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "open-claude-and-opencode-when-they-declare-it",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
     }
   ]
 }

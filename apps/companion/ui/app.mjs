@@ -516,7 +516,12 @@ async function handoffView(s){
       const local=preview.mode==='local';
       const open=async copy=>{const result=await call('handoff',{preview:preview.id,copy});closeDialog();notice(result.opened==='local'?`Se pidió abrir la carpeta en ${result.application}. No se ha comprobado que la IA la haya leído.${copy?' Instrucción copiada.':''}`:'Sitio abierto e instrucción copiada. Revisa los datos antes de pegarlos o adjuntar documentos en tu chat.');};
       openDialog(`Continuar con ${agents[a]}`,[p(local?`Se pedirá abrir esta carpeta en ${preview.destination}, cuya firma se comprobó. Abrir no envía una instrucción ni confirma que la IA haya leído el proyecto.`:`Se abrirá ${preview.destination} en tu navegador. La instrucción se copia al portapapeles; tus documentos no se envían solos.`),
-        preview.unverified?p(`${preview.unverified.label} está instalado en este equipo, pero no se pudo comprobar su firma o quién lo publica, así que no se abre desde aquí. ${preview.unverified.message??''}`,'subtle'):null,
+        // Two different refusals, told apart. An independent review found this sentence telling a person that
+        // OpenCode's publisher could not be verified — it verifies, and what it does not do is declare how it
+        // receives a folder. One sentence for two situations made the screen say something false.
+        preview.unverified?p(preview.unverified.publisherVerified
+          ? `${preview.unverified.label} está instalado en este equipo y su editor sí se pudo comprobar (${preview.unverified.publisher}), pero no se abre desde aquí. ${preview.unverified.message??''}`
+          : `${preview.unverified.label} está instalado en este equipo, pero no se pudo comprobar su firma o quién lo publica, así que no se abre desde aquí. ${preview.unverified.message??''}`,'subtle'):null,
         el('pre',{text:preview.prompt,tabindex:'0','aria-label':'Instrucción inicial'}),actions(btn('Volver',async()=>closeDialog()),local?btn('Abrir aplicación con esta carpeta',()=>open(false),'primary'):null,btn('Copiar instrucción y abrir',()=>open(true),local?'secondary':'primary'))]);
     })))))
 }
