@@ -1433,6 +1433,38 @@
       "createdAt": "2026-09-13",
       "updatedAt": "2026-09-13",
       "resolution": null
+    },
+    {
+      "id": "debt-bd1d39bb57fe",
+      "title": "El contexto preparado cubre solo un prefijo pequeño en repositorios grandes y no recuperó ninguna de las veinte respuestas congeladas",
+      "description": "El contexto preparado cubre solo un prefijo pequeño en repositorios grandes y no recuperó ninguna de las veinte respuestas congeladas",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/{engine/inventory,context/sources}.mjs",
+      "consequence": "En las dos muestras fijadas la aplicación declaró cobertura parcial, indexó 45 de 2654 y 42 de 2753 fuentes observadas y devolvió 0 de 20 respuestas, aunque un barrido literal devolvió las veinte.",
+      "remediation": "Diseñar en un issue separado selección o paginación que mantenga límites locales pero evite que el orden del inventario excluya casi todo el corpus; aprobar un protocolo nuevo y repetir estas mismas muestras sin reemplazar el resultado 0 de 20.",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/measure-prepared-context-on-real-repositories/evidence/run-01/measurement.json",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "measure-prepared-context-on-real-repositories",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
     }
   ]
 }

@@ -35,6 +35,9 @@ SHA-256 de los artefactos inmutables del intento:
 | Reconciliación desde observaciones crudas | PASS — 7 pruebas, incluido el rechazo por protocolo, checkout, remoto, tamaño y drift público |
 | Landing en navegador real | PASS — 14 527 bytes, 80 nodos de contraste, seis anchos, cero peticiones externas y reflujo a 200 % |
 | Barrido de rutas locales y formas comunes de secretos en la evidencia | PASS — solo anclas portables como `<localappdata>` |
+| Verificador adversarial separado | PASS — 5 de 5 manipulaciones detectadas, 0 blockers y 0 majors |
+| Debt Control Loop | PASS — assessment capturado como `debt-bd1d39bb57fe`; plan activo en 4/5 unidades |
+| Reversa del cambio en un worktree desechable | PASS — el diff de los dos commits se aplica en reversa sobre `e0a2980` |
 
 La prueba `published real-repository numbers reconcile with every raw observation before and after archive`
 recalcula los seis resúmenes desde las observaciones, los compara con `measurement.json` y luego exige las

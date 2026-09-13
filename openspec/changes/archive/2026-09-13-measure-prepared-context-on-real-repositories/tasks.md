@@ -32,8 +32,8 @@
 
 - [x] 4.1 Ejecutar pruebas del app y del upstream, validación OpenSpec estricta y los checks de documentación,
       neutralidad, secretos, paquete e idempotencia aplicables.
-- [ ] 4.2 Revisión adversarial independiente: intentar cambiar preguntas después del precompromiso, favorecer
+- [x] 4.2 Revisión adversarial independiente: intentar cambiar preguntas después del precompromiso, favorecer
       una vía, omitir relecturas, adulterar un commit y publicar un resultado distinto de los datos.
-- [ ] 4.3 Resolver blockers/majors, repetir evidencia afectada y capturar el assessment de deuda sin borrar
+- [x] 4.3 Resolver blockers/majors, repetir evidencia afectada y capturar el assessment de deuda sin borrar
       resultados desfavorables.
-- [ ] 4.4 Completar readiness de archivo, archivar con OpenSpec local y cerrar mediante PR protegido y CI.
+- [x] 4.4 Completar readiness de archivo, archivar con OpenSpec local y cerrar mediante PR protegido y CI.
