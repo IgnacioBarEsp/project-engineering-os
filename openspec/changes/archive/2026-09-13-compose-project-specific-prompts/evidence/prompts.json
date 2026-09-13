@@ -1,0 +1,140 @@
+{
+  "date": "2026-09-13T10:43:26.935Z",
+  "bounds": {
+    "detectMs": 2000,
+    "localMs": 120000,
+    "providerMs": 25000,
+    "maxOutputTokens": 1200
+  },
+  "levels": {
+    "templates": {
+      "profiles": {
+        "research": {
+          "file": "prompt-research.md",
+          "characters": 2252,
+          "sections": [
+            "Qué es este proyecto",
+            "Qué hay en la carpeta",
+            "Qué preparar antes de trabajar",
+            "Cómo trabajar",
+            "Reglas que no cambian",
+            "Dónde está tu proyecto"
+          ]
+        },
+        "software": {
+          "file": "prompt-software.md",
+          "characters": 2768,
+          "sections": [
+            "Qué es este proyecto",
+            "Qué hay en la carpeta",
+            "Qué preparar antes de trabajar",
+            "Cómo trabajar",
+            "Qué NO está listo todavía",
+            "Reglas que no cambian",
+            "Dónde está tu proyecto"
+          ]
+        },
+        "unity": {
+          "file": "prompt-unity.md",
+          "characters": 2282,
+          "sections": [
+            "Qué es este proyecto",
+            "Qué hay en la carpeta",
+            "Qué preparar antes de trabajar",
+            "Cómo trabajar",
+            "Reglas que no cambian",
+            "Dónde está tu proyecto"
+          ]
+        },
+        "media": {
+          "file": "prompt-media.md",
+          "characters": 2245,
+          "sections": [
+            "Qué es este proyecto",
+            "Qué hay en la carpeta",
+            "Qué preparar antes de trabajar",
+            "Cómo trabajar",
+            "Reglas que no cambian",
+            "Dónde está tu proyecto"
+          ]
+        },
+        "general": {
+          "file": "prompt-general.md",
+          "characters": 1994,
+          "sections": [
+            "Qué es este proyecto",
+            "Qué hay en la carpeta",
+            "Qué preparar antes de trabajar",
+            "Cómo trabajar",
+            "Reglas que no cambian",
+            "Dónde está tu proyecto"
+          ]
+        }
+      },
+      "distinct": 5,
+      "shortest": 1994,
+      "investigation": 605
+    },
+    "local": {
+      "available": true,
+      "detectMs": 12,
+      "models": 14,
+      "model": "qwen/qwen3-coder-30b",
+      "elapsedMs": 13000,
+      "answered": true,
+      "clearedTheFloor": false,
+      "problems": [
+        "es más corto que la plantilla",
+        "no menciona el objetivo de la persona"
+      ],
+      "reason": null,
+      "draftCharacters": 2611,
+      "modelCharacters": 732,
+      "used": "la plantilla"
+    },
+    "dead": {
+      "elapsedMs": 2,
+      "used": "off",
+      "reason": "no se pudo hablar con el proveedor"
+    },
+    "slow": {
+      "elapsedMs": 25012,
+      "used": "off",
+      "reason": "el proveedor no respondió a tiempo",
+      "bound": 25000
+    },
+    "stuckLocal": {
+      "elapsedMs": 120003,
+      "used": "off",
+      "reason": "el proveedor no respondió a tiempo",
+      "bound": 120000
+    }
+  },
+  "findings": [],
+  "request": {
+    "url": "http://127.0.0.1:1234/v1/chat/completions",
+    "headers": [
+      "accept",
+      "content-type"
+    ],
+    "characters": 1228,
+    "fields": [
+      "agents",
+      "experience",
+      "files",
+      "goal",
+      "pending",
+      "profile",
+      "role"
+    ],
+    "carriesAPath": false,
+    "guard": []
+  },
+  "summary": {
+    "profiles": 5,
+    "distinctTexts": 5,
+    "shortestPrompt": 1994,
+    "localMeasured": true,
+    "findings": 0
+  }
+}

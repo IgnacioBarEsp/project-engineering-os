@@ -778,6 +778,16 @@ try {
   await capture('native-inicio', () => page.getByRole('button', { name: 'Inicio', exact: true }).click());
   await capture('native-proyectos', () => page.getByRole('button', { name: 'Tus proyectos', exact: true }).click());
   await capture('native-ayuda', () => page.getByRole('button', { name: 'Ayuda', exact: true }).click());
+  // The screen that says what each level sends, which is the criterion this change lives or dies by. Reached
+  // by opening the last project of the run and switching to its handover tab.
+  await capture('native-tu-ia', async () => {
+    await page.getByRole('button', { name: 'Tus proyectos', exact: true }).click();
+    await page.locator('article.project .card-open').first().click();
+    await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 180000 }).catch(() => {});
+    await page.getByRole('button', { name: 'Continuar con mi IA', exact: true }).click();
+    await page.getByRole('heading', { name: 'Quién escribe estas instrucciones', exact: true })
+      .waitFor({ timeout: 60000 }).catch(() => finding('general', 'captura', 'no se alcanzó la pantalla de tu IA'));
+  });
   // The four destinations, read off the installed window rather than asserted from the source.
   record.navigation = await page.evaluate(() => [...document.querySelectorAll('nav [data-action]')]
     .map(node => [node.dataset.action, node.textContent.replace(/\s+/g, ' ').trim()]));

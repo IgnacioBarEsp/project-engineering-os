@@ -1167,6 +1167,105 @@
       "createdAt": "2026-09-13",
       "updatedAt": "2026-09-13",
       "resolution": null
+    },
+    {
+      "id": "debt-25e020743489",
+      "title": "Los niveles que hablan con un proveedor nunca se probaron contra un proveedor real: hace falta una clave del mantenedor y su aceptacion de los terminos",
+      "description": "Los niveles que hablan con un proveedor nunca se probaron contra un proveedor real: hace falta una clave del mantenedor y su aceptacion de los terminos",
+      "category": "decision-required",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/runtime/inference.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/compose-project-specific-prompts/evidence/validation.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "compose-project-specific-prompts",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "refuted",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": {
+        "flow": "compose-project-specific-prompts-remediation-2",
+        "evidence": "refutado"
+      }
+    },
+    {
+      "id": "debt-f3a4a5105436",
+      "title": "Un modelo compatible que escuche en un puerto distinto del 1234 no se detecta",
+      "description": "Un modelo compatible que escuche en un puerto distinto del 1234 no se detecta",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/runtime/inference.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/compose-project-specific-prompts/evidence/states-and-degradations.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "compose-project-specific-prompts",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-8b1db48fe147",
+      "title": "Los niveles con proveedor solo se midieron contra servidores locales que imitan sus fallas, nunca contra Cerebras ni Groq",
+      "description": "Los niveles con proveedor solo se midieron contra servidores locales que imitan sus fallas, nunca contra Cerebras ni Groq",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-prompts.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/compose-project-specific-prompts/evidence/validation.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "compose-project-specific-prompts-remediation-2",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
     }
   ]
 }

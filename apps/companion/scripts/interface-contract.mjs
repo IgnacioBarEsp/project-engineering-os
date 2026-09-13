@@ -40,7 +40,13 @@ export const UNDEFINED_VOCABULARY = vocabulary => {
   const notInterface = '[data-content="person"], pre, .file-list, .result, .citation';
   const clone = document.body.cloneNode(true);
   clone.querySelectorAll(`.term, .glossary, #dialog:not([open]), ${notInterface}`).forEach(node => node.remove());
-  const parts = [clone.textContent];
+  // Read node by node and joined with a space. Taking `textContent` off the whole clone glued adjacent list
+  // items together — "tu perfil" + "qué etapas" became "perfilqué" — and the patterns require a non-letter
+  // after the word, so an independent review found a glossary word hiding in that seam.
+  const walker = document.createTreeWalker(clone, NodeFilter.SHOW_TEXT);
+  const pieces = [];
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) pieces.push(node.textContent);
+  const parts = [pieces.join(' ')];
   // Attributes are read from the live document: removing an element's text nodes from a clone says nothing
   // about a placeholder or a label it is still carrying.
   const attributeSources = [];

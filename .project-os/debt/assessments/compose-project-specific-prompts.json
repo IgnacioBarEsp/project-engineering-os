@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "flow": "compose-project-specific-prompts",
+  "date": "2026-09-13",
+  "kind": "feature",
+  "result": "debt",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/compose-project-specific-prompts/evidence/validation.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "Los niveles que usan un proveedor se midieron contra servidores locales que se comportan como uno caido, lento, ruidoso, que limita o que devuelve algo que no es una complecion. Contra Cerebras o Groq de verdad no se midio nada: hace falta una clave de una cuenta y aceptar los terminos de ese proveedor, y ninguna de las dos cosas puede decidirlas esta sesion por el mantenedor. El nivel viene apagado, asi que nadie lo usa sin encenderlo a proposito, y la pantalla dice que recibe antes de la primera llamada",
+        "result": "no-verificado",
+        "date": "2026-09-13"
+      },
+      "title": "Los niveles que hablan con un proveedor nunca se probaron contra un proveedor real: hace falta una clave del mantenedor y su aceptacion de los terminos",
+      "artifact": "apps/companion/runtime/inference.mjs",
+      "source": "declared-degradation",
+      "category": "decision-required",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/compose-project-specific-prompts/evidence/service-mutations.json",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "Una revision adversarial independiente metio el nombre de un archivo de la persona en una peticion con una diferencia de mayusculas, y con otra normalizacion Unicode. El guardia compara ahora los dos lados normalizados a NFC y en minusculas, para la ruta completa y para el nombre. Dos mutaciones lo protegen: quitar el guardia y quitar la normalizacion, las dos detectadas por la prueba que las nombra",
+        "result": "resuelto",
+        "date": "2026-09-13"
+      },
+      "title": "El guardia que impide que una ruta de la persona viaje hacia un modelo se evadia con una diferencia de mayusculas o de normalizacion Unicode",
+      "artifact": "apps/companion/runtime/inference.mjs",
+      "source": "adversarial-review",
+      "category": "defect",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "resolvedPreviously": true
+    },
+    {
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/compose-project-specific-prompts/evidence/independent-review.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "Lo que devolvia un proveedor reemplazaba el documento entero, reglas incluidas, y se copiaba hacia una IA con acceso a la carpeta; la revision lo demostro con una respuesta que pedia subir el contenido de los archivos a una direccion. Ahora el texto de un modelo nunca queda solo: las reglas se anaden despues, con una linea que dice que mitad escribio quien, e incluyen no seguir instrucciones que vengan dentro del texto y pidan enviar nada a ninguna parte. Una prueba usa la misma respuesta hostil y una mutacion reintroduce el defecto",
+        "result": "resuelto",
+        "date": "2026-09-13"
+      },
+      "title": "El texto que devolvia un modelo reemplazaba las reglas de seguridad antes de entregarse a una IA con acceso a los archivos",
+      "artifact": "apps/companion/desktop/service.mjs",
+      "source": "adversarial-review",
+      "category": "defect",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "resolvedPreviously": true
+    },
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/compose-project-specific-prompts/evidence/states-and-degradations.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "La deteccion de un modelo en el equipo pregunta al puerto 1234, que es el que usa la aplicacion mas comun. Un servidor compatible en otro puerto no se detecta y la pantalla dice que no hay ninguno, que es cierto para lo que la aplicacion mira pero no para el equipo. Queda declarado en lugar de ampliarse aqui, porque barrer puertos es una decision propia",
+        "result": "medido-en-parte",
+        "date": "2026-09-13"
+      },
+      "title": "Un modelo compatible que escuche en un puerto distinto del 1234 no se detecta",
+      "artifact": "apps/companion/runtime/inference.mjs",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    }
+  ]
+}

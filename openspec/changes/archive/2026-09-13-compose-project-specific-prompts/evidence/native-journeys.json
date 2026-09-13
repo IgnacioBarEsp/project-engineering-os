@@ -1,0 +1,1130 @@
+{
+  "date": "2026-09-13T10:55:41.204Z",
+  "application": {
+    "version": "0.1.0",
+    "root": "<localappdata>/Programs/Project Engineering OS/resources/app"
+  },
+  "installedApplication": {
+    "directories": [
+      "desktop",
+      "ui",
+      "engine",
+      "context",
+      "runtime"
+    ],
+    "comparedBeyondSources": [
+      "top-level entries",
+      "package.json main/version/dependencies",
+      "node_modules/create-project-engineering-os"
+    ],
+    "notCompared": [
+      "the rest of package.json, which the packager rewrites",
+      "the files of packages outside the application's own dependency closure: those are npm's tree, hoisted by the packager, and npm's integrity is the sealed archive's digest. Their presence is still checked",
+      "the renamed executable and its rewritten icon, version resource and licence, listed per run under runtime.excluded",
+      "the contents of the sealed npm archive, which the application verifies against its pinned tree digest when it uses it",
+      "the documentation the packager prunes, listed per run under each dependency as pruned"
+    ],
+    "branchCommit": null,
+    "branchTreeClean": false,
+    "files": {
+      "context/engine.mjs": {
+        "branch": "f422758f4e6c4f0bedd3e4ac91b9c9a24166f01cdfde3b0ff3840b7053327ad8",
+        "installed": "f422758f4e6c4f0bedd3e4ac91b9c9a24166f01cdfde3b0ff3840b7053327ad8"
+      },
+      "context/graph-tools.mjs": {
+        "branch": "93e6c7f7aa8d5cfc8a34b29d4a74ca2de2b12eb0254505aa1fd2d03a0b66360b",
+        "installed": "93e6c7f7aa8d5cfc8a34b29d4a74ca2de2b12eb0254505aa1fd2d03a0b66360b"
+      },
+      "context/parser-worker.mjs": {
+        "branch": "c2aa9abffa3cc19b90672e41aac031df1b40382f6bc5ea3ae3e21c69f15a5192",
+        "installed": "c2aa9abffa3cc19b90672e41aac031df1b40382f6bc5ea3ae3e21c69f15a5192"
+      },
+      "context/prompts.mjs": {
+        "branch": "490d2f8425396f3b633352cd2e192bed854f9f0407294d10e9a701f32229f7f8",
+        "installed": "490d2f8425396f3b633352cd2e192bed854f9f0407294d10e9a701f32229f7f8"
+      },
+      "context/recipes.mjs": {
+        "branch": "5b5b289d302ee7580e5475d79ac6d28b9479575b744ebaa9f4998ab2bd3bdef7",
+        "installed": "5b5b289d302ee7580e5475d79ac6d28b9479575b744ebaa9f4998ab2bd3bdef7"
+      },
+      "context/retrieval.mjs": {
+        "branch": "8f617160b731bd9554dba7c31b36c7354141572d2e078a766943bd0ecaa1d5c2",
+        "installed": "8f617160b731bd9554dba7c31b36c7354141572d2e078a766943bd0ecaa1d5c2"
+      },
+      "context/routes.mjs": {
+        "branch": "466d21cd1fed81779da3b88a8d1b23fea0064425fcfb056a6380663cfca1e5ce",
+        "installed": "466d21cd1fed81779da3b88a8d1b23fea0064425fcfb056a6380663cfca1e5ce"
+      },
+      "context/sources.mjs": {
+        "branch": "cb3621285022aa0db4ed7bd7b5bce352a40c5dfe26f8f422972aead6dc774dba",
+        "installed": "cb3621285022aa0db4ed7bd7b5bce352a40c5dfe26f8f422972aead6dc774dba"
+      },
+      "desktop/local-apps.mjs": {
+        "branch": "a8953f5cf75e44e30ff34986acd70e89fe3a681136484e5bf165844e3b131619",
+        "installed": "a8953f5cf75e44e30ff34986acd70e89fe3a681136484e5bf165844e3b131619"
+      },
+      "desktop/main.mjs": {
+        "branch": "73fbf4348cb47366651b6eca443a9ca7a3e2cca36a80b6701fc60d7648c53ce5",
+        "installed": "73fbf4348cb47366651b6eca443a9ca7a3e2cca36a80b6701fc60d7648c53ce5"
+      },
+      "desktop/preload.cjs": {
+        "branch": "bbc26d863ec890f8323c05f17f4782dae97596ba5a5bdfd35b9d66523ad56d1c",
+        "installed": "bbc26d863ec890f8323c05f17f4782dae97596ba5a5bdfd35b9d66523ad56d1c"
+      },
+      "desktop/service.mjs": {
+        "branch": "413ebed0e98d58a57a7402f89a7b44da5248ebcf01df6a655177460485bd67d2",
+        "installed": "413ebed0e98d58a57a7402f89a7b44da5248ebcf01df6a655177460485bd67d2"
+      },
+      "engine/constructor-adapter.mjs": {
+        "branch": "25a6964eeb68d23174262b18feef498b7d22f7367ce06094067fdf3ade40ec9c",
+        "installed": "25a6964eeb68d23174262b18feef498b7d22f7367ce06094067fdf3ade40ec9c"
+      },
+      "engine/files.mjs": {
+        "branch": "1c6c33179604564f928735bc52c9aad47045f031f56e61492783a854b598e5f6",
+        "installed": "1c6c33179604564f928735bc52c9aad47045f031f56e61492783a854b598e5f6"
+      },
+      "engine/inventory.mjs": {
+        "branch": "1c54ea5178ef1db52291f424d38538216e2bb64a114c232176ca8c724faa23ef",
+        "installed": "1c54ea5178ef1db52291f424d38538216e2bb64a114c232176ca8c724faa23ef"
+      },
+      "engine/preparation.mjs": {
+        "branch": "7fed108c64798c562e66f8327ac31560eef1b05ca416e0cb8148330c2bd4590c",
+        "installed": "7fed108c64798c562e66f8327ac31560eef1b05ca416e0cb8148330c2bd4590c"
+      },
+      "runtime/activation.mjs": {
+        "branch": "50ae6a37a74ecabe4650de74211f1cfa006947fd9a14cb3cdd9b1a6e9784a5f7",
+        "installed": "50ae6a37a74ecabe4650de74211f1cfa006947fd9a14cb3cdd9b1a6e9784a5f7"
+      },
+      "runtime/agent-entry.mjs": {
+        "branch": "92c97e4d50962aff0bdacf6f2cfea93f21681cf3fcda5fbb086a55a602537015",
+        "installed": "92c97e4d50962aff0bdacf6f2cfea93f21681cf3fcda5fbb086a55a602537015"
+      },
+      "runtime/agent-integrity.mjs": {
+        "branch": "ac5fe1f3f46f0bb8e5f8accad82ea0b99ff0fe188dff6328591b76a40de6be14",
+        "installed": "ac5fe1f3f46f0bb8e5f8accad82ea0b99ff0fe188dff6328591b76a40de6be14"
+      },
+      "runtime/agent-tools.mjs": {
+        "branch": "93d8d76ac30a1ff9890709ddbc0b785bec2986a103fc3590a733115200ae9877",
+        "installed": "93d8d76ac30a1ff9890709ddbc0b785bec2986a103fc3590a733115200ae9877"
+      },
+      "runtime/agent-worker.mjs": {
+        "branch": "b8ac319828fd5e7a938f06aaa45d85115c2c21760a7046a827fe06fefcfe7bbc",
+        "installed": "b8ac319828fd5e7a938f06aaa45d85115c2c21760a7046a827fe06fefcfe7bbc"
+      },
+      "runtime/archive.mjs": {
+        "branch": "d7c92ff113d60a84984abdce5fa7580b9ec35e1ac0b94f08300e3c516304df2d",
+        "installed": "d7c92ff113d60a84984abdce5fa7580b9ec35e1ac0b94f08300e3c516304df2d"
+      },
+      "runtime/cache-repair.mjs": {
+        "branch": "70abb497aa15e7af8032d9387edc492fe6afa7a0bba0c37719b857259c69df53",
+        "installed": "70abb497aa15e7af8032d9387edc492fe6afa7a0bba0c37719b857259c69df53"
+      },
+      "runtime/catalog.mjs": {
+        "branch": "7e337a50c24e672d9f8d7301d6444bb255602c3a00ce63128e6cf43d33feb4d3",
+        "installed": "7e337a50c24e672d9f8d7301d6444bb255602c3a00ce63128e6cf43d33feb4d3"
+      },
+      "runtime/codegraph-worker.mjs": {
+        "branch": "67825ee6a940671f941f79b61d825debcd12744494ef629f3b74964677c6cb04",
+        "installed": "67825ee6a940671f941f79b61d825debcd12744494ef629f3b74964677c6cb04"
+      },
+      "runtime/codegraph.mjs": {
+        "branch": "fe8b7123bc36b9934b21b2d116cdabbdd53eb69ee9db74bd7baa9f64c747b307",
+        "installed": "fe8b7123bc36b9934b21b2d116cdabbdd53eb69ee9db74bd7baa9f64c747b307"
+      },
+      "runtime/core-arguments.mjs": {
+        "branch": "150b4fed9cb1e1cb26329de517b8c2e2137ae93cb5993f986b091448ce789810",
+        "installed": "150b4fed9cb1e1cb26329de517b8c2e2137ae93cb5993f986b091448ce789810"
+      },
+      "runtime/core-bridge.mjs": {
+        "branch": "0cfb4f4d2e833b0417f70d51acec144173f5e64a9ec1aef1c811446078515b63",
+        "installed": "0cfb4f4d2e833b0417f70d51acec144173f5e64a9ec1aef1c811446078515b63"
+      },
+      "runtime/core-worker.mjs": {
+        "branch": "c598f2d00e9f9ad2efddac935845f9da406aafeff404fa9ede7d431422414b71",
+        "installed": "c598f2d00e9f9ad2efddac935845f9da406aafeff404fa9ede7d431422414b71"
+      },
+      "runtime/download.mjs": {
+        "branch": "86f1f0f8cf54b2c24c501c595546357e1bf0e37e54a8530aa1b4a6557ecc034e",
+        "installed": "86f1f0f8cf54b2c24c501c595546357e1bf0e37e54a8530aa1b4a6557ecc034e"
+      },
+      "runtime/environment.mjs": {
+        "branch": "05884c7b325b56e41429273daf0b2dedba1f403f55a06bc2fe57a47b580737ac",
+        "installed": "05884c7b325b56e41429273daf0b2dedba1f403f55a06bc2fe57a47b580737ac"
+      },
+      "runtime/git-boundary.mjs": {
+        "branch": "d0303bb2c0ae70ba505a44c3647b776c423fdaaa9978c06e1f435ddea41ca9dc",
+        "installed": "d0303bb2c0ae70ba505a44c3647b776c423fdaaa9978c06e1f435ddea41ca9dc"
+      },
+      "runtime/inference.mjs": {
+        "branch": "18a823d19035f7c5f1f2ac9b5c38b0bcace75359ab7e795a01950d99e4d8c7e2",
+        "installed": "18a823d19035f7c5f1f2ac9b5c38b0bcace75359ab7e795a01950d99e4d8c7e2"
+      },
+      "runtime/manager.mjs": {
+        "branch": "749f4c1a59534fd15e354f346ab56be298995074319826c47384f666d8a18bb4",
+        "installed": "749f4c1a59534fd15e354f346ab56be298995074319826c47384f666d8a18bb4"
+      },
+      "runtime/notices/CodeGraph-LICENSE": {
+        "branch": "e6d98f98c666bebe065ac2492a0a19232cc318d4d67bac3ca42ffb77bacc8809",
+        "installed": "e6d98f98c666bebe065ac2492a0a19232cc318d4d67bac3ca42ffb77bacc8809"
+      },
+      "runtime/notices/README.md": {
+        "branch": "8943b7f010161882421b9bc615884fb8a306f1e97d8d51b18dd47ca4d60ffce9",
+        "installed": "8943b7f010161882421b9bc615884fb8a306f1e97d8d51b18dd47ca4d60ffce9"
+      },
+      "runtime/openspec-arguments.mjs": {
+        "branch": "431b134ba9591ea3146e021a72b2fb95959635f1871413f51937c48966bc7187",
+        "installed": "431b134ba9591ea3146e021a72b2fb95959635f1871413f51937c48966bc7187"
+      },
+      "runtime/process.mjs": {
+        "branch": "46a07379ff52362ed86c2e3178193ca211bf692edefbb512af18094ddbcc08ea",
+        "installed": "46a07379ff52362ed86c2e3178193ca211bf692edefbb512af18094ddbcc08ea"
+      },
+      "runtime/project-boundary.mjs": {
+        "branch": "631092692fee339b5c676d4adba85613949c3589420725e23d9db6d95548819e",
+        "installed": "631092692fee339b5c676d4adba85613949c3589420725e23d9db6d95548819e"
+      },
+      "runtime/toolchain-pin.mjs": {
+        "branch": "3c74a81d74161069abcfa074305b664feeab217ad02ad9c44baca22febf6f007",
+        "installed": "3c74a81d74161069abcfa074305b664feeab217ad02ad9c44baca22febf6f007"
+      },
+      "runtime/toolchain.mjs": {
+        "branch": "f41bbf8d2618d630fc33a43e43d1c6ac1950985a591506775a4f6797e9dfd201",
+        "installed": "f41bbf8d2618d630fc33a43e43d1c6ac1950985a591506775a4f6797e9dfd201"
+      },
+      "runtime/toolchain/artifact-sizes.json": {
+        "branch": "5bd3a18872a2549a12d5ce583b0541fc38e5beb7cd5c32bef403b8378e36d183",
+        "installed": "5bd3a18872a2549a12d5ce583b0541fc38e5beb7cd5c32bef403b8378e36d183"
+      },
+      "runtime/toolchain/package.json": {
+        "branch": "68c845fc1c00cf69b1cb1b91219b53cfd3c1f36b2bc4672b71171f2ecf6d7f0c",
+        "installed": "68c845fc1c00cf69b1cb1b91219b53cfd3c1f36b2bc4672b71171f2ecf6d7f0c"
+      },
+      "runtime/toolchain/toolchain-lock.json": {
+        "branch": "dde0f0c4c8702f156c7660915954ea0b2996f2ef5712645c247c0ed6df7f8a0c",
+        "installed": "dde0f0c4c8702f156c7660915954ea0b2996f2ef5712645c247c0ed6df7f8a0c"
+      },
+      "runtime/tree.mjs": {
+        "branch": "4b8c0a92b7d824758b0da9c155cf64297a1b1a8abcad88543ba9c05839bd03c2",
+        "installed": "4b8c0a92b7d824758b0da9c155cf64297a1b1a8abcad88543ba9c05839bd03c2"
+      },
+      "ui/app.css": {
+        "branch": "a85372405114ef4939c0ba4a26c86a44ba548bb284124e8e65ad38c2a257fd57",
+        "installed": "a85372405114ef4939c0ba4a26c86a44ba548bb284124e8e65ad38c2a257fd57"
+      },
+      "ui/app.mjs": {
+        "branch": "211f4f61c0c2f1a7487eedefb1af610ece4927da80fcada147ef4364bd93b6b5",
+        "installed": "211f4f61c0c2f1a7487eedefb1af610ece4927da80fcada147ef4364bd93b6b5"
+      },
+      "ui/glossary.mjs": {
+        "branch": "d8147d778179302b453f17c2fd0cf35e359eceee3c1ae86fce2e7806653b4980",
+        "installed": "d8147d778179302b453f17c2fd0cf35e359eceee3c1ae86fce2e7806653b4980"
+      },
+      "ui/index.html": {
+        "branch": "d5c61a59b4b73df0b26470f0c52eec6df7ba1622a46bbeaebd3c00bbddf60ef2",
+        "installed": "d5c61a59b4b73df0b26470f0c52eec6df7ba1622a46bbeaebd3c00bbddf60ef2"
+      }
+    },
+    "onlyInstalled": [],
+    "synchronised": [],
+    "mismatched": [],
+    "compared": 49,
+    "matched": 49,
+    "rootEntries": [
+      "LICENSE",
+      "THIRD-PARTY-NOTICES.md",
+      "context",
+      "desktop",
+      "engine",
+      "node_modules",
+      "package.json",
+      "runtime",
+      "ui"
+    ],
+    "unexpectedRootEntries": [],
+    "manifest": {
+      "branch": {
+        "name": "@project-engineering-os/companion",
+        "version": "0.1.0",
+        "type": "module",
+        "main": "desktop/main.mjs",
+        "exports": null,
+        "imports": null,
+        "bin": null,
+        "files": null,
+        "dependencies": {
+          "create-project-engineering-os": "0.5.0",
+          "fflate": "0.8.3",
+          "npm": "11.19.1",
+          "pdfjs-dist": "6.3.289",
+          "saxes": "6.0.0"
+        }
+      },
+      "installed": {
+        "name": "@project-engineering-os/companion",
+        "version": "0.1.0",
+        "type": "module",
+        "main": "desktop/main.mjs",
+        "exports": null,
+        "imports": null,
+        "bin": null,
+        "files": null,
+        "dependencies": {
+          "create-project-engineering-os": "0.5.0",
+          "fflate": "0.8.3",
+          "npm": "11.19.1",
+          "pdfjs-dist": "6.3.289",
+          "saxes": "6.0.0"
+        }
+      }
+    },
+    "manifestMatches": true,
+    "closure": [
+      "create-project-engineering-os",
+      "fflate",
+      "pdfjs-dist",
+      "saxes",
+      "xmlchars"
+    ],
+    "packages": {
+      "installed": 149,
+      "branch": 355,
+      "fileCompared": 5,
+      "loadableFiles": 137,
+      "presenceOnly": 144
+    },
+    "unknownPackages": [],
+    "dependencyProblems": [],
+    "runtime": {
+      "compared": 68,
+      "differing": [],
+      "missing": [],
+      "excluded": [
+        "LICENSE",
+        "LICENSES.chromium.html",
+        "electron.exe",
+        "resources/default_app.asar",
+        "version"
+      ],
+      "excludedReason": "el empaquetador renombra el ejecutable y reescribe su icono, su recurso de version y su licencia, y reemplaza el app placeholder por esta aplicacion; esos archivos no son comparables byte a byte por diseno"
+    },
+    "runtimeMatches": true,
+    "sealedArchive": {
+      "of": "npm",
+      "branch": "b74594a484576558d05348130784e2c76c713bebc1321e2a4bbde79d2fec7a80",
+      "installed": "b74594a484576558d05348130784e2c76c713bebc1321e2a4bbde79d2fec7a80",
+      "contentsVerifiedBy": "el extractor de la propia aplicación contra el digest del árbol fijado, en el momento de usarlo"
+    },
+    "sealedArchiveMatches": true,
+    "pinnedCore": {
+      "compared": 177,
+      "loadable": 93,
+      "differing": [],
+      "missing": [],
+      "pruned": 3,
+      "prunedExamples": [
+        "node_modules/create-project-engineering-os/CHANGELOG.md",
+        "node_modules/create-project-engineering-os/README.md",
+        "node_modules/create-project-engineering-os/blueprint/core/package-lock.json"
+      ],
+      "nonLoadableDiffering": 0,
+      "byIdentityFields": [
+        "node_modules/create-project-engineering-os/blueprint/core/package.json",
+        "node_modules/create-project-engineering-os/package.json"
+      ],
+      "onlyInstalled": []
+    },
+    "pinnedCoreMatches": true,
+    "measuredSource": "working tree (uncommitted)",
+    "branchCommitWithheld": "el árbol tenía cambios sin confirmar, así que ningún commit contiene los bytes que se midieron; la identidad son los 47 digests",
+    "branchCommitAtCapture": "bfedb7f21c55cd7b775d42865af5f14b51ddf94e"
+  },
+  "machine": "win32-x64",
+  "drivenBy": "the installed application window over its debugging port, against an isolated data directory",
+  "humanSteps": [
+    "choosing the folder in the operating system picker"
+  ],
+  "doneByTheEngineNotTheInterface": [
+    "choosing the folder",
+    "applying the base preparation"
+  ],
+  "notADemonstrationOf": [
+    "the installer's own wizard pages",
+    "anything a person judged by reading it"
+  ],
+  "profiles": [
+    {
+      "profile": "research",
+      "name": "Revisión de evidencia",
+      "steps": [
+        {
+          "name": "open history",
+          "result": {
+            "entries": 5
+          }
+        },
+        {
+          "name": "row state",
+          "result": {
+            "states": [
+              "incomplete",
+              "incomplete",
+              "incomplete",
+              "incomplete",
+              "incomplete"
+            ],
+            "named": [
+              1,
+              1,
+              3,
+              3,
+              1
+            ]
+          }
+        },
+        {
+          "name": "opened from history",
+          "result": {
+            "project": "Revisión de evidencia",
+            "heading": "Revisión de evidencia"
+          }
+        },
+        {
+          "name": "project guidance",
+          "result": {
+            "steps": 4,
+            "pending": [
+              "read-files"
+            ],
+            "terms": [
+              "contexto",
+              "fuente",
+              "cita"
+            ]
+          }
+        },
+        {
+          "name": "context prepared in the interface",
+          "result": {
+            "screen": "Ir al contenido\nP↗\nProject\nEngineering OS\n\nCOMPANION\n01\n\nInicio\nTus proyectos\nPreparar proyecto\nAyud"
+          }
+        },
+        {
+          "name": "search with citation",
+          "result": {
+            "query": "instrumento",
+            "citation": "articulo.pdf · página 1",
+            "kind": "página",
+            "resolvedBy": "file-exists-and-passage-contains-query",
+            "ok": true
+          }
+        },
+        {
+          "name": "row state after reading",
+          "result": {
+            "states": [
+              "incomplete",
+              "incomplete",
+              "incomplete",
+              "incomplete",
+              "verified"
+            ],
+            "marks": [
+              "○",
+              "○",
+              "○",
+              "○",
+              "✓"
+            ],
+            "named": [
+              1,
+              1,
+              3,
+              3,
+              0
+            ]
+          }
+        },
+        {
+          "name": "closed and reopened",
+          "result": {
+            "citationSurvived": true
+          }
+        },
+        {
+          "name": "reflow",
+          "result": {
+            "widths": [
+              1180,
+              900,
+              600
+            ]
+          }
+        },
+        {
+          "name": "original files preserved",
+          "result": {
+            "files": 3,
+            "changed": []
+          }
+        }
+      ],
+      "elapsedMs": 11120
+    },
+    {
+      "profile": "software",
+      "name": "Servicio de presupuesto",
+      "steps": [
+        {
+          "name": "open history",
+          "result": {
+            "entries": 5
+          }
+        },
+        {
+          "name": "row state",
+          "result": {
+            "states": [
+              "incomplete",
+              "incomplete",
+              "incomplete",
+              "incomplete",
+              "verified"
+            ],
+            "named": [
+              1,
+              1,
+              3,
+              3,
+              0
+            ]
+          }
+        },
+        {
+          "name": "opened from history",
+          "result": {
+            "project": "Servicio de presupuesto",
+            "heading": "Servicio de presupuesto"
+          }
+        },
+        {
+          "name": "project guidance",
+          "result": {
+            "steps": 6,
+            "pending": [
+              "read-files",
+              "review-development",
+              "review-development"
+            ],
+            "terms": [
+              "contexto",
+              "fuente",
+              "cita",
+              "openspec",
+              "recuperacion",
+              "deuda",
+              "revision-adversarial"
+            ]
+          }
+        },
+        {
+          "name": "context prepared in the interface",
+          "result": {
+            "screen": "Ir al contenido\nP↗\nProject\nEngineering OS\n\nCOMPANION\n01\n\nInicio\nTus proyectos\nPreparar proyecto\nAyud"
+          }
+        },
+        {
+          "name": "search with citation",
+          "result": {
+            "query": "presupuesto",
+            "citation": "README.md · línea 3",
+            "kind": "línea",
+            "resolvedBy": "exact-line",
+            "ok": true
+          }
+        },
+        {
+          "name": "engineering, OpenSpec and code map",
+          "result": {
+            "visibleControls": [
+              "Inicio",
+              "Tus proyectos",
+              "Preparar proyecto",
+              "Ayuda",
+              "Privacidad y alcance",
+              "OpenSpec — ver qué significa",
+              "SDD — ver qué significa",
+              "Ver mi proyecto",
+              "Leer mis archivos",
+              "Activar y continuar  →"
+            ],
+            "walked": [
+              "reviewEngineering",
+              "prepareTools",
+              "applyEnvironment",
+              "activateWorkflows",
+              "activateWorkflows",
+              "activateWorkflows",
+              "activateWorkflows"
+            ]
+          }
+        },
+        {
+          "name": "row state after reading",
+          "result": {
+            "states": [
+              "incomplete",
+              "incomplete",
+              "incomplete",
+              "incomplete",
+              "verified"
+            ],
+            "marks": [
+              "○",
+              "○",
+              "○",
+              "○",
+              "✓"
+            ],
+            "named": [
+              1,
+              1,
+              3,
+              2,
+              0
+            ]
+          }
+        },
+        {
+          "name": "context refused after reopen, with reason",
+          "result": {
+            "explained": true
+          }
+        },
+        {
+          "name": "closed and reopened",
+          "result": {
+            "citationSurvived": false
+          }
+        },
+        {
+          "name": "reflow",
+          "result": {
+            "widths": [
+              1180,
+              900,
+              600
+            ]
+          }
+        },
+        {
+          "name": "original files preserved",
+          "result": {
+            "files": 2,
+            "changed": []
+          }
+        }
+      ],
+      "elapsedMs": 73014
+    },
+    {
+      "profile": "unity",
+      "name": "Prototipo de juego",
+      "steps": [
+        {
+          "name": "open history",
+          "result": {
+            "entries": 5
+          }
+        },
+        {
+          "name": "row state",
+          "result": {
+            "states": [
+              "incomplete",
+              "incomplete",
+              "incomplete",
+              "incomplete",
+              "verified"
+            ],
+            "named": [
+              1,
+              1,
+              3,
+              2,
+              0
+            ]
+          }
+        },
+        {
+          "name": "opened from history",
+          "result": {
+            "project": "Prototipo de juego",
+            "heading": "Prototipo de juego"
+          }
+        },
+        {
+          "name": "project guidance",
+          "result": {
+            "steps": 6,
+            "pending": [
+              "read-files",
+              "review-development",
+              "review-development"
+            ],
+            "terms": [
+              "contexto",
+              "fuente",
+              "cita",
+              "sdd"
+            ]
+          }
+        },
+        {
+          "name": "context prepared in the interface",
+          "result": {
+            "screen": "Ir al contenido\nP↗\nProject\nEngineering OS\n\nCOMPANION\n01\n\nInicio\nTus proyectos\nPreparar proyecto\nAyud"
+          }
+        },
+        {
+          "name": "search with citation",
+          "result": {
+            "query": "puntaje",
+            "citation": "notas.txt · línea 1",
+            "kind": "línea",
+            "resolvedBy": "exact-line",
+            "ok": true
+          }
+        },
+        {
+          "name": "engineering, OpenSpec and code map",
+          "result": {
+            "visibleControls": [
+              "Inicio",
+              "Tus proyectos",
+              "Preparar proyecto",
+              "Ayuda",
+              "Privacidad y alcance",
+              "OpenSpec — ver qué significa",
+              "SDD — ver qué significa",
+              "Ver mi proyecto",
+              "Leer mis archivos",
+              "Activar y continuar  →"
+            ],
+            "walked": [
+              "reviewEngineering",
+              "prepareTools",
+              "applyEnvironment",
+              "activateWorkflows",
+              "activateWorkflows",
+              "activateWorkflows",
+              "activateWorkflows"
+            ]
+          }
+        },
+        {
+          "name": "row state after reading",
+          "result": {
+            "states": [
+              "incomplete",
+              "incomplete",
+              "incomplete",
+              "incomplete",
+              "verified"
+            ],
+            "marks": [
+              "○",
+              "○",
+              "○",
+              "○",
+              "✓"
+            ],
+            "named": [
+              1,
+              1,
+              2,
+              2,
+              0
+            ]
+          }
+        },
+        {
+          "name": "context refused after reopen, with reason",
+          "result": {
+            "explained": true
+          }
+        },
+        {
+          "name": "closed and reopened",
+          "result": {
+            "citationSurvived": false
+          }
+        },
+        {
+          "name": "reflow",
+          "result": {
+            "widths": [
+              1180,
+              900,
+              600
+            ]
+          }
+        },
+        {
+          "name": "original files preserved",
+          "result": {
+            "files": 2,
+            "changed": []
+          }
+        }
+      ],
+      "elapsedMs": 72206
+    },
+    {
+      "profile": "media",
+      "name": "Serie de imágenes",
+      "steps": [
+        {
+          "name": "open history",
+          "result": {
+            "entries": 5
+          }
+        },
+        {
+          "name": "row state",
+          "result": {
+            "states": [
+              "incomplete",
+              "incomplete",
+              "incomplete",
+              "incomplete",
+              "verified"
+            ],
+            "named": [
+              1,
+              1,
+              2,
+              2,
+              0
+            ]
+          }
+        },
+        {
+          "name": "opened from history",
+          "result": {
+            "project": "Serie de imágenes",
+            "heading": "Serie de imágenes"
+          }
+        },
+        {
+          "name": "project guidance",
+          "result": {
+            "steps": 4,
+            "pending": [
+              "read-files"
+            ],
+            "terms": [
+              "contexto",
+              "fuente",
+              "cita",
+              "receta"
+            ]
+          }
+        },
+        {
+          "name": "context prepared in the interface",
+          "result": {
+            "screen": "Ir al contenido\nP↗\nProject\nEngineering OS\n\nCOMPANION\n01\n\nInicio\nTus proyectos\nPreparar proyecto\nAyud"
+          }
+        },
+        {
+          "name": "search with citation",
+          "result": {
+            "query": "semilla",
+            "citation": "ficha.docx · párrafo 1",
+            "kind": "párrafo",
+            "resolvedBy": "file-exists-and-passage-contains-query",
+            "ok": true
+          }
+        },
+        {
+          "name": "row state after reading",
+          "result": {
+            "states": [
+              "incomplete",
+              "verified",
+              "incomplete",
+              "incomplete",
+              "verified"
+            ],
+            "marks": [
+              "○",
+              "✓",
+              "○",
+              "○",
+              "✓"
+            ],
+            "named": [
+              1,
+              0,
+              2,
+              2,
+              0
+            ]
+          }
+        },
+        {
+          "name": "closed and reopened",
+          "result": {
+            "citationSurvived": true
+          }
+        },
+        {
+          "name": "reflow",
+          "result": {
+            "widths": [
+              1180,
+              900,
+              600
+            ]
+          }
+        },
+        {
+          "name": "original files preserved",
+          "result": {
+            "files": 3,
+            "changed": []
+          }
+        }
+      ],
+      "elapsedMs": 11844
+    },
+    {
+      "profile": "general",
+      "name": "Trabajo de la semana",
+      "steps": [
+        {
+          "name": "open history",
+          "result": {
+            "entries": 5
+          }
+        },
+        {
+          "name": "row state",
+          "result": {
+            "states": [
+              "incomplete",
+              "verified",
+              "incomplete",
+              "incomplete",
+              "verified"
+            ],
+            "named": [
+              1,
+              0,
+              2,
+              2,
+              0
+            ]
+          }
+        },
+        {
+          "name": "opened from history",
+          "result": {
+            "project": "Trabajo de la semana",
+            "heading": "Trabajo de la semana"
+          }
+        },
+        {
+          "name": "project guidance",
+          "result": {
+            "steps": 4,
+            "pending": [
+              "read-files"
+            ],
+            "terms": [
+              "contexto",
+              "fuente",
+              "cita"
+            ]
+          }
+        },
+        {
+          "name": "context prepared in the interface",
+          "result": {
+            "screen": "Ir al contenido\nP↗\nProject\nEngineering OS\n\nCOMPANION\n01\n\nInicio\nTus proyectos\nPreparar proyecto\nAyud"
+          }
+        },
+        {
+          "name": "search with citation",
+          "result": {
+            "query": "acuerdo",
+            "citation": "notas.txt · línea 1",
+            "kind": "línea",
+            "resolvedBy": "exact-line",
+            "ok": true
+          }
+        },
+        {
+          "name": "row state after reading",
+          "result": {
+            "states": [
+              "verified",
+              "verified",
+              "incomplete",
+              "incomplete",
+              "verified"
+            ],
+            "marks": [
+              "✓",
+              "✓",
+              "○",
+              "○",
+              "✓"
+            ],
+            "named": [
+              0,
+              0,
+              2,
+              2,
+              0
+            ]
+          }
+        },
+        {
+          "name": "closed and reopened",
+          "result": {
+            "citationSurvived": true
+          }
+        },
+        {
+          "name": "reflow",
+          "result": {
+            "widths": [
+              1180,
+              900,
+              600
+            ]
+          }
+        },
+        {
+          "name": "original files preserved",
+          "result": {
+            "files": 2,
+            "changed": []
+          }
+        }
+      ],
+      "elapsedMs": 11853
+    }
+  ],
+  "findings": [],
+  "unverified": [
+    {
+      "profile": "software",
+      "stage": "activateWorkflows",
+      "cause": "el control siguió en pantalla y la interfaz explicó: \"Tus archivos, en este equipo · Sin cuenta PREPARAR PROYECTO / MÉTODO Privacidad y alcance Vuelve a revisar los cambios antes de aplicarlos.\""
+    },
+    {
+      "profile": "software",
+      "stage": "applyEngineering",
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | SDD — ver qué significa | Ver mi proyecto | Leer mis archivos | Activar y continuar  →"
+    },
+    {
+      "profile": "software",
+      "stage": "reviewCodeMap",
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | SDD — ver qué significa | Ver mi proyecto | Leer mis archivos | Activar y continuar  →"
+    },
+    {
+      "profile": "software",
+      "stage": "buildCodeMap",
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | SDD — ver qué significa | Ver mi proyecto | Leer mis archivos | Activar y continuar  →"
+    },
+    {
+      "profile": "software",
+      "stage": "searchSymbols",
+      "cause": "no se llegó al mapa de código, así que la búsqueda de símbolos no se pudo intentar"
+    },
+    {
+      "profile": "unity",
+      "stage": "activateWorkflows",
+      "cause": "el control siguió en pantalla y la interfaz explicó: \"Tus archivos, en este equipo · Sin cuenta PREPARAR PROYECTO / MÉTODO Privacidad y alcance Vuelve a revisar los cambios antes de aplicarlos.\""
+    },
+    {
+      "profile": "unity",
+      "stage": "applyEngineering",
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | SDD — ver qué significa | Ver mi proyecto | Leer mis archivos | Activar y continuar  →"
+    },
+    {
+      "profile": "unity",
+      "stage": "reviewCodeMap",
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | SDD — ver qué significa | Ver mi proyecto | Leer mis archivos | Activar y continuar  →"
+    },
+    {
+      "profile": "unity",
+      "stage": "buildCodeMap",
+      "cause": "no se alcanzó. Recorrido: reviewEngineering > prepareTools > applyEnvironment > activateWorkflows > activateWorkflows > activateWorkflows > activateWorkflows. Controles finales: Inicio | Tus proyectos | Preparar proyecto | Ayuda | Privacidad y alcance | OpenSpec — ver qué significa | SDD — ver qué significa | Ver mi proyecto | Leer mis archivos | Activar y continuar  →"
+    },
+    {
+      "profile": "unity",
+      "stage": "searchSymbols",
+      "cause": "no se llegó al mapa de código, así que la búsqueda de símbolos no se pudo intentar"
+    }
+  ],
+  "navigation": [
+    [
+      "open-start",
+      "Inicio"
+    ],
+    [
+      "open-project-list",
+      "Tus proyectos"
+    ],
+    [
+      "prepare-project",
+      "Preparar proyecto"
+    ],
+    [
+      "open-help",
+      "Ayuda"
+    ]
+  ],
+  "screenshots": [
+    {
+      "file": "native-window.png",
+      "pathElements": 1,
+      "anchored": 1,
+      "leaking": 0
+    },
+    {
+      "file": "native-inicio.png",
+      "pathElements": 0,
+      "anchored": 0,
+      "leaking": 0
+    },
+    {
+      "file": "native-proyectos.png",
+      "pathElements": 5,
+      "anchored": 5,
+      "leaking": 0
+    },
+    {
+      "file": "native-ayuda.png",
+      "pathElements": 0,
+      "anchored": 0,
+      "leaking": 0
+    },
+    {
+      "file": "native-tu-ia.png",
+      "pathElements": 1,
+      "anchored": 1,
+      "leaking": 0
+    }
+  ],
+  "screenshotPathAnchored": true,
+  "summary": {
+    "profiles": 5,
+    "findings": 0,
+    "unverified": 10,
+    "scope": "Cada perfil abierto y recorrido en la ventana de la aplicación instalada. El motor de la propia aplicación hizo dos pasos, elegir carpeta y aplicar la base, porque no se llega a ellos sin responder el selector del sistema. Contexto, búsqueda con cita, reflujo y conservación de archivos se comprobaron en la interfaz. No demuestra el asistente del instalador."
+  }
+}

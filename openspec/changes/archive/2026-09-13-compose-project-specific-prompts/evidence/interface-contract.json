@@ -1,0 +1,3714 @@
+{
+  "date": "2026-09-13T10:48:26.870Z",
+  "source": "<home>/Documents/Projects/project-engineering-os/apps/companion/ui",
+  "scope": "El renderer real servido desde una copia, con el servicio nativo reemplazado por respuestas fijas. Cubre Inicio, Ayuda, la lista, el asistente, el diálogo de un término, el ancho mínimo, la lista vacía, un error del servicio y la ventana con su módulo roto. No demuestra el motor ni la aplicación instalada.",
+  "glossaryTerms": 18,
+  "baseline": {
+    "screens": {
+      "inicio": {
+        "vocabulary": {
+          "missing": [],
+          "forbidden": [],
+          "openable": [
+            "openspec"
+          ],
+          "examinedChars": 1849,
+          "attributes": 2,
+          "terms": 18
+        },
+        "accessibility": {
+          "contrast": [],
+          "headingOrder": [],
+          "headings": [
+            1,
+            2,
+            3,
+            3,
+            3,
+            3,
+            2,
+            2
+          ],
+          "focusable": 8,
+          "dialogOpen": false,
+          "brokenWords": [],
+          "measured": 39,
+          "terms": 1,
+          "termsReachable": 1
+        },
+        "names": {
+          "controls": 8,
+          "unnamed": [],
+          "landmarks": [
+            "aside",
+            "nav",
+            "main",
+            "header"
+          ],
+          "navigationLabelled": true,
+          "liveRegions": 3,
+          "dialogNamed": false,
+          "pressedTabs": true
+        },
+        "purity": {
+          "cards": 0,
+          "stray": [
+            "TODO OCURRE EN ESTE EQUIPO",
+            "Esta aplicación lee la carpeta de tu proyecto, ordena lo que hay dentr",
+            "Preparar proyecto",
+            "Cómo trabaja",
+            "01",
+            "Eliges tu carpeta",
+            "Los archivos que ya tienes, donde ya están. No se copian ni se mueven ",
+            "02",
+            "Ves qué se va a escribir",
+            "Antes de tocar nada aparece la lista completa de archivos que se añade",
+            "03",
+            "Se lee lo que hay dentro",
+            "Queda un resumen consultable, y cada respuesta puede decir de qué arch",
+            "04",
+            "Sigues en tu IA",
+            "Abres tu IA de escritorio con esta carpeta, o preparas un texto para p",
+            "Qué se descarga, y por qué",
+            "Para investigación, contenido creativo o trabajo general: nada. Todo l",
+            "Para software o un videojuego: Node, Git y npm, las herramientas con l",
+            "OpenSpec",
+            "— ver qué significa",
+            "si lo pides. Se descargan revisadas, con su huella comprobada, a una c",
+            "Nunca un modelo de IA ni el motor que lo ejecuta. Un modelo pesa entre",
+            "Qué se queda en este equipo",
+            "Tus documentos se leen aquí y no se envían a ninguna IA durante la pre",
+            "Compartir es una acción tuya y aparte: primero ves el texto, y después",
+            "Privacidad y alcance"
+          ],
+          "textNodes": 29,
+          "headings": [
+            "h1",
+            "h2",
+            "h3",
+            "h3",
+            "h3",
+            "h3",
+            "h2",
+            "h2"
+          ]
+        },
+        "claims": [],
+        "rows": [],
+        "guide": null,
+        "repeated": [],
+        "feedback": ""
+      },
+      "ayuda": {
+        "vocabulary": {
+          "missing": [],
+          "forbidden": [],
+          "openable": [
+            "cita",
+            "recuperacion"
+          ],
+          "examinedChars": 2074,
+          "attributes": 2,
+          "terms": 18
+        },
+        "accessibility": {
+          "contrast": [],
+          "headingOrder": [],
+          "headings": [
+            1,
+            2,
+            2,
+            2,
+            2
+          ],
+          "focusable": 7,
+          "dialogOpen": false,
+          "brokenWords": [],
+          "measured": 92,
+          "terms": 2,
+          "termsReachable": 2
+        },
+        "names": {
+          "controls": 7,
+          "unnamed": [],
+          "landmarks": [
+            "aside",
+            "nav",
+            "main",
+            "header"
+          ],
+          "navigationLabelled": true,
+          "liveRegions": 3,
+          "dialogNamed": false,
+          "pressedTabs": true
+        },
+        "purity": {
+          "cards": 0,
+          "stray": [
+            "Cómo trabaja esta aplicación, qué quiere decir que algo esté listo, y ",
+            "Cómo trabaja, en orden",
+            "Dices qué quieres lograr",
+            "Un objetivo en una frase y el tipo de trabajo. Eso ajusta la explicaci",
+            "Eliges la carpeta",
+            "La eliges tú en el diálogo de Windows. La aplicación no puede elegirla",
+            "Revisas y apruebas",
+            "Cada paso muestra primero la lista de archivos que se van a añadir, ac",
+            "Se leen tus archivos",
+            "Queda un resumen consultable con la ubicación de cada frase. Tus origi",
+            "Sigues en tu IA",
+            "Abrir tu IA de escritorio con esta carpeta, o preparar un texto para p",
+            "Qué quiere decir «listo»",
+            "Son tres cosas distintas, y se comprueban por separado. La aplicación ",
+            "La carpeta está preparada: existen los archivos de la preparación y co",
+            "Los archivos están leídos: hay un resumen consultable y cada respuesta",
+            "Cita",
+            "— ver qué significa",
+            ".",
+            "Las herramientas externas están comprobadas: responden de verdad, no s",
+            "Copiar un archivo de configuración solo demuestra que ese archivo exis",
+            "Si algo no sale",
+            "Cualquier paso se puede detener con «Detener»: termina el paso seguro ",
+            "Si una operación se interrumpe, el proyecto lo dice y ofrece continuar",
+            "Recuperación",
+            "— ver qué significa",
+            ": antes de tocar nada se comprueban los archivos, y si los editaste de",
+            "Glosario",
+            "Cuando una de estas palabras aparece en una pantalla, se puede abrir s",
+            "Contexto",
+            "Un resumen de tu carpeta que tu IA puede leer: qué archivos hay, qué c",
+            "Se arma en este equipo leyendo tus archivos. No es una copia de tus do",
+            "Fuente",
+            "Uno de tus archivos, cuando ya forma parte del resumen consultable.",
+            "Un archivo que quedó fuera sigue en tu carpeta, pero no se puede citar",
+            "Cita",
+            "El nombre del archivo y el lugar exacto de donde salió una frase: una ",
+            "Sirve para comprobar por tu cuenta. Que una IA muestre una cita no sig",
+            "Inventario",
+            "La lista de los archivos que se encontraron en tu carpeta, con su tipo",
+            "Incluye los archivos que no se pudieron leer, con el motivo. No guarda",
+            "Perfil",
+            "El tipo de trabajo que vas a hacer: documentos, software, un juego en ",
+            "Cambia qué se prepara y cómo se explica, no qué te deja hacer. Puedes ",
+            "Receta",
+            "Un recorrido corto para pedirle a tu IA un resultado concreto y compro",
+            "Dice cuándo usarla, qué necesitas a mano, los pasos, cómo revisar el r",
+            "Exclusión",
+            "Un archivo o una carpeta que decides dejar fuera de la lectura.",
+            "El archivo no se toca ni se mueve: simplemente no entra en el resumen ",
+            "Mapa de código",
+            "Un índice de las funciones y clases de tu proyecto, para encontrar dón",
+            "Solo para proyectos de software o de Unity, y solo si lo pides. Si el ",
+            "OpenSpec",
+            "Una herramienta que guarda por escrito qué va a cambiar en un proyecto",
+            "Se descarga solo para proyectos de software o de Unity. Copiar sus arc",
+            "SDD",
+            "Trabajar escribiendo primero qué se espera y después el código, en lug",
+            "Del inglés «spec-driven development». Es el método que OpenSpec ordena",
+            "Entorno de ingeniería",
+            "Las herramientas de desarrollo que un proyecto de software necesita: N",
+            "Se descargan revisadas y con su huella comprobada, en una carpeta prop",
+            "IA con acceso a archivos",
+            "Una IA instalada en tu equipo que puede abrir tu carpeta, a diferencia",
+            "Abrir la carpeta en esa aplicación es todo lo que esta aplicación pued",
+            "Firma",
+            "El sello con el que quien publica un programa demuestra que ese archiv",
+            "Esta aplicación solo abre programas cuya firma pudo comprobar. Si no p",
+            "Recuperación",
+            "Continuar o deshacer una preparación que quedó a medias.",
+            "Antes de recuperar se comprueban los archivos. Si los editaste después",
+            "Presupuesto de contexto",
+            "El máximo de texto que una receta entrega a tu IA de una vez, medido e",
+            "Es un límite de tamaño de archivo, no una medición de lo que tu IA cob",
+            "Token",
+            "La unidad en la que las IA miden el texto que leen y escriben, y con l",
+            "Esta aplicación no mide tokens. Cuando una pantalla habla de bytes, es",
+            "Deuda técnica",
+            "Un problema conocido que se deja anotado en lugar de arreglarse en el ",
+            "Aparece en las recetas de software porque forma parte del método: anot",
+            "Revisión adversarial",
+            "Revisar un trabajo buscando activamente en qué falla, en vez de confir",
+            "Aparece en las recetas de software. Quien revisa intenta romper el res"
+          ],
+          "textNodes": 84,
+          "headings": [
+            "h1",
+            "h2",
+            "h2",
+            "h2",
+            "h2"
+          ]
+        },
+        "claims": [],
+        "rows": [],
+        "guide": null,
+        "repeated": [],
+        "feedback": ""
+      },
+      "asistente": {
+        "vocabulary": {
+          "missing": [],
+          "forbidden": [],
+          "openable": [
+            "perfil",
+            "recuperacion",
+            "exclusion",
+            "mapa-de-codigo"
+          ],
+          "examinedChars": 1483,
+          "attributes": 3,
+          "terms": 18
+        },
+        "accessibility": {
+          "contrast": [],
+          "headingOrder": [],
+          "headings": [
+            1
+          ],
+          "focusable": 24,
+          "dialogOpen": false,
+          "brokenWords": [],
+          "measured": 52,
+          "terms": 5,
+          "termsReachable": 5
+        },
+        "names": {
+          "controls": 24,
+          "unnamed": [],
+          "landmarks": [
+            "aside",
+            "nav",
+            "main",
+            "header"
+          ],
+          "navigationLabelled": true,
+          "liveRegions": 3,
+          "dialogNamed": true,
+          "pressedTabs": true
+        },
+        "purity": {
+          "cards": 0,
+          "stray": [
+            "01",
+            "Tu proyecto",
+            "02",
+            "Carpeta",
+            "03",
+            "Preparación",
+            "04",
+            "Archivos",
+            "La preparación se adapta a tu trabajo. Puedes usar una IA instalada en",
+            "Lo que elijas aquí queda como el",
+            "Perfil",
+            "— ver qué significa",
+            "del proyecto, y puedes cambiarlo después.",
+            "Nombre de tu proyecto",
+            "Por ejemplo: Evidencia para mi tesis",
+            "¿Con qué perfil te identificas?",
+            "Investigador/a",
+            "Estudiante",
+            "Desarrollador/a o área de TI",
+            "Freelancer",
+            "Creador/a de contenido",
+            "Usuario/a general",
+            "¿Qué quieres lograr?",
+            "Un objetivo concreto ayuda a tu IA a empezar con dirección.",
+            "¿Qué vas a hacer?",
+            "Investigación",
+            "Artículos, PDF, documentos y evidencia.",
+            "Software o página web",
+            "Código, especificaciones y pruebas.",
+            "Videojuego con Unity",
+            "Escenas, scripts y un proceso de desarrollo.",
+            "Contenido creativo",
+            "Imágenes, música, video y sus workflows.",
+            "Otro proyecto",
+            "Materiales de trabajo, ideas y tareas cotidianas.",
+            "¿Con qué IA quieres trabajar?",
+            "Codex",
+            "Claude",
+            "Cursor",
+            "GitHub Copilot",
+            "OpenCode",
+            "Antigravity",
+            "ChatGPT u otro chat web",
+            "Puedes elegir varias. No necesitas conectar cuentas ni entregar contra",
+            "¿Cuánta guía prefieres?",
+            "Paso a paso, con explicaciones",
+            "Conozco las herramientas de IA",
+            "Inicio",
+            "Elegir carpeta →"
+          ],
+          "textNodes": 50,
+          "headings": [
+            "h1"
+          ]
+        },
+        "claims": [],
+        "rows": [],
+        "guide": null,
+        "repeated": [],
+        "feedback": ""
+      },
+      "tus proyectos": {
+        "vocabulary": {
+          "missing": [],
+          "forbidden": [],
+          "openable": [
+            "mapa-de-codigo",
+            "perfil",
+            "recuperacion",
+            "exclusion"
+          ],
+          "examinedChars": 1102,
+          "attributes": 2,
+          "terms": 18
+        },
+        "accessibility": {
+          "contrast": [],
+          "headingOrder": [],
+          "headings": [
+            1,
+            2,
+            2,
+            2
+          ],
+          "focusable": 19,
+          "dialogOpen": false,
+          "brokenWords": [],
+          "measured": 40,
+          "terms": 6,
+          "termsReachable": 6
+        },
+        "names": {
+          "controls": 16,
+          "unnamed": [],
+          "landmarks": [
+            "aside",
+            "nav",
+            "main",
+            "header"
+          ],
+          "navigationLabelled": true,
+          "liveRegions": 3,
+          "dialogNamed": true,
+          "pressedTabs": true
+        },
+        "purity": {
+          "cards": 3,
+          "stray": [],
+          "textNodes": 57,
+          "headings": [
+            "h1",
+            "h2",
+            "h2",
+            "h2"
+          ]
+        },
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "rows": [
+          {
+            "actions": [
+              "open-project",
+              "duplicate-project",
+              "forget-project"
+            ],
+            "outside": [
+              "open-project"
+            ],
+            "opensFromCard": true,
+            "menus": 1
+          },
+          {
+            "actions": [
+              "open-project",
+              "duplicate-project",
+              "forget-project"
+            ],
+            "outside": [
+              "open-project"
+            ],
+            "opensFromCard": true,
+            "menus": 1
+          },
+          {
+            "actions": [
+              "open-project",
+              "duplicate-project",
+              "forget-project"
+            ],
+            "outside": [
+              "open-project"
+            ],
+            "opensFromCard": true,
+            "menus": 1
+          }
+        ],
+        "guide": null,
+        "repeated": [],
+        "feedback": ""
+      },
+      "mi proyecto": {
+        "vocabulary": {
+          "missing": [],
+          "forbidden": [],
+          "openable": [
+            "receta",
+            "contexto",
+            "fuente",
+            "openspec",
+            "ingenieria",
+            "mapa-de-codigo",
+            "recuperacion",
+            "perfil",
+            "exclusion"
+          ],
+          "examinedChars": 2274,
+          "attributes": 3,
+          "terms": 18
+        },
+        "accessibility": {
+          "contrast": [],
+          "headingOrder": [],
+          "headings": [
+            1,
+            2,
+            2,
+            2,
+            2,
+            3,
+            3,
+            3,
+            3,
+            2,
+            2
+          ],
+          "focusable": 30,
+          "dialogOpen": false,
+          "brokenWords": [],
+          "measured": 68,
+          "terms": 14,
+          "termsReachable": 14
+        },
+        "names": {
+          "controls": 29,
+          "unnamed": [],
+          "landmarks": [
+            "aside",
+            "nav",
+            "main",
+            "header"
+          ],
+          "navigationLabelled": true,
+          "liveRegions": 3,
+          "dialogNamed": true,
+          "pressedTabs": true
+        },
+        "purity": {
+          "cards": 0,
+          "stray": [
+            "Software o página web",
+            "Comparar evidencia sobre tokens medidos",
+            "C:/ruta/de/prueba",
+            "Estado",
+            "Buscar en mis archivos",
+            "Recetas",
+            "Continuar con mi IA",
+            "Cada",
+            "Receta",
+            "— ver qué significa",
+            "es un recorrido corto para pedir un resultado concreto y comprobarlo.",
+            "○",
+            "Tus elecciones · Por revisar",
+            "La carpeta cambió desde la primera mirada, así que este resumen ya no ",
+            "○",
+            "Archivos leídos · Por revisar",
+            "Lee o actualiza tus archivos antes de buscar.",
+            "✓",
+            "Desarrollo · Preparado",
+            "Herramientas e instrucciones comprobadas.",
+            "Cómo trabajar en este proyecto",
+            "Primero lo que falta, en el orden en que se puede hacer. Después, las ",
+            "Qué significan estas palabras:",
+            "Contexto",
+            "— ver qué significa",
+            ",",
+            "Fuente",
+            "— ver qué significa",
+            ".",
+            "Tu carpeta cambió desde que se miró por última vez",
+            "Lo que se guardó ya no describe lo que hay dentro.",
+            "Revisar tus elecciones otra vez",
+            "El mapa de tu código dejó de coincidir con tus archivos",
+            "Tus archivos cambiaron después de crearlo.",
+            "Revisar mapa de código",
+            "Falta leer tus archivos",
+            "Todavía no se han leído.",
+            "Leer mis archivos",
+            "Encontrar lo necesario",
+            "Necesitas un objetivo concreto y un mapa de contexto vigente.",
+            "Objetivo: Encontrar lo necesario. Lee .project-os/companion/START.md a",
+            "Copiar este paso",
+            "Esta guía sale de la comprobación del 12 de septiembre de 2026. Si cam",
+            "Herramientas de este proyecto",
+            "Lee tus archivos para empezar a trabajar con ellos. Después habrá",
+            "Receta",
+            "— ver qué significa",
+            "que te ayuden a pedir un resultado concreto.",
+            "Este proyecto también usa",
+            "OpenSpec",
+            "— ver qué significa",
+            "y el",
+            "Entorno de ingeniería",
+            "— ver qué significa",
+            ".",
+            "Comprobar de nuevo",
+            "Revisar desarrollo",
+            "Mapa de código · Desactualizado",
+            "Un",
+            "Mapa de código",
+            "— ver qué significa",
+            ".",
+            "Tus archivos cambiaron después de crearlo.",
+            "Revisar reparación de herramientas",
+            "Que un archivo de configuración exista no demuestra que la herramienta",
+            "OpenSpec",
+            "— ver qué significa",
+            ", el",
+            "Mapa de código",
+            "— ver qué significa",
+            "y tu IA se comprueban cada uno por su lado.",
+            "Continuar o deshacer una operación",
+            "Continúa una operación que quedó a medias o deshaz el último cambio de",
+            "Recuperación",
+            "— ver qué significa",
+            ": se comprueban los archivos antes de tocar nada, y una edición poster",
+            "Deshacer la activación de OpenSpec",
+            "Deshacer la lectura de archivos",
+            "Deshacer tus elecciones"
+          ],
+          "textNodes": 80,
+          "headings": [
+            "h1",
+            "h2",
+            "h2",
+            "h2",
+            "h2",
+            "h3",
+            "h3",
+            "h3",
+            "h3",
+            "h2",
+            "h2"
+          ]
+        },
+        "claims": [],
+        "rows": [],
+        "guide": {
+          "heading": "Cómo trabajar en este proyecto",
+          "terms": [
+            "contexto",
+            "fuente"
+          ],
+          "steps": [
+            {
+              "action": "resave-base",
+              "title": "Tu carpeta cambió desde que se miró por última vez",
+              "why": "Lo que se guardó ya no describe lo que hay dentro.",
+              "promptChars": 0,
+              "controls": [
+                "resave-base"
+              ]
+            },
+            {
+              "action": "review-code-map",
+              "title": "El mapa de tu código dejó de coincidir con tus archivos",
+              "why": "Tus archivos cambiaron después de crearlo.",
+              "promptChars": 0,
+              "controls": [
+                "review-code-map"
+              ]
+            },
+            {
+              "action": "read-files",
+              "title": "Falta leer tus archivos",
+              "why": "Todavía no se han leído.",
+              "promptChars": 0,
+              "controls": [
+                "read-files"
+              ]
+            },
+            {
+              "action": null,
+              "title": "Encontrar lo necesario",
+              "why": "Necesitas un objetivo concreto y un mapa de contexto vigente.",
+              "promptChars": 118,
+              "controls": [
+                "Copiar este paso"
+              ]
+            }
+          ]
+        },
+        "repeated": [],
+        "feedback": ""
+      }
+    },
+    "dialog": {
+      "title": "Cita",
+      "opened": true,
+      "vocabulary": {
+        "missing": [],
+        "forbidden": [],
+        "openable": [
+          "cita",
+          "recuperacion"
+        ],
+        "examinedChars": 2339,
+        "attributes": 3,
+        "terms": 18
+      },
+      "accessibility": {
+        "contrast": [],
+        "headingOrder": [],
+        "headings": [
+          1,
+          2,
+          2,
+          2,
+          2
+        ],
+        "focusable": 8,
+        "dialogOpen": true,
+        "brokenWords": [],
+        "measured": 96,
+        "terms": 2,
+        "termsReachable": 2
+      },
+      "names": {
+        "controls": 8,
+        "unnamed": [],
+        "landmarks": [
+          "aside",
+          "nav",
+          "main",
+          "header"
+        ],
+        "navigationLabelled": true,
+        "liveRegions": 3,
+        "dialogNamed": true,
+        "pressedTabs": true
+      },
+      "purity": {
+        "cards": 0,
+        "stray": [
+          "Cómo trabaja esta aplicación, qué quiere decir que algo esté listo, y ",
+          "Cómo trabaja, en orden",
+          "Dices qué quieres lograr",
+          "Un objetivo en una frase y el tipo de trabajo. Eso ajusta la explicaci",
+          "Eliges la carpeta",
+          "La eliges tú en el diálogo de Windows. La aplicación no puede elegirla",
+          "Revisas y apruebas",
+          "Cada paso muestra primero la lista de archivos que se van a añadir, ac",
+          "Se leen tus archivos",
+          "Queda un resumen consultable con la ubicación de cada frase. Tus origi",
+          "Sigues en tu IA",
+          "Abrir tu IA de escritorio con esta carpeta, o preparar un texto para p",
+          "Qué quiere decir «listo»",
+          "Son tres cosas distintas, y se comprueban por separado. La aplicación ",
+          "La carpeta está preparada: existen los archivos de la preparación y co",
+          "Los archivos están leídos: hay un resumen consultable y cada respuesta",
+          "Cita",
+          "— ver qué significa",
+          ".",
+          "Las herramientas externas están comprobadas: responden de verdad, no s",
+          "Copiar un archivo de configuración solo demuestra que ese archivo exis",
+          "Si algo no sale",
+          "Cualquier paso se puede detener con «Detener»: termina el paso seguro ",
+          "Si una operación se interrumpe, el proyecto lo dice y ofrece continuar",
+          "Recuperación",
+          "— ver qué significa",
+          ": antes de tocar nada se comprueban los archivos, y si los editaste de",
+          "Glosario",
+          "Cuando una de estas palabras aparece en una pantalla, se puede abrir s",
+          "Contexto",
+          "Un resumen de tu carpeta que tu IA puede leer: qué archivos hay, qué c",
+          "Se arma en este equipo leyendo tus archivos. No es una copia de tus do",
+          "Fuente",
+          "Uno de tus archivos, cuando ya forma parte del resumen consultable.",
+          "Un archivo que quedó fuera sigue en tu carpeta, pero no se puede citar",
+          "Cita",
+          "El nombre del archivo y el lugar exacto de donde salió una frase: una ",
+          "Sirve para comprobar por tu cuenta. Que una IA muestre una cita no sig",
+          "Inventario",
+          "La lista de los archivos que se encontraron en tu carpeta, con su tipo",
+          "Incluye los archivos que no se pudieron leer, con el motivo. No guarda",
+          "Perfil",
+          "El tipo de trabajo que vas a hacer: documentos, software, un juego en ",
+          "Cambia qué se prepara y cómo se explica, no qué te deja hacer. Puedes ",
+          "Receta",
+          "Un recorrido corto para pedirle a tu IA un resultado concreto y compro",
+          "Dice cuándo usarla, qué necesitas a mano, los pasos, cómo revisar el r",
+          "Exclusión",
+          "Un archivo o una carpeta que decides dejar fuera de la lectura.",
+          "El archivo no se toca ni se mueve: simplemente no entra en el resumen ",
+          "Mapa de código",
+          "Un índice de las funciones y clases de tu proyecto, para encontrar dón",
+          "Solo para proyectos de software o de Unity, y solo si lo pides. Si el ",
+          "OpenSpec",
+          "Una herramienta que guarda por escrito qué va a cambiar en un proyecto",
+          "Se descarga solo para proyectos de software o de Unity. Copiar sus arc",
+          "SDD",
+          "Trabajar escribiendo primero qué se espera y después el código, en lug",
+          "Del inglés «spec-driven development». Es el método que OpenSpec ordena",
+          "Entorno de ingeniería",
+          "Las herramientas de desarrollo que un proyecto de software necesita: N",
+          "Se descargan revisadas y con su huella comprobada, en una carpeta prop",
+          "IA con acceso a archivos",
+          "Una IA instalada en tu equipo que puede abrir tu carpeta, a diferencia",
+          "Abrir la carpeta en esa aplicación es todo lo que esta aplicación pued",
+          "Firma",
+          "El sello con el que quien publica un programa demuestra que ese archiv",
+          "Esta aplicación solo abre programas cuya firma pudo comprobar. Si no p",
+          "Recuperación",
+          "Continuar o deshacer una preparación que quedó a medias.",
+          "Antes de recuperar se comprueban los archivos. Si los editaste después",
+          "Presupuesto de contexto",
+          "El máximo de texto que una receta entrega a tu IA de una vez, medido e",
+          "Es un límite de tamaño de archivo, no una medición de lo que tu IA cob",
+          "Token",
+          "La unidad en la que las IA miden el texto que leen y escriben, y con l",
+          "Esta aplicación no mide tokens. Cuando una pantalla habla de bytes, es",
+          "Deuda técnica",
+          "Un problema conocido que se deja anotado en lugar de arreglarse en el ",
+          "Aparece en las recetas de software porque forma parte del método: anot",
+          "Revisión adversarial",
+          "Revisar un trabajo buscando activamente en qué falla, en vez de confir",
+          "Aparece en las recetas de software. Quien revisa intenta romper el res"
+        ],
+        "textNodes": 84,
+        "headings": [
+          "h1",
+          "h2",
+          "h2",
+          "h2",
+          "h2"
+        ]
+      },
+      "claims": [],
+      "rows": [],
+      "guide": null,
+      "repeated": [],
+      "feedback": ""
+    },
+    "narrow": {
+      "vocabulary": {
+        "missing": [],
+        "forbidden": [],
+        "openable": [
+          "mapa-de-codigo",
+          "perfil",
+          "recuperacion",
+          "exclusion"
+        ],
+        "examinedChars": 1102,
+        "attributes": 2,
+        "terms": 18
+      },
+      "accessibility": {
+        "contrast": [],
+        "headingOrder": [],
+        "headings": [
+          1,
+          2,
+          2,
+          2
+        ],
+        "focusable": 19,
+        "dialogOpen": false,
+        "brokenWords": [],
+        "measured": 35,
+        "terms": 6,
+        "termsReachable": 6
+      },
+      "names": {
+        "controls": 16,
+        "unnamed": [],
+        "landmarks": [
+          "aside",
+          "nav",
+          "main",
+          "header"
+        ],
+        "navigationLabelled": true,
+        "liveRegions": 3,
+        "dialogNamed": true,
+        "pressedTabs": true
+      },
+      "purity": {
+        "cards": 3,
+        "stray": [],
+        "textNodes": 57,
+        "headings": [
+          "h1",
+          "h2",
+          "h2",
+          "h2"
+        ]
+      },
+      "claims": [
+        {
+          "className": "project-state state-verified",
+          "mark": "✓",
+          "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+          "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+          "namedStages": 0,
+          "stageTexts": [],
+          "stateSize": 13.76,
+          "qualifierSize": 13.76
+        },
+        {
+          "className": "project-state state-incomplete",
+          "mark": "○",
+          "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+          "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+          "namedStages": 2,
+          "stageTexts": [
+            "la lectura de tus archivos",
+            "Mapa de código — ver qué significa"
+          ],
+          "stateSize": 13.76,
+          "qualifierSize": 13.76
+        },
+        {
+          "className": "project-state state-unreadable",
+          "mark": "!",
+          "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+          "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+          "namedStages": 0,
+          "stageTexts": [],
+          "stateSize": 13.76,
+          "qualifierSize": 13.76
+        }
+      ],
+      "rows": [
+        {
+          "actions": [
+            "open-project",
+            "duplicate-project",
+            "forget-project"
+          ],
+          "outside": [
+            "open-project"
+          ],
+          "opensFromCard": true,
+          "menus": 1
+        },
+        {
+          "actions": [
+            "open-project",
+            "duplicate-project",
+            "forget-project"
+          ],
+          "outside": [
+            "open-project"
+          ],
+          "opensFromCard": true,
+          "menus": 1
+        },
+        {
+          "actions": [
+            "open-project",
+            "duplicate-project",
+            "forget-project"
+          ],
+          "outside": [
+            "open-project"
+          ],
+          "opensFromCard": true,
+          "menus": 1
+        }
+      ],
+      "guide": null,
+      "repeated": [],
+      "feedback": ""
+    },
+    "unreachable": [],
+    "glossaryEntries": 18,
+    "glossaryTerms": 18,
+    "actions": [
+      [
+        "open-start",
+        [
+          "Inicio"
+        ]
+      ],
+      [
+        "open-project-list",
+        [
+          "Tus proyectos"
+        ]
+      ],
+      [
+        "prepare-project",
+        [
+          "Preparar proyecto"
+        ]
+      ],
+      [
+        "open-help",
+        [
+          "Ayuda"
+        ]
+      ],
+      [
+        "privacy-scope",
+        [
+          "Privacidad y alcance"
+        ]
+      ],
+      [
+        "resave-base",
+        [
+          "Revisar tus elecciones otra vez"
+        ]
+      ],
+      [
+        "review-code-map",
+        [
+          "Revisar mapa de código"
+        ]
+      ],
+      [
+        "read-files",
+        [
+          "Leer mis archivos"
+        ]
+      ],
+      [
+        "recheck-project",
+        [
+          "Comprobar de nuevo"
+        ]
+      ],
+      [
+        "review-development",
+        [
+          "Revisar desarrollo"
+        ]
+      ],
+      [
+        "repair-tools",
+        [
+          "Revisar reparación de herramientas"
+        ]
+      ]
+    ],
+    "duplicated": [],
+    "undeclared": [],
+    "rowActions": [
+      [
+        "open-project",
+        [
+          "Abrir este proyecto"
+        ]
+      ],
+      [
+        "duplicate-project",
+        [
+          "Duplicar esta preparación"
+        ]
+      ],
+      [
+        "forget-project",
+        [
+          "Quitar de la lista"
+        ]
+      ]
+    ],
+    "rowDuplicated": [],
+    "rowUndeclared": [],
+    "termLabelMismatches": [],
+    "rendererErrors": [],
+    "brokenModule": {
+      "bootText": "La aplicación no terminó de cargar. Esta pantalla es la que queda cuando el programa no pudo leer sus propios archivos. Tus proyectos y tus carpetas no se tocaron: nada de lo que ves aquí escribe en disco. Cierra esta ventana y vuelve a abrir Project Engineering OS desde su acceso directo. Si sigue igual, la instalación está incompleta y conviene instalarla de nuevo; desinstalar no borra los proyectos que ya preparaste.",
+      "navButtons": 0
+    }
+  },
+  "mutations": [
+    {
+      "id": "a-ready-mark-on-a-project-that-is-not-ready",
+      "reason": "la marca de listo aparece en una fila cuyo estado no es verificado",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "✓ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [
+          "fila 2: marca de listo en project-state state-incomplete"
+        ],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-ready-row-that-stops-saying-what-it-did-not-check",
+      "reason": "la fila lista deja de decir que no vuelve a leer los archivos de la persona",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. Todo revisado, incluido el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. Todo revisado, incluido el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [
+          "fila 1: lista sin decir qué no comprobó"
+        ],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "the-qualifier-made-smaller-than-the-state-it-qualifies",
+      "reason": "la aclaración de dónde sale el estado se dibuja más chica que el estado",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 9.9072
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 9.9072
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 9.9072
+          }
+        ],
+        "readyProblems": [
+          "fila 1: la aclaración es más chica que el estado",
+          "fila 2: la aclaración es más chica que el estado",
+          "fila 3: la aclaración es más chica que el estado"
+        ],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-row-that-stops-saying-when-it-was-checked",
+      "reason": "la fila muestra un estado que viene de una comprobación sin decir cuándo fue",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [
+          "fila 2: no dice cuándo se comprobó"
+        ],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "an-internal-name-where-a-stage-should-be-named",
+      "reason": "la fila enumera lo que falta con el nombre interno de la etapa en vez de con palabras",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: context, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "context",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [
+          "fila 2: \"context\" es el nombre interno de una etapa, no una palabra"
+        ],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-row-that-stops-naming-what-is-missing",
+      "reason": "la fila dice que falta algo y no nombra qué",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente:Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [
+          "fila 2: no nombra qué le falta o qué cambió"
+        ],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "the-only-way-to-open-a-project-moves-into-the-secondary-menu",
+      "reason": "el único control que abre el proyecto pasa a vivir dentro del menú secundario, dentro del encabezado de la tarjeta",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [
+          "mi proyecto"
+        ],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [
+          "fila 1: open-project solo vive en el menú",
+          "fila 1: la tarjeta no abre el proyecto",
+          "fila 1: 2 menús secundarios",
+          "fila 2: open-project solo vive en el menú",
+          "fila 2: la tarjeta no abre el proyecto",
+          "fila 2: 2 menús secundarios",
+          "fila 3: open-project solo vive en el menú",
+          "fila 3: la tarjeta no abre el proyecto",
+          "fila 3: 2 menús secundarios"
+        ],
+        "guideProblems": [
+          "no se encontró la guía del proyecto"
+        ],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "the-code-map-control-offered-twice-on-one-screen",
+      "reason": "la guía ofrece el paso del mapa de código y el panel del mapa lo ofrece otra vez en la misma pantalla",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [
+          "mi proyecto:review-code-map en 2 controles"
+        ],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "opening-a-project-offered-again-under-another-name",
+      "reason": "abrir el proyecto se ofrece por segunda vez, con otro nombre, dentro del menú secundario",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [
+          "fila 1: open-project en 2 controles",
+          "fila 2: open-project en 2 controles",
+          "fila 3: open-project en 2 controles"
+        ],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "the-card-stops-being-the-control-that-opens-the-project",
+      "reason": "la tarjeta deja de abrir el proyecto y no queda ningún control que lo abra",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [
+          "mi proyecto"
+        ],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [
+          "fila 1: open-project solo vive en el menú",
+          "fila 1: la tarjeta no abre el proyecto",
+          "fila 1: falta open-project",
+          "fila 2: open-project solo vive en el menú",
+          "fila 2: la tarjeta no abre el proyecto",
+          "fila 2: falta open-project",
+          "fila 3: open-project solo vive en el menú",
+          "fila 3: la tarjeta no abre el proyecto",
+          "fila 3: falta open-project"
+        ],
+        "guideProblems": [
+          "no se encontró la guía del proyecto"
+        ],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-row-action-outside-the-declared-set",
+      "reason": "una acción de fila se ofrece con un identificador que no está declarado",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [
+          "fila 1: acción sin declarar archive-project",
+          "fila 2: acción sin declarar archive-project",
+          "fila 3: acción sin declarar archive-project"
+        ],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "the-same-row-action-in-two-controls-of-one-card",
+      "reason": "la misma acción de fila se dibuja dos veces en una tarjeta, con el mismo nombre",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [
+          "fila 1: forget-project en 2 controles",
+          "fila 2: forget-project en 2 controles",
+          "fila 3: forget-project en 2 controles"
+        ],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-guide-step-without-its-reason",
+      "reason": "un paso de la guía deja de decir por qué está ahí",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [
+          "paso 1: sin título o sin motivo",
+          "paso 2: sin título o sin motivo",
+          "paso 3: sin título o sin motivo",
+          "paso 4: sin título o sin motivo"
+        ],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-guide-step-whose-text-cannot-be-copied",
+      "reason": "el paso muestra el texto para dar a la IA y quita la forma de copiarlo",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [
+          "paso 4: texto sin forma de copiarlo"
+        ],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-guide-that-drops-the-definitions-of-its-own-words",
+      "reason": "la guía usa palabras del glosario y deja de ofrecer sus definiciones en esa pantalla",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [
+          "mi proyecto:contexto"
+        ],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "the-same-action-in-two-controls-of-one-screen",
+      "reason": "la guía ofrece un paso pendiente y otro panel ofrece la misma acción otra vez en la misma pantalla",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [
+          "mi proyecto:read-files en 2 controles"
+        ],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "two-names-for-one-action-deeper-in-the-wizard",
+      "reason": "una acción declarada se ofrece con otro nombre en una pantalla del asistente",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [
+          "prepare-project: \"Preparar proyecto\" (mi proyecto) vs \"Preparar una carpeta\" (asistente)"
+        ],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-second-name-only-assistive-technology-hears",
+      "reason": "una acción declarada lleva un aria-label distinto de su texto visible, que es el nombre que dice un lector de pantalla",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [
+          "privacy-scope: \"Privacidad y alcance\" (mi proyecto) vs \"Alcance y datos que salen de aquí\" (mi proyecto (hablado))"
+        ],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-duplicate-action-inside-a-dialog",
+      "reason": "una acción declarada se ofrece con otro nombre dentro de un diálogo, que es donde la recogida anterior nunca miraba",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [
+          "open-project-list: \"Tus proyectos\" (mi proyecto) vs \"Ver la lista de carpetas\" (mi proyecto (diálogo))"
+        ],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "an-action-offered-under-an-undeclared-id",
+      "reason": "un control declara una acción que no está en el conjunto cerrado",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [
+          "go-somewhere"
+        ],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "greeting-back-in-the-list-as-a-paragraph",
+      "reason": "la lista de proyectos recupera un saludo explicativo",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 1,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "greeting-back-in-the-list-as-a-div",
+      "reason": "el mismo saludo, en un elemento que la comprobación anterior no miraba",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 1,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "greeting-back-in-the-list-as-a-details",
+      "reason": "el mismo saludo, plegado dentro de un details",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 2,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "numbered-steps-back-in-the-list",
+      "reason": "los tres pasos vuelven a la lista, como lista ordenada",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 2,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "term-without-definition-on-inicio",
+      "reason": "un término técnico vuelve a aparecer en Inicio como prosa",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [
+          "inicio:openspec"
+        ],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "forbidden-word-on-the-help-screen",
+      "reason": "una palabra de la jerga de este repositorio aparece en una pantalla que no es Inicio",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [
+          "ayuda:harness"
+        ],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "term-as-prose-on-a-screen-with-no-control-for-it",
+      "reason": "un término aparece como prosa en una pantalla donde su definición no se puede abrir",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [
+          "ayuda:inventario",
+          "ayuda:perfil"
+        ],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "term-as-prose-inside-a-placeholder",
+      "reason": "un término llega a la pantalla por un placeholder, que se dibuja pero no es textContent",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [
+          "asistente:firma"
+        ],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "term-as-prose-inside-an-aria-label",
+      "reason": "un término llega a la pantalla por un aria-label, que es lo que dice un lector de pantalla, y este está en todas",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [
+          "inicio:inventario",
+          "ayuda:inventario",
+          "asistente:inventario",
+          "tus proyectos:inventario",
+          "mi proyecto:inventario"
+        ],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "action-removed-from-the-page",
+      "reason": "se retira la declaración de una acción, que es la forma de satisfacer la comprobación por omisión",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [
+          "ayuda"
+        ],
+        "glossaryEntries": 0,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "glossary-stops-listing-every-term",
+      "reason": "la ayuda deja de reunir todas las definiciones",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 5,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "state-text-loses-its-contrast",
+      "reason": "el estado de cada proyecto se vuelve ilegible sobre su fondo",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [
+          "tus proyectos:project-state state-verified:1.43",
+          "tus proyectos:recorded:1.43",
+          "tus proyectos:project-state state-incomplete:1.43",
+          "tus proyectos:stage:1.43",
+          "tus proyectos:recorded:1.43",
+          "tus proyectos:project-state state-unreadable:1.43",
+          "tus proyectos:recorded:1.43"
+        ],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "contrast-broken-inside-the-definition-dialog",
+      "reason": "el texto del diálogo que define un término se vuelve ilegible",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [
+          "diálogo:null:1.17"
+        ],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "contrast-broken-on-the-persistent-navigation",
+      "reason": "la navegación, que está en todas las pantallas, se vuelve ilegible",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [
+          "inicio:nav-button:1.33",
+          "inicio:nav-button:1.33",
+          "inicio:nav-button:1.33",
+          "inicio:nav-button:1.33",
+          "ayuda:nav-button:1.33",
+          "ayuda:nav-button:1.33",
+          "ayuda:nav-button:1.33",
+          "asistente:nav-button:1.33",
+          "asistente:nav-button:1.33",
+          "asistente:nav-button:1.33",
+          "tus proyectos:nav-button:1.33",
+          "tus proyectos:nav-button:1.33",
+          "tus proyectos:nav-button:1.33",
+          "mi proyecto:nav-button:1.33",
+          "mi proyecto:nav-button:1.33",
+          "mi proyecto:nav-button:1.33",
+          "mi proyecto:nav-button:1.33",
+          "diálogo:nav-button:1.33",
+          "diálogo:nav-button:1.33",
+          "diálogo:nav-button:1.33",
+          "diálogo:nav-button:1.33"
+        ],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "navigation-entries-break-mid-word",
+      "reason": "las entradas de navegación vuelven a partirse por la mitad de una palabra en el ancho mínimo",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [
+          "Inicio en 3 renglones para 1 palabra(s)",
+          "Tus proyectos en 3 renglones para 2 palabra(s)",
+          "Ayuda en 3 renglones para 1 palabra(s)"
+        ],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-term-stops-being-a-control",
+      "reason": "un término deja de poder activarse con el teclado y pasa a ser texto",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [
+          "inicio",
+          "ayuda",
+          "asistente",
+          "tus proyectos",
+          "mi proyecto"
+        ],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-term-control-opens-another-concepts-definition",
+      "reason": "un control dice una palabra y abre la definición de otra",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 0,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [
+          "ayuda:recuperacion",
+          "ayuda:token",
+          "asistente:token",
+          "tus proyectos:token",
+          "mi proyecto:token"
+        ],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "a-control-loses-its-accessible-name",
+      "reason": "un control queda sin nombre accesible, así que con un lector de pantalla es inservible",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [
+          "privacy-scope: \"\" (mi proyecto) vs \"Privacidad y alcance\" (inicio)"
+        ],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [
+          "inicio:button.quiet",
+          "ayuda:button.quiet",
+          "asistente:button.quiet",
+          "tus proyectos:button.quiet",
+          "mi proyecto:button.quiet"
+        ],
+        "termsUnreachable": [],
+        "bootText": 80
+      }
+    },
+    {
+      "id": "the-boot-shell-loses-its-stated-cause",
+      "reason": "si el módulo no carga, la ventana vuelve a quedar en blanco sin decir por qué",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "bootText": 0
+      }
+    }
+  ],
+  "findings": [],
+  "screensCounted": [
+    "inicio",
+    "ayuda",
+    "asistente",
+    "tus proyectos",
+    "mi proyecto",
+    "diálogo de un término",
+    "ancho mínimo",
+    "lista vacía",
+    "lista con error"
+  ],
+  "states": {
+    "empty": {
+      "text": "Ir al contenido P↗ Project Engineering OS COMPANION 01 Inicio Tus proyectos Preparar proyecto Ayuda ✳ Tu proyecto. Tus archivos. Tu siguiente paso. Tus archivos, en este equipo · Sin cuenta TUS PROYECTOS Privacidad y alcance Tus proyectos Aún no hay proyectos en esta lista. Preparar proyecto",
+      "feedbackVisible": false,
+      "offersTheAction": true,
+      "accessibility": {
+        "contrast": [],
+        "headingOrder": [],
+        "headings": [
+          1
+        ],
+        "focusable": 6,
+        "dialogOpen": false,
+        "brokenWords": [],
+        "measured": 15,
+        "terms": 0,
+        "termsReachable": 0
+      },
+      "rendererErrors": []
+    },
+    "error": {
+      "text": "Ir al contenido P↗ Project Engineering OS COMPANION 01 Inicio Tus proyectos Preparar proyecto Ayuda ✳ Tu proyecto. Tus archivos. Tu siguiente paso. Tus archivos, en este equipo · Sin cuenta INICIO Privacidad y alcance No se puede leer el historial local. La carpeta de tus proyectos sigue intacta. Conserva el registro para recuperarlo. HISTORY_INVALID TODO OCURRE EN ESTE EQUIPO Dale a tu IA un buen",
+      "feedbackVisible": true,
+      "offersTheAction": true,
+      "accessibility": {
+        "contrast": [],
+        "headingOrder": [],
+        "headings": [
+          1,
+          2,
+          3,
+          3,
+          3,
+          3,
+          2,
+          2
+        ],
+        "focusable": 8,
+        "dialogOpen": false,
+        "brokenWords": [],
+        "measured": 42,
+        "terms": 1,
+        "termsReachable": 1
+      },
+      "rendererErrors": []
+    },
+    "unreachableRowShowsItsCause": true,
+    "brokenModule": {
+      "bootText": "La aplicación no terminó de cargar. Esta pantalla es la que queda cuando el programa no pudo leer sus propios archivos. Tus proyectos y tus carpetas no se tocaron: nada de lo que ves aquí escribe en disco. Cierra esta ventana y vuelve a abrir Project Engineering OS desde su acceso directo. Si sigue igual, la instalación está incompleta y conviene instalarla de nuevo; desinstalar no borra los proyectos que ya preparaste.",
+      "navButtons": 0
+    }
+  },
+  "constructionProbes": [
+    {
+      "id": "renaming-an-action-renames-every-control-at-once",
+      "property": "la etiqueta vive con la acción, así que no se puede romper en un solo sitio",
+      "holds": true,
+      "by": null
+    }
+  ],
+  "summary": {
+    "mutations": 39,
+    "detected": 39,
+    "constructionProbes": 1,
+    "constructionHeld": 1,
+    "findings": 0,
+    "screens": 9,
+    "screensCounted": [
+      "inicio",
+      "ayuda",
+      "asistente",
+      "tus proyectos",
+      "mi proyecto",
+      "diálogo de un término",
+      "ancho mínimo",
+      "lista vacía",
+      "lista con error"
+    ],
+    "denominators": {
+      "inicio": {
+        "contrast": 39,
+        "vocabularyChars": 1849,
+        "controls": 8
+      },
+      "ayuda": {
+        "contrast": 92,
+        "vocabularyChars": 2074,
+        "controls": 7
+      },
+      "asistente": {
+        "contrast": 52,
+        "vocabularyChars": 1483,
+        "controls": 24
+      },
+      "tus proyectos": {
+        "contrast": 40,
+        "vocabularyChars": 1102,
+        "controls": 16
+      },
+      "mi proyecto": {
+        "contrast": 68,
+        "vocabularyChars": 2274,
+        "controls": 29
+      }
+    }
+  }
+}

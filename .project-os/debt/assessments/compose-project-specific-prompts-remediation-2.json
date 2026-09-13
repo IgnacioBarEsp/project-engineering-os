@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "schemaNote": "Reclasificacion con su motivo, no reescritura del registro",
+  "flow": "compose-project-specific-prompts-remediation-2",
+  "date": "2026-09-13",
+  "kind": "remediation",
+  "result": "debt",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": ".project-os/debt/assessments/restructure-companion-navigation.json",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "Clasifique este hallazgo como decision-required y el plan se paso a 5/5. La pausa me pidio mirarlo otra vez, que es para lo que sirve, y al mirarlo la clasificacion no resiste el precedente de este mismo registro. decision-required se ha usado aqui para cosas que el mantenedor tiene que decidir para que el producto sea correcto: las reglas de ignore de las carpetas que Companion escribe, el entorno reducido con que se abre una aplicacion local, o si dejar de devolver cita tras reabrir es un defecto. Aqui no hay nada sin decidir sobre el producto: los cuatro niveles funcionan como se diseñaron, el que sale del equipo viene apagado, el cliente esta medido contra cinco formas de fallar —caido, lento, ruidoso, demasiado grande y limitado—, y los destinos son una lista explicita. Lo que falta es evidencia que exige una cuenta y una clave de otra persona, que es exactamente la forma del item que este registro ya tiene como optional-improvement desde #97: dos criterios exigen una lectura en frio por una persona y nadie la hizo. El hecho no cambia y sigue registrado; cambia la categoria, con este motivo escrito",
+        "result": "refutado",
+        "date": "2026-09-13"
+      },
+      "title": "Los niveles que hablan con un proveedor nunca se probaron contra un proveedor real: hace falta una clave del mantenedor y su aceptacion de los terminos",
+      "artifact": "apps/companion/runtime/inference.mjs",
+      "source": "declared-degradation",
+      "category": "false-positive",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/compose-project-specific-prompts/evidence/validation.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "El mismo hecho, con la categoria que le corresponde. Los niveles 2 y 3 se midieron contra servidores locales que se comportan como un proveedor caido, lento, que devuelve algo que no es una complecion, que devuelve mas de lo permitido y que limita el uso; contra Cerebras o Groq de verdad no se midio nada. Para medirlo hace falta una cuenta, una clave y aceptar los terminos de ese proveedor, y ninguna de las tres cosas puede hacerlas esta sesion en nombre del mantenedor. El nivel viene apagado y la pantalla dice que recibe antes de la primera llamada. La accion concreta, si el mantenedor quiere cerrarlo: pegar una clave, elegir el modelo y correr una composicion, y anotar que respondio",
+        "result": "no-verificado",
+        "date": "2026-09-13"
+      },
+      "title": "Los niveles con proveedor solo se midieron contra servidores locales que imitan sus fallas, nunca contra Cerebras ni Groq",
+      "artifact": "apps/companion/scripts/verify-prompts.mjs",
+      "source": "declared-degradation",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    }
+  ]
+}
