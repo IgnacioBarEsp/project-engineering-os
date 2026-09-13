@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 105,
+  "change": "measure-prepared-context-on-real-repositories",
+  "phase": "propose",
+  "verdict": "PASS",
+  "counts": {
+    "PASS": 13,
+    "FAIL": 0,
+    "EXCEPTION": 0
+  },
+  "mutationPerformed": false,
+  "evidence": "node bin/project-os.mjs readiness-check --phase propose --issue 105 --target . --json",
+  "verifiedAt": "2026-09-13"
+}
