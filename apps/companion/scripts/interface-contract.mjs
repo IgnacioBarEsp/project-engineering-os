@@ -113,7 +113,7 @@ export const LIST_PURITY = () => {
 // one. The set has to match, not merely be consistent.
 export const EXPECTED_ACTIONS = ['open-start', 'open-project-list', 'prepare-project', 'open-help',
   'privacy-scope', 'open-workspace', 'recheck-project', 'read-files', 'resave-base', 'review-development',
-  'review-code-map', 'repair-tools'];
+  'review-code-map', 'repair-tools', 'review-stack'];
 
 // Two of them only exist when the managed toolchain is available: the code map and its repair belong to the
 // runtime, and a probe run without it would report them as missing rather than as out of scope. One more

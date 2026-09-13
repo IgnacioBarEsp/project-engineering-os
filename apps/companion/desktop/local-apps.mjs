@@ -127,40 +127,52 @@ export function createLocalAppLauncher({ system = process.env, platform = proces
     const files = [], verified = [];
     // A refusal after the signature verified carries the publisher, so the screen can say "signed by X, and
     // still not opened from here, because …" instead of one sentence for two very different situations.
-    const refuse = (code, message, action) => {
+    // The reason travels with the refusal. An independent review drove the real launcher through six
+    // distinguishable refusals and found three of them describing themselves as one of two situations, because
+    // the screen deduced the cause from whether a publisher happened to be attached instead of from which check
+    // failed. A signed Claude whose scheme is registered elsewhere was told nobody observed how it takes a
+    // folder — it was observed; a different check failed. So each refusal names itself.
+    const refuse = (reason, code, message, action) => {
       try { fail(code, message, action); }
-      catch (error) { error.publisher = verified[0] ?? null; throw error; }
+      catch (error) { error.publisher = verified[0] ?? null; error.reason = reason; throw error; }
     };
     for (const executable of [candidate.executable,...(candidate.desktop?[candidate.desktop]:[])]) {
       const before = await inspectFile(executable), signed = await readSignature(before.executable), after = await inspectFile(executable);
-      if (signed.status !== 'Valid' || !publishers[agent].includes(signed.publisher) || before.sha256 !== after.sha256) fail('APP_UNTRUSTED','La firma o el editor de la aplicación no se pudo verificar.');
+      if (signed.status !== 'Valid' || !publishers[agent].includes(signed.publisher) || before.sha256 !== after.sha256) refuse('signature','APP_UNTRUSTED','La firma o el editor de la aplicación no se pudo verificar.');
       files.push({...after,publisher:signed.publisher});
       verified.push(signed.publisher);
     }
-    if (agent==='codex'&&!candidate.desktop) fail('APP_UNTRUSTED','No se encontró la aplicación de escritorio de Codex instalada.');
-    if (agent==='codex'&&!/Usage: codex app[^\r\n]*\[PATH\]/.test(await supportedHelp(files[0].executable))) fail('APP_UNSUPPORTED','Esta versión de Codex no confirmó cómo abrir una carpeta.');
+    // Both of these used to be `fail`, so they arrived without the publisher this same function had just
+    // verified, and the screen concluded the signature could not be checked. It could, and it did.
+    if (agent==='codex'&&!candidate.desktop) refuse('no-desktop-app','APP_UNTRUSTED','No se encontró la aplicación de escritorio de Codex instalada.','Abre la carpeta desde la propia aplicación, o comparte el contexto exportado.');
+    if (agent==='codex'&&!/Usage: codex app[^\r\n]*\[PATH\]/.test(await supportedHelp(files[0].executable))) refuse('no-help-contract','APP_UNSUPPORTED','Esta versión de Codex no confirmó cómo abrir una carpeta.','Abre la carpeta desde la propia aplicación, o comparte el contexto exportado.');
     const route = PROTOCOL_ROUTE[agent];
     if (route) {
       // Two observations, both of the installation, both re-read at launch: the build declares the route, and
       // the system hands that scheme to this same verified executable.
       if (!await readsDeclaration(files[0].executable, route.declares)) {
-        refuse('APP_UNSUPPORTED','Esta versión de la aplicación no declara cómo recibir una carpeta.','Ábrela desde la propia aplicación, o comparte el contexto exportado.');
+        refuse('no-declaration','APP_UNSUPPORTED','Esta versión de la aplicación no declara cómo recibir una carpeta.','Ábrela desde la propia aplicación, o comparte el contexto exportado.');
       }
       const registered = await readsHandler(route.scheme).catch(()=>'');
       const target = (registered.match(/"([^"]+\.exe)"/i)?.[1] ?? registered.split(' ')[0] ?? '').trim();
       if (!target || path.resolve(target).toLowerCase() !== path.resolve(files[0].executable).toLowerCase()) {
-        refuse('APP_UNSUPPORTED','El sistema no entrega esa dirección a esta misma aplicación.','Ábrela desde la propia aplicación, o comparte el contexto exportado.');
+        refuse('no-handler','APP_UNSUPPORTED','El sistema no entrega esa dirección a esta misma aplicación.','Ábrela desde la propia aplicación, o comparte el contexto exportado.');
       }
     }
     // Checked after the signature so the person learns both facts: whether the publisher verified, and
     // that this application still will not be opened from here.
-    if (noVerifiedFolderContract.has(agent)) refuse('APP_UNSUPPORTED','Esta aplicación no declara cómo recibir una carpeta, así que no se abre desde aquí.','Abre la carpeta del proyecto desde la propia aplicación, o comparte el contexto exportado.');
+    if (noVerifiedFolderContract.has(agent)) refuse('no-contract','APP_UNSUPPORTED','Esta aplicación no declara cómo recibir una carpeta, así que no se abre desde aquí.','Abre la carpeta del proyecto desde la propia aplicación, o comparte el contexto exportado.');
     return { agent, ...candidate, files, label:labels[agent], publisher:files[0].publisher };
   }
   return {
     async detect(agent) {
       if(!publishers[agent])return null;
-      const found=await candidates(agent).catch(()=>[]);
+      // An enumeration that threw found nothing because it could not look, which is not the same as looking and
+      // finding nothing. Swallowing the error into an empty list made a missing PowerShell, a failing package
+      // query or a permission error arrive on screen as "no se encontró en este equipo" — concluding from an
+      // absence this code created itself, which is the mistake the comment two files away says not to make.
+      let probeFailed=null;
+      const found=await candidates(agent).catch(error=>{probeFailed=error;return [];});
       // "Not installed" and "installed but not verifiable" are different answers for the person:
       // the second one means an application is there and this app refused to launch it.
       let refused=null;
@@ -177,8 +189,13 @@ export function createLocalAppLauncher({ system = process.env, platform = proces
       // a person that OpenCode's publisher could not be verified — it verifies — because the only refusal the
       // screen knew how to describe was Antigravity's, whose signature really does fail here.
       if(refused)return {agent,label:labels[agent],unverified:true,code:refused.code??'APP_UNTRUSTED',
+        // Which check failed, so whoever writes the sentence does not have to guess it from what happens to be
+        // attached. `signature` is the fallback only because that is the check that runs first.
+        reason:refused.reason??'signature',
         message:refused.message,publisher:refused.publisher??null,
         publisherVerified:refused.code==='APP_UNSUPPORTED'&&!!refused.publisher};
+      if(probeFailed)return {agent,label:labels[agent],unverified:true,code:'APP_NOT_MEASURED',reason:'not-measured',
+        message:'No se pudo comprobar si esta aplicación está instalada en este equipo.',publisher:null,publisherVerified:false};
       return null;
     },
     async open(reviewed, target) {

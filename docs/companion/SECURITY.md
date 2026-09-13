@@ -41,6 +41,40 @@ porque sean una barrera contra alguien que ya está dentro.
 Lo que **no** cambia: abrir una aplicación no demuestra que la IA haya leído nada, y la interfaz no lo afirma.
 Una aplicación que no declara cómo recibe una carpeta se reconoce, se dice si su editor verifica, y no se abre.
 
+### Lo que no se puede abrir en su lugar
+
+Si la aplicación elegida no se puede abrir, **no se abre otra cosa**. Antes, cualquier elección de escritorio que
+no llegara a abrirse terminaba en el sitio web de ese producto, y eso es sustituir una elección explícita por otra
+que nadie pidió, justo en el momento en que no se podía cumplir. Quien elige una aplicación de escritorio la
+elige porque lee archivos; un chat web no es una versión reducida de eso, es otra cosa.
+
+Ahora la aplicación guarda **una sola** dirección web, la del chat que una persona puede elegir, y ninguna para
+las seis aplicaciones de escritorio. La sustitución no está desactivada: no existe la dirección que se abriría.
+Cuando la elegida no se puede abrir, se copia la instrucción, no se lanza nada, y se dice cuál de las cuatro
+causas es: no se encontró en este equipo; está pero su editor no verifica; está y su editor sí verifica pero no
+declara cómo recibe una carpeta; o no se pudo comprobar si está instalada, que no es lo mismo que no estarlo.
+
+## Cuando se instala una tecnología en la carpeta de alguien
+
+Instalar React o TypeScript escribe mucho más en la carpeta de una persona que guardar un inventario, así que
+pasa por las mismas puertas que el resto:
+
+- **Nada se instala sin haberse mostrado antes**: identidad, licencias de todo el cierre de dependencias, tamaño
+  de descarga, tamaño instalado y destino. Y nada se instala por una recomendación que no se aceptó: recomendar
+  y aceptar son dos actos distintos.
+- **Solo entra lo que se puede anclar.** Un lockfile revisado fija la integridad de cada paquete, `npm ci` corre
+  con los scripts de ciclo de vida desactivados y con su propio `HOME`, sin config del sistema ni del proyecto, y
+  el árbol resultante se compara contra un digesto fijado antes de moverlo a su sitio. Una tecnología cuyo cierre
+  traiga un script de instalación, o restrinja `os` o `cpu`, no se puede ofrecer: su árbol sería distinto en cada
+  equipo y un digesto único sería una afirmación falsa en dos de las tres plataformas.
+- **Nada se escribe fuera de lo que Companion administra.** El destino está dentro de `.project-os/`, y el
+  `package.json` del proyecto no se toca.
+- **Retirar mide antes de borrar.** Un árbol que sigue coincidiendo con su pin se retira; uno que ya no coincide
+  se conserva y se dice por qué, porque hay algo dentro que esta aplicación no puso.
+- **Lo que no se puede instalar así se nombra.** Flutter y el editor de Unity llegan con su propio instalador y su
+  propia licencia, y Python no es un cierre de npm. Se dicen con su origen y su motivo, no se ofrecen con un
+  control que no funciona.
+
 ## Cuando hay un modelo de por medio
 
 Desde el [issue 99](https://github.com/IgnacioBarEsp/project-engineering-os/issues/99) la aplicación puede

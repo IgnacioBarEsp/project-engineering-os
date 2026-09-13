@@ -144,14 +144,21 @@
         {
           "flow": "activate-companion-environment",
           "date": "2026-09-11"
+        },
+        {
+          "flow": "open-the-desktop-ai-you-chose-and-install-what-fits",
+          "date": "2026-09-13"
         }
       ],
       "issue": null,
-      "status": "open",
+      "status": "resolved",
       "exception": null,
       "createdAt": "2026-09-11",
-      "updatedAt": "2026-09-11",
-      "resolution": null
+      "updatedAt": "2026-09-13",
+      "resolution": {
+        "flow": "ignore-rules-for-what-companion-regenerates",
+        "evidence": "Decision tomada, no diferida. Este cambio la volvio concreta: hasta ahora lo que Companion escribia dentro de .project-os eran recibos pequenos y un cache de herramientas de 13 MB, y ahora puede caer un node_modules de 23 MB y 135 archivos, asi que una persona que prepara su proyecto y lo commitea empujaria algo que nunca eligio versionar. Se escriben reglas en .project-os/.gitignore, dentro de lo que esta aplicacion administra y sin tocar ningun archivo de la persona, nombrando solo las dos carpetas que se regeneran y se comprueban por digesto y no por historial. Los recibos quedan fuera de las reglas a proposito: son pequenos y dicen que se preparo. Un archivo que la persona haya escrito ahi no se toca nunca, y las reglas explican en palabras como deshacerlas. Comprobado en apps/companion/qa/stack.mjs con el contenido exacto, con que una segunda llamada no cambia nada y con que un archivo ajeno se conserva, y anclado por la mutacion the-ignore-rules-overwrite-what-the-person-wrote, que la prueba detecta. Ver openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md"
+      }
     },
     {
       "id": "debt-9e0738544eb1",
@@ -1321,6 +1328,102 @@
       "occurrences": [
         {
           "flow": "open-claude-and-opencode-when-they-declare-it",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-9c3d2fe4527c",
+      "title": "El digesto que ancla cada tecnologia se midio en un solo sistema operativo, no en los tres que el repositorio soporta",
+      "description": "El digesto que ancla cada tecnologia se midio en un solo sistema operativo, no en los tres que el repositorio soporta",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/runtime/stack-catalog.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "open-the-desktop-ai-you-chose-and-install-what-fits",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-52d247a5c7c5",
+      "title": "La deriva del catalogo solo la detectan arneses de maquina real, no la suite que corre en CI",
+      "description": "La deriva del catalogo solo la detectan arneses de maquina real, no la suite que corre en CI",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/pin-stack.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/design.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "open-the-desktop-ai-you-chose-and-install-what-fits",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-1f9c6c08b897",
+      "title": "Los paquetes instalados quedan verificados y ubicados, pero nada conecta el proyecto de la persona con ellos",
+      "description": "Los paquetes instalados quedan verificados y ubicados, pero nada conecta el proyecto de la persona con ellos",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/runtime/stack.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "docs/companion/ENVIRONMENT.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "open-the-desktop-ai-you-chose-and-install-what-fits",
           "date": "2026-09-13"
         }
       ],

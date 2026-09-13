@@ -3,7 +3,7 @@ import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { canonicalFolder, hash, snapshot, writeChecked, withLock, fail, json } from '../engine/files.mjs';
 import { glossaryIdsIn } from '../ui/glossary.mjs';
-import { createPreparationEngine, normalizeSelection } from '../engine/preparation.mjs';
+import { createPreparationEngine, normalizeSelection, AGENT_IDS, WEB_AGENT } from '../engine/preparation.mjs';
 import { createContextEngine } from '../context/engine.mjs';
 import { createConstructorAdapter } from '../engine/constructor-adapter.mjs';
 import { recipesFor } from '../context/recipes.mjs';
@@ -12,6 +12,8 @@ import { createInferenceClient, clearsTheFloor, withLocalRules, LEVELS, LEVEL_LA
 import { graphOptions } from '../context/graph-tools.mjs';
 import { createActivationEngine } from '../runtime/activation.mjs';
 import { createCodeGraphEngine } from '../runtime/codegraph.mjs';
+import { createStackStore } from '../runtime/stack.mjs';
+import { NOT_OFFERED, STACKS, STACK_IDS } from '../runtime/stack-catalog.mjs';
 
 const UUID = /^[a-f0-9-]{36}$/;
 const ROLES = ['researcher','student','developer','freelancer','creator','general'];
@@ -36,9 +38,36 @@ export function withBudget(work, ms) {
     }),
   ]);
 }
-export const DESTINATIONS = Object.freeze({ web: 'https://chatgpt.com/', 'claude-code': 'https://claude.ai/',
-  codex: 'https://chatgpt.com/codex', cursor: 'https://cursor.com/', 'github-copilot': 'https://github.com/copilot', opencode: 'https://opencode.ai/',
-  antigravity: 'https://antigravity.google/' });
+// Someone who chose a desktop application chose it because it reads files. A web chat is not a degraded version
+// of that, it is a different thing — and it is what this application opened whenever the chosen application
+// could not be opened, which is exactly the moment the person most needed to be told the truth. The six web
+// addresses of the desktop applications are gone rather than merely unreached: restoring the substitution would
+// take writing a URL again, not deleting an `if`. Only the web chat keeps an address, because choosing it is a
+// choice a person can actually make.
+export const DESTINATIONS = Object.freeze({ web: 'https://chatgpt.com/' });
+// Why an application the person chose cannot be opened. One sentence per check that can fail, because they are
+// different facts and a person is owed the one that applies.
+//
+// The first version had four, and derived which one to say from whether a publisher happened to be attached to
+// the refusal. An independent review drove the real launcher through six distinguishable refusals and found
+// three of the resulting sentences false: a signed Claude whose scheme the system hands to another executable
+// was told nobody observed how it takes a folder — it was observed, and a different check failed; and both of
+// Codex's refusals claimed its signature could not be checked, when the same function had just verified it.
+// Deducing a cause from a side effect is how a sentence becomes true by coincidence, which is the same shape as
+// the blocker issue 106 already paid for.
+//
+// "we did not find it" is also not the same as "we never looked": a launcher that is absent, or an enumeration
+// that threw, measures nothing, and calling that "not installed" is concluding from an absence we created.
+export const MANUAL_CAUSES = Object.freeze({
+  'not-installed': 'No se encontró en este equipo. Si la tienes en otra ubicación, ábrela tú.',
+  'not-measured': 'No se pudo comprobar en este equipo si está instalada, así que no se abre desde aquí.',
+  signature: 'Está instalada, pero no se pudo comprobar su firma o quién la publica, así que no se abre desde aquí.',
+  'no-desktop-app': 'Su herramienta de línea de comandos está instalada y verificada, pero no se encontró su aplicación de escritorio, que es la que recibiría la carpeta.',
+  'no-help-contract': 'Está instalada y su editor sí se pudo comprobar, pero esta versión no confirma que acepte una ruta, así que no se abre desde aquí.',
+  'no-declaration': 'Está instalada y su editor sí se pudo comprobar, pero esta versión no declara cómo recibir una carpeta, así que no se abre desde aquí.',
+  'no-handler': 'Está instalada, su editor sí se pudo comprobar y su build sí declara cómo recibir una carpeta, pero el sistema no le entrega esa dirección a ella, así que no se abre desde aquí.',
+  'no-contract': 'Está instalada y su editor sí se pudo comprobar, pero no se observó cómo recibe una carpeta, así que no se abre desde aquí.',
+});
 export function publicError(error) {
   if(error?.name==='AbortError')return {code:'CANCELLED',message:'La operación se detuvo a petición tuya.',action:'Se conservó el trabajo completado. Revisa el estado antes de continuar.'};
   const known = typeof error?.code === 'string' && (error.action || error.remediation);
@@ -180,8 +209,9 @@ function exact(input, keys) {
   return input;
 }
 function selection(input) {
-  exact(input,['name','profile','agents','experience','role','goal']);
+  exact(input,['name','profile','agents','experience','role','goal','stack']);
   if (!ROLES.includes(input.role)) fail('ROLE_INVALID','Elige el perfil que te representa.');
+  if (input.stack !== undefined) exact(input.stack,['decision','requested']);
   return { ...normalizeSelection(input), role: input.role, goal: text(input.goal,500,'el objetivo del proyecto (hasta 500 caracteres)') };
 }
 const fileList = plan => plan.files.map(({path: p,action,bytes})=>({path:p,action,bytes}));
@@ -199,6 +229,7 @@ export async function createDesktopService({ dataRoot, core, environment = null,
   const historyRoot = await canonicalFolder(dataRoot), base = createPreparationEngine(), context = createContextEngine();
   const engineering = createConstructorAdapter(environment?.core ?? core), projects = new Map(), plans = new Map(), exports = new Map(), handoffs = new Map(), guides = new Map();
   const activation = environment ? createActivationEngine(environment) : null;
+  const stacks = createStackStore();
   const inferenceClient = models ?? createInferenceClient();
   const notes = new Map();
   const codeGraph = environment ? createCodeGraphEngine(environment.manager, { readOptions: root => context.configuration(root) }) : null;
@@ -333,8 +364,12 @@ export async function createDesktopService({ dataRoot, core, environment = null,
     const e=requested ? await safeStage(()=>engineering.verify(p.root,controls),controls) : {files:'not-requested',workflows:'not-requested'};
     const a=activation&&requested&&e.files==='prepared' ? await safeStage(()=>activation.verify(p.root,controls),controls) : null;
     const code=codeGraph&&requested ? await safeStage(async()=>codeGraph.verify(p.root,await context.configuration(p.root),controls),controls) : {status:'not-requested'};
+    // Technology is not a stage that can be missing: installing nothing is one of the three valid answers, so
+    // this is recorded state beside the stages and never part of the verdict that decides whether a project is
+    // ready. Refusing a recommendation therefore cannot make a project look worse than before it was asked.
+    const stack=await safeStage(()=>stacks.summary(p.root),controls);
     const result={project:{id:p.id,name:b.selection?.name??p.name,root:p.root,selection:b.selection??p.selection},base:b,context:c,
-      environment:tools,code,capabilities:{environment:!!environment,codeGraph:!!codeGraph},engineering:{files:e.files,workflows:a?.workflows??e.workflows,code:e.code,message:e.message,error:a?.error??e.error,interrupted:!!e.result?.incompleteTransaction,activationInterrupted:a?.workflows==='interrupted'},externalTools:'not-verified'};
+      environment:tools,code,stack,capabilities:{environment:!!environment,codeGraph:!!codeGraph},engineering:{files:e.files,workflows:a?.workflows??e.workflows,code:e.code,message:e.message,error:a?.error??e.error,interrupted:!!e.result?.incompleteTransaction,activationInterrupted:a?.workflows==='interrupted'},externalTools:'not-verified'};
     // This is the only place a verdict is written, because this is the only place a real check happens. The
     // engineering witness comes from the targets the core's own check enumerated, so a managed file edited
     // afterwards is visible from the list without the list knowing what the core manages.
@@ -460,6 +495,43 @@ export async function createDesktopService({ dataRoot, core, environment = null,
     async applyEnvironment(input) {exact(input,['plan']);const {p,plan}=await usePlan(input.plan,'environment');
       if(!environment)fail('ENVIRONMENT_UNAVAILABLE','La preparación de herramientas no está disponible.');
       return operation('Preparar herramientas',async controls=>{const result=await environment.apply(plan.engineId,controls);return {result,status:await status(p,controls)};});},
+    // The reviewed list, so the wizard can offer what exists without the renderer importing a runtime module:
+    // the interface is served from an exact allowlist under its own directory, and widening that to reach into
+    // the runtime would be a bigger change than passing the data through the door that already exists.
+    async stackCatalog(input={}) {exact(input,[]);noJob();
+      return {stacks:STACK_IDS.map(id=>({id,name:STACKS[id].name,purpose:STACKS[id].purpose,profiles:[...STACKS[id].profiles],
+        licenses:[...STACKS[id].licenses],closure:STACKS[id].closure,downloadBytes:STACKS[id].downloadBytes,
+        installedBytes:STACKS[id].installedBytes,destination:STACKS[id].relative})),
+        notOffered:NOT_OFFERED.map(item=>({...item}))};},
+    // Technology, in the three ways the person can have answered. The plan is what has to be on screen before
+    // anything is written: identity, the licences of the whole closure, both sizes and the destination. A plan
+    // with no items is not an error — it is the third answer, and it carries the sentence that says why.
+    async previewStack(input) {exact(input,['id']);noJob();const p=await project(input.id);
+      return operation('Revisar tecnología del proyecto',async controls=>{
+        const b=await base.verify(p.root);
+        if(b.base!=='prepared')fail('STACK_UNAVAILABLE','Primero prepara el proyecto.','Revisa y aplica la preparación base antes de elegir tecnología.');
+        const inventory=await base.inspect(p.root);
+        const plan=await stacks.plan(p.root,b.selection,inventory,controls);
+        return {...plan,notOffered:NOT_OFFERED.map(item=>({...item})),
+          id:plan.items.some(item=>item.status!=='verified')?keepPlan(p,'stack',{id:randomUUID(),items:plan.items},{stackIds:plan.items.map(item=>item.id)}):null};});},
+    async applyStack(input) {exact(input,['plan']);const {p,plan}=await usePlan(input.plan,'stack');
+      if(!environment)fail('ENVIRONMENT_UNAVAILABLE','La preparación de herramientas no está disponible.');
+      return operation('Instalar tecnología del proyecto',async controls=>{
+        const tools={};for(const id of ['node','npm','git']){const result=await environment.manager.inspect(id,controls);
+          if(result.status!=='verified')fail('ENVIRONMENT_MISSING','Primero prepara las herramientas de este proyecto.','Usa Preparar herramientas para continuar.');tools[id]=result;}
+        const results=[];for(const id of plan.stackIds){controls.signal?.throwIfAborted();results.push({id,...await stacks.install(p.root,id,tools,controls)});}
+        return {results,status:await status(p,controls)};});},
+    // Refusing is an act of its own, recorded with its date, and it leaves the project exactly as ready as it
+    // was before the question was asked. Nothing is installed by saying nothing.
+    async declineStack(input) {exact(input,['plan']);const {p,plan}=await usePlan(input.plan,'stack');
+      return operation('Registrar que no se instala',async controls=>({...await stacks.decline(p.root,plan.stackIds),status:await status(p,controls)}));},
+    // `removal` and not `status`: the store reports what it did with the tree and this reports the project's
+    // state, and spreading the first into the second silently overwrote it. The evidence run read the project's
+    // whole state where it expected the word `removed`, which is how this was found.
+    async removeStack(input) {exact(input,['id','stack']);noJob();const p=await project(input.id);
+      return operation('Retirar tecnología del proyecto',async controls=>{
+        const removal=await stacks.remove(p.root,input.stack,controls);
+        return {removal:removal.status,status:await status(p,controls)};});},
     async previewRepair(input) {exact(input,['id']);noJob();const p=await project(input.id);
       if(!environment)fail('ENVIRONMENT_UNAVAILABLE','La reparación de herramientas no está disponible.');
       return operation('Revisar reparación de herramientas',async controls=>{const plan=await environment.planRepair(controls);return {...plan,id:plan.id?keepPlan(p,'repair',plan):null};});},
@@ -603,18 +675,31 @@ export async function createDesktopService({ dataRoot, core, environment = null,
         const c=await context.verify(p.root);if(c.context!=='current')fail('CONTEXT_STALE','Prepara o actualiza el contexto antes de continuar.');
         const prompt=preview.prompt;
         let opened;
-        if(preview.local)opened=await localApps.open(preview.local,p.root);
-        else {await openExternal(DESTINATIONS[preview.agent]);opened={opened:'web',projectAttached:false,agentActivated:false,agentReadProject:false};}
+        // The mode was decided by the person's choice when the preview was built, and it is the only thing read
+        // here. There is no branch left that can turn a desktop choice into an address.
+        if(preview.mode==='local')opened=await localApps.open(preview.local,p.root);
+        else if(preview.mode==='web'){await openExternal(DESTINATIONS.web);opened={opened:'web',projectAttached:false,agentActivated:false,agentReadProject:false};}
+        else opened={opened:'nothing',cause:preview.cause,projectAttached:false,agentActivated:false,agentReadProject:false};
         if(input.copy)await copyText(prompt);handoffs.delete(input.preview);return {...opened,copied:input.copy,prompt};
       });},
     async handoffPreview(input) {exact(input,['id','agent']);noJob();const p=await project(input.id);return operation('Revisar instrucción inicial',async controls=>{
-      const b=await base.verify(p.root);if(!Object.hasOwn(DESTINATIONS,input.agent)||!b.selection?.agents.includes(input.agent))fail('HANDOFF_INVALID','Elige una IA del proyecto.');
-      const id=randomUUID(),prompt=(await composeForProject(p,b.selection,controls)).text,detected=await localApps?.detect(input.agent)??null;
+      const b=await base.verify(p.root);if(!AGENT_IDS.includes(input.agent)||!b.selection?.agents.includes(input.agent))fail('HANDOFF_INVALID','Elige una IA del proyecto.');
+      const id=randomUUID(),prompt=(await composeForProject(p,b.selection,controls)).text;
+      // The person chose a desktop application or a web chat, and that choice decides where this goes. What is
+      // installed can only take a desktop choice from "it opens" to "open it yourself"; it can never turn it
+      // into a browser. `detect` is not even called for a web chat, and a missing launcher is recorded as not
+      // measured rather than reported as not installed.
+      const web=input.agent===WEB_AGENT, detected=web||!localApps?null:await localApps.detect(input.agent);
       // An application found but not verifiable is never launched; the person is told why.
-      const local=detected?.unverified?null:detected, unverified=detected?.unverified?{label:detected.label,code:detected.code,message:detected.message,publisher:detected.publisher??null,publisherVerified:!!detected.publisherVerified}:null;
-      handoffs.set(id,{project:p.id,agent:input.agent,prompt,local,selection:json(b.selection),receiptHash:(await snapshot(p.root,'.project-os/companion/context/receipt.json')).hash});
+      const local=detected?.unverified?null:detected, unverified=detected?.unverified?{label:detected.label,code:detected.code,reason:detected.reason??null,message:detected.message,publisher:detected.publisher??null,publisherVerified:!!detected.publisherVerified}:null;
+      const mode=web?'web':local?'local':'manual';
+      // The cause is the one the launcher named, never one deduced from what came attached to the refusal.
+      const cause=mode!=='manual'?null:!localApps?'not-measured':!detected?'not-installed'
+        :Object.hasOwn(MANUAL_CAUSES,unverified.reason??'')?unverified.reason:'signature';
+      handoffs.set(id,{project:p.id,agent:input.agent,prompt,local,mode,cause,selection:json(b.selection),receiptHash:(await snapshot(p.root,'.project-os/companion/context/receipt.json')).hash});
       if(handoffs.size>10)handoffs.delete(handoffs.keys().next().value);
-      return {id,prompt,destination:local?.label??DESTINATIONS[input.agent],mode:local?'local':'web',projectAttached:false,folderWillBeRequested:!!local,unverified};
+      return {id,prompt,destination:mode==='local'?local.label:mode==='web'?DESTINATIONS.web:null,mode,cause,
+        causeMessage:cause?MANUAL_CAUSES[cause]:null,projectAttached:false,folderWillBeRequested:mode==='local',unverified};
     });},
     async cancel(input={}) {exact(input,[]);if(job)job.controller.abort();return {requested:!!job};},
     async job(input={}) {exact(input,[]);return job?{id:job.id,label:job.label}:null;},

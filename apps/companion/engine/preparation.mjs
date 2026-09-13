@@ -1,9 +1,16 @@
 import { randomUUID } from 'node:crypto';
 import { canonicalFolder, NAMESPACE, hash, json, fail, snapshot, writeChecked, withLock } from './files.mjs';
 import { inspectFolder, normalizeScanLimits, PROFILE_IDS } from './inventory.mjs';
+import { DECISIONS, STACK_IDS, offeredFor } from '../runtime/stack-catalog.mjs';
 
 const VERSION = 1;
-const AGENTS = new Set(['codex','claude-code','cursor','github-copilot','opencode','antigravity','web']);
+// Choosing `codex` is choosing a desktop application; `web` is the only id that authorises a browser. No extra
+// field records that preference, because the list of chosen AIs already is it — and reading it from here is what
+// keeps the two lists from drifting apart.
+export const DESKTOP_AGENTS = Object.freeze(['antigravity','claude-code','codex','cursor','github-copilot','opencode']);
+export const WEB_AGENT = 'web';
+const AGENTS = new Set([...DESKTOP_AGENTS, WEB_AGENT]);
+export const AGENT_IDS = Object.freeze([...AGENTS]);
 const OWNED = Object.freeze(['project.json','START.md','inventory.json']);
 const RECEIPT = `${NAMESPACE}/receipt.json`, JOURNAL = `${NAMESPACE}/transaction.json`;
 const MAX_STATE = 2 * 1024 * 1024;
@@ -26,6 +33,20 @@ export function normalizeSelection(input) {
   if (input.goal !== undefined) {
     if (typeof input.goal !== 'string' || !input.goal.trim() || input.goal.length > 500 || /[\x00-\x1f\x7f]/.test(input.goal)) fail('GOAL_INVALID', 'Describe tu objetivo en hasta 500 caracteres.');
     extra.goal = input.goal.trim();
+  }
+  // Optional on purpose, like `role` and `goal`: a receipt written before this field existed asked for no
+  // technology, and a decision absent reads as "too early", which is one of the three answers rather than a
+  // missing one. Requested technologies exist only with `chosen`, so an interface cannot record a choice and a
+  // list of what was chosen that disagree with each other.
+  if (input.stack !== undefined) {
+    const value = input.stack;
+    if (!object(value) || !DECISIONS.includes(value.decision)) fail('STACK_INVALID', 'Elige si ya sabes qué tecnología vas a usar.', 'Vuelve al asistente y responde la pregunta de tecnología.');
+    const requested = value.requested ?? [];
+    if (!Array.isArray(requested) || requested.some(id => typeof id !== 'string' || !STACK_IDS.includes(id))) fail('STACK_INVALID', 'Elige una tecnología de la lista revisada.', 'Vuelve al asistente y elige una de las tecnologías que aparecen ahí.');
+    if (value.decision !== 'chosen' && requested.length) fail('STACK_INVALID', 'Solo se pueden elegir tecnologías si dijiste que ya sabes cuál quieres.', 'Vuelve al asistente y responde la pregunta de tecnología.');
+    const offered = offeredFor(input.profile);
+    if (requested.some(id => !offered.includes(id))) fail('STACK_INVALID', 'Esa tecnología no se ofrece para este tipo de proyecto.', 'Vuelve al asistente y desmarca la tecnología, o elige otro tipo de proyecto.');
+    extra.stack = { decision: value.decision, requested: [...new Set(requested)].sort() };
   }
   return { name: name.trim(), profile: input.profile, experience, agents: [...new Set(input.agents)].sort(), ...extra };
 }

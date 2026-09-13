@@ -1,0 +1,110 @@
+{
+  "date": "2026-09-13T19:13:14.659Z",
+  "application": {
+    "version": "0.1.0",
+    "root": "<localappdata>/Programs/Project Engineering OS/resources/app"
+  },
+  "machine": "win32-x64",
+  "paths": [
+    {
+      "answer": "asked",
+      "kind": "chosen",
+      "because": "Lo pediste al preparar este proyecto.",
+      "offered": [
+        {
+          "id": "typed-code",
+          "licenses": [
+            "Apache-2.0"
+          ],
+          "downloadBytes": 4377468,
+          "installedBytes": 23626590,
+          "destination": ".project-os/stack/typed-code"
+        }
+      ],
+      "notOffered": [
+        "flutter",
+        "unity-editor",
+        "python"
+      ],
+      "installedAfterReviewing": [],
+      "wroteAnything": false
+    },
+    {
+      "answer": "does-not-know",
+      "kind": "recommended",
+      "because": "Tu carpeta ya tiene 1 archivo de interfaz con React.",
+      "offered": [
+        {
+          "id": "web-interface",
+          "licenses": [
+            "MIT"
+          ],
+          "downloadBytes": 1311203,
+          "installedBytes": 7576468,
+          "destination": ".project-os/stack/web-interface"
+        }
+      ],
+      "notOffered": [
+        "flutter",
+        "unity-editor",
+        "python"
+      ],
+      "installedAfterReviewing": [],
+      "wroteAnything": false
+    },
+    {
+      "answer": "too-early",
+      "kind": "none",
+      "because": "Dijiste que todavía es pronto para elegir tecnología, así que no se instaló ninguna. Puedes decidirlo cuando el proyecto lo pida.",
+      "offered": [],
+      "notOffered": [
+        "flutter",
+        "unity-editor",
+        "python"
+      ],
+      "installedAfterReviewing": [],
+      "wroteAnything": false
+    }
+  ],
+  "installed": {
+    "id": "typed-code",
+    "elapsedMs": 2130,
+    "treeHash": "6b8717621a496905b68e41fbf5211d0d0cd71ff1f3dec0c588427073527cb7fe",
+    "bytes": 23626590,
+    "files": 135,
+    "shownBeforeWriting": {
+      "name": "TypeScript",
+      "licenses": [
+        "Apache-2.0"
+      ],
+      "closure": 1,
+      "downloadBytes": 4377468,
+      "installedBytes": 23626590,
+      "destination": ".project-os/stack/typed-code"
+    },
+    "matchesWhatWasShown": true,
+    "packageLanded": true,
+    "ownedByThePerson": 5,
+    "ownedFilesChanged": [],
+    "recordedInProject": [
+      "typed-code"
+    ]
+  },
+  "withdrawal": {
+    "refusedWhenChanged": "STACK_INTEGRITY",
+    "preservedWhatWasNotOurs": true,
+    "removedWhenUnchanged": true,
+    "gone": true,
+    "stillRecorded": []
+  },
+  "findings": [],
+  "summary": {
+    "paths": 3,
+    "installedForReal": "typed-code",
+    "installedBytes": 23626590,
+    "installedFiles": 135,
+    "elapsedMs": 2130,
+    "findings": 0,
+    "scope": "Los tres caminos de instalacion contra tres carpetas sinteticas identicas salvo la respuesta, una instalacion real por el camino del producto, y el retiro en sus dos formas. Lo instalado se ancla por el digesto de su arbol; el package.json del proyecto no se toca."
+  }
+}

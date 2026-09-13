@@ -6,6 +6,7 @@ import { inspectTree } from './tree.mjs';
 import { isolatedEnvironment, runFixedProcess } from './process.mjs';
 import { randomUUID } from 'node:crypto';
 import { reviewCacheRepair, replaceReviewedCache } from './cache-repair.mjs';
+import { ensureIgnoreRules } from './regenerable.mjs';
 
 import { TOOLCHAIN } from './toolchain-pin.mjs';
 export { TOOLCHAIN } from './toolchain-pin.mjs';
@@ -91,6 +92,8 @@ export function createToolchainStore(manager) {
         if (await exists(destination)) return verifyToolchain(await canonicalFolder(destination), controls);
         const cached = await prepareCache(tools, controls); controls.signal?.throwIfAborted();
         const parent = await assertPath(root, '.project-os'); await mkdir(parent, { recursive: true });
+        // The same rules, from the other folder that regenerates. Whichever installs first writes them.
+        await ensureIgnoreRules(root);
         const stage = await mkdtemp(path.join(parent, '.toolchain-stage-'));
         try {
           const payload = path.join(stage, 'payload');

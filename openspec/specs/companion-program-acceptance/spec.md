@@ -8,6 +8,10 @@ replaced by a passing fixture; a measurement publishes its method before its num
 that does not favour the product exactly as it reports one that does; and what is delivered publishes its
 identity, its checksum and its real signing status.
 
+A stated choice is part of what gets accepted: where a person's work continues is decided by what they chose,
+never substituted for something else because the choice could not be met — and a substitution is kept absent
+rather than merely unreached, so restoring it would take a deliberate decision instead of deleting a guard.
+
 **Use this if:** you are about to claim the product works, is faster, or is ready to hand to someone.
 ## Requirements
 ### Requirement: Native acceptance reflects observed behavior
@@ -62,4 +66,33 @@ without copying reference assets or code or inventing ratings.
 - **WHEN** visual review is recorded
 - **THEN** it identifies reference URLs and date with hierarchy, navigation, responsive and motion observations
 - **AND** distinguishes measured checks of this landing from qualitative comparison
+
+### Requirement: A stated destination is never substituted for another
+The program SHALL decide where a person continues from what that person chose, not from what happens to be
+installed, SHALL NOT open a web destination for someone who chose a desktop application, and SHALL NOT hold a
+web address for a desktop application at all, so that the substitution is absent rather than merely unreached.
+
+#### Scenario: A desktop application is chosen and can be opened
+- **WHEN** the chosen application declares how it receives a folder and every verification for it passes
+- **THEN** the application SHALL be opened with the folder
+- **AND** the screen SHALL continue to state that opening it does not demonstrate that the AI read the project
+
+#### Scenario: A desktop application is chosen and cannot be opened
+- **WHEN** the chosen application is absent, or cannot be verified, or declares no folder route
+- **THEN** nothing SHALL be launched and no address SHALL be opened
+- **AND** the instruction SHALL be copied and the person SHALL be told to open the application themselves
+- **AND** the reason SHALL be the one that applies, told apart from the other reasons
+
+#### Scenario: A web chat is chosen
+- **WHEN** the person chose a web chat rather than a desktop application
+- **THEN** the web chat MAY be opened and the instruction copied
+
+#### Scenario: An application present without verifiable provenance
+- **WHEN** an application is installed but its signature or publisher cannot be verified
+- **THEN** it SHALL still be refused with its cause, and this requirement SHALL NOT weaken that refusal
+
+#### Scenario: Acceptance measures the substitution cannot return
+- **WHEN** native and launch evidence is recorded
+- **THEN** it SHALL record, for every desktop application present on the machine, that no address was opened
+- **AND** deliberate removal of the rule SHALL be detected by a named check rather than by review
 
