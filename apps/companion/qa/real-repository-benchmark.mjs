@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, readFile, realpath, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, realpath, readdir, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -19,6 +19,7 @@ import {
 } from '../scripts/real-repository-benchmark.mjs';
 
 const benchmark = fileURLToPath(new URL('../benchmarks/real-repositories/', import.meta.url));
+const repository = fileURLToPath(new URL('../../../', import.meta.url));
 const protocolText = await readFile(path.join(benchmark, 'protocol.json'), 'utf8');
 const prefix = path.join(await realpath(tmpdir()), 'companion-real-benchmark-test-');
 async function fixture(t) {
@@ -95,4 +96,42 @@ test('both baselines open the same files and report measured output rather than 
   assert.equal(summarizeMethod(literal).questionsAnsweredEveryTime, 1);
   questions[0].answer = 'missing';
   assert.equal((await measureLiteralScan(root, files, questions)).perQuestion[0].answerPresent, false);
+});
+
+test('published real-repository numbers reconcile with every raw observation before and after archive', async () => {
+  const change = 'measure-prepared-context-on-real-repositories';
+  const changes = path.join(repository, 'openspec', 'changes');
+  const archived = await readdir(path.join(changes, 'archive')).catch(() => []);
+  const candidates = [path.join(changes, change, 'evidence', 'run-01'),
+    ...archived.filter(name => name.endsWith(change)).map(name => path.join(changes, 'archive', name, 'evidence', 'run-01'))];
+  const found = [];
+  for (const root of candidates) {
+    const text = await readFile(path.join(root, 'measurement.json'), 'utf8').catch(() => null);
+    if (text !== null) found.push({ root, measurement: JSON.parse(text) });
+  }
+  assert.equal(found.length, 1, `Expected exactly one immutable run-01; found ${found.length}.`);
+
+  const { root, measurement } = found[0];
+  const documentation = await readFile(path.join(repository, 'docs', 'companion', 'EVIDENCE.md'), 'utf8');
+  const landing = await readFile(path.join(repository, 'site', 'index.html'), 'utf8');
+  const grouped = value => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  const corpusLabels = { 'kubernetes-website': 'Kubernetes', cpython: 'CPython' };
+  const methodLabels = { 'read-all': 'Abrir todo', 'literal-scan': 'Barrido literal',
+    'prepared-context': 'Contexto preparado' };
+
+  for (const corpus of measurement.corpora) {
+    const raw = JSON.parse(await readFile(path.join(root, `${corpus.id}.json`), 'utf8'));
+    const recomputed = Object.values(raw.raw).map(summarizeMethod);
+    assert.deepEqual(raw.methods, recomputed, `${corpus.id}: raw observations no longer match their summaries.`);
+    assert.deepEqual(corpus.methods, raw.methods, `${corpus.id}: aggregate drifted from its raw report.`);
+    for (const method of corpus.methods) {
+      const row = `| ${corpusLabels[corpus.id]} | ${methodLabels[method.id]} | ${method.questionsAnsweredEveryTime} / 10 | ${grouped(method.bytesReturnedTotal)} | ${grouped(method.bytesReadPerQuestion[0])} |`;
+      assert.ok(documentation.includes(row), `Documentation does not publish the raw row: ${row}`);
+    }
+    assert.equal(corpus.methods.find(method => method.id === 'literal-scan').questionsAnsweredEveryTime, 10);
+    assert.equal(corpus.methods.find(method => method.id === 'prepared-context').questionsAnsweredEveryTime, 0);
+  }
+  assert.ok(landing.includes('contexto preparado obtuvo <strong>0 / 10</strong> en ambos'));
+  assert.ok(landing.includes('45 de 2654 fuentes observadas en Kubernetes'));
+  assert.ok(landing.includes('42 de 2753 en CPython'));
 });

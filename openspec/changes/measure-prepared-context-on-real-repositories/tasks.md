@@ -6,7 +6,7 @@
       rechazar cualquier candidato que no cumpla los criterios sin sustituirlo en silencio.
 - [x] 1.3 Declarar el SHA-256 del protocolo y añadir casos negativos que prueben rechazo por digesto, checkout,
       remoto y umbral incorrectos.
-- [ ] 1.4 Versionar protocolo, manifiesto, runner y pruebas antes de ejecutar la primera vía; conservar ese
+- [x] 1.4 Versionar protocolo, manifiesto, runner y pruebas antes de ejecutar la primera vía; conservar ese
       commit como identidad de precompromiso.
 
 ## 2. Construir el arnés simétrico
@@ -22,15 +22,15 @@
 
 ## 3. Ejecutar y publicar lo que salga
 
-- [ ] 3.1 Ejecutar las tres vías para los dos corpora desde el precompromiso limpio y guardar los datos crudos.
-- [ ] 3.2 Reconciliar el resumen contra los datos por pregunta y actualizar `docs/companion/EVIDENCE.md` con
+- [x] 3.1 Ejecutar las tres vías para los dos corpora desde el precompromiso limpio y guardar los datos crudos.
+- [x] 3.2 Reconciliar el resumen contra los datos por pregunta y actualizar `docs/companion/EVIDENCE.md` con
       resultado, costo, cobertura y límites.
-- [ ] 3.3 Revisar la landing y corregirla solo si el resultado contradice o permite una afirmación respaldada;
+- [x] 3.3 Revisar la landing y corregirla solo si el resultado contradice o permite una afirmación respaldada;
       añadir una comprobación que impida que los números públicos se separen de los datos crudos.
 
 ## 4. Intentar refutar y cerrar
 
-- [ ] 4.1 Ejecutar pruebas del app y del upstream, validación OpenSpec estricta y los checks de documentación,
+- [x] 4.1 Ejecutar pruebas del app y del upstream, validación OpenSpec estricta y los checks de documentación,
       neutralidad, secretos, paquete e idempotencia aplicables.
 - [ ] 4.2 Revisión adversarial independiente: intentar cambiar preguntas después del precompromiso, favorecer
       una vía, omitir relecturas, adulterar un commit y publicar un resultado distinto de los datos.
