@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-13T21:21:11.101Z",
+  "independence": "The verifier imports none of the benchmark runner or summarizer decisions and anchors inputs and raw outputs to published Git blobs.",
+  "anchors": {
+    "precommit": "c808967cd46abc4b340d148834a24e3005cc0247",
+    "resultCommit": "e0a29803149cb454b0eaa61f41282fe992217186"
+  },
+  "reviewed": {
+    "corpora": 2,
+    "questions": 20,
+    "rawObservations": 180
+  },
+  "attempts": [
+    {
+      "id": "question-changed-after-precommit",
+      "detected": true
+    },
+    {
+      "id": "one-method-favoured-by-question-or-order",
+      "detected": true
+    },
+    {
+      "id": "source-rereads-omitted-from-accounting",
+      "detected": true
+    },
+    {
+      "id": "corpus-commit-adulterated",
+      "detected": true
+    },
+    {
+      "id": "published-result-differs-from-raw-data",
+      "detected": true
+    }
+  ],
+  "verdict": "PASS",
+  "blockers": 0,
+  "majors": 0
+}

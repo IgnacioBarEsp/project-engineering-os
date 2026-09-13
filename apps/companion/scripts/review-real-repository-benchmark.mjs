@@ -1,0 +1,179 @@
+import assert from 'node:assert/strict';
+import { execFile } from 'node:child_process';
+import { mkdir, open, readFile, readdir } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
+
+// Independent verifier for issue 105. It deliberately does not import the benchmark runner or its
+// summarizer: sharing those decisions would let the same defect approve both measurement and review.
+const exec = promisify(execFile);
+const repository = fileURLToPath(new URL('../../../', import.meta.url));
+const change = 'measure-prepared-context-on-real-repositories';
+const precommit = 'c808967cd46abc4b340d148834a24e3005cc0247';
+const resultCommit = 'e0a29803149cb454b0eaa61f41282fe992217186';
+const activeEvidence = `openspec/changes/${change}/evidence/run-01`;
+const resultFiles = ['preflight.json', 'kubernetes-website.json', 'cpython.json', 'measurement.json'];
+const protocolRelative = 'apps/companion/benchmarks/real-repositories/protocol.json';
+const outputArgument = process.argv[2];
+
+async function git(args) {
+  return (await exec('git', ['-C', repository, ...args], { windowsHide: true,
+    maxBuffer: 16 * 1024 * 1024 })).stdout.trim();
+}
+
+async function resolveEvidence() {
+  const changes = path.join(repository, 'openspec', 'changes');
+  const archived = await readdir(path.join(changes, 'archive')).catch(() => []);
+  const candidates = [path.join(changes, change, 'evidence', 'run-01'),
+    ...archived.filter(name => name.endsWith(change)).map(name => path.join(changes, 'archive', name, 'evidence', 'run-01'))];
+  const found = [];
+  for (const candidate of candidates) {
+    if (await readFile(path.join(candidate, 'measurement.json')).catch(() => null)) found.push(candidate);
+  }
+  assert.equal(found.length, 1, `Expected one immutable run-01; found ${found.length}.`);
+  return found[0];
+}
+
+function validateOrders(protocol, report) {
+  const expectedIds = report.questions.map(question => question.id).sort();
+  assert.deepEqual(expectedIds, protocol.questions.map(question => question.id).sort());
+  assert.equal(report.order.length, protocol.questions.length * 3 * 3);
+  for (const [methodId, method] of Object.entries(report.raw)) {
+    assert.equal(method.perQuestion.length, protocol.questions.length * 3);
+    const counts = Object.fromEntries(expectedIds.map(id => [id, 0]));
+    for (const row of method.perQuestion) {
+      assert.ok(Object.hasOwn(counts, row.id)); counts[row.id]++;
+      const expectedPosition = protocol.execution.orders[row.repetition - 1].indexOf(methodId) + 1;
+      assert.ok(expectedPosition > 0); assert.equal(row.orderPosition, expectedPosition);
+    }
+    assert.ok(Object.values(counts).every(count => count === 3));
+  }
+  for (const repetition of [1, 2, 3]) {
+    for (const question of expectedIds) {
+      const rows = report.order.filter(row => row.repetition === repetition && row.question === question);
+      assert.deepEqual(rows.sort((a, b) => a.position - b.position).map(row => row.method),
+        protocol.execution.orders[repetition - 1]);
+    }
+  }
+}
+
+function validateAccounting(report) {
+  const value = report.accounting;
+  assert.ok(value.sourceInventoryBytes > 0 && value.sourceCollectionBytes > 0 && value.indexBytesPerOpen > 0);
+  assert.equal(value.sourceValidationBytes, value.sourceInventoryBytes + value.sourceCollectionBytes);
+  assert.equal(value.indexOpens, 2);
+  assert.equal(value.indexBytes, value.indexBytesPerOpen * value.indexOpens);
+  assert.equal(value.bytesReadPerQuestion, value.sourceValidationBytes + value.indexBytes);
+  assert.equal(value.filesOpenedPerQuestion,
+    value.sourceFilesFirstPass + value.sourceFilesSecondPass + value.indexFilesOpened);
+  assert.ok(report.raw['prepared-context'].perQuestion.every(row => row.bytesRead === value.bytesReadPerQuestion
+    && row.filesOpened === value.filesOpenedPerQuestion));
+}
+
+function validateIdentities(protocol, preflight, measurement, reports) {
+  assert.equal(preflight.protocol.precommit, precommit);
+  assert.equal(measurement.protocol.precommit, precommit);
+  for (const corpus of protocol.corpora) {
+    const before = preflight.corpora.find(item => item.repository === corpus.repository);
+    const aggregate = measurement.corpora.find(item => item.id === corpus.id);
+    const report = reports[corpus.id];
+    assert.ok(before && aggregate && report);
+    assert.equal(before.commit, corpus.commit);
+    assert.equal(aggregate.commit, corpus.commit);
+    assert.equal(report.corpus.commit, corpus.commit);
+    assert.equal(report.protocol.precommit, precommit);
+  }
+}
+
+function validatePublication(documentation, landing, measurement) {
+  const grouped = value => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  const corpusLabels = { 'kubernetes-website': 'Kubernetes', cpython: 'CPython' };
+  const methodLabels = { 'read-all': 'Abrir todo', 'literal-scan': 'Barrido literal',
+    'prepared-context': 'Contexto preparado' };
+  for (const corpus of measurement.corpora) {
+    for (const method of corpus.methods) {
+      const row = `| ${corpusLabels[corpus.id]} | ${methodLabels[method.id]} | ${method.questionsAnsweredEveryTime} / 10 | ${grouped(method.bytesReturnedTotal)} | ${grouped(method.bytesReadPerQuestion[0])} |`;
+      assert.ok(documentation.includes(row), `Public documentation drifted from ${corpus.id}/${method.id}.`);
+    }
+  }
+  assert.ok(landing.includes('contexto preparado obtuvo <strong>0 / 10</strong> en ambos'));
+  assert.ok(landing.includes('45 de 2654 fuentes observadas en Kubernetes'));
+  assert.ok(landing.includes('42 de 2753 en CPython'));
+}
+
+function mutation(attempts, id, mutate, verify) {
+  let detected = false;
+  try { verify(mutate()); } catch { detected = true; }
+  assert.equal(detected, true, `Adversarial mutation survived: ${id}`);
+  attempts.push({ id, detected: true });
+}
+
+const evidence = await resolveEvidence();
+await git(['merge-base', '--is-ancestor', precommit, resultCommit]);
+await git(['merge-base', '--is-ancestor', resultCommit, 'HEAD']);
+
+for (const relative of [protocolRelative,
+  'apps/companion/benchmarks/real-repositories/protocol.sha256.json',
+  'apps/companion/scripts/real-repository-benchmark.mjs',
+  'apps/companion/scripts/verify-real-repository-benchmark.mjs']) {
+  const workingBlob = await git(['hash-object', path.join(repository, ...relative.split('/'))]);
+  const frozenBlob = await git(['rev-parse', `${precommit}:${relative}`]);
+  assert.equal(workingBlob, frozenBlob, `Precommitted input changed: ${relative}`);
+}
+for (const file of resultFiles) {
+  const workingBlob = await git(['hash-object', path.join(evidence, file)]);
+  const publishedBlob = await git(['rev-parse', `${resultCommit}:${activeEvidence}/${file}`]);
+  assert.equal(workingBlob, publishedBlob, `Published raw result changed: ${file}`);
+}
+
+const protocol = JSON.parse(await readFile(path.join(repository, ...protocolRelative.split('/')), 'utf8'));
+const preflight = JSON.parse(await readFile(path.join(evidence, 'preflight.json'), 'utf8'));
+const measurement = JSON.parse(await readFile(path.join(evidence, 'measurement.json'), 'utf8'));
+const reports = Object.fromEntries(await Promise.all(protocol.corpora.map(async corpus => [corpus.id,
+  JSON.parse(await readFile(path.join(evidence, `${corpus.id}.json`), 'utf8'))])));
+const documentation = await readFile(path.join(repository, 'docs', 'companion', 'EVIDENCE.md'), 'utf8');
+const landing = await readFile(path.join(repository, 'site', 'index.html'), 'utf8');
+
+for (const corpus of protocol.corpora) {
+  const report = reports[corpus.id];
+  validateOrders({ ...corpus, execution: protocol.execution }, report);
+  validateAccounting(report);
+}
+validateIdentities(protocol, preflight, measurement, reports);
+validatePublication(documentation, landing, measurement);
+
+const attempts = [];
+mutation(attempts, 'question-changed-after-precommit', () => {
+  const changed = structuredClone(protocol); changed.corpora[0].questions[0].answer = 'changed'; return changed;
+}, changed => assert.deepEqual(changed, protocol));
+mutation(attempts, 'one-method-favoured-by-question-or-order', () => {
+  const changed = structuredClone(reports['kubernetes-website']);
+  changed.raw['literal-scan'].perQuestion[0].id = changed.raw['literal-scan'].perQuestion[1].id;
+  return changed;
+}, changed => validateOrders({ ...protocol.corpora[0], execution: protocol.execution }, changed));
+mutation(attempts, 'source-rereads-omitted-from-accounting', () => {
+  const changed = structuredClone(reports.cpython); changed.accounting.sourceCollectionBytes = 0; return changed;
+}, validateAccounting);
+mutation(attempts, 'corpus-commit-adulterated', () => {
+  const changed = structuredClone(measurement); changed.corpora[0].commit = '0'.repeat(40); return changed;
+}, changed => validateIdentities(protocol, preflight, changed, reports));
+mutation(attempts, 'published-result-differs-from-raw-data', () => documentation.replace(
+  '| Kubernetes | Contexto preparado | 0 / 10 |', '| Kubernetes | Contexto preparado | 10 / 10 |'),
+changed => validatePublication(changed, landing, measurement));
+
+const result = { schemaVersion: 1, date: new Date().toISOString(), independence:
+  'The verifier imports none of the benchmark runner or summarizer decisions and anchors inputs and raw outputs to published Git blobs.',
+anchors: { precommit, resultCommit }, reviewed: { corpora: protocol.corpora.length,
+  questions: protocol.corpora.reduce((total, corpus) => total + corpus.questions.length, 0),
+  rawObservations: Object.values(reports).reduce((total, report) => total
+    + Object.values(report.raw).reduce((sum, method) => sum + method.perQuestion.length, 0), 0) },
+attempts, verdict: 'PASS', blockers: 0, majors: 0 };
+
+if (outputArgument) {
+  const destination = path.resolve(outputArgument);
+  await mkdir(path.dirname(destination), { recursive: true });
+  const handle = await open(destination, 'wx');
+  try { await handle.writeFile(JSON.stringify(result, null, 2) + '\n'); } finally { await handle.close(); }
+}
+console.log(JSON.stringify(result, null, 2));

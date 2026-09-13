@@ -25,6 +25,8 @@
     "evidence:launches": "node scripts/verify-local-launches.mjs",
     "evidence:model": "node scripts/verify-model-benchmark.mjs",
     "evidence:benchmark": "node scripts/verify-benchmark.mjs",
+    "evidence:real-repositories": "node scripts/verify-real-repository-benchmark.mjs",
+    "evidence:real-repositories-review": "node scripts/review-real-repository-benchmark.mjs",
     "evidence:landing": "node scripts/verify-landing.mjs",
     "evidence:contract": "node scripts/verify-interface-contract.mjs",
     "evidence:mutations": "node scripts/verify-service-mutations.mjs",

@@ -157,10 +157,10 @@ footer p{max-width:var(--measure);font-size:.9rem}
 <section class="wrap">
   <p class="eyebrow" style="color:var(--green)">Medición</p>
   <h2>Qué se midió, y dónde no gana</h2>
-  <p class="lead">Diez preguntas con respuesta conocida sobre el mismo corpus de 6812 bytes, resueltas de tres maneras. El resultado completo, con los datos crudos y el método, está en el repositorio.</p>
+  <p class="lead">Primero, un microcorpus sintético de 6812 bytes con diez preguntas; después, la misma comparación sobre dos repositorios públicos grandes. El resultado completo, con los datos crudos y el método, está en el repositorio.</p>
   <div class="table-scroll">
     <table>
-      <caption>Comparación entre métodos de recuperación sobre el mismo corpus. No compara productos ni personas.</caption>
+      <caption>Microcorpus sintético: comparación entre métodos de recuperación sobre el mismo corpus. No compara productos ni personas.</caption>
       <thead>
         <tr><th scope="col">Método</th><th scope="col">Devolvió la respuesta</th><th scope="col">Localizador</th><th scope="col">Bytes devueltos</th><th scope="col">Bytes leídos</th></tr>
       </thead>
@@ -172,6 +172,7 @@ footer p{max-width:var(--measure);font-size:.9rem}
     </table>
   </div>
   <p class="foot">La columna principal cuenta las preguntas cuya respuesta conocida estaba realmente en el texto devuelto: encontrar el archivo correcto no es responder. <strong>Un barrido literal responde ocho de diez, las mismas ocho que abrir el corpus entero</strong>, y lo hace leyendo 6812 bytes por consulta frente a los 88 814 de índice que lee el contexto preparado. Las dos que el barrido falla están en el documento de Word, cuyas partes van comprimidas. El PDF de este corpus sí lo lee, porque lleva su texto sin comprimir; con un PDF comprimido o escaneado el resultado sería otro. Así que lo que el contexto preparado aporta sobre un barrido competente, medido y sin adornos, son <strong>dos preguntas más y un localizador de pasaje en lugar de un número de línea</strong>. Preparar ese corpus costó 668 ms y escribió 97 271 bytes, catorce veces el tamaño del corpus. Abrir el corpus entero surte la fuente correcta diez de diez por construcción, no por acertar: devuelve todas.</p>
+  <p class="foot"><strong>La prueba a escala no repitió esa ventaja.</strong> Con preguntas precomprometidas sobre <code>kubernetes/website</code> y <code>python/cpython</code>, el barrido literal devolvió la respuesta 10 / 10 en ambos; el contexto preparado obtuvo <strong>0 / 10</strong> en ambos. La aplicación indexó 45 de 2654 fuentes observadas en Kubernetes y 42 de 2753 en CPython por sus límites de entradas, bytes e índice. Este resultado desfavorable, las tres repeticiones y su contabilidad de relecturas están en <a href="../docs/companion/EVIDENCE.md">la evidencia completa del Companion</a>.</p>
 </section>
 
 <section class="wrap">
@@ -192,7 +193,7 @@ footer p{max-width:var(--measure);font-size:.9rem}
         <li>No se afirma nada sobre alucinaciones: el método no puede observarlas.</li>
         <li>No hay cifras de adopción, testimonios ni comparaciones con otros productos.</li>
         <li>Probado en un equipo Windows. Eso no demuestra compatibilidad en otros.</li>
-        <li>No se afirma superioridad sobre un barrido literal: sobre este corpus responde las mismas ocho preguntas leyendo menos bytes.</li>
+        <li>No se afirma superioridad sobre un barrido literal: empata en el microcorpus; en las dos muestras grandes el barrido recupera las 20 respuestas y el contexto preparado ninguna.</li>
         <li>Ningún recorrido publicado fue hecho por una persona usuaria: son pruebas, no un estudio.</li>
       </ul>
     </div>

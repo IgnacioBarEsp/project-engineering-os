@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "protocol": "protocol.json",
+  "sha256": "9c43e965d4f860a5bb260e2f2ca9db23c21ff1c6d4f8d7905245dbf187782e93",
+  "guardedPaths": [
+    "apps/companion/benchmarks/real-repositories/protocol.json",
+    "apps/companion/benchmarks/real-repositories/protocol.sha256.json",
+    "apps/companion/scripts/real-repository-benchmark.mjs",
+    "apps/companion/scripts/verify-real-repository-benchmark.mjs",
+    "apps/companion/scripts/portable-path.mjs"
+  ]
+}

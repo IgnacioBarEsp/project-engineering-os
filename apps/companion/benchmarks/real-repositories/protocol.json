@@ -1,0 +1,107 @@
+{
+  "protocol": 1,
+  "frozenAt": "2026-09-13",
+  "note": "Preguntas congeladas antes de correr ninguna de las tres vias. El arnes calcula el digesto de este archivo y se niega a correr si no coincide con el que declara. Cada pregunta tiene un termino de busqueda que las tres vias reciben igual, un archivo fuente, y una respuesta conocida que tiene que aparecer dentro del texto que la via devuelva. Consulta y respuesta aparecen en la misma linea de la fuente para no dar ventaja a un metodo por el tamano de su ventana. El reparto por tipo de archivo se decidio antes de mirar ninguna respuesta: en proporcion a lo que el repositorio realmente contiene, para no esconder los formatos que a una via le cuestan.",
+  "eligibility": {
+    "minimumUtf8TextFiles": 2000,
+    "minimumUtf8TextBytes": 20971520,
+    "sameLineRequired": true,
+    "rule": "Se cuentan blobs regulares del subtree fijado cuyos bytes sean UTF-8 valido y no contengan NUL. No se decide legibilidad por extension. Symlinks, .git y artefactos de preparacion no forman parte de la exportacion medida."
+  },
+  "execution": {
+    "repetitions": 3,
+    "orders": [
+      ["read-all", "literal-scan", "prepared-context"],
+      ["literal-scan", "prepared-context", "read-all"],
+      ["prepared-context", "read-all", "literal-scan"]
+    ],
+    "cache": "Caliente y no controlada: elegibilidad, verificacion de preguntas y preparacion leen el corpus antes de medir. Cada metodo ocupa una vez cada posicion por pregunta."
+  },
+  "allocation": {
+    "rule": "Las preguntas se reparten en proporcion a los tipos de archivo que el repositorio contiene, contados antes de escribirlas.",
+    "kubernetes-website": "2507 .md y 402 .yaml en content/en, asi que 9 de markdown y 1 de yaml.",
+    "cpython": "2355 .py, 1545 .rst, 641 .h y 482 .c, asi que 5 de Python, 3 de reStructuredText y 2 de C."
+  },
+  "corpora": [
+    {
+      "id": "kubernetes-website",
+      "repository": "https://github.com/kubernetes/website",
+      "commit": "d6e659c193bba313791e6ace4475a475093153f1",
+      "subtree": "content/en",
+      "domain": "prosa y documentacion",
+      "license": { "spdx": "CC-BY-4.0", "path": "LICENSE" },
+      "questions": [
+        { "id": "k8s-nodeport-range", "query": "service-node-port-range", "answer": "30000-32767",
+          "source": "docs/concepts/services-networking/service.md",
+          "asks": "En que rango de puertos asigna Kubernetes un NodePort por omision" },
+        { "id": "k8s-grace-period", "query": "terminationGracePeriodSeconds", "answer": "30 seconds",
+          "source": "docs/concepts/workloads/pods/pod-lifecycle.md",
+          "asks": "Cuanto vale terminationGracePeriodSeconds por omision" },
+        { "id": "k8s-max-skew", "query": "maxSkew", "answer": "unevenly distributed",
+          "source": "docs/concepts/scheduling-eviction/topology-spread-constraints.md",
+          "asks": "Que describe maxSkew en una restriccion de dispersion topologica" },
+        { "id": "k8s-ttl-after-finished", "query": "ttlSecondsAfterFinished", "answer": "field of a Job",
+          "source": "docs/concepts/workloads/controllers/ttlafterfinished.md",
+          "asks": "Donde se configura el TTL de un Job terminado" },
+        { "id": "k8s-dns-ndots", "query": "ndots", "answer": "ndots:5",
+          "source": "docs/concepts/services-networking/dns-pod-service.md",
+          "asks": "Que valor de ndots lleva el resolv.conf de un Pod" },
+        { "id": "k8s-qos-classes", "query": "BestEffort", "answer": "Burstable",
+          "source": "docs/concepts/workloads/pods/pod-qos.md",
+          "asks": "Cuales son las clases de calidad de servicio de un Pod" },
+        { "id": "k8s-secret-size", "query": "1MiB", "answer": "limited to 1MiB",
+          "source": "docs/concepts/configuration/secret.md",
+          "asks": "Que tamano maximo tiene un Secret" },
+        { "id": "k8s-anti-affinity", "query": "podAntiAffinity", "answer": "inter-pod anti-affinity",
+          "source": "docs/concepts/scheduling-eviction/assign-pod-node.md",
+          "asks": "Que campo configura la antiafinidad entre Pods" },
+        { "id": "k8s-runtime-class", "query": "RuntimeClass", "answer": "container runtime configuration",
+          "source": "docs/concepts/containers/runtime-class.md",
+          "asks": "Para que sirve RuntimeClass" },
+        { "id": "k8s-deployment-replicas", "query": "tells deployment to run", "answer": "replicas: 2",
+          "source": "examples/application/deployment.yaml",
+          "asks": "Cuantas replicas declara el ejemplo de Deployment" }
+      ]
+    },
+    {
+      "id": "cpython",
+      "repository": "https://github.com/python/cpython",
+      "commit": "9bd9c7461dabddcd2688b0f14ce00722edbdfee3",
+      "subtree": ".",
+      "domain": "codigo fuente",
+      "license": { "spdx": "Python-2.0", "path": "LICENSE" },
+      "questions": [
+        { "id": "py-lru-cache-default", "query": "def lru_cache", "answer": "maxsize=128",
+          "source": "Lib/functools.py",
+          "asks": "Que tamano por omision tiene la cache de functools.lru_cache" },
+        { "id": "py-default-buffer", "query": "DEFAULT_BUFFER_SIZE", "answer": "128 * 1024",
+          "source": "Lib/_pyio.py",
+          "asks": "Cuanto vale DEFAULT_BUFFER_SIZE" },
+        { "id": "py-fromisoformat", "query": "Construct a date from a string", "answer": "ISO 8601 format",
+          "source": "Lib/_pydatetime.py",
+          "asks": "Que formato acepta date.fromisoformat en la implementacion de Python puro" },
+        { "id": "py-enum-unique", "query": "duplicate values found", "answer": "ValueError",
+          "source": "Lib/enum.py",
+          "asks": "Que error levanta el decorador unique de enum" },
+        { "id": "py-dataclass-frozen", "query": "frozen=False", "answer": "frozen=False",
+          "source": "Lib/dataclasses.py",
+          "asks": "Cual es el valor por omision del parametro frozen de dataclass" },
+        { "id": "py-doc-dontwrite", "query": "PYTHONDONTWRITEBYTECODE", "answer": "envvar",
+          "source": "Doc/using/cmdline.rst",
+          "asks": "Que hace la variable de entorno PYTHONDONTWRITEBYTECODE" },
+        { "id": "py-doc-gil", "query": "free-threaded", "answer": "GIL",
+          "source": "Doc/whatsnew/3.13.rst",
+          "asks": "Que dice la documentacion sobre el modo sin GIL" },
+        { "id": "py-doc-walrus", "query": "assignment expression", "answer": ":=",
+          "source": "Doc/reference/expressions.rst",
+          "asks": "Como se escribe una expresion de asignacion" },
+        { "id": "py-c-recursion-limit", "query": "recursion_limit", "answer": "interp->ceval.recursion_limit",
+          "source": "Python/ceval.c",
+          "asks": "Donde guarda el interprete el limite de recursion" },
+        { "id": "py-c-object-header", "query": "PyObject_HEAD", "answer": "PyObject",
+          "source": "Include/object.h",
+          "asks": "Que define PyObject_HEAD" }
+      ]
+    }
+  ]
+}

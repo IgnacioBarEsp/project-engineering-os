@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "flow": "measure-prepared-context-on-real-repositories",
+  "date": "2026-09-13",
+  "kind": "feature",
+  "result": "debt",
+  "candidates": [
+    {
+      "title": "El contexto preparado cubre solo un prefijo pequeño en repositorios grandes y no recuperó ninguna de las veinte respuestas congeladas",
+      "artifact": "apps/companion/{engine/inventory,context/sources}.mjs",
+      "source": "real-repository-benchmark",
+      "category": "technical-debt",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "consequence": "En las dos muestras fijadas la aplicación declaró cobertura parcial, indexó 45 de 2654 y 42 de 2753 fuentes observadas y devolvió 0 de 20 respuestas, aunque un barrido literal devolvió las veinte.",
+      "remediation": "Diseñar en un issue separado selección o paginación que mantenga límites locales pero evite que el orden del inventario excluya casi todo el corpus; aprobar un protocolo nuevo y repetir estas mismas muestras sin reemplazar el resultado 0 de 20.",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/measure-prepared-context-on-real-repositories/evidence/run-01/measurement.json",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "Tres repeticiones por pregunta y método sobre dos repositorios públicos fijados, usando la aplicación instalada 0.1.0 y un verificador adversarial separado",
+        "result": "Reproducido en las sesenta observaciones preparadas de cada corpus; ninguna devolvió la fuente o respuesta esperada",
+        "date": "2026-09-13"
+      }
+    }
+  ]
+}
