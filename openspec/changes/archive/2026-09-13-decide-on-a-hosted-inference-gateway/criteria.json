@@ -1,0 +1,19 @@
+{
+  "protocol": 1,
+  "decision": "decide-on-a-hosted-inference-gateway",
+  "issue": 107,
+  "frozenAt": "2026-09-13",
+  "note": "Los seis criterios contra los que se comparan las opciones. Se fijaron primero en el cuerpo del issue 107 antes de evaluar ninguna opcion; esta copia los congela por digesto para que el orden no dependa del historial de ediciones de un servicio externo. Una comparacion cuyos criterios se escriben despues de ver los candidatos no compara, justifica.",
+  "criteria": [
+    { "id": "c1-what-it-adds", "asks": "Que aporta que los tres niveles existentes no den", "weight": "Casi resuelve el issue por si solo: es el que el criterio de decision del issue senala." },
+    { "id": "c2-promises", "asks": "Que promete la aplicacion hoy y que tendria que dejar de prometer", "weight": "Alto: son de las pocas afirmaciones que este producto puede hacer sin matices." },
+    { "id": "c3-third-party-data", "asks": "Que datos de otras personas pasarian por donde, y bajo que obligaciones", "weight": "Alto: cambia de quien es la responsabilidad, no solo el volumen." },
+    { "id": "c4-cost", "asks": "Que cuesta, con supuestos de volumen explicitos y el caso de abuso incluido", "weight": "Medio: acotable con presupuesto del proveedor." },
+    { "id": "c5-failure", "asks": "Que pasa cuando falla o se apaga, y a quien deja sin nivel", "weight": "Bajo: la degradacion con su motivo ya esta construida y se heredaria." },
+    { "id": "c6-ongoing-work", "asks": "Cuanto trabajo continuo exige", "weight": "Alto: es permanente, y no termina cuando se despliega." }
+  ],
+  "optionsMustInclude": [
+    "No ofrecerlo, con los mismos campos que las demas",
+    "Al menos una opcion que atienda la misma necesidad sin que el proyecto opere infraestructura"
+  ]
+}

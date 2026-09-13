@@ -13,7 +13,6 @@ time and size. The template is the floor, and this product's own rules are appen
 returns: that text is about to be pasted into an AI that can open the person's folder, so a model's output is
 untrusted input. When more depth is needed than the aggregate gives, the application does not read the files —
 it writes text for the AI that already can.
-
 ## Requirements
 ### Requirement: The prompt is composed from what the application already knows
 The companion SHALL compose the text it hands to an AI from the project's profile, the person's experience
@@ -69,8 +68,10 @@ and SHALL NOT present a model's output that is invalid, empty, shorter than the 
 
 #### Scenario: A provider is unreachable, slow or answers nonsense
 - **WHEN** the call fails, exceeds its timeout or exceeds its size cap
-- **THEN** the level SHALL degrade to the one below without blocking the preparation, and the screen SHALL say
-  which level was used and why
+- **THEN** the composition SHALL fall back to the template it had already written, without blocking the
+  preparation and without trying a second level, and the screen SHALL say which level was used and why
+- **AND** the fallback SHALL be the template rather than a cascade through the other levels, because a level
+  the person did not choose is not a level this product may use on their behalf
 
 ### Requirement: A person is told what a level sends before it is used
 The companion SHALL state, before the first call of a level that leaves this machine, which destination will
@@ -104,4 +105,38 @@ requests only from the process that already holds the network boundary.
 - **WHEN** the evidence reports that no level can hang the interface
 - **THEN** it SHALL report the elapsed time of a dead provider and of a slow one, rather than asserting the
   bound
+
+### Requirement: Adding an inference level is a recorded decision
+An inference level SHALL depend only on what the person controls or on a credential the person supplies.
+Adding a level that depends on anything else — infrastructure, an account, or a machine belonging to the
+project — SHALL require a decision recorded before it is built, and offering no such level SHALL be a valid
+outcome of that decision rather than a gap.
+
+The existing requirement that no key is distributed inside the application is not restated here; this one is
+about what has to happen before a level exists at all.
+
+#### Scenario: A level that would depend on the project's own infrastructure
+- **WHEN** such a level is proposed
+- **THEN** it SHALL NOT be built before a record states what it adds beyond the levels that already exist,
+  what the application would have to stop promising, whose data would pass through where, what it costs, what
+  happens when it fails, and what continuing work it requires
+- **AND** convenience alone SHALL NOT be recorded as sufficient justification
+
+#### Scenario: The comparison behind that decision
+- **WHEN** hosting options are compared
+- **THEN** the criteria SHALL be versioned with a declared digest before any option is evaluated, so that a
+  criterion written to fit a conclusion is detectable rather than a matter of trust
+- **AND** not offering any such level SHALL appear as an option with the same fields as the others
+- **AND** at least one option that addresses the same need without the project operating infrastructure SHALL
+  be evaluated, where one exists
+
+#### Scenario: What a cost estimate in that record may assume
+- **WHEN** a cost is estimated
+- **THEN** it SHALL declare the volume it assumes, SHALL use a measurement already published by this
+  repository where one exists rather than a guess, and SHALL include deliberate abuse rather than expected use
+  alone
+
+#### Scenario: What such a record may claim about its logs
+- **WHEN** a design records that its logs cannot reconstruct anyone's project
+- **THEN** that claim SHALL be stated together with the condition it depends on, rather than on its own
 

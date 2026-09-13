@@ -1465,6 +1465,105 @@
       "createdAt": "2026-09-13",
       "updatedAt": "2026-09-13",
       "resolution": null
+    },
+    {
+      "id": "debt-213c7429f35f",
+      "title": "El nivel provider pide teclear el modelo a mano y repegar la clave en cada arranque, teniendo ya construida la lista desplegable y declarada la ruta que la llenaria",
+      "description": "El nivel provider pide teclear el modelo a mano y repegar la clave en cada arranque, teniendo ya construida la lista desplegable y declarada la ruta que la llenaria",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/ui/app.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "docs/companion/HOSTED_INFERENCE.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "decide-on-a-hosted-inference-gateway",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-74ff4dad7447",
+      "title": "El spec vigente dice que un proveedor caido degrada al nivel de abajo, y el codigo entrega la plantilla sin cascada",
+      "description": "El spec vigente dice que un proveedor caido degrada al nivel de abajo, y el codigo entrega la plantilla sin cascada",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "openspec/specs/companion-prompt-composition/spec.md",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/decide-on-a-hosted-inference-gateway/evidence/independent-review.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "decide-on-a-hosted-inference-gateway",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "resolved",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": {
+        "flow": "align-degradation-spec-with-the-code",
+        "evidence": "El spec vigente decia que un proveedor caido degrada al nivel de abajo, y el codigo hace un intento al nivel configurado y entrega la plantilla con su motivo, sin cascada: inference.mjs lineas 180 a 213 y service.mjs lineas 399 a 406. Resuelto alineando el spec con lo que el codigo hace: el escenario ahora dice que se vuelve a la plantilla ya escrita, sin intentar un segundo nivel, y anade por que, que es que un nivel que la persona no eligio no es un nivel que este producto pueda usar en su nombre. Comprobado que no queda ninguna aparicion de la frase laxa ni en openspec/specs ni en docs/companion, y que openspec validate --all --strict sigue pasando. Ver openspec/changes/decide-on-a-hosted-inference-gateway/evidence/validation.md"
+      }
+    },
+    {
+      "id": "debt-ddb82e8fd48e",
+      "title": "La decision de no ofrecer un gateway depende de que dos proveedores externos sigan emitiendo claves gratuitas, y eso no se verifico",
+      "description": "La decision de no ofrecer un gateway depende de que dos proveedores externos sigan emitiendo claves gratuitas, y eso no se verifico",
+      "category": "external-risk",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "docs/companion/HOSTED_INFERENCE.md",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/decide-on-a-hosted-inference-gateway/evidence/validation.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "decide-on-a-hosted-inference-gateway",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
     }
   ]
 }
