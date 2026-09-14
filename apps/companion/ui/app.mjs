@@ -550,8 +550,8 @@ function modelPanel(status,prompt){
       // fills this had been declared and never called since the level was built.
       el('div',{class:'field'},el('label',{for:'inference-model',text:'Modelo'}),
         state.providerModels?.provider===status.provider&&state.providerModels.models.length
-          ?select('inference-model',Object.fromEntries(state.providerModels.models.map(id=>[id,id])),
-            state.providerModels.models.includes(status.model)?status.model:state.providerModels.models[0],
+          ?select('inference-model',Object.fromEntries([['','Elige un modelo'],...state.providerModels.models.map(id=>[id,id])]),
+            state.providerModels.models.includes(status.model)?status.model:'',
             value=>run(()=>set({model:value})))
           :el('input',{type:'text',id:'inference-model',maxlength:'120',value:status.model,autocomplete:'off',
             onChange:e=>run(()=>set({model:e.target.value}))}),

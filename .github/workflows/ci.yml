@@ -95,7 +95,7 @@ jobs:
       # The journeys above run without the managed toolchain, which is win32-x64 only, so the screens that
       # depend on it — the project's tools panel and its code map — were covered nowhere but a Windows
       # workstation. This harness reaches them from stubbed payloads and needs nothing but the browser already
-      # installed above, and it re-checks that each of its 39 deliberate mutations is still detected.
+      # installed above, and it re-checks that each of its 40 deliberate mutations is still detected.
       - name: Verify the interface contract and its mutations
         if: matrix.os == 'ubuntu-latest'
         run: npm run evidence:contract -- "${{ runner.temp }}/companion-contract-evidence"

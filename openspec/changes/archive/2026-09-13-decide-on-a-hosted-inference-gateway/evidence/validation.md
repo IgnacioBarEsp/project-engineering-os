@@ -88,18 +88,16 @@ salió:
   propia, no un efecto de mirar la pantalla, porque preguntarle a un proveedor qué sirve usa la clave de la
   persona contra su cuenta— y el campo de texto se conserva como salida cuando el proveedor no responde. Se
   añadió además dónde se emite una clave, que la pantalla no decía. **Lo que no se tocó:** que la clave no se
-  guarde en ninguna parte, que es una decisión deliberada y no una fricción.
+  guarde en ninguna parte, que es una decisión deliberada y no una fricción. La revisión de cierre encontró
+  además que la primera opción de la lista parecía elegida antes de guardarse; ahora empieza en «Elige un
+  modelo» y una mutación de navegador demuestra que reintroducir esa divergencia falla.
 - **La cobertura de CI, resuelta por un camino distinto del previsto.** El ítem decía «CI corre las travesías
   del navegador sin cache de runtimes», y al investigarlo **la premisa era falsa**: los runtimes gestionados
   son `win32-x64` únicamente y las travesías corren en ubuntu, así que ningún cache podía llenarlos ahí. La
   causa real era otra —el panel de herramientas y el mapa de código no se cubrían en ninguna parte salvo un
   equipo Windows— y se resolvió metiendo en CI el arnés de contrato de interfaz, que alcanza esas pantallas
-  desde payloads simulados, no necesita ningún runtime y revalida sus 39 mutaciones. Siete líneas añadidas
+  desde payloads simulados, no necesita ningún runtime y revalida sus 40 mutaciones. Siete líneas añadidas
   dentro del job `companion`: **nada añadido ni quitado de `CI / required`**.
-
-Quedan **4/5** y el plan está activo. Los cuatro ítems restantes son de otros flujos, y uno de ellos —que el
-contexto preparado cubre solo un prefijo pequeño en repositorios grandes— es precisamente el hallazgo que #105
-publicó y que ese issue **prohibía arreglar** para no medir un producto cambiado.
 
 Los cuatro restantes son de otros flujos, y uno de ellos —que el contexto preparado cubre solo un prefijo
 pequeño en repositorios grandes— es precisamente el hallazgo que #105 publicó y que ese issue **prohibía
