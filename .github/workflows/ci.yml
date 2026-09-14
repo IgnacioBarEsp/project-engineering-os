@@ -92,6 +92,13 @@ jobs:
       - name: Verify five visual project journeys
         if: matrix.os == 'ubuntu-latest'
         run: npm run test:ui -- "${{ runner.temp }}/companion-ui-evidence"
+      # The journeys above run without the managed toolchain, which is win32-x64 only, so the screens that
+      # depend on it — the project's tools panel and its code map — were covered nowhere but a Windows
+      # workstation. This harness reaches them from stubbed payloads and needs nothing but the browser already
+      # installed above, and it re-checks that each of its 40 deliberate mutations is still detected.
+      - name: Verify the interface contract and its mutations
+        if: matrix.os == 'ubuntu-latest'
+        run: npm run evidence:contract -- "${{ runner.temp }}/companion-contract-evidence"
       # The landing publishes measured numbers. This check fails if any of them stops reconciling with
       # the raw measurement, if the page makes an external request, if contrast or reflow regress in
       # either colour scheme, or if a claim the repository cannot evidence appears. The journey and

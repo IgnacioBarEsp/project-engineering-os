@@ -32,7 +32,7 @@ const stageList=stages=>stages.flatMap((stage,index)=>{
   return index?[', ',node]:[node];});
 const onDate=value=>{const when=new Date(value??'');return Number.isNaN(when.getTime())?null
   :when.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});};
-const state={page:'start',tab:'overview',busy:false,projects:[],project:null,plan:null,status:null,query:'',inference:null,notes:null,stacks:null,selection:{name:'',goal:'',role:'researcher',profile:'research',experience:'guided',agents:['web'],stack:{decision:'too-early',requested:[]}}};
+const state={page:'start',tab:'overview',busy:false,projects:[],project:null,plan:null,status:null,query:'',inference:null,notes:null,stacks:null,providerModels:null,selection:{name:'',goal:'',role:'researcher',profile:'research',experience:'guided',agents:['web'],stack:{decision:'too-early',requested:[]}}};
 function el(tag,props={},...children){const node=document.createElement(tag);for(const [k,v] of Object.entries(props)){if(k==='class')node.className=v;else if(k==='text')node.textContent=v;else if(k.startsWith('on'))node.addEventListener(k.slice(2).toLowerCase(),v);else if(v!==false&&v!==undefined&&v!==null)node.setAttribute(k,v===true?'':v);}for(const c of children.flat(Infinity)){if(c!==null&&c!==undefined)node.append(c instanceof Node?c:document.createTextNode(String(c)));}return node;}
 const p=(text,cls='')=>el('p',{class:cls,text});
 const btn=(text,action,cls='secondary')=>el('button',{type:'button',class:cls,onClick:()=>run(action)},text);
@@ -544,10 +544,27 @@ function modelPanel(status,prompt){
         level.id==='provider'?el('small',{text:'Viene apagado. Se enciende con tu clave, y la clave no se guarda: vive solo mientras la aplicación está abierta.'}):null);})),
     ['provider','own-key'].includes(status.level)?el('div',{class:'fields'},
       field('Proveedor','inference-provider',select('inference-provider',Object.fromEntries(status.providers.map(entry=>[entry.id,entry.label])),status.provider,value=>run(()=>set({provider:value})))),
+      // The list of models the provider serves, when the person has asked for it. Until then, and if the
+      // provider does not answer, the free-text field stays — it is the way out, not the default. Typing an
+      // exact identifier by hand was what the level asked for while `local` got a list, and the route that
+      // fills this had been declared and never called since the level was built.
       el('div',{class:'field'},el('label',{for:'inference-model',text:'Modelo'}),
-        el('input',{type:'text',id:'inference-model',maxlength:'120',value:status.model,autocomplete:'off',
-          onChange:e=>run(()=>set({model:e.target.value}))}),
-        el('small',{text:'El identificador exacto que usa tu proveedor. Se guarda al salir del campo.'}))):null,
+        state.providerModels?.provider===status.provider&&state.providerModels.models.length
+          ?select('inference-model',Object.fromEntries([['','Elige un modelo'],...state.providerModels.models.map(id=>[id,id])]),
+            state.providerModels.models.includes(status.model)?status.model:'',
+            value=>run(()=>set({model:value})))
+          :el('input',{type:'text',id:'inference-model',maxlength:'120',value:status.model,autocomplete:'off',
+            onChange:e=>run(()=>set({model:e.target.value}))}),
+        el('small',{text:state.providerModels?.provider===status.provider&&state.providerModels.models.length
+          ?'De lo que tu proveedor dice que sirve. Se guarda al elegirlo.'
+          :'El identificador exacto que usa tu proveedor. Se guarda al salir del campo.'}))):null,
+    ['provider','own-key'].includes(status.level)?actions(btn('Buscar los modelos de mi proveedor',async()=>{
+      const found=await call('providerModels');
+      state.providerModels=found;
+      notice(found.models.length
+        ?`Tu proveedor dice que sirve ${found.models.length} ${found.models.length===1?'modelo':'modelos'}. Elige uno de la lista.`
+        :`No se pudo traer la lista: ${found.reason??'el proveedor no respondió'}. Puedes escribir el identificador a mano.`);
+      await refresh();})):null,
     status.level==='local'&&status.local.available?field('Modelo','inference-model',
       select('inference-model',Object.fromEntries(status.local.models.map(id=>[id,id])),status.model||status.local.models[0],value=>run(()=>set({model:value}))),
       'La primera respuesta puede tardar mientras tu equipo carga el modelo. Puedes detenerla.'):null,
@@ -555,7 +572,7 @@ function modelPanel(status,prompt){
       el('label',{for:'inference-key',text:'Tu clave'}),
       el('input',{type:'password',id:'inference-key',autocomplete:'off',spellcheck:'false',
         onChange:e=>run(async()=>{await call('setInference',{level:status.level,provider:status.provider,model:status.model,key:e.target.value});await refresh();})}),
-      el('small',{text:'No se guarda en ninguna parte. Si cierras la aplicación, se pide de nuevo.'})):null,
+      el('small',{text:'No se guarda en ninguna parte. Si cierras la aplicación, se pide de nuevo. La emite tu proveedor desde su propio sitio; esta aplicación no la pide por ti ni la almacena.'})):null,
     el('div',{class:'sends'},
       el('div',{},el('h3',{text:'Qué se envía'}),el('ul',{},status.sends.map(item=>el('li',{text:item}))),
         el('small',{},'Tu ',term('perfil'),' es el tipo de trabajo que elegiste, no quién eres.')),

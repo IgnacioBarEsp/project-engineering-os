@@ -231,6 +231,41 @@ test('a provider that is dead, slow, oversized or nonsensical degrades to the le
   await refusing.close();
 });
 
+// The route `PROVIDERS` declared since the level was built and nothing ever called. An independent review
+// measured the asymmetry it left: `local` offers a list of models and `provider` made people type an exact
+// identifier into a free-text field. Asking for the list is its own act — looking at the screen still talks to
+// nobody but the loopback interface — and every way it can fail returns a reason instead of throwing.
+test('the models a provider serves are asked for once, by the declared route, and only when asked', async () => {
+  const asked = [];
+  const client = createInferenceClient({ fetch: async (url, options) => {
+    asked.push({ url: String(url), authorization: options?.headers?.authorization ?? null });
+    return new Response(JSON.stringify({ data: [{ id: 'llama-3.3-70b' }, { id: 'qwen-3-32b' }, { id: '' }] }),
+      { status: 200, headers: { 'content-type': 'application/json' } });
+  } });
+
+  const found = await client.listProviderModels({ provider: 'groq', key: 'clave-de-la-persona' });
+  assert.deepEqual(found.models, ['llama-3.3-70b', 'qwen-3-32b'], 'un id vacío no es un modelo');
+  assert.equal(found.reason, null);
+  assert.equal(asked.length, 1, 'una sola petición');
+  // Exactly the route the catalogue declares for that provider, not one built here.
+  assert.equal(asked[0].url, `${PROVIDERS.groq.origin}${PROVIDERS.groq.models}`);
+  assert.match(asked[0].authorization ?? '', /clave-de-la-persona/);
+
+  // Every failure is a reason, never an exception: the screen keeps the free-text field as the way out.
+  const refuses = async (options, expected) => {
+    const value = await createInferenceClient(options.fetch ? { fetch: options.fetch } : {}).listProviderModels(options.input);
+    assert.deepEqual(value.models, []);
+    assert.match(value.reason, expected);
+  };
+  await refuses({ input: { provider: 'no-existe', key: 'k' } }, /lista revisada/);
+  await refuses({ input: { provider: 'groq', key: '' } }, /falta la clave/);
+  await refuses({ fetch: async () => new Response('no', { status: 401 }), input: { provider: 'groq', key: 'k' } }, /respondió 401/);
+  await refuses({ fetch: async () => new Response(JSON.stringify({ data: [] }), { status: 200, headers: { 'content-type': 'application/json' } }),
+    input: { provider: 'groq', key: 'k' } }, /ningún modelo/);
+  await refuses({ fetch: async () => { throw Object.assign(Error('nope'), { name: 'AbortError' }); },
+    input: { provider: 'groq', key: 'k' } }, /no respondió a tiempo/);
+});
+
 test('a destination outside the reviewed list, or one carrying credentials, is refused', async () => {
   const client = createInferenceClient({ fetch: async () => new Response('{}') });
   await assert.rejects(client.compose({ level: 'provider', provider: 'no-existe', key: 'k',

@@ -621,6 +621,15 @@ export async function createDesktopService({ dataRoot, core, environment = null,
         local:{available:local.available,models:local.models,origin:local.origin},
         sends:['el tipo de proyecto que elegiste','tu objetivo y tu perfil','qué etapas faltan','cuántos archivos hay de cada extensión'],
         neverSends:['el contenido de cualquier archivo','el nombre o la ruta de cualquier archivo','lo que tu propia IA te haya reportado']};},
+    // The models the chosen provider says it serves. Its own action on purpose: `inferenceStatus` still talks
+    // to nobody but the loopback interface, and asking a provider what it serves uses the person's key against
+    // their account. Needs the key they already pasted; it is never stored and never leaves this process.
+    async providerModels(input={}) {exact(input,[]);noJob();
+      if(!['provider','own-key'].includes(inference.level))fail('INFERENCE_LEVEL','Elige primero un nivel que use un proveedor.','Cambia el nivel y vuelve a intentarlo.');
+      if(!inference.key)fail('INFERENCE_KEY','Pega primero tu clave.','La clave no se guarda: si cerraste la aplicación, vuelve a pegarla.');
+      return operation('Buscar los modelos de tu proveedor',async controls=>{
+        const found=await inferenceClient.listProviderModels({provider:inference.provider,key:inference.key,signal:controls.signal});
+        return {provider:inference.provider,models:found.models,reason:found.reason,elapsedMs:found.elapsedMs??null};});},
     async setInference(input) {exact(input,['level','provider','model','key']);noJob();
       if(!LEVELS.includes(input.level))fail('INFERENCE_LEVEL','Elige uno de los niveles que la pantalla ofrece.');
       if(input.level!=='off'&&input.level!=='local'&&!Object.hasOwn(PROVIDERS,input.provider))fail('INFERENCE_PROVIDER','Ese proveedor no está en la lista revisada.');

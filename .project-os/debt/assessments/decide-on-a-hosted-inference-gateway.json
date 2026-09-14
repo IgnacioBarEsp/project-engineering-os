@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "flow": "decide-on-a-hosted-inference-gateway",
+  "date": "2026-09-13",
+  "kind": "feature",
+  "result": "debt",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "docs/companion/HOSTED_INFERENCE.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "Una revision independiente insistio en que si lo que sobra es friccion, hostear no es la unica forma de quitarla, y tenia razon. Medido en la interfaz: el nivel provider pide teclear el identificador exacto del modelo en un campo de texto libre en ui/app.mjs lineas 547 a 550, mientras que el nivel local ofrece una lista desplegable en las lineas 551 y 552; la clave se vuelve a pedir en cada arranque segun la linea 558; y ninguna pantalla dice donde se consigue una clave. Tres de esas cuatro fricciones se quitan sin infraestructura, y la pieza que falta ya existe: PROVIDERS declara una ruta models por proveedor en inference.mjs lineas 29 y 30 que no se llama desde ningun sitio de apps. Esa opcion gana en los seis criterios a las dos que hostean. No se implementa aqui porque este issue decide sobre un gateway y no autoriza tocar el producto, y no hay ningun issue abierto que la cubra",
+        "result": "medido-en-parte",
+        "date": "2026-09-13"
+      },
+      "title": "El nivel provider pide teclear el modelo a mano y repegar la clave en cada arranque, teniendo ya construida la lista desplegable y declarada la ruta que la llenaria",
+      "artifact": "apps/companion/ui/app.mjs",
+      "source": "adversarial-review",
+      "category": "technical-debt",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/decide-on-a-hosted-inference-gateway/evidence/independent-review.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "El registro decia que un proveedor caido degrada al nivel de abajo, y el codigo no hace eso: hace un intento al nivel configurado y si falla devuelve used off con su motivo en inference.mjs lineas 180 a 213, y el llamador entrega la plantilla en service.mjs lineas 399 a 406. No hay cascada. La expresion viene del spec vigente de composicion de prompts, asi que el documento heredo un vocabulario laxo en vez de inventarlo, pero en un registro sobre un quinto nivel invita a imaginar un repliegue que no existe. Resuelto en el documento diciendo lo que el codigo hace. El spec vigente conserva la expresion y esa es la parte que no se arreglo aqui",
+        "result": "medido-en-parte",
+        "date": "2026-09-13"
+      },
+      "title": "El spec vigente dice que un proveedor caido degrada al nivel de abajo, y el codigo entrega la plantilla sin cascada",
+      "artifact": "openspec/specs/companion-prompt-composition/spec.md",
+      "source": "adversarial-review",
+      "category": "technical-debt",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/decide-on-a-hosted-inference-gateway/evidence/validation.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "El veredicto de este registro depende de un hecho que este proyecto no controla: que Cerebras y Groq sigan emitiendo claves gratuitas. Si dejan de hacerlo, provider deja de ser un camino de coste cero y un gateway pasaria a ser el unico nivel que no pide instalar ni pagar, con lo que el primer criterio cambiaria de signo. Que condiciones ponen hoy exactamente esas dos empresas no se verifico y no se afirma, porque son politicas que pueden cambiar sin avisar y no se pueden leer del codigo. Queda nombrado en la condicion de reapertura del documento en vez de implicito",
+        "result": "no-verificado",
+        "date": "2026-09-13"
+      },
+      "title": "La decision de no ofrecer un gateway depende de que dos proveedores externos sigan emitiendo claves gratuitas, y eso no se verifico",
+      "artifact": "docs/companion/HOSTED_INFERENCE.md",
+      "source": "declared-degradation",
+      "category": "external-risk",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/decide-on-a-hosted-inference-gateway/evidence/independent-review.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "verification": {
+        "method": "Tres fallos de como el registro apoyaba su decision, no de la decision. Faltaba la cuarta opcion que domina al gateway, y el documento acreditaba a no ofrecerlo con que nada falta doce lineas despues de conceder que la friccion es real. El supuesto de coste de entrada era mas de cuatro veces la medicion que este mismo repositorio ya habia publicado, 1228 caracteres en la evidencia del issue 99, y en la direccion que hace parecer peor el abuso. Y el delta de spec se contradecia: su prosa prohibia un nivel que dependiera de una maquina del proyecto y su propio escenario lo permitia si se registraba. Los tres resueltos: cuarta opcion en la tabla con las mismas seis filas, tabla de costes recalculada desde lo medido, y delta reescrito como requisito de proceso con el antes anclado a un digesto declarado",
+        "result": "resuelto",
+        "date": "2026-09-13"
+      },
+      "title": "El registro de decision apoyaba mal una decision correcta: faltaba la opcion que la domina, el coste asumia cuatro veces lo medido, y el delta de spec se contradecia",
+      "artifact": "docs/companion/HOSTED_INFERENCE.md",
+      "source": "adversarial-review",
+      "category": "defect",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "resolvedPreviously": true
+    }
+  ]
+}

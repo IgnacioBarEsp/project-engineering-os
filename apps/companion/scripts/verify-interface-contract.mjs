@@ -54,6 +54,12 @@ const CONSTRUCTION_PROBES = [
 ];
 
 const MUTATIONS = [
+  { id: 'the-provider-model-list-looks-chosen-before-the-choice-is-saved', file: 'app.mjs',
+    reason: 'la lista muestra el primer modelo como elegido aunque el servicio conserva otro valor, y elegir ese primer elemento no dispara ningún cambio',
+    from: "Object.fromEntries([['','Elige un modelo'],...state.providerModels.models.map(id=>[id,id])])",
+    to: 'Object.fromEntries(state.providerModels.models.map(id=>[id,id]))',
+    detect: report => report.providerModelSelection?.value !== ''
+      || report.providerModelSelection?.options?.[0]?.value !== '' },
   // The state of a listed project, and what a mark on it is allowed to claim. Every one of these is a way the
   // row could go back to asserting more than the check found.
   { id: 'a-ready-mark-on-a-project-that-is-not-ready', file: 'app.mjs',
@@ -277,7 +283,7 @@ const pw = await import(process.env.PROJECT_OS_PLAYWRIGHT_MODULE
 const { chromium } = pw.default ?? pw;
 
 const record = { date: new Date().toISOString(), source: portable(source),
-  scope: 'El renderer real servido desde una copia, con el servicio nativo reemplazado por respuestas fijas. Cubre Inicio, Ayuda, la lista, el asistente, el diálogo de un término, el ancho mínimo, la lista vacía, un error del servicio y la ventana con su módulo roto. No demuestra el motor ni la aplicación instalada.',
+  scope: 'El renderer real servido desde una copia, con el servicio nativo reemplazado por respuestas fijas. Cubre Inicio, Ayuda, la lista, el asistente, un proyecto, su panel de IA, la revisión de tecnología, el diálogo de un término, el ancho mínimo, la lista vacía, un error del servicio y la ventana con su módulo roto. No demuestra el motor ni la aplicación instalada.',
   glossaryTerms: GLOSSARY.length, baseline: null, mutations: [], findings: [] };
 
 // Fixed answers, so the renderer is the only thing under test. Three histories: one project prepared and
@@ -332,6 +338,14 @@ const stub = mode => `window.companion={
     {id:'web-interface',name:'Interfaz web con React',purpose:'Construir pantallas web con componentes.',profiles:['software'],licenses:['MIT'],closure:3,downloadBytes:1311203,installedBytes:7576468,destination:'.project-os/stack/web-interface'},
     {id:'typed-code',name:'TypeScript',purpose:'Escribir código con tipos y comprobarlo antes de ejecutarlo.',profiles:['software'],licenses:['Apache-2.0'],closure:1,downloadBytes:4377468,installedBytes:23626590,destination:'.project-os/stack/typed-code'}],
     notOffered:[{id:'flutter',name:'Flutter',from:'Google, como SDK propio de más de un gigabyte',reason:'Llega con su propio instalador, no como dependencias revisables.'}]}}),
+  inferenceStatus:async()=>({ok:true,value:{level:'provider',provider:'groq',model:'',hasKey:true,keySaved:false,
+    levels:[{id:'off',label:'Solo plantillas, en este equipo'},{id:'local',label:'Un modelo en tu equipo'},{id:'provider',label:'Un proveedor gratuito, con tu clave'},{id:'own-key',label:'Tu proveedor, con tu clave'}],
+    providers:[{id:'cerebras',label:'Cerebras',origin:'https://api.cerebras.ai'},{id:'groq',label:'Groq',origin:'https://api.groq.com'}],
+    local:{available:false,models:[],origin:null},sends:['tu objetivo y tu perfil'],neverSends:['el contenido de cualquier archivo']}}),
+  promptPreview:async()=>({ok:true,value:{usedLevel:'off',levelLabel:'Solo plantillas, en este equipo',fromModel:false,
+    reason:'sin modelo',text:'## Instrucciones\\n\\nTexto de prueba.',pending:[],notes:null}}),
+  providerModels:async()=>({ok:true,value:{provider:'groq',models:['llama-3.3-70b','qwen-3-32b'],reason:null,elapsedMs:12}}),
+  setInference:async input=>({ok:true,value:{...input,hasKey:true,keySaved:false}}),
   onProgress:()=>()=>{}};`;
 
 let browser;
@@ -345,6 +359,7 @@ async function probe(page) {
 }
 async function inspect(page) {
   const screens = {}, actions = new Map(), rowActions = new Map(), termLabels = [], unreachable = [];
+  let providerModelSelection = null;
   const collect = async where => {
     collectActionPairs(await page.evaluate(ACTION_PAIRS), actions, where);
     collectActionPairs(await page.evaluate(ROW_ACTION_PAIRS), rowActions, where);
@@ -408,6 +423,30 @@ async function inspect(page) {
     await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true').catch(() => {});
     if (await page.locator('.guide').count()) { await collect('mi proyecto'); screens['mi proyecto'] = await probe(page); }
     else unreachable.push('mi proyecto');
+    const toHandoff = page.getByRole('button', { name: 'Continuar con mi IA', exact: true });
+    const reachedHandoff = await toHandoff.count()
+      ? await toHandoff.click({ timeout: 4000 }).then(() => true, () => false)
+      : false;
+    if (reachedHandoff) {
+      await page.getByRole('heading', { name: 'Quién escribe estas instrucciones', exact: true })
+        .waitFor({ timeout: 4000 }).catch(() => {});
+      const fetchModels = page.getByRole('button', { name: 'Buscar los modelos de mi proveedor', exact: true });
+      if (await fetchModels.count()) {
+        await fetchModels.click();
+        await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true');
+        const model = page.locator('#inference-model');
+        if (await model.evaluate(node => node.tagName === 'SELECT').catch(() => false)) {
+          providerModelSelection = {
+            value: await model.inputValue(),
+            options: await model.locator('option').evaluateAll(nodes => nodes.map(node => ({ value: node.value, label: node.textContent }))),
+          };
+          await collect('tu IA');
+          screens['tu IA'] = await probe(page);
+        }
+      }
+      await page.getByRole('button', { name: 'Estado', exact: true }).click().catch(() => {});
+      await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true').catch(() => {});
+    } else unreachable.push('tu IA');
     // The technology review, reached the way a person reaches it. An independent review pointed out that the
     // stub answered `stackCatalog` but not `previewStack`, so this screen never rendered here and stayed out of
     // the names-and-counts table even though the journey harness walked it.
@@ -428,11 +467,12 @@ async function inspect(page) {
   await page.waitForTimeout(300);
   const narrow = await probe(page);
   await page.setViewportSize({ width: 1180, height: 820 });
-  return { screens, dialog, narrow, actions, rowActions, termLabels, glossaryEntries, unreachable,
+  return { screens, dialog, narrow, actions, rowActions, termLabels, glossaryEntries, unreachable, providerModelSelection,
     glossaryTerms: GLOSSARY.length };
 }
 const flat = report => ({
   screens: report.screens, dialog: report.dialog, narrow: report.narrow, unreachable: report.unreachable,
+  providerModelSelection: report.providerModelSelection,
   glossaryEntries: report.glossaryEntries, glossaryTerms: report.glossaryTerms,
   actions: [...report.actions].map(([action, names]) => [action, [...names.keys()]]),
   duplicated: duplicateActionNames(report.actions), undeclared: undeclaredActions(report.actions),
@@ -495,8 +535,8 @@ try {
   if (baseline.undeclared.length) complain(`Acciones fuera del conjunto cerrado: ${baseline.undeclared.join(', ')}`);
   if (baseline.termLabelMismatches.length) complain(`Un control abre otra definición: ${baseline.termLabelMismatches.join('; ')}`);
   if (baseline.glossaryEntries !== GLOSSARY.length) complain(`El glosario lista ${baseline.glossaryEntries} de ${GLOSSARY.length} términos`);
-  // This harness never reaches a project, so only the actions its screens can offer are expected here; the
-  // closed set of all of them is asserted by the journey harness, which walks a real project.
+  // These five navigation actions exist independently of project state, so every fixture must expose them.
+  // State-dependent actions are checked by the project probes and by the journey harness against real data.
   const REACHABLE_HERE = ['open-start', 'open-project-list', 'prepare-project', 'open-help', 'privacy-scope'];
   const absent = REACHABLE_HERE.filter(action => !baseline.actions.some(([id]) => id === action));
   if (absent.length) complain(`Acciones ausentes de estas pantallas: ${absent.join(', ')}`);
@@ -518,6 +558,16 @@ try {
   const mine = baseline.screens['mi proyecto'];
   if (!mine) complain('No se pudo inspeccionar la pantalla del proyecto');
   else for (const problem of guideProblems(mine.guide)) complain(`En la guía del proyecto, ${problem}`);
+  if (!baseline.providerModelSelection) complain('No se pudo inspeccionar la lista de modelos del proveedor');
+  else {
+    if (baseline.providerModelSelection.value !== '') complain('La lista de modelos aparenta una elección que todavía no se guardó');
+    if (baseline.providerModelSelection.options[0]?.value !== '') complain('La lista de modelos no empieza con una elección explícita vacía');
+  }
+  if (!baseline.providerModelSelection) complain('No se pudo inspeccionar la lista de modelos del proveedor');
+  else {
+    if (baseline.providerModelSelection.value !== '') complain('La lista de modelos parece elegida antes de guardar una elección');
+    if (baseline.providerModelSelection.options[0]?.value !== '') complain('La lista de modelos no ofrece una elección inicial explícita');
+  }
   if (baseline.rendererErrors.length) complain(`Excepciones del renderer: ${baseline.rendererErrors.join(' | ')}`);
   if (baseline.brokenModule.bootText.length < 40) complain(`Con el módulo roto la ventana no dice qué pasó: "${baseline.brokenModule.bootText}"`);
   assert.deepEqual(baseline.actions.map(([id]) => id).filter(id => !EXPECTED_ACTIONS.includes(id)), [],
@@ -601,6 +651,7 @@ try {
         brokenWords: report.narrow.accessibility.brokenWords,
         unnamed: Object.entries(report.screens).flatMap(([where, screen]) => screen.names.unnamed.map(c => `${where}:${c}`)),
         termsUnreachable: Object.entries(report.screens).filter(([, screen]) => screen.accessibility.terms !== screen.accessibility.termsReachable).map(([where]) => where),
+        providerModelSelection: report.providerModelSelection,
         bootText: report.brokenModule.bootText.length };
     } catch (error) {
       // An exception is NOT a detection. A previous version credited three mutations to a thirty-second

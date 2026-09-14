@@ -111,6 +111,10 @@ lo que no:
 | Pérdida de ediciones en recuperación | Prevalidación de todas las operaciones, restauración por hash y conflicto visible ante cambios humanos. |
 | Constructor con autoridad ampliada | Adaptador limitado a plan/apply/check/rollback; módulo fijado inyectado por el proceso de confianza; conserva ownership del núcleo. |
 
+No existe ningún nivel de inferencia que dependa de una clave de este proyecto ni de una máquina de nadie, y
+eso es una decisión tomada y registrada, no un hueco: el [registro de decisión](HOSTED_INFERENCE.md) explica
+qué haría falta, qué habría que dejar de prometer y por qué no se ofrece.
+
 ## Privilegios, límites y recuperación
 
 Se trabaja con permisos normales de la persona y dentro de una carpeta de proyecto explícita. No se
