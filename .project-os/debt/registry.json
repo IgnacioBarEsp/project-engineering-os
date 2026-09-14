@@ -250,11 +250,14 @@
         }
       ],
       "issue": null,
-      "status": "open",
+      "status": "resolved",
       "exception": null,
       "createdAt": "2026-09-11",
-      "updatedAt": "2026-09-11",
-      "resolution": null
+      "updatedAt": "2026-09-14",
+      "resolution": {
+        "flow": "sanitise-provider-friction-and-ci-coverage",
+        "evidence": "El item decia que CI corre las travesias del navegador sin cache de runtimes, y al investigarlo la premisa resulto falsa: los runtimes gestionados son win32-x64 unicamente segun RUNTIME_PLATFORM y las URL del catalogo, y las travesias corren en ubuntu, asi que ningun cache podia llenarlos ahi. La causa real era otra: las pantallas que dependen del toolchain gestionado, el panel de herramientas del proyecto y el mapa de codigo, no se cubrian en ninguna parte salvo un equipo Windows. Resuelto por el camino que si funciona en esa plataforma: el arnes de contrato de interfaz, que alcanza esas pantallas desde payloads simulados y no necesita ningun runtime gestionado, entra en el job companion de CI sobre el navegador que ese job ya instala. Cubre diez pantallas y vuelve a comprobar que sus 39 mutaciones deliberadas se siguen detectando. No se anadio ni se quito nada de CI / required: git diff contra main sobre el workflow son siete lineas anadidas dentro del job companion"
+      }
     },
     {
       "id": "debt-d1f04de40687",
@@ -1492,11 +1495,14 @@
         }
       ],
       "issue": null,
-      "status": "open",
+      "status": "resolved",
       "exception": null,
       "createdAt": "2026-09-13",
-      "updatedAt": "2026-09-13",
-      "resolution": null
+      "updatedAt": "2026-09-14",
+      "resolution": {
+        "flow": "sanitise-provider-friction-and-ci-coverage",
+        "evidence": "El nivel provider hacia teclear el identificador exacto del modelo en un campo de texto libre mientras el nivel local ofrecia una lista, y PROVIDERS declaraba una ruta models por proveedor que no se llamaba desde ningun sitio. Resuelto conectandola: listProviderModels en inference.mjs pide esa ruta declarada, con los mismos limites que el resto de llamadas, y devuelve un motivo en vez de lanzar en cada forma de fallo. El servicio la expone como providerModels, una operacion propia y no un efecto de mirar la pantalla, porque preguntar a un proveedor que sirve usa la clave de la persona contra su cuenta: inferenceStatus sigue sin hablar con nadie mas que la interfaz de bucle local. La pantalla ofrece un control explicito, muestra la lista cuando la trae y conserva el campo de texto como salida cuando no. Se anadio ademas donde se emite una clave, que la pantalla no decia. Comprobado con una prueba con nombre que afirma la ruta exacta del catalogo, la cabecera de autorizacion, el descarte de ids vacios y las cinco formas de fallo; y anclado por dos mutaciones que construyen la ruta a mano y que lanzan en vez de dar un motivo, ambas detectadas. Lo que NO se toco: que la clave no se guarde en ninguna parte, que es una decision deliberada y no una friccion"
+      }
     },
     {
       "id": "debt-74ff4dad7447",

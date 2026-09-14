@@ -78,14 +78,36 @@ este cambio, que es lo que el gate pide:
 - **No resoluble:** que el veredicto dependa de que dos proveedores externos sigan emitiendo claves gratuitas.
   Nadie de este lado puede cerrarlo; está nombrado en la condición de reapertura.
 
-Quedan **6/5** y el plan sigue pausado. Los cuatro ítems restantes son de otros flujos, y uno de ellos —que el
+Con eso quedaban **6/5**, y el plan seguía pausado — y `npm run check` incluye el gate de deuda y CI corre
+`npm run check`, así que la pausa bloqueaba de verdad. El mantenedor eligió sanear dos ítems, y esto es lo que
+salió:
+
+- **La fricción del nivel `provider`, resuelta.** `PROVIDERS` declaraba desde siempre una ruta `models` por
+  proveedor que **no se llamaba desde ningún sitio**, mientras la pantalla hacía teclear el identificador
+  exacto a mano y el nivel `local` sí ofrecía una lista. Ahora hay un control explícito que la trae —una acción
+  propia, no un efecto de mirar la pantalla, porque preguntarle a un proveedor qué sirve usa la clave de la
+  persona contra su cuenta— y el campo de texto se conserva como salida cuando el proveedor no responde. Se
+  añadió además dónde se emite una clave, que la pantalla no decía. **Lo que no se tocó:** que la clave no se
+  guarde en ninguna parte, que es una decisión deliberada y no una fricción.
+- **La cobertura de CI, resuelta por un camino distinto del previsto.** El ítem decía «CI corre las travesías
+  del navegador sin cache de runtimes», y al investigarlo **la premisa era falsa**: los runtimes gestionados
+  son `win32-x64` únicamente y las travesías corren en ubuntu, así que ningún cache podía llenarlos ahí. La
+  causa real era otra —el panel de herramientas y el mapa de código no se cubrían en ninguna parte salvo un
+  equipo Windows— y se resolvió metiendo en CI el arnés de contrato de interfaz, que alcanza esas pantallas
+  desde payloads simulados, no necesita ningún runtime y revalida sus 39 mutaciones. Siete líneas añadidas
+  dentro del job `companion`: **nada añadido ni quitado de `CI / required`**.
+
+Quedan **4/5** y el plan está activo. Los cuatro ítems restantes son de otros flujos, y uno de ellos —que el
 contexto preparado cubre solo un prefijo pequeño en repositorios grandes— es precisamente el hallazgo que #105
 publicó y que ese issue **prohibía arreglar** para no medir un producto cambiado.
 
-Así que la pausa es correcta y dice algo verdadero: **cinco issues seguidos encontraron cosas reales y se
-registraron en vez de esconderse.** Bajar de cinco unidades exige trabajo sobre flujos que no son este, y esa
-es una decisión del mantenedor, no de este cambio. Queda registrado aquí, sin verificar y con su causa, en vez
-de resolverse editando el registro — que es exactamente lo que la política prohíbe.
+Los cuatro restantes son de otros flujos, y uno de ellos —que el contexto preparado cubre solo un prefijo
+pequeño en repositorios grandes— es precisamente el hallazgo que #105 publicó y que ese issue **prohibía
+arreglar** para no medir un producto cambiado.
+
+La pausa fue correcta y dijo algo verdadero: **cinco issues seguidos encontraron cosas reales y se registraron
+en vez de esconderse.** Se salió de ella haciendo trabajo con evidencia, no editando el registro — que es
+exactamente lo que la política prohíbe.
 
 ## Lo que no se comprobó, con su causa
 

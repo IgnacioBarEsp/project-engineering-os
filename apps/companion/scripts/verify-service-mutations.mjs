@@ -121,6 +121,14 @@ const MUTATIONS = [
     to: "" },
   // What decides whether a person's material can leave this machine. An independent review got a file name
   // into a request with nothing but a different capitalisation, so these are the ones that matter most.
+  { id: 'the-models-route-is-built-here-instead-of-taken-from-the-catalogue', file: 'inference',
+    reason: 'la ruta de modelos se construye a mano en vez de tomarse de la que el catalogo declara por proveedor',
+    from: "        const result = await call(checkedUrl(declared.origin, declared.models), { key, timeout: PROVIDER_TIMEOUT_MS, signal });",
+    to: "        const result = await call(checkedUrl(declared.origin, '/v1/models'), { key, timeout: PROVIDER_TIMEOUT_MS, signal });" },
+  { id: 'asking-a-provider-for-models-throws-instead-of-giving-a-reason', file: 'inference',
+    reason: 'un proveedor caido rompe la pantalla en vez de dejar el campo de texto como salida con su motivo',
+    from: "      if (!declared) return { models: [], reason: 'ese proveedor no está en la lista revisada' };",
+    to: "      if (!declared) throw new Error('ese proveedor no está en la lista revisada');" },
   { id: 'the-guard-stops-refusing-a-payload-with-project-data', file: 'inference',
     reason: 'el guardia deja de mirar el cuerpo, así que una ruta del proyecto puede viajar hacia un modelo',
     from: "      const leaking = projectDataIn(body, paths);",

@@ -172,6 +172,34 @@ export function createInferenceClient({ fetch: request = globalThis.fetch, now =
       return { available: false, origin: null, models: [] };
     },
 
+    // The models a provider says it serves, asked once and only when a person asks for them. `PROVIDERS` has
+    // declared this route since the level was built and nothing ever called it, so the screen made people type
+    // an exact model identifier into a free-text field while the local level got a list — an independent
+    // review measured that asymmetry and it is what this closes.
+    //
+    // It is NOT called from `inferenceStatus`: opening that screen still talks to nobody but the loopback
+    // interface. Asking a provider what it serves means using the person's key against their account, and that
+    // is an act they take, not a side effect of looking.
+    async listProviderModels({ provider, key, signal } = {}) {
+      const declared = PROVIDERS[provider];
+      if (!declared) return { models: [], reason: 'ese proveedor no está en la lista revisada' };
+      if (!key) return { models: [], reason: 'falta la clave de tu proveedor' };
+      try {
+        const result = await call(checkedUrl(declared.origin, declared.models), { key, timeout: PROVIDER_TIMEOUT_MS, signal });
+        if (!result.ok) return { models: [], elapsedMs: result.elapsedMs, reason: `el proveedor respondió ${result.status}` };
+        const listed = JSON.parse(result.text)?.data;
+        if (!Array.isArray(listed) || !listed.length) return { models: [], elapsedMs: result.elapsedMs, reason: 'el proveedor no devolvió ningún modelo' };
+        return { models: listed.map(entry => String(entry?.id ?? '')).filter(Boolean).slice(0, 40),
+          elapsedMs: result.elapsedMs, reason: null };
+      } catch (error) {
+        const reason = error?.name === 'AbortError' || /timeout/.test(String(error?.message))
+          ? 'el proveedor no respondió a tiempo'
+          : error?.code === 'INFERENCE_TOO_LARGE' ? 'la respuesta era demasiado grande'
+          : 'no se pudo hablar con el proveedor';
+        return { models: [], reason };
+      }
+    },
+
     /**
      * One attempt at one level. Returns what happened rather than throwing: the caller degrades, and the
      * screen says which level was used and why.
