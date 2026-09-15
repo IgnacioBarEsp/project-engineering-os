@@ -7,6 +7,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
+import { inside, removeDisposableRoot } from './disposable-cleanup.mjs';
 
 // This launches an installer and its uninstaller. The NSIS per-user uninstall identity is shared by
 // every Companion install, so redirecting APPDATA alone cannot make a maintainer workstation safe. It
@@ -37,14 +38,10 @@ const readArtifact = async directory => {
   assert.equal((await readFile(path.join(directory, 'SHA256SUMS'), 'utf8')).trim(), `${manifest.sha256}  ${manifest.artifact}`);
   return { manifest, installer };
 };
-const inside = (root, target) => {
-  const relative = path.relative(root, target);
-  return relative !== '' && !relative.startsWith(`..${path.sep}`) && relative !== '..' && !path.isAbsolute(relative);
-};
 const candidate = await readArtifact(path.resolve(candidateDirectory));
 const previous = await readArtifact(path.resolve(previousDirectory));
 assert.equal(previous.manifest.version, '0.1.0', 'La ruta de actualización debe partir del Companion publicado 0.1.0.');
-assert.equal(candidate.manifest.version, '0.2.1', 'La ruta de actualización debe medir el candidato 0.2.1.');
+assert.equal(candidate.manifest.version, '0.2.2', 'La ruta de actualización debe medir el candidato 0.2.2.');
 assert.equal(candidate.manifest.core, '0.5.0', 'La release de la app no cambia el núcleo fijado.');
 
 const temporaryBase = await realpath(tmpdir());
@@ -68,6 +65,7 @@ const execute = (file, args) => run(file, args, { env: environment, windowsHide:
 const installedManifest = async () => JSON.parse(await readFile(path.join(installation, 'resources', 'app', 'package.json'), 'utf8'));
 const present = async file => access(file).then(() => true, () => false);
 
+let measurementError = null;
 try {
   await Promise.all([mkdir(project, { recursive: true }), mkdir(path.dirname(history), { recursive: true }),
     mkdir(runtime, { recursive: true }), mkdir(environment.TEMP, { recursive: true }), mkdir(environment.USERPROFILE, { recursive: true })]);
@@ -79,7 +77,7 @@ try {
   await execute(previous.installer, ['/S', `/D=${installation}`]);
   assert.equal((await installedManifest()).version, previous.manifest.version, 'La instalación base no contiene 0.1.0.');
   await execute(candidate.installer, ['/S', `/D=${installation}`]);
-  assert.equal((await installedManifest()).version, candidate.manifest.version, 'La actualización no contiene 0.2.1.');
+  assert.equal((await installedManifest()).version, candidate.manifest.version, 'La actualización no contiene 0.2.2.');
   await access(path.join(installation, 'Project Engineering OS.exe'));
   const uninstaller = path.join(installation, 'Uninstall Project Engineering OS.exe');
   await access(uninstaller);
@@ -103,8 +101,19 @@ try {
     removed: ['installation'], humanObservation: 'No se afirma que una persona leyó o hizo clic en el asistente de NSIS.',
   }, null, 2) + '\n');
   console.log(JSON.stringify({ status: 'PASS', updated: `${previous.manifest.version} -> ${candidate.manifest.version}`, nativeJourneys: 5 }, null, 2));
+} catch (error) {
+  measurementError = error;
 } finally {
-  // `root` originates in mkdtemp and was resolved/checked against the runner temp before any recursive
-  // removal. It cannot name a project or an existing Companion install.
-  if (inside(temporaryBase, root)) await rm(root, { recursive: true, force: true });
+  try {
+    const cleanup = await removeDisposableRoot({ root, temporaryBase });
+    if (cleanup?.status === 'locked') {
+      console.warn(`[WARN] Cleanup con lock persistente en ${root} tras ${cleanup.attempts} intentos.`);
+      await mkdir(evidenceDirectory, { recursive: true });
+      await writeFile(path.join(evidenceDirectory, 'cleanup.json'), JSON.stringify(cleanup, null, 2) + '\n');
+    }
+  } catch (cleanupError) {
+    console.error(`[ERROR] Fallo inesperado en cleanup: ${cleanupError?.message}`);
+    if (!measurementError) throw cleanupError;
+  }
+  if (measurementError) throw measurementError;
 }

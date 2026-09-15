@@ -9,6 +9,7 @@ import { productionPackages, renderNotices, packageNameFromKey, installedOnWindo
 import { sealNpm } from '../scripts/seal-npm.mjs';
 import { extractZip } from '../runtime/archive.mjs';
 import { inspectTree } from '../runtime/tree.mjs';
+import { removeDisposableRoot, inside } from '../scripts/disposable-cleanup.mjs';
 
 // Producing the artifact needs Windows, a downloaded Electron runtime and several minutes, so it is
 // not a test. What is testable everywhere is the contract the packaging depends on: the declared
@@ -242,17 +243,17 @@ test('the sealed archive is declared as an extra resource, outside every file fi
     'El archivo sellado no debe depender de la lista de archivos empaquetados.');
 });
 
-test('the 0.2.1 release path is private, disposable and never replaces a prior release', async () => {
+test('the 0.2.2 release path is private, disposable and never replaces a prior release', async () => {
   const manifest = JSON.parse(await read('package.json'));
   const lock = JSON.parse(await read('package-lock.json'));
-  assert.equal(manifest.version, '0.2.1');
+  assert.equal(manifest.version, '0.2.2');
   assert.equal(lock.version, manifest.version);
   assert.equal(lock.packages[''].version, manifest.version);
   assert.equal(manifest.dependencies['create-project-engineering-os'], '0.5.0',
     'La release de la app no debe publicar ni adelantar el núcleo.');
   assert.equal(manifest.scripts['evidence:release-install'], 'node scripts/verify-release-installation.mjs');
   assert.equal(manifest.scripts['evidence:published-release'], 'node scripts/verify-published-artifact.mjs');
-  const notes = await read('RELEASE_NOTES_0.2.1.md');
+  const notes = await read('RELEASE_NOTES_0.2.2.md');
   assert.match(notes, /Windows x64/);
   assert.match(notes, /no tiene certificado de editor/);
   assert.match(notes, /núcleo `create-project-engineering-os` 0\.5\.0/);
@@ -263,10 +264,12 @@ test('the 0.2.1 release path is private, disposable and never replaces a prior r
   assert.match(installEvidence, /PROJECT_OS_DISPOSABLE_WINDOWS === '1'/);
   assert.match(installEvidence, /NSIS per-user uninstall identity is shared by\s*\n?\/\/\s*every Companion install/);
   assert.match(installEvidence, /previous\.manifest\.version, '0\.1\.0'/);
-  assert.match(installEvidence, /candidate\.manifest\.version, '0\.2\.1'/);
+  assert.match(installEvidence, /candidate\.manifest\.version, '0\.2\.2'/);
   assert.match(installEvidence, /ProjectEngineeringOS-Setup-\\d\+\\\.\\d\+\\\.\\d\+-x64\\\.exe/,
     'El manifiesto no puede convertir una ruta arbitraria en un instalador.');
   assert.match(installEvidence, /verify-native-journeys\.mjs/);
+  assert.match(installEvidence, /removeDisposableRoot/);
+  assert.match(installEvidence, /cleanup\.json/);
 
   const workflow = await readFile(path.resolve(app, '../../.github/workflows/companion-release.yml'), 'utf8');
   assert.match(workflow, /^\s*workflow_dispatch:/m);
@@ -295,4 +298,112 @@ test('the 0.2.1 release path is private, disposable and never replaces a prior r
     'La inspección Authenticode debe cargar explícitamente su módulo.');
   assert.doesNotMatch(artifactVerifier, /WindowsPowerShell/,
     'El verificador de publicación no puede volver al host heredado que falló en el runner.');
+});
+
+test('disposable cleanup retries transient locks and succeeds once unlocked', async () => {
+  let calls = 0;
+  const mockRm = async () => {
+    calls++;
+    if (calls < 3) {
+      const err = new Error('resource busy or locked');
+      err.code = 'EBUSY';
+      throw err;
+    }
+  };
+  const temp = path.resolve('/runner/temp');
+  const root = path.join(temp, 'disposable-test-root');
+  const result = await removeDisposableRoot({
+    root,
+    temporaryBase: temp,
+    attempts: 5,
+    delayMs: 1,
+    rm: mockRm,
+  });
+  assert.equal(result.status, 'removed');
+  assert.equal(result.attempts, 3);
+  assert.equal(calls, 3);
+});
+
+test('disposable cleanup declares persistent lock without throwing error', async () => {
+  let calls = 0;
+  const mockRm = async () => {
+    calls++;
+    const err = new Error('resource busy or locked');
+    err.code = 'EBUSY';
+    throw err;
+  };
+  const temp = path.resolve('/runner/temp');
+  const root = path.join(temp, 'disposable-test-root');
+  const result = await removeDisposableRoot({
+    root,
+    temporaryBase: temp,
+    attempts: 4,
+    delayMs: 1,
+    rm: mockRm,
+  });
+  assert.equal(result.status, 'locked');
+  assert.equal(result.attempts, 4);
+  assert.equal(result.code, 'EBUSY');
+  assert.equal(calls, 4);
+});
+
+test('disposable cleanup rethrows errors that are not transient locks', async () => {
+  const mockRm = async () => {
+    const err = new Error('permission denied');
+    err.code = 'EACCES';
+    throw err;
+  };
+  const temp = path.resolve('/runner/temp');
+  const root = path.join(temp, 'disposable-test-root');
+  await assert.rejects(
+    () => removeDisposableRoot({ root, temporaryBase: temp, attempts: 3, delayMs: 1, rm: mockRm }),
+    { code: 'EACCES' }
+  );
+});
+
+test('disposable cleanup refuses root outside runner temporary directory', async () => {
+  const temp = path.resolve('/runner/temp');
+  const outsideRoot = path.resolve('/other/path');
+  await assert.rejects(
+    () => removeDisposableRoot({ root: outsideRoot, temporaryBase: temp }),
+    /no está dentro del temporal/
+  );
+});
+
+test('release measurement error survives cleanup failures and persistent locks unchanged', async () => {
+  const simulateHarness = async ({ bodyError, cleanupThrows }) => {
+    let measurementError = null;
+    try {
+      if (bodyError) throw bodyError;
+    } catch (error) {
+      measurementError = error;
+    } finally {
+      try {
+        if (cleanupThrows) throw cleanupThrows;
+      } catch (cleanupError) {
+        if (!measurementError) throw cleanupError;
+      }
+      if (measurementError) throw measurementError;
+    }
+  };
+
+  const measurementFailure = new Error('AssertionError: installation base failed');
+  const cleanupCrash = new Error('unexpected cleanup error');
+
+  // 1. Body fails and cleanup throws: measurement error is rethrown untouched
+  await assert.rejects(
+    () => simulateHarness({ bodyError: measurementFailure, cleanupThrows: cleanupCrash }),
+    err => err === measurementFailure
+  );
+
+  // 2. Body succeeds and cleanup throws: cleanup error is thrown
+  await assert.rejects(
+    () => simulateHarness({ bodyError: null, cleanupThrows: cleanupCrash }),
+    err => err === cleanupCrash
+  );
+
+  // 3. Body succeeds and cleanup does not throw: completes successfully
+  await assert.doesNotReject(
+    () => simulateHarness({ bodyError: null, cleanupThrows: null })
+  );
 });
