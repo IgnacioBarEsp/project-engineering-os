@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "harden-release-install-cleanup",
+  "date": "2026-09-15",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "notes": "El fallo de cleanup por lock transitorio de NSIS en el runner se corrigio con reintentos acotados, resultado explicito sin enmascarar errores de medicion y pruebas de comportamiento en packaging.mjs."
+}

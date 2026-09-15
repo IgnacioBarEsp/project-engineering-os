@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 117,
+  "change": "harden-release-install-cleanup",
+  "surfaces": ["harness-tooling"],
+  "validations": [
+    { "id": "openspec-strict", "status": "passed", "evidence": "openspec/changes/harden-release-install-cleanup/evidence/validation.md", "justification": null, "profileCondition": null },
+    { "id": "opsx-check", "status": "passed", "evidence": "openspec/changes/harden-release-install-cleanup/evidence/validation.md", "justification": null, "profileCondition": null },
+    { "id": "constructor-tests", "status": "passed", "evidence": "openspec/changes/harden-release-install-cleanup/evidence/validation.md", "justification": null, "profileCondition": null },
+    { "id": "sync-check", "status": "passed", "evidence": "openspec/changes/harden-release-install-cleanup/evidence/validation.md", "justification": null, "profileCondition": null },
+    { "id": "capability-matrix-check", "status": "passed", "evidence": "openspec/changes/harden-release-install-cleanup/evidence/validation.md", "justification": null, "profileCondition": null },
+    { "id": "doctor-json-check", "status": "passed", "evidence": "openspec/changes/harden-release-install-cleanup/evidence/validation.md", "justification": null, "profileCondition": null },
+    { "id": "second-run-idempotence", "status": "passed", "evidence": "openspec/changes/harden-release-install-cleanup/evidence/validation.md", "justification": null, "profileCondition": null }
+  ],
+  "evidence": [
+    { "id": "adversarial-review", "kind": "manual", "status": "verified", "ref": "openspec/changes/harden-release-install-cleanup/evidence/adversarial-review.md", "justification": null, "profileCondition": null },
+    { "id": "issue-link", "kind": "manual", "status": "verified", "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/117", "justification": null, "profileCondition": null },
+    { "id": "review-of-declared-degradations", "kind": "manual", "status": "verified", "ref": "openspec/changes/harden-release-install-cleanup/evidence/validation.md", "justification": null, "profileCondition": null },
+    { "id": "recovery-rehearsal-for-one-transaction", "kind": "manual", "status": "verified", "ref": "openspec/changes/harden-release-install-cleanup/evidence/validation.md", "justification": null, "profileCondition": null }
+  ],
+  "rollback": { "strategy": "Revertir el micro-PR sin modificar tag, release, assets ni datos de usuario.", "status": "verified", "evidence": "openspec/changes/harden-release-install-cleanup/evidence/validation.md", "justification": null },
+  "adversarialReview": { "status": "passed", "ref": "openspec/changes/harden-release-install-cleanup/evidence/adversarial-review.md", "blockers": 0, "majors": 0 },
+  "exceptions": []
+}
