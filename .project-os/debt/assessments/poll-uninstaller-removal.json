@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "poll-uninstaller-removal",
+  "date": "2026-09-15",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "notes": "El fallo de asercion inmediata tras el desinstalador silencioso de NSIS se corrigio esperando con presupuesto acotado (waitForRemoval) a que el worker asincrono termine de eliminar el directorio, con pruebas unitarias en packaging.mjs."
+}
