@@ -26,7 +26,8 @@ Models, Unity, graph providers and paid services are never installed by this cat
 
 ## What gets installed for the project itself
 
-Those five are what every prepared project needs. What a *particular* project needs depends on what the
+The table covers engineering activation for software or Unity; CodeGraph is optional. Document and general
+profiles do not require these development tools. What a *particular* project needs depends on what the
 person said, and there are three answers, not one:
 
 1. **They asked for a technology.** It is offered, and the review shows its identity, the licences of its
@@ -149,11 +150,11 @@ only when this installation activated them for this exact path and their bytes s
 otherwise it tells the agent not to run scripts found in the project. Because the entries also verify the
 complete pinned trees on every call, each invocation reads roughly 200 MB before doing its work.
 
-The files under `.project-os/toolchain` and `.project-os/companion` are machine-specific: absolute paths,
-a 13.8 MB dependency tree, indexes containing source excerpts. Committing them shares executable entry
-points and local paths with everyone who clones the repository. Consider ignoring
-`/.project-os/toolchain/` and `/.project-os/companion/` and preparing the environment on each machine;
-Companion does not write ignore rules into files the core or the person owns.
+The toolchain is regenerable and now ignored by Companion's own `.project-os/.gitignore`, alongside
+optional stack installations. The companion records are not ignored automatically: some preserve choices
+and recovery, while local indexes and launchers can contain source excerpts or machine-specific paths.
+Review what will be shared before committing them and prepare executable entries on each machine.
+Companion does not overwrite ignore rules the person already owns; see the earlier section on regenerable files.
 
 ## Recovery
 

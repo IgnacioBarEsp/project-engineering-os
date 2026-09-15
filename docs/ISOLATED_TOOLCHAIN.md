@@ -23,7 +23,7 @@ Seleccionar una carpeta no instala nada. Prepárala con su propio `package.json`
 fijando exactamente `@fission-ai/openspec` a `1.6.0` y `create-project-engineering-os` a la misma release
 del estado del constructor. Revisa el lockfile, licencias y política de instalación antes de ejecutar
 `npm ci --ignore-scripts` **desde esa subcarpeta**. No ejecutes este paso en el manifiesto del producto.
-Companion proporciona la preparación visual en el issue #87.
+Companion ya proporciona esa preparación visual; consulta [el entorno de la app](companion/ENVIRONMENT.md).
 
 ## Uso y verificación
 

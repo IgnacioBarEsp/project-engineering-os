@@ -1,14 +1,15 @@
-# Arquitectura candidata de Companion
+# Arquitectura de Companion
 
-Estado: decisión de implementación propuesta para #66/#76, con IA externa confirmada por el mantenedor.
-El núcleo npm mantiene distribución y ownership actuales. La aplicación tendrá su propio paquete y ciclo
-de versión; sus dependencias de UI no se sembrarán ni publicarán en el núcleo universal.
+Estado revisado el 14 de septiembre de 2026: **Electron y NSIS están implementados**; la app se distribuyó
+como Companion 0.1.0. El [estado público](../PROJECT_STATUS.md) separa esa versión del código nuevo.
+El núcleo npm mantiene distribución y ownership propios. Las dependencias de la app no se siembran ni
+publican como dependencias del núcleo universal.
 
-## Alternativas
+## Alternativas evaluadas en #76
 
 | Opción | Ventaja | Costo o límite | Decisión inicial |
 | --- | --- | --- | --- |
-| Electron + instalador NSIS | Reutiliza Node y motor existente; UI web comprobable, runtime incluido y mismo renderer en equipos distintos. | Descarga/memoria mayores; mantener Chromium/Node; aislamiento estricto de privilegios. | Candidato para primera entrega comprobable. |
+| Electron + instalador NSIS | Reutiliza Node y motor existente; UI web comprobable, runtime incluido y mismo renderer en equipos distintos. | Descarga/memoria mayores; mantener Chromium/Node; aislamiento estricto de privilegios. | Implementado en #79/#80; empaquetado y verificación propios. |
 | Tauri + WebView2 + motor lateral | Shell pequeño, permisos explícitos, instaladores convencionales. | Rust/toolchain más sidecar Node; distribución/actualización de WebView2 y más piezas que verificar. | Reconsiderar con métricas reales de tamaño/memoria. |
 | .NET nativo | Controles Windows e integración de sistema. | UI/QA distintos del sitio, runtime/toolchain y puente al motor Node. | Alternativa si Windows exclusivo domina a largo plazo. |
 | Web local/portable | Prototipo rápido y distribución sencilla. | Lanzador, permisos de carpetas y ciclo de vida aún requieren una solución para personas no técnicas. | Prototipo/diagnóstico, no sustituye el instalador solicitado. |
@@ -52,17 +53,18 @@ los proyectos conservan su estado recuperable. Desinstalar la app no recorre car
 | Necesidad | Base o candidato | Condición de aceptación |
 | --- | --- | --- |
 | Encontrar texto y referencias | Índice local acotado y consulta con fuentes; PDF.js para texto PDF. | Página/línea, frescura, exclusiones y fallos visibles; OCR no se presupone. |
-| Estructura de código | GitNexus, identidad upstream exacta. | Versión/licencia revisada, plataforma soportada, indexado y consulta de muestra. |
-| Segundo analizador | CodeGraph con repositorio exacto, no por nombre genérico. | Resolver forks/renombres y verificar interoperabilidad antes de activar. |
+| Estructura de código | CodeGraph de colbymchenry, versión 1.6.0, opcional en software y Unity. | Implementado en #87: binario fijado, fuentes acotadas, hashes y consulta de símbolo; mapa propio, sin sustituir índices ajenos. |
+| Alternativa evaluada | GitNexus, identidad upstream exacta. | No es un default de Companion; conservar condiciones de licencia y evidencia de operación por separado. |
 | Grafo mixto/documental | Graphify con backend/receta explícitos. | Costos, uso de modelos, límites y calidad observados en el corpus objetivo. |
 | Medios locales | Adaptador a hub existente de recetas. | Servicio local, modelo/hardware y salida real; no empaquetar el hub privado. |
 
 Fuentes de evaluación: [GitNexus](https://github.com/abhigyanpatwari/GitNexus),
 [Graphify](https://github.com/Graphify-Labs/graphify),
-[CodeGraph/Synaptic](https://github.com/Synaptic-Graph/Synaptic),
+[CodeGraph](https://github.com/colbymchenry/codegraph),
 [PDF.js](https://mozilla.github.io/pdf.js/).
 Existen proyectos distintos llamados CodeGraph y Graphify. Un nombre, una carpeta de índice o un
 README no prueban compatibilidad. La base local funciona aunque un adaptador opcional esté ausente.
+La [evaluación de herramientas](GRAPH_TOOLS.md) conserva identidad, fecha y alternativas históricas.
 
 ## Distribución y privacidad
 
@@ -70,7 +72,7 @@ Build de Windows por usuario, identidad y checksum por artefacto, licencias incl
 versión del núcleo/aplicación. Dependencias fijadas, instaladas con scripts deshabilitados salvo pasos
 explícitamente revisados del empaquetado. No hay token de publicación dentro del instalador.
 
-La primera prueba local puede usar un artefacto sin firma. Eso no satisface distribución con editor
+La release 0.1.0 es un artefacto sin firma. Eso no satisface distribución con editor
 verificado: no se suprimen advertencias del sistema ni se afirma que desaparecerán en otros equipos.
 La firma de distribución, actualización segura y compatibilidad en Windows limpio se registran con su
 evidencia propia antes de una promesa pública de instalación sin fricción.

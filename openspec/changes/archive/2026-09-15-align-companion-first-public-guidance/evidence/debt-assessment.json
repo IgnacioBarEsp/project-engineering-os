@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "align-companion-first-public-guidance",
+  "date": "2026-09-15",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "La autorrevisión adversarial registró y resolvió una formulación demasiado ligada a un proyecto de referencia. No hay Blockers ni Majors abiertos introducidos por la entrada documental; la evidencia que no corresponde a este alcance permanece explícitamente en #117 y en los documentos de Companion."
+}

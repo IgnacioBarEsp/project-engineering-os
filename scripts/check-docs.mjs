@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 import { CONSTRUCTOR_VERSION, PACKAGE_NAME } from '../src/constants.mjs';
 import { inspectSpecPurposes, specPurposeRecovery } from '../src/spec-purpose.mjs';
+import { inspectPublicGuidance } from './public-guidance.mjs';
 import {
   extractPromptContract,
   routerContractFailures,
@@ -16,6 +17,7 @@ import {
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const readme = await readFile(path.join(root, 'README.md'), 'utf8');
 const failures = [];
+failures.push(...await inspectPublicGuidance(root));
 const links = [...readme.matchAll(/\[[^\]]+\]\(([^)#]+)(?:#[^)]+)?\)/g)]
   .map((match) => match[1])
   .filter((href) => !/^[a-z]+:/i.test(href));

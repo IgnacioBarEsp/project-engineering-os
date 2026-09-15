@@ -82,8 +82,9 @@ Registrar una entrada no enciende nada:
 - las skills permanecen en `enabled: false` en `.project-os/skills.json`;
 - una entrada MCP conserva `enabled: false` en el catálogo.
 
-La instalación autorizada, con allowlist ejecutable, pinning, diff y receipt, es un cambio separado que
-todavía no existe. El catálogo deja declarados esos insumos; no los ejecuta.
+El catálogo neutral deja declarados esos insumos; no los ejecuta. La app tiene su propia instalación
+autorizada y acotada de herramientas administradas, descrita en [el entorno de Companion](companion/ENVIRONMENT.md).
+Eso no equivale a un instalador general de cualquier skill o servidor MCP del catálogo.
 
 ## Las tres señales MCP siguen siendo independientes
 

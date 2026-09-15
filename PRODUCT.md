@@ -6,15 +6,22 @@ brand
 
 ## Users
 
-Project Engineering OS está dirigido a desarrolladores que construyen proyectos con ayuda de agentes de
-IA. Incluye a quien viene de *vibe coding* y necesita aprender a ordenar su trabajo, a perfiles junior que
-buscan una guía comprensible y a perfiles senior que quieren contratos, evidencia y recuperación sin
-inventar otro proceso desde cero.
+Companion está dirigido a personas que trabajan con IA en investigación, software, videojuegos, contenido
+y trabajo general. El núcleo de ingeniería atiende a quienes desarrollan software, desde quien empieza
+con ayuda de IA hasta equipos que necesitan contratos, evidencia y recuperación.
 
 La entrada pública debe permitir que cualquiera entienda el propósito en pocos minutos. La documentación
 profunda sigue disponible para quien necesita operar, mantener o extender el sistema.
 
 ## Product Purpose
+
+La entrada pública principal es Companion: descargar, elegir carpeta, revisar y preparar, continuar con
+la IA habitual. La CLI y npm permanecen como ruta secundaria de automatización y contribución. Decisión
+explícita del mantenedor el 14 de septiembre de 2026, issue #116.
+
+El origen es hacer portable la forma de trabajar de un proyecto de referencia: comprender el proyecto, adaptar
+instrucciones y herramientas, acordar cambios y verificarlos. No significa replicar su producto, stack,
+cuentas o dependencias en todas las carpetas. Las skills y MCP se evalúan por necesidad y compatibilidad.
 
 Project Engineering OS prepara un repositorio con una base neutral de ingeniería: gobernanza, SDD,
 instrucciones para agentes, documentación encontrable, validaciones reproducibles, recuperación y control
@@ -31,6 +38,16 @@ guiada, distinguir hechos de supuestos y cerrar cambios con evidencia y rollback
 La voz es directa, serena y precisa. Explica conceptos de ingeniería sin presumir que la persona ya conoce
 la terminología, pero tampoco diluye los contratos técnicos. Habla como un desarrollador que documenta su
 propio proyecto: cercano, concreto y responsable.
+
+La comunicación probada en un producto de referencia aporta tres reglas: empezar por lo que la persona podrá hacer,
+describir el siguiente paso en palabras cotidianas y reservar una acción principal para empezar.
+Usar el proyecto y los archivos que ya existen sin pedir que la persona los reorganice para entender la
+herramienta. Conservar límites donde ayudan a decidir, sin convertir la entrada en un contrato defensivo.
+No trasladar documentos, datos de clientes ni identidad de marca de otros proyectos.
+
+Las capturas muestran el producto real y dicen qué versión o commit se ejecutó. El código integrado,
+el instalador publicado y una simulación son estados distintos. Una revisión del agente no sustituye
+la lectura en frío con una persona.
 
 ## Anti-references
 

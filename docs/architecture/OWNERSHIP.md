@@ -14,10 +14,15 @@ tiene un owner y una ruta de actualización distinta.
 | Seed-once debt policy | Consumer | Consumer decision and local SDD flow |
 | Human overlays and product code | Consumer | Consumer workflow |
 | Public landing page (`site/`) | Upstream | Repository-only; it is in the export allowlist but not in the published package, so it never reaches a consumer project or the npm tarball. `site/NOTAS.md` is the brief behind the page and is exported with it; the preparation artifacts under `site/.project-os/` are not tracked |
+| Replacement landing (`project-engineering-os-landing` repository) | Consumer product | Own issue/SDD/release flow. The old `site/` remains live until its replacement and retirement are verified under #118; do not copy the consumer toolchain into the neutral core |
 | Debt assessments and registry | Consumer evidence | `project-os debt capture/sync`; never overwritten by rollback |
 
 The upstream never chooses a consumer's product license, stack, cloud, database, UI framework or domain.
 Consumer acceptance specs may pin expected behavior, but runtime evolution starts upstream.
+
+La app es la entrada pública principal; la CLI sigue siendo una interfaz del motor que la app utiliza.
+Cambiar de entrada no cambia ownership. Consulta [qué hace cada pieza](../REPOSITORY_MAP.md) y el
+[estado por canal](../PROJECT_STATUS.md) antes de retirar archivos o atribuir una capacidad a una release.
 
 Una semilla preexistente cuyo owner sea `project` puede [adoptarse mediante ruta y hash revisados](../EXISTING_PROJECTS.md).
 La adopción registra ownership sin escribir sus bytes ni activar dependencias; los archivos del constructor,

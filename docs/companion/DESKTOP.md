@@ -1,42 +1,61 @@
-# Companion desktop
+# Companion: la app de escritorio
 
-Companion is a separate local application, owned and packaged outside the universal CLI. It prepares
-folders for research, software, Unity, creative work and general tasks, then supports the person's
-existing AI through reviewed instructions or a bounded context export. The interface is currently Spanish.
+Companion prepara la carpeta de un proyecto y ayuda a continuar con la IA que ya usas. Tiene su propio
+paquete y ciclo de publicación, separados del núcleo. Para empezar, sigue la [guía visual](../USER_GUIDE.md).
 
-## What is implemented
+**Alcance de esta página:** código integrado hasta `0c632a3`, revisado el 14 de septiembre de 2026.
+La descarga pública sigue en 0.1.0 y aún no incluye todas estas mejoras.
+[Estado por versión](../PROJECT_STATUS.md) · [capturas actuales](SCREENSHOTS.md).
 
-- Role, goal, guidance preference, five project types and six AI choices.
-- A native folder picker, reviewed base/context/engineering plans, local history and checked recovery.
-- Source search with line, PDF page and DOCX paragraph citations, visible extraction limits and exclusions.
-- Three focused recipes per project type, with budgets identified as bytes rather than measured tokens.
-- A preview before copying context or an initial instruction and opening a fixed provider destination.
-  These destinations currently open in the browser; the app does not claim to attach a folder or activate
-  a local agent. The selected AI and verified project selection constrain the action.
+## Qué puedes hacer en el código actual
 
-Status distinguishes prepared files, current or stale context, engineering that does not apply and
-external tools that still need verification. The graph catalog does not treat a directory as an activated
-index. Scanned PDF pages need OCR; complex document parts and unsupported media remain visible limitations.
+- Preparar investigación, software, Unity, contenido o trabajo general con objetivo y experiencia propios.
+- Elegir carpeta en Windows y revisar los planes de preparación, lectura y desarrollo antes de aplicarlos.
+- Buscar fuentes con línea, página PDF o párrafo DOCX; ver exclusiones y formatos que no pudieron leerse.
+- Consultar recetas según el perfil, revisar instrucciones y copiar contexto acotado para tu IA.
+- Volver a **Inicio**, **Tus proyectos**, **Preparar proyecto** o **Ayuda**, con nombres consistentes.
+- Ver el resultado de la última comprobación y cuándo necesita repetirse; la lista no revalida todas las herramientas.
+- Detectar aplicaciones de escritorio compatibles y ofrecer la apertura según su capacidad comprobada.
+  El chat web conserva la ruta de copiar contexto; abrirlo no adjunta la carpeta.
+- Preparar herramientas administradas y, cuando corresponde, revisar tecnologías opcionales.
+  Rechazarlas no vuelve incompleta una preparación que ya estaba lista.
+- Elegir si las instrucciones usan plantillas o redacción opcional con un modelo. La lista de modelos
+  se consulta mediante una acción explícita; mirar la pantalla no llama al proveedor.
 
-## Local data and privileges
+Los presupuestos de contexto se expresan como bytes cuando no hay tokens medidos.
+Los PDF escaneados necesitan OCR; los formatos o partes no leídos se explican.
+Consulta [contexto](CONTEXT.md), [entorno](ENVIRONMENT.md) y [experiencia](EXPERIENCE.md).
 
-The app stores a bounded project history in its app-data directory. Project configuration, indexes and
-recovery journals remain in the selected folder. Indexes contain source excerpts; recovery journals may
-retain earlier versions of app-owned files. Protect these files as part of the project. Removing a history
-entry does not remove project files. The app has no account, telemetry or automatic source upload.
+## Tus datos y la recuperación
 
-The renderer loads packaged assets through a fixed local protocol and restrictive Content Security Policy.
-It has no Node integration, arbitrary network access, shell commands or raw IPC API. Main validates sender
-frame and payload, accepting project handles created by the native picker or validated history. Source
-text is rendered as text. Export and handoff previews expire when their relevant preparation changes.
+La app guarda un historial acotado en su directorio de datos. La configuración, índices y registros de
+recuperación del proyecto permanecen en la carpeta elegida. Los índices contienen fragmentos de fuentes;
+los registros pueden conservar versiones anteriores de archivos propios de la app. Protégelos como parte
+del proyecto. Quitar un proyecto de la lista no elimina sus archivos.
 
-Interrupted base/context operations can resume or roll back after hash checks. Interrupted constructor
-operations expose a reviewed continuation or rollback using the core transaction identity. Subsequent
-edits can block recovery and are preserved. Existing seed-file adoption is tracked separately in #85.
+La preparación básica no necesita cuenta ni telemetría ni sube las fuentes automáticamente. Si eliges
+redacción con proveedor, se muestra qué respuestas y datos agregados se compartirán. La clave es tuya
+y no se guarda. La [guía de privacidad](SECURITY.md) conserva el contrato completo.
 
-## Contributor verification
+Una operación interrumpida puede continuarse o revertirse tras comparar hashes. Los cambios tuyos
+posteriores se preservan y pueden impedir la recuperación automática. La adopción de archivos existentes
+ya se implementó en el núcleo 0.5.0: [qué puede conservarse y cómo](../EXISTING_PROJECTS.md).
 
-Use Node 24.18.0 or newer and the reviewed npm client. From the repository root:
+## Frontera técnica
+
+La interfaz carga recursos empaquetados mediante un protocolo local y una política restrictiva.
+No tiene integración Node, shell ni API IPC arbitraria. El proceso principal valida emisor y payload;
+los proyectos proceden del diálogo nativo o historial validado. El texto de las fuentes se presenta
+como texto. Las vistas previas de exportación dejan de ser válidas cuando cambia su preparación.
+
+El motor neutral se importa como dependencia fijada. Las herramientas se administran en ubicaciones
+propias sin modificar dependencias del producto ni PATH global.
+[Arquitectura](ARCHITECTURE.md) · [mapa de piezas](../REPOSITORY_MAP.md).
+
+## Si contribuyes a la app
+
+Usa Node 24.18.0 o superior y el cliente npm revisado en la
+[política de instalación](../INSTALL_HARDENING.md). Desde la raíz:
 
 ```sh
 npm ci --prefix apps/companion --ignore-scripts
@@ -45,24 +64,23 @@ npm start --prefix apps/companion
 npm test --prefix apps/companion
 ```
 
-Runtime installation is an explicit reviewed Electron artifact download with SHA256 verification.
-Lifecycle scripts remain disabled during dependency installation. For browser verification:
+La instalación del runtime de Electron es una descarga explícita comprobada por SHA-256.
+Los scripts de instalación de dependencias permanecen deshabilitados.
+Para verificar en navegador:
 
 ```sh
 node apps/companion/node_modules/playwright/cli.js install chromium
-npm run test:ui --prefix apps/companion -- /path/to/evidence
+npm run test:ui --prefix apps/companion -- /ruta/a/evidencia
 ```
 
-Windows verification uses the installed Edge browser. The test runs the shipping renderer and real
-engines in a temporary fixture, injecting native capabilities and transport. CI runs it with Chromium on
-Linux. This is separate from native Windows/installer testing and does not demonstrate Electron isolation
-by itself. Use the native application for picker and process-boundary checks.
+En Windows, la prueba usa Edge instalado. En CI Linux usa Chromium. Ejecuta la interfaz y motores reales
+sobre un fixture temporal, con diálogo, portapapeles, apertura externa y transporte sustituidos por
+dobles de prueba. **No demuestra instalación ni aislamiento Electron.**
+Los recorridos nativos y el instalador tienen su [verificación separada](INSTALLER.md).
 
-## Delivery boundaries
+## Entrega
 
-The desktop implementation is #79 under program #66. Installer, bundled prerequisites and distribution
-are #80; installer journeys, the landing page and measured model benchmarks are #81. No installer
-compatibility, signed publisher, token savings or external-agent activation is inferred from the
-development app or its automated tests. See [experience](EXPERIENCE.md), [context behavior](CONTEXT.md),
-[environment activation](ENVIRONMENT.md), [the Windows installer](INSTALLER.md),
-[what was measured](EVIDENCE.md) and [graph decisions](GRAPH_TOOLS.md).
+#79 implementó la app; #80 su instalador; #87 la activación y #94 la aceptación de la primera entrega.
+Las mejoras #97–#107 se reúnen para la [siguiente release #117](https://github.com/IgnacioBarEsp/project-engineering-os/issues/117).
+El cierre histórico del programa no demuestra compatibilidad universal, firma de editor o ahorro comercial.
+[Resultados medidos](EVIDENCE.md) · [decisión de inferencia](HOSTED_INFERENCE.md).

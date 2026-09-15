@@ -1,70 +1,66 @@
-# Guía del usuario
+# Prepara tu primer proyecto
 
-Esta es la ruta completa para quien quiere usar Project Engineering OS sin aprender todo el sistema de una
-vez. Avanza por etapas: prepara el entorno, descubre el producto, decide la arquitectura y recién entonces
-empieza a construir.
+Empieza con la carpeta que ya tienes, aunque aún esté vacía. Companion te ayuda a preparar el contexto
+y una forma de continuar con tu IA. No necesitas conocer los términos del sistema para dar el primer paso.
 
-**Úsala si:** acabas de crear la carpeta del proyecto o necesitas saber qué viene después del bootstrap.
+**Descarga disponible:** [Companion 0.1.0 para Windows x64](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.1.0).
+Las mejoras de navegación y guía descritas como «código actual» aún esperan un instalador nuevo.
+[Estado y versiones](PROJECT_STATUS.md).
 
-## Antes de la Etapa A: clasifica la carpeta
+## 1. Instala y abre Companion
 
-Desde `0.2.0`, `onboarding-plan` distingue una carpeta nueva de un repositorio que debe preservarse. No
-instala nada ni modifica archivos:
+Sigue la [guía de instalación](companion/INSTALLER.md): descarga, comprobación del archivo y advertencia de
+editor sin firma. La app se instala para tu usuario. No tienes que instalar Node, Git o npm globalmente.
 
-```sh
-node ./bin/project-os.mjs onboarding-plan --target .
-```
+## 2. Cuéntale qué quieres hacer
 
-Consulta la [guía del clasificador](ONBOARDING_PLAN.md) para responder sus cinco preguntas o usar JSON. En
-`0.1.6` este comando no existe y el recorrido empieza directamente en la Etapa A.
+Indica el objetivo, tipo de trabajo y la IA que usarás. Puedes preparar investigación, software,
+un videojuego, contenido o trabajo general. Tu experiencia ajusta la ayuda; no te impide elegir otro tipo
+de proyecto. Si no sabes qué tecnología necesitas, empieza por el objetivo.
 
-El [prompt router](prompts/PROMPT_ROUTER_INICIO.md) es el primer prompt del recorrido: ejecuta esa
-clasificación, registra la ruta con tu aprobación en `.project-os/onboarding-state.json` y decide el orden
-de las etapas siguientes. La ruta `beginner` empieza por idea y organización, `experienced-new` por
-ecosistema y `brownfield` por inventario y preservación. Las tres terminan en discovery.
+## 3. Elige la carpeta y revisa el plan
 
-## Etapa A: núcleo universal
+Selecciona la carpeta desde el diálogo de Windows. Companion muestra qué encontró, qué archivos añadirá
+y qué necesita descargar. Si ya hay archivos, revisa cómo se conservarán. Nada se aplica por mirar el plan.
 
-Ejecuta el quickstart del README en un repositorio Git vacío o revisa `bootstrap --dry-run` en uno
-existente. Esta etapa instala gobernanza y tooling; no pregunta qué producto deseas crear.
+Para investigación, contenido y trabajo general, la preparación básica no requiere herramientas de
+desarrollo. Para software o Unity, puedes revisar la preparación de ingeniería y sus descargas.
+La [guía del entorno](companion/ENVIRONMENT.md) explica versiones, destinos y recuperación.
 
-Comprueba:
+## 4. Prepara y comprueba
 
-1. `npm run project-os:check`;
-2. `npm run project-os:doctor`;
-3. segundo `project-os sync --check` sin drift;
-4. OPSX local generado por OpenSpec y estabilizado por `project-os opsx-adapt`;
-5. política de deuda y paquete de discovery presentes;
-6. gates humanos todavía pendientes, claramente declarados.
+Acepta el plan que revisaste. Al terminar, comprueba por separado los archivos preparados, el contexto
+leído y las herramientas aplicables. Si falta una etapa, sigue su explicación; una carpeta de configuración
+por sí sola no demuestra que la herramienta esté funcionando.
 
-Usa el [Prompt 00](prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md) para guiar a un agente.
+Si cambias archivos después, vuelve a comprobar. En el código actual, la lista muestra cuándo se hizo la
+última comprobación y qué dejó de coincidir; esa mejora es posterior a la descarga 0.1.0.
 
-## Etapa B: discovery
+## 5. Continúa con tu IA
 
-Solo después de aprobar Etapa A, usa el [Prompt 01](prompts/PROMPT_01_DISCOVERY_PROYECTO.md). La
-entrevista comienza por problema, usuarios, resultados y restricciones; el stack se compara después.
+Revisa las instrucciones o el texto con fuentes antes de copiarlo. Un agente con acceso a archivos y un
+chat web trabajan de forma distinta: abrir la página del chat no adjunta la carpeta.
 
-## Etapa C: perfil técnico
+El código actual detecta destinos de escritorio compatibles y ofrece la apertura según lo que realmente
+admiten. Si no se puede adjuntar la carpeta, lo explica. La [guía técnica del Companion](companion/DESKTOP.md)
+y el [estado de entrega](PROJECT_STATUS.md) distinguen ese código de la release publicada.
 
-Una decisión versionada activa únicamente los perfiles necesarios. Frameworks, bases de datos, cloud,
-IA, UI, offline/sync o testing visual se instalan mediante un change SDD posterior.
+## Si algo no sale como esperabas
 
-## Etapa D: producto
+- **No encuentra un dato:** prueba palabras del documento; revisa los archivos leídos y sus exclusiones.
+- **El PDF es una imagen:** necesita OCR, es decir, reconocimiento del texto de la imagen.
+- **Cambió la carpeta:** vuelve a revisar y comprobar; no confíes en un resultado anterior.
+- **La preparación quedó a medias:** revisa la continuación o recuperación ofrecida. Los cambios tuyos
+  posteriores pueden impedir revertir automáticamente y se conservan.
+- **Quitaste la app:** tus proyectos e historial se conservan. Las herramientas administradas tienen
+  ubicación y ciclo propio; consulta [actualización y desinstalación](companion/INSTALLER.md).
 
-Crea visión, glosario/DDD estratégico cuando aporte valor, plan maestro, epic y solo issues de la ola
-activa y siguiente. La primera entrega vertical recorre el ciclo SDD completo.
+## Para trabajar por cambios
 
-## Operación diaria
+En software, la preparación deja el método para acordar un cambio antes de implementarlo: issue,
+spec, tareas, pruebas, revisión y cierre. El agente sigue las instrucciones del proyecto y tú conservas
+las decisiones sobre tecnología, permisos y costo. Las [skills y conexiones MCP](TOOL_CATALOG.md)
+se revisan según necesidad; no se activa un catálogo entero por preparar la carpeta.
 
-- `project-os sync --check` detecta drift sin escribir.
-- `project-os doctor --json` entrega evidencia machine-readable.
-- `project-os onboarding-plan --json` propone una ruta sin escribir ni contactar servicios remotos.
-- `project-os debt check` evalúa presupuesto y pausas sin mutar.
-- `project-os upgrade --check` compara una release destino explícita.
-- [Recuperación](RECOVERY.md) explica transacciones y rollback.
-
-## Siguiente paso
-
-Si todavía no clasificaste la carpeta, copia el [Prompt router](prompts/PROMPT_ROUTER_INICIO.md). Si la ruta
-ya está registrada y el entorno no, copia el [Prompt 00](prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md). Si la
-Etapa A ya fue aprobada, continúa con el [Prompt 01](prompts/PROMPT_01_DISCOVERY_PROYECTO.md).
+**¿Prefieres automatizar?** La [guía CLI](CLI_GUIDE.md) conserva el recorrido por terminal.
+Para el resto, vuelve a tu proyecto en Companion y consulta su siguiente paso.
