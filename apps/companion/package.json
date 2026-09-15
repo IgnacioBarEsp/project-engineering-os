@@ -1,6 +1,6 @@
 {
   "name": "@project-engineering-os/companion",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Prepara carpetas de proyecto y su contexto para trabajar con la IA que ya usas, sin terminal.",
   "author": {
     "name": "Ignacio Barboza Espinoza"
@@ -31,7 +31,9 @@
     "evidence:contract": "node scripts/verify-interface-contract.mjs",
     "evidence:mutations": "node scripts/verify-service-mutations.mjs",
     "evidence:prompts": "node scripts/verify-prompts.mjs",
-    "evidence:stack": "node scripts/verify-stack-install.mjs"
+    "evidence:stack": "node scripts/verify-stack-install.mjs",
+    "evidence:release-install": "node scripts/verify-release-installation.mjs",
+    "evidence:published-release": "node scripts/verify-published-artifact.mjs"
   },
   "dependencies": {
     "create-project-engineering-os": "0.5.0",

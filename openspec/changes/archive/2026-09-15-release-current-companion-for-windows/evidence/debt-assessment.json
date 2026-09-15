@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "release-current-companion-for-windows",
+  "date": "2026-09-15",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "La autorrevisión resolvió la ejecución local insegura por identidad NSIS compartida y la recuperación de un draft fallido. Instalación, publicación y reconciliación documental quedan como handoff explícito de #117, no deuda oculta de este cambio."
+}

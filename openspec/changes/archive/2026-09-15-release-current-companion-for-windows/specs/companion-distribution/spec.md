@@ -1,10 +1,5 @@
-# companion-distribution Specification
+## MODIFIED Requirements
 
-## Purpose
-Define how the Companion application is distributed as a Windows artifact whose contents, identity and
-signing status are verified against the produced file before publication, and how installing, updating or
-removing it touches only what the installer wrote and never the person's projects, history or prepared tools.
-## Requirements
 ### Requirement: Verifiable Windows artifact
 The app SHALL be distributed as a Windows x64 installer whose contents are verified before publication
 against an explicit allowlist, and whose identity, checksum, licenses and real signing status are published
@@ -49,4 +44,3 @@ SHALL distinguish a silent installer assertion from a human interaction with the
 - **WHEN** the app is reinstalled over an existing installation or removed
 - **THEN** prepared project folders, the local project history and the managed runtimes remain intact
 - **AND** removing those runtimes or that history is an explicit separate action
-
