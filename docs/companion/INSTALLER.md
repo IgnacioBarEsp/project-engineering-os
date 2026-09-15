@@ -89,6 +89,10 @@ El empaquetado escribe fuera del repositorio y muestra la ruta de salida. Despu�
 npm run pack:verify -- <ruta de salida>
 ```
 
+La verificación del artefacto inspecciona su firma con PowerShell 7 (`pwsh` en el PATH de Windows) y
+carga `Microsoft.PowerShell.Security` de forma explícita: si el host, el módulo o la observación de
+firma faltan, la verificación falla en lugar de omitirse.
+
 Empaquetar requiere Windows y descarga el runtime de Electron y tres binarios del empaquetador, cada
 uno comprobado contra un SHA-256 fijado por la versión que fija el lockfile. Esas identidades quedan
 registradas en `apps/companion/build/BUILD-TOOLS.md`, y una prueba falla si el empaquetador fijado deja

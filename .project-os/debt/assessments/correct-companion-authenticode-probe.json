@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "flow": "correct-companion-authenticode-probe",
+  "date": "2026-09-15",
+  "kind": "feature",
+  "result": "debt",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "validation",
+          "ref": "openspec/changes/correct-companion-authenticode-probe/evidence/adversarial-review.md",
+          "date": "2026-09-15"
+        }
+      ],
+      "verification": {
+        "method": "Revisión adversarial independiente del diff en dos rondas y ejecución de qa/packaging.mjs",
+        "result": "medido",
+        "date": "2026-09-15"
+      },
+      "title": "Las guardas que impiden volver al host heredado son regex sobre el fuente del verificador, no sobre su comportamiento: un verificador que conserve el literal pero sondee con otra variable las pasaría",
+      "artifact": "apps/companion/qa/packaging.mjs",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    },
+    {
+      "evidence": [
+        {
+          "type": "validation",
+          "ref": "openspec/changes/correct-companion-authenticode-probe/evidence/adversarial-review.md",
+          "date": "2026-09-15"
+        }
+      ],
+      "verification": {
+        "method": "Revisión adversarial independiente: el script corre sólo como evidencia manual local, fuera del workflow de release",
+        "result": "medido",
+        "date": "2026-09-15"
+      },
+      "title": "verify-engineering-runtime.mjs conserva el host Windows PowerShell heredado que falló en el runner: funciona localmente pero repite la clase de fallo corregida en el verificador de publicación",
+      "artifact": "apps/companion/scripts/verify-engineering-runtime.mjs",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false
+    }
+  ],
+  "notes": "Kind feature: el issue #117 cambia comportamiento de verificación y publicación, no sanea un item de deuda registrado. La deriva de perfiles que sync --check marca FAIL y los FAIL de doctor de perfiles técnicos son bugs preexistentes con issue abierto (#122 y #115): se registran como evidencia en evidence/validation.md y se rastrean en el tracker, no en el registro de deuda, siguiendo el precedente de #115; duplicarlos aquí como deuda pausaría el plan y dejaría CI en rojo sin aportar saneamiento."
+}

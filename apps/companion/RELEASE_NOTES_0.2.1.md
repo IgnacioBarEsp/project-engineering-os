@@ -1,4 +1,4 @@
-# Companion 0.2.0
+# Companion 0.2.1
 
 Esta versión reúne mejoras compatibles integradas después de Companion 0.1.0:
 
@@ -16,4 +16,5 @@ sustituyen una firma. No hay actualización automática, cuenta propia ni servic
 el proyecto.
 
 Esta release conserva el núcleo `create-project-engineering-os` 0.5.0. No publica una nueva versión npm del
-núcleo y no reemplaza los assets ni el tag de Companion 0.1.0.
+núcleo y no reemplaza los assets ni el tag de Companion 0.1.0. El tag de intento fallido `companion-v0.2.0`
+permanece intacto y no tuvo una GitHub Release ni assets públicos.
