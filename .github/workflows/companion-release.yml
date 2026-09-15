@@ -1,0 +1,141 @@
+name: Publish Companion release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing annotated Companion tag on protected main, for example companion-v0.2.0
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: companion-release-${{ inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  verify-and-publish:
+    name: Companion release / Windows artifact
+    runs-on: windows-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout protected Companion tag
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.tag }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.18.0
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            apps/companion/package-lock.json
+      - name: Refuse an unprotected, unannotated or mismatched tag
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        shell: pwsh
+        run: |
+          $tag = $env:RELEASE_TAG
+          if ($tag -notmatch '^companion-v\d+\.\d+\.\d+$') { throw "Tag de Companion inválido: $tag" }
+          git fetch origin main --tags --force
+          if ((git cat-file -t $tag).Trim() -ne 'tag') { throw 'El tag debe ser anotado.' }
+          $commit = (git rev-list -n 1 $tag).Trim()
+          git merge-base --is-ancestor $commit origin/main
+          if ($LASTEXITCODE -ne 0) { throw 'El tag no apunta a un commit ya integrado en main.' }
+          if (git status --porcelain) { throw 'El checkout del tag no está limpio.' }
+          $version = (node -p "require('./apps/companion/package.json').version").Trim()
+          if ($tag -ne "companion-v$version") { throw "El tag $tag no coincide con versión $version." }
+      - name: Use reviewed npm
+        run: npm install --global --ignore-scripts npm@11.19.1
+      - name: Install and verify root source
+        run: |
+          npm ci --ignore-scripts
+          npm run check
+      - name: Install Companion build dependencies
+        run: npm ci --prefix apps/companion --ignore-scripts
+      - name: Verify Companion source and dependency risk
+        run: |
+          npm test --prefix apps/companion
+          npm run audit --prefix apps/companion
+      - name: Install verified Electron runtime
+        run: npm run runtime:install --prefix apps/companion
+      - name: Build and verify the exact candidate
+        env:
+          COMPANION_OUTPUT: ${{ runner.temp }}\companion-release-candidate
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path $env:COMPANION_OUTPUT | Out-Null
+          npm run pack --prefix apps/companion -- $env:COMPANION_OUTPUT
+          npm run pack:verify --prefix apps/companion -- $env:COMPANION_OUTPUT
+      - name: Download the immutable 0.1.0 update source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PREVIOUS_OUTPUT: ${{ runner.temp }}\companion-0.1.0
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path $env:PREVIOUS_OUTPUT | Out-Null
+          gh release download companion-v0.1.0 --repo $env:GITHUB_REPOSITORY --dir $env:PREVIOUS_OUTPUT --pattern 'ProjectEngineeringOS-Setup-0.1.0-x64.exe' --pattern 'artifact-manifest.json' --pattern 'SHA256SUMS'
+      - name: Verify 0.1.0-to-candidate install, update, native journeys and uninstall
+        env:
+          CANDIDATE_OUTPUT: ${{ runner.temp }}\companion-release-candidate
+          PREVIOUS_OUTPUT: ${{ runner.temp }}\companion-0.1.0
+          RELEASE_EVIDENCE: ${{ runner.temp }}\companion-release-evidence
+        shell: pwsh
+        run: npm run evidence:release-install --prefix apps/companion -- $env:CANDIDATE_OUTPUT $env:PREVIOUS_OUTPUT $env:RELEASE_EVIDENCE
+      - name: Create draft GitHub Release from the verified files
+        id: draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag }}
+          CANDIDATE_OUTPUT: ${{ runner.temp }}\companion-release-candidate
+        shell: pwsh
+        run: |
+          $tag = $env:RELEASE_TAG
+          gh release view $tag --repo $env:GITHUB_REPOSITORY *> $null
+          if ($LASTEXITCODE -eq 0) { throw 'La release ya existe; este flujo no reemplaza assets.' }
+          $assets = @(
+            (Join-Path $env:CANDIDATE_OUTPUT 'ProjectEngineeringOS-Setup-0.2.0-x64.exe'),
+            (Join-Path $env:CANDIDATE_OUTPUT 'artifact-manifest.json'),
+            (Join-Path $env:CANDIDATE_OUTPUT 'SHA256SUMS')
+          )
+          gh release create $tag $assets --repo $env:GITHUB_REPOSITORY --verify-tag --draft --title 'Companion 0.2.0' --notes-file apps/companion/RELEASE_NOTES_0.2.0.md
+          'created=true' | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+      - name: Compare draft assets before publication
+        id: canonical
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag }}
+          CANDIDATE_OUTPUT: ${{ runner.temp }}\companion-release-candidate
+          CANONICAL_OUTPUT: ${{ runner.temp }}\companion-canonical-release
+          RELEASE_EVIDENCE: ${{ runner.temp }}\companion-release-evidence
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path $env:CANONICAL_OUTPUT | Out-Null
+          gh release download $env:RELEASE_TAG --repo $env:GITHUB_REPOSITORY --dir $env:CANONICAL_OUTPUT
+          npm run evidence:published-release --prefix apps/companion -- $env:CANDIDATE_OUTPUT $env:CANONICAL_OUTPUT $env:RELEASE_EVIDENCE
+      - name: Remove only this unverified draft after a failed comparison
+        if: ${{ failure() && steps.draft.outputs.created == 'true' && steps.canonical.outcome == 'failure' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: gh release delete $env:RELEASE_TAG --repo $env:GITHUB_REPOSITORY --yes
+      - name: Publish the verified draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: gh release edit $env:RELEASE_TAG --repo $env:GITHUB_REPOSITORY --draft=false --latest
+      - name: Preserve non-release evidence for review
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0d # v7.0.1
+        with:
+          name: companion-release-evidence-${{ inputs.tag }}
+          path: ${{ runner.temp }}\companion-release-evidence
+          if-no-files-found: warn
+          retention-days: 35

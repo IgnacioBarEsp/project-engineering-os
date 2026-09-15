@@ -241,3 +241,44 @@ test('the sealed archive is declared as an extra resource, outside every file fi
   assert.ok(!files.some(entry => entry.includes('npm-dist')),
     'El archivo sellado no debe depender de la lista de archivos empaquetados.');
 });
+
+test('the 0.2.0 release path is private, disposable and never replaces a prior release', async () => {
+  const manifest = JSON.parse(await read('package.json'));
+  const lock = JSON.parse(await read('package-lock.json'));
+  assert.equal(manifest.version, '0.2.0');
+  assert.equal(lock.version, manifest.version);
+  assert.equal(lock.packages[''].version, manifest.version);
+  assert.equal(manifest.dependencies['create-project-engineering-os'], '0.5.0',
+    'La release de la app no debe publicar ni adelantar el núcleo.');
+  assert.equal(manifest.scripts['evidence:release-install'], 'node scripts/verify-release-installation.mjs');
+  assert.equal(manifest.scripts['evidence:published-release'], 'node scripts/verify-published-artifact.mjs');
+  const notes = await read('RELEASE_NOTES_0.2.0.md');
+  assert.match(notes, /Windows x64/);
+  assert.match(notes, /no tiene certificado de editor/);
+  assert.match(notes, /núcleo `create-project-engineering-os` 0\.5\.0/);
+  assert.match(notes, /no reemplaza los assets ni el tag de Companion 0\.1\.0/);
+
+  const installEvidence = await read('scripts/verify-release-installation.mjs');
+  assert.match(installEvidence, /GITHUB_ACTIONS === 'true'/);
+  assert.match(installEvidence, /PROJECT_OS_DISPOSABLE_WINDOWS === '1'/);
+  assert.match(installEvidence, /NSIS per-user uninstall identity is shared by\s*\n?\/\/\s*every Companion install/);
+  assert.match(installEvidence, /previous\.manifest\.version, '0\.1\.0'/);
+  assert.match(installEvidence, /candidate\.manifest\.version, '0\.2\.0'/);
+  assert.match(installEvidence, /ProjectEngineeringOS-Setup-\\d\+\\\.\\d\+\\\.\\d\+-x64\\\.exe/,
+    'El manifiesto no puede convertir una ruta arbitraria en un instalador.');
+  assert.match(installEvidence, /verify-native-journeys\.mjs/);
+
+  const workflow = await readFile(path.resolve(app, '../../.github/workflows/companion-release.yml'), 'utf8');
+  assert.match(workflow, /^\s*workflow_dispatch:/m);
+  assert.ok(!/^\s*pull_request:/m.test(workflow), 'Una PR no puede crear una release automáticamente.');
+  assert.match(workflow, /runs-on: windows-latest/);
+  assert.match(workflow, /gh release create .*--draft/);
+  assert.match(workflow, /if \(\$LASTEXITCODE -eq 0\) \{ throw 'La release ya existe; este flujo no reemplaza assets\.' \}/);
+  assert.match(workflow, /steps\.draft\.outputs\.created == 'true' && steps\.canonical\.outcome == 'failure'/,
+    'Solo un borrador recién creado y fallido puede limpiarse automáticamente.');
+  assert.match(workflow, /if: \$\{\{ always\(\) \}\}/,
+    'La evidencia debe conservarse incluso cuando una comprobación falla.');
+  assert.match(workflow, /evidence:published-release/);
+  assert.match(workflow, /gh release edit .*--draft=false --latest/);
+  assert.match(workflow, /companion-v0\.1\.0/);
+});
