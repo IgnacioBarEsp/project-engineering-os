@@ -9,7 +9,7 @@ import { productionPackages, renderNotices, packageNameFromKey, installedOnWindo
 import { sealNpm } from '../scripts/seal-npm.mjs';
 import { extractZip } from '../runtime/archive.mjs';
 import { inspectTree } from '../runtime/tree.mjs';
-import { removeDisposableRoot, inside } from '../scripts/disposable-cleanup.mjs';
+import { removeDisposableRoot, inside, waitForRemoval } from '../scripts/disposable-cleanup.mjs';
 
 // Producing the artifact needs Windows, a downloaded Electron runtime and several minutes, so it is
 // not a test. What is testable everywhere is the contract the packaging depends on: the declared
@@ -243,17 +243,17 @@ test('the sealed archive is declared as an extra resource, outside every file fi
     'El archivo sellado no debe depender de la lista de archivos empaquetados.');
 });
 
-test('the 0.2.2 release path is private, disposable and never replaces a prior release', async () => {
+test('the 0.2.3 release path is private, disposable and never replaces a prior release', async () => {
   const manifest = JSON.parse(await read('package.json'));
   const lock = JSON.parse(await read('package-lock.json'));
-  assert.equal(manifest.version, '0.2.2');
+  assert.equal(manifest.version, '0.2.3');
   assert.equal(lock.version, manifest.version);
   assert.equal(lock.packages[''].version, manifest.version);
   assert.equal(manifest.dependencies['create-project-engineering-os'], '0.5.0',
     'La release de la app no debe publicar ni adelantar el núcleo.');
   assert.equal(manifest.scripts['evidence:release-install'], 'node scripts/verify-release-installation.mjs');
   assert.equal(manifest.scripts['evidence:published-release'], 'node scripts/verify-published-artifact.mjs');
-  const notes = await read('RELEASE_NOTES_0.2.2.md');
+  const notes = await read('RELEASE_NOTES_0.2.3.md');
   assert.match(notes, /Windows x64/);
   assert.match(notes, /no tiene certificado de editor/);
   assert.match(notes, /núcleo `create-project-engineering-os` 0\.5\.0/);
@@ -264,10 +264,11 @@ test('the 0.2.2 release path is private, disposable and never replaces a prior r
   assert.match(installEvidence, /PROJECT_OS_DISPOSABLE_WINDOWS === '1'/);
   assert.match(installEvidence, /NSIS per-user uninstall identity is shared by\s*\n?\/\/\s*every Companion install/);
   assert.match(installEvidence, /previous\.manifest\.version, '0\.1\.0'/);
-  assert.match(installEvidence, /candidate\.manifest\.version, '0\.2\.2'/);
+  assert.match(installEvidence, /candidate\.manifest\.version, '0\.2\.3'/);
   assert.match(installEvidence, /ProjectEngineeringOS-Setup-\\d\+\\\.\\d\+\\\.\\d\+-x64\\\.exe/,
     'El manifiesto no puede convertir una ruta arbitraria en un instalador.');
   assert.match(installEvidence, /verify-native-journeys\.mjs/);
+  assert.match(installEvidence, /waitForRemoval/);
   assert.match(installEvidence, /removeDisposableRoot/);
   assert.match(installEvidence, /cleanup\.json/);
 
@@ -407,3 +408,49 @@ test('release measurement error survives cleanup failures and persistent locks u
     () => simulateHarness({ bodyError: null, cleanupThrows: null })
   );
 });
+
+test('waitForRemoval succeeds when path is removed within budget', async () => {
+  let calls = 0;
+  const mockCheck = async () => {
+    calls++;
+    return calls < 3;
+  };
+  const removed = await waitForRemoval('/dummy/path', {
+    timeoutMs: 5000,
+    intervalMs: 1,
+    check: mockCheck,
+  });
+  assert.equal(removed, true);
+  assert.equal(calls, 3);
+});
+
+test('waitForRemoval returns false when target is not removed before timeout', async () => {
+  let calls = 0;
+  const mockCheck = async () => {
+    calls++;
+    return true;
+  };
+  const removed = await waitForRemoval('/dummy/path', {
+    timeoutMs: 10,
+    intervalMs: 5,
+    check: mockCheck,
+  });
+  assert.equal(removed, false);
+  assert.ok(calls >= 2);
+});
+
+test('waitForRemoval returns true immediately when target is already absent', async () => {
+  let calls = 0;
+  const mockCheck = async () => {
+    calls++;
+    return false;
+  };
+  const removed = await waitForRemoval('/dummy/path', {
+    timeoutMs: 5000,
+    intervalMs: 100,
+    check: mockCheck,
+  });
+  assert.equal(removed, true);
+  assert.equal(calls, 1);
+});
+

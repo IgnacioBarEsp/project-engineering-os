@@ -1,5 +1,5 @@
-﻿import assert from 'node:assert/strict';
-import { rm as defaultRm } from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import { access as defaultAccess, rm as defaultRm } from 'node:fs/promises';
 import path from 'node:path';
 
 export const inside = (root, target) => {
@@ -8,6 +8,29 @@ export const inside = (root, target) => {
 };
 
 const defaultSleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+const defaultPresent = async file => defaultAccess(file).then(() => true, () => false);
+
+export const waitForRemoval = async (
+  target,
+  {
+    timeoutMs = 60000,
+    intervalMs = 500,
+    check = defaultPresent,
+    sleep = defaultSleep,
+  } = {}
+) => {
+  assert(target, 'Debes especificar target.');
+  const deadline = Date.now() + timeoutMs;
+  while (await check(target)) {
+    if (Date.now() >= deadline) {
+      return false;
+    }
+    if (intervalMs > 0) {
+      await sleep(intervalMs);
+    }
+  }
+  return true;
+};
 
 export const removeDisposableRoot = async ({
   root,
