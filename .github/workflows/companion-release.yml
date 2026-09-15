@@ -133,7 +133,7 @@ jobs:
         run: gh release edit $env:RELEASE_TAG --repo $env:GITHUB_REPOSITORY --draft=false --latest
       - name: Preserve non-release evidence for review
         if: ${{ always() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0d # v7.0.1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: companion-release-evidence-${{ inputs.tag }}
           path: ${{ runner.temp }}\companion-release-evidence

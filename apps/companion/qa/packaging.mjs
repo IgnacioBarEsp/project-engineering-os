@@ -278,6 +278,8 @@ test('the 0.2.0 release path is private, disposable and never replaces a prior r
     'Solo un borrador recién creado y fallido puede limpiarse automáticamente.');
   assert.match(workflow, /if: \$\{\{ always\(\) \}\}/,
     'La evidencia debe conservarse incluso cuando una comprobación falla.');
+  assert.match(workflow, /actions\/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7\.0\.1/,
+    'La acción que conserva evidencia debe usar el SHA publicado de upload-artifact v7.0.1.');
   assert.match(workflow, /evidence:published-release/);
   assert.match(workflow, /gh release edit .*--draft=false --latest/);
   assert.match(workflow, /companion-v0\.1\.0/);

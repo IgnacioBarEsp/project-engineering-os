@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "correct-companion-release-artifact-action-pin",
+  "date": "2026-09-15",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "notes": "El error de pin se detectó antes de cualquier mutación de release, se corrigió con una revisión oficial y una prueba exacta."
+}

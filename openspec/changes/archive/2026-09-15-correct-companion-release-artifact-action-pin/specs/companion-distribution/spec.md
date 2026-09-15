@@ -1,10 +1,5 @@
-# companion-distribution Specification
+## MODIFIED Requirements
 
-## Purpose
-Define how the Companion application is distributed as a Windows artifact whose contents, identity and
-signing status are verified against the produced file before publication, and how installing, updating or
-removing it touches only what the installer wrote and never the person's projects, history or prepared tools.
-## Requirements
 ### Requirement: Verifiable Windows artifact
 The app SHALL be distributed as a Windows x64 installer whose contents are verified before publication
 against an explicit allowlist, and whose identity, checksum, licenses and real signing status are published
@@ -34,25 +29,3 @@ publication workflow SHALL resolve to its reviewed immutable revision before the
 - **WHEN** GitHub cannot resolve an action revision named by the Companion publication workflow
 - **THEN** the run stops before build or release mutation
 - **AND** a correction verifies the official immutable revision and adds a regression assertion before retry
-
-### Requirement: Installation that preserves the person's work
-Installation SHALL be per-user, offer a destination and a shortcut, and present the license and data
-notice before writing. Uninstallation SHALL remove only what the installer wrote. Automated release
-evidence SHALL use paths isolated from a person's existing application, project, history and runtimes and
-SHALL distinguish a silent installer assertion from a human interaction with the wizard.
-
-#### Scenario: A person installs and launches the app
-- **WHEN** the installer runs on a Windows machine without Node or a terminal
-- **THEN** the app starts from its shortcut and reaches its first screen
-
-#### Scenario: A release test uses the installer silently
-- **WHEN** native automation installs, updates or removes the candidate
-- **THEN** every mutable test path resolves inside one fresh test root before it is passed to the installer
-- **AND** the result records installation ownership and explicitly says that wizard interaction was not
-  observed
-
-#### Scenario: A person reinstalls or uninstalls
-- **WHEN** the app is reinstalled over an existing installation or removed
-- **THEN** prepared project folders, the local project history and the managed runtimes remain intact
-- **AND** removing those runtimes or that history is an explicit separate action
-
