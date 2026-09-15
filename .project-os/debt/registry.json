@@ -1570,6 +1570,70 @@
       "createdAt": "2026-09-13",
       "updatedAt": "2026-09-13",
       "resolution": null
+    },
+    {
+      "id": "debt-cb6e469cd84f",
+      "title": "Las guardas que impiden volver al host heredado son regex sobre el fuente del verificador, no sobre su comportamiento: un verificador que conserve el literal pero sondee con otra variable las pasaría",
+      "description": "Las guardas que impiden volver al host heredado son regex sobre el fuente del verificador, no sobre su comportamiento: un verificador que conserve el literal pero sondee con otra variable las pasaría",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/qa/packaging.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "validation",
+          "ref": "openspec/changes/correct-companion-authenticode-probe/evidence/adversarial-review.md",
+          "date": "2026-09-15"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "correct-companion-authenticode-probe",
+          "date": "2026-09-15"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-15",
+      "updatedAt": "2026-09-15",
+      "resolution": null
+    },
+    {
+      "id": "debt-018320fa77f0",
+      "title": "verify-engineering-runtime.mjs conserva el host Windows PowerShell heredado que falló en el runner: funciona localmente pero repite la clase de fallo corregida en el verificador de publicación",
+      "description": "verify-engineering-runtime.mjs conserva el host Windows PowerShell heredado que falló en el runner: funciona localmente pero repite la clase de fallo corregida en el verificador de publicación",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-engineering-runtime.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "validation",
+          "ref": "openspec/changes/correct-companion-authenticode-probe/evidence/adversarial-review.md",
+          "date": "2026-09-15"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "correct-companion-authenticode-probe",
+          "date": "2026-09-15"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-15",
+      "updatedAt": "2026-09-15",
+      "resolution": null
     }
   ]
 }

@@ -76,9 +76,12 @@ assert.equal(sums.trim(), `${record.sha256}  ${record.artifact}`);
 // there would present the weakest result as the strongest, so it is named instead.
 let observedSignature = 'not-inspected';
 if (process.platform === 'win32') {
-  const powershell = path.join(process.env.SystemRoot ?? 'C:\\Windows', 'System32', 'WindowsPowerShell', 'v1.0', 'powershell.exe');
+  // `windows-latest` runs PowerShell 7 for workflow steps. Its explicit module import avoids the
+  // legacy Windows PowerShell autoload failure observed in the first 0.2.0 candidate, while still
+  // making a missing inspection a hard failure rather than accepting an unsigned claim on trust.
+  const powershell = 'pwsh';
   const probe = await promisify(execFile)(powershell, ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command',
-    '(Get-AuthenticodeSignature -LiteralPath $env:COMPANION_ARTIFACT).Status'],
+    "$ErrorActionPreference='Stop'; Import-Module Microsoft.PowerShell.Security -ErrorAction Stop; (Get-AuthenticodeSignature -LiteralPath $env:COMPANION_ARTIFACT).Status"],
     { env: { ...process.env, COMPANION_ARTIFACT: installer }, windowsHide: true, shell: false, timeout: 60000, maxBuffer: 65536 });
   observedSignature = probe.stdout.trim();
   assert.equal(observedSignature, 'NotSigned', 'El artefacto declara no estar firmado; Windows informa otra cosa.');

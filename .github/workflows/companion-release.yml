@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Existing annotated Companion tag on protected main, for example companion-v0.2.0
+        description: Existing annotated Companion tag on protected main, for example companion-v0.2.1
         required: true
         type: string
 
@@ -100,12 +100,16 @@ jobs:
           $tag = $env:RELEASE_TAG
           gh release view $tag --repo $env:GITHUB_REPOSITORY *> $null
           if ($LASTEXITCODE -eq 0) { throw 'La release ya existe; este flujo no reemplaza assets.' }
+          $version = (node -p "require('./apps/companion/package.json').version").Trim()
+          if ($tag -ne "companion-v$version") { throw "El tag $tag no coincide con la versión $version del manifiesto." }
+          $notes = "apps/companion/RELEASE_NOTES_$version.md"
+          if (!(Test-Path -LiteralPath $notes -PathType Leaf)) { throw "Faltan las notas de release para $version." }
           $assets = @(
-            (Join-Path $env:CANDIDATE_OUTPUT 'ProjectEngineeringOS-Setup-0.2.0-x64.exe'),
+            (Join-Path $env:CANDIDATE_OUTPUT "ProjectEngineeringOS-Setup-$version-x64.exe"),
             (Join-Path $env:CANDIDATE_OUTPUT 'artifact-manifest.json'),
             (Join-Path $env:CANDIDATE_OUTPUT 'SHA256SUMS')
           )
-          gh release create $tag $assets --repo $env:GITHUB_REPOSITORY --verify-tag --draft --title 'Companion 0.2.0' --notes-file apps/companion/RELEASE_NOTES_0.2.0.md
+          gh release create $tag $assets --repo $env:GITHUB_REPOSITORY --verify-tag --draft --title "Companion $version" --notes-file $notes
           'created=true' | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
       - name: Compare draft assets before publication
         id: canonical
