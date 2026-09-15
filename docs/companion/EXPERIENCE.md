@@ -1,9 +1,9 @@
 # Companion: preparar un proyecto y seguir trabajando
 
 Programa [#66](https://github.com/IgnacioBarEsp/project-engineering-os/issues/66), activado el 7 de septiembre
-de 2026. Este documento define el producto; no declara que el instalador o sus integraciones ya existan.
-El [prototipo navegable](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/scripts/prototypes/companion.html)
-es una simulación identificada y no escribe en carpetas.
+de 2026 y cerrado con evidencia de la primera entrega. Este documento define el producto y conserva
+decisiones del recorrido; no todas sus mejoras están en el instalador publicado.
+El [estado de entrega](../PROJECT_STATUS.md) distingue release, código integrado y pendientes.
 
 La [implementación de escritorio](DESKTOP.md) conecta la interfaz con los motores reales y documenta
 su estado, pruebas y límites. El empaquetado del instalador se verifica por separado.
@@ -244,7 +244,7 @@ sincronización en nube y descargas indiscriminadas de modelos.
 | [#94](https://github.com/IgnacioBarEsp/project-engineering-os/issues/94) | Aceptación nativa, medición con modelo y entrega pública verificable. |
 | [#97](https://github.com/IgnacioBarEsp/project-engineering-os/issues/97) | Cuatro destinos, lenguaje entendible y glosario alcanzable desde donde aparece cada término. |
 
-Cada entrega conserva su flujo SDD. El programa sigue abierto mientras falte un criterio; una prueba local
-no demuestra compatibilidad universal. Consulta [arquitectura](ARCHITECTURE.md), [diseño](DESIGN.md),
+Cada entrega conserva su flujo SDD. Los sucesores abiertos están en el [estado público](../PROJECT_STATUS.md);
+una prueba local no demuestra compatibilidad universal. Consulta [arquitectura](ARCHITECTURE.md), [diseño](DESIGN.md),
 [glosario](GLOSSARY.md) y [evaluación](EVALUATION.md). El [motor de preparación](PREPARATION.md) documenta la primera etapa de implementación.
 El [contexto local](CONTEXT.md) detalla fuentes, recetas, rutas y límites de extracción.

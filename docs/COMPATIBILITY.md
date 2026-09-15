@@ -7,6 +7,10 @@ Aquí puedes comprobar dónde se prueba el paquete y qué representa realmente c
 
 ## Sistemas y runtime
 
+Esta tabla corresponde al **núcleo CLI**, no al instalador. Companion se distribuye para Windows x64,
+incluye su runtime de aplicación y administra herramientas adicionales cuando corresponde al proyecto.
+No exige al usuario instalar el Node de esta tabla. [Estado de entregas](PROJECT_STATUS.md).
+
 | Sistema | Node probado en CI | Contrato |
 |---|---|---|
 | Ubuntu | 20.20.0, 22.22.0 | suite, fixture y tarball |

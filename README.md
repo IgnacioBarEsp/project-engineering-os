@@ -2,90 +2,86 @@
 
 # Project Engineering OS
 
-**La verdadera ingeniería empieza antes del código.**
+**Dale a tu IA un buen punto de partida.**
 
-Una base neutral para organizar proyectos construidos con ayuda de agentes de IA.
+Prepara tu proyecto, encuentra su contexto y continúa con la IA que ya usas.
 
-[Inicio rápido](#inicio-rápido) · [Documentación](docs/README.md) ·
-[Paquete npm](https://www.npmjs.com/package/create-project-engineering-os) ·
-[Issues](https://github.com/IgnacioBarEsp/project-engineering-os/issues)
+[Descargar Companion para Windows](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.1.0) ·
+[Empezar](docs/USER_GUIDE.md) · [Documentación](docs/README.md) · [Estado del proyecto](docs/PROJECT_STATUS.md)
 
 </div>
 
-![Plano de control de Project Engineering OS: el flujo SDD conecta issue, spec, implementación, evidencia y cierre; debajo aparece una ejecución real del bootstrap y el motor de deuda](docs/assets/project-engineering-os-control-plane.png)
+## Tu proyecto, con una forma de trabajar clara
 
-## Qué es Project Engineering OS
+Elige la carpeta donde trabajas y cuenta qué quieres hacer. Companion te muestra qué va a preparar,
+organiza contexto con referencias a tus archivos y te ayuda a continuar desde ahí. Sirve para investigación,
+software, videojuegos, contenido y trabajo general; cada recorrido prepara lo que le corresponde.
 
-Project Engineering OS prepara un repositorio con las piezas que normalmente se improvisan cuando un
-proyecto empieza a crecer:
+La idea nació al querer llevar la forma de trabajar de mi propio proyecto a otros: entender antes de
+cambiar, dejar claras las decisiones y comprobar el resultado. El método se adapta a tu trabajo y a tus
+herramientas. Los archivos y decisiones que ya tienes se revisan antes de añadir algo.
 
-- gobernanza e instrucciones compartidas para agentes;
-- Spec-Driven Development con OpenSpec fijado;
-- criterios de entrada y cierre para cada cambio;
-- evidencia, recuperación y rollback;
-- control de deuda técnica verificable;
-- documentación y validaciones reproducibles.
+## Empieza con Companion
 
-No decide qué producto vas a construir ni instala React, Expo, una base de datos o un proveedor cloud.
-Primero prepara el entorno de ingeniería; el producto y su arquitectura se descubren después.
+1. Descarga **Companion 0.1.0 para Windows x64** desde [Releases](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.1.0).
+2. Revisa el archivo e instálalo siguiendo la [guía de instalación](docs/companion/INSTALLER.md).
+3. Abre la app, elige tu carpeta y explica el objetivo. Revisa el plan antes de prepararla.
+4. Comprueba el resultado y continúa con tu IA: desde una aplicación compatible o copiando el contexto que revisaste.
 
-## Cómo funciona
+No necesitas preparar Node, npm o Git por tu cuenta para empezar con la app. Cuando un proyecto de
+software necesita herramientas, Companion muestra qué descargará y dónde antes de pedirte que continúes.
+No descarga modelos de IA.
+
+El instalador **no tiene certificado de editor**: Windows puede advertirte al abrirlo. Comprueba el SHA-256
+publicado; un hash coincidente verifica el archivo, no sustituye la firma del editor.
+
+**Estado al 14 de septiembre de 2026:** la descarga sigue en 0.1.0. La nueva navegación, las instrucciones
+adaptadas y otras mejoras ya están integradas en el código, pero aún no en un instalador nuevo.
+[Consulta qué está publicado y qué falta](docs/PROJECT_STATUS.md).
+
+## Así se ve el Companion actual
+
+![Inicio del Companion actual: preparar proyecto, abrir tus proyectos y consultar ayuda; explica el recorrido y qué se queda en el equipo](docs/assets/companion-current-home.png)
+
+Captura del código integrado `0c632a3`, tomada el 14 de septiembre de 2026 en una prueba real del
+renderer en navegador. **No es una captura del instalador 0.1.0.**
+[Procedencia y alcance](docs/companion/SCREENSHOTS.md).
+
+## Qué te ayuda a hacer
+
+- **Empezar con lo que ya tienes.** Revisar tu carpeta y conservar archivos existentes.
+- **Encontrar de dónde sale una respuesta.** Buscar en texto, PDF con texto y DOCX, con línea, página o párrafo.
+- **Dar contexto a tu IA.** Revisar las instrucciones y los fragmentos antes de copiarlos.
+- **Trabajar por cambios comprobables.** En software, preparar instrucciones, OpenSpec, verificaciones y recuperación.
+- **Retomar el proyecto.** Consultar lo preparado y detectar cuándo necesita una nueva comprobación.
+
+Un PDF escaneado necesita reconocimiento de texto antes de poder buscarlo. Los formatos no leídos se
+señalan. Abrir un chat web no le entrega automáticamente tus archivos.
+La [guía del usuario](docs/USER_GUIDE.md) explica el recorrido y los límites.
+
+## El método que se lleva a cada proyecto
+
+Para un cambio de software, el recorrido es:
 
 ```text
-issue -> enrich -> Definition of Ready -> spec -> apply -> QA
-      -> revisión adversarial -> deuda -> archive -> PR
+entender la solicitud → acordar la spec → implementar → comprobar
+                    → revisar riesgos y deuda → cerrar por PR
 ```
 
-1. **El problema queda escrito.** Un issue conserva la solicitud original y añade criterios observables,
-   riesgos, dependencias, evidencia y rollback.
-2. **La intención se vuelve contrato.** OpenSpec describe el comportamiento con requirements y escenarios
-   comprobables antes de implementar.
-3. **El cambio avanza por tareas pequeñas.** Cada tarea se completa únicamente cuando existe evidencia.
-4. **El resultado intenta refutarse.** QA y revisión adversarial buscan fallos, no solo una salida verde.
-5. **Lo pendiente se gobierna.** El motor de deuda clasifica hallazgos y puede pausar el plan correcto antes
-   de que la deuda siga creciendo.
+Una *spec* describe qué debe hacer el cambio y cómo comprobarlo. OpenSpec conserva ese acuerdo; las tareas,
+pruebas y revisión ayudan a que el resultado coincida. Si queda un problema, se registra y se decide cómo
+atenderlo. [Conoce el flujo SDD y sus controles](docs/UPSTREAM_OPERATIONS.md).
 
-## Qué incorpora
+Las *skills* son guías de trabajo para el agente; MCP permite conectarlo con herramientas. Se evalúan según
+lo que necesita el proyecto, sus permisos, licencia y compatibilidad. El núcleo incluye un
+[catálogo revisable](docs/TOOL_CATALOG.md), no una instalación automática de todas las herramientas de
+un proyecto de referencia. La [matriz de compatibilidad](docs/COMPATIBILITY.md) distingue instrucciones generadas de
+integraciones realmente verificadas.
 
-### Un núcleo común para cinco agentes
+## Si prefieres la terminal
 
-Genera instrucciones para **Claude Code, Codex, Cursor, GitHub Copilot y OpenCode**. Cada harness recibe
-solo las capacidades que puede representar; una degradación documentada nunca se presenta como paridad
-nativa. Consulta la [matriz de compatibilidad](docs/COMPATIBILITY.md).
-
-### SDD y evidencia
-
-OpenSpec permanece fijado a una versión exacta. Los gates de readiness comprueban issue, alcance,
-dependencias, evidencia, intervención humana, costos, licencias y rollback. Los estados posibles conservan
-su significado: PASS, FAIL, WARN y SKIP no son intercambiables.
-
-### Motor de deuda
-
-Un warning o TODO es un candidato, no deuda automática. Cada cierre registra un assessment, incluso cuando
-el resultado es `clean`. Blockers, recurrencia, excepciones vencidas o presupuesto agotado activan una ruta
-de saneamiento. Lee [Debt Control Loop](docs/DEBT_CONTROL.md).
-
-### Operaciones recuperables
-
-Bootstrap, sync y upgrade generan planes, hashes y transacciones. Una ejecución interrumpida puede
-reanudarse o revertirse sin usar `git reset --hard`. La [guía de recuperación](docs/RECOVERY.md) explica
-los casos normales y los fallos de PR.
-
-## Inicio rápido
-
-Necesitas Git, npm y Node `^20.20.0 || >=22.22.0`.
-
-### 1. Crea la carpeta y abre tu terminal
-
-```sh
-mkdir mi-proyecto
-cd mi-proyecto
-git init
-```
-
-### 2. Instala el núcleo
-
-La versión explícita mantiene el bootstrap reproducible:
+El núcleo **0.5.0** sigue disponible para automatización y para Windows, macOS y Linux.
+Necesitas Git, npm y Node `^20.20.0 || >=22.22.0`. En una carpeta Git vacía:
 
 ```sh
 npx --yes create-project-engineering-os@0.5.0 bootstrap --target .
@@ -96,126 +92,52 @@ npm run project-os:check
 npm run project-os:doctor
 ```
 
-El comando fue verificado desde una carpeta vacía en Windows. La suite también lo prueba en Ubuntu y
-macOS. Antes de cambiar `0.5.0`, revisa el [changelog](CHANGELOG.md).
-
-Los scripts `openspec:*` usan telemetría apagada por defecto sin cambiar tu configuración global. Puedes
-elegir explícitamente otro valor con `OPENSPEC_TELEMETRY`; una invocación directa de OpenSpec queda bajo su
-contrato upstream. Consulta el [triage de cadena de suministro](docs/security/SUPPLY_CHAIN_TRIAGE_2026-08-18.md).
-
-### 3. Abre el agente que prefieras
-
-Abre Claude Code, Codex, Cursor, GitHub Copilot u OpenCode en la raíz del repositorio y pega:
-
-```text
-Lee AGENTS.md y docs/engineering/PROMPT_00_BOOTSTRAP_ENTORNO.md. Ejecuta ese flujo usando
-create-project-engineering-os@0.5.0 como versión aprobada. Comprueba el segundo run sin drift, los cinco
-harnesses, OpenSpec, los gates y la recuperación. No elijas todavía el producto, framework, arquitectura,
-cloud o base de datos. Detente ante cualquier autorización, costo, licencia, autenticación o mutación
-remota y explícame qué necesitas. Al terminar, resume PASS/FAIL/WARN/SKIP y pregúntame si quiero preparar
-el relevo hacia PROMPT_01_DISCOVERY_PROYECTO.
-```
-
-El agente debe completar el trabajo local por sí mismo. Las instrucciones manuales son un fallback cuando
-las pides o una automatización no puede continuar.
-
-### ¿Ya tienes un repositorio?
-
-Trabaja desde una rama y un árbol limpio. Revisa primero el plan sin escribir:
+Después, abre tu agente y sigue el [prompt router](docs/prompts/PROMPT_ROUTER_INICIO.md),
+[Prompt 00](docs/prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md) y
+[Prompt 01](docs/prompts/PROMPT_01_DISCOVERY_PROYECTO.md) cuando corresponda.
+La [guía CLI](docs/CLI_GUIDE.md) cubre el inicio completo, carpetas existentes y decisiones manuales.
 
 ```sh
-npx --yes create-project-engineering-os@0.5.0 bootstrap --target . --dry-run
-npx --yes create-project-engineering-os@0.5.0 bootstrap --target .
-npm ci
-npm run project-os:check
-```
-
-Una colisión humana detiene la operación antes de sobrescribir. Consulta el
-[modelo de ownership](docs/architecture/OWNERSHIP.md).
-
-## Elige la documentación que necesitas
-
-- **Quiero empezar desde cero:** [Guía del usuario](docs/USER_GUIDE.md).
-- **Quiero saber qué ruta corresponde a mi carpeta:** [Clasificador read-only](docs/ONBOARDING_PLAN.md).
-- **Necesito el primer prompt del recorrido:** [Prompt router](docs/prompts/PROMPT_ROUTER_INICIO.md).
-- **Voy a preparar y verificar el entorno:** [Prompt 00](docs/prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md).
-- **El entorno ya está aprobado:** [Prompt 01 y discovery](docs/prompts/PROMPT_01_DISCOVERY_PROYECTO.md).
-- **Quiero entender un fallo o revertir:** [Recuperación](docs/RECOVERY.md).
-- **Necesito operar deuda técnica:** [Debt Control Loop](docs/DEBT_CONTROL.md).
-- **Mantengo o publico el paquete:** [Releases](docs/RELEASES.md) y
-  [upstream/consumidores](docs/UPSTREAM_CONSUMERS.md).
-
-El [índice completo](docs/README.md) organiza las rutas por objetivo y nivel de detalle.
-
-## Comandos habituales
-
-Estos son los comandos que conviene reconocer después del inicio rápido:
-
-```sh
-project-os sync --target . --check
-project-os doctor --target . --json
-project-os onboarding-plan --target . --answers onboarding-answers.json --json
-project-os readiness-check --phase propose --issue 123 --target .
-project-os readiness-check --phase archive --change mi-change --run-local --target .
-project-os debt check --root .
 project-os upgrade --target . --check
+project-os debt check --root .
 project-os rollback --target . --transaction <id>
 ```
 
-Los comandos con `--check`, `doctor`, `onboarding-plan` y readiness diagnostican sin reparar ni autenticar.
-Una mutación
-requiere un comando explícito y conserva recuperación.
+Los comandos de comprobación leen sin reparar. El rollback es una acción explícita con verificación de
+ownership. [Recuperación](docs/RECOVERY.md) explica cuándo usarlo.
 
-Para un tablero remoto, usa el [flujo de trackers](docs/TRACKERS.md): plan offline, aprobación por
-operación, verificación remota y rollback atribuible al receipt. Conserva el tracker que el equipo ya usa.
+## Cómo encajan la app y el núcleo
 
-## Estado actual y próximos pasos
+Companion es la entrada visual. El núcleo hace la preparación de ingeniería que también se puede pedir
+por CLI. Bootstrap es el nombre de esa preparación inicial; npm distribuye paquetes y forma parte de las
+herramientas administradas. No son cuatro productos que debas aprender para usar la app.
+[Mapa del repositorio y qué sigue siendo necesario](docs/REPOSITORY_MAP.md).
 
-El núcleo `0.5.0` añade [adopción de archivos existentes](docs/EXISTING_PROJECTS.md) mediante ruta y hash
-revisados, además de los controles de la versión anterior. Consulta el [changelog](CHANGELOG.md).
-La [app de escritorio](docs/companion/DESKTOP.md) ya prepara carpetas y contexto local; su instalador y la
-activación del entorno continúan en el [programa #66](https://github.com/IgnacioBarEsp/project-engineering-os/issues/66).
-La distribución pública del núcleo sigue siendo CLI.
+## Privacidad, límites y desarrollo
 
-La versión actual instala el núcleo universal y mantiene inactivos los perfiles de producto. No activa
-skills ni servidores MCP por defecto. MVVM, CI/CD del producto, Playwright, IA, UI, offline/sync y cloud se
-deciden después del discovery.
+La preparación básica es local, sin cuenta propia ni suscripción. Tus documentos no se suben
+automáticamente. El código actual ofrece redacción opcional con un modelo local o proveedor propio:
+revisa qué datos compartirás y el costo de ese proveedor antes de activarla.
+[Privacidad del Companion](docs/companion/SECURITY.md).
 
-El clasificador read-only de onboarding detecta evidencia, acepta cinco respuestas y emite una ruta/estado
-versionado sin escribir. El [prompt router](docs/prompts/PROMPT_ROUTER_INICIO.md) usa esa ruta, la registra
-bajo aprobación humana y conduce Prompt 00 y Prompt 01 por recorrido. Ambas piezas entran en `0.2.0`. La
-[guía del clasificador](docs/ONBOARDING_PLAN.md) describe su contrato ejecutable; el
-[flujo de trackers](docs/TRACKERS.md) cubre la configuración remota autorizada.
+El proyecto usa licencia MIT. El núcleo no tiene dependencias de producción; el Companion tiene las suyas
+y su [aviso de terceros](apps/companion/THIRD-PARTY-NOTICES.md). No hay un ahorro de tiempo o dinero
+general demostrado: [aquí están las mediciones y sus límites](docs/companion/EVIDENCE.md).
 
-## Seguridad, licencias y costo
-
-El runtime usa licencia MIT y no tiene dependencias de producción. Las dependencias de desarrollo y
-notices están en [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). El núcleo no compra servicios ni activa
-proveedores de pago. Consulta [costos, licencias y lock-in](docs/COSTS_AND_LICENSES.md) antes de extenderlo.
+Para contribuir: [CONTRIBUTING](CONTRIBUTING.md), [releases](docs/RELEASES.md),
+[ownership](docs/architecture/OWNERSHIP.md) y [control de deuda](docs/DEBT_CONTROL.md).
+La [landing actual](https://ignaciobaresp.github.io/project-engineering-os/) sigue disponible mientras
+la [nueva landing](https://github.com/IgnacioBarEsp/project-engineering-os-landing) se termina en su repositorio.
 
 <details>
-<summary><strong>English summary</strong></summary>
+<summary>English summary</summary>
 
-Project Engineering OS is a neutral engineering foundation for repositories built with AI coding agents.
-It installs shared governance, pinned OpenSpec SDD, readiness gates, reproducible evidence, transactional
-recovery and a technical-debt control loop without choosing the product stack.
-
-The current release supports Claude Code, Codex, Cursor, GitHub Copilot and OpenCode with explicit native,
-generated, documented or unsupported capability levels. Product architecture, CI/CD, UI, AI providers,
-cloud and integrations remain conditional until discovery.
-
-Start with the [quickstart](#inicio-rápido), then run the router prompt to record a route and use Prompt 00
-to verify the engineering environment. `0.2.0` adds the read-only `onboarding-plan` classifier, the router
-that orchestrates Prompt 00 and Prompt 01 per route, and the revalidated per-agent capability matrix. Remote
-tracker setup and the curated skills/MCP catalogue remain future changes.
+Project Engineering OS helps prepare project context and a repeatable way of working with your existing AI.
+Start with the Windows Companion installer; the neutral core CLI remains available for automation on
+Windows, macOS and Linux. The app and core have separate versions. See the
+[current delivery status](docs/PROJECT_STATUS.md) before assuming a feature in source is in the download.
 
 </details>
 
-## Autor
-
-Desarrollado por [Ignacio Barboza Espinoza](https://github.com/IgnacioBarEsp), desarrollador de software
-junior enfocado en React Native, TypeScript y Node.js. Construí este proyecto aplicando SDD, automatización
-de pruebas, UX/UI e ingeniería asistida por IA para aprender y mantener el proceso tan cuidado como el
-código.
-
-Contacto: [IgnacioBar.esp@gmail.com](mailto:IgnacioBar.esp@gmail.com)
+Desarrollado por [Ignacio Barboza Espinoza](https://github.com/IgnacioBarEsp).
+[Contacto](mailto:IgnacioBar.esp@gmail.com).

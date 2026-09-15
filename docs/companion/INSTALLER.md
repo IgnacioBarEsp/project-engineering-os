@@ -6,6 +6,11 @@ preparar Node ni abrir una terminal. Esta página describe qué instala, qué no
 **Úsala si:** vas a instalar, actualizar o desinstalar la aplicación, o necesitas comprobar que el
 archivo que descargaste es el que se publicó.
 
+**Descarga:** [Companion 0.1.0 para Windows x64](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.1.0).
+En Assets encontrarás `ProjectEngineeringOS-Setup-0.1.0-x64.exe`, `SHA256SUMS` y
+`artifact-manifest.json`. Los cambios más recientes del código aún esperan un instalador nuevo;
+consulta el [estado de entrega](../PROJECT_STATUS.md).
+
 ## Antes de instalar
 
 El artefacto **no está firmado** con un certificado de editor. Windows mostrará una advertencia de
@@ -17,7 +22,9 @@ publicado, comparando su SHA-256 con el que acompaña a la descarga:
 Get-FileHash -Algorithm SHA256 .\ProjectEngineeringOS-Setup-0.1.0-x64.exe
 ```
 
-Si el valor no coincide con el publicado, no lo instales.
+Si el valor no coincide con el publicado, no lo instales. La coincidencia verifica que descargaste los
+bytes publicados; no equivale a una firma de editor. No necesitas preparar Node, npm o Git globalmente
+para abrir la aplicación.
 
 ## Qué hace el instalador
 

@@ -5,8 +5,9 @@ cuando lo necesites.
 
 ## Quiero crear mi primer proyecto
 
-El programa [Companion](companion/EXPERIENCE.md) define la aplicación visual en desarrollo para preparar
-proyectos sin terminal. La [app de escritorio](companion/DESKTOP.md) permite revisar y aplicar cambios, y
+Empieza por la [guía visual](USER_GUIDE.md) y descarga la [release de Companion para Windows](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.1.0).
+El [estado del proyecto](PROJECT_STATUS.md) separa esa descarga del código nuevo pendiente de instalador.
+La [app de escritorio](companion/DESKTOP.md) permite revisar y aplicar cambios, y
 la [activación del entorno](companion/ENVIRONMENT.md) describe qué herramientas instala, qué verifica y
 cómo recuperarlas. El [instalador de Windows](companion/INSTALLER.md) explica qué se instala, qué no se
 toca al desinstalar y cómo comprobar el archivo descargado. La [evidencia](companion/EVIDENCE.md) publica
@@ -16,8 +17,9 @@ proyecto o de una sola máquina. El [glosario](companion/GLOSSARY.md)
 define cada palabra técnica que aparece en la aplicación, y la [lectura en frío](companion/COLD_READING.md)
 es el procedimiento para comprobar con una persona que el lenguaje se entiende.
 
-1. [Guía del usuario](USER_GUIDE.md): entiende las cuatro etapas y llega desde una carpeta vacía hasta el
-   primer cambio de producto.
+## Prefiero la terminal o quiero profundizar
+
+1. [Guía CLI](CLI_GUIDE.md): instala el núcleo, conserva archivos existentes y llega al primer cambio.
 2. [Clasificador de onboarding](ONBOARDING_PLAN.md): inspecciona la carpeta y elige una ruta sin escribir.
 3. [Prompt router](prompts/PROMPT_ROUTER_INICIO.md): registra la ruta y decide el orden de los dos prompts
    siguientes.
@@ -43,6 +45,7 @@ Las [herramientas en una subcarpeta](ISOLATED_TOOLCHAIN.md) permiten conservar l
 - [Purpose de las capabilities](SPEC_PURPOSE.md): qué revisa el gate de specs publicadas y cómo se
   corrige.
 - [Ownership](architecture/OWNERSHIP.md): qué pertenece al upstream, al consumidor o a OpenSpec.
+- [Mapa del repositorio](REPOSITORY_MAP.md): función de app, núcleo, npm y bootstrap; qué se conserva y qué requiere consolidación.
 - [Upstream y consumidores](UPSTREAM_CONSUMERS.md): cómo proponer cambios sin editar copias del runtime.
 - [Autoaplicación del upstream](SELF_APPLICATION.md): qué partes de su propio sistema se aplica este
   repositorio a sí mismo, y por qué un FAIL del doctor sobre él no siempre es deuda.
@@ -53,11 +56,12 @@ Las [herramientas en una subcarpeta](ISOLATED_TOOLCHAIN.md) permiten conservar l
 - [Compatibilidad](COMPATIBILITY.md): sistemas, versiones de Node y degradaciones por agente.
 - [Reglas por carpeta](PATH_RULES.md): selectores, personalización y retirada reversible de reglas.
 
-## Mantengo o publico el paquete
+## Mantengo o publico una entrega
 
 - [Endurecer instalaciones](INSTALL_HARDENING.md): controles por gestor, defaults fechados y excepciones.
 - [Versionado y migraciones](architecture/VERSIONING.md): cuándo usar patch, minor o major.
-- [Releases](RELEASES.md): tarball único, checksum, GitHub Release y npm provenance.
+- [Releases](RELEASES.md): ciclos separados del Companion y del núcleo, artefactos y documentación de cada entrega.
+- [Capturas del Companion](companion/SCREENSHOTS.md): imágenes reales, procedencia y alcance de lo probado.
 - [Costos, licencias y lock-in](COSTS_AND_LICENSES.md): decisiones que deben revisarse antes de extender.
 - [Triage de cadena de suministro](security/SUPPLY_CHAIN_TRIAGE_2026-08-18.md): atribución y decisión por
   señal de Socket y npm audit.

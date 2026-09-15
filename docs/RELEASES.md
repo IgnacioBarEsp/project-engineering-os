@@ -1,5 +1,30 @@
 # Releases
 
+Hay dos ciclos de publicación: **Companion**, la app que se descarga, y **el núcleo**, que se distribuye
+como paquete npm. Un PR integrado no publica ninguno automáticamente. Consulta primero
+[estado de las entregas](PROJECT_STATUS.md).
+
+## Companion para Windows
+
+La release publicada es [Companion 0.1.0](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.1.0).
+La siguiente entrega se prepara en [#117](https://github.com/IgnacioBarEsp/project-engineering-os/issues/117).
+Su versión no cambia la del núcleo que incluye. El empaquetado no ejecuta publicación automática.
+
+1. Acordar la versión nueva y sus notas mediante SDD; no reutilizar 0.1.0 para otro instalador.
+2. Construir desde un commit limpio y revisado; comprobar el artefacto con los scripts de la
+   [guía de instalación y empaquetado](companion/INSTALLER.md).
+3. Registrar pruebas del programa, instalación, actualización y desinstalación, distinguiendo controles
+   automáticos de pasos que requieren una persona. No atribuir pruebas del renderer al instalador.
+4. Publicar el instalador, `artifact-manifest.json` y `SHA256SUMS` del mismo build verificado.
+5. Descargar los assets publicados y comparar identidad, tamaño y hash; no reemplazar la release anterior.
+6. Reconciliar README, estado, guía, notas, capturas y enlaces de la landing con el artefacto comprobado.
+
+No hay certificado de editor ni actualizador automático. El checksum verifica la identidad del archivo,
+no la reputación de su editor. Si falla una release, se documenta y se corrige con una versión nueva;
+no se mueve su tag ni se sustituyen sus bytes.
+
+## Núcleo CLI y biblioteca
+
 El cliente de instalación y publicación está fijado a npm 11.19.1. Revisa la fijación antes de cada
 release, trimestralmente y ante un advisory del cliente; ensaya el tarball completo antes de cambiarla.
 Consulta [la política de instalación](INSTALL_HARDENING.md) para la cuarentena y sus límites.
