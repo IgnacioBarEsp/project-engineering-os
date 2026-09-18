@@ -76,6 +76,20 @@ test('the custom installer steps remove the update cache and refuse a destinatio
   assert.match(script, /!ifndef BUILD_UNINSTALLER/, 'La funcion del instalador no debe compilarse en el desinstalador.');
 });
 
+test('the installer contextually detects existing versions and offers repair, uninstall or upgrade', async () => {
+  const script = await read('build/installer.nsh');
+  assert.match(script, /!macro customInit/, 'El macro customInit debe estar declarado.');
+  assert.match(script, /ReadRegStr \$0 HKCU "\$\{UNINSTALL_REGISTRY_KEY\}" "DisplayVersion"/);
+  assert.match(script, /ReadRegStr \$1 HKCU "\$\{UNINSTALL_REGISTRY_KEY\}" "UninstallString"/);
+  assert.match(script, /ReadRegStr \$2 HKCU "\$\{UNINSTALL_REGISTRY_KEY\}" "InstallLocation"/);
+  // Same version branch: repair, uninstall or cancel
+  assert.match(script, /\$\{if\} \$0 == "\$\{VERSION\}"/);
+  assert.match(script, /MessageBox MB_YESNOCANCEL/);
+  assert.match(script, /ExecWait '\$1 \/S _\?=\$2'/);
+  // Different/previous version branch: upgrade or cancel
+  assert.match(script, /MessageBox MB_OKCANCEL/);
+});
+
 test('the license shown by the installer states the data handling and the real signing status', async () => {
   const license = await read('build/license.txt');
   assert.match(license, /MIT License/);
