@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 // image dependency, then writes a multi-size Windows icon. Run it when the mark or palette changes:
 // `node scripts/build-icon.mjs`. The produced build/icon.ico is committed so packaging is offline.
 const SUPER = 4, BASE = 256, SIZE = BASE * SUPER;
-const DARK = [0x14, 0x25, 0x1b], GREEN = [0x36, 0x7d, 0x57], MINT = [0xdc, 0xeb, 0xdd];
+const DARK = [0x0b, 0x0f, 0x19], INDIGO = [0x63, 0x66, 0xf1], CYAN = [0x06, 0xb6, 0xd4], LAVENDER = [0xc0, 0xc1, 0xff];
 const RADIUS = 56 * SUPER;
 
 const canvas = new Float64Array(SIZE * SIZE * 4);
@@ -29,9 +29,9 @@ for (let y = 0; y < SIZE; y++) {
 // Concentric orbit: one upright ring plus the two flattened rings the interface already uses.
 const centre = (SIZE - 1) / 2;
 const rings = [
-  { a: 84 * SUPER, b: 84 * SUPER, angle: 0, width: 7 * SUPER, colour: MINT },
-  { a: 84 * SUPER, b: 42 * SUPER, angle: 40, width: 5 * SUPER, colour: GREEN },
-  { a: 84 * SUPER, b: 42 * SUPER, angle: -40, width: 5 * SUPER, colour: GREEN },
+  { a: 84 * SUPER, b: 84 * SUPER, angle: 0, width: 7 * SUPER, colour: INDIGO },
+  { a: 84 * SUPER, b: 42 * SUPER, angle: 40, width: 5 * SUPER, colour: CYAN },
+  { a: 84 * SUPER, b: 42 * SUPER, angle: -40, width: 5 * SUPER, colour: CYAN },
 ];
 for (const ring of rings) {
   const radians = (ring.angle * Math.PI) / 180, cos = Math.cos(radians), sin = Math.sin(radians);
@@ -50,7 +50,7 @@ for (const ring of rings) {
 // Centre mark.
 for (let y = 0; y < SIZE; y++) {
   for (let x = 0; x < SIZE; x++) {
-    if (Math.hypot(x - centre, y - centre) <= 17 * SUPER) paint(x, y, MINT, 1);
+    if (Math.hypot(x - centre, y - centre) <= 17 * SUPER) paint(x, y, LAVENDER, 1);
   }
 }
 

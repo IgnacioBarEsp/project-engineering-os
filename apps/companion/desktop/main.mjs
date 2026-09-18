@@ -32,7 +32,7 @@ else void app.whenReady().then(async () => {
     if(request.method!=='GET'||u.host!=='app'||!type||u.search||u.hash)return new Response('Not found',{status:404});
     return new Response(await readFile(path.join(staticRoot,u.pathname.slice(1))),{headers:{'Content-Type':type,'Content-Security-Policy':CSP,'X-Content-Type-Options':'nosniff'}});
   });
-  window=new BrowserWindow({width:1180,height:820,minWidth:480,minHeight:540,show:false,backgroundColor:'#f8f8f3',title:'Project Engineering OS',
+  window=new BrowserWindow({width:1180,height:820,minWidth:480,minHeight:540,show:false,backgroundColor:'#0b0f19',title:'Project Engineering OS',
     webPreferences:{preload:fileURLToPath(new URL('./preload.cjs',import.meta.url)),partition:'companion-local',sandbox:true,contextIsolation:true,nodeIntegration:false,webSecurity:true,webviewTag:false,spellcheck:false}});
   Menu.setApplicationMenu(Menu.buildFromTemplate([{label:'Ver',submenu:[{role:'resetZoom'},{role:'zoomIn'},{role:'zoomOut'},{type:'separator'},{role:'togglefullscreen'}]}]));
   window.webContents.setWindowOpenHandler(()=>({action:'deny'}));

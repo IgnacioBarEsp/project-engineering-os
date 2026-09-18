@@ -109,7 +109,7 @@ function setBusy(value){state.busy=value;document.querySelectorAll('button,input
 async function call(name,input={}){const r=await api[name](input);if(!r.ok)throw r.error;return r.value;}
 let actionOrigin=null;
 async function run(fn){if(state.busy)return;actionOrigin=document.activeElement;$('feedback').hidden=true;notice('');setBusy(true);try{await fn();}catch(e){error(e);}finally{setBusy(false);}}
-function render(content,breadcrumb){$('view').replaceChildren(el('div',{class:'enter'},content));$('breadcrumb').textContent=breadcrumb;$('feedback').hidden=true;setBusy(state.busy);const h=$('view').querySelector('h1');h?.focus({preventScroll:true});window.scrollTo(0,0);}
+function render(content,breadcrumb){$('view').replaceChildren(el('div',{class:'enter'},content));$('breadcrumb').textContent=breadcrumb;$('feedback').hidden=true;setBusy(state.busy);$('nav')?.querySelectorAll('button').forEach(b=>{const active=(b.dataset.action==='open-start'&&state.page==='start')||(b.dataset.action==='open-project-list'&&state.page==='projects')||(b.dataset.action==='prepare-project'&&['setup','folder','delimitation','vision','stack-choice','ready'].includes(state.page))||(b.dataset.action==='open-help'&&state.page==='help');b.setAttribute('aria-pressed',String(active));if(active)b.classList.add('active');else b.classList.remove('active');});const h=$('view').querySelector('h1');h?.focus({preventScroll:true});window.scrollTo(0,0);}
 // Inicio: what the application does, how it works, what it downloads and why, what stays here, and the one
 // action that starts. Not a project list — that has its own destination and its own name.
 //
@@ -118,10 +118,52 @@ function render(content,breadcrumb){$('view').replaceChildren(el('div',{class:'e
 // measured prepared context against a model and published a tie — 15/15 against 15/15 — and its own
 // evidence page lists model answer quality as not measured. Warmth does not buy a claim.
 function showStart(){state.page='start';render([
-  el('p',{class:'eyebrow',text:'TODO OCURRE EN ESTE EQUIPO'}),
-  el('h1',{class:'hero-title',tabindex:'-1'},'Dale a tu IA',el('br'),el('em',{},'un buen punto de partida.')),
+  el('div',{class:'hero-pill'},
+    el('span',{class:'hero-pill-star',text:'✦'}),
+    el('span',{text:'Asistente de entorno local • Trabajo estructurado'})),
+  el('h1',{class:'hero-title',tabindex:'-1'},'Dale a tu IA',el('br'),el('span',{class:'hero-gradient',text:'un buen punto de partida.'})),
   p('Esta aplicación lee la carpeta de tu proyecto, ordena lo que hay dentro y deja un resumen que puedes darle a la IA que ya usas, con la ubicación exacta de cada frase para que puedas comprobarla.','intro'),
-  actions(doBtn('prepare-project','primary')),
+  el('div',{class:'hero-meta'},
+    el('span',{class:'meta-badge'},el('span',{class:'meta-dot'}),'Workspace local en este equipo'),
+    el('span',{class:'meta-sep',text:'•'}),
+    el('span',{},'Sin telemetría externa')),
+  el('div',{class:'cards-grid'},
+    el('div',{class:'action-card primary-card'},
+      el('div',{class:'card-accent-line'}),
+      el('div',{class:'card-header'},
+        el('div',{class:'card-icon-box'},el('span',{text:'📁'})),
+        el('span',{class:'card-badge-rec',text:'★ Recomendado'})),
+      el('h2',{text:'Crear nuevo proyecto'}),
+      p('Configura tu espacio de trabajo paso a paso según tu objetivo y necesidades.'),
+      el('div',{class:'card-features'},
+        el('div',{class:'card-feature-item'},el('span',{class:'check-icon',text:'✓'}),el('span',{},'Estructura óptima para Claude, Cursor, ChatGPT y demás')),
+        el('div',{class:'card-feature-item'},el('span',{class:'check-icon',text:'✓'}),el('span',{},'Guía clara sin configuración manual')),
+        el('div',{class:'card-feature-item'},el('span',{class:'check-icon',text:'✓'}),el('span',{},'Preparado en pocos minutos'))),
+      actions(doBtn('prepare-project','primary')),
+      el('div',{class:'card-subtext',text:'Pocos minutos • Asistido'})),
+    el('div',{class:'action-card'},
+      el('div',{class:'card-neutral-line'}),
+      el('div',{class:'card-header'},
+        el('div',{class:'card-icon-box neutral'},el('span',{text:'📂'})),
+        el('span',{class:'card-badge-neutral',text:'En tu equipo'})),
+      el('h2',{text:'Abrir carpeta existente'}),
+      p('Revisa la salud de un proyecto anterior o continúa tu sesión previa.'),
+      el('div',{class:'card-features'},
+        el('div',{class:'card-feature-item'},el('span',{class:'dot-icon'}),el('span',{},'Diagnóstico de herramientas ya instaladas')),
+        el('div',{class:'card-feature-item'},el('span',{class:'dot-icon'}),el('span',{},'Optimización de instrucciones para tus modelos de IA')),
+        el('div',{class:'card-feature-item'},el('span',{class:'dot-icon'}),el('span',{},'Recomendación de herramientas a instalar'))),
+      actions(btn('Buscar carpeta en tu equipo',async()=>{const result=await call('chooseFolder');if(result){state.project=result;showFolder();}},'secondary')),
+      el('div',{class:'card-subtext',text:'O arrastra tu carpeta directamente aquí'}))),
+  el('div',{class:'pillars-bar'},
+    el('div',{class:'pillar-item'},
+      el('div',{class:'pillar-icon-box green',text:'🔒'}),
+      el('div',{},el('strong',{text:'Totalmente local'}),el('span',{text:'Ningún archivo sale de tu equipo'}))),
+    el('div',{class:'pillar-item'},
+      el('div',{class:'pillar-icon-box cyan',text:'🤖'}),
+      el('div',{},el('strong',{text:'Compatible con tu IA'}),el('span',{text:'Claude, ChatGPT, Cursor y más'}))),
+    el('div',{class:'pillar-item'},
+      el('div',{class:'pillar-icon-box indigo',text:'⚡'}),
+      el('div',{},el('strong',{text:'Estructura limpia'}),el('span',{text:'Sin redundancias ni problemas'})))),
   // The four steps are h3, so they need their own h2 above them: a page that goes from h1 straight to h3
   // reads, to anyone navigating by headings, as a level that was skipped. The previous home had the same
   // jump; the contrast and heading probe found it.

@@ -6,8 +6,8 @@ preparar Node ni abrir una terminal. Esta página describe qué instala, qué no
 **Úsala si:** vas a instalar, actualizar o desinstalar la aplicación, o necesitas comprobar que el
 archivo que descargaste es el que se publicó.
 
-**Descarga:** [Companion 0.3.0 para Windows x64](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.0).
-En Assets encontrarás `ProjectEngineeringOS-Setup-0.3.0-x64.exe`, `SHA256SUMS` y
+**Descarga:** [Companion 0.3.1 para Windows x64](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.1).
+En Assets encontrarás `ProjectEngineeringOS-Setup-0.3.1-x64.exe`, `SHA256SUMS` y
 `artifact-manifest.json`.
 
 ## Antes de instalar
@@ -18,7 +18,7 @@ verificar. No la evites ni la desactives. Lo que sí puedes hacer es comprobar q
 publicado, comparando su SHA-256 con el que acompaña a la descarga:
 
 ```powershell
-Get-FileHash -Algorithm SHA256 .\ProjectEngineeringOS-Setup-0.3.0-x64.exe
+Get-FileHash -Algorithm SHA256 .\ProjectEngineeringOS-Setup-0.3.1-x64.exe
 ```
 
 Si el valor no coincide con el publicado, no lo instales. La coincidencia verifica que descargaste los

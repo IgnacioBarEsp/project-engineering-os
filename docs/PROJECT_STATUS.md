@@ -5,13 +5,19 @@ Un issue cerrado demuestra el cierre de ese cambio; no publica por sí solo un i
 
 | Entrega | Estado comprobado | Fuente |
 | --- | --- | --- |
-| Companion para Windows x64 | **0.3.0 candidato verificado** (0.1.0 y 0.2.3 previas publicadas) | [Release oficial](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.0) |
+| Companion para Windows x64 | **0.3.1 candidato verificado** (0.1.0, 0.2.3 y 0.3.0 previas publicadas) | [Release oficial](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.1) |
 | Núcleo CLI y biblioteca | **0.5.0 publicado**; la app fija esa dependencia | [Release del núcleo](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/v0.5.0), [paquete de la app](../apps/companion/package.json) |
-| Mejoras del Companion posteriores a 0.2.3 | Integradas en `main`; **pendientes de instalador** en GitHub Releases | [PR #134](https://github.com/IgnacioBarEsp/project-engineering-os/pull/134), [PR #135](https://github.com/IgnacioBarEsp/project-engineering-os/pull/135), [PR #136](https://github.com/IgnacioBarEsp/project-engineering-os/pull/136) |
+| Mejoras del Companion posteriores a 0.3.0 | Integradas en `main`; **pendientes de instalador** en GitHub Releases | [PR #140](https://github.com/IgnacioBarEsp/project-engineering-os/pull/140) |
 | Landing actual | Armonizada con estética Obsidian Studio y contraste AAA | [Página actual](https://ignaciobaresp.github.io/project-engineering-os/), [código fuente](../site/index.html) |
 | Nueva landing | Dirección y base técnica integradas; página final y publicación pendientes | [Repositorio](https://github.com/IgnacioBarEsp/project-engineering-os-landing) |
 
-## Qué cambió en Companion 0.3.0
+## Qué cambió en Companion 0.3.1
+
+Se aplicó fielmente el diseño Obsidian Precision Studio / Stitch en la interfaz real de Companion:
+tema oscuro profundo (#0B0F19), cabecera superior tipo Topbar con controles de ventana y pastillas de
+navegación responsivas, doble tarjeta de acción en Inicio ("Crear nuevo proyecto" y "Abrir carpeta"),
+tres pilares de valor ("Totalmente local", "Compatible con tu IA", "Estructura limpia"), nuevo icono
+nativo de Windows en paleta Obsidian y supresión de destellos en el arranque.
 
 Los cambios #126–#133 incorporaron el asistente de 4 pasos, los 7 perfiles canónicos con delimitación,
 persistencia de `PROJECT_VISION.md` conservando archivos originales, el instalador contextual NSIS

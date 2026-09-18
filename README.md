@@ -6,7 +6,7 @@
 
 Prepara tu proyecto, encuentra su contexto y continúa con la IA que ya usas.
 
-[Descargar Companion para Windows](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.0) ·
+[Descargar Companion para Windows](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.1) ·
 [Empezar](docs/USER_GUIDE.md) · [Documentación](docs/README.md) · [Estado del proyecto](docs/PROJECT_STATUS.md)
 
 </div>
@@ -23,7 +23,7 @@ herramientas. Los archivos y decisiones que ya tienes se revisan antes de añadi
 
 ## Empieza con Companion
 
-1. Descarga **Companion 0.3.0 para Windows x64** desde [Releases](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.0).
+1. Descarga **Companion 0.3.1 para Windows x64** desde [Releases](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.1).
 2. Revisa el archivo e instálalo siguiendo la [guía de instalación](docs/companion/INSTALLER.md). Si ya tenías una versión previa, el instalador te ofrecerá reparar, actualizar o desinstalar de forma limpia.
 3. Abre la app, define el nombre de tu proyecto y selecciona uno de los 7 perfiles canónicos.
 4. Delimita el tipo específico de tu proyecto y describe tu visión en lenguaje natural. Companion creará `PROJECT_VISION.md` conservando intactos todos tus archivos originales.

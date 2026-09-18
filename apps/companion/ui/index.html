@@ -10,14 +10,40 @@
 <body>
   <a class="skip" href="#content">Ir al contenido</a>
   <div class="shell">
-    <aside class="sidebar" aria-label="Project Engineering OS">
-      <div class="brand"><span class="brand-mark" aria-hidden="true">P<span>↗</span></span><span>Project<br>Engineering OS</span></div>
-      <p class="edition">COMPANION <span>01</span></p>
-      <nav id="nav" aria-label="Navegación principal"></nav>
-      <div class="sidebar-bottom"><div class="orbit" aria-hidden="true"><i></i><i></i><i></i><b>✳</b></div><p>Tu proyecto.<br>Tus archivos.<br><em>Tu siguiente paso.</em></p><small id="scope-line">Tus archivos, en este equipo · Sin cuenta</small></div>
-    </aside>
+    <header class="app-header sidebar" aria-label="Project Engineering OS">
+      <div class="header-left">
+        <div class="window-dots" aria-hidden="true">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <div class="header-separator" aria-hidden="true"></div>
+        <div class="brand">
+          <div class="brand-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="4 17 10 11 4 5"></polyline>
+              <line x1="12" y1="19" x2="20" y2="19"></line>
+            </svg>
+          </div>
+          <span class="brand-name">Project Engineering OS</span>
+          <span class="edition badge">Companion</span>
+        </div>
+      </div>
+      <div class="header-center">
+        <nav id="nav" class="nav-pill-group" aria-label="Navegación principal"></nav>
+      </div>
+      <div class="header-right">
+        <div class="status-indicator">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span class="status-label">Entorno listo</span>
+        </div>
+        <div id="topbar-actions" class="topbar-actions"></div>
+      </div>
+    </header>
     <main id="content" tabindex="-1">
-      <header class="topbar"><span id="breadcrumb">INICIO</span><span id="topbar-actions"></span></header>
+      <div class="topbar-sub">
+        <span id="breadcrumb" class="breadcrumb">INICIO</span>
+      </div>
       <div id="feedback" class="feedback" role="alert" hidden></div>
       <div id="activity" class="activity" role="status" aria-live="polite" hidden><span class="spinner" aria-hidden="true"></span><span id="activity-text"></span><button id="cancel" class="quiet">Detener</button></div>
       <!--
