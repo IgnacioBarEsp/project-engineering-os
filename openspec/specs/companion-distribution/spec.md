@@ -62,7 +62,9 @@ notice before writing. Uninstallation SHALL remove only what the installer wrote
 evidence SHALL use paths isolated from a person's existing application, project, history and runtimes and
 SHALL distinguish a silent installer assertion from a human interaction with the wizard. Uninstallation
 verification SHALL await the completion of the uninstaller's asynchronous process delegation with a bounded
-timeout before evaluating removal of the program directory.
+timeout before evaluating removal of the program directory. The installer SHALL contextually detect existing
+installations in the Windows registry, offering repair, clean uninstallation or cancellation when the same
+version is present, and clean upgrade or cancellation when a previous version is detected.
 
 #### Scenario: A person installs and launches the app
 - **WHEN** the installer runs on a Windows machine without Node or a terminal
@@ -84,4 +86,16 @@ timeout before evaluating removal of the program directory.
 - **WHEN** the app is reinstalled over an existing installation or removed
 - **THEN** prepared project folders, the local project history and the managed runtimes remain intact
 - **AND** removing those runtimes or that history is an explicit separate action
+
+#### Scenario: A person runs the installer when the same version is installed
+- **WHEN** the installer starts on a machine where the exact version is already recorded in the registry
+- **THEN** it SHALL present a contextual dialogue offering options to repair the current installation, uninstall the program, or cancel
+
+#### Scenario: A person runs the installer when an earlier version is installed
+- **WHEN** the installer starts on a machine where an earlier version is detected
+- **THEN** it SHALL present a contextual dialogue offering to update to the new version or cancel
+
+#### Scenario: A person cancels contextual installation
+- **WHEN** the user selects cancel in any contextual installer dialogue
+- **THEN** the installer SHALL abort immediately without modifying files, shortcuts or registry entries
 

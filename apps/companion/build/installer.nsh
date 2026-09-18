@@ -24,6 +24,44 @@
 !macroend
 
 !ifndef BUILD_UNINSTALLER
+# Detect previously installed versions of the application from Windows registry.
+# When the same version is installed: allow repairing (reinstalling files), uninstalling or cancelling.
+# When an earlier version is installed: allow updating or cancelling.
+# When the person cancels: abort immediately without modifying files or registry.
+!macro customInit
+  Push $0
+  Push $1
+  Push $2
+  Push $3
+  ReadRegStr $0 HKCU "${UNINSTALL_REGISTRY_KEY}" "DisplayVersion"
+  ${if} $0 != ""
+    ReadRegStr $1 HKCU "${UNINSTALL_REGISTRY_KEY}" "UninstallString"
+    ReadRegStr $2 HKCU "${UNINSTALL_REGISTRY_KEY}" "InstallLocation"
+    ${if} $0 == "${VERSION}"
+      MessageBox MB_YESNOCANCEL|MB_ICONQUESTION \
+        "Ya se encuentra instalada la versión $0 de ${PRODUCT_NAME}.$\n$\n• Presiona [Sí] para REPARAR la instalación actual.$\n• Presiona [No] para DESINSTALAR el programa por completo.$\n• Presiona [Cancelar] para salir sin hacer cambios." \
+        /SD IDYES IDYES doRepair IDNO doUninstall
+      Quit
+      doUninstall:
+        ${if} $1 != ""
+          ExecWait '$1 /S _?=$2' $3
+        ${endif}
+        Quit
+      doRepair:
+    ${else}
+      MessageBox MB_OKCANCEL|MB_ICONQUESTION \
+        "Se ha detectado una versión previa ($0) de ${PRODUCT_NAME}.$\n$\n¿Deseas actualizar a la versión ${VERSION}?$\n$\nPresiona [Aceptar] para continuar con la actualización o [Cancelar] para salir." \
+        /SD IDOK IDOK doUpgrade
+      Quit
+      doUpgrade:
+    ${endif}
+  ${endif}
+  Pop $3
+  Pop $2
+  Pop $1
+  Pop $0
+!macroend
+
 # The uninstaller deletes the installation directory recursively. That is correct for a directory this
 # installer created, and destructive for one the person already filled with their own work. A chosen
 # destination normally gains a product subdirectory, except when the path already contains the product
