@@ -1,6 +1,6 @@
-# Capturas de Companion 0.3.0
+# Capturas de Companion 0.3.1
 
-Esta galería documenta el flujo visual de preparación integrado en Companion 0.3.0, inspirado en los
+Esta galería documenta el flujo visual de preparación integrado en Companion 0.3.1, inspirado en los
 prototipos de Google Stitch y gobernado por el sistema de artesanía y diseño Impeccable.
 
 ## 1. Inicio y Bienvenida
