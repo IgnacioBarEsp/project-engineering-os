@@ -6,10 +6,9 @@ preparar Node ni abrir una terminal. Esta página describe qué instala, qué no
 **Úsala si:** vas a instalar, actualizar o desinstalar la aplicación, o necesitas comprobar que el
 archivo que descargaste es el que se publicó.
 
-**Descarga:** [Companion 0.1.0 para Windows x64](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.1.0).
-En Assets encontrarás `ProjectEngineeringOS-Setup-0.1.0-x64.exe`, `SHA256SUMS` y
-`artifact-manifest.json`. Los cambios más recientes del código aún esperan un instalador nuevo;
-consulta el [estado de entrega](../PROJECT_STATUS.md).
+**Descarga:** [Companion 0.3.0 para Windows x64](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.0).
+En Assets encontrarás `ProjectEngineeringOS-Setup-0.3.0-x64.exe`, `SHA256SUMS` y
+`artifact-manifest.json`.
 
 ## Antes de instalar
 
@@ -19,7 +18,7 @@ verificar. No la evites ni la desactives. Lo que sí puedes hacer es comprobar q
 publicado, comparando su SHA-256 con el que acompaña a la descarga:
 
 ```powershell
-Get-FileHash -Algorithm SHA256 .\ProjectEngineeringOS-Setup-0.1.0-x64.exe
+Get-FileHash -Algorithm SHA256 .\ProjectEngineeringOS-Setup-0.3.0-x64.exe
 ```
 
 Si el valor no coincide con el publicado, no lo instales. La coincidencia verifica que descargaste los
@@ -39,16 +38,15 @@ administrador y no modifica el equipo para otras cuentas.
 | `%LOCALAPPDATA%\Project Engineering OS\runtimes` | Las herramientas que decidas descargar | La aplicación, solo cuando lo autorizas |
 | La carpeta que elijas | Tu proyecto, su contexto y sus registros de recuperación | La aplicación, según el plan que revises |
 
-## Actualizar y desinstalar
+## Detección contextual, actualizar y desinstalar
 
-Instalar una versión nueva reemplaza el programa y conserva todo lo demás. Desinstalar quita el
-programa, sus accesos directos y la copia del instalador que el empaquetado guarda en tu carpeta local
-para actualizaciones diferenciales, que esta aplicación no usa. **No borra** tus proyectos, tu historial
-ni las herramientas descargadas: esas rutas no le pertenecen al instalador.
+El instalador detecta automáticamente si ya tienes una versión previa instalada en tu equipo:
+- Si detecta una versión existente, abre un diálogo contextual con 3 opciones claras: **Actualizar/Reparar**, **Desinstalar** o **Cancelar**.
+- Instalar o actualizar reemplaza el ejecutable del programa y conserva todo lo demás.
+- Desinstalar quita el programa y sus accesos directos de forma limpia. **No borra** tus proyectos, tu historial de proyectos ni las herramientas descargadas: esas rutas le pertenecen al usuario.
 
 El asistente rechaza como destino una carpeta que ya contenga archivos tuyos y cuyo nombre incluya el
-del producto, porque en ese caso no se añadiría una subcarpeta y la desinstalación borraría esa carpeta
-entera. Elige una carpeta vacía o deja la que propone.
+del producto, protegiendo tus carpetas personales de cualquier eliminación involuntaria.
 
 Si además quieres liberar el espacio de las herramientas descargadas, borra
 `%LOCALAPPDATA%\Project Engineering OS\runtimes` a mano. Ten en cuenta que hacerlo deja sin

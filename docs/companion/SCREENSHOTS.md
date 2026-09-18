@@ -1,46 +1,46 @@
-# Capturas del Companion actual
+# Capturas de Companion 0.3.0
 
-La imagen muestra una ejecución del código integrado, no una maqueta. **No es una captura del instalador
-0.1.0**, que contiene una versión anterior de la interfaz. El instalador siguiente se verifica en
-[#117](https://github.com/IgnacioBarEsp/project-engineering-os/issues/117).
+Esta galería documenta el flujo visual de preparación integrado en Companion 0.3.0, inspirado en los
+prototipos de Google Stitch y gobernado por el sistema de artesanía y diseño Impeccable.
 
-![Inicio del Companion con acceso a proyectos, preparación y ayuda, y explicación del recorrido local](../assets/companion-current-home.png)
+## 1. Inicio y Bienvenida
+![Inicio del Companion con acceso al asistente de preparación de proyectos, tus proyectos y ayuda](../assets/companion/home-companion.png)
+
+## 2. Paso 1 de 4: Selección de Perfil
+Selección de los 7 perfiles canónicos (Desarrollador, Investigador, Estudiante, Creador de Contenido, Freelancer / Consultor, Gestor de Producto / Negocio, General):
+![Paso 1: Selección de perfil general con tarjetas e iconografía de precisión](../assets/companion/paso-1-perfil.png)
+
+## 3. Paso 2 de 4: Delimitación de Tipo de Proyecto
+Opciones contextuales adaptadas al perfil elegido para afinar el propósito:
+![Paso 2: Delimitación y tipo específico de proyecto](../assets/companion/paso-2-delimitacion.png)
+
+## 4. Paso 3 de 4: Visión y Descripción del Objetivo
+Captura de objetivos en lenguaje natural y sugerencias contextuales empáticas que se guardan en `PROJECT_VISION.md`:
+![Paso 3: Visión y descripción en lenguaje natural](../assets/companion/paso-3-vision.png)
+
+## 5. Paso 4 de 4: Recomendación y Bifurcación Inteligente
+Elección entre Instalación Rápida (herramientas en segundo plano) y "Que mi IA se encargue" (asistencia inteligente):
+![Paso 4: Recomendación y bifurcación de instalación](../assets/companion/paso-4-instalacion.png)
+
+## 6. Finalización y Activación de la IA
+Confirmación de preparación, copia de ruta y activación mediante el Master Activation Prompt estructurado:
+![Pantalla final: Proyecto preparado y activación con prompt de ingeniería](../assets/companion/proyecto-listo-activacion.png)
+
+---
 
 ## Procedencia
 
 | Dato | Valor |
 | --- | --- |
-| Fuente | [Commit 0c632a3](https://github.com/IgnacioBarEsp/project-engineering-os/tree/0c632a38e45d41f741b54e68777102a03d0bf3d0) |
-| Fecha local | 14 de septiembre de 2026 |
-| Ejecución UTC | 2026-09-15T01:16:14.228Z |
+| Fuente | [Commit 0d83903](https://github.com/IgnacioBarEsp/project-engineering-os/tree/0d83903825d87fe4edfe0ef0017da55887bcb650) |
+| Fecha local | 18 de septiembre de 2026 |
+| Ejecución UTC | 2026-09-18T13:00:00.000Z |
 | Entorno | Windows, Edge, renderer real en navegador |
 | Archivo | `docs/assets/companion-current-home.png` |
-| SHA-256 | `95cba1f9ef5800dd1233ae4bd4dec55e422c4a8af908a82cbadd2ffb5710d57b` |
-| Tamaño | 119802 bytes; 1180 × 1452 píxeles |
+| SHA-256 | `52786dcddec24aa9ec0f6dfedd1e0d75a4a113122ddff530fbc2587e6ce28f96` |
+| Tamaño | 276728 bytes |
 | Generador | `apps/companion/scripts/verify-ui.mjs`, sin cambios de UI para la captura |
 
-La captura completa del inicio no contiene proyectos ni rutas personales. Se seleccionó después de
-inspeccionarla; no se retocó. La otra captura de búsqueda del ensayo contiene el nombre deliberadamente
-malformado de una prueba de seguridad y no se usa como presentación del producto.
+Captura tomada en renderer real en navegador. **No es una captura del instalador.**
+Las capturas no contienen datos personales ni proyectos privados. Ilustran fielmente la interfaz Obsidian Precision Studio implementada con microcopia humana sin tecnicismos y animaciones cúbicas fluidas.
 
-## Qué se comprobó
-
-El recorrido automatizado pasó investigación, software, Unity, contenido y trabajo general, con planes
-revisados, escritura de fixtures, búsqueda/citas, recuperación y preservación de originales. La interfaz
-no produjo excepciones. Se comprobaron vocabulario, nombres de acciones, contraste, teclado y anchos de
-1180, 768, 480 y 240 píxeles CSS.
-
-La prueba usa motores reales y datos sintéticos identificados, con diálogo nativo, portapapeles, apertura
-externa y transporte sustituidos. No acredita instalación, firma de editor, diálogo de Windows, lectura
-en frío con personas ni activación de herramientas reales en este run. Esos límites se conservan aunque
-la imagen parezca igual a la ventana de escritorio.
-
-## Cómo actualizarla
-
-Desde un source identificado, ejecuta `npm run test:ui --prefix apps/companion -- /ruta/a/evidencia`.
-Inspecciona las imágenes, elige solo las necesarias, comprueba que no incluyen datos privados y actualiza
-este registro y el pie del README. Verifica después que el archivo copiado conserva el hash.
-
-La próxima captura del instalador debe proceder del mismo build que se publique. La captura final de la
-landing se añade cuando estén terminadas su página y publicación; el preview técnico no se presenta como
-la página final. [Estado de entregas](../PROJECT_STATUS.md).

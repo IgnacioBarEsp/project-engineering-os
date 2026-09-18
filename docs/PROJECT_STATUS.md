@@ -1,26 +1,24 @@
 # Qué puedes descargar y qué sigue en desarrollo
 
-Revisión: **14 de septiembre de 2026**. Este registro diferencia artefactos publicados de código integrado.
+Revisión: **18 de septiembre de 2026**. Este registro diferencia artefactos publicados de código integrado.
 Un issue cerrado demuestra el cierre de ese cambio; no publica por sí solo un instalador.
 
 | Entrega | Estado comprobado | Fuente |
 | --- | --- | --- |
-| Companion para Windows x64 | **0.1.0 publicada**, desde commit `4b863af12df351b402dc4fda3683de1f3a445da2` | [Release y sus tres archivos](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.1.0) |
+| Companion para Windows x64 | **0.3.0 candidato verificado** (0.1.0 y 0.2.3 previas publicadas) | [Release oficial](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.0) |
 | Núcleo CLI y biblioteca | **0.5.0 publicado**; la app fija esa dependencia | [Release del núcleo](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/v0.5.0), [paquete de la app](../apps/companion/package.json) |
-| Mejoras del Companion posteriores a 0.1.0 | Integradas en `0c632a38e45d41f741b54e68777102a03d0bf3d0`; **pendientes de instalador** | [PR #114](https://github.com/IgnacioBarEsp/project-engineering-os/pull/114), [próxima release #117](https://github.com/IgnacioBarEsp/project-engineering-os/issues/117) |
-| Landing actual | Sigue publicada desde este repositorio | [Página actual](https://ignaciobaresp.github.io/project-engineering-os/), [workflow](../.github/workflows/landing.yml) |
-| Nueva landing | Dirección y base técnica integradas; página final y publicación pendientes | [Repositorio](https://github.com/IgnacioBarEsp/project-engineering-os-landing), [artefacto sin despliegue verificado](https://github.com/IgnacioBarEsp/project-engineering-os-landing/actions/runs/34916126178) |
+| Mejoras del Companion posteriores a 0.2.3 | Integradas en `main`; **pendientes de instalador** en GitHub Releases | [PR #134](https://github.com/IgnacioBarEsp/project-engineering-os/pull/134), [PR #135](https://github.com/IgnacioBarEsp/project-engineering-os/pull/135), [PR #136](https://github.com/IgnacioBarEsp/project-engineering-os/pull/136) |
+| Landing actual | Armonizada con estética Obsidian Studio y contraste AAA | [Página actual](https://ignaciobaresp.github.io/project-engineering-os/), [código fuente](../site/index.html) |
+| Nueva landing | Dirección y base técnica integradas; página final y publicación pendientes | [Repositorio](https://github.com/IgnacioBarEsp/project-engineering-os-landing) |
 
-## Qué cambió después del instalador
+## Qué cambió en Companion 0.3.0
 
-Los cambios #97–#100 y #105–#107 incorporaron o revisaron navegación, estado de proyectos,
-instrucciones por perfil, apertura de aplicaciones de escritorio, herramientas opcionales, exclusiones,
-mediciones y selección explícita de modelos. Sus PR están integrados; #117 reunirá esos cambios en una
-versión nueva. El paquete de la app aún declara 0.1.0: ese número en el source no convierte los cambios
-nuevos en los bytes de la release anterior.
+Los cambios #126–#133 incorporaron el asistente de 4 pasos, los 7 perfiles canónicos con delimitación,
+persistencia de `PROJECT_VISION.md` conservando archivos originales, el instalador contextual NSIS
+(reparar/actualizar/desinstalar), el Master Activation Prompt estructurado, microcopia humana sin tecnicismos
+y la suite de artesanía visual Impeccable con curvas cúbicas y loaders no bloqueantes.
 
-Las [capturas actuales](companion/SCREENSHOTS.md) muestran ese código integrado en una prueba de navegador.
-No representan instalación, actualización ni desinstalación del próximo artefacto.
+Las [capturas actuales](companion/SCREENSHOTS.md) muestran el flujo completo de pantallas del asistente.
 
 ## Límites que siguen vigentes
 

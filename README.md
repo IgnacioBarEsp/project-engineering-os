@@ -6,7 +6,7 @@
 
 Prepara tu proyecto, encuentra su contexto y continúa con la IA que ya usas.
 
-[Descargar Companion para Windows](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.1.0) ·
+[Descargar Companion para Windows](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.0) ·
 [Empezar](docs/USER_GUIDE.md) · [Documentación](docs/README.md) · [Estado del proyecto](docs/PROJECT_STATUS.md)
 
 </div>
@@ -23,10 +23,11 @@ herramientas. Los archivos y decisiones que ya tienes se revisan antes de añadi
 
 ## Empieza con Companion
 
-1. Descarga **Companion 0.1.0 para Windows x64** desde [Releases](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.1.0).
-2. Revisa el archivo e instálalo siguiendo la [guía de instalación](docs/companion/INSTALLER.md).
-3. Abre la app, elige tu carpeta y explica el objetivo. Revisa el plan antes de prepararla.
-4. Comprueba el resultado y continúa con tu IA: desde una aplicación compatible o copiando el contexto que revisaste.
+1. Descarga **Companion 0.3.0 para Windows x64** desde [Releases](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.0).
+2. Revisa el archivo e instálalo siguiendo la [guía de instalación](docs/companion/INSTALLER.md). Si ya tenías una versión previa, el instalador te ofrecerá reparar, actualizar o desinstalar de forma limpia.
+3. Abre la app, define el nombre de tu proyecto y selecciona uno de los 7 perfiles canónicos.
+4. Delimita el tipo específico de tu proyecto y describe tu visión en lenguaje natural. Companion creará `PROJECT_VISION.md` conservando intactos todos tus archivos originales.
+5. Elige entre **Instalación rápida** (en segundo plano) o **"Que mi IA se encargue"** para delegar la configuración a tu IA de confianza mediante el prompt de activación estructurado.
 
 No necesitas preparar Node, npm o Git por tu cuenta para empezar con la app. Cuando un proyecto de
 software necesita herramientas, Companion muestra qué descargará y dónde antes de pedirte que continúes.
@@ -35,17 +36,14 @@ No descarga modelos de IA.
 El instalador **no tiene certificado de editor**: Windows puede advertirte al abrirlo. Comprueba el SHA-256
 publicado; un hash coincidente verifica el archivo, no sustituye la firma del editor.
 
-**Estado al 14 de septiembre de 2026:** la descarga sigue en 0.1.0. La nueva navegación, las instrucciones
-adaptadas y otras mejoras ya están integradas en el código, pero aún no en un instalador nuevo.
-[Consulta qué está publicado y qué falta](docs/PROJECT_STATUS.md).
+[Consulta qué está publicado y qué sigue en desarrollo](docs/PROJECT_STATUS.md).
 
-## Así se ve el Companion actual
+## Así se ve Companion 0.3.0
 
-![Inicio del Companion actual: preparar proyecto, abrir tus proyectos y consultar ayuda; explica el recorrido y qué se queda en el equipo](docs/assets/companion-current-home.png)
+![Inicio del Companion: preparar proyecto, 7 perfiles canónicos, diseño Obsidian Precision Studio e integración con IA](docs/assets/companion-current-home.png)
 
-Captura del código integrado `0c632a3`, tomada el 14 de septiembre de 2026 en una prueba real del
-renderer en navegador. **No es una captura del instalador 0.1.0.**
-[Procedencia y alcance](docs/companion/SCREENSHOTS.md).
+Captura del asistente de preparación integrado con diseño Obsidian Precision Studio e Impeccable, tomada el 18 de septiembre de 2026. **No es una captura del instalador.**
+[Procedencia y galería de pantallas](docs/companion/SCREENSHOTS.md).
 
 ## Qué te ayuda a hacer
 
