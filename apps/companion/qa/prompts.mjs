@@ -6,7 +6,7 @@ import path from 'node:path';
 import test from 'node:test';
 import * as core from 'create-project-engineering-os';
 import { createDesktopService } from '../desktop/service.mjs';
-import { aggregate, composePrompt, investigationPrompt, PROFILE_LABELS } from '../context/prompts.mjs';
+import { aggregate, composePrompt, investigationPrompt, PROFILE_LABELS, masterActivationPrompt } from '../context/prompts.mjs';
 import { clearsTheFloor, createInferenceClient, projectDataIn, shareableFacts, withLocalRules,
   LEVELS, LOCAL_ORIGINS, PROVIDERS, MAX_RESPONSE_BYTES } from '../runtime/inference.mjs';
 
@@ -372,3 +372,19 @@ test('every level is declared, and the levels that leave this machine are the on
   assert.deepEqual(Object.keys(PROVIDERS).sort(), ['cerebras', 'groq']);
   for (const origin of LOCAL_ORIGINS) assert.equal(new URL(origin).hostname.match(/^(127\.0\.0\.1|localhost)$/) !== null, true);
 });
+
+test('master activation prompt provides tailored instructions for quick install and AI delegation', () => {
+  const quick = masterActivationPrompt({ path: 'C:/MiApp', profile: 'software', subtype: 'Plataforma Web / SaaS', installMode: 'quick' });
+  assert.match(quick, /Instalación Rápida/);
+  assert.match(quick, /PROJECT_VISION\.md/);
+  assert.match(quick, /conviértelos a formato \.md sin borrar ni alterar los archivos originales/);
+  assert.match(quick, /verificar que todo funcione correctamente/);
+
+  const ai = masterActivationPrompt({ path: 'C:/MiApp', profile: 'software', subtype: 'Plataforma Web / SaaS', installMode: 'ai' });
+  assert.match(ai, /Hazme 3 preguntas breves y sencillas/);
+  assert.match(ai, /PROJECT_VISION\.md/);
+  assert.match(ai, /investiga las mejores herramientas y librerías actuales/);
+  assert.match(ai, /conviértelos a \.md sin tocar ni eliminar los archivos originales/);
+  assert.match(ai, /verificar que todo el entorno y código funcionen correctamente/);
+});
+

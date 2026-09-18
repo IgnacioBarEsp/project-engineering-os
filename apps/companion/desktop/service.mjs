@@ -209,7 +209,7 @@ function exact(input, keys) {
   return input;
 }
 function selection(input) {
-  exact(input,['name','profile','agents','experience','role','goal','stack']);
+  exact(input,['name','profile','agents','experience','role','goal','stack','subtype','vision','installMode']);
   if (!ROLES.includes(input.role)) fail('ROLE_INVALID','Elige el perfil que te representa.');
   if (input.stack !== undefined) exact(input.stack,['decision','requested']);
   return { ...normalizeSelection(input), role: input.role, goal: text(input.goal,500,'el objetivo del proyecto (hasta 500 caracteres)') };

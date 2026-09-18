@@ -1,20 +1,4 @@
-# companion-preparation Specification
-
-## Purpose
-Define bounded project inspection, attributed preparation and recoverable local operations across
-Companion profiles while preserving original files and separating verified readiness stages.
-## Requirements
-### Requirement: Folder inspection is bounded and non-mutating
-The engine SHALL inventory only the selected canonical folder, exclude generated and sensitive paths,
-avoid following symbolic links, and report incomplete or unsupported inspection explicitly.
-
-#### Scenario: A document folder has no Git repository
-- **WHEN** a person requests research or general preparation in a regular folder
-- **THEN** inspection and base preparation SHALL work without Git, npm or a software framework
-
-#### Scenario: A folder contains a symlink or scan limit is reached
-- **WHEN** inspection encounters a link, excessive depth or too many entries
-- **THEN** it SHALL report the exclusion or limit without reading through the link or claiming complete coverage
+## MODIFIED Requirements
 
 ### Requirement: Preparation preserves ownership and supports recovery
 The engine SHALL bind a plan to its folder and observed inputs, serialize writes, persist recoverable
@@ -46,15 +30,3 @@ pre-existing original files without deletion.
 #### Scenario: Preserving original files during source conversions
 - **WHEN** an AI or automated tool processes source documents (PDFs, text files, notes) in the project
 - **THEN** markdown versions SHALL be created alongside the sources without deleting or modifying the original binary files
-
-### Requirement: Readiness describes verified stages separately
-The engine SHALL distinguish its base files, engineering constructor, context and external tools.
-
-#### Scenario: A software project needs the engineering constructor
-- **WHEN** the engineering stage is selected
-- **THEN** its adapter SHALL use the existing constructor plan and transaction APIs, preserving their ownership and recovery behavior
-
-#### Scenario: An external requirement has not been checked
-- **WHEN** base files have been written but context or an external tool has not been verified
-- **THEN** the result SHALL mark the relevant stage pending or not requested, never infer readiness from copied configuration
-

@@ -1,0 +1,275 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "primary": "#c0c1ff",
+        "on-secondary-container": "#00424e",
+        "on-tertiary": "#003824",
+        "outline": "#908fa0",
+        "surface-tint": "#c0c1ff",
+        "surface-variant": "#313540",
+        "primary-container": "#8083ff",
+        "outline-variant": "#464554",
+        "on-secondary-fixed": "#001f26",
+        "on-primary": "#1000a9",
+        "tertiary-fixed": "#6ffbbe",
+        "secondary-container": "#03b5d3",
+        "inverse-on-surface": "#2c303b",
+        "surface-container-high": "#262a35",
+        "tertiary": "#4edea3",
+        "background": "#0f131d",
+        "on-tertiary-fixed-variant": "#005236",
+        "secondary-fixed": "#acedff",
+        "error-container": "#93000a",
+        "on-error-container": "#ffdad6",
+        "on-surface": "#dfe2f1",
+        "tertiary-fixed-dim": "#4edea3",
+        "primary-fixed-dim": "#c0c1ff",
+        "surface-container": "#1c1f2a",
+        "on-background": "#dfe2f1",
+        "on-error": "#690005",
+        "primary-fixed": "#e1e0ff",
+        "inverse-surface": "#dfe2f1",
+        "on-tertiary-container": "#000703",
+        "surface-container-low": "#171b26",
+        "on-secondary": "#003640",
+        "on-surface-variant": "#c7c4d7",
+        "inverse-primary": "#494bd6",
+        "surface-container-highest": "#313540",
+        "on-tertiary-fixed": "#002113",
+        "secondary-fixed-dim": "#4cd7f6",
+        "tertiary-container": "#00885d",
+        "on-primary-fixed-variant": "#2f2ebe",
+        "surface-dim": "#0f131d",
+        "surface-container-lowest": "#0a0e18",
+        "on-secondary-fixed-variant": "#004e5c",
+        "on-primary-container": "#0d0096",
+        "secondary": "#4cd7f6",
+        "surface": "#0f131d",
+        "error": "#ffb4ab",
+        "surface-bright": "#353944",
+        "on-primary-fixed": "#07006c"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "margin-lg": "3rem",
+        "space-lg": "1.5rem",
+        "space-sm": "0.5rem",
+        "margin-md": "2rem",
+        "space-md": "1rem",
+        "margin": "1rem",
+        "gutter-lg": "2rem",
+        "space-xl": "2.5rem",
+        "gutter-md": "1.5rem",
+        "gutter": "1rem",
+        "space-xs": "0.25rem"
+      },
+      "fontFamily": {
+        "display-xl-mobile": ["Geist"],
+        "headline-md": ["Geist"],
+        "label-md": ["JetBrains Mono"],
+        "body-md": ["Geist"],
+        "display-xl": ["Geist"],
+        "code-inline": ["JetBrains Mono"],
+        "headline-lg": ["Geist"],
+        "body-sm": ["Geist"],
+        "body-lg": ["Geist"],
+        "headline-lg-mobile": ["Geist"],
+        "label-sm": ["JetBrains Mono"],
+        "headline-sm": ["Geist"]
+      },
+      "fontSize": {
+        "display-xl-mobile": ["2.25rem", {"lineHeight": "2.75rem", "letterSpacing": "-0.03em", "fontWeight": "600"}],
+        "headline-md": ["1.25rem", {"lineHeight": "1.75rem", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+        "label-md": ["0.8125rem", {"lineHeight": "1.25rem", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+        "body-md": ["0.875rem", {"lineHeight": "1.5rem", "fontWeight": "400"}],
+        "display-xl": ["3.5rem", {"lineHeight": "4rem", "letterSpacing": "-0.04em", "fontWeight": "600"}],
+        "code-inline": ["0.8125rem", {"lineHeight": "1.375rem", "fontWeight": "400"}],
+        "headline-lg": ["2rem", {"lineHeight": "2.5rem", "letterSpacing": "-0.025em", "fontWeight": "600"}],
+        "body-sm": ["0.75rem", {"lineHeight": "1.25rem", "fontWeight": "400"}],
+        "body-lg": ["1.125rem", {"lineHeight": "1.75rem", "fontWeight": "400"}],
+        "headline-lg-mobile": ["1.5rem", {"lineHeight": "2rem", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+        "label-sm": ["0.6875rem", {"lineHeight": "1rem", "letterSpacing": "0.02em", "fontWeight": "400"}],
+        "headline-sm": ["1rem", {"lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "500"}]
+      }
+    }
+  }
+}</script></head><body class="bg-background font-body-md text-on-surface select-none"><header class="fixed top-0 left-0 right-0 h-14 bg-surface-container-lowest/90 backdrop-blur-xl z-50 flex items-center justify-between px-space-md shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs pl-space-xs"><div class="w-3 h-3 rounded-full bg-error/80"></div><div class="w-3 h-3 rounded-full bg-[#f59e0b]/80"></div><div class="w-3 h-3 rounded-full bg-tertiary/80"></div></div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary text-[18px]">terminal</span><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Project Engineering OS Companion</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-xs rounded-lg"><div class="flex items-center gap-space-xs font-label-sm text-label-sm text-tertiary"><span class="material-symbols-outlined text-[14px]">check_circle</span>P1</div><span class="text-outline-variant font-label-sm text-label-sm">•</span><div class="flex items-center gap-space-xs font-label-sm text-label-sm text-tertiary"><span class="material-symbols-outlined text-[14px]">check_circle</span>P2</div><span class="text-outline-variant font-label-sm text-label-sm">•</span><div class="flex items-center gap-space-xs font-label-sm text-label-sm text-tertiary"><span class="material-symbols-outlined text-[14px]">check_circle</span>P3</div><span class="text-outline-variant font-label-sm text-label-sm">•</span><div class="flex items-center gap-space-xs font-label-sm text-label-sm text-tertiary"><span class="material-symbols-outlined text-[14px]">check_circle</span>P4</div><span class="bg-tertiary-container/30 text-tertiary px-space-xs rounded font-label-sm text-label-sm ml-space-xs">Proyecto Finalizado / Listo</span></div><div class="flex items-center gap-space-xs bg-surface-container-high px-space-sm py-space-xs rounded-lg"><span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span><span class="font-label-sm text-label-sm text-tertiary">Entorno verificado</span></div><a class="text-on-surface-variant hover:text-on-surface transition-colors flex items-center" data-path="ajustes-de-motor" href="#"><span class="material-symbols-outlined text-[20px]">settings</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><aside class="fixed left-0 top-14 bottom-7 w-72 bg-surface-container-low z-40 flex flex-col justify-between p-space-md shadow-[1px_0_12px_rgba(0,0,0,0.3)]"><div class="space-y-space-md"><div class="px-space-xs text-outline font-label-sm text-label-sm tracking-wider uppercase">Módulos de Ejecución</div><nav class="space-y-space-xs" data-active-classes="bg-surface-container-high text-on-surface font-headline-sm"><a class="w-full flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="perfil-de-ingenieria" href="#"><span class="font-body-md text-body-md">1. Perfil de Ingeniería</span><span class="font-label-sm text-label-sm text-tertiary">Listo ✓</span></a><a class="w-full flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="arquitectura-and-stack" href="#"><span class="font-body-md text-body-md">2. Arquitectura &amp; Stack</span><span class="font-label-sm text-label-sm text-tertiary">Listo ✓</span></a><a class="w-full flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="vision-and-descripcion" href="#"><span class="font-body-md text-body-md">3. Visión &amp; Descripción</span><span class="font-label-sm text-label-sm text-tertiary">Listo ✓</span></a><a class="w-full flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="despliegue-activacion" href="#"><span class="font-body-md text-body-md">4. Despliegue / Activación</span><span class="font-label-sm text-label-sm text-tertiary">Completado ✓</span></a></nav><div class="pt-space-sm px-space-xs text-outline font-label-sm text-label-sm tracking-wider uppercase">Herramientas del Sistema</div><nav class="space-y-space-xs" data-active-classes="bg-surface-container-high text-on-surface font-headline-sm"><a class="w-full flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="ajustes-de-motor" href="#"><span class="font-body-md text-body-md">Ajustes de Motor</span><span class="material-symbols-outlined text-[16px] text-outline">tune</span></a><a class="w-full flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="terminal-and-logs" href="#"><span class="font-body-md text-body-md">Terminal &amp; Logs</span><span class="material-symbols-outlined text-[16px] text-secondary">terminal</span></a></nav></div><div class="bg-surface-container-lowest p-space-sm rounded-lg space-y-space-xs"><div class="flex items-center justify-between"><div class="flex items-center gap-space-xs"><span class="w-2 h-2 rounded-full bg-tertiary"></span><span class="font-label-sm text-label-sm text-on-surface">V8 Runtime</span></div><span class="font-label-sm text-label-sm text-tertiary">Online</span></div><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm text-outline">CPU Worker</span><span class="font-code-inline text-code-inline text-secondary">0.2%</span></div></div></aside><div class="pl-72 pb-7"><main class="w-full pt-14 px-space-md min-h-screen bg-surface"><div class="flex flex-col w-full max-w-6xl mx-auto pb-12">
+<!-- Subtle ambient technical glow backdrop -->
+<div class="relative w-full overflow-hidden rounded-2xl bg-surface-container-low p-space-md shadow-xl mb-space-lg">
+<div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-48 bg-tertiary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-20 right-10 w-80 h-40 bg-secondary/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- 1. Celebratory Success Banner -->
+<div class="relative flex flex-col items-center text-center py-space-md">
+<!-- Pulsing Emerald Icon Container -->
+<div class="relative mb-space-sm flex items-center justify-center">
+<div class="absolute inset-0 w-16 h-16 rounded-full bg-tertiary/20 animate-ping"></div>
+<div class="relative w-16 h-16 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-[0_0_32px_rgba(78,222,163,0.35)]">
+<span class="material-symbols-outlined text-tertiary text-[32px]" style="font-variation-settings: &quot;FILL&quot; 1, &quot;wght&quot; 700;">check_circle</span>
+</div>
+</div>
+<div class="inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-tertiary/10 text-tertiary font-label-sm text-label-sm mb-space-xs tracking-wider uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+        Fase 4 Completada Con Éxito
+      </div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight font-semibold mb-space-xs drop-shadow-[0_2px_12px_rgba(255,255,255,0.08)]">
+        ¡Tu proyecto está listo para cobrar vida!
+      </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl leading-relaxed">
+        Hemos creado la estructura limpia de ingeniería y tu archivo <span class="font-code-inline text-code-inline text-secondary px-space-xs py-0.5 rounded bg-surface-container-lowest">PROJECT_VISION.md</span> en tu carpeta de trabajo local.
+      </p>
+</div>
+<!-- 2. Fast Folder Access Bar -->
+<div class="mt-space-sm bg-surface-container-lowest rounded-xl p-space-sm flex flex-col lg:flex-row items-center justify-between gap-space-sm shadow-md">
+<div class="flex items-center gap-space-sm w-full lg:w-auto min-w-0">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[20px]">folder_special</span>
+</div>
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="font-label-sm text-label-sm text-outline shrink-0">Ruta local:</span>
+<code class="font-code-inline text-code-inline text-secondary bg-surface-container-high px-space-sm py-space-xs rounded font-medium truncate select-all" id="local-path-text">
+            C:/Proyectos/veterinaria-pro
+          </code>
+</div>
+</div>
+<div class="flex items-center gap-space-xs w-full lg:w-auto justify-end shrink-0">
+<button class="flex-1 lg:flex-initial flex items-center justify-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface text-body-sm font-body-sm transition-all duration-150 cursor-pointer active:scale-95" id="btn-open-folder">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">folder_open</span>
+<span class="">Abrir en el Explorador</span>
+</button>
+<button class="flex-1 lg:flex-initial flex items-center justify-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-body-sm font-body-sm transition-all duration-150 cursor-pointer active:scale-95 shadow-[0_0_12px_rgba(192,193,255,0.15)]" id="btn-open-ide">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+<span class="">Abrir en Cursor / VS Code</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 3. The Master AI Activation Card (Hero Component) -->
+<div class="bg-surface-container-low rounded-2xl p-space-md mb-space-md shadow-xl relative overflow-hidden"><div class="flex flex-col gap-space-sm"><div class="flex items-center gap-space-xs text-secondary font-headline-sm text-headline-sm"><span class="material-symbols-outlined text-[20px] text-secondary">folder_managed</span><h2 class="font-semibold text-on-surface font-headline-sm text-headline-sm">Paso 1: Selecciona la carpeta en tu IA de confianza</h2></div><p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Abre tu IA de preferencia (<span class="text-on-surface font-medium">Claude Desktop, Cursor, ChatGPT, etc</span>) y en la sección de <strong class="text-secondary font-medium">Workspace, Proyectos o Abrir Carpeta</strong>, selecciona la ruta raíz de este proyecto:</p><div class="flex flex-col sm:flex-row items-center justify-between gap-space-sm bg-surface-container-lowest p-space-sm rounded-xl"><div class="flex items-center gap-space-xs min-w-0 w-full sm:w-auto"><span class="material-symbols-outlined text-outline text-[18px]">terminal</span><span class="font-label-sm text-label-sm text-outline shrink-0">Carpeta raíz:</span><code class="font-code-inline text-code-inline text-secondary font-medium select-all truncate bg-surface-container-high px-space-sm py-space-xs rounded">C:/Proyectos/veterinaria-pro</code></div><button onclick="navigator.clipboard.writeText('C:/Proyectos/veterinaria-pro'); this.classList.add('text-tertiary'); this.querySelector('span:last-child').textContent='¡Ruta copiada!'; setTimeout(()=&gt;{ this.classList.remove('text-tertiary'); this.querySelector('span:last-child').textContent='Copiar ruta de la carpeta'; }, 2000);" class="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-body-sm text-body-sm transition-all cursor-pointer active:scale-95"><span class="material-symbols-outlined text-[16px] text-secondary">content_copy</span><span class="">Copiar ruta de la carpeta</span></button></div><div class="flex items-center gap-space-xs font-label-sm text-label-sm text-tertiary pt-space-xs"></div></div></div><div class="relative bg-surface-container-low rounded-2xl p-space-lg mb-space-lg shadow-2xl overflow-hidden">
+<!-- Subtle top highlight bar -->
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-secondary via-primary to-tertiary"></div>
+<!-- Header bar of Prompt Card -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm mb-space-md">
+<div class="flex items-center gap-space-xs flex-wrap"><span class="material-symbols-outlined text-[20px] text-secondary">chat</span><h2 class="font-semibold text-on-surface font-headline-sm text-headline-sm">Paso 2: Copia este mensaje y pégalo en tu IA <span class="text-on-surface-variant font-normal text-body-md">(Claude, ChatGPT, Cursor Composer)</span></h2></div>
+<button class="group shrink-0 inline-flex items-center justify-center gap-space-xs bg-gradient-to-r from-secondary to-primary-container text-on-primary font-headline-sm text-headline-sm px-space-md py-space-xs rounded-xl shadow-[0_0_20px_rgba(76,215,246,0.3)] hover:brightness-110 active:scale-95 transition-all cursor-pointer" id="copy-prompt-button"><span class="material-symbols-outlined text-[18px]" id="copy-icon">content_paste</span><span class="font-medium" id="copy-label">Copiar mensaje completo</span></button>
+</div>
+<!-- Deep Carbon Code Snippet Container -->
+<div class="relative rounded-xl bg-surface-container-lowest p-space-md shadow-inner">
+<!-- Snippet controls mock -->
+<div class="flex items-center justify-between pb-space-sm mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-surface-variant"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-surface-variant"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-surface-variant"></span>
+<span class="font-label-sm text-label-sm text-outline ml-space-xs">ai-bootstrap-prompt.md</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary flex items-center gap-space-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+          Formato optimizado para LLMs
+        </span>
+</div>
+<blockquote class="font-code-inline text-code-inline text-on-surface leading-relaxed select-all cursor-text whitespace-pre-line bg-surface-container-high/40 p-space-sm rounded-lg" id="llm-prompt-content">«Hola. He preparado este proyecto en C:/Proyectos/veterinaria-pro con Project Engineering OS. Por favor lee PROJECT_VISION.md y la estructura de la carpeta. Hazme 3 preguntas breves y sencillas sobre cómo quiero que funcione mi proyecto (sin tecnicismos complejos). Con base en mis respuestas, investiga las mejores herramientas actuales y prepáralas con los comandos de ingeniería de la carpeta. Si encuentras archivos de investigación o documentos, conviértelos a .md sin tocar los originales para ahorrar tokens. Al terminar, realiza pruebas para verificar que todo funcione al 100%.»</blockquote>
+<!-- Model compatibility strip -->
+
+</div>
+</div>
+<!-- 4. Peace-of-Mind Verification Checklist -->
+<div class="mb-space-lg">
+<div class="flex items-center gap-space-xs mb-space-sm px-space-xs"><span class="material-symbols-outlined text-tertiary text-[20px]">verified_user</span><h2 class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-semibold">Ventajas que obtuviste al aplicar Project Engineering OS en tu proyecto</h2></div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md"><div class="bg-surface-container rounded-xl p-space-sm shadow-md flex flex-col justify-between hover:bg-surface-container-high transition-colors"><div><div class="flex items-center justify-between mb-space-xs"><div class="w-7 h-7 rounded-lg bg-tertiary/10 text-tertiary flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">account_tree</span></div><span class="font-label-sm text-label-sm text-tertiary font-medium bg-tertiary-container/30 px-space-xs py-0.5 rounded">Directrices Activas</span></div><h3 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs font-semibold">Flujo de trabajo profesional</h3><p class="font-body-sm text-body-sm text-on-surface-variant leading-normal">Tu IA ahora creará planes, explorará opciones y verificará la calidad de lo que hace con evidencia en lugar de simplemente adivinar.</p></div></div><div class="bg-surface-container rounded-xl p-space-sm shadow-md flex flex-col justify-between hover:bg-surface-container-high transition-colors"><div><div class="flex items-center justify-between mb-space-xs"><div class="w-7 h-7 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">visibility</span></div><span class="font-label-sm text-label-sm text-secondary font-medium bg-secondary/15 px-space-xs py-0.5 rounded">Contexto Anclado</span></div><h3 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs font-semibold">Visión del proyecto siempre presente</h3><p class="font-body-sm text-body-sm text-on-surface-variant leading-normal">PROJECT_VISION.md mantiene la vision de tu proyecto siempre en mente de las IA y se actualiza haciendote preguntas cuando pierde el rumbo.</p></div></div><div class="bg-surface-container rounded-xl p-space-sm shadow-md flex flex-col justify-between hover:bg-surface-container-high transition-colors"><div><div class="flex items-center justify-between mb-space-xs"><div class="w-7 h-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">memory</span></div><span class="font-label-sm text-label-sm text-primary font-medium bg-primary/10 px-space-xs py-0.5 rounded">100% Local</span></div><h3 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs font-semibold">Skills y herramientas configuradas</h3><p class="font-body-sm text-body-sm text-on-surface-variant leading-normal">Habilidades y herramientas que tu IA podra usar para ahorrar tokens, ser mas eficiente, buscar mas rapido o simplemente interactuar con tu PC.&nbsp;</p></div></div></div>
+</div>
+<!-- 5. Visual Diagnostics & Interactive Completion Bar -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md shadow-lg">
+<div class="flex items-center gap-space-md">
+<!-- Mini Progress Ring Graphic SVG -->
+<div class="relative w-12 h-12 shrink-0">
+<svg class="w-12 h-12 -rotate-90" viewBox="0 0 36 36">
+<path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-tertiary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="100, 100" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center font-label-sm text-label-sm text-tertiary font-bold">100%</div>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Asistente de arranque finalizado</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Puedes cerrar esta ventana o volver al menu de inicio en cualquier momento.</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs shrink-0 w-full sm:w-auto justify-end">
+<a class="w-full sm:w-auto inline-flex items-center justify-center gap-space-xs bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-headline-sm text-headline-sm px-space-lg py-space-xs rounded-xl shadow-md transition-all active:scale-95" data-path="perfil-de-ingenieria" href="#">
+<span class="">Listo, volver al panel principal</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<script>
+  // Dynamic feedback on copy button
+  const copyBtn = document.getElementById('copy-prompt-button');
+  const copyLabel = document.getElementById('copy-label');
+  const copyIcon = document.getElementById('copy-icon');
+  const promptText = document.getElementById('llm-prompt-content');
+
+  if (copyBtn && promptText) {
+    copyBtn.addEventListener('click', async () => {
+      try {
+        const cleanText = promptText.innerText.trim();
+        await navigator.clipboard.writeText(cleanText);
+        copyLabel.textContent = '¡Copiado al portapapeles!';
+        copyIcon.textContent = 'done';
+        copyBtn.classList.add('bg-tertiary', 'text-on-tertiary');
+
+        setTimeout(() => {
+          copyLabel.textContent = 'Copiar mensaje completo';
+          copyIcon.textContent = 'content_paste';
+          copyBtn.classList.remove('bg-tertiary', 'text-on-tertiary');
+        }, 2600);
+      } catch (err) {
+        // Fallback for isolated environments
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(promptText);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        document.execCommand('copy');
+        copyLabel.textContent = '¡Copiado!';
+        setTimeout(() => {
+          copyLabel.textContent = 'Copiar mensaje completo';
+        }, 2000);
+      }
+    });
+  }
+
+  // Explorador trigger feedback
+  const btnFolder = document.getElementById('btn-open-folder');
+  if (btnFolder) {
+    btnFolder.addEventListener('click', () => {
+      const originalText = btnFolder.innerHTML;
+      btnFolder.innerHTML = '<span class="material-symbols-outlined text-[16px] text-tertiary">check</span><span>Invocando Explorer...</span>';
+      setTimeout(() => {
+        btnFolder.innerHTML = originalText;
+      }, 1800);
+    });
+  }
+
+  // IDE trigger feedback
+  const btnIde = document.getElementById('btn-open-ide');
+  if (btnIde) {
+    btnIde.addEventListener('click', () => {
+      const originalText = btnIde.innerHTML;
+      btnIde.innerHTML = '<span class="material-symbols-outlined text-[16px] text-tertiary">rocket_launch</span><span>Lanzando Workspace...</span>';
+      setTimeout(() => {
+        btnIde.innerHTML = originalText;
+      }, 1800);
+    });
+  }
+</script></main></div><footer class="fixed bottom-0 left-0 right-0 h-7 bg-surface-container-lowest z-50 flex items-center justify-between px-space-md font-label-sm text-label-sm text-outline shadow-[0_-1px_6px_rgba(0,0,0,0.3)]"><div class="flex items-center gap-space-md"><span class="text-on-surface-variant">Workspace: <span class="text-secondary font-code-inline text-code-inline">C:/Proyectos/veterinaria-pro</span></span><span class="text-outline-variant">|</span><span class="">Motor: <span class="text-on-surface">Reactive Core 3.4.1</span></span></div><div class="flex items-center gap-space-md"><span class="flex items-center gap-space-xs text-tertiary"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>IPC Conectado</span><span class="text-outline-variant">|</span><span class="text-on-surface-variant">Electron Companion v2.8.0-precision</span></div></footer>
+
+</body></html>
