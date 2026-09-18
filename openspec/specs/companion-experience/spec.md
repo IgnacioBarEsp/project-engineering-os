@@ -50,6 +50,22 @@ delegated orchestration by their preferred AI.
 - **WHEN** preparation completes successfully
 - **THEN** the interface SHALL display a verified completion indicator, fast local path copying, and a 1-click clipboard trigger for the master AI prompt
 
+### ADDED Requirement: Visual excellence, purposeful motion and human microcopy
+The companion and public landing page SHALL provide fluid cubic-bezier transitions, non-blocking activity loaders, accessible contrast and empathetic microcopy without technical jargon, and SHALL observe the user's motion preferences.
+
+#### Scenario: A person navigates between preparation steps
+- **WHEN** the user advances or returns between wizard steps
+- **THEN** the interface SHALL render smooth vertical and opacity transitions with cubic-bezier deceleration curves
+- **AND** the transition SHALL be suppressed when prefers-reduced-motion is requested
+
+#### Scenario: An operation is in progress
+- **WHEN** the project is being indexed, configured or prepared
+- **THEN** the interface SHALL present visual feedback with non-blocking progress indicators and shimmering loaders
+
+#### Scenario: The public landing page is rendered
+- **WHEN** a visitor loads the public landing page
+- **THEN** the layout SHALL present Obsidian Precision Studio styling with zero external network requests, zero JavaScript scripts, and WCAG AA/AAA accessible contrast
+
 ### Requirement: Users retain their AI and their project data
 The companion SHALL prepare reusable folders, route selected agents to verified context and preserve
 user-owned files through cancellation, reapplication and uninstall.

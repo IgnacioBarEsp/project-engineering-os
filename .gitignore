@@ -13,3 +13,4 @@ coverage/
 # built application, never in the working tree, and must not be able to appear unnoticed.
 /apps/npm-dist.zip
 /site/.project-os/
+*.exe
