@@ -48,7 +48,44 @@ export function normalizeSelection(input) {
     if (requested.some(id => !offered.includes(id))) fail('STACK_INVALID', 'Esa tecnología no se ofrece para este tipo de proyecto.', 'Vuelve al asistente y desmarca la tecnología, o elige otro tipo de proyecto.');
     extra.stack = { decision: value.decision, requested: [...new Set(requested)].sort() };
   }
+  if (input.subtype !== undefined) {
+    if (typeof input.subtype !== 'string' || input.subtype.length > 100 || /[\x00-\x1f\x7f]/.test(input.subtype)) fail('SUBTYPE_INVALID', 'Elige o describe un subtipo válido de proyecto.');
+    extra.subtype = input.subtype.trim();
+  }
+  if (input.vision !== undefined) {
+    if (typeof input.vision !== 'string' || input.vision.length > 4000 || /[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/.test(input.vision)) fail('VISION_INVALID', 'Escribe la visión de tu proyecto en hasta 4000 caracteres.');
+    extra.vision = input.vision.trim();
+  }
+  if (input.installMode !== undefined) {
+    if (!['quick', 'ai'].includes(input.installMode)) fail('INSTALL_MODE_INVALID', 'Elige una modalidad de instalación válida.');
+    extra.installMode = input.installMode;
+  }
   return { name: name.trim(), profile: input.profile, experience, agents: [...new Set(input.agents)].sort(), ...extra };
+}
+
+export function renderProjectVision(selection) {
+  const safeName = (selection?.name ?? 'Mi proyecto').replace(/[\\`*_{}[\]<>#]/g, '\\$&');
+  const profile = selection?.profile ?? 'general';
+  const subtype = selection?.subtype ? selection.subtype : 'General';
+  const mode = selection?.installMode === 'quick' ? 'Instalación Rápida' : 'Guiado por IA';
+  const goal = selection?.goal ?? 'Objetivo inicial en definición.';
+  const vision = selection?.vision ?? goal;
+
+  return `# Visión del Proyecto: ${safeName}
+
+## 1. Declaración de Intención
+${vision}
+
+## 2. Perfil y Delimitación
+- **Perfil**: ${profile}
+- **Subtipo**: ${subtype}
+- **Modalidad de Configuración**: ${mode}
+
+## 3. Directrices de Ejecución para IA
+- **Preservación de fuentes**: Conserva intactos todos los archivos originales (PDFs, notas, binarios). Cualquier conversión o extracto a Markdown (.md) debe realizarse junto al archivo original sin eliminarlo ni alterarlo.
+- **Enfoque modular**: Diseña y construye en incrementos comprobables con especificaciones claras.
+- **Verificación continua**: Al concluir cualquier cambio, ejecuta las pruebas pertinentes para confirmar funcionamiento al 100%.
+`;
 }
 
 function parse(content, label) {
@@ -190,8 +227,16 @@ export function createPreparationEngine() {
         if (plan.operations.every(op=>op.beforeHash===op.afterHash)) { plans.delete(id); return { status: 'unchanged', changed: 0, transaction: null }; }
         const journal = { version: VERSION, id: randomUUID(), status: 'applying', rootHash: hash(plan.root), selection: plan.selection, scanLimits: plan.inventory.limits, inventoryFingerprint: plan.inventory.fingerprint, operations: plan.operations };
         const journalHash = await saveJournal(plan.root, journal, plan.journalHash);
-        plans.delete(id);
-        return runJournal(plan.root, journal, journalHash, options);
+        const runResult = await runJournal(plan.root, journal, journalHash, options);
+        if (plan.selection) {
+          try {
+            const visionSnap = await snapshot(plan.root, 'PROJECT_VISION.md');
+            if (visionSnap.content === null) {
+              await writeChecked(plan.root, 'PROJECT_VISION.md', renderProjectVision(plan.selection), null);
+            }
+          } catch {}
+        }
+        return runResult;
       });
     },
     async resume(target, options = {}) {

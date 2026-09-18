@@ -17,6 +17,9 @@
 export const PROFILE_LABELS = Object.freeze({
   research: 'investigación y documentos', software: 'software o una página web',
   unity: 'un videojuego con Unity', media: 'contenido creativo', general: 'trabajo general',
+  science: 'investigación y ciencia', studies: 'estudios y universidad',
+  docs: 'contenido y documentación', mvp: 'prototipos y startups / MVPs',
+  personal: 'uso personal y laboratorio', automation: 'automatización y scripting / bots',
 });
 
 // What an AI should set up for this kind of project, and what it must not do on its own. This is the part
@@ -48,6 +51,35 @@ const SETUP = Object.freeze({
   general: [
     'No instales nada. Trabaja con los materiales de la carpeta.',
     'Si algo necesita una herramienta que no está, dilo en vez de suponerla.',
+  ],
+  science: [
+    'No instales nada para empezar. Trabaja con los documentos y datos de la carpeta.',
+    'Si un PDF no tiene texto seleccionable, dilo: es una imagen y necesita reconocimiento óptico.',
+    'Si hace falta un entorno de análisis o Jupyter, propónlo y espera confirmación antes de configurar nada.',
+  ],
+  studies: [
+    'No instales nada para empezar. Trabaja con los materiales y apuntes de la carpeta.',
+    'Si hace falta una herramienta para formatear la entrega o reporte, propónla y espera respuesta.',
+    'Comprueba que las fuentes y rúbricas citadas sean pertinentes antes de redactar conclusiones.',
+  ],
+  docs: [
+    'Trabaja con los borradores, esquemas y notas ya presentes en la carpeta.',
+    'Respeta el formato elegido (Markdown, MDX o HTML) sin introducir dependencias pesadas sin consultar.',
+    'Si una guía necesita ejemplos interactivos o diagramas, sugiere formatos ligeros como Mermaid.',
+  ],
+  mvp: [
+    'Comprueba qué dependencias y stack ligero ya existen en el proyecto antes de sugerir librerías.',
+    'Prioriza herramientas estables, de despliegue rápido y sin configuración compleja.',
+    'No introduzcas arquitecturas sobrecargadas si un backend mínimo resuelve la hipótesis.',
+  ],
+  personal: [
+    'Trabaja con los archivos y notas de la carpeta; no instales dependencias globales sin autorización.',
+    'Si el proyecto involucra múltiples herramientas, propón entornos aislados para no saturar el sistema.',
+  ],
+  automation: [
+    'Comprueba el runtime disponible (Node, Python o shell) y no asumas herramientas externas instaladas.',
+    'Nunca guardes tokens, claves ni credenciales en el código; usa variables de entorno locales.',
+    'Antes de ejecutar un script en lote o programar tareas, prueba con una muestra reducida.',
   ],
 });
 
@@ -82,6 +114,41 @@ const METHOD = Object.freeze({
     'Revisa los materiales pertinentes y verifica los datos contra su fuente.',
     'Haz un borrador pequeño y compruébalo antes de ampliarlo.',
     'Entrega en un formato fácil de usar y separa hechos, sugerencias y datos que faltan.',
+  ],
+  science: [
+    'Localiza las fuentes pertinentes y anota de cada una su archivo y su página o párrafo.',
+    'Separa por fuente: método, hallazgo, limitación y solidez de la evidencia.',
+    'Compara hipótesis, datos cuantitativos y modelos de experimentación.',
+    'Entrega la síntesis con localizadores precisos y preguntas abiertas.',
+  ],
+  studies: [
+    'Revisa los requisitos, criterios de evaluación y alcance de la entrega.',
+    'Estructura el trabajo con secciones claras, rigor conceptual y referencias trazables.',
+    'Verifica la coherencia entre el marco conceptual y los resultados.',
+    'Revisa la redacción y síntesis antes de dar por cerrada la entrega.',
+  ],
+  docs: [
+    'Identifica la audiencia, el tono y el propósito de cada documento.',
+    'Organiza la información de lo general a lo específico con títulos descriptivos.',
+    'Incluye ejemplos concretos, advertencias de uso y pasos reproducibles.',
+    'Verifica enlaces relativos y coherencia terminológica en toda la guía.',
+  ],
+  mvp: [
+    'Aclara la hipótesis crítica que este prototipo necesita validar.',
+    'Diseña la experiencia mínima viable con foco en la funcionalidad nuclear.',
+    'Implementa componentes modulares y comprueba la ruta crítica sin errores.',
+    'Documenta qué supuestos quedaron validados para iteraciones futuras.',
+  ],
+  personal: [
+    'Define el experimento o utilidad cotidiana que quieres explorar.',
+    'Prueba ideas en iteraciones cortas comprobando el resultado en cada paso.',
+    'Conserva registros claros de lo aprendido para retomar el proyecto cuando quieras.',
+  ],
+  automation: [
+    'Define los disparadores de entrada, las transformaciones y las salidas esperadas.',
+    'Implementa manejo de errores determinista y límites de tiempo o reintentos seguros.',
+    'Ejecuta una prueba con datos de control antes de automatizar flujos.',
+    'Verifica que el proceso se detenga limpiamente ante interrupciones.',
   ],
 });
 
@@ -226,4 +293,24 @@ export function investigationPrompt(selection) {
     '- Qué no pudiste determinar.',
     'No incluyas el contenido de ningún archivo privado ni rutas completas: describe, no copies.',
   ].join('\n');
+}
+
+export function masterActivationPrompt({ path: projectPath, profile, subtype, vision, installMode = 'ai' } = {}) {
+  const target = projectPath || 'este proyecto';
+  if (installMode === 'quick') {
+    return `Hola. He preparado este proyecto en ${target} con Project Engineering OS usando Instalación Rápida.
+
+Por favor lee PROJECT_VISION.md y la estructura de la carpeta.
+Las dependencias base esenciales ya quedaron aprovisionadas localmente en este equipo.
+1. Revisa la visión del proyecto y el stack configurado.
+2. Si encuentras documentos de investigación, notas o fuentes externas, conviértelos a formato .md sin borrar ni alterar los archivos originales para optimizar el contexto.
+3. Continúa con la implementación siguiendo las directrices de ingeniería y desarrollo guiado por especificaciones de la carpeta.
+4. Al concluir cualquier cambio, ejecuta las pruebas y comprobaciones para verificar que todo funcione correctamente.`;
+  }
+
+  return `Hola. He preparado este proyecto en ${target} con Project Engineering OS. Por favor lee PROJECT_VISION.md y la estructura de la carpeta.
+
+Hazme 3 preguntas breves y sencillas sobre cómo quiero que funcione mi proyecto (sin tecnicismos complejos). Con base en mis respuestas, investiga las mejores herramientas y librerías actuales de la industria y prepáralas usando los comandos y convenciones de ingeniería de la carpeta.
+
+Si encuentras archivos de investigación, notas o documentos, conviértelos a .md sin tocar ni eliminar los archivos originales para optimizar el contexto. Al terminar, realiza pruebas automatizadas para verificar que todo el entorno y código funcionen correctamente.`;
 }

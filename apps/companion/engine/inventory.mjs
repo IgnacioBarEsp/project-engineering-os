@@ -7,10 +7,12 @@ const EXCLUDED = new Set(['.git','.project-os','.project-constructor',
   '.ssh','.aws','.azure','.gnupg','.kube','models','checkpoints','loras','output','outputs']);
 const PRIVATE = /(^\.env($|\.)|(?:credential|secret|token|password)s?(?:[._-]|$)|\.(?:pem|key|p12|pfx|keystore)$)/i;
 const TEXT = new Set(['.md','.txt','.csv','.json','.yaml','.yml','.toml','.xml','.js','.mjs','.cjs','.ts','.tsx','.jsx','.css','.html','.cs','.py','.shader','.unity','.asset']);
-export const PROFILE_IDS = Object.freeze(['research','software','unity','media','general']);
+export const CANONICAL_PROFILE_IDS = Object.freeze(['software','science','studies','docs','mvp','personal','automation']);
+export const LEGACY_PROFILE_IDS = Object.freeze(['research','unity','media','general']);
+export const PROFILE_IDS = Object.freeze([...CANONICAL_PROFILE_IDS, ...LEGACY_PROFILE_IDS]);
 // Scope is explicit and constant: these are policy/control surfaces, not source documents.
 export const CONTROL_PATHS = Object.freeze(['.project-os', '.project-constructor', '.codegraph', '.gitnexus',
-  'graphify-out', 'AGENTS.md', 'CLAUDE.md', '.cursor/rules/project-os-companion.mdc', '.github/copilot-instructions.md']);
+  'graphify-out', 'AGENTS.md', 'CLAUDE.md', 'PROJECT_VISION.md', '.cursor/rules/project-os-companion.mdc', '.github/copilot-instructions.md']);
 
 export function normalizeScanLimits(options = {}) {
   if (!options || typeof options !== 'object' || Array.isArray(options)

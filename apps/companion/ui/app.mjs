@@ -1,7 +1,19 @@
 import { GLOSSARY, byId, makeTerm } from './glossary.mjs';
 const api=window.companion;
 const $=id=>document.getElementById(id);
-const profiles={research:['Investigación','Artículos, PDF, documentos y evidencia.'],software:['Software o página web','Código, especificaciones y pruebas.'],unity:['Videojuego con Unity','Escenas, scripts y un proceso de desarrollo.'],media:['Contenido creativo','Imágenes, música, video y sus workflows.'],general:['Otro proyecto','Materiales de trabajo, ideas y tareas cotidianas.']};
+const profiles={
+  software:['Software o página web','Código, especificaciones, aplicaciones y pruebas técnicas.'],
+  science:['Investigación científica','Artículos, papers, experimentos y evidencia reproducible.'],
+  studies:['Estudios y universidad','Proyectos académicos, tesis, guías y preparación de entregas.'],
+  docs:['Contenido y documentación','Manuales técnicos, especificaciones y guías interactivas.'],
+  mvp:['Prototipos rápidos (MVP)','Validación ágil de ideas, interfaces y pruebas de concepto.'],
+  personal:['Uso personal y laboratorio','Notas, utilidades cotidianas, ideas y experimentos libres.'],
+  automation:['Automatización y scripting','Scripts, bots, pipelines de datos y herramientas operativas.'],
+  research:['Investigación','Artículos, PDF, documentos y evidencia.'],
+  unity:['Videojuego con Unity','Escenas, scripts y un proceso de desarrollo.'],
+  media:['Contenido creativo','Imágenes, música, video y sus workflows.'],
+  general:['Otro proyecto','Materiales de trabajo, ideas y tareas cotidianas.']
+};
 const agents={codex:'Codex','claude-code':'Claude',cursor:'Cursor','github-copilot':'GitHub Copilot',opencode:'OpenCode',antigravity:'Antigravity',web:'ChatGPT u otro chat web'};
 const roles={researcher:'Investigador/a',student:'Estudiante',developer:'Desarrollador/a o área de TI',freelancer:'Freelancer',creator:'Creador/a de contenido',general:'Usuario/a general'};
 const techDecisions={chosen:['Sí, ya sé cuál quiero','Se te ofrece instalarla, con su licencia, su tamaño y su destino a la vista.'],
@@ -262,8 +274,331 @@ function showFolder(){state.page='folder';const chosen=state.project;
       el('p',{class:'subtle'},`Tipo detectado: ${profiles[chosen.inspection?.recommendation]?.[0]??'por confirmar'}. Se usará el `,term('perfil'),` que elegiste: ${profiles[state.selection.profile][0]}.`),
       doBtn('open-workspace','quiet')):null,
     p('Tus documentos se leen en este equipo y no se envían a ninguna IA durante la preparación. Podrás dejar materiales fuera al revisar qué se lee.','subtle'),
-    actions(btn('Volver',()=>showSetup()),chosen?btn('Revisar preparación  →',async()=>{state.plan=await call('previewBase',{id:chosen.id,selection:state.selection});showBaseReview();},'primary'):null),
+    actions(btn('Volver',()=>showSetup()),chosen?btn('Continuar a delimitación  →',()=>showDelimitation(),'primary'):null,chosen?btn('Revisar preparación  →',async()=>{state.plan=await call('previewBase',{id:chosen.id,selection:state.selection});showBaseReview();},'secondary'):null),
   ],'PREPARAR PROYECTO / CARPETA');}
+
+const DELIMITATIONS = {
+  software: [
+    { id: 'saas', title: 'Plataforma Web / SaaS', desc: 'App interactiva con interfaz, base de datos y autenticación.', stack: 'React · Next.js · Node · DB', tag: 'Frontend + Backend' },
+    { id: 'landing', title: 'Página Web o Landing', desc: 'Sitio rápido enfocado en contenido, velocidad y SEO.', stack: 'Astro · Tailwind · HTML5', tag: 'Rápido y Ligero' },
+    { id: 'mobile', title: 'Aplicación Móvil', desc: 'App nativa o híbrida para dispositivos móviles.', stack: 'React Native / Flutter / Kotlin', tag: 'iOS & Android' },
+    { id: 'custom', title: 'Prototipo o Arquitectura Propia', desc: 'Tu IA te orientará para elegir la mejor combinación técnica.', stack: 'Multistack · Guiado por IA', tag: 'Flexible' },
+  ],
+  science: [
+    { id: 'paper', title: 'Artículo o Documento Científico', desc: 'Estructura formal con metodología, resultados y discusión.', stack: 'LaTeX · Markdown · Referencias', tag: 'Publicación' },
+    { id: 'thesis', title: 'Tesis de Grado o Posgrado', desc: 'Marco teórico riguroso, hipótesis y análisis empírico.', stack: 'LaTeX · Datasets · Tablas', tag: 'Académico' },
+    { id: 'analysis', title: 'Análisis Cuantitativo y Datos', desc: 'Modelos estadísticos, procesamiento y visualizaciones.', stack: 'Python · Pandas · Gráficos', tag: 'Datos' },
+    { id: 'custom', title: 'Exploración Abierta', desc: 'Síntesis conceptual y análisis sin formato predefinido.', stack: 'Documentos · Notas', tag: 'Exploración' },
+  ],
+  studies: [
+    { id: 'course', title: 'Proyecto de Asignatura / Curso', desc: 'Entregables guiados según rúbricas y criterios de evaluación.', stack: 'Entregables · Ejercicios', tag: 'Universidad' },
+    { id: 'guide', title: 'Guía de Repaso Activo', desc: 'Fichas, resúmenes organizados y autoevaluaciones.', stack: 'Resúmenes · Mapas conceptuales', tag: 'Repaso' },
+    { id: 'lab', title: 'Reporte Técnico o Laboratorio', desc: 'Bitácora de prácticas, mediciones y conclusiones.', stack: 'Bitácoras · Mediciones', tag: 'Práctica' },
+    { id: 'custom', title: 'Estudio Libre y Autónomo', desc: 'Ruta de aprendizaje autodidacta a tu propio ritmo.', stack: 'Ruta personal', tag: 'Autónomo' },
+  ],
+  docs: [
+    { id: 'api-docs', title: 'Documentación Técnica de API', desc: 'Endpoints, contratos de interfaz, tipos y ejemplos.', stack: 'OpenAPI · Markdown · Schemas', tag: 'Técnico' },
+    { id: 'manual', title: 'Manual de Uso o Guía Práctica', desc: 'Instrucciones paso a paso, capturas y resolución de dudas.', stack: 'Guías · Procedimientos', tag: 'Usuarios' },
+    { id: 'knowledge-base', title: 'Base de Conocimiento o Guías', desc: 'Índice de procedimientos, políticas y recursos comunes.', stack: 'Guías interconectadas · FAQ', tag: 'Equipo' },
+    { id: 'custom', title: 'Contenido Creativo y Notas', desc: 'Artículos, boletines, borradores e ideas en desarrollo.', stack: 'Markdown · Borradores', tag: 'Creativo' },
+  ],
+  mvp: [
+    { id: 'poc', title: 'Validación Temprana (PoC)', desc: 'Validación técnica ágil de la funcionalidad crítica.', stack: 'Componentes mínimos · Prototipo', tag: 'Validación' },
+    { id: 'landing-mvp', title: 'Landing con Registro', desc: 'Página de presentación con formulario de registro temprano.', stack: 'Landing · Analytics · Formulario', tag: 'Mercado' },
+    { id: 'interactive', title: 'Prototipo Interactivo', desc: 'Flujo de usuario completo para demostraciones y pruebas.', stack: 'UI interactiva · Datos simulados', tag: 'Demo' },
+    { id: 'custom', title: 'Experimento Rápido', desc: 'Validar una idea en horas antes de escribir más código.', stack: 'Iteración express', tag: 'Ágil' },
+  ],
+  personal: [
+    { id: 'finance-org', title: 'Organización y Finanzas', desc: 'Control de presupuestos, metas, inventario o trámites.', stack: 'Tablas · Resúmenes · Cuentas', tag: 'Organización' },
+    { id: 'notes-journal', title: 'Notas y Aprendizaje', desc: 'Bitácora personal, reflexiones y documentos de consulta.', stack: 'Notas · Bitácora personal', tag: 'Reflexión' },
+    { id: 'tools-daily', title: 'Herramientas de Uso Diario', desc: 'Utilidades cotidianas para simplificar tareas personales.', stack: 'Scripts · Atajos personales', tag: 'Utilidad' },
+    { id: 'custom', title: 'Espacio de Ideas Libres', desc: 'Espacio flexible para pensar, planificar y estructurar.', stack: 'Borradores · Sin ataduras', tag: 'Libre' },
+  ],
+  automation: [
+    { id: 'scraping', title: 'Extracción de Datos y Scraping', desc: 'Captura periódica y estructuración de información web.', stack: 'Python · Cheerio · Playwright', tag: 'Extracción' },
+    { id: 'bot', title: 'Bot o Asistente Automatizado', desc: 'Respuestas automáticas, webhooks o interacciones por chat.', stack: 'Node · Python · APIs', tag: 'Bot' },
+    { id: 'etl', title: 'Pipeline de Archivos', desc: 'Transformación y normalización automática de formatos.', stack: 'Scripts CLI · JSON · CSV', tag: 'Pipeline' },
+    { id: 'custom', title: 'Flujo de Trabajo Operativo', desc: 'Automatización a medida adaptada a tus necesidades.', stack: 'Herramientas operativas', tag: 'A Medida' },
+  ],
+};
+
+const INSPIRATION_CHIPS = [
+  { title: 'Público Objetivo', text: '\n\n### Público Objetivo\nDirigido a personas que necesitan resolver esta necesidad de manera clara y eficiente.' },
+  { title: 'Problema Principal', text: '\n\n### Problema Principal a Resolver\nActualmente el proceso es manual o disperso, lo que genera fricción y demoras.' },
+  { title: 'Alcance Inicial', text: '\n\n### Alcance del Primer Incremento\n1. Interfaz principal funcional.\n2. Registro y procesamiento básico.\n3. Verificación exhaustiva de calidad.' },
+];
+
+function masterActivationPrompt({ path: projectPath, profile, subtype, vision, installMode = 'ai' } = {}) {
+  const target = projectPath || 'este proyecto';
+  if (installMode === 'quick') {
+    return `Hola. He preparado este proyecto en ${target} con Project Engineering OS usando Instalación Rápida.
+
+Por favor lee PROJECT_VISION.md y la estructura de la carpeta.
+Las dependencias base esenciales ya quedaron aprovisionadas localmente en este equipo.
+1. Revisa la visión del proyecto y el stack configurado.
+2. Si encuentras documentos de investigación, notas o fuentes externas, conviértelos a formato .md sin borrar ni alterar los archivos originales para optimizar el contexto.
+3. Continúa con la implementación siguiendo las directrices de ingeniería y desarrollo guiado por especificaciones de la carpeta.
+4. Al concluir cualquier cambio, ejecuta las pruebas y comprobaciones para verificar que todo funcione correctamente.`;
+  }
+
+  return `Hola. He preparado este proyecto en ${target} con Project Engineering OS. Por favor lee PROJECT_VISION.md y la estructura de la carpeta.
+
+Hazme 3 preguntas breves y sencillas sobre cómo quiero que funcione mi proyecto (sin tecnicismos complejos). Con base en mis respuestas, investiga las mejores herramientas y librerías actuales de la industria y prepáralas usando los comandos y convenciones de ingeniería de la carpeta.
+
+Si encuentras archivos de investigación, notas o documentos, conviértelos a .md sin tocar ni eliminar los archivos originales para optimizar el contexto. Al terminar, realiza pruebas automatizadas para verificar que todo el entorno y código funcionen correctamente.`;
+}
+
+function showDelimitation() {
+  state.page = 'delimitation';
+  const s = state.selection;
+  const profileKey = Object.hasOwn(DELIMITATIONS, s.profile) ? s.profile : 'software';
+  const items = DELIMITATIONS[profileKey] || DELIMITATIONS.software;
+  if (!s.subtype) s.subtype = items[0].title;
+
+  const cards = el('div', { class: 'delimitation-grid' }, items.map(item => {
+    const isSelected = s.subtype === item.title;
+    return el('article', {
+      class: `delimitation-card ${isSelected ? 'selected' : ''}`,
+      role: 'radio',
+      'aria-checked': String(isSelected),
+      tabindex: '0',
+      onClick: () => { s.subtype = item.title; showDelimitation(); },
+      onKeydown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); s.subtype = item.title; showDelimitation(); } }
+    },
+      el('div', {},
+        el('span', { class: 'badge', text: item.tag }),
+        el('h3', { text: item.title, style: 'margin-top: 8px;' }),
+        p(item.desc)
+      ),
+      el('small', { class: 'subtle', text: item.stack })
+    );
+  }));
+
+  render([
+    steps(1),
+    ...heading('¿Cuál es el enfoque principal de tu proyecto?',
+      `Elige el subtipo para ${profiles[s.profile]?.[0] ?? s.profile} para ajustar las recomendaciones.`),
+    el('div', { class: 'folder-card' },
+      own(s.name || state.project?.name || 'Mi proyecto', 'h2'),
+      state.project ? own(state.project.root, 'p', { class: 'path' }) : null
+    ),
+    cards,
+    actions(
+      btn('Volver', () => showFolder()),
+      btn('Paso 3: Visión y Descripción  →', () => showVision(), 'primary')
+    )
+  ], 'PREPARAR PROYECTO / DELIMITACIÓN');
+}
+
+function showVision() {
+  state.page = 'vision';
+  const s = state.selection;
+  if (!s.vision) s.vision = s.goal || '';
+
+  const textarea = el('textarea', {
+    id: 'vision-input',
+    class: 'vision-textarea',
+    placeholder: 'Describe en tus palabras qué quieres lograr, a quién va dirigido y la meta de este proyecto...',
+    onInput: e => {
+      s.vision = e.target.value;
+      updateStats();
+    }
+  });
+  textarea.value = s.vision;
+
+  const countSpan = el('span', { id: 'char-word-count', text: '0 palabras' });
+  const statusSpan = el('span', { class: 'density-badge', text: 'Densidad óptima' });
+
+  function updateStats() {
+    const text = textarea.value.trim();
+    const words = text ? text.split(/\s+/).length : 0;
+    countSpan.textContent = `${words} palabras`;
+    s.goal = text.slice(0, 500);
+  }
+  updateStats();
+
+  const chips = el('div', { class: 'chips-grid' }, INSPIRATION_CHIPS.map(chip =>
+    el('button', {
+      type: 'button',
+      class: 'prompt-chip',
+      onClick: () => {
+        textarea.value = textarea.value.trim() + chip.text;
+        s.vision = textarea.value;
+        updateStats();
+        textarea.focus();
+      }
+    },
+      el('strong', { text: chip.title }),
+      el('small', { text: 'Clic para agregar al borrador' })
+    )
+  ));
+
+  const editorContainer = el('div', { class: 'vision-container' },
+    el('div', { class: 'vision-header' },
+      el('div', { class: 'vision-modes' },
+        el('span', { class: 'vision-mode-btn active', text: 'Modo libre' }),
+        el('span', { class: 'vision-mode-btn', text: 'Markdown soportado' })
+      ),
+      el('span', { class: 'density-badge', text: 'Asistencia activa' })
+    ),
+    textarea,
+    el('div', { class: 'vision-footer' },
+      el('span', { class: 'subtle', text: 'Guardaremos esto en PROJECT_VISION.md en la raíz de tu proyecto.' }),
+      el('div', { style: 'display: flex; gap: 12px; align-items: center;' }, countSpan, statusSpan)
+    ),
+    el('div', { class: 'chips-container' },
+      el('p', { class: 'chips-title', text: 'Sugerencias para enriquecer la descripción:' }),
+      chips
+    )
+  );
+
+  render([
+    steps(2),
+    ...heading('Cuéntanos en tus palabras: ¿qué quieres lograr?',
+      'Esta descripción se guardará en PROJECT_VISION.md para que cualquier IA entienda la intención sin perder el rumbo.'),
+    editorContainer,
+    actions(
+      btn('Volver', () => showDelimitation()),
+      btn('Paso 4: Instalación  →', () => showInstall(), 'primary')
+    )
+  ], 'PREPARAR PROYECTO / VISIÓN');
+}
+
+function showInstall() {
+  state.page = 'install';
+  const s = state.selection;
+
+  const cardQuick = el('article', { class: 'bifurcation-card' },
+    el('div', {},
+      el('span', { class: 'bifurcation-badge fast', text: 'Velocidad Inmediata' }),
+      el('h2', { text: 'Instalación Rápida con Companion' }),
+      p('Aprovisiona la estructura base y dependencias en tu máquina de forma determinista, entregándote un texto para tu IA.', 'desc'),
+      el('ul', { class: 'bifurcation-features' },
+        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Estructura limpia y PROJECT_VISION.md en disco.' })),
+        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Dependencias base configuradas en menos de un minuto.' })),
+        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Prompt maestro adaptado que reconoce lo instalado localmente.' }))
+      )
+    ),
+    actions(btn('Instalar stack base y obtener prompt  →', async () => {
+      s.installMode = 'quick';
+      await executeInstallation();
+    }, 'primary'))
+  );
+
+  const cardAi = el('article', { class: 'bifurcation-card recommended' },
+    el('div', {},
+      el('span', { class: 'bifurcation-badge ai', text: 'Recomendado · Máxima Personalización' }),
+      el('h2', { text: 'Que mi IA se encargue' }),
+      p('Companion prepara tu carpeta con PROJECT_VISION.md y delega la investigación y elección de tecnologías a tu IA favorita (Cursor, Claude, Windsurf, etc.).', 'desc'),
+      el('ul', { class: 'bifurcation-features' },
+        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Tu IA realiza 3 preguntas no técnicas para afinar necesidades exactas.' })),
+        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Investiga las librerías más modernas de la industria en tiempo real.' })),
+        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Convierte fuentes a .md sin alterar originales y comprueba su estado.' }))
+      )
+    ),
+    actions(btn('Preparar carpeta y generar prompt maestro  →', async () => {
+      s.installMode = 'ai';
+      await executeInstallation();
+    }, 'primary'))
+  );
+
+  render([
+    steps(3),
+    ...heading('Tu espacio está listo. ¿Cómo prefieres equiparlo?',
+      'Elige entre instalación rápida determinista o delegar la exploración y selección a tu IA.'),
+    el('div', { class: 'bifurcation-grid' }, cardQuick, cardAi),
+    actions(btn('Volver', () => showVision()))
+  ], 'PREPARAR PROYECTO / INSTALACIÓN');
+}
+
+async function executeInstallation() {
+  const s = state.selection;
+  state.plan = await call('previewBase', { id: state.project.id, selection: s });
+  const r = await call('applyBase', { plan: state.plan.id });
+  state.status = r.status;
+  state.project = { ...state.project, ...r.status.project };
+  showFinished();
+}
+
+function showFinished() {
+  state.page = 'finished';
+  const s = state.selection;
+  const pRoot = state.project?.root ?? 'C:/Proyectos/mi-proyecto';
+  const promptText = masterActivationPrompt({
+    path: pRoot,
+    profile: s.profile,
+    subtype: s.subtype,
+    vision: s.vision,
+    installMode: s.installMode
+  });
+
+  const hero = el('div', { class: 'finished-hero' },
+    el('div', { class: 'finished-pulse-icon' }, el('span', { text: '✓' })),
+    el('div', { class: 'wizard-step-badge', text: 'Preparación Completada' }),
+    el('h1', { text: '¡Tu proyecto está listo para cobrar vida!' }),
+    p('Hemos creado la estructura limpia y tu archivo PROJECT_VISION.md en tu carpeta de trabajo local.')
+  );
+
+  const copyPathBtn = btn('Copiar ruta', async () => {
+    try {
+      if (api.copyText) await api.copyText(pRoot);
+      else if (navigator.clipboard) await navigator.clipboard.writeText(pRoot);
+      copyPathBtn.textContent = '¡Ruta copiada!';
+      setTimeout(() => { copyPathBtn.textContent = 'Copiar ruta'; }, 2000);
+    } catch {}
+  }, 'secondary');
+
+  const pathBar = el('div', { class: 'finished-path-bar' },
+    el('div', { style: 'display: flex; gap: 10px; align-items: center;' },
+      el('strong', { text: 'Carpeta:' }),
+      el('code', { text: pRoot })
+    ),
+    copyPathBtn
+  );
+
+  const copyPromptBtn = btn('Copiar Prompt Maestro', async () => {
+    try {
+      if (api.copyText) await api.copyText(promptText);
+      else if (navigator.clipboard) await navigator.clipboard.writeText(promptText);
+      copyPromptBtn.textContent = '¡Prompt copiado!';
+      setTimeout(() => { copyPromptBtn.textContent = 'Copiar Prompt Maestro'; }, 2000);
+    } catch {}
+  }, 'primary');
+
+  const activationCard = el('div', { class: 'activation-card' },
+    el('h2', { text: 'Paso 1: Abre la carpeta en tu IA de confianza' }),
+    p('Abre tu editor o aplicación predilecta (Cursor, Windsurf, Claude Code, VS Code o un chat web) y abre esta carpeta.'),
+    el('h2', { text: 'Paso 2: Pega este Prompt Maestro en tu IA', style: 'margin-top: 18px;' }),
+    p('Este prompt guiará a tu IA para leer PROJECT_VISION.md, investigar librerías y configurar tu entorno sin tecnicismos.'),
+    el('div', { class: 'prompt-box' },
+      el('pre', { text: promptText })
+    ),
+    actions(copyPromptBtn)
+  );
+
+  const pillars = el('div', { class: 'pillars-grid' },
+    el('div', { class: 'pillar-card' },
+      el('h3', { text: 'Flujo de trabajo profesional' }),
+      p('Tu IA creará planes, verificará con evidencia y respetará las especificaciones.')
+    ),
+    el('div', { class: 'pillar-card' },
+      el('h3', { text: 'Visión del proyecto anclada' }),
+      p('PROJECT_VISION.md mantiene el propósito claro y evita que la IA se desvíe del objetivo.')
+    ),
+    el('div', { class: 'pillar-card' },
+      el('h3', { text: 'Completamente Local y Seguro' }),
+      p('Tus documentos originales no se eliminan. Todo se ejecuta en tu equipo sin telemetría.')
+    )
+  );
+
+  render([
+    hero,
+    pathBar,
+    activationCard,
+    pillars,
+    actions(doBtn('open-workspace'), doBtn('open-project-list'))
+  ], 'PROYECTO LISTO / ACTIVACIÓN DE IA');
+}
 function changes(files){return el('details',{},el('summary',{text:`Ver archivos previstos (${files.length})`}),el('ul',{class:'file-list'},files.map(f=>el('li',{text:`${{create:'Añadir',update:'Actualizar',remove:'Retirar',unchanged:'Conservar',adopt:'Conservar original',preserve:'Conservar',noop:'Sin cambios'}[f.action]??f.action} · ${f.path}`}))));}
 function showBaseReview(){state.page='base-review';const s=state.selection;
   render([steps(2),...heading('Esto es lo que se va a escribir.','Primero se guardan tus elecciones y la lista de lo que hay en la carpeta. Después revisas qué archivos se leen y qué instrucciones recibe tu IA.'),
