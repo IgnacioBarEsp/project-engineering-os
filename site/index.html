@@ -85,7 +85,11 @@ footer p{max-width:var(--measure);font-size:.9rem}
 .links{display:flex;flex-wrap:wrap;gap:1.4rem;margin:1.4rem 0 0;padding:0;list-style:none;font-size:.92rem}
 
 @media (prefers-reduced-motion: no-preference){
-  .button{transition:background 140ms ease}
+  .button{transition:background 180ms cubic-bezier(0.16, 1, 0.3, 1), transform 180ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1)}
+  .button-main:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(20, 37, 27, 0.25)}
+  .button-quiet:hover{transform:translateY(-1px)}
+  .claim{transition:transform 200ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1)}
+  .claim:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(20, 37, 27, 0.06)}
 }
 @media (max-width:760px){
   .hero-grid{grid-template-columns:1fr}

@@ -470,13 +470,13 @@ function showInstall() {
 
   const cardQuick = el('article', { class: 'bifurcation-card' },
     el('div', {},
-      el('span', { class: 'bifurcation-badge fast', text: 'Velocidad Inmediata' }),
-      el('h2', { text: 'Instalación Rápida con Companion' }),
-      p('Aprovisiona la estructura base y dependencias en tu máquina de forma determinista, entregándote un texto para tu IA.', 'desc'),
+      el('span', { class: 'bifurcation-badge fast', text: 'Velocidad inmediata' }),
+      el('h2', { text: 'Instalación rápida' }),
+      p('Prepara la estructura básica e instala las dependencias base en tu equipo para arrancar en segundos.', 'desc'),
       el('ul', { class: 'bifurcation-features' },
-        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Estructura limpia y PROJECT_VISION.md en disco.' })),
-        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Dependencias base configuradas en menos de un minuto.' })),
-        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Prompt maestro adaptado que reconoce lo instalado localmente.' }))
+        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Estructura ordenada y archivo PROJECT_VISION.md en disco.' })),
+        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Herramientas base preparadas directamente en tu equipo.' })),
+        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Prompt adaptado que reconoce lo configurado localmente.' }))
       )
     ),
     actions(btn('Instalar stack base y obtener prompt  →', async () => {
@@ -487,13 +487,13 @@ function showInstall() {
 
   const cardAi = el('article', { class: 'bifurcation-card recommended' },
     el('div', {},
-      el('span', { class: 'bifurcation-badge ai', text: 'Recomendado · Máxima Personalización' }),
+      el('span', { class: 'bifurcation-badge ai', text: 'Recomendado · Máxima personalización' }),
       el('h2', { text: 'Que mi IA se encargue' }),
-      p('Companion prepara tu carpeta con PROJECT_VISION.md y delega la investigación y elección de tecnologías a tu IA favorita (Cursor, Claude, Windsurf, etc.).', 'desc'),
+      p('Prepara tu carpeta con PROJECT_VISION.md y delega la arquitectura a tu IA predilecta (Cursor, Claude, ChatGPT, etc.).', 'desc'),
       el('ul', { class: 'bifurcation-features' },
-        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Tu IA realiza 3 preguntas no técnicas para afinar necesidades exactas.' })),
-        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Investiga las librerías más modernas de la industria en tiempo real.' })),
-        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Convierte fuentes a .md sin alterar originales y comprueba su estado.' }))
+        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Tu IA te hace 3 preguntas sencillas para afinar tus necesidades.' })),
+        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Explora opciones de la industria adaptadas a tu proyecto.' })),
+        el('li', {}, el('span', { class: 'check-icon', text: '✓' }), el('span', { text: 'Convierte documentos a Markdown sin tocar originales y comprueba su estado.' }))
       )
     ),
     actions(btn('Preparar carpeta y generar prompt maestro  →', async () => {
@@ -534,9 +534,9 @@ function showFinished() {
 
   const hero = el('div', { class: 'finished-hero' },
     el('div', { class: 'finished-pulse-icon' }, el('span', { text: '✓' })),
-    el('div', { class: 'wizard-step-badge', text: 'Preparación Completada' }),
+    el('div', { class: 'wizard-step-badge', text: 'Preparación completada' }),
     el('h1', { text: '¡Tu proyecto está listo para cobrar vida!' }),
-    p('Hemos creado la estructura limpia y tu archivo PROJECT_VISION.md en tu carpeta de trabajo local.')
+    p('Hemos organizado tu espacio de trabajo y anclado tus objetivos en PROJECT_VISION.md.')
   );
 
   const copyPathBtn = btn('Copiar ruta', async () => {
@@ -566,10 +566,10 @@ function showFinished() {
   }, 'primary');
 
   const activationCard = el('div', { class: 'activation-card' },
-    el('h2', { text: 'Paso 1: Abre la carpeta en tu IA de confianza' }),
-    p('Abre tu editor o aplicación predilecta (Cursor, Windsurf, Claude Code, VS Code o un chat web) y abre esta carpeta.'),
+    el('h2', { text: 'Paso 1: Abre la carpeta en tu IA de cabecera' }),
+    p('Abre tu editor o aplicación predilecta (Cursor, Windsurf, Claude Code, VS Code o tu chat de IA) y abre esta carpeta.'),
     el('h2', { text: 'Paso 2: Pega este Prompt Maestro en tu IA', style: 'margin-top: 18px;' }),
-    p('Este prompt guiará a tu IA para leer PROJECT_VISION.md, investigar librerías y configurar tu entorno sin tecnicismos.'),
+    p('Este prompt orienta a tu IA para leer tu visión, formular preguntas clave y construir con rigor técnico.'),
     el('div', { class: 'prompt-box' },
       el('pre', { text: promptText })
     ),
@@ -578,16 +578,16 @@ function showFinished() {
 
   const pillars = el('div', { class: 'pillars-grid' },
     el('div', { class: 'pillar-card' },
-      el('h3', { text: 'Flujo de trabajo profesional' }),
+      el('h3', { text: 'Método de trabajo' }),
       p('Tu IA creará planes, verificará con evidencia y respetará las especificaciones.')
     ),
     el('div', { class: 'pillar-card' },
-      el('h3', { text: 'Visión del proyecto anclada' }),
-      p('PROJECT_VISION.md mantiene el propósito claro y evita que la IA se desvíe del objetivo.')
+      el('h3', { text: 'Visión anclada' }),
+      p('PROJECT_VISION.md mantiene el propósito claro y evita desviaciones del objetivo.')
     ),
     el('div', { class: 'pillar-card' },
-      el('h3', { text: 'Completamente Local y Seguro' }),
-      p('Tus documentos originales no se eliminan. Todo se ejecuta en tu equipo sin telemetría.')
+      el('h3', { text: 'Local y privado' }),
+      p('Tus documentos originales se conservan intactos. Todo opera en tu equipo sin telemetría.')
     )
   );
 
