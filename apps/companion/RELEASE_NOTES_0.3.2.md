@@ -26,10 +26,12 @@ Corrige 0.3.1, con la que no se podía terminar el asistente en la aplicación i
 
 ## Cómo se comprobó
 
-- El asistente se recorrió con la animación de entrada activa y con movimiento reducido, en ventanas de
-  1180 × 820, 1160 × 810 y 1040 × 700, con las dos formas de instalar. En cada pantalla se pulsó cada
-  control en su centro y se llegó a la pantalla final. La comprobación anterior solo usaba movimiento
-  reducido, que es por lo que no vio el defecto.
+- El asistente se recorrió hasta la pantalla final con la animación de entrada activa y con movimiento
+  reducido, en ventanas de 1180 × 820, 1160 × 810 y 1040 × 700, con las dos formas de instalar. En cada
+  pantalla se comprobó que cada control, una vez a la vista, recibe el clic en su centro y no la barra. Se
+  pulsaron los botones que avanzan el asistente y los de copiar. La comprobación anterior no vio el
+  defecto por dos motivos: usaba solo movimiento reducido y, después de los dos primeros pasos, seguía por
+  las pantallas de revisión heredadas en lugar de Delimitación, Visión e Instalación.
 - En Electron, con el proceso principal y el preload de esta versión, el texto de cada botón de copiar se
   leyó del portapapeles del sistema y coincide con el que muestra la pantalla.
 

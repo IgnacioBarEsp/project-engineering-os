@@ -21,8 +21,10 @@ import { INTERACTIVE, REACH, reachProblems } from './interface-contract.mjs';
 // the record says which one ran.
 //
 // Isolation: a user data directory and a LOCALAPPDATA of its own, so no history, verdict or managed tool of a
-// personal installation is read or written. The clipboard is shared with whoever uses this machine: its previous
-// text is kept in memory, written back at the end and never recorded.
+// personal installation is read or written. The clipboard is shared with whoever uses this machine: everything it
+// held, in every format Electron can read, stays in the main process's memory and is written back at the end. The
+// record never holds that content; it says how many formats there were and whether the same formats and text came
+// back.
 //
 // In Electron 44 the main-process clipboard is asynchronous: readText and writeText return promises. Every read
 // here is awaited, and the adapter main.mjs hands the service returns one too, which is why the service awaits it
@@ -58,7 +60,7 @@ const record = { date: new Date().toISOString(),
   findings: [] };
 const finding = value => record.findings.push(value);
 
-let application, previous = null;
+let application, saved = null;
 try {
   application = await _electron.launch({ executablePath: executable, args: [...(packaged ? [] : ['.']), `--user-data-dir=${userData}`],
     cwd: app, env: { ...process.env, LOCALAPPDATA: localAppData }, timeout: 60000 });
@@ -66,7 +68,22 @@ try {
   await application.evaluate(({ dialog }, folder) => {
     dialog.showOpenDialog = async () => ({ canceled: false, filePaths: [folder] });
   }, project);
-  previous = await application.evaluate(({ clipboard }) => clipboard.readText());
+  // Each format is read into a Blob now, because an item returned by read() may point at whatever the clipboard
+  // holds later. Nothing of it leaves the main process.
+  saved = await application.evaluate(async ({ clipboard }) => {
+    const items = await clipboard.read(), snapshot = [];
+    let unreadable = 0;
+    for (const item of items) {
+      const entry = {};
+      for (const type of item.types) {
+        try { entry[type] = await item.getType(type); } catch { unreadable += 1; }
+      }
+      if (Object.keys(entry).length) snapshot.push(entry);
+    }
+    const types = items.flatMap(item => item.types).sort();
+    globalThis.__peosSavedClipboard = { snapshot, types, text: await clipboard.readText() };
+    return { formats: types.length, unreadable };
+  });
   const page = await application.firstWindow({ timeout: 60000 });
   page.setDefaultTimeout(30000);
   // Recorded, not judged: the browser harness serves the renderer without the application's CSP, so what the
@@ -183,9 +200,24 @@ try {
   finding(`La prueba no pudo completarse: ${String(error.message).split('\n')[0].slice(0, 300)}`);
 } finally {
   if (application) {
-    if (previous !== null) {
-      await application.evaluate(({ clipboard }, value) => clipboard.writeText(value), previous).catch(() => {});
-      record.previousClipboardTextRestored = true;
+    if (saved) {
+      // Restored is claimed only when the same formats and the same text are back, compared inside the main process.
+      const back = await application.evaluate(async ({ clipboard, ClipboardItem }) => {
+        const { snapshot, types, text } = globalThis.__peosSavedClipboard;
+        let written = 'todo';
+        try {
+          if (snapshot.length) await clipboard.write(snapshot.map(entry => new ClipboardItem(entry)));
+          else clipboard.clear();
+        } catch {
+          written = 'solo texto';
+          await clipboard.writeText(text);
+        }
+        const now = (await clipboard.read()).flatMap(item => item.types).sort();
+        return { written, sameFormats: JSON.stringify(now) === JSON.stringify(types), sameText: (await clipboard.readText()) === text };
+      }).catch(error => ({ written: 'nada', failure: String(error.message).split('\n')[0].slice(0, 160) }));
+      record.previousClipboard = { formats: saved.formats, unreadable: saved.unreadable, ...back,
+        restored: saved.unreadable === 0 && back.sameFormats === true && back.sameText === true };
+      if (!record.previousClipboard.restored) console.error('El portapapeles anterior no se pudo restaurar entero; revisa previousClipboard en el registro.');
     }
     await application.close().catch(() => {});
   }

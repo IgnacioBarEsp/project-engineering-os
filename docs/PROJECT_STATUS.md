@@ -15,15 +15,16 @@ Un issue cerrado demuestra el cierre de ese cambio; no publica por sí solo un i
 
 0.3.1 es el instalador publicado, construido desde `a3b1efd`
 ([PR #140](https://github.com/IgnacioBarEsp/project-engineering-os/pull/140)). Con él no se puede terminar el
-asistente. Los defectos están reproducidos y medidos en el
-[issue #142](https://github.com/IgnacioBarEsp/project-engineering-os/issues/142):
+asistente. Los tres primeros defectos están reproducidos y medidos en el
+[issue #142](https://github.com/IgnacioBarEsp/project-engineering-os/issues/142); los dos últimos
+aparecieron durante la corrección:
 
 - La barra de acciones del asistente queda anclada al contenido animado y no a la ventana. Tapa «¿Cuánta
   guía prefieres?», la última tarjeta de Delimitación, las sugerencias de Visión y los dos botones de
   Instalación, y desplazar la página no los descubre.
 - «Copiar ruta» y «Copiar Prompt Maestro» no copian nada en la aplicación instalada, y no avisan del fallo.
-- Una sugerencia o un salto de línea en Visión hacen fallar la instalación con `GOAL_INVALID`.
 - «Preparar proyecto» deja de estar marcado en Instalación y en la pantalla final.
+- Una sugerencia o un salto de línea en Visión hacen fallar la instalación con `GOAL_INVALID`.
 - El prompt de «Instalación rápida» le dice a la IA que las dependencias base ya están preparadas, y no se
   instala ninguna.
 

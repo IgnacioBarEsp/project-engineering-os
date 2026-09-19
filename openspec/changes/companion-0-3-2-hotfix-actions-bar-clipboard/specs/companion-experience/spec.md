@@ -2,8 +2,10 @@
 
 ### Requirement: Wizard actions remain reachable with normal motion
 The Companion SHALL keep the current wizard content and actions reachable with normal and reduced
-motion at 1180×820, 1160×810 and 1040×700. The final wizard action bar SHALL remain in document flow,
-use sticky positioning outside transformed animated content, and require no compensatory bottom space.
+motion at 1180×820, 1160×810 and 1040×700. The final wizard action bar SHALL remain in document flow
+after the animated content and outside any transformed ancestor, and SHALL require no compensatory bottom
+space. In those windows it SHALL use sticky positioning. In windows at most 500 px tall or 380 px wide it
+MAY stay static after the content, so that it does not cover a large share of a small viewport.
 Action rows inside installation cards SHALL remain local to their cards.
 
 #### Scenario: A short wizard screen fits the viewport
@@ -16,6 +18,11 @@ Action rows inside installation cards SHALL remain local to their cards.
 - **THEN** every expected field and action SHALL be reachable, including the last content before the bar
 - **AND** at the bottom there SHALL be no empty reserve introduced to compensate for an out-of-flow bar
 - **AND** ordinary spacing and visible status messages SHALL remain distinguishable from dead scroll space
+
+#### Scenario: The window is small or zoomed
+- **WHEN** the wizard is shown in a window at most 500 px tall or 380 px wide, such as the default window at 200 % zoom
+- **THEN** every expected field and action SHALL remain reachable by scrolling and resolve to itself at its visible center
+- **AND** the page SHALL not need horizontal scrolling
 
 #### Scenario: Each primary control is hit tested
 - **WHEN** the current wizard is traversed in each required viewport with each motion preference

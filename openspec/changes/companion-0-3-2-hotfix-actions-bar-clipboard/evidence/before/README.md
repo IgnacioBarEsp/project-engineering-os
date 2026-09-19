@@ -48,4 +48,5 @@ falla con `copyText`.
 
 A 1040 px la navegación de la cabecera parte palabras («Inici/o», «Ayud/a») y la marca «Companion» se monta
 sobre ella; se ve en la captura de instalación a ese ancho. No impide terminar el asistente ni lo toca este
-change. Pertenece al layout de la cabecera, que es #144, y queda en el assessment de deuda.
+change. Pertenece al layout de la cabecera, que es #144, y se comenta allí por
+[decisión del mantenedor](../maintainer-decisions.md).

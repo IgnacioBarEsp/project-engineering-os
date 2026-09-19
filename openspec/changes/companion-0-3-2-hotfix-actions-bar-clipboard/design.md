@@ -42,6 +42,10 @@ el foco del teclado. `render` mide la barra con un `ResizeObserver` y la publica
 `--wizard-footer-height`, que alimenta `scroll-padding-bottom`. Sin eso, al tabular por el paso 1 quedaban
 controles enteros bajo la barra; con eso, ninguno: [experimento](evidence/after/keyboard-scroll-padding.json).
 La clase de la barra es `.wizard-footer`, porque `.wizard-bar` ya nombraba las pastillas de progreso.
+En ventanas de hasta 500 px de alto o 380 px de ancho la barra queda estática después del contenido, sin
+scroll-padding: sticky ocuparía una parte grande de la ventana. La ventana por defecto con zoom al 200 %
+mide 590 × 410 px CSS y cae en ese caso; la mínima de la aplicación, 480 × 540, conserva sticky. Las dos se
+midieron: [ventanas pequeñas](evidence/after/narrow-windows.json).
 
 El contrato permite la superposición temporal propia de sticky en contenido largo solo si cada control
 se puede desplazar a una zona visible y pulsar. Con contenido que cabe, la barra debe quedar después del
@@ -169,14 +173,15 @@ y no se instaló ninguna dependencia. Las tarjetas de instalación y el resto de
 
 ## Migration Plan
 
-No hay migración de datos, esquema ni dependencias. Después de aprobar la spec, implementar por las
-[tareas](tasks.md), reunir la [evidencia](evidence/plan.md), revisar adversarialmente y evaluar deuda.
-Archivar solo con gates válidos y abrir el PR protegido. Publicación posterior según la decisión anterior.
-Rollback: revert del PR, comprobar recuperación en fixture y registrar que 0.3.1 sigue teniendo los bugs.
+No hay migración de datos, esquema ni dependencias. La implementación siguió las [tareas](tasks.md) y
+el [plan de evidencia](evidence/plan.md), con revisión adversarial y evaluación de deuda antes de archivar.
+La publicación viene después del merge, según la decisión del mantenedor.
+Rollback: revert del PR, ensayado en fixture ([ensayo](evidence/after/rollback.json)); 0.3.1 sigue
+teniendo sus defectos.
 
 ## Open Questions
 
-La aprobación de esta spec y continuación con apply siguen pendientes por el límite de esta sesión.
-Publicar 0.3.2 o registrar aplazamiento se decidirá con evidencia al cierre. La geometría propuesta aún
-no se ha ejecutado: el resultado debe cumplir los escenarios, y cualquier cambio de contrato requiere
-actualizar esta spec antes de implementar la desviación.
+Ninguna. La entrada a implementación consta en [apply-entry](evidence/apply-entry.md) y la decisión de
+publicar 0.3.2, en [decisiones](evidence/maintainer-decisions.md). La geometría se ejecutó. Lo que cambió
+respecto del diseño inicial entró en esta spec y en este diseño durante el apply: el scroll-padding, la
+clase `.wizard-footer`, la barra estática en ventanas pequeñas y las decisiones 6 y 7.

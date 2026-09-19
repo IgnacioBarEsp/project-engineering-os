@@ -607,10 +607,15 @@ async function inspectCopies() {
         const button = await page.getByRole('button', { name: control, exact: true }).elementHandle({ timeout: 4000 });
         await button.click();
         await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true');
-        entry.controls.push({ control, announced: (await page.locator('#notice').textContent()).trim(),
-          errorShown: await page.locator('#feedback').isVisible(),
-          error: (await page.locator('#feedback').innerText().catch(() => '')).replace(/\s+/g, ' ').trim(),
-          labelAfter: (await button.textContent()).trim(), pageClipboardWrites: await page.evaluate(() => window.__pageClipboardWrites) });
+        // One read of everything the copy left: the confirmed label reverts after two seconds, and separate round
+        // trips on a slow runner could arrive after it did.
+        entry.controls.push({ control, ...await button.evaluate(node => {
+          const feedback = document.getElementById('feedback'), box = feedback?.getBoundingClientRect();
+          return { announced: document.getElementById('notice').textContent.trim(),
+            errorShown: !!box && box.width > 0 && box.height > 0 && getComputedStyle(feedback).visibility !== 'hidden',
+            error: (feedback?.innerText ?? '').replace(/\s+/g, ' ').trim(),
+            labelAfter: node.textContent.trim(), pageClipboardWrites: window.__pageClipboardWrites };
+        }) });
       }
     } catch (error) {
       entry.failure = String(error.message).split('\n')[0].slice(0, 160);

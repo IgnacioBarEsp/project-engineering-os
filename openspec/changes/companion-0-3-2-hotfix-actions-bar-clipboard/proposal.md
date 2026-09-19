@@ -52,7 +52,8 @@ Ownership: aplicación upstream y documentación; los archivos de consumidores p
 ## Non-goals
 
 Rediseño #144, taxonomía #145, cambio de flujo #146, trabajo real del paso 4 #147, harness general #150,
-galería pública #143, arreglos de doctor/perfiles #115/#122 y publicación durante esta preparación.
+galería pública #143 y arreglos de doctor/perfiles #115/#122. La publicación de 0.3.2 no forma parte de
+este change: ocurre después del merge, por decisión del mantenedor ([registro](evidence/maintainer-decisions.md)).
 
 ## Risk and rollback
 
@@ -66,6 +67,9 @@ publicados son inmutables y una corrección posterior requiere otra identidad de
 
 ## Handoff boundary
 
-Solicitud vigente: «Lleva el primer Issue que dice el handoff y para antes del apply».
-Esta entrega prepara artefactos y verificaciones documentales. La spec queda propuesta, pendiente de
-aprobación para implementación. No se ejecutan tareas de apply, archivado, merge ni release.
+La preparación respondió a «Lleva el primer Issue que dice el handoff y para antes del apply» y se detuvo
+ahí. El 19 de septiembre el mantenedor pidió continuar el flujo del issue: la entrada a implementación
+consta en [apply-entry](evidence/apply-entry.md). Sus decisiones sobre la prueba nativa, la publicación, el
+prompt y los defectos vistos fuera de alcance están en [decisiones](evidence/maintainer-decisions.md).
+Este change termina con el archivo y el PR protegido. El tag, el workflow de release y el cambio del
+enlace de descarga son trabajo posterior al merge.
