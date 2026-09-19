@@ -1,6 +1,6 @@
 # Decisiones del mantenedor durante el apply
 
-Tomadas por el mantenedor, IgnacioBarEsp, el 19 de septiembre de 2026 en esta sesión, al responder cinco
+Tomadas por el mantenedor, IgnacioBarEsp, el 19 de septiembre de 2026 en esta sesión, al responder seis
 preguntas del agente. Se citan tal como se respondieron.
 
 | Pregunta | Respuesta | Consecuencia |
@@ -10,6 +10,7 @@ preguntas del agente. Se citan tal como se respondieron.
 | ¿Se corrige en este hotfix la frase del prompt de «Instalación rápida» que afirma dependencias aprovisionadas? | «Sí, solo esa frase» | Nueva decisión 7 del [diseño](../design.md) y escenario en la spec antes de implementarla. Las tarjetas de instalación no cambian y siguen siendo del issue #147. |
 | ¿Cómo se registran los dos defectos previos vistos fuera de alcance? | «Comentarlos en #144 y #149» | La cabecera que parte palabras a 1040 px se comenta en #144 y el foco que cae al `body` tras copiar, en #149, con su evidencia. No entran al registro de deuda, que está en 4 de 5 unidades y se pausaría. |
 | La tarea 6.1 pide revisión adversarial desde contexto limpio y la del agente del apply no lo es. ¿Se lanza un agente revisor sin el contexto de la sesión? | «Lanzar revisor limpio» | Un agente de solo lectura, sin la conversación del apply, revisa el diff y la evidencia. Sus Blockers y Majors se corrigen antes de archivar, y las dos revisiones quedan en el [registro](adversarial-review.md). |
+| En Electron, la CSP bloquea cuatro estilos en línea de `app.mjs` que existen desde 0.3.0: separaciones y un flex en Delimitación, Visión y la pantalla final. Son cosméticos, y el harness del navegador no los ve porque sirve la página sin CSP. ¿Qué se hace? | «Comentarlo en #144» | Comentario con evidencia en #144, que rehace el renderer, con la nota de que el harness sirve sin CSP. No se toca código y no entra al registro de deuda. La prueba nativa registra los errores de CSP sin juzgarlos. |
 
 Las dos revisiones adversariales de este change las hacen agentes: el que implementó y otro sin su contexto.
 Ninguna es del mantenedor ni de una persona independiente, y así consta en su registro y en el PR.

@@ -215,6 +215,12 @@ async function walkWizard(width,height,motion,branch){
     if(await page.locator('.delimitation-card.selected h3').innerText().catch(()=>null)!==title)problems.push(`delimitation: «${title}» no quedó elegida`);
     if(!await press('Paso 3: Visión y Descripción →','delimitation')||!await reached('Cuéntanos en tus palabras: ¿qué quieres lograr?','delimitation'))return;
     await measure('vision');
+    // A screen reader needs the editor's name from something other than its placeholder, which goes away as soon as
+    // the person types. The name is read from the accessibility tree with the placeholder removed for the moment.
+    const placeholder=await page.locator('#vision-input').getAttribute('placeholder');
+    await page.locator('#vision-input').evaluate(node=>node.removeAttribute('placeholder'));
+    if(await page.getByRole('textbox',{name:'Tu visión del proyecto',exact:true}).count()!==1)problems.push('vision: el editor no tiene nombre accesible sin su placeholder');
+    await page.locator('#vision-input').evaluate((node,value)=>{if(value!==null)node.setAttribute('placeholder',value);},placeholder);
     // The suggestions are the last content of this screen, and each one adds a paragraph. With the quick branch a
     // line break is also typed by hand: both are ordinary ways to write a vision.
     for(const chip of await page.locator('.prompt-chip strong').allInnerTexts()){
