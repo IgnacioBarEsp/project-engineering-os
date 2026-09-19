@@ -19,7 +19,7 @@ mantenedor y están en [decisiones](maintainer-decisions.md); los hallazgos de l
 | `openspec-strict` | Change válido en modo estricto | [openspec-strict.json](openspec-strict.json) |
 | `critical-document-presence` | `check-docs` PASS, con la comprobación de procedencia incluida | [docs.json](docs.json) |
 | `relative-link-check` | Todos los enlaces relativos del change y de los documentos públicos que toca existen | [artifact-links.json](artifact-links.json) |
-| `findability-two-hop-check` | README → [galería](../../../../docs/companion/SCREENSHOTS.md); README → [estado](../../../../docs/PROJECT_STATUS.md) | [artifact-links.json](artifact-links.json) |
+| `findability-two-hop-check` | README → [galería](../../../../../docs/companion/SCREENSHOTS.md); README → [estado](../../../../../docs/PROJECT_STATUS.md) | [artifact-links.json](artifact-links.json) |
 | `neutrality-check` | PASS | [neutrality.json](neutrality.json) |
 
 `npm run check` completo: 341/341 pruebas y todos los checks en PASS ([check.json](after/check.json)).
@@ -86,14 +86,14 @@ también, o `check:docs` falla.
 
 ## Documentación
 
-- **[Galería](../../../../docs/companion/SCREENSHOTS.md):** describe cada pantalla por su encabezado,
+- **[Galería](../../../../../docs/companion/SCREENSHOTS.md):** describe cada pantalla por su encabezado,
   indicador de paso y controles visibles; dice qué queda fuera del encuadre; enumera procedencia y hashes; y
   nombra los defectos abiertos que se ven (#144, #145) o que la pantalla afirma (#147).
 - **README:** muestra la ventana real de 0.3.2 con su commit y mantiene «No es una captura del instalador».
-- **[Índice de documentación](../../../../docs/README.md):** su promesa de imágenes reales pasa a ser cierta.
-- **[Estado](../../../../docs/PROJECT_STATUS.md):** deja de decir que las capturas son del prototipo y enlaza
+- **[Índice de documentación](../../../../../docs/README.md):** su promesa de imágenes reales pasa a ser cierta.
+- **[Estado](../../../../../docs/PROJECT_STATUS.md):** deja de decir que las capturas son del prototipo y enlaza
   la galería y el prototipo rotulado.
-- **[Prototipos](../../../../docs/stitch%20uxui/README.md):** dicen qué son, qué controles muestran que la
+- **[Prototipos](../../../../../docs/stitch%20uxui/README.md):** dicen qué son, qué controles muestran que la
   aplicación no tiene y dónde están las capturas reales.
 
 A quién corresponde cada documento: la galería y el generador viven con la aplicación y se regeneran cuando
