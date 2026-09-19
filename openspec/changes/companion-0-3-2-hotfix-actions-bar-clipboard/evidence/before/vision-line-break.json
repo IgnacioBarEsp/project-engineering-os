@@ -1,0 +1,28 @@
+{
+  "capturedAt": "2026-09-19T07:16:13.018Z",
+  "source": "a3b1efda6a53501a2a06e277cf0b7f18f11c6bed, renderer y servicio sin cambios",
+  "method": "Renderer y servicio reales en Edge sin ventana, 1180x820, movimiento reducido para que la barra no intervenga. Tres visiones: una línea, una sugerencia pulsada y un salto de línea escrito a mano. Después se pulsa «Preparar carpeta y generar prompt maestro».",
+  "results": [
+    {
+      "variant": "una línea",
+      "visionHasLineBreak": false,
+      "reached": "¡Tu proyecto está listo para cobrar vida!",
+      "feedbackVisible": false,
+      "feedback": ""
+    },
+    {
+      "variant": "sugerencia",
+      "visionHasLineBreak": true,
+      "reached": "Tu espacio está listo. ¿Cómo prefieres equiparlo?",
+      "feedbackVisible": true,
+      "feedback": "Describe tu objetivo en hasta 500 caracteres. Revisa la carpeta y vuelve a comprobar. GOAL_INVALID"
+    },
+    {
+      "variant": "Enter en el campo",
+      "visionHasLineBreak": true,
+      "reached": "Tu espacio está listo. ¿Cómo prefieres equiparlo?",
+      "feedbackVisible": true,
+      "feedback": "Describe tu objetivo en hasta 500 caracteres. Revisa la carpeta y vuelve a comprobar. GOAL_INVALID"
+    }
+  ]
+}

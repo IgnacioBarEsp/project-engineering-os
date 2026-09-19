@@ -436,6 +436,113 @@ export const ACCESSIBLE_NAMES = () => {
   };
 };
 
+// Whether a person can reach what a wizard screen offers, measured with the entry animation the screen really
+// runs. Companion 0.3.1 fixed its action bar inside `.enter`, which is animated with a transform and keeps it with
+// `fill-mode: forwards`. An ancestor with a transform is the containing block of its fixed descendants, so the bar
+// sat on the bottom of the content instead of the window and covered the two installation buttons. Both harnesses
+// ran with reduced motion, where there is no transform, and passed: the maintainer found it by using the app.
+//
+// Every interactive control on the screen is scrolled into view and hit tested at the centre of its first line
+// box. The element the browser returns there has to be that control, or something inside it whose nearest
+// interactive ancestor is that control. Then the page is scrolled to the end and the final bar is measured against
+// the last content and against the bottom of the document. The report carries its denominator, so a screen where
+// nothing was measured is refused instead of passed.
+export const INTERACTIVE = 'button, input:not([type="hidden"]), select, textarea, a[href], summary, [role="radio"][tabindex], [role="checkbox"][tabindex]';
+export const REACH = interactive => {
+  const describe = node => node
+    ? `${node.tagName.toLowerCase()}${node.id ? `#${node.id}` : ''}${[...node.classList].map(name => `.${name}`).join('')}` : null;
+  const nameOf = node => (node.getAttribute('aria-label') || node.labels?.[0]?.innerText || node.innerText
+    || node.getAttribute('placeholder') || node.id || '').replace(/\s+/g, ' ').trim().slice(0, 80);
+  const view = document.getElementById('view');
+  const enter = view.querySelector('.enter');
+  // The final bar: the explicit one, wherever it is, or an action row the stylesheet took out of the flow.
+  const bar = view.querySelector('.wizard-footer')
+    ?? [...view.querySelectorAll('.enter > .actions, form > .actions')].find(node => getComputedStyle(node).position === 'fixed')
+    ?? null;
+  const controls = [];
+  for (const node of view.querySelectorAll(interactive)) {
+    if (!node.getClientRects().length || getComputedStyle(node).visibility === 'hidden') continue;
+    node.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' });
+    const box = [...node.getClientRects()].find(rect => rect.width > 0 && rect.height > 0);
+    if (!box) { controls.push({ name: nameOf(node), element: describe(node), ok: false, hit: 'sin tamaño' }); continue; }
+    const x = box.left + box.width / 2, y = box.top + box.height / 2;
+    const hit = document.elementFromPoint(x, y);
+    const ok = hit === node || (node.contains(hit) && hit.closest(interactive) === node);
+    controls.push({ name: nameOf(node), element: describe(node), ok, hit: ok ? null : describe(hit),
+      inBar: !!bar?.contains(node), x: Math.round(x), y: Math.round(y) });
+  }
+  const root = document.documentElement;
+  window.scrollTo({ top: root.scrollHeight, behavior: 'instant' });
+  let lastContent = null, lastContentBottom = -Infinity;
+  for (const node of view.querySelectorAll('*')) {
+    if (bar && (node === bar || bar.contains(node) || node.contains(bar))) continue;
+    if (!node.getClientRects().length) continue;
+    const box = node.getBoundingClientRect();
+    if (box.height > 0 && box.bottom > lastContentBottom) { lastContentBottom = box.bottom; lastContent = node; }
+  }
+  const main = document.getElementById('content'), notice = document.getElementById('notice');
+  const noticeStyle = notice ? getComputedStyle(notice) : null;
+  const barBox = bar?.getBoundingClientRect(), barStyle = bar ? getComputedStyle(bar) : null;
+  return {
+    heading: view.querySelector('h1')?.textContent.replace(/\s+/g, ' ').trim() ?? null,
+    motion: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduce' : 'no-preference',
+    viewport: { width: innerWidth, height: innerHeight },
+    enter: enter ? { animationName: getComputedStyle(enter).animationName,
+      animations: enter.getAnimations().map(animation => animation.playState) } : null,
+    controls,
+    // What the bar holds has to fit inside it. The first version of the fix reused a class name the progress pills
+    // already had, the bar came out 28 px wide, and its buttons spilled far below it.
+    bar: bar ? { element: describe(bar), position: barStyle.position, top: barBox.top, bottom: barBox.bottom,
+      height: barBox.height, width: barBox.width, marginTop: parseFloat(barStyle.marginTop),
+      inFlow: !['fixed', 'absolute'].includes(barStyle.position),
+      spill: Math.max(0, ...[...bar.querySelectorAll('*')].map(node => {
+        const box = node.getBoundingClientRect();
+        return Math.max(box.bottom - barBox.bottom, barBox.top - box.top, box.right - barBox.right, barBox.left - box.left);
+      })) } : null,
+    end: { scrollHeight: root.scrollHeight, scrollY, innerHeight, documentBottom: root.scrollHeight - scrollY,
+      lastContent: describe(lastContent), lastContentBottom,
+      mainPaddingBottom: parseFloat(getComputedStyle(main).paddingBottom),
+      notice: { text: !!notice?.textContent.trim(), outer: notice
+        ? notice.getBoundingClientRect().height + parseFloat(noticeStyle.marginTop) + parseFloat(noticeStyle.marginBottom) : 0 } },
+    nav: Object.fromEntries([...document.querySelectorAll('#nav [data-action]')]
+      .map(node => [node.dataset.action, node.getAttribute('aria-pressed')])),
+  };
+};
+// The ordinary bottom padding of the content column. Anything the bar leaves below itself beyond this, a status
+// message and its own margin is space that exists only to make room for a bar taken out of the flow.
+export const ORDINARY_BOTTOM_PADDING = 60;
+export function reachProblems(report, { primary = [], bar: expectBar = false } = {}) {
+  if (!report) return ['la pantalla no se midió'];
+  const problems = [], round = value => Math.round(value);
+  if (!report.controls.length) problems.push('ningún control medido');
+  for (const control of report.controls) {
+    if (!control.ok) problems.push(`«${control.name}» no se puede pulsar: en su centro está ${control.hit}`);
+  }
+  const names = new Set(report.controls.map(control => control.name));
+  for (const name of primary) if (!names.has(name)) problems.push(`falta el control «${name}»`);
+  // With motion allowed, the measurement is only about the defect if the entry animation actually ran.
+  if (report.motion === 'no-preference' && report.enter?.animationName !== 'enter') {
+    problems.push(`la animación de entrada no se ejecutó (${report.enter?.animationName ?? 'sin contenedor'})`);
+  }
+  if (!expectBar) return problems;
+  const { bar, end } = report;
+  if (!bar) return [...problems, 'no se encontró la barra final del asistente'];
+  if (bar.spill > 1) problems.push(`los controles de la barra final se salen de ella ${round(bar.spill)} px (mide ${round(bar.width)} × ${round(bar.height)} px)`);
+  if (end.lastContentBottom > bar.top + 1) {
+    problems.push(`al final del recorrido la barra tapa contenido: ${end.lastContent} termina en ${round(end.lastContentBottom)} px y la barra empieza en ${round(bar.top)} px`);
+  }
+  // Only a page that scrolls can have dead scroll; a short page leaves the rest of the window empty on purpose.
+  if (end.scrollHeight > end.innerHeight + 1) {
+    const below = end.documentBottom - end.lastContentBottom;
+    const legitimate = (bar.inFlow ? bar.height + bar.marginTop : 0) + end.notice.outer
+      + Math.min(end.mainPaddingBottom, ORDINARY_BOTTOM_PADDING);
+    if (below - legitimate > 8) {
+      problems.push(`al final queda un hueco de ${round(below - legitimate)} px que no ocupa ningún contenido (padding inferior de main: ${round(end.mainPaddingBottom)} px)`);
+    }
+  }
+  return problems;
+}
+
 // Every probe's denominator in one place, so a caller can refuse a vacuous pass without knowing each probe's
 // internals. An emptied screen used to be indistinguishable from a screen where everything passed.
 export function vacuous(screen) {

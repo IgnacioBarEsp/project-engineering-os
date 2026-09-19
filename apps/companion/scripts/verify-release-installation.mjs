@@ -41,7 +41,7 @@ const readArtifact = async directory => {
 const candidate = await readArtifact(path.resolve(candidateDirectory));
 const previous = await readArtifact(path.resolve(previousDirectory));
 assert.equal(previous.manifest.version, '0.1.0', 'La ruta de actualización debe partir del Companion publicado 0.1.0.');
-assert.equal(candidate.manifest.version, '0.3.1', 'La ruta de actualización debe medir el candidato 0.3.1.');
+assert.equal(candidate.manifest.version, '0.3.2', 'La ruta de actualización debe medir el candidato 0.3.2.');
 assert.equal(candidate.manifest.core, '0.5.0', 'La release de la app no cambia el núcleo fijado.');
 
 const temporaryBase = await realpath(tmpdir());
@@ -77,7 +77,7 @@ try {
   await execute(previous.installer, ['/S', `/D=${installation}`]);
   assert.equal((await installedManifest()).version, previous.manifest.version, 'La instalación base no contiene 0.1.0.');
   await execute(candidate.installer, ['/S', `/D=${installation}`]);
-  assert.equal((await installedManifest()).version, candidate.manifest.version, 'La actualización no contiene 0.3.1.');
+  assert.equal((await installedManifest()).version, candidate.manifest.version, 'La actualización no contiene 0.3.2.');
   await access(path.join(installation, 'Project Engineering OS.exe'));
   const uninstaller = path.join(installation, 'Uninstall Project Engineering OS.exe');
   await access(uninstaller);

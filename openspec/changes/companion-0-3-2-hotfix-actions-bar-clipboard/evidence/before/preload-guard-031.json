@@ -1,0 +1,10 @@
+{
+  "capturedAt": "2026-09-19T07:17:26.545Z",
+  "source": "a3b1efda6a53501a2a06e277cf0b7f18f11c6bed: apps/companion/desktop/preload.cjs y apps/companion/ui/app.mjs",
+  "check": "La misma expresión que qa/desktop.mjs: operaciones nombradas por el renderer con call(...) o api.<nombre>, frente a la lista del preload.",
+  "preloadMethods": 44,
+  "operationsNamedByRenderer": 61,
+  "notExposed": [
+    "copyText"
+  ]
+}

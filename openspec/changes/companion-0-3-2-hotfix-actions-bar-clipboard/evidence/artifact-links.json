@@ -1,0 +1,140 @@
+{
+  "capturedAt": "2026-09-19T03:58:58.898Z",
+  "scope": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard",
+  "markdownFiles": 10,
+  "relativeLinks": 26,
+  "status": "PASS",
+  "failures": [],
+  "links": [
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/brownfield-baseline.md",
+      "href": "evidence/plan.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/brownfield-baseline.md",
+      "href": "evidence/pre-apply.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/design.md",
+      "href": "brownfield-baseline.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/design.md",
+      "href": "proposal.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/design.md",
+      "href": "tasks.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/design.md",
+      "href": "evidence/plan.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/plan.md",
+      "href": "pre-apply.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/pre-apply.md",
+      "href": "readiness-propose.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/pre-apply.md",
+      "href": "openspec-strict.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/pre-apply.md",
+      "href": "docs.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/pre-apply.md",
+      "href": "neutrality.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/pre-apply.md",
+      "href": "artifact-links.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/pre-apply.md",
+      "href": "archive-preflight.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/pre-apply.md",
+      "href": "issue-142.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/pre-apply.md",
+      "href": "source-provenance.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/pre-apply.md",
+      "href": "../brownfield-baseline.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/pre-apply.md",
+      "href": "../tasks.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/TLDR.md",
+      "href": "proposal.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/TLDR.md",
+      "href": "design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/TLDR.md",
+      "href": "specs/companion-experience/spec.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/TLDR.md",
+      "href": "specs/companion-desktop/spec.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/TLDR.md",
+      "href": "specs/companion-distribution/spec.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/TLDR.md",
+      "href": "tasks.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/TLDR.md",
+      "href": "brownfield-baseline.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/TLDR.md",
+      "href": "evidence/plan.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/TLDR.md",
+      "href": "evidence/pre-apply.md",
+      "exists": true
+    }
+  ]
+}

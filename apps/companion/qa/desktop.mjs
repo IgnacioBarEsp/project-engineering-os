@@ -5,7 +5,7 @@ import path from 'node:path';
 import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 import * as core from 'create-project-engineering-os';
-import { createDesktopService, DESTINATIONS } from '../desktop/service.mjs';
+import { createDesktopService, DESTINATIONS, COPY_TEXT_MAX_BYTES, COPY_REQUEST_MAX_BYTES } from '../desktop/service.mjs';
 
 async function fixture(t,profile='research',options={}) {
   const dir=await realpath(await mkdtemp(path.join(tmpdir(),'companion-desktop-')));
@@ -128,6 +128,48 @@ test('interrupted real engineering transaction can resume or roll back through a
     assert.deepEqual(await readFile(path.join(f.root,'original.txt')),original);
     await assert.rejects(f.service.rollbackEngineering({plan:preview.id}),code('PLAN_UNKNOWN'));
   }
+});
+
+test('copyText writes exactly the text it receives, within both byte limits, and refuses anything else before writing',async t=>{
+  const f=await fixture(t);
+  // The most quotes whose serialized request still fits: each one is escaped to two bytes inside {"text":""}.
+  const quotes=Math.floor((COPY_REQUEST_MAX_BYTES-'{"text":""}'.length)/2);
+  const accepted=['Hola.\n\tUna línea con tabulador: á é í ó ú ñ — 😀\r\nFin.','  espacios alrededor que no se recortan  ',
+    'é'.repeat(COPY_TEXT_MAX_BYTES/2),'"'.repeat(quotes)];
+  for(const text of accepted){
+    assert.deepEqual(await f.service.copyText({text}),{copied:true,bytes:Buffer.byteLength(text),sent:false});
+    assert.equal(f.copied.at(-1),text,'The clipboard receives the text untrimmed and untruncated');
+  }
+  assert.equal(Buffer.byteLength(accepted[2]),COPY_TEXT_MAX_BYTES);
+  assert.equal(Buffer.byteLength(JSON.stringify({text:accepted[3]})),COPY_REQUEST_MAX_BYTES-1);
+  const written=f.copied.length;
+  // A quote is one byte of text and two once serialized, and a control character is one and six: both reach the
+  // request limit while the text itself is still under its own.
+  const refused=['texto',['texto'],null,{},{text:42},{text:''},{text:' \n\t '},{text:'a\0b'},{text:'x',extra:true},
+    {text:'é'.repeat(COPY_TEXT_MAX_BYTES/2)+'a'},{text:'"'.repeat(quotes+1)},{text:''.repeat(11000)}];
+  for(const input of refused)await assert.rejects(f.service.copyText(input),code('INPUT_INVALID'),JSON.stringify(input)?.slice(0,40));
+  assert.equal(f.copied.length,written,'A refused request never reaches the clipboard');
+});
+
+test('a clipboard that refuses the write is reported with its cause and never with the text',async t=>{
+  const f=await fixture(t,'research',{copyText:async()=>{throw Error('native clipboard refused: contenido privado del prompt');}});
+  await assert.rejects(f.service.copyText({text:'contenido privado del prompt'}),error=>error.code==='CLIPBOARD_FAILED'
+    &&!`${error.message} ${error.action}`.includes('contenido privado')&&/portapapeles/.test(error.message)&&!!error.action);
+});
+
+test('the preload exposes exactly the service operations, copyText included, and no way to read the clipboard',async t=>{
+  const f=await fixture(t);
+  const preload=await readFile(new URL('../desktop/preload.cjs',import.meta.url),'utf8');
+  const methods=JSON.parse(preload.match(/const methods = (\[[^\]]*\]);/)[1].replace(/'/g,'"'));
+  assert.deepEqual([...methods].sort(),Object.keys(f.service).sort());
+  assert.ok(methods.includes('copyText'));
+  // 0.3.1 called a copyText the preload never exposed, so the button fell through to a clipboard the window has no
+  // permission for. Every operation the renderer names has to be one the preload hands it.
+  const renderer=await readFile(new URL('../ui/app.mjs',import.meta.url),'utf8');
+  const named=[...renderer.matchAll(/call\('([A-Za-z]+)'/g),...renderer.matchAll(/\bapi\.([A-Za-z]+)/g)].map(match=>match[1]);
+  assert.ok(named.length>20,`The scan found only ${named.length} operations; it has to read the renderer to prove anything`);
+  assert.deepEqual([...new Set(named)].filter(name=>!methods.includes(name)),[],'The renderer calls operations the preload does not expose');
+  assert.ok(!/readText|readHTML|readImage|clipboard/.test(preload),'The preload hands the renderer no clipboard access of its own');
 });
 
 test('runtime status checks share each desktop operation signal, including reopen and post-write status',async t=>{
