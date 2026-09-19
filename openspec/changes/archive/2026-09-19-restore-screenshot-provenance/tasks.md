@@ -32,6 +32,7 @@ Preparación completada y apply autorizado por el mantenedor el 19 de septiembre
 ([decisiones](evidence/maintainer-decisions.md)).
 
 La 5.3 y la 5.4 se cumplen con el commit que archiva el change: strict y el gate de archive se ejecutan justo
-antes, con sus registros en `evidence/`, y la entrega es el PR de esta rama. La revisión de la 5.1 fue una
+antes, con sus registros en `evidence/`, y la entrega es el
+[PR #171](https://github.com/IgnacioBarEsp/project-engineering-os/pull/171). La revisión de la 5.1 fue una
 ronda desde contexto limpio; sus correcciones las verificó quien las hizo, no el revisor, y así consta en
 [la revisión](evidence/adversarial-review.md). Lo que ocurra después del merge queda en el PR.
