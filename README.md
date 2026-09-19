@@ -25,7 +25,7 @@ herramientas. Los archivos y decisiones que ya tienes se revisan antes de añadi
 
 1. Descarga **Companion 0.3.2 para Windows x64** desde [Releases](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.2).
 2. Revisa el archivo e instálalo siguiendo la [guía de instalación](docs/companion/INSTALLER.md). Si ya tenías una versión previa, el instalador te ofrecerá reparar, actualizar o desinstalar de forma limpia.
-3. Abre la app, define el nombre de tu proyecto y selecciona uno de los 7 perfiles canónicos.
+3. Abre la app, escribe el nombre y el objetivo de tu proyecto, elige con qué perfil te identificas y marca qué vas a hacer.
 4. Delimita el tipo específico de tu proyecto y describe tu visión en lenguaje natural. Companion creará `PROJECT_VISION.md` conservando intactos todos tus archivos originales.
 5. Elige entre **Instalación rápida** (en segundo plano) o **"Que mi IA se encargue"** para delegar la configuración a tu IA de confianza mediante el prompt de activación estructurado.
 

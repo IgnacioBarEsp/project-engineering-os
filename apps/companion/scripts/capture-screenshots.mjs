@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
 import { createHash, randomUUID } from 'node:crypto';
-import { mkdir, mkdtemp, realpath, rm, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, mkdtemp, realpath, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -15,10 +15,11 @@ import { portable } from './portable-path.mjs';
 //
 // La carpeta del proyecto es neutra: se crea bajo la carpeta pública de documentos de Windows para que el
 // nombre de la cuenta de quien ejecuta no aparezca en ninguna imagen (la pantalla final muestra la ruta y el
-// Prompt Maestro la incluye). Se borra al terminar.
+// Prompt Maestro la incluye). Se borra al terminar, también si interrumpen la ejecución.
 //
 // El árbol debe estar limpio: el commit que declara cada registro tiene que describir el código que se
-// ejecutó, como exige pack-app.mjs. Las imágenes se escriben en docs/assets/ y se commitean después.
+// ejecutó, como exige pack-app.mjs. Las imágenes se escriben en docs/assets/ y se commitean después, y solo
+// cuando las siete existen: una galería a medias mezclaría capturas de dos commits distintos.
 //
 //   node scripts/capture-screenshots.mjs <directorio-de-evidencia>
 const [output] = process.argv.slice(2);
@@ -38,20 +39,15 @@ const pw = await import(process.env.PROJECT_OS_PLAYWRIGHT_MODULE ? pathToFileURL
 const { _electron } = pw.default ?? pw;
 const executable = path.join(app, 'node_modules', 'electron', 'dist', process.platform === 'win32' ? 'electron.exe' : 'electron');
 
-// Carpeta de proyecto neutra: documentos públicos, compartidos por todas las cuentas.
+// Carpeta de proyecto neutra: documentos públicos, compartidos por todas las cuentas. El nombre se decide
+// aquí, antes de crear nada, para poder rechazarlo sin dejar rastro si no cumple.
 const username = os.userInfo().username.toLowerCase();
 const publicRoot = process.env.PUBLIC ?? 'C:\\Users\\Public';
 const publicDocuments = path.join(publicRoot, 'Documents');
 const project = path.join(publicDocuments, `peos-captura-${randomUUID().slice(0, 8)}`);
 assert(!project.toLowerCase().includes(username), 'La carpeta de proyecto contendría el nombre de la cuenta.');
 assert(path.dirname(project).toLowerCase() === publicDocuments.toLowerCase(), 'La carpeta de proyecto no está en documentos públicos.');
-
-const workspace = await realpath(await mkdtemp(path.join(os.tmpdir(), 'peos-capturas-')));
-const userData = path.join(workspace, 'userdata');
-const localAppData = path.join(workspace, 'localappdata');
-await mkdir(localAppData, { recursive: true });
-await mkdir(project, { recursive: true });
-await writeFile(path.join(project, 'notas.txt'), 'Notas de ejemplo para las capturas de la documentación.\n');
+const temporaryRoot = await realpath(os.tmpdir());
 
 const record = {
   date: new Date().toISOString(),
@@ -77,8 +73,48 @@ const targets = [
   { file: 'docs/assets/companion/proyecto-listo-activacion.png', screen: { id: 'proyecto-listo', title: '¡Tu proyecto está listo para cobrar vida!' } },
 ];
 
-let application;
+let application = null;
+let workspace = null;
+let projectCreated = false;
+
+// Borrar lo que se creó, sin aserciones: una comprobación que falla aquí dejaría la carpeta pública puesta y
+// taparía el error real. Cada borrado comprueba su ruta y, si no cuadra, lo dice en el registro.
+let cleaned = false;
+const cleanup = async () => {
+  if (cleaned) return;
+  cleaned = true;
+  if (application) await application.close().catch(() => {});
+  if (projectCreated) {
+    const expected = path.dirname(project).toLowerCase() === publicDocuments.toLowerCase()
+      && path.basename(project).startsWith('peos-captura-');
+    if (expected) await rm(project, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 }).catch(() => {});
+    else finding(`No se borró la carpeta de proyecto porque su ruta no es la esperada: ${portable(project, [['<public-docs>', publicDocuments]])}`);
+  }
+  if (workspace) {
+    const expected = path.dirname(workspace) === temporaryRoot && path.basename(workspace).startsWith('peos-capturas-');
+    if (expected) await rm(workspace, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 }).catch(() => {});
+    else finding('No se borró el directorio de trabajo porque su ruta no es la esperada.');
+  }
+};
+
+// Ctrl-C durante una ejecución de minutos es lo normal, no la excepción: sin esto quedarían una carpeta
+// pública con el proyecto de ejemplo y el perfil de Electron en el temporal.
+const onSignal = (signal) => { cleanup().finally(() => process.exit(signal === 'SIGINT' ? 130 : 143)); };
+process.once('SIGINT', onSignal);
+process.once('SIGTERM', onSignal);
+
+const staged = [];
 try {
+  workspace = await realpath(await mkdtemp(path.join(os.tmpdir(), 'peos-capturas-')));
+  const userData = path.join(workspace, 'userdata');
+  const localAppData = path.join(workspace, 'localappdata');
+  const stage = path.join(workspace, 'stage');
+  await mkdir(localAppData, { recursive: true });
+  await mkdir(stage, { recursive: true });
+  await mkdir(project, { recursive: true });
+  projectCreated = true;
+  await writeFile(path.join(project, 'notas.txt'), 'Notas de ejemplo para las capturas de la documentación.\n');
+
   application = await _electron.launch({
     executablePath: executable,
     args: ['.', `--user-data-dir=${userData}`],
@@ -127,9 +163,6 @@ try {
     }
     const bytes = await page.screenshot();
     const { width, height } = pngSize(bytes);
-    const absolute = path.join(repo, target.file);
-    await mkdir(path.dirname(absolute), { recursive: true });
-    await writeFile(absolute, bytes);
     const provenance = {
       schemaVersion: 1,
       sha256: createHash('sha256').update(bytes).digest('hex'),
@@ -153,7 +186,11 @@ try {
     const text = JSON.stringify(provenance, null, 2) + '\n';
     assert(!text.toLowerCase().includes(username), `El registro de ${target.file} contiene el nombre de la cuenta.`);
     assert(!/[A-Za-z]:[\\/]/.test(text), `El registro de ${target.file} contiene una ruta absoluta.`);
-    await writeFile(`${absolute}.provenance.json`, text);
+    // A la carpeta de trabajo primero: docs/assets/ solo se toca cuando están las siete.
+    const pending = path.join(stage, `${staged.length}-${path.basename(target.file)}`);
+    await writeFile(pending, bytes);
+    await writeFile(`${pending}.provenance.json`, text);
+    staged.push({ file: target.file, image: pending });
     record.images.push({ file: target.file, ...provenance });
   };
 
@@ -194,21 +231,32 @@ try {
     contentSecurityPolicy: consoleErrors.filter((text) => /Content Security Policy/i.test(text)).length,
     distinct: [...new Set(consoleErrors)].slice(0, 5),
   };
+
+  // Publicar es el último paso y es todo o nada: si el recorrido se cortó antes, la galería publicada se
+  // queda como estaba en lugar de mezclar capturas de dos ejecuciones.
+  for (const item of staged) {
+    const absolute = path.join(repo, item.file);
+    await mkdir(path.dirname(absolute), { recursive: true });
+    await copyFile(item.image, absolute);
+    await copyFile(`${item.image}.provenance.json`, `${absolute}.provenance.json`);
+    record.published = (record.published ?? 0) + 1;
+  }
 } catch (error) {
   finding(`La generación no pudo completarse: ${String(error.message).split('\n')[0].slice(0, 300)}`);
 } finally {
-  if (application) await application.close().catch(() => {});
-  if (path.dirname(project).toLowerCase() === publicDocuments.toLowerCase() && path.basename(project).startsWith('peos-captura-')) {
-    await rm(project, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
-  }
-  assert(path.dirname(workspace) === await realpath(os.tmpdir()) && path.basename(workspace).startsWith('peos-capturas-'));
-  await rm(workspace, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+  await cleanup();
+  process.off('SIGINT', onSignal);
+  process.off('SIGTERM', onSignal);
 }
 
+record.published ??= 0;
 if (record.images.length !== targets.length) {
-  finding(`Se generaron ${record.images.length} de ${targets.length} imágenes.`);
+  finding(`Se capturaron ${record.images.length} de ${targets.length} imágenes.`);
 }
-record.summary = { images: record.images.length, findings: record.findings.length };
+if (record.published !== targets.length) {
+  finding(`Se publicaron ${record.published} de ${targets.length} imágenes; docs/assets/ queda como estaba.`);
+}
+record.summary = { images: record.images.length, published: record.published, findings: record.findings.length };
 await writeFile(path.join(output, 'capture-run.json'), JSON.stringify(record, null, 2) + '\n');
 console.log(JSON.stringify(record.summary, null, 2));
 if (record.findings.length) { console.error(JSON.stringify(record.findings, null, 2)); process.exitCode = 1; }

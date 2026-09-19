@@ -21,17 +21,24 @@ existente».
 
 ![Paso 1 del asistente: nombre del proyecto, perfil, objetivo y el tipo de trabajo, con la barra inferior Inicio y Elegir carpeta](../assets/companion/paso-1-perfil.png)
 
-El indicador marca «01 Tu proyecto» de cuatro pasos. Pide el nombre, el perfil, el objetivo y qué se va a
-hacer. En la captura, el perfil es el que trae por defecto, «Investigador/a», y el nombre y el objetivo son de
-ejemplo. La barra inferior ofrece «Inicio» y «Elegir carpeta →».
+El indicador marca «01 Tu proyecto» de cuatro pasos. Se ven el nombre, «¿Con qué perfil te identificas?» —seis
+roles, aquí el que trae por defecto, «Investigador/a»— y «¿Qué quieres lograr?»; el nombre y el objetivo son de
+ejemplo. Debajo empieza «¿Qué vas a hacer?», cuyas tarjetas corta el borde inferior: esa elección, y no el rol,
+es la que queda como perfil del proyecto. Fuera del encuadre siguen tres grupos más, que la captura no muestra:
+la tecnología, la IA con la que vas a trabajar y cuánta guía prefieres. La barra inferior ofrece «Inicio» y
+«Elegir carpeta →».
 
 ## 3. Paso 2: delimitación
 
 ![Delimitación: tarjeta de la carpeta elegida y tarjetas de subtipo de proyecto, con la primera seleccionada](../assets/companion/paso-2-delimitacion.png)
 
-El indicador marca «02 Carpeta», después de elegir la carpeta del proyecto, que aparece en su tarjeta. Las
-tarjetas de subtipo afinan las recomendaciones del perfil elegido. La barra inferior ofrece «Volver» y
-«Paso 3: Visión y Descripción →».
+El indicador marca «02 Carpeta», después de elegir la carpeta del proyecto, que aparece en su tarjeta con la
+ruta pública que creó esta captura. El subtítulo dice «Elige el subtipo para Investigación para ajustar las
+recomendaciones», pero las tarjetas que ofrece son las de software: «Plataforma Web / SaaS», «Página Web o
+Landing», «Aplicación Móvil» y, cortada por el borde, «Prototipo o Arquitectura Propia». La primera aparece
+marcada sin que nadie la eligiera. No es un recorte de la captura, es un defecto abierto:
+[issue #145](https://github.com/IgnacioBarEsp/project-engineering-os/issues/145). La barra inferior ofrece
+«Volver» y «Paso 3: Visión y Descripción →».
 
 ## 4. Paso 3: visión y descripción
 
@@ -65,6 +72,10 @@ que ejecutó.
   [issue #144](https://github.com/IgnacioBarEsp/project-engineering-os/issues/144), y la captura lo muestra tal
   cual.
 - **Las dos formas de instalar** hacen lo mismo: [issue #147](https://github.com/IgnacioBarEsp/project-engineering-os/issues/147).
+- **Subtipos que no corresponden al perfil** en el paso 2: con el perfil «Investigación», la pantalla pide
+  elegir «el subtipo para Investigación» y ofrece los de software, con el primero ya marcado. Es lo que rehace
+  el [issue #145](https://github.com/IgnacioBarEsp/project-engineering-os/issues/145), y la captura lo muestra
+  tal cual.
 
 ## Procedencia
 

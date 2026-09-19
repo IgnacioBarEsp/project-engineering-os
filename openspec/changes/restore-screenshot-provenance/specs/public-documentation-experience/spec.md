@@ -6,7 +6,9 @@ y entorno. SHALL conservar alt text útil y texto Markdown para información ese
 Cada imagen publicada como captura del producto SHALL tener junto a ella un registro de procedencia legible
 por máquina con commit, versión de la aplicación, motor, viewport, generador, fecha y SHA-256. Una
 comprobación automática de la documentación SHALL rechazar la imagen si ese registro falta, si no coincide
-con sus bytes o si contiene una ruta de usuario.
+con sus bytes o sus dimensiones, o si contiene una ruta de usuario. Esa comprobación SHALL alcanzar toda
+imagen publicada en la carpeta de capturas del producto, sin lista de archivos, SHALL fallar si no encuentra
+ninguna que comprobar, y SHALL contrastar el entorno que declara el texto publicado con el de los registros.
 
 #### Scenario: El renderer actual se prueba en un navegador
 - **WHEN** la captura usa el renderer real con transporte nativo sustituido para pruebas
@@ -19,8 +21,17 @@ con sus bytes o si contiene una ruta de usuario.
 - **AND** la imagen muestra la ventana tal como la renderiza esa versión, con sus defectos conocidos y sin retoques
 
 #### Scenario: Una imagen publicada no tiene procedencia válida
-- **WHEN** una imagen bajo `docs/assets/companion` o `docs/assets/companion-current-home.png` carece de registro, su SHA-256 difiere del registrado o el registro contiene una ruta de usuario
+- **WHEN** una imagen publicada en la carpeta de capturas del producto carece de registro, su SHA-256 o sus dimensiones difieren de las registradas, o el registro contiene una ruta de usuario
 - **THEN** la comprobación de documentación falla y nombra la imagen y la causa
+- **AND** ocurre igual con una imagen nueva, en otra subcarpeta o en otro formato, sin tocar la comprobación
+
+#### Scenario: El texto publicado y los registros no dicen lo mismo
+- **WHEN** los registros declaran un motor o una forma de ejecutar que la galería publicada no menciona, o las imágenes publicadas proceden de commits distintos
+- **THEN** la comprobación de documentación falla y nombra lo que no coincide
+
+#### Scenario: No queda ninguna captura publicada que comprobar
+- **WHEN** las imágenes se mueven o se borran y la comprobación no encuentra ninguna
+- **THEN** falla en lugar de pasar por vacío
 
 ## ADDED Requirements
 

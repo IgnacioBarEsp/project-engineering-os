@@ -30,8 +30,8 @@ export function guidanceContractFailures(files, imageHash) {
   if (new Set(releaseTags).size !== 1 || !status.includes(`/releases/tag/${releaseTags[0]})`)) failures.push('release identity');
   if (!/Revisión: \*\*\d{1,2} de [a-záéíóú]+ de \d{4}\*\*/.test(status) || !status.includes('pendientes de instalador') ||
     !status.includes('Núcleo CLI') || !status.includes('Nueva landing')) failures.push('delivery distinction');
-  // El entorno declarado debe coincidir con el que produce las capturas. Si volvieran a generarse en
-  // navegador, esta regla obligaría a declararlo: no puede decir «ventana real» una imagen que no lo es.
+  // El entorno declarado debe estar escrito. Que además sea cierto lo comprueba screenshot-provenance.mjs,
+  // que exige que el motor y la forma de ejecutar de los registros aparezcan en esta misma página.
   if (!/\/tree\/[a-f0-9]{40}\)/.test(captures) || !captures.includes('ventana real de la aplicación') ||
     !captures.includes('No es una captura del instalador') || !captures.includes('Ejecución UTC')) failures.push('capture provenance');
   if (!/^[a-f0-9]{64}$/.test(imageHash ?? '') || !captures.includes(`\`${imageHash}\``)) failures.push('capture hash');

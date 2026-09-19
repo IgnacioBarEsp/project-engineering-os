@@ -86,17 +86,23 @@ imágenes de `docs/assets/companion/` y `docs/assets/companion-current-home.png`
 estas cosas:
 
 - **Registro:** falta, no es JSON o le falta un campo o el formato de alguno.
-- **Bytes:** el SHA-256 o el tamaño no coinciden con la imagen.
+- **Bytes:** el SHA-256, el tamaño o las dimensiones del IHDR no coinciden con la imagen.
 - **Generador:** no existe en el repositorio.
 - **Privacidad:** el registro contiene una ruta de usuario.
 - **Prototipos:** la imagen es idéntica a una de `docs/stitch uxui/`.
+- **Alcance:** no hay ninguna imagen publicada que comprobar, o las que hay declaran commits distintos.
+- **Texto publicado:** la galería no cita el commit, el motor o la forma de ejecutar que dicen los registros.
 
-Cada fallo nombra la imagen y la causa. Las pruebas cubren cada rechazo con un fixture temporal y el
-repositorio real en verde.
+El alcance es la carpeta publicada, no una lista de archivos: cualquier imagen bajo `docs/assets/companion*`,
+a cualquier profundidad y en cualquier formato, necesita su registro. Cada fallo nombra la imagen y la causa.
+Las pruebas cubren cada rechazo con un fixture temporal y el repositorio real en verde.
 
 `public-guidance.mjs` deja de exigir «renderer real en navegador». Pasa a exigir «ventana real de la
-aplicación», el texto que describe el entorno nuevo, y mantiene el resto de sus reglas. Así, si las capturas
-volvieran a ser de navegador, la prueba obligaría a declararlo.
+aplicación», el texto que describe el entorno nuevo, y mantiene el resto de sus reglas. Esa regla por sí sola
+no puede saber si la frase es cierta: solo exige que esté escrita. Lo que la ata a los hechos es la
+comprobación de procedencia, que exige que el motor y el `ran` de los registros aparezcan en la galería. Si las
+capturas volvieran a generarse en un navegador, sus registros lo dirían y el texto publicado tendría que
+decirlo también, o `check:docs` falla.
 
 ### 5. Mocks rotulados, no movidos
 
