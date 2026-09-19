@@ -1,12 +1,15 @@
 # Validación — restore-screenshot-provenance
 
-Ejecutada el 19 de septiembre de 2026 por dos agentes: el que implementó la comprobación y generó las capturas
-(opencode) y el que cerró el change (Claude Opus 5 en Claude Code). Ninguna persona ejecutó ni revisó estas
-comprobaciones. Las decisiones que las enmarcan son del mantenedor y están en
-[decisiones](maintainer-decisions.md).
+Ejecutada el 19 de septiembre de 2026 por tres agentes: el que implementó la comprobación y generó las primeras
+capturas (opencode), el que revisó desde contexto limpio y el que cerró el change (los dos, Claude Opus 5 en
+Claude Code). Ninguna persona ejecutó ni revisó estas comprobaciones. Las decisiones que las enmarcan son del
+mantenedor y están en [decisiones](maintainer-decisions.md); los hallazgos de la revisión y cómo quedaron, en
+[revisión adversarial](adversarial-review.md).
 
-- **Capturas:** generadas desde `d744c47`, con el árbol limpio, en la ventana real de Electron.
-- **Comprobaciones y documentación:** medidas en `1b37743`.
+- **Capturas:** generadas desde `d744c47`, con el árbol limpio, en la ventana real de Electron. Se rehicieron
+  ahí porque la revisión endureció el generador y sus registros tenían que seguir describiendo el código que
+  las produjo.
+- **Comprobaciones y documentación:** medidas en `e5ac741`.
 - **Equipo:** Windows 11 IoT Enterprise LTSC 2024, x64, con Node 24.18.0 y Electron 44.1.1 (Chromium 152).
 
 ## Resultado por validación
@@ -19,11 +22,11 @@ comprobaciones. Las decisiones que las enmarcan son del mantenedor y están en
 | `findability-two-hop-check` | README → [galería](../../../../docs/companion/SCREENSHOTS.md); README → [estado](../../../../docs/PROJECT_STATUS.md) | [artifact-links.json](artifact-links.json) |
 | `neutrality-check` | PASS | [neutrality.json](neutrality.json) |
 
-`npm run check` completo: 334/334 pruebas y todos los checks en PASS ([check.json](after/check.json)).
+`npm run check` completo: 341/341 pruebas y todos los checks en PASS ([check.json](after/check.json)).
 
 ## Antes y después
 
-| Medida | `eefa1bc`, [antes](before/mock-identity.json) | `1b37743`, después |
+| Medida | `eefa1bc`, [antes](before/mock-identity.json) | `e5ac741`, después |
 | --- | --- | --- |
 | Imágenes publicadas como producto | 7 | 7 |
 | Idénticas byte a byte a un mock de Stitch | 7 | 0 |
@@ -34,8 +37,9 @@ comprobaciones. Las decisiones que las enmarcan son del mantenedor y están en
 
 Siete imágenes de 1164 × 755 px CSS, tomadas en la ventana por defecto de la aplicación (1180 × 820) con
 `devicePixelRatio` 1, ejecutando `electron .` sobre `d744c47` con Companion 0.3.2. El registro de la ejecución
-es [capture-run.json](after/captures/capture-run.json): 7 imágenes, 0 hallazgos y 7 errores de consola, todos
-de la CSP por los estilos en línea previos (#144).
+es [capture-run.json](after/captures/capture-run.json): 7 imágenes capturadas, 7 publicadas, 0 hallazgos y 7
+errores de consola, todos de la CSP por los estilos en línea previos (#144). El generador publica todo o nada:
+escribe en una carpeta de trabajo y solo copia a `docs/assets/` cuando están las siete.
 
 | Imagen | Pantalla | SHA-256 |
 | --- | --- | --- |
@@ -51,9 +55,10 @@ de la CSP por los estilos en línea previos (#144).
 al terminar, así que ninguna imagen muestra el nombre de la cuenta. El generador aborta si el registro contiene
 el nombre de usuario o una ruta absoluta, y los datos de la aplicación van a un directorio temporal aislado.
 
-**Inspección visual:** [inspection.md](after/inspection.md). La hicieron dos agentes; la segunda pasada abrió
-seis de las siete imágenes y corrigió dos observaciones de la primera, sobre el editor de Visión y el perfil
-del paso 1.
+**Inspección visual:** [inspection.md](after/inspection.md). Tres pasadas de dos agentes; la segunda corrigió
+dos observaciones de la primera, sobre el editor de Visión y el perfil del paso 1, y la tercera abrió las siete
+imágenes republicadas y añadió lo que ninguna decía: lo que el paso 1 deja fuera del encuadre y los subtipos
+que no corresponden al perfil en el paso 2 (#145).
 
 ## La comprobación
 
@@ -64,8 +69,7 @@ del paso 1.
 - el SHA-256, el tamaño o las dimensiones del registro no coinciden con los bytes;
 - el generador que declara no existe en el repositorio o apunta fuera de él;
 - el registro contiene una ruta de usuario;
-- la imagen es idéntica a una de `docs/stitch uxui/`.
-
+- la imagen es idéntica a una de `docs/stitch uxui/`;
 - no hay ninguna imagen publicada que comprobar, o las que hay declaran commits distintos;
 - la galería no cita el commit, el motor o la forma de ejecutar que declaran los registros.
 
@@ -84,7 +88,7 @@ también, o `check:docs` falla.
 
 - **[Galería](../../../../docs/companion/SCREENSHOTS.md):** describe cada pantalla por su encabezado,
   indicador de paso y controles visibles; dice qué queda fuera del encuadre; enumera procedencia y hashes; y
-  nombra los defectos abiertos que se ven (#144) o que la pantalla afirma (#147).
+  nombra los defectos abiertos que se ven (#144, #145) o que la pantalla afirma (#147).
 - **README:** muestra la ventana real de 0.3.2 con su commit y mantiene «No es una captura del instalador».
 - **[Índice de documentación](../../../../docs/README.md):** su promesa de imágenes reales pasa a ser cierta.
 - **[Estado](../../../../docs/PROJECT_STATUS.md):** deja de decir que las capturas son del prototipo y enlaza
@@ -98,9 +102,11 @@ diseño y los rehace #144. Ningún documento afirma hoy algo que las imágenes o
 
 ## Rollback
 
-[rollback.json](after/rollback.json): en un árbol de trabajo aparte, revertir los commits del change aplica sin
-conflictos, devuelve las siete imágenes byte a byte a las de `eefa1bc`, retira registros, script y rótulo, y
-deja el árbol sin diferencias frente a `eefa1bc`, con `check-docs` y `check-neutrality` en verde.
+[rollback.json](after/rollback.json): en un árbol de trabajo aparte, revertir `eefa1bc..e5ac741` aplica sin
+conflictos, devuelve las siete imágenes byte a byte a las de `eefa1bc`, retira registros, generador,
+comprobación, pruebas y rótulo, y deja el árbol sin diferencias frente a `eefa1bc`, con `check-docs` y
+`check-neutrality` en verde: 5 comprobaciones, 5 en verde, 0 hallazgos. El ensayo se rehízo sobre el rango
+final; los commits posteriores del change solo añaden evidencia bajo `openspec/changes/`.
 
 Revertir recupera la publicación anterior, con sus mocks: eso es el defecto que este change corrige, no un
 estado bueno al que volver salvo por emergencia.

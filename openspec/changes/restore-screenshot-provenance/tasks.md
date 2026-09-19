@@ -25,8 +25,13 @@
 
 - [x] 5.1 Pasar la revisión adversarial desde contexto limpio y resolver sus Blockers y Majors.
 - [x] 5.2 Capturar el assessment de deuda después de la última pasada de revisión.
-- [ ] 5.3 Sustituir los estados pendientes de readiness solo con evidencia ejecutada, y pasar strict y el gate de archive con `--run-local`.
-- [ ] 5.4 Archivar con el CLI local, corregir los enlaces del change archivado, firmar los commits con DCO y entregar por PR protegido. La integración queda sujeta a la CI requerida y a la decisión del mantenedor.
+- [x] 5.3 Sustituir los estados pendientes de readiness solo con evidencia ejecutada, y pasar strict y el gate de archive con `--run-local`.
+- [x] 5.4 Archivar con el CLI local, corregir los enlaces del change archivado, firmar los commits con DCO y entregar por PR protegido. La integración queda sujeta a la CI requerida y a la decisión del mantenedor.
 
 Preparación completada y apply autorizado por el mantenedor el 19 de septiembre de 2026
 ([decisiones](evidence/maintainer-decisions.md)).
+
+La 5.3 y la 5.4 se cumplen con el commit que archiva el change: strict y el gate de archive se ejecutan justo
+antes, con sus registros en `evidence/`, y la entrega es el PR de esta rama. La revisión de la 5.1 fue una
+ronda desde contexto limpio; sus correcciones las verificó quien las hizo, no el revisor, y así consta en
+[la revisión](evidence/adversarial-review.md). Lo que ocurra después del merge queda en el PR.

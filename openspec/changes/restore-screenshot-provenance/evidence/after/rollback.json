@@ -1,22 +1,22 @@
 {
-  "date": "2026-09-19T22:02:02.783Z",
+  "date": "2026-09-19T23:06:39.526Z",
   "method": "git worktree aparte en una ruta corta, git revert --no-commit de los commits del change sobre HEAD, y comprobaciones en el árbol revertido. No se tocó la rama ni el árbol de trabajo principal.",
-  "range": "eefa1bc..1b377431356d61ac9ea3db11cfb164f6605c9785",
+  "range": "eefa1bc..e5ac741877eb83919f69eee1f4723ef34bbcf81f",
   "steps": [
     {
       "name": "El revert de los commits del change aplica sin conflictos",
       "ok": true,
-      "detail": "exit 0, 49 rutas revertidas"
+      "detail": "exit 0, 53 rutas revertidas"
     },
     {
-      "name": "Las siete imágenes vuelven byte a byte a las de eefa1bc",
+      "name": "Las 7 imágenes vuelven byte a byte a las de eefa1bc",
       "ok": true,
       "detail": "7 de 7 con el mismo SHA-256"
     },
     {
-      "name": "Desaparecen los registros de procedencia, el script de comprobación y el rótulo del prototipo",
+      "name": "Desaparecen los registros de procedencia, el generador, la comprobación y el rótulo del prototipo",
       "ok": true,
-      "detail": "0 provenance.json; scripts/screenshot-provenance.mjs y docs/stitch uxui/README.md ausentes"
+      "detail": "0 provenance.json; presentes: ninguno"
     },
     {
       "name": "El árbol revertido no difiere de eefa1bc",
@@ -26,7 +26,7 @@
     {
       "name": "check-docs y check-neutrality pasan en el árbol revertido",
       "ok": true,
-      "detail": "PASS docs 25 README links; PASS public tree neutrality"
+      "detail": "PASS docs 25 README links, prompt contract and 20 spec purposes; PASS public tree neutrality and export allowlist"
     }
   ],
   "findings": [],

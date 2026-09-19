@@ -1,10 +1,21 @@
 {
-  "capturedAt": "2026-09-19T19:41:52.254Z",
-  "scope": "openspec/changes/restore-screenshot-provenance",
-  "markdownFiles": 9,
-  "relativeLinks": 36,
+  "capturedAt": "2026-09-19T23:02:50.856Z",
+  "scope": "openspec/changes/restore-screenshot-provenance, README.md, docs/README.md, docs/PROJECT_STATUS.md, docs/companion/SCREENSHOTS.md, docs/stitch uxui/README.md",
+  "markdownFiles": 17,
+  "relativeLinks": 170,
   "status": "PASS",
   "failures": [],
+  "findability": {
+    "readmeToGallery": true,
+    "readmeToStatus": true,
+    "statusToGallery": true,
+    "galleryToPrototypes": true,
+    "paths": [
+      "README.md → docs/companion/SCREENSHOTS.md",
+      "README.md → docs/PROJECT_STATUS.md → docs/companion/SCREENSHOTS.md"
+    ],
+    "status": "PASS"
+  },
   "links": [
     {
       "source": "openspec/changes/restore-screenshot-provenance/brownfield-baseline.md",
@@ -39,6 +50,51 @@
     {
       "source": "openspec/changes/restore-screenshot-provenance/design.md",
       "href": "proposal.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/adversarial-review.md",
+      "href": "../../../../CONTRIBUTING.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/adversarial-review.md",
+      "href": "maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/adversarial-review.md",
+      "href": "../../../../README.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/adversarial-review.md",
+      "href": "../../../../docs/companion/SCREENSHOTS.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/adversarial-review.md",
+      "href": "../design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/adversarial-review.md",
+      "href": "../design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/adversarial-review.md",
+      "href": "validation.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/adversarial-review.md",
+      "href": "after/check.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/after/inspection.md",
+      "href": "captures/capture-run.json",
       "exists": true
     },
     {
@@ -137,12 +193,112 @@
       "exists": true
     },
     {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "openspec-strict.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "docs.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "artifact-links.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "../../../../docs/companion/SCREENSHOTS.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "../../../../docs/PROJECT_STATUS.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "artifact-links.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "neutrality.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "after/check.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "before/mock-identity.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "after/captures/capture-run.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "after/inspection.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "../../../../docs/companion/SCREENSHOTS.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "../../../../docs/README.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "../../../../docs/PROJECT_STATUS.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "../../../../docs/stitch%20uxui/README.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/validation.md",
+      "href": "after/rollback.json",
+      "exists": true
+    },
+    {
       "source": "openspec/changes/restore-screenshot-provenance/proposal.md",
       "href": "evidence/maintainer-decisions.md",
       "exists": true
     },
     {
       "source": "openspec/changes/restore-screenshot-provenance/proposal.md",
+      "href": "evidence/maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/tasks.md",
+      "href": "evidence/maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/tasks.md",
+      "href": "evidence/readiness-propose.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/tasks.md",
       "href": "evidence/maintainer-decisions.md",
       "exists": true
     },
@@ -184,6 +340,531 @@
     {
       "source": "openspec/changes/restore-screenshot-provenance/TLDR.md",
       "href": "evidence/maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/USER_GUIDE.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/README.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/PROJECT_STATUS.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/companion/INSTALLER.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/PROJECT_STATUS.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/assets/companion-current-home.png",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/companion/SCREENSHOTS.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/USER_GUIDE.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/UPSTREAM_OPERATIONS.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/TOOL_CATALOG.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/COMPATIBILITY.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/prompts/PROMPT_ROUTER_INICIO.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/prompts/PROMPT_01_DISCOVERY_PROYECTO.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/CLI_GUIDE.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/RECOVERY.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/REPOSITORY_MAP.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/companion/SECURITY.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "apps/companion/THIRD-PARTY-NOTICES.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/companion/EVIDENCE.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "CONTRIBUTING.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/RELEASES.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/architecture/OWNERSHIP.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/DEBT_CONTROL.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/PROJECT_STATUS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "USER_GUIDE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "PROJECT_STATUS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "companion/DESKTOP.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "companion/ENVIRONMENT.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "companion/INSTALLER.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "companion/EVIDENCE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "companion/HOSTED_INFERENCE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "companion/GLOSSARY.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "companion/COLD_READING.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "CLI_GUIDE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "ONBOARDING_PLAN.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "prompts/PROMPT_ROUTER_INICIO.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "GUIA_MANUAL_USUARIO.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "prompts/PROMPT_01_DISCOVERY_PROYECTO.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "EXISTING_PROJECTS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "ISOLATED_TOOLCHAIN.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "UPSTREAM_OPERATIONS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "PROJECT_OS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "ADAPTIVE_ONBOARDING.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "ONBOARDING_PLAN.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "TOOL_CATALOG.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "DEBT_CONTROL.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "SPEC_PURPOSE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "architecture/OWNERSHIP.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "REPOSITORY_MAP.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "UPSTREAM_CONSUMERS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "SELF_APPLICATION.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "RECOVERY.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "COMPATIBILITY.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "PATH_RULES.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "INSTALL_HARDENING.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "architecture/VERSIONING.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "RELEASES.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "companion/SCREENSHOTS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "COSTS_AND_LICENSES.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "security/SUPPLY_CHAIN_TRIAGE_2026-08-18.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "adr/0001-public-distribution.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "adr/0002-package-manager-supply-chain.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "USER_GUIDE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "ONBOARDING_PLAN.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "prompts/PROMPT_ROUTER_INICIO.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "prompts/PROMPT_01_DISCOVERY_PROYECTO.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "RECOVERY.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "COMPATIBILITY.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "ADAPTIVE_ONBOARDING.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "TOOL_CATALOG.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "SPEC_PURPOSE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "DEBT_CONTROL.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "adr/0002-package-manager-supply-chain.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "SELF_APPLICATION.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "../apps/companion/RELEASE_NOTES_0.3.2.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "../apps/companion/package.json",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "../site/index.html",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "../openspec/changes/archive/2026-09-19-companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "../apps/companion/RELEASE_NOTES_0.3.2.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "companion/SCREENSHOTS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "stitch%20uxui/",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "companion/EVIDENCE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "companion/COLD_READING.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "RELEASES.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "USER_GUIDE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "REPOSITORY_MAP.md",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/SCREENSHOTS.md",
+      "href": "../stitch%20uxui/",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/SCREENSHOTS.md",
+      "href": "../assets/companion/home-companion.png",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/SCREENSHOTS.md",
+      "href": "../assets/companion/paso-1-perfil.png",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/SCREENSHOTS.md",
+      "href": "../assets/companion/paso-2-delimitacion.png",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/SCREENSHOTS.md",
+      "href": "../assets/companion/paso-3-vision.png",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/SCREENSHOTS.md",
+      "href": "../assets/companion/paso-4-instalacion.png",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/SCREENSHOTS.md",
+      "href": "../assets/companion/proyecto-listo-activacion.png",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/SCREENSHOTS.md",
+      "href": "../assets/companion/home-companion.png",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/SCREENSHOTS.md",
+      "href": "../assets/companion-current-home.png",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/SCREENSHOTS.md",
+      "href": "../assets/companion/paso-1-perfil.png",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/SCREENSHOTS.md",
+      "href": "../assets/companion/paso-2-delimitacion.png",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/SCREENSHOTS.md",
+      "href": "../assets/companion/paso-3-vision.png",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/SCREENSHOTS.md",
+      "href": "../assets/companion/paso-4-instalacion.png",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/SCREENSHOTS.md",
+      "href": "../assets/companion/proyecto-listo-activacion.png",
+      "exists": true
+    },
+    {
+      "source": "docs/stitch uxui/README.md",
+      "href": "../companion/SCREENSHOTS.md",
       "exists": true
     }
   ]
