@@ -8,7 +8,7 @@ OpenSpec instalado y fijado: 1.6.0. No existía otro change activo antes de crea
 
 | Fuente | Observación relevante |
 | --- | --- |
-| `apps/companion/ui/app.css:116–124` | `.enter` se anima con transform/forwards; acciones fixed y padding de 145 px; reduce desactiva animación. |
+| `apps/companion/ui/app.css:116–124` | `.enter` se anima con transform/forwards; acciones fixed y un padding de 145 px que la especificidad de `main#content` anula; reduce desactiva animación. |
 | `apps/companion/ui/app.css:2–25`, `ui/index.html` | Scroll del documento, main en flujo; no hay contenedor de scroll independiente que reutilizar. |
 | `apps/companion/ui/app.mjs:107–112` | `run` muestra errores, `call` lee envelope; render envuelve en `.enter` y omite install/finished de navegación activa. |
 | `apps/companion/ui/app.mjs:584–608` | Dos handlers finales llaman directamente a api.copyText o navigator.clipboard y usan catch vacío. |

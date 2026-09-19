@@ -527,6 +527,12 @@ export function reachProblems(report, { primary = [], bar: expectBar = false } =
   if (!expectBar) return problems;
   const { bar, end } = report;
   if (!bar) return [...problems, 'no se encontró la barra final del asistente'];
+  // Sticky wherever the window is not small. The stylesheet leaves the bar static only at 500 px of height or 380 of
+  // width and below, where a bar that stays on screen would take too much of it; everywhere else a static bar is
+  // the defect of a long screen whose actions appear only at its end.
+  if (report.viewport.height > 500 && report.viewport.width > 380 && bar.position !== 'sticky') {
+    problems.push(`la barra final no es sticky (${bar.position}) en una ventana de ${round(report.viewport.width)} × ${round(report.viewport.height)} px`);
+  }
   if (bar.spill > 1) problems.push(`los controles de la barra final se salen de ella ${round(bar.spill)} px (mide ${round(bar.width)} × ${round(bar.height)} px)`);
   if (end.lastContentBottom > bar.top + 1) {
     problems.push(`al final del recorrido la barra tapa contenido: ${end.lastContent} termina en ${round(end.lastContentBottom)} px y la barra empieza en ${round(bar.top)} px`);

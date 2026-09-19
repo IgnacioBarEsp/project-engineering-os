@@ -20,7 +20,7 @@ Action rows inside installation cards SHALL remain local to their cards.
 - **AND** ordinary spacing and visible status messages SHALL remain distinguishable from dead scroll space
 
 #### Scenario: The window is small or zoomed
-- **WHEN** the wizard is shown in a window at most 500 px tall or 380 px wide, such as the default window at 200 % zoom
+- **WHEN** the wizard is shown in a window at most 500 px tall or 380 px wide, such as the default window at 200 % zoom or the minimum window
 - **THEN** every expected field and action SHALL remain reachable by scrolling and resolve to itself at its visible center
 - **AND** the page SHALL not need horizontal scrolling
 
@@ -51,13 +51,18 @@ provisioned, because neither installation choice installs any in this version.
 ### Requirement: A multi-line vision does not stop the wizard
 The wizard SHALL send the vision with its line breaks and SHALL derive the objective sent with the preparation
 as a single line of at most 500 characters, so that a suggestion or a typed line break never makes the
-installation fail.
+installation fail. When the vision leaves no text for the objective, the objective already chosen SHALL be kept.
 
 #### Scenario: A suggestion or a line break is added to the vision
 - **WHEN** a person adds a suggestion or types a line break in the vision and then chooses either installation
 - **THEN** the preparation SHALL be accepted and the completion screen SHALL be reached
 - **AND** PROJECT_VISION.md SHALL keep every line of the vision the person wrote
 - **AND** the objective recorded by the preparation SHALL contain no line break and at most 500 characters
+
+#### Scenario: The vision leaves no text for the objective
+- **WHEN** a person empties the vision or leaves only a heading mark in it and then chooses an installation
+- **THEN** the preparation SHALL be accepted and the completion screen SHALL be reached
+- **AND** the objective recorded by the preparation SHALL be the one chosen in the first step
 
 ### Requirement: Wizard navigation reflects all current screens
 The preparation navigation item SHALL declare aria-pressed true on setup, folder, delimitation, vision,

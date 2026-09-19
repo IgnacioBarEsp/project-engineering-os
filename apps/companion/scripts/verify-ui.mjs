@@ -89,7 +89,10 @@ const checkAccessibility=checkScreen;
 // the three window sizes of the maintainer's report, each once more with reduced motion for comparison, and once
 // per installation choice so that both are clicked. The five-profile journey further down still walks the review
 // route with reduced motion; this one exists because that one never saw the wizard break.
-const WIZARD_VIEWPORTS=[[1180,820],[1160,810],[1040,700]],MOTIONS=['no-preference','reduce'];
+// The two small windows are the viewports the real window gives, measured in Electron 44 on Windows 11: the default
+// 1180 × 820 window leaves 1164 × 755 CSS px, so at 200 % zoom 582 × 377, and the minimum 480 × 540 window leaves
+// 464 × 475. At 500 px of height and below the bar is static by design, and everything still has to be reachable.
+const WIZARD_VIEWPORTS=[[1180,820],[1160,810],[1040,700],[582,377],[464,475]],MOTIONS=['no-preference','reduce'];
 const INSTALL={quick:'Instalar stack base y obtener prompt →',ai:'Preparar carpeta y generar prompt maestro →'};
 const PRIMARY={setup:['Inicio','Elegir carpeta →'],'folder-empty':['Volver','Buscar carpeta en este equipo'],
   folder:['Cambiar carpeta','Ver mi proyecto','Volver','Continuar a delimitación →','Revisar preparación →'],
@@ -97,9 +100,9 @@ const PRIMARY={setup:['Inicio','Elegir carpeta →'],'folder-empty':['Volver','B
   install:['Volver',...Object.values(INSTALL)],finished:['Copiar ruta','Copiar Prompt Maestro','Ver mi proyecto','Tus proyectos']};
 const WIZARD_SCREENS=Object.keys(PRIMARY),WITH_BAR=new Set(WIZARD_SCREENS.filter(screen=>screen!=='finished'));
 const wizard={date:new Date().toISOString(),
-  scope:'Renderer real y servicio real en el navegador; selector de carpeta, portapapeles y apertura externa inyectados. Asistente vigente en tres ventanas, con movimiento normal y reducido y con las dos formas de instalar.',
+  scope:'Renderer real y servicio real en el navegador; selector de carpeta, portapapeles y apertura externa inyectados. Asistente vigente en las tres ventanas del informe y en las dos ventanas pequeñas de la aplicación real (por defecto con zoom al 200 % y mínima), con movimiento normal y reducido y con las dos formas de instalar.',
   viewports:WIZARD_VIEWPORTS.map(([width,height])=>`${width}x${height}`),motions:MOTIONS,branches:Object.keys(INSTALL),
-  matrix:[],copies:[],problems:[]};
+  matrix:[],copies:[],withoutText:[],problems:[]};
 // Settled means the operation finished and the entry animation stopped running. Infinite decorative animations are
 // not waited for, and nothing is disabled to make the wait shorter.
 const settle=page=>page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')!=='true'
@@ -133,6 +136,8 @@ async function walkWizard(width,height,motion,branch){
     for(const entry of a11y.headingOrder)problems.push(`${screen}: encabezados ${entry}`);
     for(const control of names.unnamed)problems.push(`${screen}: control sin nombre accesible ${control}`);
     if(!a11y.measured||!a11y.focusable)problems.push(`${screen}: la comprobación de accesibilidad no examinó nada`);
+    const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
+    if(overflow>1)problems.push(`${screen}: la página necesita desplazamiento horizontal (${overflow} px)`);
     for(const [action,value] of Object.entries(report.nav)){
       if(value!==String(action==='prepare-project'))problems.push(`${screen}: la navegación «${action}» declara aria-pressed="${value}"`);
     }
@@ -271,10 +276,49 @@ async function walkWizard(width,height,motion,branch){
     await context.close();
   }
 }
+// A vision that leaves no text for the objective, a lone heading mark or an emptied editor, keeps the objective chosen
+// in the first step. Deriving the objective from such a vision gave an empty one, which stops the installation.
+async function walkVisionWithoutText(draft){
+  const tag=draft?`visión «${draft}»`:'visión vacía',root=path.join(temp,`wizard-vision-${draft?'heading':'empty'}`);
+  await mkdir(root);await writeFile(path.join(root,'nota.txt'),'Nota de prueba.\n');
+  const service=await createDesktopService({dataRoot:root+'-history',core,environment:null,chooseFolder:async()=>root,copyText:()=>{},openExternal:()=>{}});
+  const context=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'}),page=await context.newPage();
+  const problems=[],errors=[],goal='Un objetivo elegido en el primer paso';
+  page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(30000);
+  await page.exposeFunction('qaCall',async(name,input)=>{
+    if(!Object.hasOwn(service,name))return {ok:false,error:{message:'Unknown method'}};
+    try{return {ok:true,value:await service[name](input)};}catch(e){return {ok:false,error:publicError(e)};}
+  });
+  await page.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>window.qaCall(name,input??{})]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
+  const go=async(button,heading)=>{await page.getByRole('button',{name:button,exact:true}).click({timeout:5000});await settle(page);await page.getByRole('heading',{name:heading,exact:true}).waitFor({timeout:10000});};
+  try{
+    await page.goto(url);
+    await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
+    await page.getByLabel('Nombre de tu proyecto').fill('Visión sin texto');await page.getByLabel('¿Qué quieres lograr?').fill(goal);
+    await go('Elegir carpeta →','Tu trabajo empieza en una carpeta.');
+    await page.getByRole('button',{name:'Buscar carpeta en este equipo',exact:true}).click();await page.locator('.folder-card .path').waitFor();
+    await go('Continuar a delimitación →','¿Cuál es el enfoque principal de tu proyecto?');
+    await go('Paso 3: Visión y Descripción →','Cuéntanos en tus palabras: ¿qué quieres lograr?');
+    await page.locator('#vision-input').fill(draft);
+    await go('Paso 4: Instalación →','Tu espacio está listo. ¿Cómo prefieres equiparlo?');
+    await go(INSTALL.ai,'¡Tu proyecto está listo para cobrar vida!');
+    const recorded=(await service.listProjects())[0]?.selection?.goal;
+    if(recorded!==goal)problems.push(`el objetivo registrado es ${JSON.stringify(recorded)} y no el del primer paso`);
+  }catch(error){
+    const said=await page.locator('#feedback').isVisible().catch(()=>false)?(await page.locator('#feedback').innerText()).replace(/\s+/g,' ').trim():null;
+    problems.push(`no se llegó a la pantalla final: ${String(error.message).split('\n')[0].slice(0,120)}${said?`; la ventana muestra: ${said}`:''}`);
+  }finally{
+    if(errors.length)problems.push(`excepciones del renderer: ${errors.join(' | ')}`);
+    await context.close();
+  }
+  wizard.withoutText.push({draft,problems});
+  for(const problem of problems)wizard.problems.push(`${tag} · ${problem}`);
+}
 try {
   browser=await chromium.launch({...(process.platform==='win32'?{channel:'msedge'}:{}),headless:true});
   assert.equal((await fetch(url+'/desktop/service.mjs')).status,404);
   for(const [width,height] of WIZARD_VIEWPORTS)for(const motion of MOTIONS)for(const branch of Object.keys(INSTALL))await walkWizard(width,height,motion,branch);
+  for(const draft of ['###',''])await walkVisionWithoutText(draft);
   const runs=wizard.matrix,wizardScreens=runs.flatMap(run=>Object.values(run.screens));
   wizard.summary={runs:runs.length,screensExpected:runs.length*WIZARD_SCREENS.length,screensVisited:wizardScreens.length,
     controlsMeasured:wizardScreens.reduce((sum,screen)=>sum+screen.measured,0),controlsReachable:wizardScreens.reduce((sum,screen)=>sum+screen.reachable,0),
@@ -282,7 +326,7 @@ try {
   await writeFile(path.join(output,'wizard-reach.json'),JSON.stringify(wizard,null,2)+'\n');
   assert.deepEqual(wizard.problems,[],'Every control of the current wizard has to be reachable with and without motion, and both copies have to go through the service');
   assert.equal(wizard.summary.screensVisited,wizard.summary.screensExpected,'Every screen of every run has to be visited');
-  evidence.checks.push(`Asistente vigente: ${runs.length} recorridos (3 ventanas × 2 preferencias de movimiento × 2 formas de instalar), ${wizard.summary.screensVisited} pantallas, ${wizard.summary.controlsReachable} de ${wizard.summary.controlsMeasured} controles alcanzables al tocar su centro, ${wizard.summary.copiesEqual} de ${wizard.summary.copies} copias con el texto exacto PASS`);
+  evidence.checks.push(`Asistente vigente: ${runs.length} recorridos (${WIZARD_VIEWPORTS.length} ventanas × 2 preferencias de movimiento × 2 formas de instalar), ${wizard.summary.screensVisited} pantallas, ${wizard.summary.controlsReachable} de ${wizard.summary.controlsMeasured} controles alcanzables al tocar su centro, ${wizard.summary.copiesEqual} de ${wizard.summary.copies} copias con el texto exacto, y una visión sin texto que conserva el objetivo del primer paso en ${wizard.withoutText.length} de ${wizard.withoutText.length} casos PASS`);
   for(const profile of ['research','software','unity','media','general']){
     const root=path.join(temp,profile);await mkdir(root);
     await writeFile(path.join(root,'notes.txt'),'Evidence: tokens must be measured. A byte budget is not an observed token reduction.');

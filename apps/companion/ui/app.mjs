@@ -472,14 +472,16 @@ function showVision() {
   const countSpan = el('span', { id: 'char-word-count', text: '0 palabras' });
   const statusSpan = el('span', { class: 'density-badge', text: 'Densidad óptima' });
 
+  // The objective follows the vision, as one line: the preparation refuses a line break in it, and 0.3.1 sent the
+  // vision as it was, so a suggestion or an Enter here stopped the installation with GOAL_INVALID. The vision itself
+  // keeps its paragraphs and reaches PROJECT_VISION.md with them. A vision that leaves no text for the objective, an
+  // empty editor or a lone heading mark, keeps the objective already chosen: an empty one would stop it as well.
+  const chosenGoal = s.goal;
   function updateStats() {
     const text = textarea.value.trim();
     const words = text ? text.split(/\s+/).length : 0;
     countSpan.textContent = `${words} palabras`;
-    // The objective follows the vision, as one line: the preparation refuses a line break in it, and 0.3.1 sent
-    // the vision as it was, so a suggestion or an Enter here stopped the installation with GOAL_INVALID. The
-    // vision itself keeps its paragraphs and reaches PROJECT_VISION.md with them.
-    s.goal = text.replace(/^\s*#+\s*/gm, '').replace(/\s+/g, ' ').trim().slice(0, 500);
+    s.goal = text.replace(/^\s*#+\s*/gm, '').replace(/\s+/g, ' ').trim().slice(0, 500) || chosenGoal;
   }
   updateStats();
 
@@ -608,11 +610,16 @@ function showFinished() {
   // to write, and said nothing when it was refused. The confirmation comes only once the clipboard holds the text:
   // announced in the status region, and shown on the button the person is looking at.
   const copyButton = (label, done, announce, text, cls) => {
+    let revert = null;
     const node = btn(label, async () => {
+      // Each attempt starts from the plain label: a confirmation left by the previous copy must not stand beside an
+      // error, and a second success counts its two seconds from itself.
+      clearTimeout(revert);
+      node.textContent = label;
       await call('copyText', { text });
       notice(announce);
       node.textContent = done;
-      setTimeout(() => { node.textContent = label; }, 2000);
+      revert = setTimeout(() => { node.textContent = label; }, 2000);
     }, cls);
     return node;
   };

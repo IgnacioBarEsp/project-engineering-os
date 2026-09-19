@@ -12,7 +12,8 @@ en Electron. El hotfix debe permitir terminar el recorrido público antes de la 
 - Añadir `copyText({text})` al puente IPC existente, con validación de texto, límites y errores visibles.
   Copiar ruta y Prompt Maestro usarán el envelope de respuesta común y confirmarán solo después del éxito.
 - Mantener activa la navegación «Preparar proyecto» en `setup`, `folder`, `delimitation`, `vision`,
-  `install` y `finished`, sin retirar los estados heredados que todavía existen.
+  `install` y `finished`, sin retirar las entradas heredadas `stack-choice` y `ready`, aunque hoy ningún código
+  las asigna.
 - Enviar el objetivo como una línea derivada de la visión, que conserva sus párrafos, y dar nombre
   accesible al editor de visión. Añadido durante el apply: con la barra corregida, una sugerencia o un salto
   de línea en Visión hacía fallar la instalación con `GOAL_INVALID` ([decisión 6](design.md)).

@@ -1,7 +1,8 @@
 {
-  "capturedAt": "2026-09-19T08:31:24.723Z",
-  "source": "Renderer y servicio de este change, antes del commit; Edge sin ventana, movimiento normal.",
-  "method": "El asistente vigente hasta la pantalla final con la sonda REACH de interface-contract.mjs, en 590 x 410 px CSS (la ventana por defecto con zoom al 200 %) y 480 x 540 px (la ventana mínima de la aplicación). Fuera de la matriz que exige la spec; se mide para la revisión de zoom.",
+  "capturedAt": "2026-09-19T15:11:03.251Z",
+  "source": "Commit 0518e1e, árbol limpio; renderer y servicio reales en Edge sin ventana, movimiento normal.",
+  "method": "El asistente vigente hasta la pantalla final con la sonda REACH de interface-contract.mjs, en 590 × 410 px CSS (la ventana por defecto con zoom al 200 %) y 480 × 540 px (la ventana mínima de la aplicación). Son las ventanas del escenario de ventana pequeña de la spec, fuera de su matriz de viewports.",
+  "exitCode": 0,
   "results": [
     {
       "window": "590x410",
@@ -69,6 +70,22 @@
           },
           "below": 0,
           "scrollPadding": "0px",
+          "noOverflow": true
+        },
+        "finished": {
+          "measured": 4,
+          "reachable": 4,
+          "bar": null,
+          "copyControls": [
+            {
+              "name": "Copiar ruta",
+              "ok": true
+            },
+            {
+              "name": "Copiar Prompt Maestro",
+              "ok": true
+            }
+          ],
           "noOverflow": true
         }
       },
@@ -141,6 +158,22 @@
           },
           "below": 0,
           "scrollPadding": "83px",
+          "noOverflow": true
+        },
+        "finished": {
+          "measured": 4,
+          "reachable": 4,
+          "bar": null,
+          "copyControls": [
+            {
+              "name": "Copiar ruta",
+              "ok": true
+            },
+            {
+              "name": "Copiar Prompt Maestro",
+              "ok": true
+            }
+          ],
           "noOverflow": true
         }
       },

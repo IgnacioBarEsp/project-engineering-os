@@ -31,10 +31,15 @@ aparecieron durante la corrección:
 0.3.2 corrige los cinco ([notas](../apps/companion/RELEASE_NOTES_0.3.2.md)). Mientras no tenga instalador
 publicado, la descarga que funciona sigue siendo 0.3.1 con estos defectos.
 
-Dos límites siguen en 0.3.2. Las dos formas de instalar hacen lo mismo, aunque «Instalación rápida» diga que
-instala dependencias; eso es el [issue #147](https://github.com/IgnacioBarEsp/project-engineering-os/issues/147).
-Y las [capturas de la documentación](companion/SCREENSHOTS.md) son del prototipo de diseño, no de la
-aplicación; las sustituye el [issue #143](https://github.com/IgnacioBarEsp/project-engineering-os/issues/143).
+Siguen en 0.3.2:
+
+- Las dos formas de instalar hacen lo mismo, aunque «Instalación rápida» diga que instala dependencias:
+  [issue #147](https://github.com/IgnacioBarEsp/project-engineering-os/issues/147).
+- A 1040 px la navegación de la cabecera parte palabras, y la aplicación instalada no aplica cuatro
+  separaciones del asistente porque su política de seguridad bloquea estilos en línea:
+  [issue #144](https://github.com/IgnacioBarEsp/project-engineering-os/issues/144).
+- Las [capturas de la documentación](companion/SCREENSHOTS.md) son del prototipo de diseño, no de la
+  aplicación: las sustituye el [issue #143](https://github.com/IgnacioBarEsp/project-engineering-os/issues/143).
 
 ## Límites que siguen vigentes
 

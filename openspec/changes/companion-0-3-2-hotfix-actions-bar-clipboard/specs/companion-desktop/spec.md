@@ -42,6 +42,10 @@ write, and return copied true, the text byte count and sent false through the ex
 - **AND** it SHALL NOT display a copied confirmation or fall back to navigator.clipboard
 - **AND** diagnostic output SHALL NOT include the clipboard payload
 
+#### Scenario: A copy fails right after a successful one
+- **WHEN** a copy control confirmed a copy and the person activates it again before the confirmation expires, and that write fails
+- **THEN** the control SHALL show its plain label again, without the previous confirmation, next to the error
+
 #### Scenario: Existing context-aware copy operations are used
 - **WHEN** a person copies an export, guide step or reviewed handoff
 - **THEN** the existing handle, byte-limit and context-freshness checks SHALL still govern that operation

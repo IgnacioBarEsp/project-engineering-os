@@ -9,15 +9,16 @@ Corrige 0.3.1, con la que no se podía terminar el asistente en la aplicación i
   del contenido animado y no al de la ventana. Tapaba «¿Cuánta guía prefieres?», la última tarjeta de
   Delimitación, las sugerencias de Visión y los dos botones de Instalación, y desplazar la página no los
   descubría. Ahora la barra va después del contenido y se queda en el borde inferior de la ventana mientras
-  queda contenido por debajo. Recorriendo con el tabulador el primer paso, que es el más largo, ningún
-  campo queda oculto detrás de ella.
+  queda contenido por debajo. En las ventanas pequeñas, de hasta 500 px de alto, como la mínima o la de por
+  defecto con zoom al 200 %, va al final del contenido. Recorriendo con el tabulador el primer paso, que es el
+  más largo, ningún campo queda oculto detrás de ella.
 - **«Copiar ruta» y «Copiar Prompt Maestro» copian en la aplicación instalada.** En 0.3.1 le pedían el
   portapapeles a la ventana, que no tiene permiso para escribirlo, y el rechazo se ocultaba. Ahora copia el
   proceso principal de la aplicación, con un límite de tamaño, y la confirmación aparece solo cuando el texto
   ya está en el portapapeles. Si la copia falla, la pantalla dice por qué.
-- **Una visión de varias líneas ya no detiene la instalación.** En 0.3.1, usar una sugerencia o escribir un
-  salto de línea en Visión hacía fallar la instalación con `GOAL_INVALID`. La visión conserva sus párrafos
-  en `PROJECT_VISION.md` y el objetivo se guarda en una sola línea.
+- **Una sugerencia o un salto de línea en Visión ya no detienen la instalación.** En 0.3.1 la hacían fallar
+  con `GOAL_INVALID`. La visión conserva sus párrafos en `PROJECT_VISION.md` y el objetivo se guarda en una
+  sola línea. Si la visión queda sin texto, se conserva el objetivo del primer paso.
 - **El prompt de «Instalación rápida» ya no afirma dependencias instaladas.** En 0.3.1 le decía a tu IA
   que las dependencias base ya estaban preparadas en tu equipo. Ahora dice lo que ocurrió: la carpeta está
   preparada, `PROJECT_VISION.md` escrito y no se instaló nada.
@@ -27,13 +28,15 @@ Corrige 0.3.1, con la que no se podía terminar el asistente en la aplicación i
 ## Cómo se comprobó
 
 - El asistente se recorrió hasta la pantalla final con la animación de entrada activa y con movimiento
-  reducido, en ventanas de 1180 × 820, 1160 × 810 y 1040 × 700, con las dos formas de instalar. En cada
+  reducido, con las dos formas de instalar. Se usaron ventanas de 1180 × 820, 1160 × 810 y 1040 × 700 y las
+  dos ventanas pequeñas reales de la aplicación: la mínima y la de por defecto con zoom al 200 %. En cada
   pantalla se comprobó que cada control, una vez a la vista, recibe el clic en su centro y no la barra. Se
   pulsaron los botones que avanzan el asistente y los de copiar. La comprobación anterior no vio el
   defecto por dos motivos: usaba solo movimiento reducido y, después de los dos primeros pasos, seguía por
   las pantallas de revisión heredadas en lugar de Delimitación, Visión e Instalación.
 - En Electron, con el proceso principal y el preload de esta versión, el texto de cada botón de copiar se
-  leyó del portapapeles del sistema y coincide con el que muestra la pantalla.
+  leyó del portapapeles del sistema y coincide con el que muestra la pantalla. Se comprobó ejecutando el
+  código y ejecutando la aplicación empaquetada.
 
 ## Lo que 0.3.2 no cambia
 
@@ -41,8 +44,10 @@ Corrige 0.3.1, con la que no se podía terminar el asistente en la aplicación i
   tarjeta de «Instalación rápida» sigue diciendo que instala dependencias base, y ni 0.3.1 ni 0.3.2 instalan
   ninguna. Que cada vía haga su propio trabajo es el
   [issue #147](https://github.com/IgnacioBarEsp/project-engineering-os/issues/147).
-- Con 1040 px de ancho, la navegación de la cabecera parte palabras. Es parte del layout que rehace el
-  [issue #144](https://github.com/IgnacioBarEsp/project-engineering-os/issues/144).
+- Con 1040 px de ancho, la navegación de la cabecera parte palabras. Además, en la aplicación instalada no
+  se aplican cuatro separaciones de Delimitación, Visión y la pantalla final, porque la política de seguridad
+  de la ventana bloquea los estilos en línea que las definen. Las dos cosas son parte del renderer que rehace
+  el [issue #144](https://github.com/IgnacioBarEsp/project-engineering-os/issues/144).
 - Las capturas de la documentación son del prototipo de diseño, no de la aplicación. Las sustituye el
   [issue #143](https://github.com/IgnacioBarEsp/project-engineering-os/issues/143).
 

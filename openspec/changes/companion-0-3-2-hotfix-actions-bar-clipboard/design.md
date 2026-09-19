@@ -5,7 +5,9 @@ Base: `a3b1efda6a53501a2a06e277cf0b7f18f11c6bed`, Companion 0.3.1, núcleo 0.5.0
 histórica, sin atribuirla a esta sesión. [Baseline y procedencia](brownfield-baseline.md).
 
 `render()` envuelve el contenido en `.enter`. La regla de barra alcanza tanto `.enter > .actions` como
-`form > .actions`, usa `fixed` y añade 145 px de padding. El scroll actual es el del documento;
+`form > .actions` y usa `fixed`. También declara 145 px de padding, que nunca se aplica: `main#content`
+(especificidad 1,0,1) gana a `main:has(.steps)` (0,1,1) y el medido es 60 px
+([antes](evidence/before/README.md)). El scroll actual es el del documento;
 `main#content` no tiene un scroll independiente. El paso inicial usa submit real de un formulario.
 
 El proceso principal ya inyecta `clipboard.writeText` al servicio, registra sus métodos por IPC y valida
@@ -28,7 +30,8 @@ El contenedor de contenido de `#view` mantiene `.enter`; la barra final será su
 del flujo normal del mismo scroll del documento, con `position:sticky; bottom:0`. No añadir otro scroller
 ni un shell nuevo. El aviso accesible de copia/errores permanece visible y no se elimina para medir el hueco.
 
-Retirar los selectores globales que convierten acciones del formulario en fixed y el padding de 145 px.
+Retirar los selectores globales que convierten acciones del formulario en fixed y la regla del padding de
+145 px, aunque este nunca se aplicara.
 Las acciones de tarjetas de instalación y de copia permanecen locales. Si la barra inicial sale del
 formulario, asociar su submit mediante `form` y un ID estable: click, Enter, validación nativa y guardado
 de selección deben seguir el mismo handler. No clonar controles ni listeners al moverlos.
@@ -43,9 +46,11 @@ el foco del teclado. `render` mide la barra con un `ResizeObserver` y la publica
 controles enteros bajo la barra; con eso, ninguno: [experimento](evidence/after/keyboard-scroll-padding.json).
 La clase de la barra es `.wizard-footer`, porque `.wizard-bar` ya nombraba las pastillas de progreso.
 En ventanas de hasta 500 px de alto o 380 px de ancho la barra queda estática después del contenido, sin
-scroll-padding: sticky ocuparía una parte grande de la ventana. La ventana por defecto con zoom al 200 %
-mide 590 × 410 px CSS y cae en ese caso; la mínima de la aplicación, 480 × 540, conserva sticky. Las dos se
-midieron: [ventanas pequeñas](evidence/after/narrow-windows.json).
+scroll-padding: sticky ocuparía una parte grande de la ventana. Las dos ventanas pequeñas reales caen en ese
+caso. Medido en Electron 44 en Windows 11, la ventana por defecto de 1180 × 820 deja un viewport de
+1164 × 755 px CSS; con zoom al 200 %, 582 × 377. La mínima, de 480 × 540, deja 464 × 475. El recorrido del
+asistente pasa por esos dos viewports y la prueba nativa los mide en la ventana real
+([validación](evidence/validation.md)). En las demás ventanas la barra es sticky, y los harness lo exigen.
 
 El contrato permite la superposición temporal propia de sticky en contenido largo solo si cada control
 se puede desplazar a una zona visible y pulsar. Con contenido que cabe, la barra debe quedar después del

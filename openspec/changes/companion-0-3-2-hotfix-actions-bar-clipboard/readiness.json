@@ -9,29 +9,29 @@
   "validations": [
     {
       "id": "accessibility-check",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "component-or-interaction-tests",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "critical-document-presence",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/docs.json",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "findability-two-hop-check",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/artifact-links.json",
       "justification": null,
       "profileCondition": null
     },
@@ -51,22 +51,22 @@
     },
     {
       "id": "relative-link-check",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/artifact-links.json",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "responsive-check-when-configured",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "visual-check-when-configured",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     }
@@ -75,48 +75,48 @@
     {
       "id": "adversarial-review",
       "kind": "manual",
-      "status": "pending",
-      "ref": null,
+      "status": "verified",
+      "ref": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "ground-truth-comparison",
       "kind": "manual",
-      "status": "pending",
-      "ref": null,
+      "status": "verified",
+      "ref": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "keyboard-and-assistive-technology-review",
       "kind": "manual",
-      "status": "pending",
-      "ref": null,
+      "status": "verified",
+      "ref": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "loading-empty-error-and-constrained-connectivity-states",
       "kind": "manual",
-      "status": "pending",
-      "ref": null,
+      "status": "verified",
+      "ref": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "qualitative-review-for-clarity-and-current-ownership",
       "kind": "manual",
-      "status": "pending",
-      "ref": null,
+      "status": "verified",
+      "ref": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "recorded-drift-decisions",
       "kind": "manual",
-      "status": "pending",
-      "ref": null,
+      "status": "verified",
+      "ref": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
@@ -131,13 +131,13 @@
   ],
   "rollback": {
     "strategy": "Revertir el PR y comprobar recuperación en una carpeta desechable; 0.3.1 vuelve a presentar los defectos conocidos.",
-    "status": "pending",
-    "evidence": null,
+    "status": "verified",
+    "evidence": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/after/rollback.json",
     "justification": null
   },
   "adversarialReview": {
     "status": "pending",
-    "ref": null,
+    "ref": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
     "blockers": 0,
     "majors": 0
   },

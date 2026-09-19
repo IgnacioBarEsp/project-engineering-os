@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-19T08:38:39.663Z",
+  "date": "2026-09-19T15:08:08.744Z",
   "scope": "Real renderer and engines in browser; native transport/picker/clipboard/provider injected",
   "checks": [
     "Asistente vigente: 12 recorridos (3 ventanas × 2 preferencias de movimiento × 2 formas de instalar), 84 pantallas, 660 de 660 controles alcanzables al tocar su centro, 24 de 24 copias con el texto exacto PASS",

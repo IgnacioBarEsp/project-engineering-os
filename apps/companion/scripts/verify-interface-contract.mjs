@@ -276,12 +276,26 @@ const MUTATIONS = [
     to: "const WIZARD_PAGES=['setup','folder','delimitation','vision','stack-choice','ready'];",
     detect: report => (report.wizard ?? []).some(run => run.visited.includes('install')
       && run.problems.some(problem => problem.startsWith('install:') && problem.includes('«prepare-project» declara aria-pressed="false"'))) },
+  // Only the observed consequence of the mutation counts. Copies that were never observed are a failure of the
+  // harness, reported by copyProblems in their own words, and never a detection.
   { id: 'a-refused-copy-is-swallowed-and-announced-anyway', file: 'app.mjs', copies: true,
     reason: 'un rechazo del portapapeles vuelve a quedar en un catch vacío y la pantalla anuncia la copia igual',
     from: "      await call('copyText', { text });\n      notice(announce);",
     to: "      try { await call('copyText', { text }); } catch {}\n      notice(announce);",
-    detect: report => copyProblems(report.copies).some(problem => problem.startsWith('refused')) },
+    detect: report => copyProblems(report.copies).some(problem => COPY_CONSEQUENCE.test(problem) && problem.startsWith('refused:')) },
+  { id: 'a-new-copy-keeps-the-previous-confirmation', file: 'app.mjs', copies: true,
+    reason: 'un segundo intento conserva la etiqueta de confirmación del anterior, y queda junto al error de una copia que falló',
+    from: "      clearTimeout(revert);\n      node.textContent = label;\n      await call('copyText', { text });",
+    to: "      await call('copyText', { text });",
+    detect: report => copyProblems(report.copies).some(problem => COPY_CONSEQUENCE.test(problem) && problem.startsWith('ok-then-refused:')) },
+  // Static, the bar still leaves every control reachable once scrolled to, which is why no interception catches it:
+  // on a long screen the actions only appear at its end.
+  { id: 'the-final-bar-no-longer-sticks', file: 'app.css', wizard: true,
+    reason: 'la barra final deja de ser sticky y, en una pantalla larga, sus acciones solo aparecen al final',
+    from: '.wizard-footer{position:sticky;', to: '.wizard-footer{position:static;',
+    detect: report => (report.wizard ?? []).some(run => run.problems.some(problem => problem.includes('la barra final no es sticky (static)'))) },
 ];
+const COPY_CONSEQUENCE = /: «[^»]+» (anunció «.*» sin haber copiado|no mostró la causa del fallo|cambió su etiqueta a «.*» sin haber copiado)$/;
 
 const types = { '.html': 'text/html', '.css': 'text/css', '.mjs': 'text/javascript' };
 let breakModule = false;
@@ -341,6 +355,9 @@ const COPY_ANSWERS = {
   ok: 'async input=>({ok:true,value:{copied:true,bytes:input.text.length,sent:false}})',
   refused: "async()=>({ok:false,error:{code:'CLIPBOARD_FAILED',message:'No se pudo escribir en el portapapeles de este equipo.',action:'Vuelve a intentarlo en unos segundos. Tus archivos no cambiaron.'}})",
   transport: "async()=>{throw new Error('reply was never sent')}",
+  // Every other call refused: a success followed at once by a failure, so the confirmation the first one left can
+  // be seen standing beside the error of the second.
+  'ok-then-refused': "(()=>{let calls=0;return async input=>(calls+=1)%2===1?{ok:true,value:{copied:true,bytes:input.text.length,sent:false}}:{ok:false,error:{code:'CLIPBOARD_FAILED',message:'No se pudo escribir en el portapapeles de este equipo.',action:'Vuelve a intentarlo en unos segundos. Tus archivos no cambiaron.'}};})()",
 };
 // The page's own clipboard is counted, never used: the copies of the wizard must not reach it in any answer.
 const PAGE_CLIPBOARD_SPY = `window.__pageClipboardWrites=0;if(navigator.clipboard){const own=navigator.clipboard.writeText?.bind(navigator.clipboard);
@@ -591,8 +608,9 @@ async function inspectWizard() {
   }
   return runs;
 }
-// The two copy controls against the three answers the transport can give. Only a success may be announced, a
-// refusal has to reach the error surface with its cause, and the page's own clipboard is never touched.
+// The two copy controls against the answers the transport can give, and against a success followed at once by a
+// refusal. Only a success may be announced, a refusal has to reach the error surface with its cause and without the
+// previous confirmation, and the page's own clipboard is never touched.
 async function inspectCopies() {
   const results = {};
   for (const answer of Object.keys(COPY_ANSWERS)) {
@@ -605,8 +623,10 @@ async function inspectCopies() {
       entry.reached = await walkToFinished(page, { problems: [] });
       for (const control of entry.reached ? ['Copiar ruta', 'Copiar Prompt Maestro'] : []) {
         const button = await page.getByRole('button', { name: control, exact: true }).elementHandle({ timeout: 4000 });
-        await button.click();
-        await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true');
+        for (let attempt = 0; attempt < (answer === 'ok-then-refused' ? 2 : 1); attempt += 1) {
+          await button.click();
+          await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true');
+        }
         // One read of everything the copy left: the confirmed label reverts after two seconds, and separate round
         // trips on a slow runner could arrive after it did.
         entry.controls.push({ control, ...await button.evaluate(node => {
@@ -628,7 +648,8 @@ function copyProblems(copies) {
   if (!copies) return ['las copias no se comprobaron'];
   const problems = [];
   const expected = { ok: { announced: true, error: null }, refused: { announced: false, error: /portapapeles/ },
-    transport: { announced: false, error: /no pudo comunicarse con la aplicación/ } };
+    transport: { announced: false, error: /no pudo comunicarse con la aplicación/ },
+    'ok-then-refused': { announced: false, error: /portapapeles/ } };
   for (const [answer, rule] of Object.entries(expected)) {
     const entry = copies[answer];
     if (!entry?.reached || entry.controls.length !== 2) { problems.push(`${answer}: no se observaron los dos controles de copia${entry?.failure ? ` (${entry.failure})` : ''}`); continue; }

@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-19T08:38:39.663Z",
+  "date": "2026-09-19T15:08:08.745Z",
   "scope": "Renderer real y servicio real en el navegador; selector de carpeta, portapapeles y apertura externa inyectados. Asistente vigente en tres ventanas, con movimiento normal y reducido y con las dos formas de instalar.",
   "viewports": [
     "1180x820",
@@ -342,12 +342,12 @@
           },
           "bar": null,
           "end": {
-            "scrollHeight": 1414,
-            "scrollY": 594,
+            "scrollHeight": 1437,
+            "scrollY": 617,
             "innerHeight": 820,
             "documentBottom": 820,
             "lastContent": "div.enter",
-            "lastContentBottom": 700.15625,
+            "lastContentBottom": 699.859375,
             "mainPaddingBottom": 60,
             "notice": {
               "text": false,
@@ -1058,12 +1058,12 @@
           },
           "bar": null,
           "end": {
-            "scrollHeight": 1379,
-            "scrollY": 559,
+            "scrollHeight": 1402,
+            "scrollY": 582,
             "innerHeight": 820,
             "documentBottom": 820,
             "lastContent": "div.enter",
-            "lastContentBottom": 700.15625,
+            "lastContentBottom": 699.859375,
             "mainPaddingBottom": 60,
             "notice": {
               "text": false,
@@ -1774,12 +1774,12 @@
           },
           "bar": null,
           "end": {
-            "scrollHeight": 1414,
-            "scrollY": 604,
+            "scrollHeight": 1437,
+            "scrollY": 627,
             "innerHeight": 810,
             "documentBottom": 810,
             "lastContent": "div.enter",
-            "lastContentBottom": 690.15625,
+            "lastContentBottom": 689.859375,
             "mainPaddingBottom": 60,
             "notice": {
               "text": false,
@@ -2490,12 +2490,12 @@
           },
           "bar": null,
           "end": {
-            "scrollHeight": 1379,
-            "scrollY": 569,
+            "scrollHeight": 1402,
+            "scrollY": 592,
             "innerHeight": 810,
             "documentBottom": 810,
             "lastContent": "div.enter",
-            "lastContentBottom": 690.15625,
+            "lastContentBottom": 689.859375,
             "mainPaddingBottom": 60,
             "notice": {
               "text": false,
@@ -3224,12 +3224,12 @@
           },
           "bar": null,
           "end": {
-            "scrollHeight": 1414,
-            "scrollY": 714,
+            "scrollHeight": 1437,
+            "scrollY": 737,
             "innerHeight": 700,
             "documentBottom": 700,
             "lastContent": "div.enter",
-            "lastContentBottom": 580.15625,
+            "lastContentBottom": 579.859375,
             "mainPaddingBottom": 60,
             "notice": {
               "text": false,
@@ -3982,12 +3982,12 @@
           },
           "bar": null,
           "end": {
-            "scrollHeight": 1379,
-            "scrollY": 679,
+            "scrollHeight": 1402,
+            "scrollY": 702,
             "innerHeight": 700,
             "documentBottom": 700,
             "lastContent": "div.enter",
-            "lastContentBottom": 580.15625,
+            "lastContentBottom": 579.859375,
             "mainPaddingBottom": 60,
             "notice": {
               "text": false,
@@ -4408,7 +4408,7 @@
       "run": "1180x820 no-preference quick",
       "control": "Copiar Prompt Maestro",
       "equal": true,
-      "bytes": 827,
+      "bytes": 911,
       "notice": "Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna."
     },
     {
@@ -4436,7 +4436,7 @@
       "run": "1180x820 reduce quick",
       "control": "Copiar Prompt Maestro",
       "equal": true,
-      "bytes": 820,
+      "bytes": 904,
       "notice": "Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna."
     },
     {
@@ -4464,7 +4464,7 @@
       "run": "1160x810 no-preference quick",
       "control": "Copiar Prompt Maestro",
       "equal": true,
-      "bytes": 827,
+      "bytes": 911,
       "notice": "Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna."
     },
     {
@@ -4492,7 +4492,7 @@
       "run": "1160x810 reduce quick",
       "control": "Copiar Prompt Maestro",
       "equal": true,
-      "bytes": 820,
+      "bytes": 904,
       "notice": "Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna."
     },
     {
@@ -4520,7 +4520,7 @@
       "run": "1040x700 no-preference quick",
       "control": "Copiar Prompt Maestro",
       "equal": true,
-      "bytes": 827,
+      "bytes": 911,
       "notice": "Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna."
     },
     {
@@ -4548,7 +4548,7 @@
       "run": "1040x700 reduce quick",
       "control": "Copiar Prompt Maestro",
       "equal": true,
-      "bytes": 820,
+      "bytes": 904,
       "notice": "Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna."
     },
     {

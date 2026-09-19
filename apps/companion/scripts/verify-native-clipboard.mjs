@@ -121,6 +121,30 @@ try {
   const press = async name => { await page.getByRole('button', { name, exact: true }).click({ timeout: 10000 }); await settle(); };
   await page.locator('#view').getByRole('button', { name: 'Preparar proyecto', exact: true }).click();
   await reached('Empecemos por lo que quieres lograr.');
+  // The small windows of the spec, in the real window rather than assumed from CSS: the default window at 200 %
+  // zoom and the minimum window. The first step is the longest screen; the window is put back afterwards.
+  await settle();
+  record.smallWindows = [];
+  for (const [label, change, undo] of [
+    ['ventana por defecto con zoom al 200 %', ({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].webContents.setZoomFactor(2),
+      ({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].webContents.setZoomFactor(1)],
+    ['ventana mínima', ({ BrowserWindow }) => { const window = BrowserWindow.getAllWindows()[0]; window.setSize(...window.getMinimumSize()); },
+      ({ BrowserWindow }, bounds) => BrowserWindow.getAllWindows()[0].setBounds(bounds)],
+  ]) {
+    await application.evaluate(change);
+    await page.waitForFunction(width => innerWidth < width, record.window.inner.width);
+    const report = await page.evaluate(REACH, INTERACTIVE);
+    const measured = { label, viewport: report.viewport, bar: report.bar && { position: report.bar.position, height: report.bar.height },
+      measured: report.controls.length, reachable: report.controls.filter(control => control.ok).length,
+      horizontalOverflow: await page.evaluate(() => document.documentElement.scrollWidth - innerWidth),
+      problems: reachProblems(report, { primary: ['Inicio', 'Elegir carpeta →'], bar: true }) };
+    record.smallWindows.push(measured);
+    for (const problem of measured.problems) finding(`Paso 1, ${label}: ${problem}`);
+    if (measured.horizontalOverflow > 1) finding(`Paso 1, ${label}: la página necesita desplazamiento horizontal (${measured.horizontalOverflow} px).`);
+    await application.evaluate(undo, record.window.outer);
+    await page.waitForFunction(width => innerWidth === width, record.window.inner.width);
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
   await page.getByLabel('Nombre de tu proyecto').fill('Prueba nativa del portapapeles');
   await page.getByLabel('¿Qué quieres lograr?').fill('Comprobar que copiar deja el texto en el portapapeles');
   await press('Elegir carpeta →'); await reached('Tu trabajo empieza en una carpeta.');
