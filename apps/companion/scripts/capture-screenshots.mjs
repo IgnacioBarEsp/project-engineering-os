@@ -120,8 +120,9 @@ try {
   const capture = async (target) => {
     await settle();
     await page.evaluate(() => window.scrollTo(0, 0));
-    const heading = await page.locator('#view h1').first().textContent();
-    if (heading.trim() !== target.screen.title) {
+    // El encabezado real puede partir líneas; la comparación normaliza espacios, como hace el name matching.
+    const heading = (await page.locator('#view h1').first().textContent()).replace(/\s+/g, ' ').trim();
+    if (heading !== target.screen.title) {
       finding(`«${target.file}» se capturó bajo el encabezado «${heading.trim()}», no el esperado.`);
     }
     const bytes = await page.screenshot();
