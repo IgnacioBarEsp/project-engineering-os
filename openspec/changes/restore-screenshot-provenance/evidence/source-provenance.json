@@ -1,0 +1,18 @@
+{
+  "capturedAt": "2026-09-19T19:12:31.687Z",
+  "baseCommit": "eefa1bc2141146da0d82abd7791191e4acb79e6a",
+  "issueUrl": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/143",
+  "issueUpdatedAt": "2026-09-19T02:24:31Z",
+  "bodySha256": "d7161427d70b9dbf200b45a45a26c3056b7e9c4559a7ffe76f4c1d685e915e6e",
+  "authorization": "El mantenedor instruyo en esta sesion: continuar donde se quedo la preparacion de #143 (artefactos OpenSpec creados, detenidos antes del apply) y proseguir el trabajo del change.",
+  "issueCommand": [
+    "gh",
+    "issue",
+    "view",
+    "143",
+    "--repo",
+    "IgnacioBarEsp/project-engineering-os",
+    "--json",
+    "number,title,body,url,state,comments,labels,updatedAt"
+  ]
+}

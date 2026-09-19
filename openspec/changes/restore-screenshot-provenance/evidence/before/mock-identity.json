@@ -1,0 +1,50 @@
+{
+  "measuredAt": "2026-09-19T19:03:25.245Z",
+  "commit": "eefa1bc2141146da0d82abd7791191e4acb79e6a",
+  "method": "SHA-256 de cada imagen publicada comparado con el de todos los PNG bajo docs/stitch uxui/",
+  "images": [
+    {
+      "image": "docs/assets/companion/home-companion.png",
+      "sha256": "52786dcddec24aa9ec0f6dfedd1e0d75a4a113122ddff530fbc2587e6ce28f96",
+      "bytes": 276728,
+      "identicalTo": "docs\\stitch uxui\\stitch_project_engineering_os_companion\\screen.png"
+    },
+    {
+      "image": "docs/assets/companion/paso-1-perfil.png",
+      "sha256": "3c09e9cc469a5d4bd6abc439da1fc6a0ac18cd0a1b1c90fc72a6ca60390ea03d",
+      "bytes": 327680,
+      "identicalTo": "docs\\stitch uxui\\stitch_project_engineering_os_companion\\paso_1_de_4_perfil_project_engineering_os\\screen.png"
+    },
+    {
+      "image": "docs/assets/companion/paso-2-delimitacion.png",
+      "sha256": "b59ea7dbc716a47ab10347c24a3d7e839cd3d67aa64d9e81fd1befbe0985ea8d",
+      "bytes": 208813,
+      "identicalTo": "docs\\stitch uxui\\stitch_project_engineering_os_companion\\paso_2_de_4_delimitaci_n_project_engineering_os_dark\\screen.png"
+    },
+    {
+      "image": "docs/assets/companion/paso-3-vision.png",
+      "sha256": "b3f76c1c8b054d41e71ffe03961dfb86ea3ef95ef5d0d9c9939250d91ad38d99",
+      "bytes": 207800,
+      "identicalTo": "docs\\stitch uxui\\stitch_project_engineering_os_companion\\paso_3_de_4_visi_n_y_descripci_n_project_engineering_os\\screen.png"
+    },
+    {
+      "image": "docs/assets/companion/paso-4-instalacion.png",
+      "sha256": "878e8848440adbb09c96aae42edfb098eb0b60af249b62376078b28c51a015cf",
+      "bytes": 484250,
+      "identicalTo": "docs\\stitch uxui\\stitch_project_engineering_os_companion\\paso_4_de_4_instalaci_n_project_engineering_os\\screen.png"
+    },
+    {
+      "image": "docs/assets/companion/proyecto-listo-activacion.png",
+      "sha256": "04c889b614028338d0ad929244023644f096e1477584adfd7d79ca487c4eca37",
+      "bytes": 362947,
+      "identicalTo": "docs\\stitch uxui\\stitch_project_engineering_os_companion\\proyecto_listo_y_activaci_n_de_ia_project_engineering_os\\screen.png"
+    },
+    {
+      "image": "docs/assets/companion-current-home.png",
+      "sha256": "52786dcddec24aa9ec0f6dfedd1e0d75a4a113122ddff530fbc2587e6ce28f96",
+      "bytes": 276728,
+      "identicalTo": "docs\\stitch uxui\\stitch_project_engineering_os_companion\\screen.png"
+    }
+  ],
+  "identicalCount": 7
+}

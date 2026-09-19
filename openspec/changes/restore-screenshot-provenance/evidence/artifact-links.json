@@ -1,0 +1,190 @@
+{
+  "capturedAt": "2026-09-19T19:41:52.254Z",
+  "scope": "openspec/changes/restore-screenshot-provenance",
+  "markdownFiles": 9,
+  "relativeLinks": 36,
+  "status": "PASS",
+  "failures": [],
+  "links": [
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/brownfield-baseline.md",
+      "href": "evidence/before/mock-identity.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/brownfield-baseline.md",
+      "href": "evidence/readiness-propose.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/design.md",
+      "href": "brownfield-baseline.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/design.md",
+      "href": "evidence/before/mock-identity.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/design.md",
+      "href": "proposal.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/design.md",
+      "href": "evidence/maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/design.md",
+      "href": "proposal.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/maintainer-decisions.md",
+      "href": "../tasks.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/maintainer-decisions.md",
+      "href": "../design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/maintainer-decisions.md",
+      "href": "../design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/maintainer-decisions.md",
+      "href": "../design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/maintainer-decisions.md",
+      "href": "../tasks.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/plan.md",
+      "href": "pre-apply.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/plan.md",
+      "href": "before/mock-identity.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/plan.md",
+      "href": "maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/pre-apply.md",
+      "href": "maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/pre-apply.md",
+      "href": "before/mock-identity.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/pre-apply.md",
+      "href": "readiness-propose.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/pre-apply.md",
+      "href": "openspec-strict.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/pre-apply.md",
+      "href": "docs.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/pre-apply.md",
+      "href": "neutrality.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/pre-apply.md",
+      "href": "artifact-links.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/pre-apply.md",
+      "href": "archive-preflight.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/pre-apply.md",
+      "href": "issue-143.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/pre-apply.md",
+      "href": "source-provenance.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/evidence/pre-apply.md",
+      "href": "../tasks.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/proposal.md",
+      "href": "evidence/maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/proposal.md",
+      "href": "evidence/maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/TLDR.md",
+      "href": "proposal.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/TLDR.md",
+      "href": "design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/TLDR.md",
+      "href": "specs/public-documentation-experience/spec.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/TLDR.md",
+      "href": "tasks.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/TLDR.md",
+      "href": "brownfield-baseline.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/TLDR.md",
+      "href": "evidence/plan.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/TLDR.md",
+      "href": "evidence/pre-apply.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/restore-screenshot-provenance/TLDR.md",
+      "href": "evidence/maintainer-decisions.md",
+      "exists": true
+    }
+  ]
+}
