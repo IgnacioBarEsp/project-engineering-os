@@ -5,7 +5,7 @@ Ejecutada el 19 de septiembre de 2026 por dos agentes: el que implementó la com
 comprobaciones. Las decisiones que las enmarcan son del mantenedor y están en
 [decisiones](maintainer-decisions.md).
 
-- **Capturas:** generadas desde `766d671`, con el árbol limpio, en la ventana real de Electron.
+- **Capturas:** generadas desde `d744c47`, con el árbol limpio, en la ventana real de Electron.
 - **Comprobaciones y documentación:** medidas en `1b37743`.
 - **Equipo:** Windows 11 IoT Enterprise LTSC 2024, x64, con Node 24.18.0 y Electron 44.1.1 (Chromium 152).
 
@@ -33,19 +33,19 @@ comprobaciones. Las decisiones que las enmarcan son del mantenedor y están en
 ## Las capturas
 
 Siete imágenes de 1164 × 755 px CSS, tomadas en la ventana por defecto de la aplicación (1180 × 820) con
-`devicePixelRatio` 1, ejecutando `electron .` sobre `766d671` con Companion 0.3.2. El registro de la ejecución
+`devicePixelRatio` 1, ejecutando `electron .` sobre `d744c47` con Companion 0.3.2. El registro de la ejecución
 es [capture-run.json](after/captures/capture-run.json): 7 imágenes, 0 hallazgos y 7 errores de consola, todos
 de la CSP por los estilos en línea previos (#144).
 
 | Imagen | Pantalla | SHA-256 |
 | --- | --- | --- |
-| `docs/assets/companion/home-companion.png` | Inicio | `6561a148…ffb2e6d2` |
-| `docs/assets/companion-current-home.png` | Inicio, para el README | `d32afe98…06ae16f2` |
-| `docs/assets/companion/paso-1-perfil.png` | Paso 1, «01 Tu proyecto» | `890c2ffd…76ac8af2` |
-| `docs/assets/companion/paso-2-delimitacion.png` | Delimitación, «02 Carpeta» | `55ca30ad…03eaec28` |
-| `docs/assets/companion/paso-3-vision.png` | Visión, «03 Preparación» | `6b545d29…296e4b9f` |
-| `docs/assets/companion/paso-4-instalacion.png` | Instalación, «04 Archivos» | `178a1d22…716c696e` |
-| `docs/assets/companion/proyecto-listo-activacion.png` | Proyecto listo | `c4f3df32…7a1847c4` |
+| `docs/assets/companion/home-companion.png` | Inicio | `1f5ec9e9…c698d775` |
+| `docs/assets/companion-current-home.png` | Inicio, para el README | `60e93f5a…c7677bad` |
+| `docs/assets/companion/paso-1-perfil.png` | Paso 1, «01 Tu proyecto» | `5d58a756…1dcb91a1` |
+| `docs/assets/companion/paso-2-delimitacion.png` | Delimitación, «02 Carpeta» | `07e7ca92…12311d27` |
+| `docs/assets/companion/paso-3-vision.png` | Visión, «03 Preparación» | `d4e5c5aa…868df1e1` |
+| `docs/assets/companion/paso-4-instalacion.png` | Instalación, «04 Archivos» | `1e5ab0c0…3ed846da` |
+| `docs/assets/companion/proyecto-listo-activacion.png` | Proyecto listo | `6fa75cc1…ada76603` |
 
 **Privacidad:** el recorrido usa un proyecto de ejemplo en una carpeta pública creada para la captura y borrada
 al terminar, así que ninguna imagen muestra el nombre de la cuenta. El generador aborta si el registro contiene
@@ -60,15 +60,25 @@ del paso 1.
 `scripts/screenshot-provenance.mjs` se ejecuta desde `scripts/check-docs.mjs`, es decir, dentro de
 `npm run check`. Rechaza una imagen publicada cuando:
 
-- no tiene registro, el registro no es JSON o le falta un campo del contrato v1;
-- el SHA-256 o el tamaño del registro no coinciden con los bytes;
+- no tiene registro, el registro no es JSON, le falta un campo del contrato v1 o trae uno de más;
+- el SHA-256, el tamaño o las dimensiones del registro no coinciden con los bytes;
 - el generador que declara no existe en el repositorio o apunta fuera de él;
 - el registro contiene una ruta de usuario;
 - la imagen es idéntica a una de `docs/stitch uxui/`.
 
-Siete pruebas cubren esos rechazos con repositorios fixture, más una prueba de que la guía pública rechaza
-declarar «renderer real en navegador» cuando las capturas son de la ventana real. `test/screenshot-provenance.test.mjs`
-pasa 7 de 7 y `test/public-guidance.test.mjs`, 10 de 10.
+- no hay ninguna imagen publicada que comprobar, o las que hay declaran commits distintos;
+- la galería no cita el commit, el motor o la forma de ejecutar que declaran los registros.
+
+El alcance es la carpeta publicada, no una lista de rutas: cualquier imagen bajo `docs/assets/companion*`, a
+cualquier profundidad y en cualquier formato, necesita registro. Catorce pruebas cubren esos rechazos con
+repositorios fixture, más una prueba de que la guía pública rechaza declarar «renderer real en navegador»
+cuando las capturas son de la ventana real. `test/screenshot-provenance.test.mjs` pasa 14 de 14 y
+`test/public-guidance.test.mjs`, 10 de 10.
+
+Lo que esa comprobación no puede hacer sola: decidir si una frase es cierta. `public-guidance.mjs` solo exige
+que el entorno esté declarado; lo que ata esa declaración a los hechos es el contraste con los registros. Si
+las capturas volvieran a generarse en un navegador, sus registros lo dirían y la galería tendría que decirlo
+también, o `check:docs` falla.
 
 ## Documentación
 

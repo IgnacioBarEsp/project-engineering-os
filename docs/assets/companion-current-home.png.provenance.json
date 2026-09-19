@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "sha256": "d32afe9859edeba69fcdc37662b275eb4adab22c12425e07ab088ed406ae16f2",
-  "bytes": 94973,
+  "sha256": "60e93f5afb00f658d3f458a885f643d44ad958a3cff0b7b1f532d47ec7677bad",
+  "bytes": 106279,
   "width": 1164,
   "height": 755,
-  "commit": "766d671e880156638e0e68e70479ed59b3db04f6",
+  "commit": "d744c47ffb618543c18270312810de3a260e7eea",
   "appVersion": "0.3.2",
   "ran": "electron .",
   "engine": "Electron 44.1.1, Chromium 152.0.7977.65",
@@ -24,6 +24,6 @@
     "title": "Dale a tu IA un buen punto de partida."
   },
   "generator": "apps/companion/scripts/capture-screenshots.mjs",
-  "capturedAt": "2026-09-19T19:55:21.522Z",
+  "capturedAt": "2026-09-19T22:54:21.499Z",
   "platform": "win32 10.0.26100"
 }

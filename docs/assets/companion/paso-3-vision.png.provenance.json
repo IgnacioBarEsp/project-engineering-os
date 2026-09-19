@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "sha256": "6b545d29d831e96b2dd4e587f82502ae4bef40572f89411a48c7fbf1296e4b9f",
-  "bytes": 76964,
+  "sha256": "d4e5c5aae714fe779dbe24e29e4cbd790cc8165d279f82c33da248ce868df1e1",
+  "bytes": 76951,
   "width": 1164,
   "height": 755,
-  "commit": "766d671e880156638e0e68e70479ed59b3db04f6",
+  "commit": "d744c47ffb618543c18270312810de3a260e7eea",
   "appVersion": "0.3.2",
   "ran": "electron .",
   "engine": "Electron 44.1.1, Chromium 152.0.7977.65",
@@ -24,6 +24,6 @@
     "title": "Cuéntanos en tus palabras: ¿qué quieres lograr?"
   },
   "generator": "apps/companion/scripts/capture-screenshots.mjs",
-  "capturedAt": "2026-09-19T19:55:23.085Z",
+  "capturedAt": "2026-09-19T22:54:23.092Z",
   "platform": "win32 10.0.26100"
 }

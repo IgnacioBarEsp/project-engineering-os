@@ -81,24 +81,24 @@ que ejecutó.
 
 | Dato | Valor |
 | --- | --- |
-| Fuente | [Commit 766d671](https://github.com/IgnacioBarEsp/project-engineering-os/tree/766d671e880156638e0e68e70479ed59b3db04f6) |
+| Fuente | [Commit d744c47](https://github.com/IgnacioBarEsp/project-engineering-os/tree/d744c47ffb618543c18270312810de3a260e7eea) |
 | Versión de la aplicación | 0.3.2 |
 | Entorno | Ventana real de la aplicación en Windows 11, ejecutada desde el código con `electron .` |
 | Motor | Electron 44.1.1, Chromium 152.0.7977.65 |
 | Ventana | 1180 × 820 exterior; 1164 × 755 px CSS, `devicePixelRatio` 1 |
-| Ejecución UTC | 2026-09-19T19:55:20.856Z |
+| Ejecución UTC | 2026-09-19T22:54:20.817Z |
 | Generador | `apps/companion/scripts/capture-screenshots.mjs` |
 | Sustituido | El selector de carpetas del sistema, que un script no puede manejar, y los datos de usuario, aislados en un directorio temporal |
 
 | Imagen | SHA-256 | Bytes |
 | --- | --- | --- |
-| [`docs/assets/companion/home-companion.png`](../assets/companion/home-companion.png) | `6561a1481139d03fc5ca51427c15fac682789881b38c7d69d293a34affb2e6d2` | 94 993 |
-| [`docs/assets/companion-current-home.png`](../assets/companion-current-home.png) | `d32afe9859edeba69fcdc37662b275eb4adab22c12425e07ab088ed406ae16f2` | 94 973 |
-| [`docs/assets/companion/paso-1-perfil.png`](../assets/companion/paso-1-perfil.png) | `890c2ffdd07a91786e40d97833f15e0af6bbb5484fc717fa2c07da5376ac8af2` | 78 254 |
-| [`docs/assets/companion/paso-2-delimitacion.png`](../assets/companion/paso-2-delimitacion.png) | `55ca30ad8f14aa67676bdc4844e6a36906be9012dc8d65081197171b03eaec28` | 91 297 |
-| [`docs/assets/companion/paso-3-vision.png`](../assets/companion/paso-3-vision.png) | `6b545d29d831e96b2dd4e587f82502ae4bef40572f89411a48c7fbf1296e4b9f` | 76 964 |
-| [`docs/assets/companion/paso-4-instalacion.png`](../assets/companion/paso-4-instalacion.png) | `178a1d22c55bad815e5d9cf363f13035c8edcbf4138c8da724314d15716c696e` | 118 915 |
-| [`docs/assets/companion/proyecto-listo-activacion.png`](../assets/companion/proyecto-listo-activacion.png) | `c4f3df32a481fd5e2c218164323bdaf9bbfc7072f66c010b43df4e2b7a1847c4` | 84 882 |
+| [`docs/assets/companion/home-companion.png`](../assets/companion/home-companion.png) | `1f5ec9e90f3c9549a4b2b2dc66dcfed70710e2bdebc19a755dc05625c698d775` | 106 571 |
+| [`docs/assets/companion-current-home.png`](../assets/companion-current-home.png) | `60e93f5afb00f658d3f458a885f643d44ad958a3cff0b7b1f532d47ec7677bad` | 106 279 |
+| [`docs/assets/companion/paso-1-perfil.png`](../assets/companion/paso-1-perfil.png) | `5d58a756c82414e2c16a4ea977dbbf0a6724021aa154de26cfced57c1dcb91a1` | 78 323 |
+| [`docs/assets/companion/paso-2-delimitacion.png`](../assets/companion/paso-2-delimitacion.png) | `07e7ca92c7933162da087b2d5835b7ec5996d795cf8c19466eb418bf12311d27` | 91 258 |
+| [`docs/assets/companion/paso-3-vision.png`](../assets/companion/paso-3-vision.png) | `d4e5c5aae714fe779dbe24e29e4cbd790cc8165d279f82c33da248ce868df1e1` | 76 951 |
+| [`docs/assets/companion/paso-4-instalacion.png`](../assets/companion/paso-4-instalacion.png) | `1e5ab0c0b3c9537d8d4ab96735586f0b49a02dbcec0b119995075c913ed846da` | 118 913 |
+| [`docs/assets/companion/proyecto-listo-activacion.png`](../assets/companion/proyecto-listo-activacion.png) | `6fa75cc1930e60179d6b962b4c4c7055a17fb72918c5163ac5581b8fada76603` | 84 849 |
 
 Las capturas de Inicio son dos ejecuciones del mismo momento del recorrido: una para esta galería y otra para
 el README. Difieren en bytes, no en contenido.

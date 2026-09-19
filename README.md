@@ -42,7 +42,7 @@ publicado; un hash coincidente verifica el archivo, no sustituye la firma del ed
 
 ![Inicio de Companion: titular, tarjetas para crear un proyecto nuevo o abrir una carpeta existente, y la barra superior con Inicio, Tus proyectos, Preparar proyecto y Ayuda](docs/assets/companion-current-home.png)
 
-Ventana real de la aplicación 0.3.2, ejecutada desde el código del commit `766d671` el 19 de septiembre de 2026. **No es una captura del instalador.**
+Ventana real de la aplicación 0.3.2, ejecutada desde el código del commit `d744c47` el 19 de septiembre de 2026. **No es una captura del instalador.**
 [Procedencia y galería de pantallas](docs/companion/SCREENSHOTS.md).
 
 ## Qué te ayuda a hacer

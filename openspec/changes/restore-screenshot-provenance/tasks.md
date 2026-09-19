@@ -23,8 +23,8 @@
 
 ## 5. Cierre
 
-- [ ] 5.1 Pasar la revisión adversarial desde contexto limpio y resolver sus Blockers y Majors.
-- [ ] 5.2 Capturar el assessment de deuda después de la última pasada de revisión.
+- [x] 5.1 Pasar la revisión adversarial desde contexto limpio y resolver sus Blockers y Majors.
+- [x] 5.2 Capturar el assessment de deuda después de la última pasada de revisión.
 - [ ] 5.3 Sustituir los estados pendientes de readiness solo con evidencia ejecutada, y pasar strict y el gate de archive con `--run-local`.
 - [ ] 5.4 Archivar con el CLI local, corregir los enlaces del change archivado, firmar los commits con DCO y entregar por PR protegido. La integración queda sujeta a la CI requerida y a la decisión del mantenedor.
 
