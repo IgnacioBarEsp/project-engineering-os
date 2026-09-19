@@ -10,7 +10,7 @@ flujo». Se registra como autorización para continuar con apply sobre la spec p
 
 No se le atribuye una revisión línea a línea de proposal, design y specs: la instrucción no la menciona.
 Integrar en `main` y publicar 0.3.2 siguen necesitando su decisión explícita, según
-[CONTRIBUTING.md](../../../../CONTRIBUTING.md), y se le preguntan antes de ejecutarse.
+[CONTRIBUTING.md](../../../../../CONTRIBUTING.md), y se le preguntan antes de ejecutarse.
 
 Se releyeron el límite de la preparación y el [preflight de archivado](pre-apply.md): diez PASS y seis
 FAIL esperados, todos trabajo posterior a apply. Con las superficies `documentation` y `ui` solo se

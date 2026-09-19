@@ -48,6 +48,9 @@ Corrige 0.3.1, con la que no se podía terminar el asistente en la aplicación i
   se aplican cuatro separaciones de Delimitación, Visión y la pantalla final, porque la política de seguridad
   de la ventana bloquea los estilos en línea que las definen. Las dos cosas son parte del renderer que rehace
   el [issue #144](https://github.com/IgnacioBarEsp/project-engineering-os/issues/144).
+- Al activar con el teclado una acción, como copiar, el foco a veces se pierde y vuelve al principio de la
+  página. Se ha visto en el navegador de pruebas y no en la aplicación, pero la causa está en el código. Es
+  parte del [issue #149](https://github.com/IgnacioBarEsp/project-engineering-os/issues/149).
 - Las capturas de la documentación son del prototipo de diseño, no de la aplicación. Las sustituye el
   [issue #143](https://github.com/IgnacioBarEsp/project-engineering-os/issues/143).
 

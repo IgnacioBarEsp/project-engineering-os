@@ -24,7 +24,7 @@ ejecutó ni revisó estas comprobaciones. Las decisiones que las enmarcan son de
 | `visual-check-when-configured` | Capturas del final de Paso 1 e Instalación antes y después, y capturas de Electron. Hashes abajo | [antes](before/README.md), [después](after/ui/), [Electron](after/native/) |
 | `critical-document-presence` | `check-docs` PASS | [docs.json](docs.json) |
 | `relative-link-check` | Todos los enlaces relativos del change, de PROJECT_STATUS y de las notas 0.3.2 existen | [artifact-links.json](artifact-links.json) |
-| `findability-two-hop-check` | README → [PROJECT_STATUS](../../../../docs/PROJECT_STATUS.md) → [notas de 0.3.2](../../../../apps/companion/RELEASE_NOTES_0.3.2.md) | [artifact-links.json](artifact-links.json) |
+| `findability-two-hop-check` | README → [PROJECT_STATUS](../../../../../docs/PROJECT_STATUS.md) → [notas de 0.3.2](../../../../../apps/companion/RELEASE_NOTES_0.3.2.md) | [artifact-links.json](artifact-links.json) |
 | `neutrality-check` | PASS | [neutrality.json](neutrality.json) |
 
 `npm run check` completo, sobre el commit final: [check.json](check.json).
@@ -173,11 +173,11 @@ A quién corresponde cada documento y cuándo cambia:
 El agente revisó que cada documento diga lo mismo que los demás y que no afirme más de lo medido. Las
 revisiones adversariales encontraron y corrigieron varias afirmaciones de este tipo.
 
-- [PROJECT_STATUS](../../../../docs/PROJECT_STATUS.md) separa 0.3.1 publicado, con sus cinco defectos
+- [PROJECT_STATUS](../../../../../docs/PROJECT_STATUS.md) separa 0.3.1 publicado, con sus cinco defectos
   conocidos, de las correcciones 0.3.2 pendientes de instalador. Los defectos del issue se distinguen de los
   hallados durante la corrección, y enumera los mismos límites que las notas.
-- Las [notas de 0.3.2](../../../../apps/companion/RELEASE_NOTES_0.3.2.md) dicen qué se corrige, cómo se
-  comprobó y qué no cambia (#147, #144, #143).
+- Las [notas de 0.3.2](../../../../../apps/companion/RELEASE_NOTES_0.3.2.md) dicen qué se corrige, cómo se
+  comprobó y qué no cambia (#147, #144, #149, #143).
 - README y la guía de instalación siguen enlazando 0.3.1: la spec exige cambiarlos solo con los assets
   canónicos de 0.3.2 verificados, después del merge.
 - Las capturas de `docs/companion/` no se regeneran. Son del prototipo y las sustituye #143, como fija la

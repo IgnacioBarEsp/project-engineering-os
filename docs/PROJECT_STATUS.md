@@ -17,7 +17,7 @@ Un issue cerrado demuestra el cierre de ese cambio; no publica por sí solo un i
 ([PR #140](https://github.com/IgnacioBarEsp/project-engineering-os/pull/140)). Con él no se puede terminar el
 asistente. Los tres primeros defectos están reproducidos y medidos en el
 [issue #142](https://github.com/IgnacioBarEsp/project-engineering-os/issues/142); los dos últimos
-aparecieron durante la corrección:
+aparecieron durante la corrección ([validación](../openspec/changes/archive/2026-09-19-companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md)):
 
 - La barra de acciones del asistente queda anclada al contenido animado y no a la ventana. Tapa «¿Cuánta
   guía prefieres?», la última tarjeta de Delimitación, las sugerencias de Visión y los dos botones de
@@ -38,6 +38,8 @@ Siguen en 0.3.2:
 - A 1040 px la navegación de la cabecera parte palabras, y la aplicación instalada no aplica cuatro
   separaciones del asistente porque su política de seguridad bloquea estilos en línea:
   [issue #144](https://github.com/IgnacioBarEsp/project-engineering-os/issues/144).
+- Tras activar con el teclado una acción, como copiar, el foco a veces se pierde:
+  [issue #149](https://github.com/IgnacioBarEsp/project-engineering-os/issues/149).
 - Las [capturas de la documentación](companion/SCREENSHOTS.md) son del prototipo de diseño, no de la
   aplicación: las sustituye el [issue #143](https://github.com/IgnacioBarEsp/project-engineering-os/issues/143).
 
