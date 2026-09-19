@@ -497,7 +497,8 @@ input[type=password]{width:100%;min-height:48px;border:1px solid var(--line);bor
 .finished-hero h1 { margin: 0 0 8px; font-size: 2rem; color: #ffffff; }
 .finished-hero p { margin: 0 auto; max-width: 600px; font-size: 1rem; color: #94a3b8; }
 .finished-path-bar { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #0f131d; padding: 12px 18px; border-radius: 10px; border: 1px solid var(--line); margin: 18px 0; flex-wrap: wrap; }
-.finished-path-bar code { font-family: ui-monospace, "JetBrains Mono", monospace; font-size: 0.88rem; color: #4edea3; font-weight: 600; }
+.finished-path-bar code { font-family: ui-monospace, "JetBrains Mono", monospace; font-size: 0.88rem; color: #4edea3; font-weight: 600; overflow-wrap: anywhere; }
+.finished-path-bar > div { min-width: 0; }
 .activation-card { background: #121826; border: 1.5px solid #6366f1; border-radius: 14px; padding: 22px; margin: 18px 0; box-shadow: 0 6px 24px rgba(99, 102, 241, 0.15); }
 .prompt-box { position: relative; background: #0b0f19; border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin: 14px 0; transition: border-color 180ms ease, box-shadow 180ms ease; }
 .prompt-box:hover { border-color: #818cf8; box-shadow: 0 4px 16px rgba(99, 102, 241, 0.1); }

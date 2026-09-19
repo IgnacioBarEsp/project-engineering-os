@@ -136,7 +136,7 @@ try {
     const report = await page.evaluate(REACH, INTERACTIVE);
     const measured = { label, viewport: report.viewport, bar: report.bar && { position: report.bar.position, height: report.bar.height },
       measured: report.controls.length, reachable: report.controls.filter(control => control.ok).length,
-      horizontalOverflow: await page.evaluate(() => document.documentElement.scrollWidth - innerWidth),
+      horizontalOverflow: await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth),
       problems: reachProblems(report, { primary: ['Inicio', 'Elegir carpeta →'], bar: true }) };
     record.smallWindows.push(measured);
     for (const problem of measured.problems) finding(`Paso 1, ${label}: ${problem}`);

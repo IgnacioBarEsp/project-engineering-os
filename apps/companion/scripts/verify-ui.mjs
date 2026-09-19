@@ -136,7 +136,9 @@ async function walkWizard(width,height,motion,branch){
     for(const entry of a11y.headingOrder)problems.push(`${screen}: encabezados ${entry}`);
     for(const control of names.unnamed)problems.push(`${screen}: control sin nombre accesible ${control}`);
     if(!a11y.measured||!a11y.focusable)problems.push(`${screen}: la comprobación de accesibilidad no examinó nada`);
-    const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
+    // Against the width the content has, which excludes a vertical scrollbar: innerWidth includes it and would hide a
+    // small overflow in a window that shows one.
+    const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
     if(overflow>1)problems.push(`${screen}: la página necesita desplazamiento horizontal (${overflow} px)`);
     for(const [action,value] of Object.entries(report.nav)){
       if(value!==String(action==='prepare-project'))problems.push(`${screen}: la navegación «${action}» declara aria-pressed="${value}"`);
