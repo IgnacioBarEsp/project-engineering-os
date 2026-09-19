@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "sha256": "178a1d22c55bad815e5d9cf363f13035c8edcbf4138c8da724314d15716c696e",
+  "bytes": 118915,
+  "width": 1164,
+  "height": 755,
+  "commit": "766d671e880156638e0e68e70479ed59b3db04f6",
+  "appVersion": "0.3.2",
+  "ran": "electron .",
+  "engine": "Electron 44.1.1, Chromium 152.0.7977.65",
+  "window": {
+    "outer": {
+      "width": 1180,
+      "height": 820
+    },
+    "viewport": {
+      "width": 1164,
+      "height": 755
+    },
+    "devicePixelRatio": 1
+  },
+  "screen": {
+    "id": "paso-4-instalacion",
+    "title": "Tu espacio está listo. ¿Cómo prefieres equiparlo?"
+  },
+  "generator": "apps/companion/scripts/capture-screenshots.mjs",
+  "capturedAt": "2026-09-19T19:55:23.384Z",
+  "platform": "win32 10.0.26100"
+}
