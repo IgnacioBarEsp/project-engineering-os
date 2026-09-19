@@ -5,21 +5,21 @@
 
 ## 2. Comprobación de procedencia
 
-- [ ] 2.1 Crear `scripts/screenshot-provenance.mjs` con las reglas de la decisión 4 y ejecutarlo desde `scripts/check-docs.mjs`.
-- [ ] 2.2 Probar cada rechazo con un fixture temporal: imagen idéntica a un mock, registro ausente o ilegible, hash o tamaño distintos, campo inválido, ruta de usuario y generador inexistente. Probar también el repositorio real en verde.
-- [ ] 2.3 Actualizar `scripts/public-guidance.mjs` y su prueba para que el entorno declarado sea «ventana real de la aplicación».
+- [x] 2.1 Crear `scripts/screenshot-provenance.mjs` con las reglas de la decisión 4 y ejecutarlo desde `scripts/check-docs.mjs`.
+- [x] 2.2 Probar cada rechazo con un fixture temporal: imagen idéntica a un mock, registro ausente o ilegible, hash o tamaño distintos, campo inválido, ruta de usuario y generador inexistente. Probar también el repositorio real en verde.
+- [x] 2.3 Actualizar `scripts/public-guidance.mjs` y su prueba para que el entorno declarado sea «ventana real de la aplicación».
 
 ## 3. Generador y capturas
 
-- [ ] 3.1 Crear `apps/companion/scripts/capture-screenshots.mjs` según las decisiones 1 a 3: Electron aislado, carpeta de proyecto neutra, árbol limpio, pantallas y registros.
-- [ ] 3.2 Hacer commit del código, generar las siete capturas desde ese commit y comprobar que ninguna coincide con un mock y que ningún registro nombra la cuenta.
-- [ ] 3.3 Inspeccionar cada captura contra la ventana real y registrar la inspección con su autoría.
+- [x] 3.1 Crear `apps/companion/scripts/capture-screenshots.mjs` según las decisiones 1 a 3: Electron aislado, carpeta de proyecto neutra, árbol limpio, pantallas y registros.
+- [x] 3.2 Hacer commit del código, generar las siete capturas desde ese commit y comprobar que ninguna coincide con un mock y que ningún registro nombra la cuenta.
+- [x] 3.3 Inspeccionar cada captura contra la ventana real y registrar la inspección con su autoría.
 
 ## 4. Documentación
 
-- [ ] 4.1 Crear `docs/stitch uxui/README.md` que rotule el prototipo y enlace la galería real.
-- [ ] 4.2 Reescribir `docs/companion/SCREENSHOTS.md`, el pie del README, `docs/README.md` y `docs/PROJECT_STATUS.md` según la decisión 6.
-- [ ] 4.3 Pasar `npm run check`, los enlaces relativos y la neutralidad.
+- [x] 4.1 Crear `docs/stitch uxui/README.md` que rotule el prototipo y enlace la galería real.
+- [x] 4.2 Reescribir `docs/companion/SCREENSHOTS.md`, el pie del README, `docs/README.md` y `docs/PROJECT_STATUS.md` según la decisión 6.
+- [x] 4.3 Pasar `npm run check`, los enlaces relativos y la neutralidad.
 
 ## 5. Cierre
 

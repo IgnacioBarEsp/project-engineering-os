@@ -1,0 +1,29 @@
+{
+  "command": [
+    "npm",
+    "run",
+    "check"
+  ],
+  "exitCode": 0,
+  "capturedAt": "2026-09-19T21:59:43.516Z",
+  "source": {
+    "commit": "4964a99b24aa2ad4c46a7ef8bf5d1e19f2baf3c5",
+    "uncommittedFiles": 7,
+    "note": "Ejecutado con la documentación de la tarea 4 ya escrita y sin commit; el código y las capturas son los del commit."
+  },
+  "summary": [
+    "PASS package contract create-project-engineering-os@0.5.0",
+    "PASS public tree neutrality and export allowlist",
+    "PASS docs 25 README links, prompt contract and 20 spec purposes",
+    "PASS workflows 6",
+    "PASS Politica y registro validos (49 item(s)).",
+    "PASS Plan activo: 4/5 unidades, 3 flujo(s) con deuda abierta.",
+    "ℹ tests 334",
+    "ℹ suites 0",
+    "ℹ pass 334",
+    "ℹ fail 0",
+    "ℹ cancelled 0",
+    "ℹ skipped 0",
+    "ℹ todo 0"
+  ]
+}

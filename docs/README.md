@@ -61,7 +61,7 @@ Las [herramientas en una subcarpeta](ISOLATED_TOOLCHAIN.md) permiten conservar l
 - [Endurecer instalaciones](INSTALL_HARDENING.md): controles por gestor, defaults fechados y excepciones.
 - [Versionado y migraciones](architecture/VERSIONING.md): cuándo usar patch, minor o major.
 - [Releases](RELEASES.md): ciclos separados del Companion y del núcleo, artefactos y documentación de cada entrega.
-- [Capturas del Companion](companion/SCREENSHOTS.md): imágenes reales, procedencia y alcance de lo probado.
+- [Capturas del Companion](companion/SCREENSHOTS.md): la ventana real, con procedencia verificable y lo que queda fuera de cada imagen.
 - [Costos, licencias y lock-in](COSTS_AND_LICENSES.md): decisiones que deben revisarse antes de extender.
 - [Triage de cadena de suministro](security/SUPPLY_CHAIN_TRIAGE_2026-08-18.md): atribución y decisión por
   señal de Socket y npm audit.

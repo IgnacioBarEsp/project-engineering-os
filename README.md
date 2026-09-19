@@ -38,11 +38,11 @@ publicado; un hash coincidente verifica el archivo, no sustituye la firma del ed
 
 [Consulta qué está publicado y qué sigue en desarrollo](docs/PROJECT_STATUS.md).
 
-## Así se ve Companion 0.3.0
+## Así se ve Companion 0.3.2
 
-![Inicio del Companion: preparar proyecto, 7 perfiles canónicos, diseño Obsidian Precision Studio e integración con IA](docs/assets/companion-current-home.png)
+![Inicio de Companion: titular, tarjetas para crear un proyecto nuevo o abrir una carpeta existente, y la barra superior con Inicio, Tus proyectos, Preparar proyecto y Ayuda](docs/assets/companion-current-home.png)
 
-Captura del asistente de preparación integrado con diseño Obsidian Precision Studio e Impeccable, tomada el 18 de septiembre de 2026. **No es una captura del instalador.**
+Ventana real de la aplicación 0.3.2, ejecutada desde el código del commit `766d671` el 19 de septiembre de 2026. **No es una captura del instalador.**
 [Procedencia y galería de pantallas](docs/companion/SCREENSHOTS.md).
 
 ## Qué te ayuda a hacer

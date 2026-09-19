@@ -32,6 +32,9 @@ aparecieron durante la corrección ([validación](../openspec/changes/archive/20
 ([PR #169](https://github.com/IgnacioBarEsp/project-engineering-os/pull/169)) con el workflow de release, que
 lo instaló, lo actualizó desde 0.1.0 y lo desinstaló en un runner Windows aislado antes de publicarlo.
 
+Las [capturas de esta documentación](companion/SCREENSHOTS.md) son de la ventana real de 0.3.2, con
+procedencia comprobada en `npm run check`; el [prototipo de diseño](stitch%20uxui/) está rotulado como tal.
+
 Siguen en 0.3.2:
 
 - Las dos formas de instalar hacen lo mismo, aunque «Instalación rápida» diga que instala dependencias:
@@ -41,8 +44,6 @@ Siguen en 0.3.2:
   [issue #144](https://github.com/IgnacioBarEsp/project-engineering-os/issues/144).
 - Tras activar con el teclado una acción, como copiar, el foco a veces se pierde:
   [issue #149](https://github.com/IgnacioBarEsp/project-engineering-os/issues/149).
-- Las [capturas de la documentación](companion/SCREENSHOTS.md) son del prototipo de diseño, no de la
-  aplicación: las sustituye el [issue #143](https://github.com/IgnacioBarEsp/project-engineering-os/issues/143).
 
 ## Límites que siguen vigentes
 
