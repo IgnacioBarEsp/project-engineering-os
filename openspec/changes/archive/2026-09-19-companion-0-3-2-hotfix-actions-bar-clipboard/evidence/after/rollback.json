@@ -1,0 +1,64 @@
+{
+  "date": "2026-09-19T17:52:45.439Z",
+  "previous": "a3b1efda6a53501a2a06e277cf0b7f18f11c6bed",
+  "current": "12c931ba8c047f1903db91c1bce6a2562bd5dbe3",
+  "steps": [
+    {
+      "name": "0.3.2 prepara una carpeta con una visión de varias líneas",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "PROJECT_VISION.md conserva los párrafos",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "0.3.1 lista el proyecto preparado con 0.3.2",
+      "ok": true,
+      "detail": "estado verified"
+    },
+    {
+      "name": "0.3.1 lo abre con sus elecciones y su lectura vigentes",
+      "ok": true,
+      "detail": "base prepared, contexto current"
+    },
+    {
+      "name": "0.3.1 conserva el objetivo en una línea",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "0.3.1 no ofrece copyText: con el rollback vuelve el defecto de copia",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "0.3.2 abre lo que preparó 0.3.1",
+      "ok": true,
+      "detail": "base prepared, contexto current"
+    },
+    {
+      "name": "0.3.2 lista ambos proyectos del mismo historial",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "El archivo de la persona en la carpeta de 0.3.2 no cambió en ningún paso",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "El archivo de la persona en la carpeta de 0.3.1 no cambió en ningún paso",
+      "ok": true,
+      "detail": null
+    }
+  ],
+  "findings": [],
+  "nodeModulesIntact": true,
+  "summary": {
+    "steps": 10,
+    "passed": 10,
+    "findings": 0
+  }
+}

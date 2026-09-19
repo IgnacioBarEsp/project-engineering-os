@@ -1,0 +1,56 @@
+{
+  "capturedAt": "2026-09-19T07:29:10.225Z",
+  "source": "Renderer corregido de este change, sin commit todavía; servicio real en Edge sin ventana, movimiento normal.",
+  "method": "En el paso 1 se pulsa Tab desde el principio hasta llegar a «Elegir carpeta →». En cada parada se compara la caja del elemento enfocado con la de la barra final. La única diferencia entre las dos variantes es una hoja de estilo que anula el scroll-padding.",
+  "criterion": "«wholly» significa que el elemento enfocado queda entero dentro de la franja de la barra (WCAG 2.4.11). «partly» incluye solapes de fracciones de píxel.",
+  "results": [
+    {
+      "window": "1180x820",
+      "padding": "con scroll-padding",
+      "scrollPadding": "83px",
+      "stops": 16,
+      "whollyUnderBar": [],
+      "partlyUnderBar": [
+        "ChatGPT u otro chat web"
+      ]
+    },
+    {
+      "window": "1180x820",
+      "padding": "sin scroll-padding",
+      "scrollPadding": "0px",
+      "stops": 16,
+      "whollyUnderBar": [
+        "Es pronto para decidirlo No se instala n"
+      ],
+      "partlyUnderBar": [
+        "Es pronto para decidirlo No se instala n",
+        "¿Cuánta guía prefieres?"
+      ]
+    },
+    {
+      "window": "1040x700",
+      "padding": "con scroll-padding",
+      "scrollPadding": "83px",
+      "stops": 16,
+      "whollyUnderBar": [],
+      "partlyUnderBar": [
+        "OpenCode",
+        "Antigravity"
+      ]
+    },
+    {
+      "window": "1040x700",
+      "padding": "sin scroll-padding",
+      "scrollPadding": "0px",
+      "stops": 16,
+      "whollyUnderBar": [
+        "OpenCode",
+        "Antigravity"
+      ],
+      "partlyUnderBar": [
+        "OpenCode",
+        "Antigravity"
+      ]
+    }
+  ]
+}

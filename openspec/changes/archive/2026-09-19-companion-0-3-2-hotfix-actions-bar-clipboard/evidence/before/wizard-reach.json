@@ -1,0 +1,4208 @@
+{
+  "date": "2026-09-19T07:10:07.284Z",
+  "scope": "Renderer real y servicio real en el navegador; selector de carpeta, portapapeles y apertura externa inyectados. Asistente vigente en tres ventanas, con movimiento normal y reducido y con las dos formas de instalar.",
+  "viewports": [
+    "1180x820",
+    "1160x810",
+    "1040x700"
+  ],
+  "motions": [
+    "no-preference",
+    "reduce"
+  ],
+  "branches": [
+    "quick",
+    "ai"
+  ],
+  "matrix": [
+    {
+      "viewport": "1180x820",
+      "motion": "no-preference",
+      "branch": "quick",
+      "screens": {
+        "setup": {
+          "heading": "Empecemos por lo que quieres lograr.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617.390625,
+            "bottom": 700.390625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 2000,
+            "scrollY": 1180,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "div.field",
+            "lastContentBottom": 700.390625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 28,
+          "reachable": 27,
+          "blocked": [
+            {
+              "name": "¿Cuánta guía prefieres?",
+              "element": "select#experience",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 590,
+              "y": 677
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 69,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 33,
+            "unnamed": []
+          }
+        },
+        "folder-empty": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 488.40625,
+            "bottom": 571.40625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 820,
+            "scrollY": 0,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 571.40625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 2,
+          "reachable": 2,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 24,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 7,
+            "unnamed": []
+          }
+        },
+        "folder": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 616.5625,
+            "bottom": 699.5625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 923,
+            "scrollY": 103,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 699.5625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 31,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "delimitation": {
+          "heading": "¿Cuál es el enfoque principal de tu proyecto?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617.40625,
+            "bottom": 700.40625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 906,
+            "scrollY": 86,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "div.delimitation-grid",
+            "lastContentBottom": 700.40625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 5,
+          "blocked": [
+            {
+              "name": "Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor",
+              "element": "article.delimitation-card",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 251,
+              "y": 621
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 39,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "vision": {
+          "heading": "Cuéntanos en tus palabras: ¿qué quieres lograr?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617.34375,
+            "bottom": 700.34375,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 910,
+            "scrollY": 90,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "div.vision-container",
+            "lastContentBottom": 700.34375,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 3,
+          "blocked": [
+            {
+              "name": "Público Objetivo Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "button.primary",
+              "inBar": false,
+              "x": 266,
+              "y": 649
+            },
+            {
+              "name": "Problema Principal Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 590,
+              "y": 649
+            },
+            {
+              "name": "Alcance Inicial Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 914,
+              "y": 649
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": [
+              "textarea#vision-input.vision-textarea"
+            ]
+          }
+        },
+        "install": {
+          "heading": "Tu espacio está listo. ¿Cómo prefieres equiparlo?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 594.328125,
+            "bottom": 677.328125,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 820,
+            "scrollY": 0,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "div.bifurcation-grid",
+            "lastContentBottom": 677.328125,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "false",
+            "open-help": "false"
+          },
+          "measured": 3,
+          "reachable": 1,
+          "blocked": [
+            {
+              "name": "Instalar stack base y obtener prompt →",
+              "element": "button.primary",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 268,
+              "y": 629
+            },
+            {
+              "name": "Preparar carpeta y generar prompt maestro →",
+              "element": "button.primary",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 803,
+              "y": 629
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 8,
+            "unnamed": []
+          }
+        }
+      },
+      "problems": [
+        "setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions",
+        "setup: al final del recorrido la barra tapa contenido: div.field termina en 700 px y la barra empieza en 617 px",
+        "folder-empty: al final del recorrido la barra tapa contenido: p.subtle termina en 571 px y la barra empieza en 488 px",
+        "folder: al final del recorrido la barra tapa contenido: p.subtle termina en 700 px y la barra empieza en 617 px",
+        "delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+        "delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 700 px y la barra empieza en 617 px",
+        "delimitation: un clic normal no pudo elegir «Prototipo o Arquitectura Propia»",
+        "delimitation: «Prototipo o Arquitectura Propia» no quedó elegida",
+        "vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+        "vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+        "vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+        "vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 700 px y la barra empieza en 617 px",
+        "vision: un clic normal no pudo pulsar la sugerencia «Público Objetivo»",
+        "vision: un clic normal no pudo pulsar la sugerencia «Problema Principal»",
+        "vision: un clic normal no pudo pulsar la sugerencia «Alcance Inicial»",
+        "vision: la sugerencia «### Público Objetivo» no llegó al borrador",
+        "vision: la sugerencia «### Problema Principal a Resolver» no llegó al borrador",
+        "vision: la sugerencia «### Alcance del Primer Incremento» no llegó al borrador",
+        "install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions",
+        "install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+        "install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 677 px y la barra empieza en 594 px",
+        "install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+        "install: un clic normal no pudo pulsar «Instalar stack base y obtener prompt →»: \u001b[2m      - <div class=\"actions\">…</div> intercepts pointer events\u001b[22m",
+        "finished: pantalla no alcanzada"
+      ]
+    },
+    {
+      "viewport": "1180x820",
+      "motion": "no-preference",
+      "branch": "ai",
+      "screens": {
+        "setup": {
+          "heading": "Empecemos por lo que quieres lograr.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617.390625,
+            "bottom": 700.390625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 2000,
+            "scrollY": 1180,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "div.field",
+            "lastContentBottom": 700.390625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 28,
+          "reachable": 27,
+          "blocked": [
+            {
+              "name": "¿Cuánta guía prefieres?",
+              "element": "select#experience",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 590,
+              "y": 677
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 69,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 33,
+            "unnamed": []
+          }
+        },
+        "folder-empty": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 488.40625,
+            "bottom": 571.40625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 820,
+            "scrollY": 0,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 571.40625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 2,
+          "reachable": 2,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 24,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 7,
+            "unnamed": []
+          }
+        },
+        "folder": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 616.5625,
+            "bottom": 699.5625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 923,
+            "scrollY": 103,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 699.5625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 31,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "delimitation": {
+          "heading": "¿Cuál es el enfoque principal de tu proyecto?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617.40625,
+            "bottom": 700.40625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 906,
+            "scrollY": 86,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "div.delimitation-grid",
+            "lastContentBottom": 700.40625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 5,
+          "blocked": [
+            {
+              "name": "Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor",
+              "element": "article.delimitation-card",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 251,
+              "y": 621
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 39,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "vision": {
+          "heading": "Cuéntanos en tus palabras: ¿qué quieres lograr?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617.34375,
+            "bottom": 700.34375,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 910,
+            "scrollY": 90,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "div.vision-container",
+            "lastContentBottom": 700.34375,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 3,
+          "blocked": [
+            {
+              "name": "Público Objetivo Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "button.primary",
+              "inBar": false,
+              "x": 266,
+              "y": 649
+            },
+            {
+              "name": "Problema Principal Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 590,
+              "y": 649
+            },
+            {
+              "name": "Alcance Inicial Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 914,
+              "y": 649
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": [
+              "textarea#vision-input.vision-textarea"
+            ]
+          }
+        },
+        "install": {
+          "heading": "Tu espacio está listo. ¿Cómo prefieres equiparlo?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 594.328125,
+            "bottom": 677.328125,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 820,
+            "scrollY": 0,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "div.bifurcation-grid",
+            "lastContentBottom": 677.328125,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "false",
+            "open-help": "false"
+          },
+          "measured": 3,
+          "reachable": 1,
+          "blocked": [
+            {
+              "name": "Instalar stack base y obtener prompt →",
+              "element": "button.primary",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 268,
+              "y": 629
+            },
+            {
+              "name": "Preparar carpeta y generar prompt maestro →",
+              "element": "button.primary",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 803,
+              "y": 629
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 8,
+            "unnamed": []
+          }
+        }
+      },
+      "problems": [
+        "setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions",
+        "setup: al final del recorrido la barra tapa contenido: div.field termina en 700 px y la barra empieza en 617 px",
+        "folder-empty: al final del recorrido la barra tapa contenido: p.subtle termina en 571 px y la barra empieza en 488 px",
+        "folder: al final del recorrido la barra tapa contenido: p.subtle termina en 700 px y la barra empieza en 617 px",
+        "delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+        "delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 700 px y la barra empieza en 617 px",
+        "delimitation: un clic normal no pudo elegir «Prototipo o Arquitectura Propia»",
+        "delimitation: «Prototipo o Arquitectura Propia» no quedó elegida",
+        "vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+        "vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+        "vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+        "vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 700 px y la barra empieza en 617 px",
+        "vision: un clic normal no pudo pulsar la sugerencia «Público Objetivo»",
+        "vision: un clic normal no pudo pulsar la sugerencia «Problema Principal»",
+        "vision: un clic normal no pudo pulsar la sugerencia «Alcance Inicial»",
+        "vision: la sugerencia «### Público Objetivo» no llegó al borrador",
+        "vision: la sugerencia «### Problema Principal a Resolver» no llegó al borrador",
+        "vision: la sugerencia «### Alcance del Primer Incremento» no llegó al borrador",
+        "install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions",
+        "install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+        "install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 677 px y la barra empieza en 594 px",
+        "install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+        "install: un clic normal no pudo pulsar «Preparar carpeta y generar prompt maestro →»: \u001b[2m      - <div class=\"actions\">…</div> intercepts pointer events\u001b[22m",
+        "finished: pantalla no alcanzada"
+      ]
+    },
+    {
+      "viewport": "1180x820",
+      "motion": "reduce",
+      "branch": "quick",
+      "screens": {
+        "setup": {
+          "heading": "Empecemos por lo que quieres lograr.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 737,
+            "bottom": 820,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 2000,
+            "scrollY": 1180,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "div.field",
+            "lastContentBottom": 700.390625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 28,
+          "reachable": 28,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 69,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 33,
+            "unnamed": []
+          }
+        },
+        "folder-empty": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 737,
+            "bottom": 820,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 820,
+            "scrollY": 0,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 571.40625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 2,
+          "reachable": 2,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 24,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 7,
+            "unnamed": []
+          }
+        },
+        "folder": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 737,
+            "bottom": 820,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 923,
+            "scrollY": 103,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 699.5625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 31,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "delimitation": {
+          "heading": "¿Cuál es el enfoque principal de tu proyecto?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 737,
+            "bottom": 820,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 906,
+            "scrollY": 86,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "div.delimitation-grid",
+            "lastContentBottom": 700.40625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 39,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "vision": {
+          "heading": "Cuéntanos en tus palabras: ¿qué quieres lograr?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 737,
+            "bottom": 820,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 910,
+            "scrollY": 90,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "div.vision-container",
+            "lastContentBottom": 700.34375,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": [
+              "textarea#vision-input.vision-textarea"
+            ]
+          }
+        },
+        "install": {
+          "heading": "Tu espacio está listo. ¿Cómo prefieres equiparlo?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 737,
+            "bottom": 820,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 820,
+            "scrollY": 0,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "div.bifurcation-grid",
+            "lastContentBottom": 677.328125,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "false",
+            "open-help": "false"
+          },
+          "measured": 3,
+          "reachable": 3,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 8,
+            "unnamed": []
+          }
+        }
+      },
+      "problems": [
+        "install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+        "install: no se llegó a «¡Tu proyecto está listo para cobrar vida!»; la ventana muestra: Describe tu objetivo en hasta 500 caracteres. Revisa la carpeta y vuelve a comprobar. GOAL_INVALID",
+        "finished: pantalla no alcanzada"
+      ]
+    },
+    {
+      "viewport": "1180x820",
+      "motion": "reduce",
+      "branch": "ai",
+      "screens": {
+        "setup": {
+          "heading": "Empecemos por lo que quieres lograr.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 737,
+            "bottom": 820,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 2000,
+            "scrollY": 1180,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "div.field",
+            "lastContentBottom": 700.390625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 28,
+          "reachable": 28,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 69,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 33,
+            "unnamed": []
+          }
+        },
+        "folder-empty": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 737,
+            "bottom": 820,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 820,
+            "scrollY": 0,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 571.40625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 2,
+          "reachable": 2,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 24,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 7,
+            "unnamed": []
+          }
+        },
+        "folder": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 737,
+            "bottom": 820,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 923,
+            "scrollY": 103,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 699.5625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 31,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "delimitation": {
+          "heading": "¿Cuál es el enfoque principal de tu proyecto?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 737,
+            "bottom": 820,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 906,
+            "scrollY": 86,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "div.delimitation-grid",
+            "lastContentBottom": 700.40625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 39,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "vision": {
+          "heading": "Cuéntanos en tus palabras: ¿qué quieres lograr?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 737,
+            "bottom": 820,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 910,
+            "scrollY": 90,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "div.vision-container",
+            "lastContentBottom": 700.34375,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": [
+              "textarea#vision-input.vision-textarea"
+            ]
+          }
+        },
+        "install": {
+          "heading": "Tu espacio está listo. ¿Cómo prefieres equiparlo?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 737,
+            "bottom": 820,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 820,
+            "scrollY": 0,
+            "innerHeight": 820,
+            "documentBottom": 820,
+            "lastContent": "div.bifurcation-grid",
+            "lastContentBottom": 677.328125,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "false",
+            "open-help": "false"
+          },
+          "measured": 3,
+          "reachable": 3,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 8,
+            "unnamed": []
+          }
+        }
+      },
+      "problems": [
+        "install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+        "install: no se llegó a «¡Tu proyecto está listo para cobrar vida!»; la ventana muestra: Describe tu objetivo en hasta 500 caracteres. Revisa la carpeta y vuelve a comprobar. GOAL_INVALID",
+        "finished: pantalla no alcanzada"
+      ]
+    },
+    {
+      "viewport": "1160x810",
+      "motion": "no-preference",
+      "branch": "quick",
+      "screens": {
+        "setup": {
+          "heading": "Empecemos por lo que quieres lograr.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 607.390625,
+            "bottom": 690.390625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 2000,
+            "scrollY": 1190,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "div.field",
+            "lastContentBottom": 690.390625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 28,
+          "reachable": 27,
+          "blocked": [
+            {
+              "name": "¿Cuánta guía prefieres?",
+              "element": "select#experience",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 580,
+              "y": 667
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 69,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 33,
+            "unnamed": []
+          }
+        },
+        "folder-empty": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 488.40625,
+            "bottom": 571.40625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 810,
+            "scrollY": 0,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 571.40625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 2,
+          "reachable": 2,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 24,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 7,
+            "unnamed": []
+          }
+        },
+        "folder": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 606.5625,
+            "bottom": 689.5625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 923,
+            "scrollY": 113,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 689.5625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 31,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "delimitation": {
+          "heading": "¿Cuál es el enfoque principal de tu proyecto?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 607.40625,
+            "bottom": 690.40625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 906,
+            "scrollY": 96,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "div.delimitation-grid",
+            "lastContentBottom": 690.40625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 5,
+          "blocked": [
+            {
+              "name": "Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor",
+              "element": "article.delimitation-card",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 241,
+              "y": 611
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 39,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "vision": {
+          "heading": "Cuéntanos en tus palabras: ¿qué quieres lograr?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 607.34375,
+            "bottom": 690.34375,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 910,
+            "scrollY": 100,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "div.vision-container",
+            "lastContentBottom": 690.34375,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 3,
+          "blocked": [
+            {
+              "name": "Público Objetivo Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "button.primary",
+              "inBar": false,
+              "x": 256,
+              "y": 639
+            },
+            {
+              "name": "Problema Principal Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 580,
+              "y": 639
+            },
+            {
+              "name": "Alcance Inicial Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 904,
+              "y": 639
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": [
+              "textarea#vision-input.vision-textarea"
+            ]
+          }
+        },
+        "install": {
+          "heading": "Tu espacio está listo. ¿Cómo prefieres equiparlo?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 594.328125,
+            "bottom": 677.328125,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 810,
+            "scrollY": 0,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "div.bifurcation-grid",
+            "lastContentBottom": 677.328125,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "false",
+            "open-help": "false"
+          },
+          "measured": 3,
+          "reachable": 1,
+          "blocked": [
+            {
+              "name": "Instalar stack base y obtener prompt →",
+              "element": "button.primary",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 258,
+              "y": 629
+            },
+            {
+              "name": "Preparar carpeta y generar prompt maestro →",
+              "element": "button.primary",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 793,
+              "y": 629
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 8,
+            "unnamed": []
+          }
+        }
+      },
+      "problems": [
+        "setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions",
+        "setup: al final del recorrido la barra tapa contenido: div.field termina en 690 px y la barra empieza en 607 px",
+        "folder-empty: al final del recorrido la barra tapa contenido: p.subtle termina en 571 px y la barra empieza en 488 px",
+        "folder: al final del recorrido la barra tapa contenido: p.subtle termina en 690 px y la barra empieza en 607 px",
+        "delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+        "delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 690 px y la barra empieza en 607 px",
+        "delimitation: un clic normal no pudo elegir «Prototipo o Arquitectura Propia»",
+        "delimitation: «Prototipo o Arquitectura Propia» no quedó elegida",
+        "vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+        "vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+        "vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+        "vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 690 px y la barra empieza en 607 px",
+        "vision: un clic normal no pudo pulsar la sugerencia «Público Objetivo»",
+        "vision: un clic normal no pudo pulsar la sugerencia «Problema Principal»",
+        "vision: un clic normal no pudo pulsar la sugerencia «Alcance Inicial»",
+        "vision: la sugerencia «### Público Objetivo» no llegó al borrador",
+        "vision: la sugerencia «### Problema Principal a Resolver» no llegó al borrador",
+        "vision: la sugerencia «### Alcance del Primer Incremento» no llegó al borrador",
+        "install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions",
+        "install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+        "install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 677 px y la barra empieza en 594 px",
+        "install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+        "install: un clic normal no pudo pulsar «Instalar stack base y obtener prompt →»: \u001b[2m      - <div class=\"actions\">…</div> intercepts pointer events\u001b[22m",
+        "finished: pantalla no alcanzada"
+      ]
+    },
+    {
+      "viewport": "1160x810",
+      "motion": "no-preference",
+      "branch": "ai",
+      "screens": {
+        "setup": {
+          "heading": "Empecemos por lo que quieres lograr.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 607.390625,
+            "bottom": 690.390625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 2000,
+            "scrollY": 1190,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "div.field",
+            "lastContentBottom": 690.390625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 28,
+          "reachable": 27,
+          "blocked": [
+            {
+              "name": "¿Cuánta guía prefieres?",
+              "element": "select#experience",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 580,
+              "y": 667
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 69,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 33,
+            "unnamed": []
+          }
+        },
+        "folder-empty": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 488.40625,
+            "bottom": 571.40625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 810,
+            "scrollY": 0,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 571.40625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 2,
+          "reachable": 2,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 24,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 7,
+            "unnamed": []
+          }
+        },
+        "folder": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 606.5625,
+            "bottom": 689.5625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 923,
+            "scrollY": 113,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 689.5625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 31,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "delimitation": {
+          "heading": "¿Cuál es el enfoque principal de tu proyecto?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 607.40625,
+            "bottom": 690.40625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 906,
+            "scrollY": 96,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "div.delimitation-grid",
+            "lastContentBottom": 690.40625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 5,
+          "blocked": [
+            {
+              "name": "Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor",
+              "element": "article.delimitation-card",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 241,
+              "y": 611
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 39,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "vision": {
+          "heading": "Cuéntanos en tus palabras: ¿qué quieres lograr?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 607.34375,
+            "bottom": 690.34375,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 910,
+            "scrollY": 100,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "div.vision-container",
+            "lastContentBottom": 690.34375,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 3,
+          "blocked": [
+            {
+              "name": "Público Objetivo Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "button.primary",
+              "inBar": false,
+              "x": 256,
+              "y": 639
+            },
+            {
+              "name": "Problema Principal Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 580,
+              "y": 639
+            },
+            {
+              "name": "Alcance Inicial Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 904,
+              "y": 639
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": [
+              "textarea#vision-input.vision-textarea"
+            ]
+          }
+        },
+        "install": {
+          "heading": "Tu espacio está listo. ¿Cómo prefieres equiparlo?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 594.328125,
+            "bottom": 677.328125,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 810,
+            "scrollY": 0,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "div.bifurcation-grid",
+            "lastContentBottom": 677.328125,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "false",
+            "open-help": "false"
+          },
+          "measured": 3,
+          "reachable": 1,
+          "blocked": [
+            {
+              "name": "Instalar stack base y obtener prompt →",
+              "element": "button.primary",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 258,
+              "y": 629
+            },
+            {
+              "name": "Preparar carpeta y generar prompt maestro →",
+              "element": "button.primary",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 793,
+              "y": 629
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 8,
+            "unnamed": []
+          }
+        }
+      },
+      "problems": [
+        "setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions",
+        "setup: al final del recorrido la barra tapa contenido: div.field termina en 690 px y la barra empieza en 607 px",
+        "folder-empty: al final del recorrido la barra tapa contenido: p.subtle termina en 571 px y la barra empieza en 488 px",
+        "folder: al final del recorrido la barra tapa contenido: p.subtle termina en 690 px y la barra empieza en 607 px",
+        "delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+        "delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 690 px y la barra empieza en 607 px",
+        "delimitation: un clic normal no pudo elegir «Prototipo o Arquitectura Propia»",
+        "delimitation: «Prototipo o Arquitectura Propia» no quedó elegida",
+        "vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+        "vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+        "vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+        "vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 690 px y la barra empieza en 607 px",
+        "vision: un clic normal no pudo pulsar la sugerencia «Público Objetivo»",
+        "vision: un clic normal no pudo pulsar la sugerencia «Problema Principal»",
+        "vision: un clic normal no pudo pulsar la sugerencia «Alcance Inicial»",
+        "vision: la sugerencia «### Público Objetivo» no llegó al borrador",
+        "vision: la sugerencia «### Problema Principal a Resolver» no llegó al borrador",
+        "vision: la sugerencia «### Alcance del Primer Incremento» no llegó al borrador",
+        "install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions",
+        "install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+        "install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 677 px y la barra empieza en 594 px",
+        "install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+        "install: un clic normal no pudo pulsar «Preparar carpeta y generar prompt maestro →»: \u001b[2m      - <div class=\"actions\">…</div> intercepts pointer events\u001b[22m",
+        "finished: pantalla no alcanzada"
+      ]
+    },
+    {
+      "viewport": "1160x810",
+      "motion": "reduce",
+      "branch": "quick",
+      "screens": {
+        "setup": {
+          "heading": "Empecemos por lo que quieres lograr.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 727,
+            "bottom": 810,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 2000,
+            "scrollY": 1190,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "div.field",
+            "lastContentBottom": 690.390625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 28,
+          "reachable": 28,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 69,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 33,
+            "unnamed": []
+          }
+        },
+        "folder-empty": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 727,
+            "bottom": 810,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 810,
+            "scrollY": 0,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 571.40625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 2,
+          "reachable": 2,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 24,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 7,
+            "unnamed": []
+          }
+        },
+        "folder": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 727,
+            "bottom": 810,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 923,
+            "scrollY": 113,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 689.5625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 31,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "delimitation": {
+          "heading": "¿Cuál es el enfoque principal de tu proyecto?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 727,
+            "bottom": 810,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 906,
+            "scrollY": 96,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "div.delimitation-grid",
+            "lastContentBottom": 690.40625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 39,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "vision": {
+          "heading": "Cuéntanos en tus palabras: ¿qué quieres lograr?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 727,
+            "bottom": 810,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 910,
+            "scrollY": 100,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "div.vision-container",
+            "lastContentBottom": 690.34375,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": [
+              "textarea#vision-input.vision-textarea"
+            ]
+          }
+        },
+        "install": {
+          "heading": "Tu espacio está listo. ¿Cómo prefieres equiparlo?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 727,
+            "bottom": 810,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 810,
+            "scrollY": 0,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "div.bifurcation-grid",
+            "lastContentBottom": 677.328125,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "false",
+            "open-help": "false"
+          },
+          "measured": 3,
+          "reachable": 3,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 8,
+            "unnamed": []
+          }
+        }
+      },
+      "problems": [
+        "install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+        "install: no se llegó a «¡Tu proyecto está listo para cobrar vida!»; la ventana muestra: Describe tu objetivo en hasta 500 caracteres. Revisa la carpeta y vuelve a comprobar. GOAL_INVALID",
+        "finished: pantalla no alcanzada"
+      ]
+    },
+    {
+      "viewport": "1160x810",
+      "motion": "reduce",
+      "branch": "ai",
+      "screens": {
+        "setup": {
+          "heading": "Empecemos por lo que quieres lograr.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 727,
+            "bottom": 810,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 2000,
+            "scrollY": 1190,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "div.field",
+            "lastContentBottom": 690.390625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 28,
+          "reachable": 28,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 69,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 33,
+            "unnamed": []
+          }
+        },
+        "folder-empty": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 727,
+            "bottom": 810,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 810,
+            "scrollY": 0,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 571.40625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 2,
+          "reachable": 2,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 24,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 7,
+            "unnamed": []
+          }
+        },
+        "folder": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 727,
+            "bottom": 810,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 923,
+            "scrollY": 113,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 689.5625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 31,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "delimitation": {
+          "heading": "¿Cuál es el enfoque principal de tu proyecto?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 727,
+            "bottom": 810,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 906,
+            "scrollY": 96,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "div.delimitation-grid",
+            "lastContentBottom": 690.40625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 39,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "vision": {
+          "heading": "Cuéntanos en tus palabras: ¿qué quieres lograr?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 727,
+            "bottom": 810,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 910,
+            "scrollY": 100,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "div.vision-container",
+            "lastContentBottom": 690.34375,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": [
+              "textarea#vision-input.vision-textarea"
+            ]
+          }
+        },
+        "install": {
+          "heading": "Tu espacio está listo. ¿Cómo prefieres equiparlo?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 727,
+            "bottom": 810,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 810,
+            "scrollY": 0,
+            "innerHeight": 810,
+            "documentBottom": 810,
+            "lastContent": "div.bifurcation-grid",
+            "lastContentBottom": 677.328125,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "false",
+            "open-help": "false"
+          },
+          "measured": 3,
+          "reachable": 3,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 8,
+            "unnamed": []
+          }
+        }
+      },
+      "problems": [
+        "install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+        "install: no se llegó a «¡Tu proyecto está listo para cobrar vida!»; la ventana muestra: Describe tu objetivo en hasta 500 caracteres. Revisa la carpeta y vuelve a comprobar. GOAL_INVALID",
+        "finished: pantalla no alcanzada"
+      ]
+    },
+    {
+      "viewport": "1040x700",
+      "motion": "no-preference",
+      "branch": "quick",
+      "screens": {
+        "setup": {
+          "heading": "Empecemos por lo que quieres lograr.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 497.25,
+            "bottom": 580.25,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 1996,
+            "scrollY": 1296,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "div.field",
+            "lastContentBottom": 580.25,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 28,
+          "reachable": 27,
+          "blocked": [
+            {
+              "name": "¿Cuánta guía prefieres?",
+              "element": "select#experience",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 520,
+              "y": 557
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 69,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 33,
+            "unnamed": []
+          }
+        },
+        "folder-empty": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 484.265625,
+            "bottom": 567.265625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 700,
+            "scrollY": 0,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 567.265625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 2,
+          "reachable": 2,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 24,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 7,
+            "unnamed": []
+          }
+        },
+        "folder": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 497.421875,
+            "bottom": 580.421875,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 918,
+            "scrollY": 218,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 580.421875,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 31,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "delimitation": {
+          "heading": "¿Cuál es el enfoque principal de tu proyecto?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 497.265625,
+            "bottom": 580.265625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 902,
+            "scrollY": 202,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "div.delimitation-grid",
+            "lastContentBottom": 580.265625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 5,
+          "blocked": [
+            {
+              "name": "Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor",
+              "element": "article.delimitation-card",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 187,
+              "y": 503
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 39,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "vision": {
+          "heading": "Cuéntanos en tus palabras: ¿qué quieres lograr?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 497.203125,
+            "bottom": 580.203125,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 906,
+            "scrollY": 206,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "div.vision-container",
+            "lastContentBottom": 580.203125,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 3,
+          "blocked": [
+            {
+              "name": "Público Objetivo Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "button.primary",
+              "inBar": false,
+              "x": 203,
+              "y": 529
+            },
+            {
+              "name": "Problema Principal Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 520,
+              "y": 529
+            },
+            {
+              "name": "Alcance Inicial Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 837,
+              "y": 529
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": [
+              "textarea#vision-input.vision-textarea"
+            ]
+          }
+        },
+        "install": {
+          "heading": "Tu espacio está listo. ¿Cómo prefieres equiparlo?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 497.1875,
+            "bottom": 580.1875,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 793,
+            "scrollY": 93,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "div.bifurcation-grid",
+            "lastContentBottom": 580.1875,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "false",
+            "open-help": "false"
+          },
+          "measured": 3,
+          "reachable": 1,
+          "blocked": [
+            {
+              "name": "Instalar stack base y obtener prompt →",
+              "element": "button.primary",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 208,
+              "y": 532
+            },
+            {
+              "name": "Preparar carpeta y generar prompt maestro →",
+              "element": "button.primary",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 733,
+              "y": 532
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 8,
+            "unnamed": []
+          }
+        }
+      },
+      "problems": [
+        "setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions",
+        "setup: al final del recorrido la barra tapa contenido: div.field termina en 580 px y la barra empieza en 497 px",
+        "folder-empty: al final del recorrido la barra tapa contenido: p.subtle termina en 567 px y la barra empieza en 484 px",
+        "folder: al final del recorrido la barra tapa contenido: p.subtle termina en 580 px y la barra empieza en 497 px",
+        "delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+        "delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 580 px y la barra empieza en 497 px",
+        "delimitation: un clic normal no pudo elegir «Prototipo o Arquitectura Propia»",
+        "delimitation: «Prototipo o Arquitectura Propia» no quedó elegida",
+        "vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+        "vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+        "vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+        "vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 580 px y la barra empieza en 497 px",
+        "vision: un clic normal no pudo pulsar la sugerencia «Público Objetivo»",
+        "vision: un clic normal no pudo pulsar la sugerencia «Problema Principal»",
+        "vision: un clic normal no pudo pulsar la sugerencia «Alcance Inicial»",
+        "vision: la sugerencia «### Público Objetivo» no llegó al borrador",
+        "vision: la sugerencia «### Problema Principal a Resolver» no llegó al borrador",
+        "vision: la sugerencia «### Alcance del Primer Incremento» no llegó al borrador",
+        "install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions",
+        "install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+        "install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 580 px y la barra empieza en 497 px",
+        "install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+        "install: un clic normal no pudo pulsar «Instalar stack base y obtener prompt →»: \u001b[2m      - <div class=\"actions\">…</div> intercepts pointer events\u001b[22m",
+        "finished: pantalla no alcanzada"
+      ]
+    },
+    {
+      "viewport": "1040x700",
+      "motion": "no-preference",
+      "branch": "ai",
+      "screens": {
+        "setup": {
+          "heading": "Empecemos por lo que quieres lograr.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 497.25,
+            "bottom": 580.25,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 1996,
+            "scrollY": 1296,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "div.field",
+            "lastContentBottom": 580.25,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 28,
+          "reachable": 27,
+          "blocked": [
+            {
+              "name": "¿Cuánta guía prefieres?",
+              "element": "select#experience",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 520,
+              "y": 557
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 69,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 33,
+            "unnamed": []
+          }
+        },
+        "folder-empty": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 484.265625,
+            "bottom": 567.265625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 700,
+            "scrollY": 0,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 567.265625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 2,
+          "reachable": 2,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 24,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 7,
+            "unnamed": []
+          }
+        },
+        "folder": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 497.421875,
+            "bottom": 580.421875,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 918,
+            "scrollY": 218,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 580.421875,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 31,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "delimitation": {
+          "heading": "¿Cuál es el enfoque principal de tu proyecto?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 497.265625,
+            "bottom": 580.265625,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 902,
+            "scrollY": 202,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "div.delimitation-grid",
+            "lastContentBottom": 580.265625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 5,
+          "blocked": [
+            {
+              "name": "Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor",
+              "element": "article.delimitation-card",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 187,
+              "y": 503
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 39,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "vision": {
+          "heading": "Cuéntanos en tus palabras: ¿qué quieres lograr?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 497.203125,
+            "bottom": 580.203125,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 906,
+            "scrollY": 206,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "div.vision-container",
+            "lastContentBottom": 580.203125,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 3,
+          "blocked": [
+            {
+              "name": "Público Objetivo Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "button.primary",
+              "inBar": false,
+              "x": 203,
+              "y": 529
+            },
+            {
+              "name": "Problema Principal Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 520,
+              "y": 529
+            },
+            {
+              "name": "Alcance Inicial Clic para agregar al borrador",
+              "element": "button.prompt-chip",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 837,
+              "y": 529
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": [
+              "textarea#vision-input.vision-textarea"
+            ]
+          }
+        },
+        "install": {
+          "heading": "Tu espacio está listo. ¿Cómo prefieres equiparlo?",
+          "enter": {
+            "animationName": "enter",
+            "animations": [
+              "finished"
+            ]
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 497.1875,
+            "bottom": 580.1875,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 793,
+            "scrollY": 93,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "div.bifurcation-grid",
+            "lastContentBottom": 580.1875,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "false",
+            "open-help": "false"
+          },
+          "measured": 3,
+          "reachable": 1,
+          "blocked": [
+            {
+              "name": "Instalar stack base y obtener prompt →",
+              "element": "button.primary",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 208,
+              "y": 529
+            },
+            {
+              "name": "Preparar carpeta y generar prompt maestro →",
+              "element": "button.primary",
+              "ok": false,
+              "hit": "div.actions",
+              "inBar": false,
+              "x": 733,
+              "y": 532
+            }
+          ],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 8,
+            "unnamed": []
+          }
+        }
+      },
+      "problems": [
+        "setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions",
+        "setup: al final del recorrido la barra tapa contenido: div.field termina en 580 px y la barra empieza en 497 px",
+        "folder-empty: al final del recorrido la barra tapa contenido: p.subtle termina en 567 px y la barra empieza en 484 px",
+        "folder: al final del recorrido la barra tapa contenido: p.subtle termina en 580 px y la barra empieza en 497 px",
+        "delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+        "delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 580 px y la barra empieza en 497 px",
+        "delimitation: un clic normal no pudo elegir «Prototipo o Arquitectura Propia»",
+        "delimitation: «Prototipo o Arquitectura Propia» no quedó elegida",
+        "vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+        "vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+        "vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+        "vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 580 px y la barra empieza en 497 px",
+        "vision: un clic normal no pudo pulsar la sugerencia «Público Objetivo»",
+        "vision: un clic normal no pudo pulsar la sugerencia «Problema Principal»",
+        "vision: un clic normal no pudo pulsar la sugerencia «Alcance Inicial»",
+        "vision: la sugerencia «### Público Objetivo» no llegó al borrador",
+        "vision: la sugerencia «### Problema Principal a Resolver» no llegó al borrador",
+        "vision: la sugerencia «### Alcance del Primer Incremento» no llegó al borrador",
+        "install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions",
+        "install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+        "install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 580 px y la barra empieza en 497 px",
+        "install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+        "install: un clic normal no pudo pulsar «Preparar carpeta y generar prompt maestro →»: \u001b[2m      - <div class=\"actions\">…</div> intercepts pointer events\u001b[22m",
+        "finished: pantalla no alcanzada"
+      ]
+    },
+    {
+      "viewport": "1040x700",
+      "motion": "reduce",
+      "branch": "quick",
+      "screens": {
+        "setup": {
+          "heading": "Empecemos por lo que quieres lograr.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617,
+            "bottom": 700,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 1996,
+            "scrollY": 1296,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "div.field",
+            "lastContentBottom": 580.25,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 28,
+          "reachable": 28,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 69,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 33,
+            "unnamed": []
+          }
+        },
+        "folder-empty": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617,
+            "bottom": 700,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 700,
+            "scrollY": 0,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 567.265625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 2,
+          "reachable": 2,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 24,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 7,
+            "unnamed": []
+          }
+        },
+        "folder": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617,
+            "bottom": 700,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 918,
+            "scrollY": 218,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 580.421875,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 31,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "delimitation": {
+          "heading": "¿Cuál es el enfoque principal de tu proyecto?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617,
+            "bottom": 700,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 902,
+            "scrollY": 202,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "div.delimitation-grid",
+            "lastContentBottom": 580.265625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 39,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "vision": {
+          "heading": "Cuéntanos en tus palabras: ¿qué quieres lograr?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617,
+            "bottom": 700,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 906,
+            "scrollY": 206,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "div.vision-container",
+            "lastContentBottom": 580.203125,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": [
+              "textarea#vision-input.vision-textarea"
+            ]
+          }
+        },
+        "install": {
+          "heading": "Tu espacio está listo. ¿Cómo prefieres equiparlo?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617,
+            "bottom": 700,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 793,
+            "scrollY": 93,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "div.bifurcation-grid",
+            "lastContentBottom": 580.1875,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "false",
+            "open-help": "false"
+          },
+          "measured": 3,
+          "reachable": 3,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 8,
+            "unnamed": []
+          }
+        }
+      },
+      "problems": [
+        "install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+        "install: no se llegó a «¡Tu proyecto está listo para cobrar vida!»; la ventana muestra: Describe tu objetivo en hasta 500 caracteres. Revisa la carpeta y vuelve a comprobar. GOAL_INVALID",
+        "finished: pantalla no alcanzada"
+      ]
+    },
+    {
+      "viewport": "1040x700",
+      "motion": "reduce",
+      "branch": "ai",
+      "screens": {
+        "setup": {
+          "heading": "Empecemos por lo que quieres lograr.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617,
+            "bottom": 700,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 1996,
+            "scrollY": 1296,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "div.field",
+            "lastContentBottom": 580.25,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 28,
+          "reachable": 28,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 69,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 33,
+            "unnamed": []
+          }
+        },
+        "folder-empty": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617,
+            "bottom": 700,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 700,
+            "scrollY": 0,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 567.265625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 2,
+          "reachable": 2,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 24,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 7,
+            "unnamed": []
+          }
+        },
+        "folder": {
+          "heading": "Tu trabajo empieza en una carpeta.",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617,
+            "bottom": 700,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 918,
+            "scrollY": 218,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "p.subtle",
+            "lastContentBottom": 580.421875,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 31,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "delimitation": {
+          "heading": "¿Cuál es el enfoque principal de tu proyecto?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617,
+            "bottom": 700,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 902,
+            "scrollY": 202,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "div.delimitation-grid",
+            "lastContentBottom": 580.265625,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 39,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": []
+          }
+        },
+        "vision": {
+          "heading": "Cuéntanos en tus palabras: ¿qué quieres lograr?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617,
+            "bottom": 700,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 906,
+            "scrollY": 206,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "div.vision-container",
+            "lastContentBottom": 580.203125,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "true",
+            "open-help": "false"
+          },
+          "measured": 6,
+          "reachable": 6,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 11,
+            "unnamed": [
+              "textarea#vision-input.vision-textarea"
+            ]
+          }
+        },
+        "install": {
+          "heading": "Tu espacio está listo. ¿Cómo prefieres equiparlo?",
+          "enter": {
+            "animationName": "none",
+            "animations": []
+          },
+          "bar": {
+            "element": "div.actions",
+            "position": "fixed",
+            "top": 617,
+            "bottom": 700,
+            "height": 83,
+            "marginTop": 0,
+            "inFlow": false
+          },
+          "end": {
+            "scrollHeight": 793,
+            "scrollY": 93,
+            "innerHeight": 700,
+            "documentBottom": 700,
+            "lastContent": "div.bifurcation-grid",
+            "lastContentBottom": 580.1875,
+            "mainPaddingBottom": 60,
+            "notice": {
+              "text": false,
+              "outer": 59.99375
+            }
+          },
+          "nav": {
+            "open-start": "false",
+            "open-project-list": "false",
+            "prepare-project": "false",
+            "open-help": "false"
+          },
+          "measured": 3,
+          "reachable": 3,
+          "blocked": [],
+          "accessibility": {
+            "contrastMeasured": 34,
+            "contrast": [],
+            "headingOrder": [],
+            "focusable": 8,
+            "unnamed": []
+          }
+        }
+      },
+      "problems": [
+        "install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+        "install: no se llegó a «¡Tu proyecto está listo para cobrar vida!»; la ventana muestra: Describe tu objetivo en hasta 500 caracteres. Revisa la carpeta y vuelve a comprobar. GOAL_INVALID",
+        "finished: pantalla no alcanzada"
+      ]
+    }
+  ],
+  "copies": [],
+  "problems": [
+    "1180x820 no-preference quick · setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions",
+    "1180x820 no-preference quick · setup: al final del recorrido la barra tapa contenido: div.field termina en 700 px y la barra empieza en 617 px",
+    "1180x820 no-preference quick · folder-empty: al final del recorrido la barra tapa contenido: p.subtle termina en 571 px y la barra empieza en 488 px",
+    "1180x820 no-preference quick · folder: al final del recorrido la barra tapa contenido: p.subtle termina en 700 px y la barra empieza en 617 px",
+    "1180x820 no-preference quick · delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+    "1180x820 no-preference quick · delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 700 px y la barra empieza en 617 px",
+    "1180x820 no-preference quick · delimitation: un clic normal no pudo elegir «Prototipo o Arquitectura Propia»",
+    "1180x820 no-preference quick · delimitation: «Prototipo o Arquitectura Propia» no quedó elegida",
+    "1180x820 no-preference quick · vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+    "1180x820 no-preference quick · vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+    "1180x820 no-preference quick · vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+    "1180x820 no-preference quick · vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 700 px y la barra empieza en 617 px",
+    "1180x820 no-preference quick · vision: un clic normal no pudo pulsar la sugerencia «Público Objetivo»",
+    "1180x820 no-preference quick · vision: un clic normal no pudo pulsar la sugerencia «Problema Principal»",
+    "1180x820 no-preference quick · vision: un clic normal no pudo pulsar la sugerencia «Alcance Inicial»",
+    "1180x820 no-preference quick · vision: la sugerencia «### Público Objetivo» no llegó al borrador",
+    "1180x820 no-preference quick · vision: la sugerencia «### Problema Principal a Resolver» no llegó al borrador",
+    "1180x820 no-preference quick · vision: la sugerencia «### Alcance del Primer Incremento» no llegó al borrador",
+    "1180x820 no-preference quick · install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions",
+    "1180x820 no-preference quick · install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+    "1180x820 no-preference quick · install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 677 px y la barra empieza en 594 px",
+    "1180x820 no-preference quick · install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+    "1180x820 no-preference quick · install: un clic normal no pudo pulsar «Instalar stack base y obtener prompt →»: \u001b[2m      - <div class=\"actions\">…</div> intercepts pointer events\u001b[22m",
+    "1180x820 no-preference quick · finished: pantalla no alcanzada",
+    "1180x820 no-preference ai · setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions",
+    "1180x820 no-preference ai · setup: al final del recorrido la barra tapa contenido: div.field termina en 700 px y la barra empieza en 617 px",
+    "1180x820 no-preference ai · folder-empty: al final del recorrido la barra tapa contenido: p.subtle termina en 571 px y la barra empieza en 488 px",
+    "1180x820 no-preference ai · folder: al final del recorrido la barra tapa contenido: p.subtle termina en 700 px y la barra empieza en 617 px",
+    "1180x820 no-preference ai · delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+    "1180x820 no-preference ai · delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 700 px y la barra empieza en 617 px",
+    "1180x820 no-preference ai · delimitation: un clic normal no pudo elegir «Prototipo o Arquitectura Propia»",
+    "1180x820 no-preference ai · delimitation: «Prototipo o Arquitectura Propia» no quedó elegida",
+    "1180x820 no-preference ai · vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+    "1180x820 no-preference ai · vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+    "1180x820 no-preference ai · vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+    "1180x820 no-preference ai · vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 700 px y la barra empieza en 617 px",
+    "1180x820 no-preference ai · vision: un clic normal no pudo pulsar la sugerencia «Público Objetivo»",
+    "1180x820 no-preference ai · vision: un clic normal no pudo pulsar la sugerencia «Problema Principal»",
+    "1180x820 no-preference ai · vision: un clic normal no pudo pulsar la sugerencia «Alcance Inicial»",
+    "1180x820 no-preference ai · vision: la sugerencia «### Público Objetivo» no llegó al borrador",
+    "1180x820 no-preference ai · vision: la sugerencia «### Problema Principal a Resolver» no llegó al borrador",
+    "1180x820 no-preference ai · vision: la sugerencia «### Alcance del Primer Incremento» no llegó al borrador",
+    "1180x820 no-preference ai · install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions",
+    "1180x820 no-preference ai · install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+    "1180x820 no-preference ai · install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 677 px y la barra empieza en 594 px",
+    "1180x820 no-preference ai · install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+    "1180x820 no-preference ai · install: un clic normal no pudo pulsar «Preparar carpeta y generar prompt maestro →»: \u001b[2m      - <div class=\"actions\">…</div> intercepts pointer events\u001b[22m",
+    "1180x820 no-preference ai · finished: pantalla no alcanzada",
+    "1180x820 reduce quick · install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+    "1180x820 reduce quick · install: no se llegó a «¡Tu proyecto está listo para cobrar vida!»; la ventana muestra: Describe tu objetivo en hasta 500 caracteres. Revisa la carpeta y vuelve a comprobar. GOAL_INVALID",
+    "1180x820 reduce quick · finished: pantalla no alcanzada",
+    "1180x820 reduce ai · install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+    "1180x820 reduce ai · install: no se llegó a «¡Tu proyecto está listo para cobrar vida!»; la ventana muestra: Describe tu objetivo en hasta 500 caracteres. Revisa la carpeta y vuelve a comprobar. GOAL_INVALID",
+    "1180x820 reduce ai · finished: pantalla no alcanzada",
+    "1160x810 no-preference quick · setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions",
+    "1160x810 no-preference quick · setup: al final del recorrido la barra tapa contenido: div.field termina en 690 px y la barra empieza en 607 px",
+    "1160x810 no-preference quick · folder-empty: al final del recorrido la barra tapa contenido: p.subtle termina en 571 px y la barra empieza en 488 px",
+    "1160x810 no-preference quick · folder: al final del recorrido la barra tapa contenido: p.subtle termina en 690 px y la barra empieza en 607 px",
+    "1160x810 no-preference quick · delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+    "1160x810 no-preference quick · delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 690 px y la barra empieza en 607 px",
+    "1160x810 no-preference quick · delimitation: un clic normal no pudo elegir «Prototipo o Arquitectura Propia»",
+    "1160x810 no-preference quick · delimitation: «Prototipo o Arquitectura Propia» no quedó elegida",
+    "1160x810 no-preference quick · vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+    "1160x810 no-preference quick · vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+    "1160x810 no-preference quick · vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+    "1160x810 no-preference quick · vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 690 px y la barra empieza en 607 px",
+    "1160x810 no-preference quick · vision: un clic normal no pudo pulsar la sugerencia «Público Objetivo»",
+    "1160x810 no-preference quick · vision: un clic normal no pudo pulsar la sugerencia «Problema Principal»",
+    "1160x810 no-preference quick · vision: un clic normal no pudo pulsar la sugerencia «Alcance Inicial»",
+    "1160x810 no-preference quick · vision: la sugerencia «### Público Objetivo» no llegó al borrador",
+    "1160x810 no-preference quick · vision: la sugerencia «### Problema Principal a Resolver» no llegó al borrador",
+    "1160x810 no-preference quick · vision: la sugerencia «### Alcance del Primer Incremento» no llegó al borrador",
+    "1160x810 no-preference quick · install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions",
+    "1160x810 no-preference quick · install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+    "1160x810 no-preference quick · install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 677 px y la barra empieza en 594 px",
+    "1160x810 no-preference quick · install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+    "1160x810 no-preference quick · install: un clic normal no pudo pulsar «Instalar stack base y obtener prompt →»: \u001b[2m      - <div class=\"actions\">…</div> intercepts pointer events\u001b[22m",
+    "1160x810 no-preference quick · finished: pantalla no alcanzada",
+    "1160x810 no-preference ai · setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions",
+    "1160x810 no-preference ai · setup: al final del recorrido la barra tapa contenido: div.field termina en 690 px y la barra empieza en 607 px",
+    "1160x810 no-preference ai · folder-empty: al final del recorrido la barra tapa contenido: p.subtle termina en 571 px y la barra empieza en 488 px",
+    "1160x810 no-preference ai · folder: al final del recorrido la barra tapa contenido: p.subtle termina en 690 px y la barra empieza en 607 px",
+    "1160x810 no-preference ai · delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+    "1160x810 no-preference ai · delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 690 px y la barra empieza en 607 px",
+    "1160x810 no-preference ai · delimitation: un clic normal no pudo elegir «Prototipo o Arquitectura Propia»",
+    "1160x810 no-preference ai · delimitation: «Prototipo o Arquitectura Propia» no quedó elegida",
+    "1160x810 no-preference ai · vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+    "1160x810 no-preference ai · vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+    "1160x810 no-preference ai · vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+    "1160x810 no-preference ai · vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 690 px y la barra empieza en 607 px",
+    "1160x810 no-preference ai · vision: un clic normal no pudo pulsar la sugerencia «Público Objetivo»",
+    "1160x810 no-preference ai · vision: un clic normal no pudo pulsar la sugerencia «Problema Principal»",
+    "1160x810 no-preference ai · vision: un clic normal no pudo pulsar la sugerencia «Alcance Inicial»",
+    "1160x810 no-preference ai · vision: la sugerencia «### Público Objetivo» no llegó al borrador",
+    "1160x810 no-preference ai · vision: la sugerencia «### Problema Principal a Resolver» no llegó al borrador",
+    "1160x810 no-preference ai · vision: la sugerencia «### Alcance del Primer Incremento» no llegó al borrador",
+    "1160x810 no-preference ai · install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions",
+    "1160x810 no-preference ai · install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+    "1160x810 no-preference ai · install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 677 px y la barra empieza en 594 px",
+    "1160x810 no-preference ai · install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+    "1160x810 no-preference ai · install: un clic normal no pudo pulsar «Preparar carpeta y generar prompt maestro →»: \u001b[2m      - <div class=\"actions\">…</div> intercepts pointer events\u001b[22m",
+    "1160x810 no-preference ai · finished: pantalla no alcanzada",
+    "1160x810 reduce quick · install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+    "1160x810 reduce quick · install: no se llegó a «¡Tu proyecto está listo para cobrar vida!»; la ventana muestra: Describe tu objetivo en hasta 500 caracteres. Revisa la carpeta y vuelve a comprobar. GOAL_INVALID",
+    "1160x810 reduce quick · finished: pantalla no alcanzada",
+    "1160x810 reduce ai · install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+    "1160x810 reduce ai · install: no se llegó a «¡Tu proyecto está listo para cobrar vida!»; la ventana muestra: Describe tu objetivo en hasta 500 caracteres. Revisa la carpeta y vuelve a comprobar. GOAL_INVALID",
+    "1160x810 reduce ai · finished: pantalla no alcanzada",
+    "1040x700 no-preference quick · setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions",
+    "1040x700 no-preference quick · setup: al final del recorrido la barra tapa contenido: div.field termina en 580 px y la barra empieza en 497 px",
+    "1040x700 no-preference quick · folder-empty: al final del recorrido la barra tapa contenido: p.subtle termina en 567 px y la barra empieza en 484 px",
+    "1040x700 no-preference quick · folder: al final del recorrido la barra tapa contenido: p.subtle termina en 580 px y la barra empieza en 497 px",
+    "1040x700 no-preference quick · delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+    "1040x700 no-preference quick · delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 580 px y la barra empieza en 497 px",
+    "1040x700 no-preference quick · delimitation: un clic normal no pudo elegir «Prototipo o Arquitectura Propia»",
+    "1040x700 no-preference quick · delimitation: «Prototipo o Arquitectura Propia» no quedó elegida",
+    "1040x700 no-preference quick · vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+    "1040x700 no-preference quick · vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+    "1040x700 no-preference quick · vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+    "1040x700 no-preference quick · vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 580 px y la barra empieza en 497 px",
+    "1040x700 no-preference quick · vision: un clic normal no pudo pulsar la sugerencia «Público Objetivo»",
+    "1040x700 no-preference quick · vision: un clic normal no pudo pulsar la sugerencia «Problema Principal»",
+    "1040x700 no-preference quick · vision: un clic normal no pudo pulsar la sugerencia «Alcance Inicial»",
+    "1040x700 no-preference quick · vision: la sugerencia «### Público Objetivo» no llegó al borrador",
+    "1040x700 no-preference quick · vision: la sugerencia «### Problema Principal a Resolver» no llegó al borrador",
+    "1040x700 no-preference quick · vision: la sugerencia «### Alcance del Primer Incremento» no llegó al borrador",
+    "1040x700 no-preference quick · install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions",
+    "1040x700 no-preference quick · install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+    "1040x700 no-preference quick · install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 580 px y la barra empieza en 497 px",
+    "1040x700 no-preference quick · install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+    "1040x700 no-preference quick · install: un clic normal no pudo pulsar «Instalar stack base y obtener prompt →»: \u001b[2m      - <div class=\"actions\">…</div> intercepts pointer events\u001b[22m",
+    "1040x700 no-preference quick · finished: pantalla no alcanzada",
+    "1040x700 no-preference ai · setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions",
+    "1040x700 no-preference ai · setup: al final del recorrido la barra tapa contenido: div.field termina en 580 px y la barra empieza en 497 px",
+    "1040x700 no-preference ai · folder-empty: al final del recorrido la barra tapa contenido: p.subtle termina en 567 px y la barra empieza en 484 px",
+    "1040x700 no-preference ai · folder: al final del recorrido la barra tapa contenido: p.subtle termina en 580 px y la barra empieza en 497 px",
+    "1040x700 no-preference ai · delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+    "1040x700 no-preference ai · delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 580 px y la barra empieza en 497 px",
+    "1040x700 no-preference ai · delimitation: un clic normal no pudo elegir «Prototipo o Arquitectura Propia»",
+    "1040x700 no-preference ai · delimitation: «Prototipo o Arquitectura Propia» no quedó elegida",
+    "1040x700 no-preference ai · vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+    "1040x700 no-preference ai · vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+    "1040x700 no-preference ai · vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+    "1040x700 no-preference ai · vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 580 px y la barra empieza en 497 px",
+    "1040x700 no-preference ai · vision: un clic normal no pudo pulsar la sugerencia «Público Objetivo»",
+    "1040x700 no-preference ai · vision: un clic normal no pudo pulsar la sugerencia «Problema Principal»",
+    "1040x700 no-preference ai · vision: un clic normal no pudo pulsar la sugerencia «Alcance Inicial»",
+    "1040x700 no-preference ai · vision: la sugerencia «### Público Objetivo» no llegó al borrador",
+    "1040x700 no-preference ai · vision: la sugerencia «### Problema Principal a Resolver» no llegó al borrador",
+    "1040x700 no-preference ai · vision: la sugerencia «### Alcance del Primer Incremento» no llegó al borrador",
+    "1040x700 no-preference ai · install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions",
+    "1040x700 no-preference ai · install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+    "1040x700 no-preference ai · install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 580 px y la barra empieza en 497 px",
+    "1040x700 no-preference ai · install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+    "1040x700 no-preference ai · install: un clic normal no pudo pulsar «Preparar carpeta y generar prompt maestro →»: \u001b[2m      - <div class=\"actions\">…</div> intercepts pointer events\u001b[22m",
+    "1040x700 no-preference ai · finished: pantalla no alcanzada",
+    "1040x700 reduce quick · install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+    "1040x700 reduce quick · install: no se llegó a «¡Tu proyecto está listo para cobrar vida!»; la ventana muestra: Describe tu objetivo en hasta 500 caracteres. Revisa la carpeta y vuelve a comprobar. GOAL_INVALID",
+    "1040x700 reduce quick · finished: pantalla no alcanzada",
+    "1040x700 reduce ai · install: la navegación «prepare-project» declara aria-pressed=\"false\"",
+    "1040x700 reduce ai · install: no se llegó a «¡Tu proyecto está listo para cobrar vida!»; la ventana muestra: Describe tu objetivo en hasta 500 caracteres. Revisa la carpeta y vuelve a comprobar. GOAL_INVALID",
+    "1040x700 reduce ai · finished: pantalla no alcanzada"
+  ],
+  "summary": {
+    "runs": 12,
+    "screensExpected": 84,
+    "screensVisited": 72,
+    "controlsMeasured": 612,
+    "controlsReachable": 570,
+    "copies": 0,
+    "copiesEqual": 0,
+    "problems": 162
+  },
+  "source": {
+    "commit": "a3b1efda6a53501a2a06e277cf0b7f18f11c6bed",
+    "renderer": "sin cambios (apps/companion/ui de a3b1efd)",
+    "service": "sin cambios al iniciar la ejecución",
+    "harness": "verify-ui.mjs con el recorrido nuevo, antes de corregir"
+  }
+}

@@ -97,6 +97,11 @@ const ownHeading=(title,description,fromPerson)=>[
   el('h1',{tabindex:'-1','data-content':'person',text:title}),
   fromPerson?own(description,'p',{class:'intro'}):p(description,'intro')];
 const actions=(...buttons)=>el('div',{class:'actions'},buttons);
+// The final bar of a wizard screen, told apart from the action rows inside cards. `render` places it after the
+// animated content, never inside it: an ancestor animated with a transform becomes the containing block of its
+// fixed descendants, which is how 0.3.1 pinned this bar to the bottom of the content and hid the installation
+// buttons under it. Here it stays in the flow and sticks to the bottom of the window.
+const wizardBar=(...buttons)=>el('div',{class:'actions wizard-footer'},buttons);
 const panel=(...content)=>el('section',{class:'panel'},content);
 const term=makeTerm(el,id=>showTerm(id));
 function field(label,id,node,hint){return el('div',{class:'field'},el('label',{for:id,text:label}),node,hint?el('small',{text:hint}):null);}
@@ -106,10 +111,21 @@ function steps(current){return el('ol',{class:'steps','aria-label':'Preparación
 function notice(message){$('notice').textContent=message;}
 function error(value){if($('dialog').open)closeDialog();$('feedback').replaceChildren(el('strong',{text:value.message??'No se pudo completar la acción.'}),p(value.action??'Vuelve a intentarlo.'),el('small',{text:value.code??''}));$('feedback').hidden=false;$('feedback').scrollIntoView({block:'nearest'});}
 function setBusy(value){state.busy=value;document.querySelectorAll('button,input,textarea,select').forEach(n=>{if(!['cancel','close-dialog'].includes(n.id))n.disabled=value;});$('content').setAttribute('aria-busy',String(value));}
-async function call(name,input={}){const r=await api[name](input);if(!r.ok)throw r.error;return r.value;}
+// A transport that fails says so in words a person can act on. Its own message names an internal channel.
+const TRANSPORT_FAILED={code:'TRANSPORT_FAILED',message:'La ventana no pudo comunicarse con la aplicación.',
+  action:'Vuelve a intentarlo. Si sigue igual, cierra la aplicación y ábrela de nuevo; tus proyectos se conservan.'};
+async function call(name,input={}){let r;try{r=await api[name](input);}catch{throw TRANSPORT_FAILED;}if(!r?.ok)throw r?.error??TRANSPORT_FAILED;return r.value;}
 let actionOrigin=null;
 async function run(fn){if(state.busy)return;actionOrigin=document.activeElement;$('feedback').hidden=true;notice('');setBusy(true);try{await fn();}catch(e){error(e);}finally{setBusy(false);}}
-function render(content,breadcrumb){$('view').replaceChildren(el('div',{class:'enter'},content));$('breadcrumb').textContent=breadcrumb;$('feedback').hidden=true;setBusy(state.busy);$('nav')?.querySelectorAll('button').forEach(b=>{const active=(b.dataset.action==='open-start'&&state.page==='start')||(b.dataset.action==='open-project-list'&&state.page==='projects')||(b.dataset.action==='prepare-project'&&['setup','folder','delimitation','vision','stack-choice','ready'].includes(state.page))||(b.dataset.action==='open-help'&&state.page==='help');b.setAttribute('aria-pressed',String(active));if(active)b.classList.add('active');else b.classList.remove('active');});const h=$('view').querySelector('h1');h?.focus({preventScroll:true});window.scrollTo(0,0);}
+// The bar covers the bottom of the window while it sticks there, so the browser is told how much: scroll padding
+// keeps keyboard focus and scrolling from stopping underneath it.
+const barHeight=new ResizeObserver(([entry])=>document.documentElement.style.setProperty('--wizard-footer-height',`${Math.ceil(entry.target.getBoundingClientRect().height)}px`));
+// Every screen of the wizard, the two that end it included, keeps "Preparar proyecto" selected. The last two
+// names are older routes that are still recognised.
+const WIZARD_PAGES=['setup','folder','delimitation','vision','install','finished','stack-choice','ready'];
+function render(content,breadcrumb,bar=null){$('view').replaceChildren(...[el('div',{class:'enter'},content),bar].filter(Boolean));
+  barHeight.disconnect();if(bar)barHeight.observe(bar);else document.documentElement.style.removeProperty('--wizard-footer-height');
+  $('breadcrumb').textContent=breadcrumb;$('feedback').hidden=true;setBusy(state.busy);$('nav')?.querySelectorAll('button').forEach(b=>{const active=(b.dataset.action==='open-start'&&state.page==='start')||(b.dataset.action==='open-project-list'&&state.page==='projects')||(b.dataset.action==='prepare-project'&&WIZARD_PAGES.includes(state.page))||(b.dataset.action==='open-help'&&state.page==='help');b.setAttribute('aria-pressed',String(active));if(active)b.classList.add('active');else b.classList.remove('active');});const h=$('view').querySelector('h1');h?.focus({preventScroll:true});window.scrollTo(0,0);}
 // Inicio: what the application does, how it works, what it downloads and why, what stays here, and the one
 // action that starts. Not a project list — that has its own destination and its own name.
 //
@@ -300,13 +316,15 @@ function showSetup(){state.page='setup';const s=state.selection;
         el('span',{},el('strong',{text:entry.name}),el('small',{text:`${entry.purpose} ${downloadSize(entry.downloadBytes)} de descarga, ${entry.licenses.join(', ')}.`}))))):null,
     el('small',{text:s.stack?.decision==='chosen'&&!offered.length?'Para este tipo de proyecto no hay tecnologías que esta aplicación pueda instalar. Verás por qué en el proyecto.':'Nada se instala sin que antes veas qué es, su licencia, cuánto pesa y dónde queda.'}));
   const ai=el('fieldset',{},el('legend',{text:'¿Con qué IA quieres trabajar?'}),el('div',{class:'choices'},Object.entries(agents).map(([id,label])=>el('label',{class:'choice'},el('input',{type:'checkbox',name:'agent',value:id,checked:s.agents.includes(id),onChange:e=>{s.agents=e.target.checked?[...s.agents,id]:s.agents.filter(a=>a!==id);}}),el('span',{},el('strong',{text:label}))))),el('small',{text:'Puedes elegir varias. No necesitas conectar cuentas ni entregar contraseñas.'}));
-  const form=el('form',{onSubmit:e=>{e.preventDefault();void run(async()=>{if(!s.agents.length)throw{message:'Elige al menos una IA.',action:'Marca la que usas habitualmente.'};showFolder();});}},
+  // The submit control lives in the final bar, outside the form, and belongs to it through `form`: a click, Enter
+  // in a field and the browser's own required-field check all reach this one handler, as they did inside it.
+  const form=el('form',{id:'setup-form',onSubmit:e=>{e.preventDefault();void run(async()=>{if(!s.agents.length)throw{message:'Elige al menos una IA.',action:'Marca la que usas habitualmente.'};showFolder();});}},
     el('div',{class:'fields'},field('Nombre de tu proyecto','name',input('name',s.name,100,v=>s.name=v),'Por ejemplo: Evidencia para mi tesis'),field('¿Con qué perfil te identificas?','role',select('role',roles,s.role,v=>s.role=v))),
     field('¿Qué quieres lograr?','goal',input('goal',s.goal,500,v=>s.goal=v),'Un objetivo concreto ayuda a tu IA a empezar con dirección.'),types,tech,ai,
-    field('¿Cuánta guía prefieres?','experience',select('experience',{guided:'Paso a paso, con explicaciones',familiar:'Conozco las herramientas de IA'},s.experience,v=>s.experience=v)),
-    actions(doBtn('open-start'),el('button',{type:'submit',class:'primary',text:'Elegir carpeta  →'})));
+    field('¿Cuánta guía prefieres?','experience',select('experience',{guided:'Paso a paso, con explicaciones',familiar:'Conozco las herramientas de IA'},s.experience,v=>s.experience=v)));
   render([steps(0),...heading('Empecemos por lo que quieres lograr.','La preparación se adapta a tu trabajo. Puedes usar una IA instalada en tu equipo o pegar el texto en un chat web.'),
-    el('p',{class:'subtle'},'Lo que elijas aquí queda como el ',term('perfil'),' del proyecto, y puedes cambiarlo después.'),form],'PREPARAR PROYECTO / TU OBJETIVO');
+    el('p',{class:'subtle'},'Lo que elijas aquí queda como el ',term('perfil'),' del proyecto, y puedes cambiarlo después.'),form],'PREPARAR PROYECTO / TU OBJETIVO',
+    wizardBar(doBtn('open-start'),el('button',{type:'submit',form:'setup-form',class:'primary',text:'Elegir carpeta  →'})));
 }
 function showFolder(){state.page='folder';const chosen=state.project;
   render([steps(1),...heading('Tu trabajo empieza en una carpeta.','Elige solo los materiales de este proyecto. Si empiezas de cero, crea una carpeta nueva desde el mismo diálogo.'),
@@ -316,8 +334,8 @@ function showFolder(){state.page='folder';const chosen=state.project;
       el('p',{class:'subtle'},`Tipo detectado: ${profiles[chosen.inspection?.recommendation]?.[0]??'por confirmar'}. Se usará el `,term('perfil'),` que elegiste: ${profiles[state.selection.profile][0]}.`),
       doBtn('open-workspace','quiet')):null,
     p('Tus documentos se leen en este equipo y no se envían a ninguna IA durante la preparación. Podrás dejar materiales fuera al revisar qué se lee.','subtle'),
-    actions(btn('Volver',()=>showSetup()),chosen?btn('Continuar a delimitación  →',()=>showDelimitation(),'primary'):null,chosen?btn('Revisar preparación  →',async()=>{state.plan=await call('previewBase',{id:chosen.id,selection:state.selection});showBaseReview();},'secondary'):null),
-  ],'PREPARAR PROYECTO / CARPETA');}
+  ],'PREPARAR PROYECTO / CARPETA',
+  wizardBar(btn('Volver',()=>showSetup()),chosen?btn('Continuar a delimitación  →',()=>showDelimitation(),'primary'):null,chosen?btn('Revisar preparación  →',async()=>{state.plan=await call('previewBase',{id:chosen.id,selection:state.selection});showBaseReview();},'secondary'):null));}
 
 const DELIMITATIONS = {
   software: [
@@ -373,10 +391,12 @@ const INSPIRATION_CHIPS = [
 function masterActivationPrompt({ path: projectPath, profile, subtype, vision, installMode = 'ai' } = {}) {
   const target = projectPath || 'este proyecto';
   if (installMode === 'quick') {
+    // What this prompt tells an AI about the folder has to be what happened. 0.3.1 said the base dependencies were
+    // already provisioned; neither installation choice installs any, and #147 is where they will differ.
     return `Hola. He preparado este proyecto en ${target} con Project Engineering OS usando Instalación Rápida.
 
 Por favor lee PROJECT_VISION.md y la estructura de la carpeta.
-Las dependencias base esenciales ya quedaron aprovisionadas localmente en este equipo.
+Esta aplicación preparó la carpeta y escribió PROJECT_VISION.md, pero no instaló ninguna dependencia ni herramienta: propón las que hagan falta antes de instalarlas.
 1. Revisa la visión del proyecto y el stack configurado.
 2. Si encuentras documentos de investigación, notas o fuentes externas, conviértelos a formato .md sin borrar ni alterar los archivos originales para optimizar el contexto.
 3. Continúa con la implementación siguiendo las directrices de ingeniería y desarrollo guiado por especificaciones de la carpeta.
@@ -424,12 +444,11 @@ function showDelimitation() {
       own(s.name || state.project?.name || 'Mi proyecto', 'h2'),
       state.project ? own(state.project.root, 'p', { class: 'path' }) : null
     ),
-    cards,
-    actions(
-      btn('Volver', () => showFolder()),
-      btn('Paso 3: Visión y Descripción  →', () => showVision(), 'primary')
-    )
-  ], 'PREPARAR PROYECTO / DELIMITACIÓN');
+    cards
+  ], 'PREPARAR PROYECTO / DELIMITACIÓN', wizardBar(
+    btn('Volver', () => showFolder()),
+    btn('Paso 3: Visión y Descripción  →', () => showVision(), 'primary')
+  ));
 }
 
 function showVision() {
@@ -440,6 +459,8 @@ function showVision() {
   const textarea = el('textarea', {
     id: 'vision-input',
     class: 'vision-textarea',
+    // A placeholder disappears as soon as someone types, so it cannot be the field's only name.
+    'aria-label': 'Tu visión del proyecto',
     placeholder: 'Describe en tus palabras qué quieres lograr, a quién va dirigido y la meta de este proyecto...',
     onInput: e => {
       s.vision = e.target.value;
@@ -455,7 +476,6 @@ function showVision() {
     const text = textarea.value.trim();
     const words = text ? text.split(/\s+/).length : 0;
     countSpan.textContent = `${words} palabras`;
-    s.goal = text.slice(0, 500);
   }
   updateStats();
 
@@ -498,12 +518,11 @@ function showVision() {
     steps(2),
     ...heading('Cuéntanos en tus palabras: ¿qué quieres lograr?',
       'Esta descripción se guardará en PROJECT_VISION.md para que cualquier IA entienda la intención sin perder el rumbo.'),
-    editorContainer,
-    actions(
-      btn('Volver', () => showDelimitation()),
-      btn('Paso 4: Instalación  →', () => showInstall(), 'primary')
-    )
-  ], 'PREPARAR PROYECTO / VISIÓN');
+    editorContainer
+  ], 'PREPARAR PROYECTO / VISIÓN', wizardBar(
+    btn('Volver', () => showDelimitation()),
+    btn('Paso 4: Instalación  →', () => showInstall(), 'primary')
+  ));
 }
 
 function showInstall() {
@@ -548,14 +567,22 @@ function showInstall() {
     steps(3),
     ...heading('Tu espacio está listo. ¿Cómo prefieres equiparlo?',
       'Elige entre instalación rápida determinista o delegar la exploración y selección a tu IA.'),
-    el('div', { class: 'bifurcation-grid' }, cardQuick, cardAi),
-    actions(btn('Volver', () => showVision()))
-  ], 'PREPARAR PROYECTO / INSTALACIÓN');
+    el('div', { class: 'bifurcation-grid' }, cardQuick, cardAi)
+  ], 'PREPARAR PROYECTO / INSTALACIÓN', wizardBar(btn('Volver', () => showVision())));
 }
 
+// The objective the preparation records is the vision's text on one line: the preparation refuses a line break in
+// it, and 0.3.1 sent the vision as it was, so a suggestion or an Enter stopped the installation with GOAL_INVALID.
+const visionObjective = vision => (vision ?? '').replace(/^\s*#+\s*/gm, '').replace(/\s+/g, ' ').trim().slice(0, 500);
+
 async function executeInstallation() {
-  const s = state.selection;
-  state.plan = await call('previewBase', { id: state.project.id, selection: s });
+  const s = state.selection, objective = visionObjective(s.vision);
+  // A vision that leaves no text, an empty editor or a lone heading mark, is not sent: the objective chosen in the
+  // first step stays, and PROJECT_VISION.md states it instead of an empty section. The answers themselves are left
+  // as they are, so going back shows what the person wrote.
+  const { vision, ...answers } = s;
+  const selection = objective ? { ...answers, goal: objective, vision } : answers;
+  state.plan = await call('previewBase', { id: state.project.id, selection });
   const r = await call('applyBase', { plan: state.plan.id });
   state.status = r.status;
   state.project = { ...state.project, ...r.status.project };
@@ -581,14 +608,25 @@ function showFinished() {
     p('Hemos organizado tu espacio de trabajo y anclado tus objetivos en PROJECT_VISION.md.')
   );
 
-  const copyPathBtn = btn('Copiar ruta', async () => {
-    try {
-      if (api.copyText) await api.copyText(pRoot);
-      else if (navigator.clipboard) await navigator.clipboard.writeText(pRoot);
-      copyPathBtn.textContent = '¡Ruta copiada!';
-      setTimeout(() => { copyPathBtn.textContent = 'Copiar ruta'; }, 2000);
-    } catch {}
-  }, 'secondary');
+  // Both copies go to the main process through the envelope every other operation uses, so a refusal reaches the
+  // error surface instead of an empty catch. 0.3.1 asked the page's own clipboard, which this window is not allowed
+  // to write, and said nothing when it was refused. The confirmation comes only once the clipboard holds the text:
+  // announced in the status region, and shown on the button the person is looking at.
+  const copyButton = (label, done, announce, text, cls) => {
+    let revert = null;
+    const node = btn(label, async () => {
+      // Each attempt starts from the plain label: a confirmation left by the previous copy must not stand beside an
+      // error, and a second success counts its two seconds from itself.
+      clearTimeout(revert);
+      node.textContent = label;
+      await call('copyText', { text });
+      notice(announce);
+      node.textContent = done;
+      revert = setTimeout(() => { node.textContent = label; }, 2000);
+    }, cls);
+    return node;
+  };
+  const copyPathBtn = copyButton('Copiar ruta', '¡Ruta copiada!', 'Ruta copiada. Pégala donde abras tu proyecto.', pRoot, 'secondary');
 
   const pathBar = el('div', { class: 'finished-path-bar' },
     el('div', { style: 'display: flex; gap: 10px; align-items: center;' },
@@ -598,14 +636,8 @@ function showFinished() {
     copyPathBtn
   );
 
-  const copyPromptBtn = btn('Copiar Prompt Maestro', async () => {
-    try {
-      if (api.copyText) await api.copyText(promptText);
-      else if (navigator.clipboard) await navigator.clipboard.writeText(promptText);
-      copyPromptBtn.textContent = '¡Prompt copiado!';
-      setTimeout(() => { copyPromptBtn.textContent = 'Copiar Prompt Maestro'; }, 2000);
-    } catch {}
-  }, 'primary');
+  const copyPromptBtn = copyButton('Copiar Prompt Maestro', '¡Prompt copiado!',
+    'Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna.', promptText, 'primary');
 
   const activationCard = el('div', { class: 'activation-card' },
     el('h2', { text: 'Paso 1: Abre la carpeta en tu IA de cabecera' }),
@@ -647,13 +679,12 @@ function showBaseReview(){state.page='base-review';const s=state.selection;
     panel(el('dl',{class:'review-grid'},[['Proyecto',s.name,true],['Tipo de trabajo',profiles[s.profile][0],false],['Tu objetivo',s.goal,true],['Tu IA',s.agents.map(a=>agents[a]).join(', '),false]].flatMap(([k,v,fromPerson])=>[el('div',{},el('dt',{text:k}),fromPerson?own(v,'dd'):el('dd',{text:v}))])),own(state.project.root,'p',{class:'path'}),changes(state.plan.files)),
     el('p',{class:'subtle'},'Uno de esos archivos es el ',term('inventario'),': la lista de lo que se encontró, con su tipo y su tamaño, y los archivos que no se pudieron leer con su motivo. No guarda el contenido completo.'),
     p('Tus archivos originales no se modifican. Se guarda un registro para poder comprobar cambios y deshacer una operación que quede a medias.','subtle'),
-    actions(btn('Volver',()=>showFolder()),btn('Guardar esta preparación  →',async()=>{const r=await call('applyBase',{plan:state.plan.id});state.status=r.status;state.project={...state.project,...r.status.project};
+  ],'PREPARAR PROYECTO / REVISIÓN',wizardBar(btn('Volver',()=>showFolder()),btn('Guardar esta preparación  →',async()=>{const r=await call('applyBase',{plan:state.plan.id});state.status=r.status;state.project={...state.project,...r.status.project};
       // What the person answered about technology is asked here, once the selection is recorded and the folder
       // has been looked at, because a recommendation is only honest after both. With nothing to offer this step
       // does not exist, and the project screen is where the reason is said instead.
       const after=async()=>{if(['software','unity'].includes(s.profile))await reviewEngineering();else await prepareContext();};
-      await reviewStack(after);},'primary')),
-  ],'PREPARAR PROYECTO / REVISIÓN');}
+      await reviewStack(after);},'primary')));}
 // Technology, in the three ways the person could have answered. `items` empty is not an error and not a gap: it
 // is the third answer, and it comes with the sentence that says why installing nothing is right. Nothing here
 // writes anything; installing is a second, separate act, and so is refusing.
@@ -725,11 +756,10 @@ function showEnvironmentReview(){state.page='environment-review';const plan=stat
       p(plan.git==='initialize-local'?'Se creará un historial de versiones local para este proyecto.':'Se conservará el historial de versiones que este proyecto ya tiene.'),changes(plan.files)):
       panel(el('h2',{text:plan.message??'Las herramientas necesitan atención'}),p(plan.action??'Revísalas antes de volver a intentarlo.')),
     el('p',{class:'subtle'},'Esto es el ',term('ingenieria'),'. Sirve para varios proyectos y se queda en este equipo; cerrar la aplicación no lo elimina.'),
-    actions(doBtn('open-workspace'),doBtn('read-files'),allowed?btn('Preparar herramientas y continuar  →',async()=>{
+  ],'PREPARAR PROYECTO / HERRAMIENTAS',wizardBar(doBtn('open-workspace'),doBtn('read-files'),allowed?btn('Preparar herramientas y continuar  →',async()=>{
       state.status=(await call('applyEnvironment',{plan:plan.id})).status;
       state.plan=await call('previewEngineering',{id:state.project.id});showEngineeringReview();
-    },'primary'):doBtn('repair-tools')),
-  ],'PREPARAR PROYECTO / HERRAMIENTAS');}
+    },'primary'):doBtn('repair-tools')));}
 function showEngineeringReview(){state.page='engineering-review';const plan=state.plan,allowed=plan.status==='planned';
   const operations=plan.plan?.operations??[];
   render([steps(2),...heading('Un proceso claro para desarrollar.','Se añaden instrucciones para tu IA, un lugar donde escribir qué va a cambiar y comprobaciones. Que funcionen se comprueba en el paso siguiente, no aquí.'),
@@ -737,17 +767,16 @@ function showEngineeringReview(){state.page='engineering-review';const plan=stat
       plan.action?p(plan.action,'subtle'):null,plan.incompleteTransaction?p('Hay una operación a medias. Continuar comprueba primero su registro y después completa los archivos que faltan.'):null,changes(operations.map(o=>({path:o.target,action:o.operation})))),
     plan.preservedOriginals?.length?p(`Estos archivos tuyos se conservan sin modificar: ${plan.preservedOriginals.join(', ')}.`):null,
     el('p',{class:'subtle'},'Si falta Git o hay conflictos en las instrucciones, se te dice cómo resolverlo. Mientras tanto puedes leer tus archivos, y estas instrucciones incluyen las ',term('receta','recetas'),' de tu tipo de proyecto.'),
-    actions(doBtn('open-workspace'),allowed?btn(plan.incompleteTransaction?'Continuar lo que quedó a medias  →':'Guardar estas instrucciones  →',async()=>{const r=await call('applyEngineering',{plan:plan.id});state.status=r.status;
+  ],'PREPARAR PROYECTO / DESARROLLO',wizardBar(doBtn('open-workspace'),allowed?btn(plan.incompleteTransaction?'Continuar lo que quedó a medias  →':'Guardar estas instrucciones  →',async()=>{const r=await call('applyEngineering',{plan:plan.id});state.status=r.status;
       if(state.status.capabilities?.environment){state.plan=await call('previewActivation',{id:state.project.id});showActivationReview();}else await prepareContext();},'primary'):null,
-      plan.incompleteTransaction?btn('Deshacer la operación a medias',()=>openDialog('Deshacer esta operación',[p('Se deshace la operación a medias que acabas de revisar. Antes se comprueba si editaste esos archivos después, para no perder tu edición.'),actions(btn('Conservar',async()=>closeDialog()),btn('Deshacer operación',async()=>{state.status=(await call('rollbackEngineering',{plan:plan.id})).status;closeDialog();await showWorkspace();},'danger'))]),'quiet'):doBtn('read-files')),
-  ],'PREPARAR PROYECTO / DESARROLLO');}
+      plan.incompleteTransaction?btn('Deshacer la operación a medias',()=>openDialog('Deshacer esta operación',[p('Se deshace la operación a medias que acabas de revisar. Antes se comprueba si editaste esos archivos después, para no perder tu edición.'),actions(btn('Conservar',async()=>closeDialog()),btn('Deshacer operación',async()=>{state.status=(await call('rollbackEngineering',{plan:plan.id})).status;closeDialog();await showWorkspace();},'danger'))]),'quiet'):doBtn('read-files')));}
 function showActivationReview(){state.page='activation-review';const plan=state.plan;
   render([steps(2),...heading('Un método de trabajo para tu IA.','Se instalan los recorridos oficiales que ordenan cada cambio: primero qué se espera, después el código, al final la revisión.'),
     plan.status==='planned'?panel(el('span',{class:'tag',text:'OpenSpec 1.6.0, comprobado en una carpeta de prueba'}),el('p',{},'Se aplican esos recorridos y se conectan las herramientas. Después se comprueba que ',term('openspec'),' responde de verdad en tu proyecto. Ese método se llama ',term('sdd'),'.'),changes(plan.files)):
       panel(el('h2',{text:plan.message??'Hay instrucciones que necesitan revisión'}),p(plan.action),plan.conflicts?el('ul',{class:'file-list'},plan.conflicts.map(f=>el('li',{text:f}))):null),
-    actions(doBtn('open-workspace'),doBtn('read-files'),plan.status==='planned'?btn('Activar y continuar  →',async()=>{
+  ],'PREPARAR PROYECTO / MÉTODO',wizardBar(doBtn('open-workspace'),doBtn('read-files'),plan.status==='planned'?btn('Activar y continuar  →',async()=>{
       state.status=(await call('applyActivation',{plan:plan.id})).status;await prepareContext();
-    },'primary'):null)],'PREPARAR PROYECTO / MÉTODO');}
+    },'primary'):null));}
 async function prepareContext(exclude){state.plan=await call('previewContext',{id:state.project.id,...(exclude===undefined?{}:{exclude})});showContextReview();}
 function showContextReview(){state.page='context-review';const plan=state.plan,c=plan.coverage;
   const exclusion=el('textarea',{id:'exclusions',rows:3,placeholder:'carpeta-privada\nnotas-personales.txt'});
@@ -761,13 +790,12 @@ function showContextReview(){state.page='context-review';const plan=state.plan,c
       c.managedInstructions?.length?el('details',{},el('summary',{text:`${c.managedInstructions.length} archivos de instrucciones generados quedan fuera de esta búsqueda`}),p('Los escribió la preparación para desarrollo y tu IA ya los recibe por su propia ruta. Si aquí aparece un archivo tuyo, revisa la preparación antes de continuar.','subtle'),el('ul',{class:'file-list'},c.managedInstructions.map(path=>el('li',{text:path})))):null,changes(plan.files)),
     el('details',{},el('summary',{text:'Dejar materiales fuera'}),el('p',{class:'subtle'},'Cada línea que escribas aquí es una ',term('exclusion'),'.'),field('Una ruta relativa por línea','exclusions',exclusion,'No incluyas letras de unidad ni rutas de otras carpetas.'),btn('Revisar con estas exclusiones',()=>prepareContext(exclusion.value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean)))),
     p('Los PDF escaneados, las imágenes y otros formatos sin texto necesitan otra herramienta. No se presentan como documentos leídos.','subtle'),
-    actions(doBtn('open-workspace'),btn('Guardar y continuar  →',async()=>{
+  ],'PREPARAR PROYECTO / ARCHIVOS',wizardBar(doBtn('open-workspace'),btn('Guardar y continuar  →',async()=>{
       const r=await call('applyContext',{plan:plan.id});state.status=r.status;
       if(plan.agentStatus==='canonical-planned-sync-required'){
         state.plan=await call('previewSync',{id:state.project.id});showSyncReview();
       }else await showWorkspace();
-    },'primary')),
-  ],'PREPARAR PROYECTO / ARCHIVOS');}
+    },'primary')));}
 function showSyncReview(){state.page='sync-review';const plan=state.plan;
   render([...heading('Conectemos lo leído con las instrucciones.','Las instrucciones de tu IA se rehacen a partir de lo que acabas de aprobar. Después se actualiza el resumen para incluir esos cambios.'),
     panel(changes((plan.plan?.operations??[]).map(o=>({path:o.target,action:o.operation}))),plan.message?p(plan.message):null),

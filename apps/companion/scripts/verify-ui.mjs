@@ -15,7 +15,8 @@ const VOCABULARY={terms:GLOSSARY.map(e=>({id:e.id,forms:e.forms,caseSensitive:!!
 import { ACTION_PAIRS, UNDEFINED_VOCABULARY, TERM_LABELS, LIST_PURITY, ACCESSIBILITY, ACCESSIBLE_NAMES,
   EXPECTED_ACTIONS, RUNTIME_ONLY_ACTIONS, collectActionPairs, duplicateActionNames, missingActions,
   undeclaredActions, vacuous, ROW_ACTION_PAIRS, ROW_MENUS, READY_CLAIMS, GUIDE, EXPECTED_ROW_ACTIONS,
-  rowMenuProblems, readyProblems, guideProblems, guideSignature, ACTION_COUNTS, repeatedActions } from './interface-contract.mjs';
+  rowMenuProblems, readyProblems, guideProblems, guideSignature, ACTION_COUNTS, repeatedActions,
+  INTERACTIVE, REACH, reachProblems } from './interface-contract.mjs';
 
 // Browser verification uses the shipping renderer and engines. Only native picker/clipboard/external
 // launch and IPC transport are injected. It does not claim installer or Electron sandbox coverage.
@@ -84,9 +85,270 @@ async function checkScreen(page,where){
   return result;
 }
 const checkAccessibility=checkScreen;
+// The current wizard, walked the way Companion 0.3.1 could not be finished: with the entry animation running, in
+// the three window sizes of the maintainer's report, each once more with reduced motion for comparison, and once
+// per installation choice so that both are clicked. The five-profile journey further down still walks the review
+// route with reduced motion; this one exists because that one never saw the wizard break.
+// The two small windows are the viewports the real window gives, measured in Electron 44 on Windows 11: the default
+// 1180 × 820 window leaves 1164 × 755 CSS px, so at 200 % zoom 582 × 377, and the minimum 480 × 540 window leaves
+// 464 × 475. At 500 px of height and below the bar is static by design, and everything still has to be reachable.
+const WIZARD_VIEWPORTS=[[1180,820],[1160,810],[1040,700],[582,377],[464,475]],MOTIONS=['no-preference','reduce'];
+const INSTALL={quick:'Instalar stack base y obtener prompt →',ai:'Preparar carpeta y generar prompt maestro →'};
+const PRIMARY={setup:['Inicio','Elegir carpeta →'],'folder-empty':['Volver','Buscar carpeta en este equipo'],
+  folder:['Cambiar carpeta','Ver mi proyecto','Volver','Continuar a delimitación →','Revisar preparación →'],
+  delimitation:['Volver','Paso 3: Visión y Descripción →'],vision:['Volver','Paso 4: Instalación →'],
+  install:['Volver',...Object.values(INSTALL)],finished:['Copiar ruta','Copiar Prompt Maestro','Ver mi proyecto','Tus proyectos']};
+const WIZARD_SCREENS=Object.keys(PRIMARY),WITH_BAR=new Set(WIZARD_SCREENS.filter(screen=>screen!=='finished'));
+const wizard={date:new Date().toISOString(),
+  scope:'Renderer real y servicio real en el navegador; selector de carpeta, portapapeles y apertura externa inyectados. Asistente vigente en las tres ventanas del informe y en las dos ventanas pequeñas de la aplicación real (por defecto con zoom al 200 % y mínima), con movimiento normal y reducido y con las dos formas de instalar.',
+  viewports:WIZARD_VIEWPORTS.map(([width,height])=>`${width}x${height}`),motions:MOTIONS,branches:Object.keys(INSTALL),
+  matrix:[],copies:[],withoutText:[],problems:[]};
+// Settled means the operation finished and the entry animation stopped running. Infinite decorative animations are
+// not waited for, and nothing is disabled to make the wait shorter.
+const settle=page=>page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')!=='true'
+  &&!(document.querySelector('#view .enter')?.getAnimations()??[]).some(animation=>animation.playState==='running'));
+async function walkWizard(width,height,motion,branch){
+  const tag=`${width}x${height} ${motion} ${branch}`,root=path.join(temp,`wizard-${width}x${height}-${motion}-${branch}`);
+  await mkdir(root);
+  for(let index=0;index<12;index+=1)await writeFile(path.join(root,`nota-${index}.txt`),`Nota ${index}. `+'Texto de prueba para recorrer el asistente. '.repeat(12));
+  const copied=[],errors=[],visited=[],problems=[],screens={};
+  const service=await createDesktopService({dataRoot:root+'-history',core,environment:null,chooseFolder:async()=>root,copyText:v=>copied.push(v),openExternal:()=>{}});
+  const context=await browser.newContext({viewport:{width,height},reducedMotion:motion}),page=await context.newPage();
+  page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(30000);
+  await page.exposeFunction('qaCall',async(name,input)=>{
+    if(!Object.hasOwn(service,name))return {ok:false,error:{message:'Unknown method'}};
+    try{return {ok:true,value:await service[name](input)};}catch(e){return {ok:false,error:publicError(e)};}
+  });
+  await page.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>window.qaCall(name,input??{})]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
+  const measure=async screen=>{
+    await settle(page);
+    const report=await page.evaluate(REACH,INTERACTIVE),a11y=await page.evaluate(ACCESSIBILITY),names=await page.evaluate(ACCESSIBLE_NAMES);
+    visited.push(screen);
+    // The header is measured too and reported apart: it is not part of this change, and at 1040 px its entries
+    // break mid-word, which belongs to the layout rebuild in #144.
+    screens[screen]={heading:report.heading,enter:report.enter,bar:report.bar,end:report.end,nav:report.nav,
+      measured:report.controls.length,reachable:report.controls.filter(control=>control.ok).length,
+      blocked:report.controls.filter(control=>!control.ok),
+      accessibility:{contrastMeasured:a11y.measured,contrast:a11y.contrast,headingOrder:a11y.headingOrder,focusable:a11y.focusable,unnamed:names.unnamed},
+      header:{brokenWords:a11y.brokenWords}};
+    for(const problem of reachProblems(report,{primary:PRIMARY[screen],bar:WITH_BAR.has(screen)}))problems.push(`${screen}: ${problem}`);
+    for(const entry of a11y.contrast)problems.push(`${screen}: contraste ${entry.ratio}:1 (requerido ${entry.required}:1) en ${entry.tag}.${entry.class} "${entry.text}"`);
+    for(const entry of a11y.headingOrder)problems.push(`${screen}: encabezados ${entry}`);
+    for(const control of names.unnamed)problems.push(`${screen}: control sin nombre accesible ${control}`);
+    if(!a11y.measured||!a11y.focusable)problems.push(`${screen}: la comprobación de accesibilidad no examinó nada`);
+    // Against the width the content has, which excludes a vertical scrollbar: innerWidth includes it and would hide a
+    // small overflow in a window that shows one.
+    const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
+    if(overflow>1)problems.push(`${screen}: la página necesita desplazamiento horizontal (${overflow} px)`);
+    for(const [action,value] of Object.entries(report.nav)){
+      if(value!==String(action==='prepare-project'))problems.push(`${screen}: la navegación «${action}» declara aria-pressed="${value}"`);
+    }
+    if(motion==='no-preference'&&branch==='ai'&&['setup','install'].includes(screen)){
+      await page.screenshot({path:path.join(output,`wizard-${width}x${height}-${screen}-final.png`),mask:[page.locator('.path')],maskColor:'#e7eee4'});
+      evidence.screenshots.push(`wizard-${width}x${height}-${screen}-final.png`);
+    }
+  };
+  // An ordinary click, never forced and never a handler called from the page. When the browser refuses it, the
+  // refusal is the finding, and the rest of the journey is recorded as not reached instead of being faked.
+  const press=async(name,screen)=>{
+    try{await page.getByRole('button',{name,exact:true}).click({timeout:5000});return true;}
+    catch(error){problems.push(`${screen}: un clic normal no pudo pulsar «${name}»: ${String(error.message).split('\n').find(line=>/intercepts|not visible|not stable|not enabled/.test(line))?.trim()??'tiempo agotado'}`);return false;}
+  };
+  // A screen that does not arrive is recorded with whatever the window said instead, so a stopped journey carries
+  // its cause rather than only the fact that it stopped.
+  const reached=async(name,screen)=>{
+    if(await page.getByRole('heading',{name,exact:true}).waitFor({timeout:10000}).then(()=>true,()=>false))return true;
+    const said=await page.locator('#feedback').isVisible()?(await page.locator('#feedback').innerText()).replace(/\s+/g,' ').trim():null;
+    problems.push(`${screen}: no se llegó a «${name}»${said?`; la ventana muestra: ${said}`:''}`);
+    return false;
+  };
+  try{
+    await page.goto(url);await reached('Dale a tu IA un buen punto de partida.','inicio');
+    await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
+    if(!await reached('Empecemos por lo que quieres lograr.','inicio'))return;
+    await measure('setup');
+    if(branch==='ai'){
+      // Keyboard, on the longest screen: every stop Tab reaches has to stay at least partly visible, never wholly
+      // under the bar that sticks to the bottom of the window (WCAG 2.4.11), until the bar's own submit is reached.
+      await page.evaluate(()=>{window.scrollTo(0,0);document.activeElement?.blur();});
+      const stops=[];
+      for(let index=0;index<80&&!stops.at(-1)?.submit;index+=1){
+        await page.keyboard.press('Tab');
+        const stop=await page.evaluate(()=>{
+          const node=document.activeElement;if(!node||node===document.body)return null;
+          const bar=document.querySelector('#view .wizard-footer'),box=node.getBoundingClientRect(),band=bar?.getBoundingClientRect();
+          const inBar=!!bar?.contains(node);
+          return {name:(node.getAttribute('aria-label')||node.labels?.[0]?.innerText||node.innerText||node.id||node.tagName).replace(/\s+/g,' ').trim().slice(0,60),
+            inBar,submit:inBar&&node.type==='submit',
+            underBar:!inBar&&!!band&&box.top>=band.top-0.5&&box.bottom<=band.bottom+0.5,outside:box.bottom<=0||box.top>=innerHeight};
+        });
+        if(stop)stops.push(stop);
+      }
+      screens.setup.keyboard={stops:stops.length,underBar:stops.filter(stop=>stop.underBar).map(stop=>stop.name),outside:stops.filter(stop=>stop.outside).map(stop=>stop.name),reachedSubmit:!!stops.at(-1)?.submit};
+      if(stops.length<10||!screens.setup.keyboard.reachedSubmit)problems.push(`setup: con Tab no se recorrió el formulario hasta «Elegir carpeta →» (${stops.length} paradas)`);
+      for(const name of screens.setup.keyboard.underBar)problems.push(`setup: al tabular, «${name}» queda oculto bajo la barra`);
+      for(const name of screens.setup.keyboard.outside)problems.push(`setup: al tabular, «${name}» recibe el foco fuera de la ventana`);
+      await page.evaluate(()=>window.scrollTo(0,0));
+    }
+    // A required field keeps the wizard where it is, by click and by Enter; valid answers advance by either.
+    await page.getByLabel('Nombre de tu proyecto').fill('');
+    await page.getByLabel('¿Qué quieres lograr?').fill('Terminar el asistente con la animación activa');
+    await press('Elegir carpeta →','setup');
+    await page.getByLabel('¿Qué quieres lograr?').press('Enter');
+    const refused=await page.evaluate(()=>({screen:document.querySelector('#view h1')?.textContent,missing:document.getElementById('name')?.validity.valueMissing}));
+    if(refused.screen!=='Empecemos por lo que quieres lograr.'||!refused.missing)problems.push(`setup: un nombre vacío no detuvo el asistente ${JSON.stringify(refused)}`);
+    await page.getByLabel('Nombre de tu proyecto').fill('Asistente con animación');
+    if(branch==='quick')await page.getByLabel('¿Qué quieres lograr?').press('Enter');else await press('Elegir carpeta →','setup');
+    if(!await reached('Tu trabajo empieza en una carpeta.','setup'))return;
+    if(branch==='quick'){
+      // Going back keeps what was answered.
+      await settle(page);
+      if(!await press('Volver','folder-empty')||!await reached('Empecemos por lo que quieres lograr.','folder-empty'))return;
+      const kept={name:await page.getByLabel('Nombre de tu proyecto').inputValue(),goal:await page.getByLabel('¿Qué quieres lograr?').inputValue()};
+      if(kept.name!=='Asistente con animación'||kept.goal!=='Terminar el asistente con la animación activa')problems.push(`setup: al volver se perdieron las respuestas ${JSON.stringify(kept)}`);
+      await settle(page);
+      if(!await press('Elegir carpeta →','setup')||!await reached('Tu trabajo empieza en una carpeta.','setup'))return;
+    }
+    await measure('folder-empty');
+    if(!await press('Buscar carpeta en este equipo','folder-empty'))return;
+    await page.locator('.folder-card .path').waitFor();
+    await measure('folder');
+    if(!await press('Continuar a delimitación →','folder')||!await reached('¿Cuál es el enfoque principal de tu proyecto?','folder'))return;
+    await measure('delimitation');
+    // The last card is the one the bar covered in the maintainer's report.
+    const cards=page.locator('.delimitation-card'),last=cards.nth(await cards.count()-1),title=await last.locator('h3').innerText();
+    await last.click({timeout:5000}).catch(()=>problems.push(`delimitation: un clic normal no pudo elegir «${title}»`));
+    await settle(page);
+    if(await page.locator('.delimitation-card.selected h3').innerText().catch(()=>null)!==title)problems.push(`delimitation: «${title}» no quedó elegida`);
+    if(!await press('Paso 3: Visión y Descripción →','delimitation')||!await reached('Cuéntanos en tus palabras: ¿qué quieres lograr?','delimitation'))return;
+    await measure('vision');
+    // A screen reader needs the editor's name from something other than its placeholder, which goes away as soon as
+    // the person types. The name is read from the accessibility tree with the placeholder removed for the moment.
+    const placeholder=await page.locator('#vision-input').getAttribute('placeholder');
+    await page.locator('#vision-input').evaluate(node=>node.removeAttribute('placeholder'));
+    const named=await page.getByRole('textbox',{name:'Tu visión del proyecto',exact:true}).count();
+    if(named!==1)problems.push('vision: el editor no tiene nombre accesible sin su placeholder');
+    // The same reading with the aria-label gone too has to find nothing, or it could not tell a named editor apart.
+    const label=await page.locator('#vision-input').getAttribute('aria-label');
+    await page.locator('#vision-input').evaluate(node=>node.removeAttribute('aria-label'));
+    const withoutLabel=await page.getByRole('textbox',{name:'Tu visión del proyecto',exact:true}).count();
+    await page.locator('#vision-input').evaluate((node,value)=>{if(value!==null)node.setAttribute('aria-label',value);},label);
+    if(withoutLabel!==0)problems.push('vision: la lectura del nombre no distingue un editor sin aria-label');
+    screens.vision.name={withoutPlaceholder:named,withoutPlaceholderOrLabel:withoutLabel};
+    await page.locator('#vision-input').evaluate((node,value)=>{if(value!==null)node.setAttribute('placeholder',value);},placeholder);
+    // The suggestions are the last content of this screen, and each one adds a paragraph. With the quick branch a
+    // line break is also typed by hand: both are ordinary ways to write a vision.
+    for(const chip of await page.locator('.prompt-chip strong').allInnerTexts()){
+      await page.locator('.prompt-chip').filter({hasText:chip}).click({timeout:5000}).catch(()=>problems.push(`vision: un clic normal no pudo pulsar la sugerencia «${chip}»`));
+    }
+    if(branch==='quick'){await page.locator('#vision-input').press('End');await page.keyboard.press('Enter');await page.keyboard.type('Una línea escrita a mano.');}
+    const draft=await page.locator('#vision-input').inputValue();
+    for(const added of ['### Público Objetivo','### Problema Principal a Resolver','### Alcance del Primer Incremento']){
+      if(!draft.includes(added))problems.push(`vision: la sugerencia «${added}» no llegó al borrador`);
+    }
+    if(!await press('Paso 4: Instalación →','vision')||!await reached('Tu espacio está listo. ¿Cómo prefieres equiparlo?','vision'))return;
+    await measure('install');
+    if(!await press(INSTALL[branch],'install')||!await reached('¡Tu proyecto está listo para cobrar vida!','install'))return;
+    await measure('finished');
+    // The vision keeps its paragraphs in the folder, and the objective the preparation recorded is one line.
+    const written=await readFile(path.join(root,'PROJECT_VISION.md'),'utf8').catch(()=>'');
+    for(const line of draft.split('\n').filter(line=>line.trim())){
+      if(!written.includes(line.trim()))problems.push(`finished: PROJECT_VISION.md no conserva «${line.trim().slice(0,60)}»`);
+    }
+    const recorded=(await service.listProjects())[0]?.selection?.goal??'';
+    if(!recorded||/[\r\n]/.test(recorded)||recorded.length>500)problems.push(`finished: el objetivo registrado no es una línea de hasta 500 caracteres ${JSON.stringify(recorded.slice(0,80))}`);
+    // Both copy controls, through the service and never through the page's own clipboard, with the exact text the
+    // screen shows, and a confirmation in the status region only after the copy succeeded.
+    const shown={'Copiar ruta':await page.locator('.finished-path-bar code').evaluate(node=>node.textContent),
+      'Copiar Prompt Maestro':await page.locator('.prompt-box pre').evaluate(node=>node.textContent)};
+    for(const [control,expected] of Object.entries(shown)){
+      const before=copied.length;
+      // With the ai branch the copy is made from the keyboard, and where focus is afterwards is recorded: the
+      // button is disabled while the copy runs, and keyboard users should not lose their place.
+      if(branch==='ai'){
+        await page.getByRole('button',{name:control,exact:true}).focus();await page.keyboard.press('Enter');
+      }else if(!await press(control,'finished'))continue;
+      await settle(page);
+      if(branch==='ai')(screens.finished.focusAfterCopy??={})[control]=await page.evaluate(()=>{const node=document.activeElement;return node===document.body?'body':`${node.tagName.toLowerCase()} «${node.textContent.trim()}»`;});
+      const notice=(await page.locator('#notice').textContent()).trim(),equal=copied.length===before+1&&copied.at(-1)===expected;
+      wizard.copies.push({run:tag,control,equal,bytes:Buffer.byteLength(expected),notice});
+      if(!equal)problems.push(`finished: «${control}» no entregó al servicio el texto que muestra la pantalla`);
+      if(!notice)problems.push(`finished: «${control}» no anunció nada en la región de estado`);
+    }
+    // The quick prompt says what happened: the folder was prepared and nothing was installed. 0.3.1 told the AI
+    // that the base dependencies were already provisioned.
+    if(branch==='quick'&&(/aprovisionad/i.test(shown['Copiar Prompt Maestro'])||!shown['Copiar Prompt Maestro'].includes('no instaló ninguna dependencia'))){
+      problems.push('finished: el prompt de instalación rápida afirma dependencias que no se instalaron');
+    }
+    await page.locator('#nav [data-action="open-start"]').click();await reached('Dale a tu IA un buen punto de partida.','finished');
+    const outside=await page.locator('#nav [data-action="prepare-project"]').getAttribute('aria-pressed');
+    if(outside!=='false')problems.push(`inicio: «Preparar proyecto» sigue con aria-pressed="${outside}" fuera del asistente`);
+  }finally{
+    for(const screen of WIZARD_SCREENS)if(!visited.includes(screen))problems.push(`${screen}: pantalla no alcanzada`);
+    if(errors.length)problems.push(`excepciones del renderer: ${errors.join(' | ')}`);
+    wizard.matrix.push({viewport:`${width}x${height}`,motion,branch,screens,problems:[...problems]});
+    for(const problem of problems)wizard.problems.push(`${tag} · ${problem}`);
+    await context.close();
+  }
+}
+// A vision that leaves no text for the objective, a lone heading mark or an emptied editor, keeps the objective chosen
+// in the first step, also when the vision was written on an earlier visit, and PROJECT_VISION.md states that objective.
+// Deriving the objective from such a vision gave an empty one, which stops the installation. Each draft but the last
+// is written on a visit that goes on to the installation step and comes back.
+async function walkVisionWithoutText(tag,drafts){
+  const root=path.join(temp,`wizard-vision-${wizard.withoutText.length}`);
+  await mkdir(root);await writeFile(path.join(root,'nota.txt'),'Nota de prueba.\n');
+  const service=await createDesktopService({dataRoot:root+'-history',core,environment:null,chooseFolder:async()=>root,copyText:()=>{},openExternal:()=>{}});
+  const context=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'}),page=await context.newPage();
+  const problems=[],errors=[],goal='Un objetivo elegido en el primer paso';
+  page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(30000);
+  await page.exposeFunction('qaCall',async(name,input)=>{
+    if(!Object.hasOwn(service,name))return {ok:false,error:{message:'Unknown method'}};
+    try{return {ok:true,value:await service[name](input)};}catch(e){return {ok:false,error:publicError(e)};}
+  });
+  await page.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>window.qaCall(name,input??{})]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
+  const go=async(button,heading)=>{await page.getByRole('button',{name:button,exact:true}).click({timeout:5000});await settle(page);await page.getByRole('heading',{name:heading,exact:true}).waitFor({timeout:10000});};
+  try{
+    await page.goto(url);
+    await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
+    await page.getByLabel('Nombre de tu proyecto').fill('Visión sin texto');await page.getByLabel('¿Qué quieres lograr?').fill(goal);
+    await go('Elegir carpeta →','Tu trabajo empieza en una carpeta.');
+    await page.getByRole('button',{name:'Buscar carpeta en este equipo',exact:true}).click();await page.locator('.folder-card .path').waitFor();
+    await go('Continuar a delimitación →','¿Cuál es el enfoque principal de tu proyecto?');
+    await go('Paso 3: Visión y Descripción →','Cuéntanos en tus palabras: ¿qué quieres lograr?');
+    for(const [index,draft] of drafts.entries()){
+      await page.locator('#vision-input').fill(draft);
+      await go('Paso 4: Instalación →','Tu espacio está listo. ¿Cómo prefieres equiparlo?');
+      if(index<drafts.length-1)await go('Volver','Cuéntanos en tus palabras: ¿qué quieres lograr?');
+    }
+    await go(INSTALL.ai,'¡Tu proyecto está listo para cobrar vida!');
+    const recorded=(await service.listProjects())[0]?.selection?.goal;
+    if(recorded!==goal)problems.push(`el objetivo registrado es ${JSON.stringify(recorded)} y no el del primer paso`);
+    const written=await readFile(path.join(root,'PROJECT_VISION.md'),'utf8').catch(()=>'');
+    if(!written.includes(goal))problems.push('PROJECT_VISION.md no declara el objetivo del primer paso');
+  }catch(error){
+    const said=await page.locator('#feedback').isVisible().catch(()=>false)?(await page.locator('#feedback').innerText()).replace(/\s+/g,' ').trim():null;
+    problems.push(`no se llegó a la pantalla final: ${String(error.message).split('\n')[0].slice(0,120)}${said?`; la ventana muestra: ${said}`:''}`);
+  }finally{
+    if(errors.length)problems.push(`excepciones del renderer: ${errors.join(' | ')}`);
+    await context.close();
+  }
+  wizard.withoutText.push({case:tag,drafts,problems});
+  for(const problem of problems)wizard.problems.push(`${tag} · ${problem}`);
+}
 try {
   browser=await chromium.launch({...(process.platform==='win32'?{channel:'msedge'}:{}),headless:true});
   assert.equal((await fetch(url+'/desktop/service.mjs')).status,404);
+  for(const [width,height] of WIZARD_VIEWPORTS)for(const motion of MOTIONS)for(const branch of Object.keys(INSTALL))await walkWizard(width,height,motion,branch);
+  for(const [tag,drafts] of [['visión «###»',['###']],['visión vacía',['']],['visión vaciada al volver de la instalación',['Una visión escrita en la primera visita.','']]])await walkVisionWithoutText(tag,drafts);
+  const runs=wizard.matrix,wizardScreens=runs.flatMap(run=>Object.values(run.screens));
+  wizard.summary={runs:runs.length,screensExpected:runs.length*WIZARD_SCREENS.length,screensVisited:wizardScreens.length,
+    controlsMeasured:wizardScreens.reduce((sum,screen)=>sum+screen.measured,0),controlsReachable:wizardScreens.reduce((sum,screen)=>sum+screen.reachable,0),
+    copies:wizard.copies.length,copiesEqual:wizard.copies.filter(copy=>copy.equal).length,problems:wizard.problems.length};
+  await writeFile(path.join(output,'wizard-reach.json'),JSON.stringify(wizard,null,2)+'\n');
+  assert.deepEqual(wizard.problems,[],'Every control of the current wizard has to be reachable with and without motion, and both copies have to go through the service');
+  assert.equal(wizard.summary.screensVisited,wizard.summary.screensExpected,'Every screen of every run has to be visited');
+  evidence.checks.push(`Asistente vigente: ${runs.length} recorridos (${WIZARD_VIEWPORTS.length} ventanas × 2 preferencias de movimiento × 2 formas de instalar), ${wizard.summary.screensVisited} pantallas, ${wizard.summary.controlsReachable} de ${wizard.summary.controlsMeasured} controles alcanzables al tocar su centro, ${wizard.summary.copiesEqual} de ${wizard.summary.copies} copias con el texto exacto, y una visión sin texto que conserva el objetivo del primer paso en ${wizard.withoutText.length} de ${wizard.withoutText.length} casos PASS`);
   for(const profile of ['research','software','unity','media','general']){
     const root=path.join(temp,profile);await mkdir(root);
     await writeFile(path.join(root,'notes.txt'),'Evidence: tokens must be measured. A byte budget is not an observed token reduction.');

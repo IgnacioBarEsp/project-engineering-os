@@ -208,6 +208,19 @@ function exact(input, keys) {
   if (!input || typeof input !== 'object' || Array.isArray(input) || Object.keys(input).some(k=>!keys.includes(k))) fail('INPUT_INVALID', 'La solicitud contiene datos no reconocidos.');
   return input;
 }
+// What an explicit copy control hands over: exactly the text it shows, bounded twice. The first bound is the
+// text itself; the second is the request as the transport serializes it, because escaping can make a short text
+// long — a control character becomes six bytes. Both are checked here and not only by the transport, so the rule
+// holds for any caller. `text()` above trims and refuses line breaks, which would mangle a multi-line prompt.
+export const COPY_TEXT_MAX_BYTES = 32000, COPY_REQUEST_MAX_BYTES = 64000;
+function copyable(input) {
+  exact(input,['text']);
+  const value=input.text, retry='Vuelve a intentarlo desde el botón de copiar de la pantalla.';
+  if (typeof value!=='string' || !value.trim()) fail('INPUT_INVALID','No hay texto que copiar.',retry);
+  if (value.includes('\0')) fail('INPUT_INVALID','Ese texto contiene un carácter que no se puede copiar.',retry);
+  if (Buffer.byteLength(value)>COPY_TEXT_MAX_BYTES || Buffer.byteLength(JSON.stringify(input))>COPY_REQUEST_MAX_BYTES) fail('INPUT_INVALID','Ese texto es más largo de lo que se puede copiar desde aquí.',retry);
+  return value;
+}
 function selection(input) {
   exact(input,['name','profile','agents','experience','role','goal','stack','subtype','vision','installMode']);
   if (!ROLES.includes(input.role)) fail('ROLE_INVALID','Elige el perfil que te representa.');
@@ -603,6 +616,14 @@ export async function createDesktopService({ dataRoot, core, environment = null,
         pending:steps.filter(step=>step.kind==='app').map(step=>step.stage),
         terms:glossaryIdsIn(steps.map(step=>`${step.title} ${step.why} ${step.prompt??''}`).join(' ')),
         steps:steps.map((step,index)=>({index,kind:step.kind,stage:step.stage,title:step.title,why:step.why,action:step.action,prompt:step.prompt}))};},
+    // The path and the prompt of the finished wizard. Only this process writes the clipboard: the renderer holds
+    // no clipboard permission, and 0.3.1 asked the page for one, was refused, and swallowed the refusal. The write
+    // is awaited before answering, so a confirmation on screen follows a clipboard that already holds the text,
+    // and a failure says what happened without repeating what was being copied.
+    async copyText(input) {const value=copyable(input);
+      try {await copyText(value);}
+      catch {fail('CLIPBOARD_FAILED','No se pudo escribir en el portapapeles de este equipo.','Vuelve a intentarlo en unos segundos. Tus archivos no cambiaron.');}
+      return {copied:true,bytes:Buffer.byteLength(value),sent:false};},
     async copyGuideStep(input) {exact(input,['guide','step']);noJob();const value=guides.get(input.guide);
       if(!value||!Number.isInteger(input.step)||input.step<0||input.step>=value.steps.length)fail('GUIDE_UNKNOWN','Vuelve a abrir la guía de este proyecto.');
       const p=await project(value.project),step=value.steps[input.step];

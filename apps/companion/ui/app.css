@@ -120,8 +120,9 @@ dialog pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:0.82rem;max-hei
 @media(max-width:380px){.app-header.sidebar{padding:8px}.brand-name{font-size:12px}.status-indicator{font-size:9px;padding:2px 6px}.nav-button{font-size:11px;padding:4px 8px}main#content,main{padding:10px 6px 20px}.tool-tabs button{padding:6px 8px;font-size:11px}}
 h1,h2,h3,button{overflow-wrap:anywhere}h1[tabindex="-1"]:focus{outline:none}
 @media(max-width:650px){.project{padding-right:48px}.more-actions{min-width:200px}}
-main:has(.steps){padding-bottom:145px}main:has(.steps) #view .enter>.actions,main:has(.steps) #view form>.actions{position:fixed;bottom:0;left:0;right:0;margin:0;padding:18px clamp(24px,4.4vw,70px);background:rgba(11,15,25,0.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(0,0,0,0.5);z-index:10}
-@media(max-height:500px),(max-width:380px){main:has(.steps) #view .enter>.actions,main:has(.steps) #view form>.actions{position:static;padding:18px 0}main:has(.steps){padding-bottom:35px}}
+/* The final bar of a wizard screen: after the animated content, in the flow, sticking to the bottom of the window. Never fixed inside .enter, whose transform would make it the bar's containing block. The main column gives up its bottom padding and an empty notice its height, so the bar ends the page instead of floating over a strip of nothing. */
+.wizard-footer{position:sticky;bottom:0;z-index:10;margin-top:28px;padding:18px 0;background:rgba(11,15,25,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(0,0,0,0.5)}main#content:has(>#view>.wizard-footer){padding-bottom:0}main#content:has(>#view>.wizard-footer) .notice:empty{margin:0;min-height:0}html{scroll-padding-bottom:var(--wizard-footer-height,0px)}
+@media(max-height:500px),(max-width:380px){.wizard-footer{position:static}html{scroll-padding-bottom:0}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .term{background:transparent;color:#818cf8;font:inherit;font-weight:600;padding:0;border:0;border-bottom:1px dotted #818cf8;border-radius:2px;line-height:inherit;cursor:pointer}
@@ -496,7 +497,8 @@ input[type=password]{width:100%;min-height:48px;border:1px solid var(--line);bor
 .finished-hero h1 { margin: 0 0 8px; font-size: 2rem; color: #ffffff; }
 .finished-hero p { margin: 0 auto; max-width: 600px; font-size: 1rem; color: #94a3b8; }
 .finished-path-bar { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #0f131d; padding: 12px 18px; border-radius: 10px; border: 1px solid var(--line); margin: 18px 0; flex-wrap: wrap; }
-.finished-path-bar code { font-family: ui-monospace, "JetBrains Mono", monospace; font-size: 0.88rem; color: #4edea3; font-weight: 600; }
+.finished-path-bar code { font-family: ui-monospace, "JetBrains Mono", monospace; font-size: 0.88rem; color: #4edea3; font-weight: 600; overflow-wrap: anywhere; }
+.finished-path-bar > div { min-width: 0; }
 .activation-card { background: #121826; border: 1.5px solid #6366f1; border-radius: 14px; padding: 22px; margin: 18px 0; box-shadow: 0 6px 24px rgba(99, 102, 241, 0.15); }
 .prompt-box { position: relative; background: #0b0f19; border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin: 14px 0; transition: border-color 180ms ease, box-shadow 180ms ease; }
 .prompt-box:hover { border-color: #818cf8; box-shadow: 0 4px 16px rgba(99, 102, 241, 0.1); }
