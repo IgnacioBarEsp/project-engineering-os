@@ -5,16 +5,16 @@ Un issue cerrado demuestra el cierre de ese cambio; no publica por sí solo un i
 
 | Entrega | Estado comprobado | Fuente |
 | --- | --- | --- |
-| Companion para Windows x64 | **0.3.1 publicado, con defectos conocidos** que impiden terminar el asistente (abajo) | [Release 0.3.1](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.1) |
-| Correcciones de Companion 0.3.2 | Integradas en `main`; **pendientes de instalador** en GitHub Releases | [Notas de 0.3.2](../apps/companion/RELEASE_NOTES_0.3.2.md), [issue #142](https://github.com/IgnacioBarEsp/project-engineering-os/issues/142) |
+| Companion para Windows x64 | **0.3.2 publicado**, con sus assets comprobados; corrige los defectos de 0.3.1 (abajo) | [Release 0.3.2](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.2), [notas](../apps/companion/RELEASE_NOTES_0.3.2.md) |
+| Cambios de Companion posteriores a 0.3.2 | Ninguno integrado en `main` todavía; los siguientes quedarán **pendientes de instalador** hasta su release | [issue #168](https://github.com/IgnacioBarEsp/project-engineering-os/issues/168) |
 | Núcleo CLI y biblioteca | **0.5.0 publicado**; la app fija esa dependencia | [Release del núcleo](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/v0.5.0), [paquete de la app](../apps/companion/package.json) |
 | Landing actual | Armonizada con estética Obsidian Studio y contraste AAA | [Página actual](https://ignaciobaresp.github.io/project-engineering-os/), [código fuente](../site/index.html) |
 | Nueva landing | Dirección y base técnica integradas; página final y publicación pendientes | [Repositorio](https://github.com/IgnacioBarEsp/project-engineering-os-landing) |
 
-## Defectos conocidos de Companion 0.3.1
+## Qué corrige Companion 0.3.2
 
-0.3.1 es el instalador publicado, construido desde `a3b1efd`
-([PR #140](https://github.com/IgnacioBarEsp/project-engineering-os/pull/140)). Con él no se puede terminar el
+0.3.1, construido desde `a3b1efd`
+([PR #140](https://github.com/IgnacioBarEsp/project-engineering-os/pull/140)), no permitía terminar el
 asistente. Los tres primeros defectos están reproducidos y medidos en el
 [issue #142](https://github.com/IgnacioBarEsp/project-engineering-os/issues/142); los dos últimos
 aparecieron durante la corrección ([validación](../openspec/changes/archive/2026-09-19-companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md)):
@@ -28,8 +28,9 @@ aparecieron durante la corrección ([validación](../openspec/changes/archive/20
 - El prompt de «Instalación rápida» le dice a la IA que las dependencias base ya están preparadas, y no se
   instala ninguna.
 
-0.3.2 corrige los cinco ([notas](../apps/companion/RELEASE_NOTES_0.3.2.md)). Mientras no tenga instalador
-publicado, la descarga que funciona sigue siendo 0.3.1 con estos defectos.
+0.3.2 corrige los cinco ([notas](../apps/companion/RELEASE_NOTES_0.3.2.md)). Se construyó desde `c044d2d`
+([PR #169](https://github.com/IgnacioBarEsp/project-engineering-os/pull/169)) con el workflow de release, que
+lo instaló, lo actualizó desde 0.1.0 y lo desinstaló en un runner Windows aislado antes de publicarlo.
 
 Siguen en 0.3.2:
 
