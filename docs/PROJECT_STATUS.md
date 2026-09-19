@@ -1,30 +1,45 @@
 # Qué puedes descargar y qué sigue en desarrollo
 
-Revisión: **18 de septiembre de 2026**. Este registro diferencia artefactos publicados de código integrado.
+Revisión: **19 de septiembre de 2026**. Este registro diferencia artefactos publicados de código integrado.
 Un issue cerrado demuestra el cierre de ese cambio; no publica por sí solo un instalador.
 
 | Entrega | Estado comprobado | Fuente |
 | --- | --- | --- |
-| Companion para Windows x64 | **0.3.1 candidato verificado** (0.1.0, 0.2.3 y 0.3.0 previas publicadas) | [Release oficial](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.1) |
+| Companion para Windows x64 | **0.3.1 publicado, con defectos conocidos** que impiden terminar el asistente (abajo) | [Release 0.3.1](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.1) |
+| Correcciones de Companion 0.3.2 | Integradas en `main`; **pendientes de instalador** en GitHub Releases | [Notas de 0.3.2](../apps/companion/RELEASE_NOTES_0.3.2.md), [issue #142](https://github.com/IgnacioBarEsp/project-engineering-os/issues/142) |
 | Núcleo CLI y biblioteca | **0.5.0 publicado**; la app fija esa dependencia | [Release del núcleo](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/v0.5.0), [paquete de la app](../apps/companion/package.json) |
-| Mejoras del Companion posteriores a 0.3.0 | Integradas en `main`; **pendientes de instalador** en GitHub Releases | [PR #140](https://github.com/IgnacioBarEsp/project-engineering-os/pull/140) |
 | Landing actual | Armonizada con estética Obsidian Studio y contraste AAA | [Página actual](https://ignaciobaresp.github.io/project-engineering-os/), [código fuente](../site/index.html) |
 | Nueva landing | Dirección y base técnica integradas; página final y publicación pendientes | [Repositorio](https://github.com/IgnacioBarEsp/project-engineering-os-landing) |
 
-## Qué cambió en Companion 0.3.1
+## Defectos conocidos de Companion 0.3.1
 
-Se aplicó fielmente el diseño Obsidian Precision Studio / Stitch en la interfaz real de Companion:
-tema oscuro profundo (#0B0F19), cabecera superior tipo Topbar con controles de ventana y pastillas de
-navegación responsivas, doble tarjeta de acción en Inicio ("Crear nuevo proyecto" y "Abrir carpeta"),
-tres pilares de valor ("Totalmente local", "Compatible con tu IA", "Estructura limpia"), nuevo icono
-nativo de Windows en paleta Obsidian y supresión de destellos en el arranque.
+0.3.1 es el instalador publicado, construido desde `a3b1efd`
+([PR #140](https://github.com/IgnacioBarEsp/project-engineering-os/pull/140)). Con él no se puede terminar el
+asistente. Los tres primeros defectos están reproducidos y medidos en el
+[issue #142](https://github.com/IgnacioBarEsp/project-engineering-os/issues/142); los dos últimos
+aparecieron durante la corrección:
 
-Los cambios #126–#133 incorporaron el asistente de 4 pasos, los 7 perfiles canónicos con delimitación,
-persistencia de `PROJECT_VISION.md` conservando archivos originales, el instalador contextual NSIS
-(reparar/actualizar/desinstalar), el Master Activation Prompt estructurado, microcopia humana sin tecnicismos
-y la suite de artesanía visual Impeccable con curvas cúbicas y loaders no bloqueantes.
+- La barra de acciones del asistente queda anclada al contenido animado y no a la ventana. Tapa «¿Cuánta
+  guía prefieres?», la última tarjeta de Delimitación, las sugerencias de Visión y los dos botones de
+  Instalación, y desplazar la página no los descubre.
+- «Copiar ruta» y «Copiar Prompt Maestro» no copian nada en la aplicación instalada, y no avisan del fallo.
+- «Preparar proyecto» deja de estar marcado en Instalación y en la pantalla final.
+- Una sugerencia o un salto de línea en Visión hacen fallar la instalación con `GOAL_INVALID`.
+- El prompt de «Instalación rápida» le dice a la IA que las dependencias base ya están preparadas, y no se
+  instala ninguna.
 
-Las [capturas actuales](companion/SCREENSHOTS.md) muestran el flujo completo de pantallas del asistente.
+0.3.2 corrige los cinco ([notas](../apps/companion/RELEASE_NOTES_0.3.2.md)). Mientras no tenga instalador
+publicado, la descarga que funciona sigue siendo 0.3.1 con estos defectos.
+
+Siguen en 0.3.2:
+
+- Las dos formas de instalar hacen lo mismo, aunque «Instalación rápida» diga que instala dependencias:
+  [issue #147](https://github.com/IgnacioBarEsp/project-engineering-os/issues/147).
+- A 1040 px la navegación de la cabecera parte palabras, y la aplicación instalada no aplica cuatro
+  separaciones del asistente porque su política de seguridad bloquea estilos en línea:
+  [issue #144](https://github.com/IgnacioBarEsp/project-engineering-os/issues/144).
+- Las [capturas de la documentación](companion/SCREENSHOTS.md) son del prototipo de diseño, no de la
+  aplicación: las sustituye el [issue #143](https://github.com/IgnacioBarEsp/project-engineering-os/issues/143).
 
 ## Límites que siguen vigentes
 

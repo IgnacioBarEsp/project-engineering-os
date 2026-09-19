@@ -89,13 +89,16 @@ jobs:
       - name: Install browser for app verification
         if: matrix.os == 'ubuntu-latest'
         run: node node_modules/playwright/cli.js install --with-deps chromium
-      - name: Verify five visual project journeys
+      # The current wizard with the entry animation running and with reduced motion, then the five project
+      # journeys. Reduced motion alone is how the action bar of 0.3.1 passed while covering the install buttons.
+      - name: Verify the wizard and five visual project journeys
         if: matrix.os == 'ubuntu-latest'
         run: npm run test:ui -- "${{ runner.temp }}/companion-ui-evidence"
       # The journeys above run without the managed toolchain, which is win32-x64 only, so the screens that
       # depend on it — the project's tools panel and its code map — were covered nowhere but a Windows
       # workstation. This harness reaches them from stubbed payloads and needs nothing but the browser already
-      # installed above, and it re-checks that each of its 40 deliberate mutations is still detected.
+      # installed above, and it re-checks that each of its deliberate mutations is still detected, including the
+      # action bar of 0.3.1 restored under its animated content.
       - name: Verify the interface contract and its mutations
         if: matrix.os == 'ubuntu-latest'
         run: npm run evidence:contract -- "${{ runner.temp }}/companion-contract-evidence"

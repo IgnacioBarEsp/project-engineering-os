@@ -1,0 +1,15 @@
+{
+  "name": "contract",
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "scripts/verify-interface-contract.mjs",
+    "<evidencia>\\final5\\contract"
+  ],
+  "exitCode": 0,
+  "stdout": "{\n  \"mutations\": 45,\n  \"detected\": 45,\n  \"constructionProbes\": 1,\n  \"constructionHeld\": 1,\n  \"findings\": 0,\n  \"screens\": 11,\n  \"screensCounted\": [\n    \"inicio\",\n    \"ayuda\",\n    \"asistente\",\n    \"tus proyectos\",\n    \"mi proyecto\",\n    \"tu IA\",\n    \"tecnología\",\n    \"diálogo de un término\",\n    \"ancho mínimo\",\n    \"lista vacía\",\n    \"lista con error\"\n  ],\n  \"wizard\": {\n    \"runs\": 6,\n    \"screensMeasured\": 36,\n    \"controlsMeasured\": 318,\n    \"controlsReachable\": 318\n  },\n  \"copies\": {\n    \"ok\": 2,\n    \"refused\": 2,\n    \"transport\": 2,\n    \"ok-then-refused\": 2\n  },\n  \"denominators\": {\n    \"inicio\": {\n      \"contrast\": 63,\n      \"vocabularyChars\": 2581,\n      \"controls\": 9\n    },\n    \"ayuda\": {\n      \"contrast\": 89,\n      \"vocabularyChars\": 1991,\n      \"controls\": 7\n    },\n    \"asistente\": {\n      \"contrast\": 69,\n      \"vocabularyChars\": 2400,\n      \"controls\": 33\n    },\n    \"tus proyectos\": {\n      \"contrast\": 37,\n      \"vocabularyChars\": 1019,\n      \"controls\": 16\n    },\n    \"mi proyecto\": {\n      \"contrast\": 70,\n      \"vocabularyChars\": 2361,\n      \"controls\": 31\n    },\n    \"tu IA\": {\n      \"contrast\": 53,\n      \"vocabularyChars\": 2318,\n      \"controls\": 23\n    },\n    \"tecnología\": {\n      \"contrast\": 24,\n      \"vocabularyChars\": 1024,\n      \"controls\": 7\n    }\n  },\n  \"actions\": 12\n}\n",
+  "stderr": "",
+  "error": null,
+  "capturedAt": "2026-09-19T16:57:44.169Z",
+  "durationMs": 126694,
+  "pathsSanitized": "Copiado desde el directorio de trabajo de la sesión, cuya ruta se sustituyó por <evidencia>; el contenido no cambió."
+}

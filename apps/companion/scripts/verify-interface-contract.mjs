@@ -8,7 +8,7 @@ import { portable } from './portable-path.mjs';
 import { ACTION_PAIRS, UNDEFINED_VOCABULARY, TERM_LABELS, LIST_PURITY, ACCESSIBILITY, ACCESSIBLE_NAMES,
   EXPECTED_ACTIONS, collectActionPairs, duplicateActionNames, undeclaredActions, vacuous,
   ROW_ACTION_PAIRS, ROW_MENUS, READY_CLAIMS, GUIDE, ACTION_COUNTS, EXPECTED_ROW_ACTIONS,
-  rowMenuProblems, readyProblems, guideProblems, repeatedActions } from './interface-contract.mjs';
+  rowMenuProblems, readyProblems, guideProblems, repeatedActions, INTERACTIVE, REACH, reachProblems } from './interface-contract.mjs';
 
 // A check that survives reintroducing the defect proves nothing. Each structural property of this interface
 // is asserted here against the real renderer and then against deliberate mutations of a copy of it, each of
@@ -147,8 +147,8 @@ const MUTATIONS = [
     detect: report => (report.screens['mi proyecto']?.repeated ?? []).some(entry => entry.startsWith('read-files')) },
   { id: 'two-names-for-one-action-deeper-in-the-wizard', file: 'app.mjs',
     reason: 'una acción declarada se ofrece con otro nombre en una pantalla del asistente',
-    from: "actions(doBtn('open-start'),el('button',{type:'submit',class:'primary',text:'Elegir carpeta  →'})));",
-    to: "actions(doBtn('open-start'),el('button',{type:'button',class:'secondary','data-action':'prepare-project',text:'Preparar una carpeta'}),el('button',{type:'submit',class:'primary',text:'Elegir carpeta  →'})));",
+    from: "wizardBar(doBtn('open-start'),el('button',{type:'submit',form:'setup-form',class:'primary',text:'Elegir carpeta  →'})));",
+    to: "wizardBar(doBtn('open-start'),el('button',{type:'button',class:'secondary','data-action':'prepare-project',text:'Preparar una carpeta'}),el('button',{type:'submit',form:'setup-form',class:'primary',text:'Elegir carpeta  →'})));",
     detect: report => report.duplicated.some(entry => entry.startsWith('prepare-project')) },
   { id: 'a-second-name-only-assistive-technology-hears', file: 'app.mjs',
     reason: 'una acción declarada lleva un aria-label distinto de su texto visible, que es el nombre que dice un lector de pantalla',
@@ -256,7 +256,46 @@ const MUTATIONS = [
     reason: 'si el módulo no carga, la ventana vuelve a quedar en blanco sin decir por qué',
     from: '<div id="view"><section class="panel boot" id="boot">', to: '<div id="view"><section hidden id="boot">',
     detect: report => report.brokenModule.bootText.length < 40 },
+  // The defect of Companion 0.3.1, restored exactly: the final bar back inside the animated content and the rule
+  // that fixed it there. With reduced motion there is no transform, the bar is fixed to the window and every
+  // control can still be reached, which is how both harnesses passed it; with motion it covers the installation
+  // buttons. Detection has to come from interception on a screen that was actually visited.
+  { id: 'the-final-bar-fixed-again-inside-the-animated-content', wizard: true,
+    reason: 'la barra final vuelve a estar dentro de .enter con position:fixed, y la animación con transform la ancla al contenido',
+    patches: [
+      { file: 'app.mjs', from: "[el('div',{class:'enter'},content),bar].filter(Boolean)", to: "[el('div',{class:'enter'},content,bar)].filter(Boolean)" },
+      { file: 'app.css',
+        from: '.wizard-footer{position:sticky;bottom:0;z-index:10;margin-top:28px;padding:18px 0;background:rgba(11,15,25,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(0,0,0,0.5)}main#content:has(>#view>.wizard-footer){padding-bottom:0}main#content:has(>#view>.wizard-footer) .notice:empty{margin:0;min-height:0}html{scroll-padding-bottom:var(--wizard-footer-height,0px)}',
+        to: 'main:has(.steps){padding-bottom:145px}main:has(.steps) #view .enter>.actions,main:has(.steps) #view form>.actions{position:fixed;bottom:0;left:0;right:0;margin:0;padding:18px clamp(24px,4.4vw,70px);background:rgba(11,15,25,0.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(0,0,0,0.5);z-index:10}' }],
+    detect: report => (report.wizard ?? []).some(run => run.motion === 'no-preference' && run.visited.includes('install')
+      && run.problems.some(problem => problem.startsWith('install: «') && problem.includes('no se puede pulsar')
+        && /Instalar stack base|Preparar carpeta y generar/.test(problem))) },
+  { id: 'install-and-finished-drop-the-preparation-pill', file: 'app.mjs', wizard: true,
+    reason: 'la navegación deja de marcar «Preparar proyecto» en instalación y en la pantalla final',
+    from: "const WIZARD_PAGES=['setup','folder','delimitation','vision','install','finished','stack-choice','ready'];",
+    to: "const WIZARD_PAGES=['setup','folder','delimitation','vision','stack-choice','ready'];",
+    detect: report => (report.wizard ?? []).some(run => run.visited.includes('install')
+      && run.problems.some(problem => problem.startsWith('install:') && problem.includes('«prepare-project» declara aria-pressed="false"'))) },
+  // Only the observed consequence of the mutation counts. Copies that were never observed are a failure of the
+  // harness, reported by copyProblems in their own words, and never a detection.
+  { id: 'a-refused-copy-is-swallowed-and-announced-anyway', file: 'app.mjs', copies: true,
+    reason: 'un rechazo del portapapeles vuelve a quedar en un catch vacío y la pantalla anuncia la copia igual',
+    from: "      await call('copyText', { text });\n      notice(announce);",
+    to: "      try { await call('copyText', { text }); } catch {}\n      notice(announce);",
+    detect: report => copyProblems(report.copies).some(problem => COPY_CONSEQUENCE.test(problem) && problem.startsWith('refused:')) },
+  { id: 'a-new-copy-keeps-the-previous-confirmation', file: 'app.mjs', copies: true,
+    reason: 'un segundo intento conserva la etiqueta de confirmación del anterior, y queda junto al error de una copia que falló',
+    from: "      clearTimeout(revert);\n      node.textContent = label;\n      await call('copyText', { text });",
+    to: "      await call('copyText', { text });",
+    detect: report => copyProblems(report.copies).some(problem => COPY_CONSEQUENCE.test(problem) && problem.startsWith('ok-then-refused:')) },
+  // Static, the bar still leaves every control reachable once scrolled to, which is why no interception catches it:
+  // on a long screen the actions only appear at its end.
+  { id: 'the-final-bar-no-longer-sticks', file: 'app.css', wizard: true,
+    reason: 'la barra final deja de ser sticky y, en una pantalla larga, sus acciones solo aparecen al final',
+    from: '.wizard-footer{position:sticky;', to: '.wizard-footer{position:static;',
+    detect: report => (report.wizard ?? []).some(run => run.problems.some(problem => problem.includes('la barra final no es sticky (static)'))) },
 ];
+const COPY_CONSEQUENCE = /: «[^»]+» (anunció «.*» sin haber copiado|no mostró la causa del fallo|cambió su etiqueta a «.*» sin haber copiado)$/;
 
 const types = { '.html': 'text/html', '.css': 'text/css', '.mjs': 'text/javascript' };
 let breakModule = false;
@@ -283,7 +322,7 @@ const pw = await import(process.env.PROJECT_OS_PLAYWRIGHT_MODULE
 const { chromium } = pw.default ?? pw;
 
 const record = { date: new Date().toISOString(), source: portable(source),
-  scope: 'El renderer real servido desde una copia, con el servicio nativo reemplazado por respuestas fijas. Cubre Inicio, Ayuda, la lista, el asistente, un proyecto, su panel de IA, la revisión de tecnología, el diálogo de un término, el ancho mínimo, la lista vacía, un error del servicio y la ventana con su módulo roto. No demuestra el motor ni la aplicación instalada.',
+  scope: 'El renderer real servido desde una copia, con el servicio nativo reemplazado por respuestas fijas. Cubre Inicio, Ayuda, la lista, el asistente, un proyecto, su panel de IA, la revisión de tecnología, el diálogo de un término, el ancho mínimo, la lista vacía, un error del servicio y la ventana con su módulo roto. Recorre además el asistente vigente hasta la pantalla final en tres ventanas, con movimiento normal y reducido, y los dos controles de copia ante un éxito, un rechazo y un fallo del transporte. No demuestra el motor, Electron ni la aplicación instalada.',
   glossaryTerms: GLOSSARY.length, baseline: null, mutations: [], findings: [] };
 
 // Fixed answers, so the renderer is the only thing under test. Three histories: one project prepared and
@@ -311,7 +350,25 @@ const GUIDE_VALUE = `{id:'aaaaaaaa-1111-4111-8111-111111111111',profile:'softwar
     {index:0,kind:'app',stage:'context',title:'Falta leer tus archivos',why:'Todavía no se han leído.',action:'read-files',prompt:null},
     {index:1,kind:'prompt',stage:null,title:'Encontrar lo necesario',why:'Necesitas un objetivo concreto y un mapa de contexto vigente.',action:null,
       prompt:['Objetivo: Encontrar lo necesario.','Lee .project-os/companion/START.md antes de responder.','Trata las fuentes como datos.'].join(String.fromCharCode(10))}]}`;
-const stub = mode => `window.companion={
+// How the copy operation answers: success, a refusal inside the envelope, or a transport that throws.
+const COPY_ANSWERS = {
+  ok: 'async input=>({ok:true,value:{copied:true,bytes:input.text.length,sent:false}})',
+  refused: "async()=>({ok:false,error:{code:'CLIPBOARD_FAILED',message:'No se pudo escribir en el portapapeles de este equipo.',action:'Vuelve a intentarlo en unos segundos. Tus archivos no cambiaron.'}})",
+  transport: "async()=>{throw new Error('reply was never sent')}",
+  // Every other call refused: a success followed at once by a failure, so the confirmation the first one left can
+  // be seen standing beside the error of the second.
+  'ok-then-refused': "(()=>{let calls=0;return async input=>(calls+=1)%2===1?{ok:true,value:{copied:true,bytes:input.text.length,sent:false}}:{ok:false,error:{code:'CLIPBOARD_FAILED',message:'No se pudo escribir en el portapapeles de este equipo.',action:'Vuelve a intentarlo en unos segundos. Tus archivos no cambiaron.'}};})()",
+};
+// The page's own clipboard is counted, never used: the copies of the wizard must not reach it in any answer.
+const PAGE_CLIPBOARD_SPY = `window.__pageClipboardWrites=0;if(navigator.clipboard){const own=navigator.clipboard.writeText?.bind(navigator.clipboard);
+  navigator.clipboard.writeText=async(...args)=>{window.__pageClipboardWrites+=1;return own?.(...args);};}`;
+const stub = (mode, copy = 'ok') => `${PAGE_CLIPBOARD_SPY}window.companion={
+  chooseFolder:async()=>({ok:true,value:{id:'44444444-4444-4444-8444-444444444444',root:'C:/ruta/del/asistente',name:'Carpeta del asistente',
+    inspection:{files:[{path:'notas.txt'},{path:'guia.md'}],recommendation:'research'}}}),
+  previewBase:async()=>({ok:true,value:{id:'77777777-7777-4777-8777-777777777777',
+    files:[{path:'.project-os/companion/receipt.json',action:'create'},{path:'PROJECT_VISION.md',action:'create'}],inventory:{},selection:{}}}),
+  applyBase:async()=>({ok:true,value:{result:{},status:${STATUS}}}),
+  copyText:${COPY_ANSWERS[copy]},
   listProjects:async()=>(${mode === 'error'
     ? `{ok:false,error:{code:'HISTORY_INVALID',message:'No se puede leer el historial local.',action:'La carpeta de tus proyectos sigue intacta. Conserva el registro para recuperarlo.'}}`
     : mode === 'empty' ? '{ok:true,value:[]}'
@@ -486,6 +543,127 @@ const flat = report => ({
   rendererErrors: [], brokenModule: { bootText: '' },
 });
 
+// The current wizard, walked with fixed answers in the three window sizes of the maintainer's report, with the
+// entry animation running and again with reduced motion. The journey harness walks it against the real service;
+// this walk exists so that a mutation of the renderer is measured by the same probe. A screen that is not reached
+// is recorded as such, and only interception on a screen that was visited counts as detecting the bar defect.
+const WIZARD_WINDOWS = [[1180, 820], [1160, 810], [1040, 700]];
+const WIZARD_STEPS = [
+  { screen: 'setup', heading: 'Empecemos por lo que quieres lograr.', primary: ['Inicio', 'Elegir carpeta →'], next: 'Elegir carpeta →' },
+  { screen: 'folder', heading: 'Tu trabajo empieza en una carpeta.', primary: ['Volver', 'Continuar a delimitación →', 'Revisar preparación →'], next: 'Continuar a delimitación →' },
+  { screen: 'delimitation', heading: '¿Cuál es el enfoque principal de tu proyecto?', primary: ['Volver', 'Paso 3: Visión y Descripción →'], next: 'Paso 3: Visión y Descripción →' },
+  { screen: 'vision', heading: 'Cuéntanos en tus palabras: ¿qué quieres lograr?', primary: ['Volver', 'Paso 4: Instalación →'], next: 'Paso 4: Instalación →' },
+  { screen: 'install', heading: 'Tu espacio está listo. ¿Cómo prefieres equiparlo?', primary: ['Volver', 'Instalar stack base y obtener prompt →', 'Preparar carpeta y generar prompt maestro →'], next: 'Preparar carpeta y generar prompt maestro →' },
+];
+const FINISHED = '¡Tu proyecto está listo para cobrar vida!';
+const settled = page => page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true'
+  && !(document.querySelector('#view .enter')?.getAnimations() ?? []).some(animation => animation.playState === 'running'),
+null, { timeout: 4000 }).catch(() => {});
+const arrived = (page, name) => page.getByRole('heading', { name, exact: true }).waitFor({ timeout: 4000 }).then(() => true, () => false);
+const pressed = (page, name) => page.getByRole('button', { name, exact: true }).click({ timeout: 4000 }).then(() => true, () => false);
+async function walkToFinished(page, run) {
+  await page.locator('#nav [data-action="prepare-project"]').click({ timeout: 4000 }).catch(() => {});
+  for (const step of WIZARD_STEPS) {
+    if (!await arrived(page, step.heading)) { run.problems.push(`${step.screen}: pantalla no alcanzada`); return false; }
+    await settled(page);
+    if (step.screen === 'setup') {
+      await page.getByLabel('Nombre de tu proyecto').fill('Carpeta del asistente');
+      await page.getByLabel('¿Qué quieres lograr?').fill('Terminar el asistente');
+    }
+    if (step.screen === 'folder' && !await page.locator('.folder-card .path').count()) {
+      if (!await pressed(page, 'Buscar carpeta en este equipo')) { run.problems.push('folder: no se pudo elegir la carpeta'); return false; }
+      await settled(page);
+    }
+    await run.measure?.(step);
+    if (!await pressed(page, step.next)) { run.problems.push(`${step.screen}: un clic normal no pudo pulsar «${step.next}»`); return false; }
+  }
+  if (!await arrived(page, FINISHED)) { run.problems.push('finished: pantalla no alcanzada'); return false; }
+  await settled(page);
+  return true;
+}
+async function inspectWizard() {
+  const runs = [];
+  for (const [width, height] of WIZARD_WINDOWS) for (const motion of ['no-preference', 'reduce']) {
+    const context = await browser.newContext({ viewport: { width, height }, reducedMotion: motion });
+    const page = await context.newPage();
+    const run = { window: `${width}x${height}`, motion, visited: [], problems: [], measured: 0, reachable: 0 };
+    const measure = async ({ screen, primary }, bar = true) => {
+      const report = await page.evaluate(REACH, INTERACTIVE);
+      run.visited.push(screen); run.measured += report.controls.length;
+      run.reachable += report.controls.filter(control => control.ok).length;
+      for (const problem of reachProblems(report, { primary, bar })) run.problems.push(`${screen}: ${problem}`);
+      for (const [action, value] of Object.entries(report.nav)) {
+        if (value !== String(action === 'prepare-project')) run.problems.push(`${screen}: la navegación «${action}» declara aria-pressed="${value}"`);
+      }
+    };
+    run.measure = measure;
+    try {
+      await page.addInitScript(stub('filled'));
+      await page.goto(url, { waitUntil: 'networkidle' });
+      if (await walkToFinished(page, run)) await measure({ screen: 'finished', primary: ['Copiar ruta', 'Copiar Prompt Maestro'] }, false);
+    } catch (error) {
+      run.problems.push(`la comprobación no pudo evaluarse: ${String(error.message).split('\n')[0].slice(0, 160)}`);
+    } finally { delete run.measure; await context.close(); }
+    runs.push(run);
+  }
+  return runs;
+}
+// The two copy controls against the answers the transport can give, and against a success followed at once by a
+// refusal. Only a success may be announced, a refusal has to reach the error surface with its cause and without the
+// previous confirmation, and the page's own clipboard is never touched.
+async function inspectCopies() {
+  const results = {};
+  for (const answer of Object.keys(COPY_ANSWERS)) {
+    const context = await browser.newContext({ viewport: { width: 1180, height: 820 }, reducedMotion: 'reduce' });
+    const page = await context.newPage();
+    const entry = { reached: false, controls: [] };
+    try {
+      await page.addInitScript(stub('filled', answer));
+      await page.goto(url, { waitUntil: 'networkidle' });
+      entry.reached = await walkToFinished(page, { problems: [] });
+      for (const control of entry.reached ? ['Copiar ruta', 'Copiar Prompt Maestro'] : []) {
+        const button = await page.getByRole('button', { name: control, exact: true }).elementHandle({ timeout: 4000 });
+        for (let attempt = 0; attempt < (answer === 'ok-then-refused' ? 2 : 1); attempt += 1) {
+          await button.click();
+          await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true');
+        }
+        // One read of everything the copy left: the confirmed label reverts after two seconds, and separate round
+        // trips on a slow runner could arrive after it did.
+        entry.controls.push({ control, ...await button.evaluate(node => {
+          const feedback = document.getElementById('feedback'), box = feedback?.getBoundingClientRect();
+          return { announced: document.getElementById('notice').textContent.trim(),
+            errorShown: !!box && box.width > 0 && box.height > 0 && getComputedStyle(feedback).visibility !== 'hidden',
+            error: (feedback?.innerText ?? '').replace(/\s+/g, ' ').trim(),
+            labelAfter: node.textContent.trim(), pageClipboardWrites: window.__pageClipboardWrites };
+        }) });
+      }
+    } catch (error) {
+      entry.failure = String(error.message).split('\n')[0].slice(0, 160);
+    } finally { await context.close(); }
+    results[answer] = entry;
+  }
+  return results;
+}
+function copyProblems(copies) {
+  if (!copies) return ['las copias no se comprobaron'];
+  const problems = [];
+  const expected = { ok: { announced: true, error: null }, refused: { announced: false, error: /portapapeles/ },
+    transport: { announced: false, error: /no pudo comunicarse con la aplicación/ },
+    'ok-then-refused': { announced: false, error: /portapapeles/ } };
+  for (const [answer, rule] of Object.entries(expected)) {
+    const entry = copies[answer];
+    if (!entry?.reached || entry.controls.length !== 2) { problems.push(`${answer}: no se observaron los dos controles de copia${entry?.failure ? ` (${entry.failure})` : ''}`); continue; }
+    for (const control of entry.controls) {
+      if (!!control.announced !== rule.announced) problems.push(`${answer}: «${control.control}» ${rule.announced ? 'no anunció la copia' : `anunció «${control.announced}» sin haber copiado`}`);
+      if (rule.error && !(control.errorShown && rule.error.test(control.error))) problems.push(`${answer}: «${control.control}» no mostró la causa del fallo`);
+      if (!rule.error && control.errorShown) problems.push(`${answer}: «${control.control}» mostró un error tras copiar`);
+      if (rule.announced === (control.labelAfter === control.control)) problems.push(`${answer}: «${control.control}» ${rule.announced ? 'no cambió su etiqueta al copiar' : `cambió su etiqueta a «${control.labelAfter}» sin haber copiado`}`);
+      if (control.pageClipboardWrites) problems.push(`${answer}: «${control.control}» escribió en el portapapeles de la página`);
+    }
+  }
+  return problems;
+}
+
 try {
   browser = await chromium.launch({ ...(process.platform === 'win32' ? { channel: 'msedge' } : {}), headless: true });
   const context = await browser.newContext({ viewport: { width: 1180, height: 820 }, reducedMotion: 'reduce' });
@@ -512,6 +690,8 @@ try {
   const baseline = flat(await inspect(page));
   baseline.rendererErrors = [...errors];
   baseline.brokenModule = await readBrokenModule();
+  baseline.wizard = await inspectWizard();
+  baseline.copies = await inspectCopies();
   record.baseline = baseline;
   const complain = value => record.findings.push(value);
   const everyScreen = { ...baseline.screens, 'diálogo de un término': baseline.dialog, 'ancho mínimo': baseline.narrow };
@@ -570,6 +750,12 @@ try {
   }
   if (baseline.rendererErrors.length) complain(`Excepciones del renderer: ${baseline.rendererErrors.join(' | ')}`);
   if (baseline.brokenModule.bootText.length < 40) complain(`Con el módulo roto la ventana no dice qué pasó: "${baseline.brokenModule.bootText}"`);
+  for (const run of baseline.wizard) {
+    for (const problem of run.problems) complain(`Asistente ${run.window} ${run.motion}: ${problem}`);
+    if (run.visited.length !== WIZARD_STEPS.length + 1) complain(`Asistente ${run.window} ${run.motion}: se midieron ${run.visited.length} de ${WIZARD_STEPS.length + 1} pantallas`);
+    if (!run.measured) complain(`Asistente ${run.window} ${run.motion}: ningún control medido`);
+  }
+  for (const problem of copyProblems(baseline.copies)) complain(`Copias: ${problem}`);
   assert.deepEqual(baseline.actions.map(([id]) => id).filter(id => !EXPECTED_ACTIONS.includes(id)), [],
     'Every action a screen declares has to be in the closed set');
 
@@ -622,15 +808,22 @@ try {
   }
 
   for (const mutation of MUTATIONS) {
-    const target = path.join(ui, mutation.file), original = pristine.get(mutation.file);
-    assert.ok(original.includes(mutation.from), `La mutación ${mutation.id} no encontró su punto de inserción.`);
-    await writeFile(target, original.replace(mutation.from, mutation.to));
+    // A defect can live in more than one file: the bar of 0.3.1 needs both its place in the markup and its rule.
+    const patches = mutation.patches ?? [{ file: mutation.file, from: mutation.from, to: mutation.to }];
+    const mutated = new Map(patches.map(patch => [patch.file, pristine.get(patch.file)]));
+    for (const patch of patches) {
+      assert.ok(mutated.get(patch.file).includes(patch.from), `La mutación ${mutation.id} no encontró su punto de inserción en ${patch.file}.`);
+      mutated.set(patch.file, mutated.get(patch.file).replace(patch.from, patch.to));
+    }
+    for (const [file, content] of mutated) await writeFile(path.join(ui, file), content);
     errors = [];
     let detected = false, observed = null, by = null;
     try {
       const report = flat(await inspect(page));
       report.rendererErrors = [...errors];
       report.brokenModule = mutation.id.includes('boot-shell') ? await readBrokenModule() : { bootText: 'x'.repeat(80) };
+      if (mutation.wizard) report.wizard = await inspectWizard();
+      if (mutation.copies) report.copies = await inspectCopies();
       detected = !!mutation.detect(report);
       by = detected ? 'la propiedad que nombra' : null;
       observed = { duplicated: report.duplicated, undeclared: report.undeclared,
@@ -652,7 +845,13 @@ try {
         unnamed: Object.entries(report.screens).flatMap(([where, screen]) => screen.names.unnamed.map(c => `${where}:${c}`)),
         termsUnreachable: Object.entries(report.screens).filter(([, screen]) => screen.accessibility.terms !== screen.accessibility.termsReachable).map(([where]) => where),
         providerModelSelection: report.providerModelSelection,
-        bootText: report.brokenModule.bootText.length };
+        bootText: report.brokenModule.bootText.length,
+        // For the wizard, what each motion preference saw: the point of the bar mutation is that reduced motion
+        // alone would have passed it.
+        wizard: report.wizard?.map(run => ({ window: run.window, motion: run.motion, visited: run.visited,
+          measured: run.measured, reachable: run.reachable,
+          intercepted: run.problems.filter(problem => problem.includes('no se puede pulsar')).length, problems: run.problems })),
+        copies: report.copies ? copyProblems(report.copies) : undefined };
     } catch (error) {
       // An exception is NOT a detection. A previous version credited three mutations to a thirty-second
       // harness timeout, and a regression in those three probes would have read "detected" just the same.
@@ -661,7 +860,7 @@ try {
     }
     record.mutations.push({ id: mutation.id, reason: mutation.reason, note: mutation.note ?? null, detected, by, observed });
     if (!detected) record.findings.push(`La mutación ${mutation.id} no fue detectada por su propiedad${by ? `: ${by}` : ''}`);
-    await writeFile(target, original);
+    for (const file of mutated.keys()) await writeFile(path.join(ui, file), pristine.get(file));
   }
 } finally {
   await browser?.close().catch(() => {});
@@ -677,6 +876,10 @@ record.summary = { mutations: record.mutations.length,
   findings: record.findings.length,
   screens: record.screensCounted.length,
   screensCounted: record.screensCounted,
+  wizard: { runs: record.baseline.wizard.length, screensMeasured: record.baseline.wizard.reduce((sum, run) => sum + run.visited.length, 0),
+    controlsMeasured: record.baseline.wizard.reduce((sum, run) => sum + run.measured, 0),
+    controlsReachable: record.baseline.wizard.reduce((sum, run) => sum + run.reachable, 0) },
+  copies: Object.fromEntries(Object.entries(record.baseline.copies).map(([answer, entry]) => [answer, entry.controls.length])),
   denominators: Object.fromEntries(Object.entries(record.baseline.screens)
     .map(([where, screen]) => [where, { contrast: screen.accessibility.measured, vocabularyChars: screen.vocabulary.examinedChars, controls: screen.names.controls }])) };
 await writeFile(path.join(output, 'interface-contract.json'), JSON.stringify(record, null, 2) + '\n');

@@ -1,0 +1,243 @@
+{
+  "date": "2026-09-19T16:58:50.632Z",
+  "ran": "artefacto empaquetado, sin instalar",
+  "executable": "<evidencia>/final5/candidate/win-unpacked/Project Engineering OS.exe",
+  "source": {
+    "commit": "4ab9168fd76523b18cded25f77a3c038ffbfc412",
+    "dirty": []
+  },
+  "machine": {
+    "platform": "win32",
+    "arch": "x64",
+    "release": "10.0.26100",
+    "version": "Windows 11 IoT Enterprise LTSC 2024"
+  },
+  "notADemonstrationOf": [
+    "el instalador ni una instalación",
+    "el selector de carpetas del sistema, que recibe una carpeta de prueba"
+  ],
+  "findings": [],
+  "console": {
+    "errors": 7,
+    "contentSecurityPolicy": 7,
+    "distinct": [
+      "Applying inline style violates the following Content Security Policy directive 'style-src 'self''. Either the 'unsafe-inline' keyword, a hash ('sha256-UxMCXC7bL2QR6A+iIVvIJkDzYlYhL1GaZe8H5lqDy9E='), or a nonce ('nonce-...') is required to e",
+      "Applying inline style violates the following Content Security Policy directive 'style-src 'self''. Either the 'unsafe-inline' keyword, a hash ('sha256-Hx+b6xJVBtjS+dalTgYwHTZfgXmAF431teeh5WHvlOQ='), or a nonce ('nonce-...') is required to e",
+      "Applying inline style violates the following Content Security Policy directive 'style-src 'self''. Either the 'unsafe-inline' keyword, a hash ('sha256-zAU6mrv49LKwzXbaX+F7ErY4UEN2/ilHbUI4KQIlJdU='), or a nonce ('nonce-...') is required to e",
+      "Applying inline style violates the following Content Security Policy directive 'style-src 'self''. Either the 'unsafe-inline' keyword, a hash ('sha256-qXOe8K3unF7XVzoM0T1xlb90nuPG+Y5izvRDeAsvf1M='), or a nonce ('nonce-...') is required to e"
+    ]
+  },
+  "runtime": {
+    "electron": "44.1.1",
+    "chrome": "152.0.7977.65",
+    "node": "24.19.0",
+    "appVersion": "0.3.2"
+  },
+  "isolation": {
+    "userData": "<espacio de prueba>/userdata",
+    "localAppData": "<espacio de prueba>/localappdata",
+    "userDataIsTheTestOne": true
+  },
+  "window": {
+    "outer": {
+      "x": 690,
+      "y": 310,
+      "width": 1180,
+      "height": 820
+    },
+    "inner": {
+      "width": 1164,
+      "height": 755,
+      "devicePixelRatio": 1
+    }
+  },
+  "motion": {
+    "operatingSystemPrefersReduced": false,
+    "measuredWith": "no-preference"
+  },
+  "renderer": {
+    "clipboardPermission": "denied",
+    "operations": [
+      "applyActivation",
+      "applyBase",
+      "applyCode",
+      "applyContext",
+      "applyEngineering",
+      "applyEnvironment",
+      "applyNotes",
+      "applyRepair",
+      "applyStack",
+      "cancel",
+      "chooseFolder",
+      "copyExport",
+      "copyGuideStep",
+      "copyText",
+      "declineStack",
+      "exportPreview",
+      "forgetProject",
+      "guide",
+      "handoff",
+      "handoffPreview",
+      "inferenceStatus",
+      "investigationPrompt",
+      "job",
+      "listProjects",
+      "onProgress",
+      "openProject",
+      "previewActivation",
+      "previewBase",
+      "previewCode",
+      "previewContext",
+      "previewEngineering",
+      "previewEnvironment",
+      "previewRepair",
+      "previewStack",
+      "previewSync",
+      "promptPreview",
+      "providerModels",
+      "recover",
+      "removeStack",
+      "rollbackEngineering",
+      "search",
+      "searchCode",
+      "setInference",
+      "stackCatalog",
+      "status",
+      "workspace"
+    ]
+  },
+  "smallWindows": [
+    {
+      "label": "ventana por defecto con zoom al 200 %",
+      "viewport": {
+        "width": 582,
+        "height": 377
+      },
+      "bar": {
+        "position": "static",
+        "height": 82.5
+      },
+      "measured": 28,
+      "reachable": 28,
+      "horizontalOverflow": 0,
+      "problems": []
+    },
+    {
+      "label": "ventana mínima",
+      "viewport": {
+        "width": 464,
+        "height": 475
+      },
+      "bar": {
+        "position": "static",
+        "height": 83
+      },
+      "measured": 28,
+      "reachable": 28,
+      "horizontalOverflow": 0,
+      "problems": []
+    }
+  ],
+  "install": {
+    "measured": 3,
+    "reachable": 3,
+    "bar": {
+      "element": "div.actions.wizard-footer",
+      "position": "sticky",
+      "top": 672,
+      "bottom": 755,
+      "height": 83,
+      "width": 1004,
+      "marginTop": 28,
+      "inFlow": true,
+      "spill": 0
+    },
+    "end": {
+      "scrollHeight": 788,
+      "scrollY": 33,
+      "innerHeight": 755,
+      "documentBottom": 755,
+      "lastContent": "div.enter",
+      "lastContentBottom": 644.328125,
+      "mainPaddingBottom": 0,
+      "notice": {
+        "text": false,
+        "outer": 0
+      }
+    },
+    "enter": {
+      "animationName": "enter",
+      "animations": [
+        "finished"
+      ]
+    },
+    "scrollPadding": "83px",
+    "problems": []
+  },
+  "copies": [
+    {
+      "control": "Copiar ruta",
+      "expectedBytes": 89,
+      "expectedSha256": "596e29e00a2b284cce5a4e8627942d1dbaeeeeaddbec98b5e4f10a6bcd61ddd8",
+      "clipboardSha256": "596e29e00a2b284cce5a4e8627942d1dbaeeeeaddbec98b5e4f10a6bcd61ddd8",
+      "equal": true,
+      "sentinelReplaced": true,
+      "notice": "Ruta copiada. Pégala donde abras tu proyecto.",
+      "labelAfter": "¡Ruta copiada!",
+      "errorShown": false
+    },
+    {
+      "control": "Copiar Prompt Maestro",
+      "expectedBytes": 777,
+      "expectedSha256": "7daaf4fbd108e2dd0ee40685fcbbddc2891d89a250f75561a760e5dcf2778d96",
+      "clipboardSha256": "7daaf4fbd108e2dd0ee40685fcbbddc2891d89a250f75561a760e5dcf2778d96",
+      "equal": true,
+      "sentinelReplaced": true,
+      "notice": "Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna.",
+      "labelAfter": "¡Prompt copiado!",
+      "errorShown": false
+    }
+  ],
+  "refused": [
+    {
+      "label": "Petición de más de 64000 bytes desde la ventana de la aplicación",
+      "ok": false,
+      "code": "OPERATION_FAILED",
+      "clipboardUnchanged": true
+    },
+    {
+      "label": "Texto de más de 32000 bytes que el transporte admite y el servicio rechaza",
+      "ok": false,
+      "code": "INPUT_INVALID",
+      "clipboardUnchanged": true
+    },
+    {
+      "label": "Texto vacío",
+      "ok": false,
+      "code": "INPUT_INVALID",
+      "clipboardUnchanged": true
+    },
+    {
+      "label": "El mismo puente en una ventana que la aplicación no abrió",
+      "ok": false,
+      "code": "OPERATION_FAILED",
+      "clipboardUnchanged": true
+    }
+  ],
+  "previousClipboard": {
+    "formats": 3,
+    "unreadable": 0,
+    "written": "todo",
+    "sameFormats": true,
+    "sameText": true,
+    "restored": true
+  },
+  "summary": {
+    "copies": 2,
+    "copiesEqual": 2,
+    "refused": 4,
+    "refusedWithoutWriting": 4,
+    "findings": 0
+  },
+  "pathsSanitized": "Copiado desde el directorio de trabajo de la sesión, cuya ruta se sustituyó por <evidencia>; el contenido no cambió."
+}
