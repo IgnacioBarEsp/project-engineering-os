@@ -69,6 +69,11 @@ try {
   previous = await application.evaluate(({ clipboard }) => clipboard.readText());
   const page = await application.firstWindow({ timeout: 60000 });
   page.setDefaultTimeout(30000);
+  // Recorded, not judged: the browser harness serves the renderer without the application's CSP, so what the
+  // window refuses here is part of how far a browser run speaks for the real one.
+  const consoleErrors = [];
+  page.on('console', message => { if (message.type() === 'error') consoleErrors.push(message.text().replace(/\s+/g, ' ').slice(0, 240)); });
+  record.console = { errors: 0, contentSecurityPolicy: 0, distinct: [] };
   await page.getByRole('heading', { name: 'Dale a tu IA un buen punto de partida.', exact: true }).waitFor({ timeout: 60000 });
 
   const runtime = await application.evaluate(({ app: electronApp, BrowserWindow }) => ({
@@ -110,8 +115,12 @@ try {
   await press('Paso 4: Instalación →'); await reached('Tu espacio está listo. ¿Cómo prefieres equiparlo?');
   await settle();
   const install = await page.evaluate(REACH, INTERACTIVE);
+  // The bar's height reaches scroll-padding through the CSSOM. The browser harness has no CSP, so only this window
+  // can show that the application's own policy lets it through.
+  const scrollPadding = await page.evaluate(() => getComputedStyle(document.documentElement).scrollPaddingBottom);
+  if (install.bar?.position === 'sticky' && parseFloat(scrollPadding) < install.bar.height) finding(`El scroll-padding (${scrollPadding}) no cubre la barra sticky (${install.bar.height} px).`);
   record.install = { measured: install.controls.length, reachable: install.controls.filter(control => control.ok).length,
-    bar: install.bar, end: install.end, enter: install.enter,
+    bar: install.bar, end: install.end, enter: install.enter, scrollPadding,
     problems: reachProblems(install, { primary: ['Volver', 'Instalar stack base y obtener prompt →', 'Preparar carpeta y generar prompt maestro →'], bar: true }) };
   for (const problem of record.install.problems) finding(`Instalación: ${problem}`);
   await page.screenshot({ path: path.join(output, 'electron-install-final.png'), mask: [page.locator('.path')], maskColor: '#e7eee4' });
@@ -167,6 +176,9 @@ try {
       return await other.webContents.executeJavaScript("window.companion.copyText({text:'texto desde una ventana ajena'})");
     } finally { other.destroy(); }
   }, packaged ? path.join(path.dirname(executable), 'resources', 'app', 'desktop', 'preload.cjs') : preload));
+  record.console = { errors: consoleErrors.length,
+    contentSecurityPolicy: consoleErrors.filter(text => /Content Security Policy/i.test(text)).length,
+    distinct: [...new Set(consoleErrors)].slice(0, 5) };
 } catch (error) {
   finding(`La prueba no pudo completarse: ${String(error.message).split('\n')[0].slice(0, 300)}`);
 } finally {

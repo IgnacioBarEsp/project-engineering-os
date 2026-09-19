@@ -249,6 +249,11 @@ async function walkWizard(width,height,motion,branch){
       if(!equal)problems.push(`finished: «${control}» no entregó al servicio el texto que muestra la pantalla`);
       if(!notice)problems.push(`finished: «${control}» no anunció nada en la región de estado`);
     }
+    // The quick prompt says what happened: the folder was prepared and nothing was installed. 0.3.1 told the AI
+    // that the base dependencies were already provisioned.
+    if(branch==='quick'&&(/aprovisionad/i.test(shown['Copiar Prompt Maestro'])||!shown['Copiar Prompt Maestro'].includes('no instaló ninguna dependencia'))){
+      problems.push('finished: el prompt de instalación rápida afirma dependencias que no se instalaron');
+    }
     await page.locator('#nav [data-action="open-start"]').click();await reached('Dale a tu IA un buen punto de partida.','finished');
     const outside=await page.locator('#nav [data-action="prepare-project"]').getAttribute('aria-pressed');
     if(outside!=='false')problems.push(`inicio: «Preparar proyecto» sigue con aria-pressed="${outside}" fuera del asistente`);

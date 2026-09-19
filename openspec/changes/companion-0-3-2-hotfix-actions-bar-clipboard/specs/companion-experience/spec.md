@@ -32,6 +32,15 @@ Action rows inside installation cards SHALL remain local to their cards.
 - **WHEN** focus reaches a field of the current wizard, including the vision editor
 - **THEN** the field SHALL expose an accessible name that does not depend on its placeholder
 
+### Requirement: The quick-install prompt claims only what was done
+The master prompt of the quick installation SHALL NOT state that dependencies or tools were installed or
+provisioned, because neither installation choice installs any in this version.
+
+#### Scenario: The quick-install prompt is copied
+- **WHEN** a person finishes the wizard with the quick installation and copies the master prompt
+- **THEN** the copied text SHALL say that the folder was prepared and PROJECT_VISION.md was written
+- **AND** it SHALL NOT say that dependencies were provisioned or installed
+
 ### Requirement: A multi-line vision does not stop the wizard
 The wizard SHALL send the vision with its line breaks and SHALL derive the objective sent with the preparation
 as a single line of at most 500 characters, so that a suggestion or a typed line break never makes the

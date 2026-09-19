@@ -150,6 +150,14 @@ historial, los prompts y otras pantallas; dejar de sobrescribir `goal` es una de
 En la misma pantalla, el editor de visión solo tiene placeholder y ningún nombre accesible, como mide
 `ACCESSIBLE_NAMES`. Recibe un `aria-label`, sin cambiar lo que se ve.
 
+### 7. El prompt rápido deja de afirmar dependencias instaladas
+
+Decisión del mantenedor durante el apply ([registro](evidence/maintainer-decisions.md)). El prompt de
+«Instalación rápida» decía a la IA que las dependencias base «ya quedaron aprovisionadas localmente»,
+aunque ninguna de las dos vías instala nada. Con la copia arreglada, esa frase llegaría a la IA de quien la
+use. Se sustituye solo esa frase por una verdadera: la carpeta está preparada y `PROJECT_VISION.md` escrito,
+y no se instaló ninguna dependencia. Las tarjetas de instalación y el resto del prompt quedan para #147.
+
 ## Risks / Trade-offs
 
 - Separar el submit puede romper Enter o required → cubrir ambos y estado de selección.

@@ -24,8 +24,10 @@ asistente. Los defectos están reproducidos y medidos en el
 - «Copiar ruta» y «Copiar Prompt Maestro» no copian nada en la aplicación instalada, y no avisan del fallo.
 - Una sugerencia o un salto de línea en Visión hacen fallar la instalación con `GOAL_INVALID`.
 - «Preparar proyecto» deja de estar marcado en Instalación y en la pantalla final.
+- El prompt de «Instalación rápida» le dice a la IA que las dependencias base ya están preparadas, y no se
+  instala ninguna.
 
-0.3.2 corrige los cuatro ([notas](../apps/companion/RELEASE_NOTES_0.3.2.md)). Mientras no tenga instalador
+0.3.2 corrige los cinco ([notas](../apps/companion/RELEASE_NOTES_0.3.2.md)). Mientras no tenga instalador
 publicado, la descarga que funciona sigue siendo 0.3.1 con estos defectos.
 
 Dos límites siguen en 0.3.2. Las dos formas de instalar hacen lo mismo, aunque «Instalación rápida» diga que

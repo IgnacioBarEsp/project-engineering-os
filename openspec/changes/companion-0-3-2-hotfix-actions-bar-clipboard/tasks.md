@@ -9,6 +9,7 @@
 - [ ] 2.2 Preservar submit, required, Enter, listeners y selección al separar la barra del formulario inicial; comprobar campos y sugerencias al final de las pantallas.
 - [ ] 2.3 Añadir install y finished a la navegación activa y comprobar los seis estados actuales, estados heredados y salida del asistente.
 - [ ] 2.4 Derivar el objetivo de la visión como una sola línea y nombrar el editor de visión; comprobar que una sugerencia o un salto de línea llegan a la pantalla final y a PROJECT_VISION.md.
+- [ ] 2.5 Sustituir en el prompt de «Instalación rápida» la frase que afirma dependencias aprovisionadas por una verdadera, y comprobarlo en el texto copiado.
 
 ## 3. Portapapeles
 

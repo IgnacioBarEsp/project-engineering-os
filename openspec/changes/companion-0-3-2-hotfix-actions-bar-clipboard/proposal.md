@@ -16,6 +16,8 @@ en Electron. El hotfix debe permitir terminar el recorrido público antes de la 
 - Enviar el objetivo como una línea derivada de la visión, que conserva sus párrafos, y dar nombre
   accesible al editor de visión. Añadido durante el apply: con la barra corregida, una sugerencia o un salto
   de línea en Visión hacía fallar la instalación con `GOAL_INVALID` ([decisión 6](design.md)).
+- Quitar del prompt de «Instalación rápida» la frase que afirma dependencias aprovisionadas, que no se
+  instalan. Decisión del mantenedor durante el apply ([decisión 7](design.md)).
 - Comprobar el flujo actual con movimiento normal y reducido, hit testing, scroll y copia nativa real;
   demostrar que reintroducir el defecto de layout produce un fallo específico del contrato.
 - Preparar identidad y notas 0.3.2 y registrar los defectos conocidos de 0.3.1. La publicación posterior

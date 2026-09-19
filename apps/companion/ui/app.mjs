@@ -391,10 +391,12 @@ const INSPIRATION_CHIPS = [
 function masterActivationPrompt({ path: projectPath, profile, subtype, vision, installMode = 'ai' } = {}) {
   const target = projectPath || 'este proyecto';
   if (installMode === 'quick') {
+    // What this prompt tells an AI about the folder has to be what happened. 0.3.1 said the base dependencies were
+    // already provisioned; neither installation choice installs any, and #147 is where they will differ.
     return `Hola. He preparado este proyecto en ${target} con Project Engineering OS usando Instalación Rápida.
 
 Por favor lee PROJECT_VISION.md y la estructura de la carpeta.
-Las dependencias base esenciales ya quedaron aprovisionadas localmente en este equipo.
+Esta aplicación preparó la carpeta y escribió PROJECT_VISION.md, pero no instaló ninguna dependencia ni herramienta: propón las que hagan falta antes de instalarlas.
 1. Revisa la visión del proyecto y el stack configurado.
 2. Si encuentras documentos de investigación, notas o fuentes externas, conviértelos a formato .md sin borrar ni alterar los archivos originales para optimizar el contexto.
 3. Continúa con la implementación siguiendo las directrices de ingeniería y desarrollo guiado por especificaciones de la carpeta.

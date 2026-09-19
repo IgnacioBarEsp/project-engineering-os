@@ -18,6 +18,9 @@ Corrige 0.3.1, con la que no se podía terminar el asistente en la aplicación i
 - **Una visión de varias líneas ya no detiene la instalación.** En 0.3.1, usar una sugerencia o escribir un
   salto de línea en Visión hacía fallar la instalación con `GOAL_INVALID`. La visión conserva sus párrafos
   en `PROJECT_VISION.md` y el objetivo se guarda en una sola línea.
+- **El prompt de «Instalación rápida» ya no afirma dependencias instaladas.** En 0.3.1 le decía a tu IA
+  que las dependencias base ya estaban preparadas en tu equipo. Ahora dice lo que ocurrió: la carpeta está
+  preparada, `PROJECT_VISION.md` escrito y no se instaló nada.
 - «Preparar proyecto» sigue marcado en Instalación y en la pantalla final.
 - El editor de visión tiene nombre para los lectores de pantalla.
 
@@ -32,9 +35,9 @@ Corrige 0.3.1, con la que no se podía terminar el asistente en la aplicación i
 
 ## Lo que 0.3.2 no cambia
 
-- Las dos formas de instalar hacen lo mismo: guardan las elecciones y escriben `PROJECT_VISION.md`.
-  «Instalación rápida» dice que instala dependencias base y su prompt afirma que quedaron preparadas, pero ni
-  0.3.1 ni 0.3.2 instalan ninguna. Que cada vía haga su propio trabajo es el
+- Las dos formas de instalar hacen lo mismo: guardan las elecciones y escriben `PROJECT_VISION.md`. La
+  tarjeta de «Instalación rápida» sigue diciendo que instala dependencias base, y ni 0.3.1 ni 0.3.2 instalan
+  ninguna. Que cada vía haga su propio trabajo es el
   [issue #147](https://github.com/IgnacioBarEsp/project-engineering-os/issues/147).
 - Con 1040 px de ancho, la navegación de la cabecera parte palabras. Es parte del layout que rehace el
   [issue #144](https://github.com/IgnacioBarEsp/project-engineering-os/issues/144).
