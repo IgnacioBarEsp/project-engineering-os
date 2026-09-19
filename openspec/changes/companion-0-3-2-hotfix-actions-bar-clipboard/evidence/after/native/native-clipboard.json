@@ -1,9 +1,9 @@
 {
-  "date": "2026-09-19T15:10:54.101Z",
+  "date": "2026-09-19T16:57:46.001Z",
   "ran": "código fuente con electron .",
   "executable": "<app>/node_modules/electron/dist/electron.exe",
   "source": {
-    "commit": "0518e1e6e69a5a3834be100c5a57f09989bf8996",
+    "commit": "4ab9168fd76523b18cded25f77a3c038ffbfc412",
     "dirty": []
   },
   "machine": {
@@ -47,7 +47,7 @@
     },
     "inner": {
       "width": 1164,
-      "height": 755,
+      "height": 781,
       "devicePixelRatio": 1
     }
   },
@@ -106,6 +106,38 @@
       "workspace"
     ]
   },
+  "smallWindows": [
+    {
+      "label": "ventana por defecto con zoom al 200 %",
+      "viewport": {
+        "width": 582,
+        "height": 377
+      },
+      "bar": {
+        "position": "static",
+        "height": 82.5
+      },
+      "measured": 28,
+      "reachable": 28,
+      "horizontalOverflow": 0,
+      "problems": []
+    },
+    {
+      "label": "ventana mínima",
+      "viewport": {
+        "width": 464,
+        "height": 475
+      },
+      "bar": {
+        "position": "static",
+        "height": 83
+      },
+      "measured": 28,
+      "reachable": 28,
+      "horizontalOverflow": 0,
+      "problems": []
+    }
+  ],
   "install": {
     "measured": 3,
     "reachable": 3,
@@ -146,8 +178,8 @@
     {
       "control": "Copiar ruta",
       "expectedBytes": 89,
-      "expectedSha256": "b7c20ef34b4b0fc07a8b31d45d176bedaf0020be25c35b72e7251b50071bfac5",
-      "clipboardSha256": "b7c20ef34b4b0fc07a8b31d45d176bedaf0020be25c35b72e7251b50071bfac5",
+      "expectedSha256": "147c0c153d018be5b6be198ce064d1f07156ffb7b03d78fbbdbf71c01be5f56f",
+      "clipboardSha256": "147c0c153d018be5b6be198ce064d1f07156ffb7b03d78fbbdbf71c01be5f56f",
       "equal": true,
       "sentinelReplaced": true,
       "notice": "Ruta copiada. Pégala donde abras tu proyecto.",
@@ -157,8 +189,8 @@
     {
       "control": "Copiar Prompt Maestro",
       "expectedBytes": 777,
-      "expectedSha256": "9ac59416fc00ca6850492c72b008f0f5861b4d830234e6a4d22101ab6a07ab01",
-      "clipboardSha256": "9ac59416fc00ca6850492c72b008f0f5861b4d830234e6a4d22101ab6a07ab01",
+      "expectedSha256": "00da42d4126e1941d598e9eb6c98b2516390abde736bd843299ef7e73af55008",
+      "clipboardSha256": "00da42d4126e1941d598e9eb6c98b2516390abde736bd843299ef7e73af55008",
       "equal": true,
       "sentinelReplaced": true,
       "notice": "Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna.",

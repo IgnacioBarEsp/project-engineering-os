@@ -18,3 +18,4 @@ rápida» deja de afirmar dependencias que nadie instaló. El núcleo continúa 
 - [Tareas](tasks.md)
 - [Baseline](brownfield-baseline.md) y [plan de evidencia](evidence/plan.md)
 - [El defecto, antes de corregirlo](evidence/before/README.md)
+- [Validación](evidence/validation.md), [revisión adversarial](evidence/adversarial-review.md) y [decisiones del mantenedor](evidence/maintainer-decisions.md)

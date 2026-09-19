@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-19T15:09:04.922Z",
+  "date": "2026-09-19T16:55:37.716Z",
   "source": "<home>/Documents/Projects/project-engineering-os/apps/companion/ui",
   "scope": "El renderer real servido desde una copia, con el servicio nativo reemplazado por respuestas fijas. Cubre Inicio, Ayuda, la lista, el asistente, un proyecto, su panel de IA, la revisión de tecnología, el diálogo de un término, el ancho mínimo, la lista vacía, un error del servicio y la ventana con su módulo roto. Recorre además el asistente vigente hasta la pantalla final en tres ventanas, con movimiento normal y reducido, y los dos controles de copia ante un éxito, un rechazo y un fallo del transporte. No demuestra el motor, Electron ni la aplicación instalada.",
   "glossaryTerms": 18,
@@ -1497,6 +1497,27 @@
             "announced": "",
             "errorShown": true,
             "error": "La ventana no pudo comunicarse con la aplicación. Vuelve a intentarlo. Si sigue igual, cierra la aplicación y ábrela de nuevo; tus proyectos se conservan. TRANSPORT_FAILED",
+            "labelAfter": "Copiar Prompt Maestro",
+            "pageClipboardWrites": 0
+          }
+        ]
+      },
+      "ok-then-refused": {
+        "reached": true,
+        "controls": [
+          {
+            "control": "Copiar ruta",
+            "announced": "",
+            "errorShown": true,
+            "error": "No se pudo escribir en el portapapeles de este equipo. Vuelve a intentarlo en unos segundos. Tus archivos no cambiaron. CLIPBOARD_FAILED",
+            "labelAfter": "Copiar ruta",
+            "pageClipboardWrites": 0
+          },
+          {
+            "control": "Copiar Prompt Maestro",
+            "announced": "",
+            "errorShown": true,
+            "error": "No se pudo escribir en el portapapeles de este equipo. Vuelve a intentarlo en unos segundos. Tus archivos no cambiaron. CLIPBOARD_FAILED",
             "labelAfter": "Copiar Prompt Maestro",
             "pageClipboardWrites": 0
           }
@@ -4841,16 +4862,21 @@
             "intercepted": 7,
             "problems": [
               "setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions.wizard-footer",
+              "setup: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
               "setup: al final del recorrido la barra tapa contenido: form#setup-form termina en 700 px y la barra empieza en 617 px",
+              "folder: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
               "folder: al final del recorrido la barra tapa contenido: p.subtle termina en 700 px y la barra empieza en 617 px",
               "delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions.wizard-footer",
+              "delimitation: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
               "delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 700 px y la barra empieza en 617 px",
               "vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
               "vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions.wizard-footer",
               "vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions.wizard-footer",
+              "vision: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
               "vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 700 px y la barra empieza en 617 px",
               "install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions.wizard-footer",
               "install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions.wizard-footer",
+              "install: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
               "install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 677 px y la barra empieza en 594 px",
               "install: un clic normal no pudo pulsar «Preparar carpeta y generar prompt maestro →»"
             ]
@@ -4869,7 +4895,13 @@
             "measured": 53,
             "reachable": 53,
             "intercepted": 0,
-            "problems": []
+            "problems": [
+              "setup: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+              "folder: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+              "delimitation: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+              "vision: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+              "install: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px"
+            ]
           },
           {
             "window": "1160x810",
@@ -4886,16 +4918,21 @@
             "intercepted": 7,
             "problems": [
               "setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions.wizard-footer",
+              "setup: la barra final no es sticky (fixed) en una ventana de 1160 × 810 px",
               "setup: al final del recorrido la barra tapa contenido: form#setup-form termina en 690 px y la barra empieza en 607 px",
+              "folder: la barra final no es sticky (fixed) en una ventana de 1160 × 810 px",
               "folder: al final del recorrido la barra tapa contenido: p.subtle termina en 690 px y la barra empieza en 607 px",
               "delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions.wizard-footer",
+              "delimitation: la barra final no es sticky (fixed) en una ventana de 1160 × 810 px",
               "delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 690 px y la barra empieza en 607 px",
               "vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
               "vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions.wizard-footer",
               "vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions.wizard-footer",
+              "vision: la barra final no es sticky (fixed) en una ventana de 1160 × 810 px",
               "vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 690 px y la barra empieza en 607 px",
               "install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions.wizard-footer",
               "install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions.wizard-footer",
+              "install: la barra final no es sticky (fixed) en una ventana de 1160 × 810 px",
               "install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 677 px y la barra empieza en 594 px",
               "install: un clic normal no pudo pulsar «Preparar carpeta y generar prompt maestro →»"
             ]
@@ -4914,7 +4951,13 @@
             "measured": 53,
             "reachable": 53,
             "intercepted": 0,
-            "problems": []
+            "problems": [
+              "setup: la barra final no es sticky (fixed) en una ventana de 1160 × 810 px",
+              "folder: la barra final no es sticky (fixed) en una ventana de 1160 × 810 px",
+              "delimitation: la barra final no es sticky (fixed) en una ventana de 1160 × 810 px",
+              "vision: la barra final no es sticky (fixed) en una ventana de 1160 × 810 px",
+              "install: la barra final no es sticky (fixed) en una ventana de 1160 × 810 px"
+            ]
           },
           {
             "window": "1040x700",
@@ -4931,16 +4974,21 @@
             "intercepted": 7,
             "problems": [
               "setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions.wizard-footer",
+              "setup: la barra final no es sticky (fixed) en una ventana de 1040 × 700 px",
               "setup: al final del recorrido la barra tapa contenido: form#setup-form termina en 580 px y la barra empieza en 497 px",
+              "folder: la barra final no es sticky (fixed) en una ventana de 1040 × 700 px",
               "folder: al final del recorrido la barra tapa contenido: p.subtle termina en 580 px y la barra empieza en 497 px",
               "delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions.wizard-footer",
+              "delimitation: la barra final no es sticky (fixed) en una ventana de 1040 × 700 px",
               "delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 580 px y la barra empieza en 497 px",
               "vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
               "vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions.wizard-footer",
               "vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions.wizard-footer",
+              "vision: la barra final no es sticky (fixed) en una ventana de 1040 × 700 px",
               "vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 580 px y la barra empieza en 497 px",
               "install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions.wizard-footer",
               "install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions.wizard-footer",
+              "install: la barra final no es sticky (fixed) en una ventana de 1040 × 700 px",
               "install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 580 px y la barra empieza en 497 px",
               "install: un clic normal no pudo pulsar «Preparar carpeta y generar prompt maestro →»"
             ]
@@ -4959,7 +5007,13 @@
             "measured": 53,
             "reachable": 53,
             "intercepted": 0,
-            "problems": []
+            "problems": [
+              "setup: la barra final no es sticky (fixed) en una ventana de 1040 × 700 px",
+              "folder: la barra final no es sticky (fixed) en una ventana de 1040 × 700 px",
+              "delimitation: la barra final no es sticky (fixed) en una ventana de 1040 × 700 px",
+              "vision: la barra final no es sticky (fixed) en una ventana de 1040 × 700 px",
+              "install: la barra final no es sticky (fixed) en una ventana de 1040 × 700 px"
+            ]
           }
         ]
       }
@@ -5246,7 +5300,307 @@
           "transport: «Copiar ruta» cambió su etiqueta a «¡Ruta copiada!» sin haber copiado",
           "transport: «Copiar Prompt Maestro» anunció «Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna.» sin haber copiado",
           "transport: «Copiar Prompt Maestro» no mostró la causa del fallo",
-          "transport: «Copiar Prompt Maestro» cambió su etiqueta a «¡Prompt copiado!» sin haber copiado"
+          "transport: «Copiar Prompt Maestro» cambió su etiqueta a «¡Prompt copiado!» sin haber copiado",
+          "ok-then-refused: «Copiar ruta» anunció «Ruta copiada. Pégala donde abras tu proyecto.» sin haber copiado",
+          "ok-then-refused: «Copiar ruta» no mostró la causa del fallo",
+          "ok-then-refused: «Copiar ruta» cambió su etiqueta a «¡Ruta copiada!» sin haber copiado",
+          "ok-then-refused: «Copiar Prompt Maestro» anunció «Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna.» sin haber copiado",
+          "ok-then-refused: «Copiar Prompt Maestro» no mostró la causa del fallo",
+          "ok-then-refused: «Copiar Prompt Maestro» cambió su etiqueta a «¡Prompt copiado!» sin haber copiado"
+        ]
+      }
+    },
+    {
+      "id": "a-new-copy-keeps-the-previous-confirmation",
+      "reason": "un segundo intento conserva la etiqueta de confirmación del anterior, y queda junto al error de una copia que falló",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "providerModelSelection": {
+          "value": "",
+          "options": [
+            {
+              "value": "",
+              "label": "Elige un modelo"
+            },
+            {
+              "value": "llama-3.3-70b",
+              "label": "llama-3.3-70b"
+            },
+            {
+              "value": "qwen-3-32b",
+              "label": "qwen-3-32b"
+            }
+          ]
+        },
+        "bootText": 80,
+        "copies": [
+          "ok-then-refused: «Copiar ruta» cambió su etiqueta a «¡Ruta copiada!» sin haber copiado",
+          "ok-then-refused: «Copiar Prompt Maestro» cambió su etiqueta a «¡Prompt copiado!» sin haber copiado"
+        ]
+      }
+    },
+    {
+      "id": "the-final-bar-no-longer-sticks",
+      "reason": "la barra final deja de ser sticky y, en una pantalla larga, sus acciones solo aparecen al final",
+      "note": null,
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "observed": {
+        "duplicated": [],
+        "undeclared": [],
+        "unreachable": [],
+        "glossaryEntries": 18,
+        "termLabelMismatches": [],
+        "rendererErrors": [],
+        "stray": 0,
+        "claims": [
+          {
+            "className": "project-state state-verified",
+            "mark": "✓",
+            "qualifier": "Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "text": "✓ Listo Cada parte que este proyecto necesita quedó comprobada.Comprobado el 12 de septiembre de 2026 contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el Mapa de código — ver qué significa ni tu IA: ábrelo para eso.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-incomplete",
+            "mark": "○",
+            "qualifier": "Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "text": "○ Le falta algo Se comprobó y esto quedó pendiente: la lectura de tus archivos, Mapa de código — ver qué significa.Comprobado el 12 de septiembre de 2026. Ábrelo para continuar donde quedó.",
+            "namedStages": 2,
+            "stageTexts": [
+              "la lectura de tus archivos",
+              "Mapa de código — ver qué significa"
+            ],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          },
+          {
+            "className": "project-state state-unreadable",
+            "mark": "!",
+            "qualifier": "Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "text": "! No se pudo leer su registro Esta carpeta no respondió a tiempo.Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.",
+            "namedStages": 0,
+            "stageTexts": [],
+            "stateSize": 13.76,
+            "qualifierSize": 13.76
+          }
+        ],
+        "readyProblems": [],
+        "rowProblems": [],
+        "guideProblems": [],
+        "repeated": [],
+        "vocabulary": [],
+        "contrast": [],
+        "brokenWords": [],
+        "unnamed": [],
+        "termsUnreachable": [],
+        "providerModelSelection": {
+          "value": "",
+          "options": [
+            {
+              "value": "",
+              "label": "Elige un modelo"
+            },
+            {
+              "value": "llama-3.3-70b",
+              "label": "llama-3.3-70b"
+            },
+            {
+              "value": "qwen-3-32b",
+              "label": "qwen-3-32b"
+            }
+          ]
+        },
+        "bootText": 80,
+        "wizard": [
+          {
+            "window": "1180x820",
+            "motion": "no-preference",
+            "visited": [
+              "setup",
+              "folder",
+              "delimitation",
+              "vision",
+              "install",
+              "finished"
+            ],
+            "measured": 53,
+            "reachable": 53,
+            "intercepted": 0,
+            "problems": [
+              "setup: la barra final no es sticky (static) en una ventana de 1180 × 820 px",
+              "folder: la barra final no es sticky (static) en una ventana de 1180 × 820 px",
+              "delimitation: la barra final no es sticky (static) en una ventana de 1180 × 820 px",
+              "vision: la barra final no es sticky (static) en una ventana de 1180 × 820 px",
+              "install: la barra final no es sticky (static) en una ventana de 1180 × 820 px"
+            ]
+          },
+          {
+            "window": "1180x820",
+            "motion": "reduce",
+            "visited": [
+              "setup",
+              "folder",
+              "delimitation",
+              "vision",
+              "install",
+              "finished"
+            ],
+            "measured": 53,
+            "reachable": 53,
+            "intercepted": 0,
+            "problems": [
+              "setup: la barra final no es sticky (static) en una ventana de 1180 × 820 px",
+              "folder: la barra final no es sticky (static) en una ventana de 1180 × 820 px",
+              "delimitation: la barra final no es sticky (static) en una ventana de 1180 × 820 px",
+              "vision: la barra final no es sticky (static) en una ventana de 1180 × 820 px",
+              "install: la barra final no es sticky (static) en una ventana de 1180 × 820 px"
+            ]
+          },
+          {
+            "window": "1160x810",
+            "motion": "no-preference",
+            "visited": [
+              "setup",
+              "folder",
+              "delimitation",
+              "vision",
+              "install",
+              "finished"
+            ],
+            "measured": 53,
+            "reachable": 53,
+            "intercepted": 0,
+            "problems": [
+              "setup: la barra final no es sticky (static) en una ventana de 1160 × 810 px",
+              "folder: la barra final no es sticky (static) en una ventana de 1160 × 810 px",
+              "delimitation: la barra final no es sticky (static) en una ventana de 1160 × 810 px",
+              "vision: la barra final no es sticky (static) en una ventana de 1160 × 810 px",
+              "install: la barra final no es sticky (static) en una ventana de 1160 × 810 px"
+            ]
+          },
+          {
+            "window": "1160x810",
+            "motion": "reduce",
+            "visited": [
+              "setup",
+              "folder",
+              "delimitation",
+              "vision",
+              "install",
+              "finished"
+            ],
+            "measured": 53,
+            "reachable": 53,
+            "intercepted": 0,
+            "problems": [
+              "setup: la barra final no es sticky (static) en una ventana de 1160 × 810 px",
+              "folder: la barra final no es sticky (static) en una ventana de 1160 × 810 px",
+              "delimitation: la barra final no es sticky (static) en una ventana de 1160 × 810 px",
+              "vision: la barra final no es sticky (static) en una ventana de 1160 × 810 px",
+              "install: la barra final no es sticky (static) en una ventana de 1160 × 810 px"
+            ]
+          },
+          {
+            "window": "1040x700",
+            "motion": "no-preference",
+            "visited": [
+              "setup",
+              "folder",
+              "delimitation",
+              "vision",
+              "install",
+              "finished"
+            ],
+            "measured": 53,
+            "reachable": 53,
+            "intercepted": 0,
+            "problems": [
+              "setup: la barra final no es sticky (static) en una ventana de 1040 × 700 px",
+              "folder: la barra final no es sticky (static) en una ventana de 1040 × 700 px",
+              "delimitation: la barra final no es sticky (static) en una ventana de 1040 × 700 px",
+              "vision: la barra final no es sticky (static) en una ventana de 1040 × 700 px",
+              "install: la barra final no es sticky (static) en una ventana de 1040 × 700 px"
+            ]
+          },
+          {
+            "window": "1040x700",
+            "motion": "reduce",
+            "visited": [
+              "setup",
+              "folder",
+              "delimitation",
+              "vision",
+              "install",
+              "finished"
+            ],
+            "measured": 53,
+            "reachable": 53,
+            "intercepted": 0,
+            "problems": [
+              "setup: la barra final no es sticky (static) en una ventana de 1040 × 700 px",
+              "folder: la barra final no es sticky (static) en una ventana de 1040 × 700 px",
+              "delimitation: la barra final no es sticky (static) en una ventana de 1040 × 700 px",
+              "vision: la barra final no es sticky (static) en una ventana de 1040 × 700 px",
+              "install: la barra final no es sticky (static) en una ventana de 1040 × 700 px"
+            ]
+          }
         ]
       }
     }
@@ -5328,8 +5682,8 @@
     }
   ],
   "summary": {
-    "mutations": 43,
-    "detected": 43,
+    "mutations": 45,
+    "detected": 45,
     "constructionProbes": 1,
     "constructionHeld": 1,
     "findings": 0,
@@ -5356,7 +5710,8 @@
     "copies": {
       "ok": 2,
       "refused": 2,
-      "transport": 2
+      "transport": 2,
+      "ok-then-refused": 2
     },
     "denominators": {
       "inicio": {

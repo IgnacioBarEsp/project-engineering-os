@@ -136,7 +136,7 @@
     "justification": null
   },
   "adversarialReview": {
-    "status": "pending",
+    "status": "passed",
     "ref": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
     "blockers": 0,
     "majors": 0

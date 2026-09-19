@@ -4,13 +4,13 @@
     "C:\\Program Files\\nodejs\\node.exe",
     "scripts/verify-landing.mjs",
     "../../site/index.html",
-    "<evidencia>\\final3\\landing"
+    "<evidencia>\\final5\\landing"
   ],
   "exitCode": 0,
   "stdout": "{\n  \"status\": \"PASS\",\n  \"bytes\": 14994,\n  \"widths\": [\n    1180,\n    1024,\n    768,\n    480,\n    360,\n    240\n  ],\n  \"minimumContrast\": 5.35,\n  \"checks\": [\n    \"Ninguna petición externa: sin fuentes remotas, sin analítica, sin imágenes de terceros.\",\n    \"Estructura: un h1, 15 encabezados sin saltos, landmarks, enlace para saltar al contenido, tabla con título y encabezados, y cero scripts.\",\n    \"Teclado: el primer tabulador llega al salto de contenido, activa el destino y el foco es visible.\",\n    \"Contraste: 80 nodos de texto medidos en los dos esquemas de color; se publica el peor de cada combinación y el peor de todos es 5.35.\",\n    \"Reflujo en 1180, 1024, 768, 480, 360 y 240 px y con el texto al doble de tamaño: ni barra horizontal ni texto fuera de la ventana, incluido dentro de contenedores recortados.\",\n    \"Cifras: cada número publicado reconcilia con benchmark.json, incluido el costo de preparar.\",\n    \"Afirmaciones: ninguna cifra de adopción, porcentaje, promesa sobre tokens o alucinaciones; declara la falta de firma y dónde la línea base es más barata.\"\n  ]\n}\n",
   "stderr": "",
   "error": null,
-  "capturedAt": "2026-09-19T15:10:53.821Z",
-  "durationMs": 1702,
-  "pathsSanitized": "La ruta del directorio de trabajo donde se escribió esta evidencia se sustituyó por <evidencia>."
+  "capturedAt": "2026-09-19T16:57:45.732Z",
+  "durationMs": 1562,
+  "pathsSanitized": "Copiado desde el directorio de trabajo de la sesión, cuya ruta se sustituyó por <evidencia>; el contenido no cambió."
 }

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "companion-0-3-2-hotfix-actions-bar-clipboard",
+  "date": "2026-09-19",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Revisión adversarial en dos rondas, la del agente del apply y la de un agente sin su contexto: 0 Blockers y 0 Majors abiertos, y todos los Minors corregidos antes de archivar. Fuera de alcance se vieron dos defectos previos, presentes ya en 0.3.1: a 1040 px la navegación de la cabecera parte palabras, y la CSP de Electron bloquea cuatro estilos en línea de app.mjs. No son falsos positivos. Por decisión del mantenedor del 19 de septiembre de 2026 se comentaron con evidencia en #144, que rehace el renderer, y no entran al registro. La segunda revisión anotó dos puntos previos más, sin issue: la pastilla apagada en la ruta de revisión heredada y el rechazo de U+000B y U+000C en la visión. Un supuesto tercer defecto previo, el foco que caería al body tras copiar, no se reprodujo al medirlo. Los límites conocidos de 0.3.2 ya tienen issue: #147 y #143."
+}
