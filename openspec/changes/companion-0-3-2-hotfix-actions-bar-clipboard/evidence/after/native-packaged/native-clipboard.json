@@ -1,9 +1,9 @@
 {
-  "date": "2026-09-19T16:58:50.632Z",
+  "date": "2026-09-19T17:52:42.072Z",
   "ran": "artefacto empaquetado, sin instalar",
-  "executable": "<evidencia>/final5/candidate/win-unpacked/Project Engineering OS.exe",
+  "executable": "<evidencia>/final6/candidate/win-unpacked/Project Engineering OS.exe",
   "source": {
-    "commit": "4ab9168fd76523b18cded25f77a3c038ffbfc412",
+    "commit": "12c931ba8c047f1903db91c1bce6a2562bd5dbe3",
     "dirty": []
   },
   "machine": {
@@ -44,6 +44,10 @@
       "y": 310,
       "width": 1180,
       "height": 820
+    },
+    "content": {
+      "width": 1164,
+      "height": 755
     },
     "inner": {
       "width": 1164,
@@ -178,23 +182,25 @@
     {
       "control": "Copiar ruta",
       "expectedBytes": 89,
-      "expectedSha256": "596e29e00a2b284cce5a4e8627942d1dbaeeeeaddbec98b5e4f10a6bcd61ddd8",
-      "clipboardSha256": "596e29e00a2b284cce5a4e8627942d1dbaeeeeaddbec98b5e4f10a6bcd61ddd8",
+      "expectedSha256": "edb3b8ffdc08c6399eeb8b03aefe7ec0bb13d0a909c27e0fd26f741990f6aee4",
+      "clipboardSha256": "edb3b8ffdc08c6399eeb8b03aefe7ec0bb13d0a909c27e0fd26f741990f6aee4",
       "equal": true,
       "sentinelReplaced": true,
       "notice": "Ruta copiada. Pégala donde abras tu proyecto.",
       "labelAfter": "¡Ruta copiada!",
+      "focusAfter": "el mismo botón",
       "errorShown": false
     },
     {
       "control": "Copiar Prompt Maestro",
       "expectedBytes": 777,
-      "expectedSha256": "7daaf4fbd108e2dd0ee40685fcbbddc2891d89a250f75561a760e5dcf2778d96",
-      "clipboardSha256": "7daaf4fbd108e2dd0ee40685fcbbddc2891d89a250f75561a760e5dcf2778d96",
+      "expectedSha256": "101c9ff9d20818145632f9b75ca5045b30e89f3ea1bcda1bec64939bc1241ba8",
+      "clipboardSha256": "101c9ff9d20818145632f9b75ca5045b30e89f3ea1bcda1bec64939bc1241ba8",
       "equal": true,
       "sentinelReplaced": true,
       "notice": "Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna.",
       "labelAfter": "¡Prompt copiado!",
+      "focusAfter": "el mismo botón",
       "errorShown": false
     }
   ],

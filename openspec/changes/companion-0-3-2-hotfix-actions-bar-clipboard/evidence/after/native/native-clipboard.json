@@ -1,9 +1,9 @@
 {
-  "date": "2026-09-19T16:57:46.001Z",
+  "date": "2026-09-19T17:51:53.172Z",
   "ran": "código fuente con electron .",
   "executable": "<app>/node_modules/electron/dist/electron.exe",
   "source": {
-    "commit": "4ab9168fd76523b18cded25f77a3c038ffbfc412",
+    "commit": "12c931ba8c047f1903db91c1bce6a2562bd5dbe3",
     "dirty": []
   },
   "machine": {
@@ -45,9 +45,13 @@
       "width": 1180,
       "height": 820
     },
+    "content": {
+      "width": 1164,
+      "height": 755
+    },
     "inner": {
       "width": 1164,
-      "height": 781,
+      "height": 755,
       "devicePixelRatio": 1
     }
   },
@@ -178,23 +182,25 @@
     {
       "control": "Copiar ruta",
       "expectedBytes": 89,
-      "expectedSha256": "147c0c153d018be5b6be198ce064d1f07156ffb7b03d78fbbdbf71c01be5f56f",
-      "clipboardSha256": "147c0c153d018be5b6be198ce064d1f07156ffb7b03d78fbbdbf71c01be5f56f",
+      "expectedSha256": "763c8d8787a6fbe3d387316a6d1cfafd0c22c44157ee6e8d97f13c6c68f7b4df",
+      "clipboardSha256": "763c8d8787a6fbe3d387316a6d1cfafd0c22c44157ee6e8d97f13c6c68f7b4df",
       "equal": true,
       "sentinelReplaced": true,
       "notice": "Ruta copiada. Pégala donde abras tu proyecto.",
       "labelAfter": "¡Ruta copiada!",
+      "focusAfter": "el mismo botón",
       "errorShown": false
     },
     {
       "control": "Copiar Prompt Maestro",
       "expectedBytes": 777,
-      "expectedSha256": "00da42d4126e1941d598e9eb6c98b2516390abde736bd843299ef7e73af55008",
-      "clipboardSha256": "00da42d4126e1941d598e9eb6c98b2516390abde736bd843299ef7e73af55008",
+      "expectedSha256": "ba4f8999edf4cdd1c48336b0ffd6a623f0e836052adc0e7ee36ad170f1de51c2",
+      "clipboardSha256": "ba4f8999edf4cdd1c48336b0ffd6a623f0e836052adc0e7ee36ad170f1de51c2",
       "equal": true,
       "sentinelReplaced": true,
       "notice": "Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna.",
       "labelAfter": "¡Prompt copiado!",
+      "focusAfter": "el mismo botón",
       "errorShown": false
     }
   ],

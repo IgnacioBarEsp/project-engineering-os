@@ -1,10 +1,16 @@
 {
-  "capturedAt": "2026-09-19T03:58:58.898Z",
-  "scope": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard",
-  "markdownFiles": 10,
-  "relativeLinks": 26,
+  "capturedAt": "2026-09-19T18:03:29.352Z",
+  "scope": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard, docs/PROJECT_STATUS.md, apps/companion/RELEASE_NOTES_0.3.2.md",
+  "markdownFiles": 17,
+  "relativeLinks": 153,
   "status": "PASS",
   "failures": [],
+  "findability": {
+    "readmeToStatus": true,
+    "statusToNotes": true,
+    "path": "README.md → docs/PROJECT_STATUS.md → apps/companion/RELEASE_NOTES_0.3.2.md",
+    "status": "PASS"
+  },
   "links": [
     {
       "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/brownfield-baseline.md",
@@ -23,7 +29,32 @@
     },
     {
       "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/design.md",
+      "href": "evidence/before/README.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/design.md",
       "href": "proposal.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/design.md",
+      "href": "evidence/after/keyboard-scroll-padding.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/design.md",
+      "href": "evidence/validation.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/design.md",
+      "href": "evidence/before/vision-line-break.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/design.md",
+      "href": "evidence/maintainer-decisions.md",
       "exists": true
     },
     {
@@ -34,6 +65,231 @@
     {
       "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/design.md",
       "href": "evidence/plan.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/design.md",
+      "href": "evidence/after/rollback.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/design.md",
+      "href": "evidence/apply-entry.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/design.md",
+      "href": "evidence/maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../../../../CONTRIBUTING.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../TLDR.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../proposal.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../tasks.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../../../../apps/companion/RELEASE_NOTES_0.3.2.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../../../../docs/PROJECT_STATUS.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../specs/companion-experience/spec.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../specs/companion-desktop/spec.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../specs/companion-experience/spec.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../proposal.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../brownfield-baseline.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "validation.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../specs/companion-experience/spec.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../tasks.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "validation.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/adversarial-review.md",
+      "href": "../tasks.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/apply-entry.md",
+      "href": "../../../../CONTRIBUTING.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/apply-entry.md",
+      "href": "pre-apply.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/apply-entry.md",
+      "href": "issue-142.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/apply-entry.md",
+      "href": "readiness-propose-apply.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/apply-entry.md",
+      "href": "../brownfield-baseline.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/before/README.md",
+      "href": "wizard-reach.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/before/README.md",
+      "href": "wizard-1180x820-setup-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/before/README.md",
+      "href": "wizard-1180x820-install-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/before/README.md",
+      "href": "wizard-1160x810-setup-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/before/README.md",
+      "href": "wizard-1160x810-install-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/before/README.md",
+      "href": "wizard-1040x700-setup-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/before/README.md",
+      "href": "wizard-1040x700-install-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/before/README.md",
+      "href": "vision-line-break.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/before/README.md",
+      "href": "../../design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/before/README.md",
+      "href": "preload-guard-031.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/before/README.md",
+      "href": "../maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/maintainer-decisions.md",
+      "href": "../../../../CONTRIBUTING.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/maintainer-decisions.md",
+      "href": "../design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/maintainer-decisions.md",
+      "href": "adversarial-review.md",
       "exists": true
     },
     {
@@ -92,6 +348,326 @@
       "exists": true
     },
     {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "openspec-strict.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/qa.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/test-ui.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/contract.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/landing.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/native/native-clipboard.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-reach.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/browser-evidence.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-reach.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/native/native-clipboard.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "before/README.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/native/",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "docs.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "artifact-links.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "../../../../docs/PROJECT_STATUS.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "../../../../apps/companion/RELEASE_NOTES_0.3.2.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "artifact-links.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "neutrality.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "check.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "before/README.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-reach.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-reach.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-reach.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/native/native-clipboard.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/native-packaged/native-clipboard.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-reach.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/contract/interface-contract.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "adversarial-review.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/candidate/artifact-manifest.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/candidate/SHA256SUMS",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-reach.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/keyboard-scroll-padding.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/contract/interface-contract.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/rollback.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "../../../../docs/PROJECT_STATUS.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "../../../../apps/companion/RELEASE_NOTES_0.3.2.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-1180x820-setup-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-1180x820-install-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-1160x810-setup-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-1160x810-install-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-1040x700-setup-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-1040x700-install-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-582x377-setup-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-582x377-install-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-464x475-setup-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/ui/wizard-464x475-install-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/native/electron-install-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/native/electron-finished.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/native-packaged/electron-install-final.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "after/native-packaged/electron-finished.png",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "../design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "../specs/companion-experience/spec.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
+      "href": "maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/proposal.md",
+      "href": "design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/proposal.md",
+      "href": "design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/proposal.md",
+      "href": "evidence/maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/proposal.md",
+      "href": "evidence/apply-entry.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/proposal.md",
+      "href": "evidence/maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/tasks.md",
+      "href": "evidence/validation.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/TLDR.md",
+      "href": "evidence/maintainer-decisions.md",
+      "exists": true
+    },
+    {
       "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/TLDR.md",
       "href": "proposal.md",
       "exists": true
@@ -133,7 +709,72 @@
     },
     {
       "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/TLDR.md",
-      "href": "evidence/pre-apply.md",
+      "href": "evidence/before/README.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/TLDR.md",
+      "href": "evidence/validation.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/TLDR.md",
+      "href": "evidence/adversarial-review.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/TLDR.md",
+      "href": "evidence/maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "../apps/companion/RELEASE_NOTES_0.3.2.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "../apps/companion/package.json",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "../site/index.html",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "../apps/companion/RELEASE_NOTES_0.3.2.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "companion/SCREENSHOTS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "companion/EVIDENCE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "companion/COLD_READING.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "RELEASES.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "USER_GUIDE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/PROJECT_STATUS.md",
+      "href": "REPOSITORY_MAP.md",
       "exists": true
     }
   ]

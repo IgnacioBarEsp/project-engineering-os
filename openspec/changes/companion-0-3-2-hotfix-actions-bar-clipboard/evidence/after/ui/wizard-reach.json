@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-19T16:54:27.195Z",
+  "date": "2026-09-19T17:48:32.184Z",
   "scope": "Renderer real y servicio real en el navegador; selector de carpeta, portapapeles y apertura externa inyectados. Asistente vigente en las tres ventanas del informe y en las dos ventanas pequeñas de la aplicación real (por defecto con zoom al 200 % y mínima), con movimiento normal y reducido y con las dos formas de instalar.",
   "viewports": [
     "1180x820",
@@ -280,6 +280,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -648,6 +652,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -742,6 +750,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "focusAfterCopy": {
+            "Copiar ruta": "button «¡Ruta copiada!»",
+            "Copiar Prompt Maestro": "button «¡Prompt copiado!»"
           }
         }
       },
@@ -1000,6 +1012,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -1354,6 +1370,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -1444,6 +1464,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "focusAfterCopy": {
+            "Copiar ruta": "button «¡Ruta copiada!»",
+            "Copiar Prompt Maestro": "button «¡Prompt copiado!»"
           }
         }
       },
@@ -1712,6 +1736,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -2080,6 +2108,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -2174,6 +2206,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "focusAfterCopy": {
+            "Copiar ruta": "button «¡Ruta copiada!»",
+            "Copiar Prompt Maestro": "button «¡Prompt copiado!»"
           }
         }
       },
@@ -2432,6 +2468,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -2786,6 +2826,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -2876,6 +2920,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "focusAfterCopy": {
+            "Copiar ruta": "button «¡Ruta copiada!»",
+            "Copiar Prompt Maestro": "button «¡Prompt copiado!»"
           }
         }
       },
@@ -3159,6 +3207,10 @@
               "Inicio en 2 renglones para 1 palabra(s)",
               "Ayuda en 2 renglones para 1 palabra(s)"
             ]
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -3548,6 +3600,10 @@
               "Inicio en 2 renglones para 1 palabra(s)",
               "Ayuda en 2 renglones para 1 palabra(s)"
             ]
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -3648,6 +3704,10 @@
               "Inicio en 2 renglones para 1 palabra(s)",
               "Ayuda en 2 renglones para 1 palabra(s)"
             ]
+          },
+          "focusAfterCopy": {
+            "Copiar ruta": "button «¡Ruta copiada!»",
+            "Copiar Prompt Maestro": "button «¡Prompt copiado!»"
           }
         }
       },
@@ -3921,6 +3981,10 @@
               "Inicio en 2 renglones para 1 palabra(s)",
               "Ayuda en 2 renglones para 1 palabra(s)"
             ]
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -4296,6 +4360,10 @@
               "Inicio en 2 renglones para 1 palabra(s)",
               "Ayuda en 2 renglones para 1 palabra(s)"
             ]
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -4392,6 +4460,10 @@
               "Inicio en 2 renglones para 1 palabra(s)",
               "Ayuda en 2 renglones para 1 palabra(s)"
             ]
+          },
+          "focusAfterCopy": {
+            "Copiar ruta": "body",
+            "Copiar Prompt Maestro": "button «¡Prompt copiado!»"
           }
         }
       },
@@ -4660,6 +4732,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -5028,6 +5104,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -5122,6 +5202,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "focusAfterCopy": {
+            "Copiar ruta": "button «¡Ruta copiada!»",
+            "Copiar Prompt Maestro": "button «¡Prompt copiado!»"
           }
         }
       },
@@ -5380,6 +5464,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -5734,6 +5822,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -5824,6 +5916,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "focusAfterCopy": {
+            "Copiar ruta": "button «¡Ruta copiada!»",
+            "Copiar Prompt Maestro": "body"
           }
         }
       },
@@ -6092,6 +6188,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -6460,6 +6560,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -6554,6 +6658,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "focusAfterCopy": {
+            "Copiar ruta": "button «¡Ruta copiada!»",
+            "Copiar Prompt Maestro": "button «¡Prompt copiado!»"
           }
         }
       },
@@ -6812,6 +6920,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -7166,6 +7278,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "name": {
+            "withoutPlaceholder": 1,
+            "withoutPlaceholderOrLabel": 0
           }
         },
         "install": {
@@ -7256,6 +7372,10 @@
           },
           "header": {
             "brokenWords": []
+          },
+          "focusAfterCopy": {
+            "Copiar ruta": "button «¡Ruta copiada!»",
+            "Copiar Prompt Maestro": "button «¡Prompt copiado!»"
           }
         }
       },
@@ -7546,11 +7666,25 @@
   ],
   "withoutText": [
     {
-      "draft": "###",
+      "case": "visión «###»",
+      "drafts": [
+        "###"
+      ],
       "problems": []
     },
     {
-      "draft": "",
+      "case": "visión vacía",
+      "drafts": [
+        ""
+      ],
+      "problems": []
+    },
+    {
+      "case": "visión vaciada al volver de la instalación",
+      "drafts": [
+        "Una visión escrita en la primera visita.",
+        ""
+      ],
       "problems": []
     }
   ],

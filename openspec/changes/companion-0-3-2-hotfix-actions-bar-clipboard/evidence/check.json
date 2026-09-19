@@ -1,0 +1,31 @@
+{
+  "command": [
+    "npm",
+    "run",
+    "check"
+  ],
+  "exitCode": 0,
+  "capturedAt": "2026-09-19T18:00:41.806Z",
+  "durationMs": 149093,
+  "source": {
+    "commit": "12c931ba8c047f1903db91c1bce6a2562bd5dbe3",
+    "uncommittedFiles": 25,
+    "note": "Árbol de trabajo con la evidencia y los textos finales del change aún sin commit; el código es el del commit."
+  },
+  "summary": [
+    "PASS package contract create-project-engineering-os@0.5.0",
+    "PASS public tree neutrality and export allowlist",
+    "PASS docs 25 README links, prompt contract and 20 spec purposes",
+    "PASS workflows 6",
+    "PASS Politica y registro validos (49 item(s)).",
+    "PASS Plan activo: 4/5 unidades, 3 flujo(s) con deuda abierta.",
+    "ℹ tests 326",
+    "ℹ suites 0",
+    "ℹ pass 326",
+    "ℹ fail 0",
+    "ℹ cancelled 0",
+    "ℹ skipped 0",
+    "ℹ todo 0",
+    "ℹ duration_ms 146107.3631"
+  ]
+}

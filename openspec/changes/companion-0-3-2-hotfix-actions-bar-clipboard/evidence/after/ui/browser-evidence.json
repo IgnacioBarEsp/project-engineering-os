@@ -1,8 +1,8 @@
 {
-  "date": "2026-09-19T16:54:27.195Z",
+  "date": "2026-09-19T17:48:32.184Z",
   "scope": "Real renderer and engines in browser; native transport/picker/clipboard/provider injected",
   "checks": [
-    "Asistente vigente: 20 recorridos (5 ventanas × 2 preferencias de movimiento × 2 formas de instalar), 140 pantallas, 1100 de 1100 controles alcanzables al tocar su centro, 40 de 40 copias con el texto exacto, y una visión sin texto que conserva el objetivo del primer paso en 2 de 2 casos PASS",
+    "Asistente vigente: 20 recorridos (5 ventanas × 2 preferencias de movimiento × 2 formas de instalar), 140 pantallas, 1100 de 1100 controles alcanzables al tocar su centro, 40 de 40 copias con el texto exacto, y una visión sin texto que conserva el objetivo del primer paso en 3 de 3 casos PASS",
     "research: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
     "software: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",
     "unity: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected",

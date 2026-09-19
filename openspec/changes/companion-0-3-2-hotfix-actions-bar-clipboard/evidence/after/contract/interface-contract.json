@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-19T16:55:37.716Z",
+  "date": "2026-09-19T17:49:46.406Z",
   "source": "<home>/Documents/Projects/project-engineering-os/apps/companion/ui",
   "scope": "El renderer real servido desde una copia, con el servicio nativo reemplazado por respuestas fijas. Cubre Inicio, Ayuda, la lista, el asistente, un proyecto, su panel de IA, la revisión de tecnología, el diálogo de un término, el ancho mínimo, la lista vacía, un error del servicio y la ventana con su módulo roto. Recorre además el asistente vigente hasta la pantalla final en tres ventanas, con movimiento normal y reducido, y los dos controles de copia ante un éxito, un rechazo y un fallo del transporte. No demuestra el motor, Electron ni la aplicación instalada.",
   "glossaryTerms": 18,
