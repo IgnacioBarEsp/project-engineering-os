@@ -30,7 +30,9 @@ export function guidanceContractFailures(files, imageHash) {
   if (new Set(releaseTags).size !== 1 || !status.includes(`/releases/tag/${releaseTags[0]})`)) failures.push('release identity');
   if (!/Revisión: \*\*\d{1,2} de [a-záéíóú]+ de \d{4}\*\*/.test(status) || !status.includes('pendientes de instalador') ||
     !status.includes('Núcleo CLI') || !status.includes('Nueva landing')) failures.push('delivery distinction');
-  if (!/\/tree\/[a-f0-9]{40}\)/.test(captures) || !captures.includes('renderer real en navegador') ||
+  // El entorno declarado debe coincidir con el que produce las capturas. Si volvieran a generarse en
+  // navegador, esta regla obligaría a declararlo: no puede decir «ventana real» una imagen que no lo es.
+  if (!/\/tree\/[a-f0-9]{40}\)/.test(captures) || !captures.includes('ventana real de la aplicación') ||
     !captures.includes('No es una captura del instalador') || !captures.includes('Ejecución UTC')) failures.push('capture provenance');
   if (!/^[a-f0-9]{64}$/.test(imageHash ?? '') || !captures.includes(`\`${imageHash}\``)) failures.push('capture hash');
   if (!readme.includes('No es una captura del instalador')) failures.push('visible capture qualifier');

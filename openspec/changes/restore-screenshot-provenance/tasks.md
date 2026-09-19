@@ -1,7 +1,7 @@
 ## 1. Entrada a implementación
 
-- [ ] 1.1 Registrar la aprobación del mantenedor de esta spec y de la superficie `documentation`; releer el límite de la propuesta y el preflight.
-- [ ] 1.2 Revalidar la DoR de #143 y la baseline si cambiaron `main`, el issue o los artefactos.
+- [x] 1.1 Registrar la aprobación del mantenedor de esta spec y de la superficie `documentation`; releer el límite de la propuesta y el preflight. ([decisiones](evidence/maintainer-decisions.md): «Solo documentation», «Desde el código», «Sí, apply completo hasta PR»)
+- [x] 1.2 Revalidar la DoR de #143 y la baseline si cambiaron `main`, el issue o los artefactos. (13 PASS, 0 FAIL en [readiness-propose.json](evidence/readiness-propose.json); `main` sigue en `eefa1bc`, issue OPEN sin cambios desde 2026-09-19T02:24:31Z)
 
 ## 2. Comprobación de procedencia
 
@@ -28,4 +28,5 @@
 - [ ] 5.3 Sustituir los estados pendientes de readiness solo con evidencia ejecutada, y pasar strict y el gate de archive con `--run-local`.
 - [ ] 5.4 Archivar con el CLI local, corregir los enlaces del change archivado, firmar los commits con DCO y entregar por PR protegido. La integración queda sujeta a la CI requerida y a la decisión del mantenedor.
 
-Todas las tareas están pendientes: la preparación se detiene antes del apply por decisión del mantenedor.
+Preparación completada y apply autorizado por el mantenedor el 19 de septiembre de 2026
+([decisiones](evidence/maintainer-decisions.md)).
