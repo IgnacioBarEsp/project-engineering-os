@@ -93,7 +93,7 @@
       "kind": "manual",
       "status": "verified",
       "ref": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
-      "justification": null,
+      "justification": "Revisión automatizada del agente, sin autoría humana. Incluye el recorrido con Tab en 10 combinaciones de ventana y movimiento, Enter y required, y los nombres accesibles leídos del árbol de accesibilidad de Chromium, con una comprobación negativa. También el foco tras copiar con Enter en Electron y Edge. No se usó ningún lector de pantalla (NVDA ni Narrador) y ninguna persona recorrió la aplicación con teclado; la validación lo declara.",
       "profileCondition": null
     },
     {
@@ -109,7 +109,7 @@
       "kind": "manual",
       "status": "verified",
       "ref": "openspec/changes/companion-0-3-2-hotfix-actions-bar-clipboard/evidence/validation.md",
-      "justification": null,
+      "justification": "Revisión del agente. La sección Documentación de validation.md dice qué documento corresponde a quién y cuándo cambia, y las dos revisiones adversariales revisaron las afirmaciones públicas.",
       "profileCondition": null
     },
     {

@@ -226,7 +226,15 @@ async function walkWizard(width,height,motion,branch){
     // the person types. The name is read from the accessibility tree with the placeholder removed for the moment.
     const placeholder=await page.locator('#vision-input').getAttribute('placeholder');
     await page.locator('#vision-input').evaluate(node=>node.removeAttribute('placeholder'));
-    if(await page.getByRole('textbox',{name:'Tu visión del proyecto',exact:true}).count()!==1)problems.push('vision: el editor no tiene nombre accesible sin su placeholder');
+    const named=await page.getByRole('textbox',{name:'Tu visión del proyecto',exact:true}).count();
+    if(named!==1)problems.push('vision: el editor no tiene nombre accesible sin su placeholder');
+    // The same reading with the aria-label gone too has to find nothing, or it could not tell a named editor apart.
+    const label=await page.locator('#vision-input').getAttribute('aria-label');
+    await page.locator('#vision-input').evaluate(node=>node.removeAttribute('aria-label'));
+    const withoutLabel=await page.getByRole('textbox',{name:'Tu visión del proyecto',exact:true}).count();
+    await page.locator('#vision-input').evaluate((node,value)=>{if(value!==null)node.setAttribute('aria-label',value);},label);
+    if(withoutLabel!==0)problems.push('vision: la lectura del nombre no distingue un editor sin aria-label');
+    screens.vision.name={withoutPlaceholder:named,withoutPlaceholderOrLabel:withoutLabel};
     await page.locator('#vision-input').evaluate((node,value)=>{if(value!==null)node.setAttribute('placeholder',value);},placeholder);
     // The suggestions are the last content of this screen, and each one adds a paragraph. With the quick branch a
     // line break is also typed by hand: both are ordinary ways to write a vision.
@@ -255,8 +263,13 @@ async function walkWizard(width,height,motion,branch){
       'Copiar Prompt Maestro':await page.locator('.prompt-box pre').evaluate(node=>node.textContent)};
     for(const [control,expected] of Object.entries(shown)){
       const before=copied.length;
-      if(!await press(control,'finished'))continue;
+      // With the ai branch the copy is made from the keyboard, and where focus is afterwards is recorded: the
+      // button is disabled while the copy runs, and keyboard users should not lose their place.
+      if(branch==='ai'){
+        await page.getByRole('button',{name:control,exact:true}).focus();await page.keyboard.press('Enter');
+      }else if(!await press(control,'finished'))continue;
       await settle(page);
+      if(branch==='ai')(screens.finished.focusAfterCopy??={})[control]=await page.evaluate(()=>{const node=document.activeElement;return node===document.body?'body':`${node.tagName.toLowerCase()} «${node.textContent.trim()}»`;});
       const notice=(await page.locator('#notice').textContent()).trim(),equal=copied.length===before+1&&copied.at(-1)===expected;
       wizard.copies.push({run:tag,control,equal,bytes:Buffer.byteLength(expected),notice});
       if(!equal)problems.push(`finished: «${control}» no entregó al servicio el texto que muestra la pantalla`);
@@ -279,9 +292,11 @@ async function walkWizard(width,height,motion,branch){
   }
 }
 // A vision that leaves no text for the objective, a lone heading mark or an emptied editor, keeps the objective chosen
-// in the first step. Deriving the objective from such a vision gave an empty one, which stops the installation.
-async function walkVisionWithoutText(draft){
-  const tag=draft?`visión «${draft}»`:'visión vacía',root=path.join(temp,`wizard-vision-${draft?'heading':'empty'}`);
+// in the first step, also when the vision was written on an earlier visit, and PROJECT_VISION.md states that objective.
+// Deriving the objective from such a vision gave an empty one, which stops the installation. Each draft but the last
+// is written on a visit that goes on to the installation step and comes back.
+async function walkVisionWithoutText(tag,drafts){
+  const root=path.join(temp,`wizard-vision-${wizard.withoutText.length}`);
   await mkdir(root);await writeFile(path.join(root,'nota.txt'),'Nota de prueba.\n');
   const service=await createDesktopService({dataRoot:root+'-history',core,environment:null,chooseFolder:async()=>root,copyText:()=>{},openExternal:()=>{}});
   const context=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'}),page=await context.newPage();
@@ -301,11 +316,16 @@ async function walkVisionWithoutText(draft){
     await page.getByRole('button',{name:'Buscar carpeta en este equipo',exact:true}).click();await page.locator('.folder-card .path').waitFor();
     await go('Continuar a delimitación →','¿Cuál es el enfoque principal de tu proyecto?');
     await go('Paso 3: Visión y Descripción →','Cuéntanos en tus palabras: ¿qué quieres lograr?');
-    await page.locator('#vision-input').fill(draft);
-    await go('Paso 4: Instalación →','Tu espacio está listo. ¿Cómo prefieres equiparlo?');
+    for(const [index,draft] of drafts.entries()){
+      await page.locator('#vision-input').fill(draft);
+      await go('Paso 4: Instalación →','Tu espacio está listo. ¿Cómo prefieres equiparlo?');
+      if(index<drafts.length-1)await go('Volver','Cuéntanos en tus palabras: ¿qué quieres lograr?');
+    }
     await go(INSTALL.ai,'¡Tu proyecto está listo para cobrar vida!');
     const recorded=(await service.listProjects())[0]?.selection?.goal;
     if(recorded!==goal)problems.push(`el objetivo registrado es ${JSON.stringify(recorded)} y no el del primer paso`);
+    const written=await readFile(path.join(root,'PROJECT_VISION.md'),'utf8').catch(()=>'');
+    if(!written.includes(goal))problems.push('PROJECT_VISION.md no declara el objetivo del primer paso');
   }catch(error){
     const said=await page.locator('#feedback').isVisible().catch(()=>false)?(await page.locator('#feedback').innerText()).replace(/\s+/g,' ').trim():null;
     problems.push(`no se llegó a la pantalla final: ${String(error.message).split('\n')[0].slice(0,120)}${said?`; la ventana muestra: ${said}`:''}`);
@@ -313,14 +333,14 @@ async function walkVisionWithoutText(draft){
     if(errors.length)problems.push(`excepciones del renderer: ${errors.join(' | ')}`);
     await context.close();
   }
-  wizard.withoutText.push({draft,problems});
+  wizard.withoutText.push({case:tag,drafts,problems});
   for(const problem of problems)wizard.problems.push(`${tag} · ${problem}`);
 }
 try {
   browser=await chromium.launch({...(process.platform==='win32'?{channel:'msedge'}:{}),headless:true});
   assert.equal((await fetch(url+'/desktop/service.mjs')).status,404);
   for(const [width,height] of WIZARD_VIEWPORTS)for(const motion of MOTIONS)for(const branch of Object.keys(INSTALL))await walkWizard(width,height,motion,branch);
-  for(const draft of ['###',''])await walkVisionWithoutText(draft);
+  for(const [tag,drafts] of [['visión «###»',['###']],['visión vacía',['']],['visión vaciada al volver de la instalación',['Una visión escrita en la primera visita.','']]])await walkVisionWithoutText(tag,drafts);
   const runs=wizard.matrix,wizardScreens=runs.flatMap(run=>Object.values(run.screens));
   wizard.summary={runs:runs.length,screensExpected:runs.length*WIZARD_SCREENS.length,screensVisited:wizardScreens.length,
     controlsMeasured:wizardScreens.reduce((sum,screen)=>sum+screen.measured,0),controlsReachable:wizardScreens.reduce((sum,screen)=>sum+screen.reachable,0),

@@ -148,13 +148,20 @@ Causa: `showVision` copia la visión entera en `goal` (`s.goal = text.slice(0, 5
 de línea en `vision`, pero rechaza cualquier carácter de control en `goal`. Hoy queda oculto porque la barra
 tapa las sugerencias; al corregir la barra, cualquiera que las use llegaría a un callejón sin salida.
 
-Corrección mínima: el objetivo se deriva de la visión como una sola línea: sin marcas de encabezado al
-inicio de cada línea, con los espacios colapsados y con 500 caracteres como máximo. La visión conserva sus
-párrafos y llega así a `PROJECT_VISION.md`. Se mantiene lo que 0.3.1 ya hacía, que el objetivo siga a la
-visión, porque decidir si deben separarse es de #146.
+Corrección mínima: el objetivo que registra la preparación se deriva de la visión como una sola línea: sin
+marcas de encabezado al inicio de cada línea, con los espacios colapsados y con 500 caracteres como máximo.
+La visión conserva sus párrafos y llega así a `PROJECT_VISION.md`. Se mantiene lo que 0.3.1 ya hacía, que el
+objetivo siga a la visión, porque decidir si deben separarse es de #146.
+
+Añadido tras la segunda revisión: una visión que no deja texto para el objetivo, vacía o solo con marcas de
+encabezado, no se envía, y se registra el objetivo del primer paso. `PROJECT_VISION.md` declara entonces ese
+objetivo. Por eso el objetivo se calcula al enviar la preparación, y la respuesta del primer paso ya no se
+sobrescribe mientras se edita la visión: sigue disponible como respaldo aunque la persona vuelva a Visión,
+y al volver al primer paso muestra lo que se escribió allí.
 
 Alternativas descartadas: relajar la validación de `goal` en el motor cambia un contrato que usan el
-historial, los prompts y otras pantallas; dejar de sobrescribir `goal` es una decisión de producto de #146.
+historial, los prompts y otras pantallas; registrar siempre el objetivo del primer paso e ignorar la visión es
+una decisión de producto de #146.
 
 En la misma pantalla, el editor de visión solo tiene placeholder y ningún nombre accesible, como mide
 `ACCESSIBLE_NAMES`. Recibe un `aria-label`, sin cambiar lo que se ve.
@@ -189,4 +196,6 @@ teniendo sus defectos.
 Ninguna. La entrada a implementación consta en [apply-entry](evidence/apply-entry.md) y la decisión de
 publicar 0.3.2, en [decisiones](evidence/maintainer-decisions.md). La geometría se ejecutó. Lo que cambió
 respecto del diseño inicial entró en esta spec y en este diseño durante el apply: el scroll-padding, la
-clase `.wizard-footer`, la barra estática en ventanas pequeñas y las decisiones 6 y 7.
+clase `.wizard-footer`, la barra estática en ventanas pequeñas y las decisiones 6 y 7. Tras la segunda
+revisión entraron las cifras reales de esas ventanas, la exigencia de sticky en los harness y el objetivo de
+respaldo de una visión sin texto.

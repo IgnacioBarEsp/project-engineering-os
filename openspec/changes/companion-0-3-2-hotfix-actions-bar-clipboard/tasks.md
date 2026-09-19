@@ -37,7 +37,10 @@
 - [x] 6.3 Archivar con el CLI OpenSpec local, firmar los commits con DCO y entregar por PR protegido con la evidencia; la integración queda sujeta a CI requerido y a la decisión del mantenedor.
 - [x] 6.4 Registrar la decisión de publicación y lo que ocurre después del merge. Si se publica: tag anotado, workflow existente, comparación de assets canónicos y conciliación de README, guía de instalación y estado, como trabajo posterior a este change. Si se difiere: propietario, motivo y la descarga real con sus defectos conocidos.
 
-Cada tarea tiene su evidencia en la [validación](evidence/validation.md). La 5.3 se reformuló durante el apply.
+Cada tarea tiene su evidencia en la [validación](evidence/validation.md). La 4.4 se hizo con medios automáticos
+del agente y sin lector de pantalla ni persona, como declara la validación. La 5.3 se reformuló durante el apply.
 Decía «Probar el instalador candidato en Windows aislado», y esa instalación la hace el workflow de release
 sobre el tag, por la decisión de publicar del mantenedor: aquí se construyó el candidato y se probó su
-ejecutable empaquetado. Lo que ocurra después del merge, incluida esa instalación, queda en el PR.
+ejecutable empaquetado. Lo que ocurra después del merge, incluida esa instalación, queda en el PR. La 6.2 y la
+6.3 se cumplen con el commit que archiva el change: strict y el gate de archive se ejecutan justo antes, con sus
+registros en `evidence/`, y la entrega es el PR #169.

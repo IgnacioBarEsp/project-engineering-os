@@ -60,9 +60,10 @@ installation fail. When the vision leaves no text for the objective, the objecti
 - **AND** the objective recorded by the preparation SHALL contain no line break and at most 500 characters
 
 #### Scenario: The vision leaves no text for the objective
-- **WHEN** a person empties the vision or leaves only a heading mark in it and then chooses an installation
+- **WHEN** a person empties the vision or leaves only a heading mark in it, on the first visit or after returning from the installation step, and then chooses an installation
 - **THEN** the preparation SHALL be accepted and the completion screen SHALL be reached
 - **AND** the objective recorded by the preparation SHALL be the one chosen in the first step
+- **AND** PROJECT_VISION.md SHALL state that objective
 
 ### Requirement: Wizard navigation reflects all current screens
 The preparation navigation item SHALL declare aria-pressed true on setup, folder, delimitation, vision,

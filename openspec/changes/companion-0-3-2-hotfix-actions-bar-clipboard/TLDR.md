@@ -7,8 +7,9 @@ la CI requerida. La publicación de 0.3.2 viene después del merge, por delegaci
 
 La corrección saca la barra del asistente de la animación y la deja sticky dentro del flujo. Además, la
 copia pasa por el proceso principal con validación y errores visibles, la navegación sigue activa hasta la
-pantalla final, una visión de varias líneas ya no detiene la instalación y el prompt de «Instalación
-rápida» deja de afirmar dependencias que nadie instaló. El núcleo continúa en 0.5.0.
+pantalla final, una sugerencia o un salto de línea en Visión ya no detienen la instalación (una visión sin
+texto conserva el objetivo del primer paso) y el prompt de «Instalación rápida» deja de afirmar dependencias
+que nadie instaló. El núcleo continúa en 0.5.0.
 
 - [Propuesta y límites](proposal.md)
 - [Diseño y decisiones](design.md)

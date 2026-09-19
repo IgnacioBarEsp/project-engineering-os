@@ -472,16 +472,10 @@ function showVision() {
   const countSpan = el('span', { id: 'char-word-count', text: '0 palabras' });
   const statusSpan = el('span', { class: 'density-badge', text: 'Densidad óptima' });
 
-  // The objective follows the vision, as one line: the preparation refuses a line break in it, and 0.3.1 sent the
-  // vision as it was, so a suggestion or an Enter here stopped the installation with GOAL_INVALID. The vision itself
-  // keeps its paragraphs and reaches PROJECT_VISION.md with them. A vision that leaves no text for the objective, an
-  // empty editor or a lone heading mark, keeps the objective already chosen: an empty one would stop it as well.
-  const chosenGoal = s.goal;
   function updateStats() {
     const text = textarea.value.trim();
     const words = text ? text.split(/\s+/).length : 0;
     countSpan.textContent = `${words} palabras`;
-    s.goal = text.replace(/^\s*#+\s*/gm, '').replace(/\s+/g, ' ').trim().slice(0, 500) || chosenGoal;
   }
   updateStats();
 
@@ -577,9 +571,18 @@ function showInstall() {
   ], 'PREPARAR PROYECTO / INSTALACIÓN', wizardBar(btn('Volver', () => showVision())));
 }
 
+// The objective the preparation records is the vision's text on one line: the preparation refuses a line break in
+// it, and 0.3.1 sent the vision as it was, so a suggestion or an Enter stopped the installation with GOAL_INVALID.
+const visionObjective = vision => (vision ?? '').replace(/^\s*#+\s*/gm, '').replace(/\s+/g, ' ').trim().slice(0, 500);
+
 async function executeInstallation() {
-  const s = state.selection;
-  state.plan = await call('previewBase', { id: state.project.id, selection: s });
+  const s = state.selection, objective = visionObjective(s.vision);
+  // A vision that leaves no text, an empty editor or a lone heading mark, is not sent: the objective chosen in the
+  // first step stays, and PROJECT_VISION.md states it instead of an empty section. The answers themselves are left
+  // as they are, so going back shows what the person wrote.
+  const { vision, ...answers } = s;
+  const selection = objective ? { ...answers, goal: objective, vision } : answers;
+  state.plan = await call('previewBase', { id: state.project.id, selection });
   const r = await call('applyBase', { plan: state.plan.id });
   state.status = r.status;
   state.project = { ...state.project, ...r.status.project };

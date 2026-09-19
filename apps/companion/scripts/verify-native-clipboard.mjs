@@ -101,7 +101,11 @@ try {
   record.isolation = { userData: portable(runtime.userData, anchors), localAppData: portable(localAppData, anchors),
     userDataIsTheTestOne: path.resolve(runtime.userData).toLowerCase() === path.resolve(userData).toLowerCase() };
   if (!record.isolation.userDataIsTheTestOne) finding('La aplicación no usó el directorio de datos de la prueba.');
-  record.window = { outer: runtime.outer, inner: await page.evaluate(() => ({ width: innerWidth, height: innerHeight, devicePixelRatio })) };
+  // The viewport once the window has settled: the first heading can arrive before the menu bar takes its height.
+  const content = await application.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].getContentBounds());
+  await page.waitForFunction(height => innerHeight === height, content.height, { timeout: 10000 }).catch(() => {});
+  record.window = { outer: runtime.outer, content: { width: content.width, height: content.height },
+    inner: await page.evaluate(() => ({ width: innerWidth, height: innerHeight, devicePixelRatio })) };
   record.motion = { operatingSystemPrefersReduced: await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches),
     measuredWith: 'no-preference' };
   // The entry animation is what hid the defect, so it runs here whatever the machine's own setting is.
@@ -175,12 +179,16 @@ try {
     await application.evaluate(({ clipboard }, value) => clipboard.writeText(value), sentinel);
     // The element itself, because its label is what changes once the copy is confirmed.
     const button = await page.getByRole('button', { name: control, exact: true }).elementHandle();
-    await button.click({ timeout: 10000 });
+    // From the keyboard, as a person using one would: focus the control and press Enter. Where focus is afterwards is
+    // recorded, because the button is disabled while the copy runs.
+    await button.focus();
+    await page.keyboard.press('Enter');
     await settle();
+    const focusAfter = await button.evaluate(node => node === document.activeElement ? 'el mismo botón' : document.activeElement === document.body ? 'body' : document.activeElement.tagName.toLowerCase());
     const clipboardText = await application.evaluate(({ clipboard }) => clipboard.readText());
     const observation = { control, expectedBytes: Buffer.byteLength(expected), expectedSha256: sha(expected),
       clipboardSha256: sha(clipboardText), equal: clipboardText === expected, sentinelReplaced: clipboardText !== sentinel,
-      notice: (await page.locator('#notice').textContent()).trim(), labelAfter: (await button.textContent()).trim(),
+      notice: (await page.locator('#notice').textContent()).trim(), labelAfter: (await button.textContent()).trim(), focusAfter,
       errorShown: await page.locator('#feedback').isVisible() };
     record.copies.push(observation);
     if (!observation.equal) finding(`«${control}» no dejó en el portapapeles el texto que muestra la pantalla.`);
