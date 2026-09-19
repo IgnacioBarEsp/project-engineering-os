@@ -120,8 +120,8 @@ try {
   const capture = async (target) => {
     await settle();
     await page.evaluate(() => window.scrollTo(0, 0));
-    // El encabezado real puede partir líneas; la comparación normaliza espacios, como hace el name matching.
-    const heading = (await page.locator('#view h1').first().textContent()).replace(/\s+/g, ' ').trim();
+    // innerText, no textContent: el <br> del encabezado de Inicio aporta el salto que ve el nombre accesible.
+    const heading = (await page.locator('#view h1').first().innerText()).replace(/\s+/g, ' ').trim();
     if (heading !== target.screen.title) {
       finding(`«${target.file}» se capturó bajo el encabezado «${heading.trim()}», no el esperado.`);
     }
