@@ -78,8 +78,8 @@
   ],
   "rollback": {
     "strategy": "Revertir el PR. El guion desaparece del repositorio y el indice de documentacion deja de enlazarlo; ninguna medicion publicada cambia, porque el guion solo cita registros que ya existen.",
-    "status": "pending",
-    "evidence": null,
+    "status": "verified",
+    "evidence": "openspec/changes/congress-presentation-with-measured-evidence/evidence/after/rollback.json",
     "justification": null
   },
   "adversarialReview": {
