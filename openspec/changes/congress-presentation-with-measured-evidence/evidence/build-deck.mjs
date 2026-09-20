@@ -372,12 +372,12 @@ concepts.forEach(([eyebrow, title, problem, oneLine, example, notes], index) => 
   s.addText('Companion 0.3.2, commit d744c47', { x: M, y: 6.68, w: 5.5, h: 0.3, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 10, color: MUTED });
   const points = [
     ['Lo que hay', 'Una aplicación para Windows, un núcleo que hace lo mismo desde la terminal, y una página donde publicamos lo que medimos.'],
-    ['Comprobado', 'Los seis pasos documentados para empezar funcionan de principio a fin; el diagnóstico de un proyecto nuevo sale con 29 comprobaciones y ningún fallo.'],
+    ['Comprobado', 'Los seis pasos documentados para empezar funcionan de principio a fin. El diagnóstico de un proyecto nuevo: 29 comprobaciones, ningún fallo.'],
     ['Lo que falta', 'La recuperación en repositorios grandes no funciona. Está medido y publicado.'],
     ['Por qué lo abro', 'El objetivo no es tener un producto: es que preparar el entorno se note de verdad en el trabajo de cualquiera que use IA.'],
   ];
   points.forEach(([head, sub], index) => {
-    const y = 2.45 + index * 1.08;
+    const y = 2.45 + index * 1.12;
     s.addText(head, { x: 6.9, y, w: 5.6, h: 0.32, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 12, bold: true, color: ACCENT, charSpacing: 1.1 });
     s.addText(sub, { x: 6.9, y: y + 0.32, w: 5.6, h: 0.7, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 13, color: INK, lineSpacing: 18 });
   });
