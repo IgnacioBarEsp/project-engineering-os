@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 162,
+  "change": "fix-marker-homograph-detection",
+  "surfaces": [
+    "library-cli",
+    "harness-tooling"
+  ],
+  "validations": [
+    {
+      "id": "openspec-strict",
+      "status": "passed",
+      "evidence": "openspec/changes/fix-marker-homograph-detection/evidence/openspec-strict.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "unit-and-contract-tests",
+      "status": "pending",
+      "evidence": null,
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "package-artifact-test",
+      "status": "pending",
+      "evidence": null,
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "multi-platform-smoke",
+      "status": "pending",
+      "evidence": null,
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "backward-compatibility-test",
+      "status": "pending",
+      "evidence": null,
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "constructor-tests",
+      "status": "pending",
+      "evidence": null,
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "sync-check",
+      "status": "pending",
+      "evidence": null,
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "capability-matrix-check",
+      "status": "pending",
+      "evidence": null,
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "opsx-check",
+      "status": "pending",
+      "evidence": null,
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "doctor-json-check",
+      "status": "pending",
+      "evidence": null,
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "second-run-idempotence",
+      "status": "pending",
+      "evidence": null,
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "issue-link",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/162",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "adversarial-review",
+      "kind": "manual",
+      "status": "pending",
+      "ref": null,
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "public-api-review",
+      "kind": "manual",
+      "status": "pending",
+      "ref": null,
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "license-review",
+      "kind": "manual",
+      "status": "pending",
+      "ref": null,
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "install-and-rollback-smoke",
+      "kind": "manual",
+      "status": "pending",
+      "ref": null,
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "review-of-declared-degradations",
+      "kind": "manual",
+      "status": "pending",
+      "ref": null,
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recovery-rehearsal-for-one-transaction",
+      "kind": "manual",
+      "status": "pending",
+      "ref": null,
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "rollback": {
+    "strategy": "Revertir el commit del change y ejecutar el corpus para confirmar que reaparece la baseline; no existe estado persistido que migrar.",
+    "status": "pending",
+    "evidence": null,
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "pending",
+    "ref": null,
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}
