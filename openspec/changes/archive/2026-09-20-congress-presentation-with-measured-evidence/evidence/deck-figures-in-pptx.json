@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-20T18:33:47.601220+00:00",
+  "deck": {
+    "file": "congreso-2026-09-24.pptx",
+    "slides": 22,
+    "sha256": "d165e89849b8f1bc7a226bedac389197d952ea93922d1272552a344e61d213a0"
+  },
+  "guion": "2026-09-24-congreso.md",
+  "rule": "toda cifra que aparezca en una diapositiva o en sus notas tiene que estar en el guion",
+  "problems": [],
+  "summary": {
+    "numbersChecked": 90,
+    "problems": 0,
+    "verdict": "PASS"
+  }
+}

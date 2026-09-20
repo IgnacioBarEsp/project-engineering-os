@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "flow": "congress-presentation-with-measured-evidence",
+  "date": "2026-09-20",
+  "kind": "feature",
+  "result": "debt",
+  "candidates": [
+    {
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/congress-presentation-with-measured-evidence/evidence/adversarial-review.md",
+          "date": "2026-09-20"
+        }
+      ],
+      "verification": {
+        "method": "Revisión adversarial desde contexto limpio sobre 693f9b6..HEAD, con cuatro pruebas de mutación contra el verificador; comprobado después con grep -c sobre el generador",
+        "result": "reproduced and reviewed",
+        "date": "2026-09-20"
+      },
+      "title": "El generador del mazo transcribe el guion a mano: las cifras quedan comprobadas, el texto no",
+      "artifact": "openspec/changes/congress-presentation-with-measured-evidence/evidence/build-deck.mjs",
+      "source": "adversarial-review",
+      "category": "optional-improvement",
+      "planOwner": "upstream-core",
+      "transversal": false,
+      "critical": false,
+      "severity": "minor"
+    }
+  ],
+  "notes": "Revisión adversarial en una ronda, agente sin el contexto del apply: 3 Blockers, 12 Majors, 14 Minors y 2 Info. Los Blockers y los Majors están resueltos antes de archivar; los Minors, resueltos o aceptados con su razón por escrito. Los tres Blockers eran del mismo tipo que esta charla denuncia: una afirmación pública que ningún registro sostenía —el guion decía haber pasado una revisión adversarial que no existía—, una comprobación que no podía fallar —cada cifra se buscaba en todo el documento, así que la cifra de una columna satisfacía la comprobación de otra, y con el registro mutado para decir que una vía no arregló nada seguía dando PASS— y un artefacto público que no era el comprobado —el .pptx que se proyecta no lo genera el guion, ya divergía en cuatro sitios y no declaraba la procedencia de ninguna cifra, que es el SHALL de la spec delta de este mismo change—. Lo que queda es un limite del metodo, declarado: build-deck.mjs no lee el guion, asi que el texto sin cifras puede separarse de el sin que nada avise. Se mitigo, no se elimino: check-deck-figures.py exige que toda cifra del mazo este en el guion (90 cifras, 0 problemas, y falla al mutar el generador), y verify-deck-figures.mjs ata el guion a sus registros (26 afirmaciones); lo que no cubren, el texto sin cifras, lo cubrio la revision visual de las diapositivas renderizadas, que encontro dos defectos. Se registra como optional-improvement y no como technical-debt porque el artefacto es un generador de un entregable unico que queda congelado en el archivo del change: no hay codigo de producto que arreglar despues, y abrirlo como deuda del plan upstream-core dejaria un item que ese plan no puede cerrar nunca. Quitar el limite del todo pide reescribir el generador para que lea el guion, que no toca hacer por un entregable de una charla. Lo que encontró y pertenece a otros sitios: nada nuevo. Este change no toca producto; solo publica lo que ya estaba medido, incluido el resultado adverso."
+}
