@@ -16,8 +16,8 @@
 
 ## 3. Lo visual
 
-- [ ] 3.1 Elegir de la galería publicada las capturas que entran, y anotar su commit.
-- [ ] 3.2 Preparar la tabla comparativa de las dos vías con los artefactos de #166.
+- [x] 3.1 Elegir de la galería publicada las capturas que entran, y anotar su commit.
+- [x] 3.2 Preparar la tabla comparativa de las dos vías con los artefactos de #166.
 - [ ] 3.3 Decidir con el mantenedor si el guion pasa a Canva, y con qué brand kit.
 
 ## 4. Cierre
