@@ -24,11 +24,18 @@
 
 - [x] 4.1 Pasar la revisión adversarial desde contexto limpio y resolver sus Blockers y Majors.
 - [x] 4.2 Capturar el assessment de deuda después de la última pasada de revisión.
-- [ ] 4.3 Sustituir los estados pendientes de readiness solo con evidencia ejecutada, y pasar strict y el gate
+- [x] 4.3 Sustituir los estados pendientes de readiness solo con evidencia ejecutada, y pasar strict y el gate
   de archive con `--run-local`.
-- [ ] 4.4 Archivar con el CLI local, corregir los enlaces del change archivado, firmar los commits con DCO y
+- [x] 4.4 Archivar con el CLI local, corregir los enlaces del change archivado, firmar los commits con DCO y
   entregar por PR protegido.
 
-El mazo visual y su PDF exportado quedan fuera de este change hasta que el mantenedor apruebe el contenido:
-la decisión del 20 de septiembre fue **contenido primero, Canva después**
-([decisiones](evidence/maintainer-decisions.md)).
+La decisión del 20 de septiembre fue **contenido primero, Canva después**
+([decisiones](evidence/maintainer-decisions.md)). El mantenedor aprobó el guion ese mismo día y la
+generación de diseños de Canva resultó no estar habilitada en su equipo, así que el mazo se entregó como
+archivo importable, fuera del control de versiones por ser un binario derivado
+([el mazo](evidence/deck-build.md)).
+
+La 4.3 y la 4.4 se cumplen con el commit que archiva el change: strict y el gate de archive se ejecutan justo
+antes, con sus registros en `evidence/`, y la entrega es el PR de esta rama. La revisión de la 4.1 fue una
+ronda desde contexto limpio; sus correcciones las verificó quien las hizo, no el revisor, y así consta en
+[la revisión](evidence/adversarial-review.md).

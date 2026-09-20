@@ -24,7 +24,7 @@ estas comprobaciones.** Las decisiones que las enmarcan son del mantenedor y est
 | `findability-two-hop-check` | README → [índice](../../../../docs/README.md) → [guion](../../../../docs/presentations/2026-09-24-congreso.md) | [artifact-links.json](artifact-links.json) |
 | `neutrality-check` | PASS | [neutrality.json](neutrality.json) |
 
-`npm run check` completo sobre el árbol limpio de `064749d`, con nada sin commitear: exit 0, 350 pruebas
+`npm run check` completo sobre el árbol limpio de `48332f2`, con nada sin commitear: exit 0, 350 pruebas
 y 0 fallos. Está en [check.json](after/check.json), que registra el commit y cuántos archivos quedaban sin
 commitear —una versión anterior se capturó con cinco, y la revisión lo marcó—.
 
