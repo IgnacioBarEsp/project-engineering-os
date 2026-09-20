@@ -1,0 +1,44 @@
+{
+  "date": "2026-09-20T12:22:58.938Z",
+  "method": "git worktree aparte en una ruta corta, git revert --no-commit de los commits del change sobre HEAD, y comprobaciones en el árbol revertido.",
+  "range": "a02c991..d99b9baf4d85920313b97fa73f604a926f5a098b",
+  "steps": [
+    {
+      "name": "El revert de los commits del change aplica sin conflictos",
+      "ok": true,
+      "detail": "exit 0, 63 rutas revertidas"
+    },
+    {
+      "name": "Desaparecen la comprobación del arranque, su prueba y el change",
+      "ok": true,
+      "detail": "ninguno presente"
+    },
+    {
+      "name": "El revisor del benchmark vuelve a su ancla anterior",
+      "ok": true,
+      "detail": "ancla anterior restaurada"
+    },
+    {
+      "name": "La página de evidencia vuelve a publicar solo la primera medición",
+      "ok": true,
+      "detail": "conserva el resultado adverso de 0.1.0"
+    },
+    {
+      "name": "El árbol revertido no difiere de a02c991",
+      "ok": true,
+      "detail": "git diff --stat vacío"
+    },
+    {
+      "name": "check-docs y check-neutrality pasan en el árbol revertido",
+      "ok": true,
+      "detail": "PASS docs 25 README links, prompt contract and 20 spec purposes; PASS public tree neutrality and export allowlist"
+    }
+  ],
+  "findings": [],
+  "note": "Revertir devuelve la documentación al estado anterior: la medición de 0.1.0 vuelve a ser la vigente y la de 0.3.2 desaparece. El defecto que mide sigue existiendo; lo que se pierde es saberlo.",
+  "summary": {
+    "steps": 6,
+    "passed": 6,
+    "findings": 0
+  }
+}

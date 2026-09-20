@@ -8,36 +8,36 @@
   "validations": [
     {
       "id": "openspec-strict",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/openspec-strict.json",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "critical-document-presence",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/docs.json",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "relative-link-check",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/artifact-links.json",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "findability-two-hop-check",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/artifact-links.json",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "neutrality-check",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/neutrality.json",
       "justification": null,
       "profileCondition": null
     }
@@ -54,7 +54,7 @@
     {
       "id": "qualitative-review-for-clarity-and-current-ownership",
       "kind": "manual",
-      "status": "pending",
+      "status": "verified",
       "ref": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/validation.md",
       "justification": null,
       "profileCondition": null
@@ -62,7 +62,7 @@
     {
       "id": "recorded-drift-decisions",
       "kind": "manual",
-      "status": "pending",
+      "status": "verified",
       "ref": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/maintainer-decisions.md",
       "justification": null,
       "profileCondition": null
@@ -78,8 +78,8 @@
   ],
   "rollback": {
     "strategy": "Revertir el PR. Las mediciones publicadas desaparecen de la página y la corrida anterior vuelve a ser la vigente; los JSON crudos de ambas corridas quedan en el historial. No se mueven tags ni assets de releases.",
-    "status": "pending",
-    "evidence": null,
+    "status": "verified",
+    "evidence": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/after/rollback.json",
     "justification": null
   },
   "adversarialReview": {
