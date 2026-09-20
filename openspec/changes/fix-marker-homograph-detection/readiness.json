@@ -16,15 +16,15 @@
     },
     {
       "id": "unit-and-contract-tests",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "package-artifact-test",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
@@ -37,50 +37,50 @@
     },
     {
       "id": "backward-compatibility-test",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "constructor-tests",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "sync-check",
-      "status": "pending",
-      "evidence": null,
-      "justification": null,
+      "status": "failed",
+      "evidence": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
+      "justification": "Fallo preexistente PROJECT_OS_PROFILE_SELECTION_DRIFT; corresponde al alcance documentado de #122.",
       "profileCondition": null
     },
     {
       "id": "capability-matrix-check",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "opsx-check",
-      "status": "pending",
-      "evidence": null,
-      "justification": null,
+      "status": "failed",
+      "evidence": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
+      "justification": "Fallo preexistente por ausencia de .project-os/openspec-ownership.json; fuera del alcance del detector.",
       "profileCondition": null
     },
     {
       "id": "doctor-json-check",
-      "status": "pending",
-      "evidence": null,
-      "justification": null,
+      "status": "failed",
+      "evidence": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
+      "justification": "El doctor conserva cuatro FAIL preexistentes (#115 y estado upstream); no se modifica en este change.",
       "profileCondition": null
     },
     {
       "id": "second-run-idempotence",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     }
@@ -97,40 +97,40 @@
     {
       "id": "adversarial-review",
       "kind": "manual",
-      "status": "pending",
-      "ref": null,
+      "status": "verified",
+      "ref": "openspec/changes/fix-marker-homograph-detection/evidence/adversarial-review.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "public-api-review",
       "kind": "manual",
-      "status": "pending",
-      "ref": null,
+      "status": "verified",
+      "ref": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "license-review",
       "kind": "manual",
-      "status": "pending",
-      "ref": null,
+      "status": "verified",
+      "ref": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "install-and-rollback-smoke",
       "kind": "manual",
-      "status": "pending",
-      "ref": null,
+      "status": "verified",
+      "ref": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "review-of-declared-degradations",
       "kind": "manual",
-      "status": "pending",
-      "ref": null,
+      "status": "verified",
+      "ref": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
@@ -145,13 +145,13 @@
   ],
   "rollback": {
     "strategy": "Revertir el commit del change y ejecutar el corpus para confirmar que reaparece la baseline; no existe estado persistido que migrar.",
-    "status": "pending",
-    "evidence": null,
+    "status": "verified",
+    "evidence": "openspec/changes/fix-marker-homograph-detection/evidence/rollback-rehearsal.md",
     "justification": null
   },
   "adversarialReview": {
-    "status": "pending",
-    "ref": null,
+    "status": "passed",
+    "ref": "openspec/changes/fix-marker-homograph-detection/evidence/adversarial-review.md",
     "blockers": 0,
     "majors": 0
   },
