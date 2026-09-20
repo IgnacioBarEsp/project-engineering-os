@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "scripts/check-neutrality.mjs"
+  ],
+  "exitCode": 0,
+  "stdout": "PASS public tree neutrality and export allowlist\n",
+  "stderr": "",
+  "error": null,
+  "capturedAt": "2026-09-20T12:22:08.209Z"
+}
