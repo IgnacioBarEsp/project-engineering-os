@@ -21,7 +21,7 @@ estas comprobaciones.** Las decisiones que las enmarcan son del mantenedor y est
 | `openspec-strict` | Change válido en modo estricto | [openspec-strict.json](openspec-strict.json) |
 | `critical-document-presence` | `check-docs` PASS | [docs.json](docs.json) |
 | `relative-link-check` | Los enlaces del change y de los documentos públicos que toca existen | [artifact-links.json](artifact-links.json) |
-| `findability-two-hop-check` | README → [índice](../../../../docs/README.md) → [guion](../../../../docs/presentations/2026-09-24-congreso.md) | [artifact-links.json](artifact-links.json) |
+| `findability-two-hop-check` | README → [índice](../../../../../docs/README.md) → [guion](../../../../../docs/presentations/2026-09-24-congreso.md) | [artifact-links.json](artifact-links.json) |
 | `neutrality-check` | PASS | [neutrality.json](neutrality.json) |
 | Gate de archive con `--run-local` | PASS, 17 de 17 | [readiness-archive.json](readiness-archive.json) |
 | Ensayo de rollback sobre `693f9b6..3ec7443` | 6 de 6 pasos, 0 hallazgos | [rollback.json](after/rollback.json), con su [guión](rollback-rehearsal.mjs) |
