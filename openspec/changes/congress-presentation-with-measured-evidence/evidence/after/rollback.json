@@ -1,12 +1,12 @@
 {
-  "date": "2026-09-20T18:02:18.025Z",
+  "date": "2026-09-20T18:50:25.277Z",
   "method": "git worktree aparte en una ruta corta, git revert --no-commit de los commits del change sobre HEAD, y comprobaciones en el árbol revertido.",
-  "range": "693f9b6..0ca1da20f8e624bcb8560858ea1332d0124c4984",
+  "range": "693f9b6..3ec74439f6c988ef439fba2010a62a35d68d5095",
   "steps": [
     {
       "name": "El revert de los commits del change aplica sin conflictos",
       "ok": true,
-      "detail": "exit 0, 24 rutas revertidas"
+      "detail": "exit 0, 32 rutas revertidas"
     },
     {
       "name": "Desaparecen el guion y el change",
@@ -35,7 +35,7 @@
     }
   ],
   "findings": [],
-  "note": "Revertir retira el guion y su comprobación. No cambia ninguna medición publicada: el guion solo cita registros que ya existían antes de este change.",
+  "note": "Revertir retira el guion y sus comprobaciones. No cambia ninguna medición publicada: el guion solo cita registros que ya existían antes de este change. El rango no puede incluir el commit que guarda este mismo registro, que es el último del change y solo añade este archivo: revertirlo lo retira a él y nada más.",
   "summary": {
     "steps": 6,
     "passed": 6,
