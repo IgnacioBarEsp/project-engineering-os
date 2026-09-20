@@ -180,11 +180,24 @@ Lo que cambia entre ellas es **la comprobación, no la aplicación**: al árbol 
 | Arnés | Aplicación | Resultado |
 | --- | --- | --- |
 | El de `a3b1efd` | `a3b1efd` (0.3.1) | **Pasa.** Código 0, 41 s: es la certificación limpia de entonces |
-| El de hoy | `a3b1efd` (0.3.1) | **Falla.** Código 1, 351 s: «Every control of the current wizard has to be reachable with and without motion, and both copies have to go through the service» |
+| El de hoy | `a3b1efd` (0.3.1) | **Falla.** Código 1, 351 s, con **360 hallazgos** listados |
 | El de hoy | El commit corregido | **Pasa.** Código 0, 92 s |
 
-La misma aplicación, dos comprobaciones, resultados opuestos. El registro está en
-`remeasure-retrieval-and-record-flow-comparison/evidence/after/harness-contrast.json`.
+La misma aplicación, dos comprobaciones: **0 hallazgos contra 360**. Los 360 se reparten en 42 controles que no
+se pueden pulsar, 72 avisos de que la barra final no queda fija, 36 de que tapa contenido y 210 consecuencias
+de lo anterior, repetidos por cada tamaño de ventana y cada modo de movimiento.
+
+Los siete controles distintos que el arnés de hoy declara inalcanzables sobre 0.3.1 son exactamente los que la
+gente no podía pulsar:
+
+- «¿Cuánta guía prefieres?»
+- «Flexible Prototipo o Arquitectura Propia», la última tarjeta de Delimitación
+- «Público Objetivo», «Problema Principal» y «Alcance Inicial», las tres sugerencias de Visión
+- «Instalar stack base y obtener prompt →» y «Preparar carpeta y generar prompt maestro →», los dos botones de
+  Instalación
+
+En cada caso el arnés dice qué había encima: «en su centro está `div.actions`», la barra de acciones. Los
+registros están en `evidence/after/harness-contrast.json` y `harness-contrast-detail.json`.
 
 **Qué demuestra y qué no.** Demuestra que la comprobación anterior daba por buena una pantalla en la que un
 control quedaba tapado, y que la de hoy lo detecta sobre esa misma versión. No demuestra que el arnés de hoy
