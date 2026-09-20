@@ -22,7 +22,7 @@
 
 ## 4. Cierre
 
-- [ ] 4.1 Pasar la revisión adversarial desde contexto limpio y resolver sus Blockers y Majors.
+- [x] 4.1 Pasar la revisión adversarial desde contexto limpio y resolver sus Blockers y Majors.
 - [ ] 4.2 Capturar el assessment de deuda después de la última pasada de revisión.
 - [ ] 4.3 Sustituir los estados pendientes de readiness solo con evidencia ejecutada, y pasar strict y el gate
   de archive con `--run-local`.

@@ -7,7 +7,7 @@ Registradas tal como se tomaron. Ninguna la tomó el ejecutor.
 | Decisión | Qué se preguntó | Respuesta |
 | --- | --- | --- |
 | **Las dos demos** | El issue las pide «grabadas sobre ejecuciones reales» y el ejecutor no puede grabar vídeo: usar los artefactos de #166, escribir un guion para que las grabe el mantenedor, o capturar el flujo paso a paso | **Usar la comparación de #166**: son dos ejecuciones reales de la misma tarea, medidas y con artefactos |
-| **Dónde se monta el mazo** | Canva está conectado: escribir el contenido primero y crear el diseño después, crear ya el diseño, o no tocar la cuenta | **Contenido primero, Canva después**, cuando apruebe las veinte diapositivas |
+| **Dónde se monta el mazo** | Canva está conectado: escribir el contenido primero y crear el diseño después, crear ya el diseño, o no tocar la cuenta | **Contenido primero, Canva después**, cuando apruebe el guion |
 
 ## Tomada antes, y ya ejecutada
 

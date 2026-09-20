@@ -8,10 +8,11 @@ estas comprobaciones.** Las decisiones que las enmarcan son del mantenedor y est
 
 | Artefacto | Dónde | Estado |
 | --- | --- | --- |
-| Guion de 21 diapositivas | `docs/presentations/2026-09-24-congreso.md` | Versionado, enlazado desde el índice de documentación |
-| Comprobación de las cifras | [verify-deck-figures.mjs](verify-deck-figures.mjs) | **16 de 16 afirmaciones cuadran** con su registro |
+| Guion de 22 diapositivas | `docs/presentations/2026-09-24-congreso.md` | Versionado, enlazado desde el índice de documentación |
+| Comprobación de las cifras del guion | [verify-deck-figures.mjs](verify-deck-figures.mjs) | **26 de 26 afirmaciones cuadran** con su registro |
+| Comprobación de las cifras del mazo | [check-deck-figures.py](check-deck-figures.py) | **90 cifras del .pptx, todas en el guion** |
 | Material visual elegido | [visual-assets.md](visual-assets.md) | Tres capturas de `d744c47`, con sus hashes |
-| Mazo generado | [deck-build.md](deck-build.md) | 21 diapositivas, validado y revisado visualmente |
+| Mazo generado | [deck-build.md](deck-build.md) | 22 diapositivas, validado y revisado visualmente |
 
 ## Resultado por validación
 
@@ -33,19 +34,24 @@ JSON del change archivado de #166 y la página de evidencia—. Falla si una cif
 procedencia no nombra sus fuentes, o **si el guion presenta el microcorpus sin el resultado adverso**.
 
 Encontró un hueco real al escribirse: el guion se dejaba fuera la cuarta medición, la del arranque documentado.
-Está corregido y ahora la comprobación pasa 16 de 16.
+Está corregido y ahora la comprobación pasa 26 de 26.
 
-## Dos comprobaciones sobre el mazo, y lo que cada una no ve
+La revisión adversarial encontró un hueco más: cada cifra se buscaba en todo el guion, no en su diapositiva, así
+que la cifra de una columna satisfacía la comprobación de otra. Ahora cada afirmación declara en qué
+diapositiva vive y se busca solo ahí.
+
+## Cuatro comprobaciones sobre el mazo, y lo que cada una no ve
 
 | Comprobación | Resultado | Qué no ve |
 | --- | --- | --- |
 | Esquema, relaciones y XML del archivo | PASS | Nada sobre cómo se ve |
-| Geometría: bordes, márgenes y solapes | 21 diapositivas, 0 problemas | Texto que desborda **dentro** de su caja |
-| Revisión visual con las diapositivas renderizadas | 1 defecto, corregido | Lo que cambie al abrirlo en otro programa |
+| Geometría: bordes, márgenes y solapes | 22 diapositivas, 0 problemas | Texto que desborda **dentro** de su caja |
+| Cifras del mazo contra el guion | 90 cifras, 0 problemas | El texto sin cifras, que sigue transcrito a mano |
+| Revisión visual con las diapositivas renderizadas | 2 defectos, corregidos | Lo que cambie al abrirlo en otro programa |
 
 La geometría atrapó tres defectos en la primera versión —un bloque fuera de la diapositiva, el rótulo superior
-por debajo del margen y una etiqueta pisando su cifra—. La revisión visual atrapó un cuarto que la geometría
-daba por bueno. El detalle está en [deck-build.md](deck-build.md).
+por debajo del margen y una etiqueta pisando su cifra—. La revisión visual atrapó dos más que la geometría
+daba por buenos, los dos de texto que desborda dentro de su caja. El detalle está en [deck-build.md](deck-build.md).
 
 ## Decisiones de deriva registradas
 
@@ -53,8 +59,8 @@ daba por bueno. El detalle está en [deck-build.md](deck-build.md).
   Decisión del mantenedor.
 - **Contenido antes que diseño.** El guion se escribió y se aprobó como texto antes de crear nada en Canva.
 - **Canva no pudo generar el mazo:** la generación de diseños no está habilitada en el equipo y no hay
-  plantillas de marca. Se entregó un archivo importable, generado desde el guion. Está en
-  [deck-build.md](deck-build.md).
+  plantillas de marca. Se entregó un archivo importable, con el texto transcrito del guion —el generador no lo
+  lee— y una comprobación que impide que las cifras se separen. Está en [deck-build.md](deck-build.md).
 - **La decisión de encuadre de la evidencia** que el issue dejaba pendiente se registró como aprobada en su
   metadata: se eligió re-medir, #166 lo ejecutó y el número no cambió.
 

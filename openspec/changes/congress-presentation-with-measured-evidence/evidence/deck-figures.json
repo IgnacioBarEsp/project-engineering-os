@@ -1,93 +1,144 @@
 {
   "schemaVersion": 1,
-  "date": "2026-09-20T16:18:26.449Z",
+  "date": "2026-09-20T18:27:25.530Z",
   "deck": "docs/presentations/2026-09-24-congreso.md",
+  "slides": 22,
   "claims": [
     {
       "id": "via-a-frases",
-      "shown": "33 de 34",
-      "source": "flow-comparison/evaluation.json"
+      "slide": 13,
+      "shown": "33 de 34"
     },
     {
       "id": "via-a-marcadores",
-      "shown": "19 de 19",
-      "source": "flow-comparison/evaluation.json"
-    },
-    {
-      "id": "via-b-frases",
-      "shown": "34 de 34",
-      "source": "flow-comparison/evaluation.json"
-    },
-    {
-      "id": "via-b-marcadores",
-      "shown": "18 de 19",
-      "source": "flow-comparison/evaluation.json"
-    },
-    {
-      "id": "base-frases",
-      "shown": "2 de 34",
-      "source": "flow-comparison/evaluation.json"
-    },
-    {
-      "id": "base-marcadores",
-      "shown": "16 de 19",
-      "source": "flow-comparison/evaluation.json"
+      "slide": 13,
+      "shown": "19 marcadores"
     },
     {
       "id": "via-a-reloj",
-      "shown": "8 minutos 44 segundos",
-      "source": "flow-comparison/timing.json"
+      "slide": 13,
+      "shown": "8 minutos 44 segundos"
+    },
+    {
+      "id": "via-a-archivos",
+      "slide": 13,
+      "shown": "2 archivos, 111 líneas añadidas y 14 borradas"
+    },
+    {
+      "id": "via-b-frases",
+      "slide": 14,
+      "shown": "34 de 34"
+    },
+    {
+      "id": "via-b-marcadores",
+      "slide": 14,
+      "shown": "18 de 19"
     },
     {
       "id": "via-b-reloj",
-      "shown": "31 minutos 3 segundos",
-      "source": "flow-comparison/timing.json"
+      "slide": 14,
+      "shown": "31 minutos 3 segundos"
     },
     {
-      "id": "preparado-kubernetes",
-      "shown": "0 de 20",
-      "source": "run-02/kubernetes-website.json y cpython.json"
+      "id": "via-b-archivos",
+      "slide": 14,
+      "shown": "28 archivos, 1822 líneas añadidas y 4 borradas"
     },
     {
-      "id": "literal-veinte",
-      "shown": "20 de 20",
-      "source": "run-02/kubernetes-website.json y cpython.json"
+      "id": "parrafo-literal",
+      "slide": 13,
+      "shown": "las marca"
     },
     {
-      "id": "fuentes-indexadas",
-      "shown": "45 de 2654",
-      "source": "run-02/kubernetes-website.json"
+      "id": "base-frases",
+      "slide": 15,
+      "shown": "2 de 34"
     },
     {
-      "id": "version-medida",
-      "shown": "versión publicada de hoy",
-      "source": "run-02/measurement.json"
-    },
-    {
-      "id": "contraste-hallazgos",
-      "shown": "**360**",
-      "source": "after/harness-contrast-detail.json"
-    },
-    {
-      "id": "contraste-controles",
-      "shown": "siete botones",
-      "source": "after/harness-contrast-detail.json"
-    },
-    {
-      "id": "arranque-pasos",
-      "shown": "código 0",
-      "source": "after/documented-start.json"
+      "id": "base-marcadores",
+      "slide": 15,
+      "shown": "16 de 19"
     },
     {
       "id": "microcorpus",
-      "shown": "**10 de 10**",
-      "source": "docs/companion/EVIDENCE.md"
+      "slide": 16,
+      "shown": "6812 bytes"
+    },
+    {
+      "id": "abrir-todo",
+      "slide": 17,
+      "shown": "| Abrir todo el corpus | **20 de 20** |"
+    },
+    {
+      "id": "literal",
+      "slide": 17,
+      "shown": "| Buscar literal, `grep` | **20 de 20** |"
+    },
+    {
+      "id": "preparado",
+      "slide": 17,
+      "shown": "| Contexto preparado | **0 de 20** |"
+    },
+    {
+      "id": "cobertura-kubernetes",
+      "slide": 17,
+      "shown": "45 de 2654"
+    },
+    {
+      "id": "cobertura-cpython",
+      "slide": 17,
+      "shown": "42 de 2753"
+    },
+    {
+      "id": "version-medida",
+      "slide": 17,
+      "shown": "la versión publicada de hoy"
+    },
+    {
+      "id": "contraste-mensajes",
+      "slide": 18,
+      "shown": "66"
+    },
+    {
+      "id": "contraste-contextos",
+      "slide": 18,
+      "shown": "23 combinaciones"
+    },
+    {
+      "id": "contraste-renglones",
+      "slide": 18,
+      "shown": "360 renglones"
+    },
+    {
+      "id": "contraste-cero",
+      "slide": 18,
+      "shown": "con cero hallazgos"
+    },
+    {
+      "id": "contraste-controles",
+      "slide": 18,
+      "shown": "siete controles"
+    },
+    {
+      "id": "contraste-barra",
+      "slide": 18,
+      "shown": "en seis de los siete"
+    },
+    {
+      "id": "arranque-pasos",
+      "slide": 19,
+      "shown": "seis pasos"
+    },
+    {
+      "id": "arranque-doctor",
+      "slide": 19,
+      "shown": "29 comprobaciones"
     }
   ],
-  "checked": 16,
+  "checked": 26,
   "failures": [],
   "summary": {
-    "checked": 16,
+    "checked": 26,
     "failures": 0,
     "verdict": "PASS"
   }

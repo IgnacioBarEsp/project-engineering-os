@@ -49,7 +49,7 @@ Las [herramientas en una subcarpeta](ISOLATED_TOOLCHAIN.md) permiten conservar l
 - [Upstream y consumidores](UPSTREAM_CONSUMERS.md): cómo proponer cambios sin editar copias del runtime.
 - [Autoaplicación del upstream](SELF_APPLICATION.md): qué partes de su propio sistema se aplica este
   repositorio a sí mismo, y por qué un FAIL del doctor sobre él no siempre es deuda.
-- [Guion del congreso, 24 de septiembre de 2026](presentations/2026-09-24-congreso.md): las veinte
+- [Guion del congreso, 24 de septiembre de 2026](presentations/2026-09-24-congreso.md): las veintidós
   diapositivas con sus notas, y de qué registro sale cada cifra, incluido el resultado adverso.
 
 ## Algo falló o necesito volver atrás

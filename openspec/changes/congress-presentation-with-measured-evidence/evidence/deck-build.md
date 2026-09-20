@@ -17,29 +17,56 @@ notas de orador y los archivos de imagen listos, para pegarlo en una plantilla d
 
 ## Lo que se entregó
 
-Un archivo de presentación real, importable a Canva o abrible en PowerPoint, generado **desde el guion
-versionado**, no escrito a mano por segunda vez.
+Un archivo de presentación real, importable a Canva o abrible en PowerPoint.
 
 | Dato | Valor |
 | --- | --- |
 | Archivo | `congreso-2026-09-24.pptx` |
-| Diapositivas | 21 |
-| Bytes | 633 093 |
-| SHA-256 | `03f3196f6b53819cdfd15447867f4005682ae50d9bc25b257c98184468139c67` |
+| Diapositivas | 22: las veinte de la charla, la de límites y la de procedencia |
+| Bytes | 664 822 |
+| SHA-256 | `d165e89849b8f1bc7a226bedac389197d952ea93922d1272552a344e61d213a0` |
 | Capturas incluidas | Las tres de [material visual](visual-assets.md), de la ventana real en `d744c47` |
-| Notas de orador | En las 21, tomadas del «Se dice» del guion |
+| Notas de orador | En las 22, tomadas del «Se dice» del guion |
+
+Se genera con `node build-deck.mjs <repositorio>`, que escribe el `.pptx` en el directorio desde el que se
+ejecuta. El archivo cuyo SHA-256 sale en la tabla se generó en un directorio de trabajo fuera del repositorio,
+junto a `pptxgenjs`.
 
 **No se versiona en el repositorio.** Es un binario derivado: la fuente de verdad es el guion en
 `docs/presentations/`, que sí está versionado y cuyas cifras comprueba `verify-deck-figures.mjs`. El generador
 depende de `pptxgenjs`, que no es una dependencia de este repositorio y no se añade por un entregable.
+
+### El generador no lee el guion, y eso tiene una consecuencia
+
+Una versión anterior de este registro decía que el mazo estaba «generado desde el guion versionado, no escrito
+a mano por segunda vez». **Era falso**: `build-deck.mjs` tiene el texto de cada diapositiva escrito dentro, y
+no abre el guion en ningún momento. La revisión adversarial lo marcó y se comprobó: `grep -c
+"congreso-2026-09-24.md" build-deck.mjs` devuelve `0`.
+
+Escrito a mano por segunda vez es exactamente lo que es, y el riesgo que eso trae es que el mazo se separe del
+guion sin que nadie lo note —que es el defecto que ya apareció una vez, cuando el guion se corrigió y el
+generador se quedó con las cifras viejas—. Como no se puede quitar el riesgo sin reescribir el generador,
+**se comprueba**: `check-deck-figures.py` extrae toda cifra que aparezca en una diapositiva o en sus notas y
+exige que esté en el guion. El guion, a su vez, está atado a los registros por `verify-deck-figures.mjs`. La
+cadena queda cerrada por los dos extremos.
+
+| Comprobación | Qué ata | Resultado |
+| --- | --- | --- |
+| `verify-deck-figures.mjs` | Guion ↔ registros de #166 y `EVIDENCE.md` | 26 afirmaciones, 0 fallos |
+| `check-deck-figures.py` | Mazo ↔ guion | 90 cifras, 0 problemas ([registro](deck-figures-in-pptx.json)) |
+
+La segunda se probó mutando el generador: cambiando `45 de 2654 fuentes` por `4711 de 2654` en la diapositiva
+17, la comprobación falla y nombra la diapositiva y la cifra. Sin mutación pasa. Lo que no cubre: el texto que
+no lleva cifras, que sigue transcrito a mano y sin comprobar automáticamente.
 
 ## Qué se comprobó, y qué no
 
 | Comprobación | Resultado |
 | --- | --- |
 | Esquema, relaciones, tipos de contenido y XML de diapositiva | **All validations PASSED** |
-| Geometría: nada fuera de la diapositiva, margen mínimo y solapes entre cajas de texto | **21 diapositivas, 0 problemas** |
-| Revisión visual mirando las diapositivas renderizadas | **1 defecto encontrado y corregido** |
+| Geometría: nada fuera de la diapositiva, margen mínimo y solapes entre cajas, imágenes y tablas | **22 diapositivas, 0 problemas** ([salida](geometry.txt)) |
+| Cifras del mazo contra el guion | **90 cifras, 0 problemas** ([registro](deck-figures-in-pptx.json)) |
+| Revisión visual mirando las diapositivas renderizadas | **2 defectos encontrados y corregidos** |
 
 La comprobación geométrica encontró tres defectos reales en la primera versión y los tres están corregidos:
 
@@ -52,15 +79,18 @@ La comprobación geométrica encontró tres defectos reales en la primera versi�
 ## La revisión visual, después de instalar LibreOffice
 
 La primera versión de este registro decía que las diapositivas no se habían mirado porque el equipo no tenía
-con qué renderizarlas. El mantenedor instaló LibreOffice, así que **sí se miraron**: las 21 se convirtieron a
-PDF y se rasterizaron, y se inspeccionaron once, elegidas por riesgo estructural —tablas, imágenes, listas
+con qué renderizarlas. El mantenedor instaló LibreOffice, así que **sí se miraron**: las 22 se convirtieron a
+PDF y se rasterizaron, y se inspeccionaron trece, elegidas por riesgo estructural —tablas, imágenes, listas
 numeradas, las dos de fondo oscuro y la del resultado adverso—.
 
-**Encontró un defecto que la comprobación geométrica no podía ver.** En la diapositiva 19, el texto del
-bloque «Comprobado» desbordaba *dentro* de su propia caja y la última línea chocaba con el encabezado
-siguiente, «Lo que falta». La geometría no lo detecta porque ninguna caja se salía de la diapositiva ni se
-solapaba con otra: lo que se salía era el texto de su caja. Corregido acortando ese texto y separando los
-bloques de 1,08 a 1,12 pulgadas.
+**Encontró dos defectos que la comprobación geométrica no podía ver**, los dos del mismo tipo: texto que
+desborda *dentro* de su caja. La geometría no los detecta porque ninguna caja se sale de la diapositiva ni se
+solapa con otra.
+
+1. En la diapositiva 19, el bloque «Comprobado» desbordaba y su última línea chocaba con el encabezado
+   siguiente, «Lo que falta». Corregido acortando ese texto y separando los bloques de 1,08 a 1,12 pulgadas.
+2. En la diapositiva 13, el párrafo literal del prompt pasó a ocupar dos líneas al corregirse el guion, y las
+   cifras grandes quedaban pegadas debajo. Corregido bajándolas de 2,60 a 2,85 pulgadas.
 
 Es el mismo patrón que esta charla cuenta en la diapositiva 18: una comprobación que pasa no significa que no
 haya defectos, significa que no los detecta esa comprobación.

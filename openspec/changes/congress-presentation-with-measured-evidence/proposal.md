@@ -17,8 +17,9 @@ Queda lo único que faltaba: montar el mazo sin afirmar nada que la evidencia no
 
 ## What Changes
 
-- **Guion completo de veinte diapositivas** en `docs/presentations/2026-09-24-congreso.md`: lo que se ve, lo
-  que se dice y **de qué registro sale cada cifra**, con una tabla final que las ata una por una.
+- **Guion completo de veintidós diapositivas** en `docs/presentations/2026-09-24-congreso.md` —las veinte de
+  la charla, la de límites y la de procedencia—: lo que se ve, lo que se dice y **de qué registro sale cada
+  cifra**, con una tabla final que las ata una por una.
 - **Las dos demos no se actúan ni se reconstruyen.** Son las dos ejecuciones reales de la misma tarea que
   midió #166, con sus artefactos: tiempos, archivos tocados, criterios cumplidos por cada vía y lo que
   ninguna resolvió.

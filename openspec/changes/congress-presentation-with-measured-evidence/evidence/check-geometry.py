@@ -5,7 +5,7 @@ from xml.dom import minidom
 
 EMU = 914400.0
 W, H = 13.333, 7.5
-MARGIN = 0.4  # pulgadas; el guion de diseno pide 0.5, se avisa por debajo de 0.4
+MARGIN = 0.5  # pulgadas: el margen minimo que pide el guion de diseno
 
 deck = sys.argv[1]
 z = zipfile.ZipFile(deck)
@@ -27,20 +27,24 @@ for index, name in enumerate(slides, start=1):
             w = int(exts[0].getAttribute("cx")) / EMU
             h = int(exts[0].getAttribute("cy")) / EMU
             text = "".join(t.firstChild.nodeValue for t in node.getElementsByTagName("a:t") if t.firstChild)
-            boxes.append((tag, x, y, w, h, text[:40]))
+            # El texto entero decide si la forma se ve; los 40 primeros caracteres solo sirven para el mensaje.
+            boxes.append((tag, x, y, w, h, text[:40], text))
 
-    for tag, x, y, w, h, text in boxes:
+    for tag, x, y, w, h, text, _full in boxes:
         if x < -0.01 or y < -0.01 or x + w > W + 0.01 or y + h > H + 0.01:
             problems.append(f"slide {index}: {tag} fuera de la diapositiva en ({x:.2f},{y:.2f}) {w:.2f}x{h:.2f} «{text}»")
         elif x < MARGIN or y < MARGIN or x + w > W - MARGIN or y + h > H - MARGIN:
             problems.append(f"slide {index}: {tag} a menos de {MARGIN}\" del borde en ({x:.2f},{y:.2f}) {w:.2f}x{h:.2f} «{text}»")
 
-    # Solape entre cajas con texto: dos textos encima uno de otro es un defecto visible.
-    texts = [b for b in boxes if b[5].strip()]
-    for i in range(len(texts)):
-        for j in range(i + 1, len(texts)):
-            _, ax, ay, aw, ah, at = texts[i]
-            _, bx, by, bw, bh, bt = texts[j]
+    # Solape: dos textos encima uno de otro es un defecto visible, y una imagen encima de un texto tambien.
+    # Filtrar por "tiene texto" dejaba fuera imagenes y tablas, que es donde ese defecto pasa inadvertido.
+    visible = [b for b in boxes if b[0] != "p:sp" or b[6].strip()]
+    for i in range(len(visible)):
+        for j in range(i + 1, len(visible)):
+            atag, ax, ay, aw, ah, atext, _a = visible[i]
+            btag, bx, by, bw, bh, btext, _b = visible[j]
+            at = atext.strip() or atag
+            bt = btext.strip() or btag
             ox = min(ax + aw, bx + bw) - max(ax, bx)
             oy = min(ay + ah, by + bh) - max(ay, by)
             if ox > 0.05 and oy > 0.05:

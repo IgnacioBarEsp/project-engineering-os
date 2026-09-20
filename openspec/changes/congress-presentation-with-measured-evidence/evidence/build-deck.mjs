@@ -1,10 +1,15 @@
-// Mazo del congreso del 24 de septiembre de 2026, generado desde el guion versionado en
-// docs/presentations/2026-09-24-congreso.md. La generación de diseños de Canva no está habilitada en el
+// Mazo del congreso del 24 de septiembre de 2026. La generación de diseños de Canva no está habilitada en el
 // equipo del mantenedor, así que el mazo se entrega como archivo importable.
+//
+// El texto de cada diapositiva está transcrito del guion versionado en docs/presentations/2026-09-24-congreso.md:
+// este generador **no lee** el guion. Quien ata las dos cosas es check-deck-figures.py, que comprueba que
+// ninguna cifra del mazo falte en el guion.
+//
+//   node build-deck.mjs [repositorio]   (por defecto, el directorio actual; escribe el .pptx en él)
 import pptxgen from 'pptxgenjs';
 import path from 'node:path';
 
-const REPO = 'C:/Users/RitualDesktop/Documents/Projects/project-engineering-os';
+const REPO = path.resolve(process.argv[2] ?? process.cwd());
 const img = (relative) => path.join(REPO, relative);
 
 const INK = '13131C';
@@ -18,11 +23,11 @@ const HEAD = 'Cambria';
 const BODY = 'Calibri';
 
 const pres = new pptxgen();
-pres.layout = 'LAYOUT_WIDE'; // 13.3 x 7.5
+pres.layout = 'LAYOUT_WIDE'; // 13.333 x 7.5 pulgadas
 pres.author = 'Ignacio Barboza Espinoza';
 pres.title = 'Dale a tu IA un buen punto de partida';
 
-const W = 13.3;
+const W = 13.333; // el ancho real de LAYOUT_WIDE, el mismo que comprueba check-geometry.py
 const M = 0.8; // margen lateral
 
 // Un punto violeta antes de cada encabezado: el único motivo repetido del mazo.
@@ -165,7 +170,7 @@ const concepts = [
     'Darle un repositorio entero a un modelo es como darle una biblioteca y pedirle una cita.',
     'Buscar la frase exacta y decir en qué archivo y en qué línea está, en vez de entregar todo el archivo.',
     '«¿En qué rango asigna Kubernetes un NodePort?» La respuesta buena no es el documento: es «30000-32767, en service.md».',
-    'Preguntamos en qué rango de puertos asigna Kubernetes un NodePort por omisión. La respuesta buena no es el documento: es el valor y dónde está.'],
+    'Preguntamos en qué rango de puertos asigna Kubernetes un NodePort por omisión. La respuesta buena no es el documento: es el valor y dónde está. Esa es, literalmente, una de las veinte preguntas que nuestro propio producto no supo responder: volvemos a ella en la diapositiva 17.'],
   ['SDD', 'Escribir qué tiene que pasar, antes',
     'Si no dijimos qué esperábamos, cualquier resultado parece aceptable.',
     'Escribir qué tiene que ocurrir antes de hacerlo, para poder comprobarlo después.',
@@ -219,12 +224,13 @@ concepts.forEach(([eyebrow, title, problem, oneLine, example, notes], index) => 
   const s = light();
   kicker(s, 'DEMO A · EJECUCIÓN REAL');
   titleOn(s, 'La tarea con un prompt suelto');
-  s.addText('«El gate rechaza frases correctas en castellano. Arréglalo.»', { x: M, y: 1.85, w: 11.7, h: 0.5, isTextBox: true, margin: 0, fontFace: HEAD, fontSize: 19, italic: true, color: ACCENT });
-  const stats = [['8 min 44 s', 'de reloj'], ['2', 'archivos'], ['111', 'líneas'], ['19 / 19', 'marcadores']];
+  s.addText('«…el gate de Definition of Ready rechaza issues escritos en español correcto: frases como “El rollback conserva el historial”… Arréglalo.»', { x: M, y: 1.85, w: 11.7, h: 0.72, isTextBox: true, margin: 0, fontFace: HEAD, fontSize: 19, italic: true, color: ACCENT, lineSpacing: 27 });
+  // El párrafo literal ocupa dos líneas, así que aquí las cifras bajan: con la y compartida quedaban pegadas.
+  const stats = [['8 min 44 s', 'de reloj'], ['2', 'archivos'], ['111 / 14', 'líneas +/–'], ['19 / 19', 'marcadores']];
   stats.forEach(([big, small], index) => {
     const x = M + index * 2.95;
-    s.addText(big, { x, y: 2.6, w: 2.7, h: 0.8, isTextBox: true, margin: 0, fontFace: HEAD, fontSize: 34, bold: true, color: INK });
-    s.addText(small, { x, y: 3.4, w: 2.7, h: 0.35, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 13, color: MUTED });
+    s.addText(big, { x, y: 2.85, w: 2.7, h: 0.8, isTextBox: true, margin: 0, fontFace: HEAD, fontSize: 34, bold: true, color: INK });
+    s.addText(small, { x, y: 3.65, w: 2.7, h: 0.35, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 13, color: MUTED });
   });
   card(s, { x: M, y: 4.3, w: 11.7, h: 1.9 });
   bullets(s, [
@@ -242,7 +248,7 @@ concepts.forEach(([eyebrow, title, problem, oneLine, example, notes], index) => 
   s.addText('Petición → issue → preparación → change → tareas → evidencia → revisión → deuda → archivo', {
     x: M, y: 1.85, w: 11.7, h: 0.5, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 14, color: ACCENT,
   });
-  const stats = [['31 min 3 s', 'de reloj'], ['28', 'archivos'], ['1822', 'líneas'], ['18 / 19', 'marcadores']];
+  const stats = [['31 min 3 s', 'de reloj'], ['28', 'archivos'], ['1822 / 4', 'líneas +/–'], ['18 / 19', 'marcadores']];
   stats.forEach(([big, small], index) => {
     const x = M + index * 2.95;
     s.addText(big, { x, y: 2.6, w: 2.7, h: 0.8, isTextBox: true, margin: 0, fontFace: HEAD, fontSize: 34, bold: true, color: INK });
@@ -276,7 +282,7 @@ concepts.forEach(([eyebrow, title, problem, oneLine, example, notes], index) => 
   s.addText('Ninguna de las dos lo resolvió del todo, y fallan en cosas distintas.', {
     x: M + 0.4, y: 5.25, w: 10.9, h: 0.45, isTextBox: true, margin: 0, fontFace: HEAD, fontSize: 20, bold: true, color: PAPER,
   });
-  s.addText('Las dos encontraron, sin que nadie se lo pidiera, un fallo que llevaba meses ahí: la búsqueda de palabras no reconoce la «í» acentuada.', {
+  s.addText('Las dos encontraron, sin que nadie se lo pidiera, un fallo que nadie había visto: la búsqueda de palabras no reconoce la «í» acentuada.', {
     x: M + 0.4, y: 5.75, w: 10.9, h: 0.6, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 14, color: ON_DARK,
   });
   s.addNotes('La tercera columna es la clave: sin ella las dos vías parecen buenas y no se ve de dónde partían. Y la conclusión no es que gane una: es que ninguna lo resolvió del todo.');
@@ -320,20 +326,23 @@ concepts.forEach(([eyebrow, title, problem, oneLine, example, notes], index) => 
     x: M, y: 3.45, w: 6.0, h: 1.0, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 15, color: ON_DARK, lineSpacing: 22,
   });
   card(s, { x: 7.1, y: 1.5, w: 5.4, h: 4.6, fill: '1F1F2C' });
+  // Las tres formas de buscar, no dos: sin la primera fila, la diapositiva no enseña que la vía más tonta
+  // de todas también las devolvió todas, que es la mitad del resultado adverso.
   const facts = [
+    ['Abrir todo el corpus', '20 de 20'],
     ['Buscar literal, grep', '20 de 20'],
     ['Contexto preparado', '0 de 20'],
   ];
   facts.forEach(([label, value], index) => {
-    const y = 1.9 + index * 0.95;
+    const y = 1.9 + index * 0.72;
     s.addText(label, { x: 7.5, y, w: 2.9, h: 0.4, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 14, color: ON_DARK });
-    s.addText(value, { x: 10.7, y: y - 0.06, w: 1.5, h: 0.45, isTextBox: true, margin: 0, fontFace: HEAD, fontSize: 20, bold: true, color: index === 1 ? WARN : PAPER, align: 'right' });
+    s.addText(value, { x: 10.7, y: y - 0.06, w: 1.5, h: 0.45, isTextBox: true, margin: 0, fontFace: HEAD, fontSize: 20, bold: true, color: index === 2 ? WARN : PAPER, align: 'right' });
   });
-  s.addText('La causa está medida: indexó 45 de 2654 fuentes y se quedó sin presupuesto.', {
-    x: 7.5, y: 3.9, w: 4.6, h: 0.9, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 14, color: ON_DARK, lineSpacing: 21,
+  s.addText('La causa está medida: indexó 45 de 2654 fuentes en Kubernetes y 42 de 2753 en CPython, y se quedó sin presupuesto.', {
+    x: 7.5, y: 3.95, w: 4.6, h: 1.0, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 14, color: ON_DARK, lineSpacing: 21,
   });
   s.addText('Lo medimos otra vez cuatro días antes de esta charla, con la versión publicada de hoy: sigue en 0 de 20.', {
-    x: 7.5, y: 4.85, w: 4.6, h: 1.0, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 14, bold: true, color: PAPER, lineSpacing: 21,
+    x: 7.5, y: 5.05, w: 4.6, h: 1.0, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 14, bold: true, color: PAPER, lineSpacing: 21,
   });
   s.addText('Está publicado en nuestra página de evidencia, al lado del número bueno.', {
     x: M, y: 6.3, w: 11.7, h: 0.4, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 14, italic: true, color: MUTED,
@@ -348,8 +357,8 @@ concepts.forEach(([eyebrow, title, problem, oneLine, example, notes], index) => 
   titleOn(s, 'Tres cosas');
   const lessons = [
     ['El número bueno no predecía nada.', 'Si solo hubiéramos medido en el corpus pequeño, estaríamos vendiendo algo que no funciona donde importa.'],
-    ['Comprobar de verdad cambia el resultado.', 'Un arnés certificó nuestra aplicación con cero hallazgos. Su versión corregida encontró 360 sobre la misma aplicación, incluidos siete botones que no se podían pulsar.'],
-    ['La revisión adversarial funciona cuando duele.', 'Encuentra lo que llevamos semanas mirando sin ver.'],
+    ['Comprobar de verdad cambia el resultado.', 'Un arnés certificó nuestra aplicación con cero hallazgos. Su versión corregida encontró 66 problemas distintos sobre la misma aplicación, repetidos en 23 combinaciones: 360 renglones. Entre ellos, siete controles que no se podían pulsar.'],
+    ['La revisión adversarial funciona cuando duele.', 'Encuentra lo que llevamos semanas mirando sin ver, y justo donde más incómodo resulta.'],
   ];
   lessons.forEach(([head, sub], index) => {
     const y = 2.0 + index * 1.55;
@@ -358,7 +367,7 @@ concepts.forEach(([eyebrow, title, problem, oneLine, example, notes], index) => 
     s.addText(head, { x: M + 0.8, y, w: 10.9, h: 0.45, isTextBox: true, margin: 0, fontFace: HEAD, fontSize: 21, bold: true, color: INK });
     s.addText(sub, { x: M + 0.8, y: y + 0.5, w: 10.9, h: 0.8, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 14, color: MUTED, lineSpacing: 20 });
   });
-  s.addNotes('Tres cosas. El número bueno del corpus pequeño no predecía nada. Comprobar de verdad cambia el resultado. Y la revisión adversarial funciona justamente cuando encuentra algo que duele.');
+  s.addNotes('Tres cosas. El número bueno del corpus pequeño no predecía nada. Comprobar de verdad cambia el resultado: el mismo arnés, corregido, encontró 66 problemas distintos donde antes no veía ninguno, y en seis de los siete controles inalcanzables lo que los tapaba era la barra de acciones. Y la revisión adversarial funciona justamente cuando encuentra algo que duele.');
 }
 
 // 19 — Lo que estoy proponiendo
@@ -420,7 +429,7 @@ concepts.forEach(([eyebrow, title, problem, oneLine, example, notes], index) => 
     ['Alucinaciones', 'El método no las observa.'],
     ['Comparación con otros productos', 'No se hizo.'],
     ['Ahorro de tiempo o dinero', 'No hay ninguno demostrado.'],
-    ['La comparación de las dos vías', 'Mide una tarea. Una tarea demuestra qué pasó en esa tarea.'],
+    ['La comparación de las dos vías', 'Mide una tarea, y nada más. Además, las dos partían con la misma información previa sobre el defecto.'],
   ];
   limits.forEach(([head, sub], index) => {
     const x = M + (index % 2) * 6.1;
@@ -429,6 +438,38 @@ concepts.forEach(([eyebrow, title, problem, oneLine, example, notes], index) => 
     s.addText(sub, { x, y: y + 0.38, w: 5.6, h: 0.75, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 13, color: MUTED, lineSpacing: 19 });
   });
   s.addNotes('Esta diapositiva es para el final o para preguntas. Lo que no se midió, no se afirma.');
+}
+
+// 22 — De dónde sale cada cifra
+// El spec delta pide que el material público declare de dónde sale cada cifra. El guion lo hacía y el archivo
+// que se proyecta no, así que la regla no llegaba a la sala.
+{
+  const s = light();
+  kicker(s, 'PROCEDENCIA');
+  titleOn(s, 'De dónde sale cada cifra');
+  s.addText('Ninguna cifra de esta charla se escribió de memoria. Cada una sale de un registro de este repositorio.', {
+    x: M, y: 1.88, w: 11.7, h: 0.4, isTextBox: true, margin: 0, fontFace: BODY, fontSize: 14, color: MUTED,
+  });
+  const header = ['Diapositiva', 'Registro'].map((text) => ({
+    text, options: { bold: true, fill: { color: SOFT }, color: INK },
+  }));
+  const rows = [
+    ['6, 17 · las veinte preguntas y su resultado', 'run-02/kubernetes-website.json y cpython.json'],
+    ['13, 14, 15 · las dos vías, sus tiempos y sus cifras', 'flow-comparison/evaluation.json, timing.json, resultado.md'],
+    ['16 · el microcorpus', 'docs/companion/EVIDENCE.md'],
+    ['18 · el contraste del arnés', 'after/harness-contrast.json y harness-contrast-detail.json'],
+    ['19 · capturas y arranque documentado', 'docs/companion/SCREENSHOTS.md, after/documented-start.json'],
+  ];
+  s.addTable([header, ...rows], {
+    x: M, y: 2.35, w: 11.7, colW: [5.9, 5.8], rowH: 0.5, valign: 'middle',
+    fontFace: BODY, fontSize: 12, color: INK, margin: [0, 0.12, 0, 0.12],
+    border: { type: 'solid', color: 'E4E4EA', pt: 1 },
+  });
+  card(s, { x: M, y: 5.6, w: 11.7, h: 1.0, fill: INK });
+  s.addText('Si una cifra no está en esta tabla, no está en una diapositiva.', {
+    x: M + 0.4, y: 5.93, w: 10.9, h: 0.45, isTextBox: true, margin: 0, fontFace: HEAD, fontSize: 18, bold: true, color: PAPER,
+  });
+  s.addNotes('Esta es la regla que no se rompe. Si alguien pregunta por una cifra, sale de uno de estos registros y está publicado.');
 }
 
 const out = path.join(process.cwd(), 'congreso-2026-09-24.pptx');

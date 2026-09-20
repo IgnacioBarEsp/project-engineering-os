@@ -7,7 +7,7 @@ El issue avisaba de que la evidencia del repositorio contradecía una de las afi
 hacer. Se eligió la salida A —re-medir—, #166 la ejecutó y **el número no cambió**: 0 de 20. El mazo cuenta
 eso.
 
-Este change entrega el guion completo de veinte diapositivas, con lo que se ve, lo que se dice y una tabla que
+Este change entrega el guion completo de veintidós diapositivas, con lo que se ve, lo que se dice y una tabla que
 ata **cada cifra a su registro**. Las dos demos son las dos ejecuciones reales que midió #166, no una
 reconstrucción. El resultado adverso tiene diapositiva propia y va justo después del número bueno.
 
