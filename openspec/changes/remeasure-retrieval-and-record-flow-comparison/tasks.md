@@ -45,12 +45,17 @@
 - [x] 6.1 Actualizar `docs/companion/EVIDENCE.md` con las cuatro mediciones, su método y sus límites.
 - [x] 6.2 Pasar la revisión adversarial desde contexto limpio y resolver sus Blockers y Majors.
 - [x] 6.3 Capturar el assessment de deuda después de la última pasada de revisión.
-- [ ] 6.4 Sustituir los estados pendientes de readiness solo con evidencia ejecutada, y pasar strict y el gate
+- [x] 6.4 Sustituir los estados pendientes de readiness solo con evidencia ejecutada, y pasar strict y el gate
   de archive con `--run-local`.
-- [ ] 6.5 Archivar con el CLI local, corregir los enlaces del change archivado, firmar los commits con DCO y
+- [x] 6.5 Archivar con el CLI local, corregir los enlaces del change archivado, firmar los commits con DCO y
   entregar por PR protegido.
 
 Alcance decidido por el mantenedor el 20 de septiembre de 2026: las cuatro pruebas, e instalar la aplicación
 publicada para medirla ([decisiones](evidence/maintainer-decisions.md)). La superficie, la tarea de la
 comparación y el contexto limpio de cada vía también los decidió el mantenedor ese mismo día, antes de
 ejecutar. No queda ninguna decisión abierta.
+
+La 6.4 y la 6.5 se cumplen con el commit que archiva el change: strict y el gate de archive se ejecutan justo
+antes, con sus registros en `evidence/`, y la entrega es el PR de esta rama. La revisión de la 6.2 fue una
+ronda desde contexto limpio; sus correcciones las verificó quien las hizo, no el revisor, y así consta en
+[la revisión](evidence/adversarial-review.md).

@@ -1,12 +1,12 @@
 {
-  "date": "2026-09-20T12:22:58.938Z",
+  "date": "2026-09-20T12:52:45.410Z",
   "method": "git worktree aparte en una ruta corta, git revert --no-commit de los commits del change sobre HEAD, y comprobaciones en el árbol revertido.",
-  "range": "a02c991..d99b9baf4d85920313b97fa73f604a926f5a098b",
+  "range": "a02c991..7a6e5e3ec2c1a116c7b6c1d0c1a3f3233111d48e",
   "steps": [
     {
       "name": "El revert de los commits del change aplica sin conflictos",
       "ok": true,
-      "detail": "exit 0, 63 rutas revertidas"
+      "detail": "exit 0, 54 rutas revertidas"
     },
     {
       "name": "Desaparecen la comprobación del arranque, su prueba y el change",
