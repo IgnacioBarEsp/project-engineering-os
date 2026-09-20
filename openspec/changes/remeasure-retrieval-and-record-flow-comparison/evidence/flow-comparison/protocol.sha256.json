@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "frozenAt": "2026-09-20T07:33:23.158Z",
+  "file": "protocol.md",
+  "bytes": 4424,
+  "sha256": "41c6e58ead0d561d351aa843ce5d5d012ba747753cd683826b3f97308878dc67",
+  "note": "Congelado antes de ejecutar cualquiera de las dos vias. Un cambio posterior en protocol.md invalida la comparacion."
+}

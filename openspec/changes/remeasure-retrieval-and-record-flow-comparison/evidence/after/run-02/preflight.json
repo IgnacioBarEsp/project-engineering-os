@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-20T07:28:31.905Z",
+  "protocol": {
+    "sha256": "9c43e965d4f860a5bb260e2f2ca9db23c21ff1c6d4f8d7905245dbf187782e93",
+    "frozenAt": "2026-09-13",
+    "precommit": "18690bd0b15ccca29e2cfbb5beb0a24ba48f42f4",
+    "guardedFiles": {
+      "apps/companion/benchmarks/real-repositories/protocol.json": "9c43e965d4f860a5bb260e2f2ca9db23c21ff1c6d4f8d7905245dbf187782e93",
+      "apps/companion/benchmarks/real-repositories/protocol.sha256.json": "053d09d8f1c7613dbaafc7d7fdbeaceafd8fd5a448a8accb33ca2876b4e73ddf",
+      "apps/companion/scripts/real-repository-benchmark.mjs": "940f06ff9d3d9d327e23e21203a83c2fc4595aa84746fb8c3d94635a363f149b",
+      "apps/companion/scripts/verify-real-repository-benchmark.mjs": "8a1f77564a8c7b0c87b4c7f49a010aac7970fcbed422d8fb7a95a12be28c8458",
+      "apps/companion/scripts/portable-path.mjs": "45c3b1fb2014ae59db39b8ddaf05de24f0401af3d6a86d1626b1ae16fc8ab7f3"
+    }
+  },
+  "installedApplication": {
+    "version": "0.3.2",
+    "root": "<localappdata>/Programs/peos032/resources/app",
+    "files": {
+      "package.json": {
+        "sha256": "57e1f003fd2d95892bf39c7e364edf427dac7c657d17c2b131fddc1dd6f3b974",
+        "bytes": 542
+      },
+      "desktop/service.mjs": {
+        "sha256": "8a9137cbd00a5f1af1d6441835cb35d90c3f77630ea3db5e864ac5260e9b55a4",
+        "bytes": 66936
+      },
+      "context/engine.mjs": {
+        "sha256": "f422758f4e6c4f0bedd3e4ac91b9c9a24166f01cdfde3b0ff3840b7053327ad8",
+        "bytes": 19169
+      },
+      "context/sources.mjs": {
+        "sha256": "cb3621285022aa0db4ed7bd7b5bce352a40c5dfe26f8f422972aead6dc774dba",
+        "bytes": 9380
+      },
+      "context/retrieval.mjs": {
+        "sha256": "8f617160b731bd9554dba7c31b36c7354141572d2e078a766943bd0ecaa1d5c2",
+        "bytes": 3723
+      },
+      "engine/inventory.mjs": {
+        "sha256": "d839a4cffa7dda6801f689628bf6ce6c81967fab26f643068dbb1678a2d50ad4",
+        "bytes": 6188
+      }
+    }
+  },
+  "corpora": [
+    {
+      "repository": "https://github.com/kubernetes/website",
+      "commit": "d6e659c193bba313791e6ace4475a475093153f1",
+      "subtree": "content/en",
+      "domain": "prosa y documentacion",
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "path": "LICENSE",
+        "sha256": "d07988f4be47912f75a73b44da8a9c0b602bf6c8ced69de858b848f379ecd973"
+      },
+      "eligibility": {
+        "files": 3262,
+        "corpusBytes": 90137811,
+        "utf8TextFiles": 3096,
+        "utf8TextBytes": 41608178,
+        "required": {
+          "minimumUtf8TextFiles": 2000,
+          "minimumUtf8TextBytes": 20971520
+        },
+        "eligible": true
+      },
+      "skippedLinks": [],
+      "questions": [
+        {
+          "id": "k8s-nodeport-range",
+          "source": "docs/concepts/services-networking/service.md",
+          "sourceSha256": "45a4bd569f73c8b93bce1b74c2b45f98681e42550999dc39d4448ca357162386",
+          "queryAndAnswerLine": 475
+        },
+        {
+          "id": "k8s-grace-period",
+          "source": "docs/concepts/workloads/pods/pod-lifecycle.md",
+          "sourceSha256": "ef29cb02c1c2597fecd40b8a85e4d928a121e93fc31047a4165aa84d800915bf",
+          "queryAndAnswerLine": 916
+        },
+        {
+          "id": "k8s-max-skew",
+          "source": "docs/concepts/scheduling-eviction/topology-spread-constraints.md",
+          "sourceSha256": "b4ddeb280a463f8c981f0a317e398f2f059abb92f4e080647e9e438b621420a8",
+          "queryAndAnswerLine": 86
+        },
+        {
+          "id": "k8s-ttl-after-finished",
+          "source": "docs/concepts/workloads/controllers/ttlafterfinished.md",
+          "sourceSha256": "a82e070333b4ccff04de555eb8c763bd9e8cd7f6f9d07d339cdbe45cff4e16c5",
+          "queryAndAnswerLine": 28
+        },
+        {
+          "id": "k8s-dns-ndots",
+          "source": "docs/concepts/services-networking/dns-pod-service.md",
+          "sourceSha256": "f5365ac0c2a6fcb39a4e1b547e01513db222a19f43d7c47356b81378a9ebff36",
+          "queryAndAnswerLine": 51
+        },
+        {
+          "id": "k8s-qos-classes",
+          "source": "docs/concepts/workloads/pods/pod-qos.md",
+          "sourceSha256": "cc03ad0a9ba8ac575d0cb7898fe75b94beadd6f5e13f61c525a8fc282b921f4d",
+          "queryAndAnswerLine": 30
+        },
+        {
+          "id": "k8s-secret-size",
+          "source": "docs/concepts/configuration/secret.md",
+          "sourceSha256": "04ceb8e040c79fd645cc1b0b0e99b37c2733c8fd249282850d2e434776d65577",
+          "queryAndAnswerLine": 467
+        },
+        {
+          "id": "k8s-anti-affinity",
+          "source": "docs/concepts/scheduling-eviction/assign-pod-node.md",
+          "sourceSha256": "f933f1f25646cfe79f0ae30fc0cb42a70a518b521caf80abfe5428a6cab73156",
+          "queryAndAnswerLine": 287
+        },
+        {
+          "id": "k8s-runtime-class",
+          "source": "docs/concepts/containers/runtime-class.md",
+          "sourceSha256": "dcdbb98a5bb4ff6c67e38c46f7caac3dbe682ba90be4b3315ea1aa70f43c7619",
+          "queryAndAnswerLine": 17
+        },
+        {
+          "id": "k8s-deployment-replicas",
+          "source": "examples/application/deployment.yaml",
+          "sourceSha256": "2746a19c92aafd3022916768fe18262a40e422b0641e27a1a8743a551187976d",
+          "queryAndAnswerLine": 9
+        }
+      ],
+      "checkout": "<checkout:kubernetes-website>"
+    },
+    {
+      "repository": "https://github.com/python/cpython",
+      "commit": "9bd9c7461dabddcd2688b0f14ce00722edbdfee3",
+      "subtree": ".",
+      "domain": "codigo fuente",
+      "license": {
+        "spdx": "Python-2.0",
+        "path": "LICENSE",
+        "sha256": "db693914a7f6d42f1d3e09c10eda1482e5d94ed4c70a769476ae8d722a9be1ce"
+      },
+      "eligibility": {
+        "files": 6285,
+        "corpusBytes": 138957702,
+        "utf8TextFiles": 6118,
+        "utf8TextBytes": 118834078,
+        "required": {
+          "minimumUtf8TextFiles": 2000,
+          "minimumUtf8TextBytes": 20971520
+        },
+        "eligible": true
+      },
+      "skippedLinks": [
+        ".claude/CLAUDE.md",
+        "Misc/mypy/_colorize.py",
+        "Misc/mypy/_pyrepl",
+        "Misc/mypy/token.py",
+        "Misc/mypy/tomllib"
+      ],
+      "questions": [
+        {
+          "id": "py-lru-cache-default",
+          "source": "Lib/functools.py",
+          "sourceSha256": "483a213267864dbb73bf85108c40e3de8d066e6cd82a0d20405fa5dbcce3d83b",
+          "queryAndAnswerLine": 560
+        },
+        {
+          "id": "py-default-buffer",
+          "source": "Lib/_pyio.py",
+          "sourceSha256": "917703eb94c174ca95432e4d783925edceb5ece03d660d7415096f7087a87318",
+          "queryAndAnswerLine": 28
+        },
+        {
+          "id": "py-fromisoformat",
+          "source": "Lib/_pydatetime.py",
+          "sourceSha256": "b7f399bb45ec4bc313dd71806658f7b28eb2f3eaa3d3cadf9b91ad186aa7948a",
+          "queryAndAnswerLine": 1061
+        },
+        {
+          "id": "py-enum-unique",
+          "source": "Lib/enum.py",
+          "sourceSha256": "1ffd9152ac3dd6af0f3708172dee26f7d9fb90d4ac954c1c31ef579c19b9267a",
+          "queryAndAnswerLine": 1700
+        },
+        {
+          "id": "py-dataclass-frozen",
+          "source": "Lib/dataclasses.py",
+          "sourceSha256": "34047c01f3c80ed4aa0892f6c3d821369b0dbbe62ffa7c57a41adc90f15fe75b",
+          "queryAndAnswerLine": 1431
+        },
+        {
+          "id": "py-doc-dontwrite",
+          "source": "Doc/using/cmdline.rst",
+          "sourceSha256": "cceeab1c494807f118341b762aaef9bd064dd92c2113cb2ee9dbd21486bd024b",
+          "queryAndAnswerLine": 269
+        },
+        {
+          "id": "py-doc-gil",
+          "source": "Doc/whatsnew/3.13.rst",
+          "sourceSha256": "0a0495561642636da51dc4f9b5870fe0c57b7b8ec5ad8ab099ee22e7c0fd1dd3",
+          "queryAndAnswerLine": 323
+        },
+        {
+          "id": "py-doc-walrus",
+          "source": "Doc/reference/expressions.rst",
+          "sourceSha256": "a83ea09560a0d11888bbc1722f2c2e01c118b47f6f12ebc4ab959fc71b1c138e",
+          "queryAndAnswerLine": 2610
+        },
+        {
+          "id": "py-c-recursion-limit",
+          "source": "Python/ceval.c",
+          "sourceSha256": "84e68652714555d714e4660fb3f44991e2a68c2cd21cd83f3b966f0c521dd8ad",
+          "queryAndAnswerLine": 10
+        },
+        {
+          "id": "py-c-object-header",
+          "source": "Include/object.h",
+          "sourceSha256": "1e11f721daa21c1d9fdefdcf97805509d6e408527ab12dad28adc380d64684a7",
+          "queryAndAnswerLine": 45
+        }
+      ],
+      "checkout": "<checkout:cpython>"
+    }
+  ],
+  "noMethodRanBeforeThisRecord": true
+}
