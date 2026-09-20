@@ -26,7 +26,7 @@ ni revisó estas comprobaciones.** Las decisiones que las enmarcan son del mante
 | `openspec-strict` | Change válido en modo estricto | [openspec-strict.json](openspec-strict.json) |
 | `critical-document-presence` | `check-docs` PASS | [docs.json](docs.json) |
 | `relative-link-check` | Los enlaces relativos del change y de la página de evidencia existen | [artifact-links.json](artifact-links.json) |
-| `findability-two-hop-check` | README → [evidencia](../../../../docs/companion/EVIDENCE.md) | [artifact-links.json](artifact-links.json) |
+| `findability-two-hop-check` | README → [evidencia](../../../../../docs/companion/EVIDENCE.md) | [artifact-links.json](artifact-links.json) |
 | `neutrality-check` | PASS | [neutrality.json](neutrality.json) |
 
 `npm run check` completo: ver [check.json](after/check.json).

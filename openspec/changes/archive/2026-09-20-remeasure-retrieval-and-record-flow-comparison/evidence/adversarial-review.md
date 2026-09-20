@@ -1,7 +1,7 @@
 # Revisión adversarial — remeasure-retrieval-and-record-flow-comparison
 
 Una ronda, hecha por un agente sin la conversación del apply, en solo lectura. Según
-[CONTRIBUTING.md](../../../../CONTRIBUTING.md), la revisión de un agente sobre trabajo de agentes **no es
+[CONTRIBUTING.md](../../../../../CONTRIBUTING.md), la revisión de un agente sobre trabajo de agentes **no es
 revisión humana ni independiente**, y esta no lo es. Las correcciones las verificó quien las hizo, no el
 revisor.
 
