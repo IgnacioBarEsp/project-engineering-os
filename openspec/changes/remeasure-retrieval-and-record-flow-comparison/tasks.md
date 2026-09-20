@@ -21,9 +21,9 @@
 ## 3. Prueba 2: los dos flujos sobre una tarea
 
 - [x] 3.1 Escribir y congelar la tarea y sus criterios de aceptación antes de ejecutar nada, con su digest.
-- [ ] 3.2 Ejecutar la vía del prompt suelto, sin comprobación, y conservar sus artefactos.
-- [ ] 3.3 Ejecutar la vía del flujo completo y conservar los suyos.
-- [ ] 3.4 Registrar lo observable de ambas y declarar en el propio registro que una tarea no demuestra una
+- [x] 3.2 Ejecutar la vía del prompt suelto, sin comprobación, y conservar sus artefactos.
+- [x] 3.3 Ejecutar la vía del flujo completo y conservar los suyos.
+- [x] 3.4 Registrar lo observable de ambas y declarar en el propio registro que una tarea no demuestra una
   ventaja general.
 
 ## 4. Prueba 3: el contraste del arnés
@@ -42,7 +42,7 @@
 
 ## 6. Publicación y cierre
 
-- [ ] 6.1 Actualizar `docs/companion/EVIDENCE.md` con las cuatro mediciones, su método y sus límites.
+- [x] 6.1 Actualizar `docs/companion/EVIDENCE.md` con las cuatro mediciones, su método y sus límites.
 - [ ] 6.2 Pasar la revisión adversarial desde contexto limpio y resolver sus Blockers y Majors.
 - [ ] 6.3 Capturar el assessment de deuda después de la última pasada de revisión.
 - [ ] 6.4 Sustituir los estados pendientes de readiness solo con evidencia ejecutada, y pasar strict y el gate

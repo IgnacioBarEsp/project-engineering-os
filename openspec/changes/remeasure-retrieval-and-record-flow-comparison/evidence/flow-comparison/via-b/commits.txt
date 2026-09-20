@@ -1,0 +1,1 @@
+48bdc18 fix(162): el gate deja de leer el indicativo castellano como plantilla sin rellenar

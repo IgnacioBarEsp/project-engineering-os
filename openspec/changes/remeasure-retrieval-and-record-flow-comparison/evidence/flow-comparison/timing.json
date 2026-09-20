@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "note": "Reloj de pared de cada via. Cada una se ejecuta en contexto limpio, en su propio arbol de trabajo, con la maquina sin otras cargas.",
+  "worktreeBase": "a02c991",
+  "vias": {
+    "A": {
+      "started": "2026-09-20T08:19:53Z",
+      "finished": "2026-09-20T08:28:37Z",
+      "elapsedMs": 524094,
+      "toolUses": 45
+    },
+    "B": {
+      "started": "2026-09-20T08:29:30Z",
+      "finished": "2026-09-20T09:00:22Z",
+      "elapsedMs": 1863214,
+      "toolUses": 146
+    }
+  }
+}

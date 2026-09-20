@@ -1,0 +1,287 @@
+{
+  "date": "2026-09-20T09:02:02.538Z",
+  "corpus": {
+    "legitimate": 34,
+    "markers": 8,
+    "archivedChanges": 50
+  },
+  "legitimatePhrases": [
+    {
+      "file": "README.md",
+      "phrase": "publicado; un hash coincidente verifica el archivo, no sustituye la firma del editor."
+    },
+    {
+      "file": "docs/CLI_GUIDE.md",
+      "phrase": "[Recuperación](RECOVERY.md) conserva el detalle de reanudación, reversión y conflictos."
+    },
+    {
+      "file": "docs/companion/ARCHITECTURE.md",
+      "phrase": "| Web local/portable | Prototipo rápido y distribución sencilla. | Lanzador, permisos de carpetas y ciclo de vida aún requieren una solución para personas no técnicas. | Prototipo/diagnóstico, no sust"
+    },
+    {
+      "file": "docs/companion/CONTEXT.md",
+      "phrase": "ownership ilegible conserva el comportamiento anterior de indexarlos."
+    },
+    {
+      "file": "docs/companion/DESIGN.md",
+      "phrase": "Estado: **draft reversible**. Se conserva el carácter de Project Engineering OS — claridad, señal verde,"
+    },
+    {
+      "file": "docs/companion/DESKTOP.md",
+      "phrase": "El chat web conserva la ruta de copiar contexto; abrirlo no adjunta la carpeta."
+    },
+    {
+      "file": "docs/companion/DESKTOP.md",
+      "phrase": "y no se guarda. La [guía de privacidad](SECURITY.md) conserva el contrato completo."
+    },
+    {
+      "file": "docs/companion/GRAPH_TOOLS.md",
+      "phrase": "estados; esta tabla conserva la evaluación de alternativas, no una promesa de instalar todas."
+    },
+    {
+      "file": "docs/companion/INSTALLER.md",
+      "phrase": "- Instalar o actualizar reemplaza el ejecutable del programa y conserva todo lo demás."
+    },
+    {
+      "file": "docs/EXISTING_PROJECTS.md",
+      "phrase": "Un hash distinto exige revisar de nuevo. Para reanudar una transacción incompleta, conserva la misma lista"
+    },
+    {
+      "file": "docs/INSTALL_HARDENING.md",
+      "phrase": "del proyecto, revisa las excepciones y ejecuta una instalación reproducible. Conserva el lockfile y revisa"
+    },
+    {
+      "file": "docs/ISOLATED_TOOLCHAIN.md",
+      "phrase": "El fragmento muestra solamente la propiedad nueva; no reemplaza la configuración completa. La ruta usa"
+    },
+    {
+      "file": "docs/ISOLATED_TOOLCHAIN.md",
+      "phrase": "oficiales. El wrapper conserva el aislamiento temporal de preferencias de"
+    },
+    {
+      "file": "docs/ISOLATED_TOOLCHAIN.md",
+      "phrase": "Esto comprueba identidad declarada y ubicación; no sustituye la verificación de integridad del paquete"
+    },
+    {
+      "file": "docs/ONBOARDING_PLAN.md",
+      "phrase": "resultado describe el repositorio actual y no reemplaza la ruta registrada del recorrido."
+    },
+    {
+      "file": "docs/PATH_RULES.md",
+      "phrase": "de la transacción; conserva la fuente canónica que editó la persona. Para volver a sincronizar tras un"
+    },
+    {
+      "file": "docs/PROJECT_STATUS.md",
+      "phrase": "Su adaptador temporal en la landing conserva el fallo original; no se documenta como reparación del núcleo."
+    },
+    {
+      "file": "docs/prompts/PROMPT_01_DISCOVERY_PROYECTO.md",
+      "phrase": "al bootstrap describe el repositorio actual y no reemplaza la ruta registrada."
+    },
+    {
+      "file": "docs/prompts/PROMPT_ROUTER_INICIO.md",
+      "phrase": "elegirá brownfield; eso describe el repositorio actual y no reemplaza la ruta registrada del recorrido."
+    },
+    {
+      "file": "docs/RELEASES.md",
+      "phrase": "se sustituye el Release por una reconstrucción distinta. Habilitar immutable releases es un endurecimiento"
+    },
+    {
+      "file": "docs/RELEASES.md",
+      "phrase": "plazo, repite **Verify published release**. Conserva el resultado original y enlaza la ejecución de"
+    },
+    {
+      "file": "docs/security/SUPPLY_CHAIN_TRIAGE_2026-08-18.md",
+      "phrase": "| “Socket optimized override” para `is-interactive` | Dependencia transitiva de desarrollo | No es remediación de seguridad | Promoción del registro de Socket clasificada como mantenimiento; no se sus"
+    },
+    {
+      "file": "docs/SELF_APPLICATION.md",
+      "phrase": "| [#49](https://github.com/IgnacioBarEsp/project-engineering-os/issues/49) | Sembrar la configuración de readiness para ejecutarlo in situ | B, F, H | Deuda real. Sustituye el andamio del target desec"
+    },
+    {
+      "file": "docs/SPEC_PURPOSE.md",
+      "phrase": "| `FAIL` `purpose-placeholder` | El Purpose conserva el texto que sembró el archive, o abre con un marcador de pendiente. |"
+    },
+    {
+      "file": "docs/SPEC_PURPOSE.md",
+      "phrase": "Es `FAIL` y no aviso: el diagnóstico read-only no infiere PASS de nada, y una spec publicada que conserva el"
+    },
+    {
+      "file": "docs/TRACKERS.md",
+      "phrase": "`tracker` separa el plan local de su ejecución y conserva el tracker existente. `github-plan` mantiene su"
+    },
+    {
+      "file": "docs/TRACKERS.md",
+      "phrase": "Si un proceso terminó dejando `active.lock`, verifica su PID y que no siga ejecutándose. Conserva el"
+    },
+    {
+      "file": "docs/USER_GUIDE.md",
+      "phrase": "**¿Prefieres automatizar?** La [guía CLI](CLI_GUIDE.md) conserva el recorrido por terminal."
+    },
+    {
+      "file": "openspec/specs/debt-control/spec.md",
+      "phrase": "Definir cómo se verifica, presupuesta y conserva la deuda residual para impedir que un cierre SDD o una"
+    },
+    {
+      "file": "openspec/specs/public-documentation-experience/spec.md",
+      "phrase": "- **THEN** el contenido Markdown conserva el propósito y el recorrido operativo"
+    },
+    {
+      "file": "openspec/specs/public-documentation-experience/spec.md",
+      "phrase": "- **AND** conserva la degradación vigente hasta que exista adapter y evidencia de runtime"
+    },
+    {
+      "file": "openspec/specs/public-documentation-experience/spec.md",
+      "phrase": "- **AND** la descarga conserva la identidad de la release realmente disponible"
+    },
+    {
+      "file": "blueprint/core/docs/engineering/PROMPT_01_DISCOVERY_PROYECTO.md",
+      "phrase": "cero. Una reclasificación posterior al bootstrap no reemplaza la ruta registrada."
+    },
+    {
+      "file": "blueprint/core/docs/engineering/PROMPT_ROUTER_INICIO.md",
+      "phrase": "actual y no reemplaza la ruta registrada."
+    }
+  ],
+  "arms": {
+    "base": {
+      "legitimateRejected": 32,
+      "legitimateRejectedSamples": [
+        "publicado; un hash coincidente verifica el archivo, no sustituye la firma del editor.",
+        "[Recuperación](RECOVERY.md) conserva el detalle de reanudación, reversión y conflictos.",
+        "ownership ilegible conserva el comportamiento anterior de indexarlos.",
+        "Estado: **draft reversible**. Se conserva el carácter de Project Engineering OS — claridad"
+      ],
+      "markersAccepted": [
+        "Complete the review before archiving",
+        "sustituye aquí el valor",
+        "reemplaza aquí"
+      ],
+      "markerDetail": {
+        "reemplaza con el valor": {
+          "flagged": true,
+          "detail": "campo (replacement-instruction)"
+        },
+        "<nombre del cambio>": {
+          "flagged": true,
+          "detail": "campo (angle-placeholder)"
+        },
+        "TODO": {
+          "flagged": true,
+          "detail": "campo (TODO)"
+        },
+        "[completar]": {
+          "flagged": true,
+          "detail": "campo (bracket-placeholder)"
+        },
+        "Replace with the change name": {
+          "flagged": true,
+          "detail": "campo (replacement-instruction)"
+        },
+        "Complete the review before archiving": {
+          "flagged": false,
+          "detail": ""
+        },
+        "sustituye aquí el valor": {
+          "flagged": false,
+          "detail": ""
+        },
+        "reemplaza aquí": {
+          "flagged": false,
+          "detail": ""
+        }
+      },
+      "namesToken": true,
+      "namingSample": "campo (replacement-instruction)",
+      "archivedFlagged": []
+    },
+    "via-a": {
+      "legitimateRejected": 1,
+      "legitimateRejectedSamples": [
+        "| `FAIL` `purpose-placeholder` | El Purpose conserva el texto que sembró el archive, o abr"
+      ],
+      "markersAccepted": [],
+      "markerDetail": {
+        "reemplaza con el valor": {
+          "flagged": true,
+          "detail": "campo (replacement-instruction)"
+        },
+        "<nombre del cambio>": {
+          "flagged": true,
+          "detail": "campo (angle-placeholder)"
+        },
+        "TODO": {
+          "flagged": true,
+          "detail": "campo (TODO)"
+        },
+        "[completar]": {
+          "flagged": true,
+          "detail": "campo (bracket-placeholder)"
+        },
+        "Replace with the change name": {
+          "flagged": true,
+          "detail": "campo (replacement-instruction)"
+        },
+        "Complete the review before archiving": {
+          "flagged": true,
+          "detail": "campo (replacement-instruction)"
+        },
+        "sustituye aquí el valor": {
+          "flagged": true,
+          "detail": "campo (replacement-instruction)"
+        },
+        "reemplaza aquí": {
+          "flagged": true,
+          "detail": "campo (replacement-instruction)"
+        }
+      },
+      "namesToken": true,
+      "namingSample": "campo (replacement-instruction)",
+      "archivedFlagged": []
+    },
+    "via-b": {
+      "legitimateRejected": 0,
+      "legitimateRejectedSamples": [],
+      "markersAccepted": [
+        "Complete the review before archiving"
+      ],
+      "markerDetail": {
+        "reemplaza con el valor": {
+          "flagged": true,
+          "detail": "campo (replacement-instruction)"
+        },
+        "<nombre del cambio>": {
+          "flagged": true,
+          "detail": "campo (angle-placeholder)"
+        },
+        "TODO": {
+          "flagged": true,
+          "detail": "campo (TODO)"
+        },
+        "[completar]": {
+          "flagged": true,
+          "detail": "campo (bracket-placeholder)"
+        },
+        "Replace with the change name": {
+          "flagged": true,
+          "detail": "campo (replacement-instruction)"
+        },
+        "Complete the review before archiving": {
+          "flagged": false,
+          "detail": ""
+        },
+        "sustituye aquí el valor": {
+          "flagged": true,
+          "detail": "campo (replacement-instruction)"
+        },
+        "reemplaza aquí": {
+          "flagged": true,
+          "detail": "campo (replacement-instruction)"
+        }
+      },
+      "namesToken": true,
+      "namingSample": "campo (replacement-instruction)",
+      "archivedFlagged": []
+    }
+  }
+}

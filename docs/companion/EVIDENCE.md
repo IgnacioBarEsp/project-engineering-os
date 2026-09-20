@@ -229,6 +229,49 @@ La comprobación necesita red hacia el registro de npm, así que no entra en `np
 el registro no responde informa **NO EJECUTADA**, nunca PASS: una comprobación que no pudo correr no es una
 comprobación que pasó.
 
+## Un prompt suelto contra el flujo completo, sobre una misma tarea
+
+El 20 de septiembre de 2026 se comparó lo que hacen dos formas de trabajar con **el mismo defecto real**: el
+gate de Definition of Ready rechazaba frases correctas en castellano. La tarea y sus criterios se escribieron y
+se congelaron con su digest **antes** de ejecutar ninguna de las dos vías, y cada vía corrió en contexto limpio,
+en su propio árbol, recibiendo el mismo párrafo de partida. Lo único que cambió entre ellas fue el proceso.
+
+Las dos entregas las evaluó quien publica esto, no ellas mismas: se importó el detector de cada árbol y se
+sometió al mismo corpus, tomado de los documentos reales del repositorio.
+
+| Criterio | Prompt suelto | Flujo completo |
+| --- | --- | --- |
+| Frases legítimas que pasan | 33 de 34 | 34 de 34 |
+| Marcadores de verdad que siguen rechazados | 9 de 9 | 8 de 9 |
+| Una regresión hace fallar su suite | Sí, caen 3 pruebas | Sí, cae 1 |
+| Changes archivados que cambian de veredicto | 0 de 50 | 0 de 50 |
+| `npm run check` en el árbol entregado | 344 de 344 | 344 de 344 |
+| Reloj de pared | 8 min 44 s | 31 min 3 s |
+| Archivos tocados | 2 | 28 |
+
+Para leer esas columnas: el detector original rechaza **32 de esas 34** frases legítimas y deja colar **3 de
+los 9** marcadores.
+
+**Ninguna de las dos entregó el arreglo completo, y no fallan en lo mismo.** El prompt suelto dejó sin tocar el
+segundo síntoma del defecto —que un identificador con guiones cuente como marcador— y el flujo completo dejó
+sin detectar una cadena literal de una plantilla sembrada que ya se colaba antes. Las dos, en cambio,
+encontraron sin que nadie se lo pidiera un escape que nadie había visto: la frontera de palabra de JavaScript
+no conoce la `í`, así que un marcador escrito con acento nunca se detectaba.
+
+Lo que el proceso produjo y el prompt suelto no: dejar **pendiente lo que no se pudo ejecutar** en vez de
+rellenarlo, registrar las decisiones que no le tocaban al ejecutor, y encontrar de paso un defecto ajeno —el
+empaquetador trata un archivo sin saltos de línea como fin de línea no canónico— sin arreglarlo de pasada. Lo
+que el prompt suelto produjo sin que se lo pidieran: pruebas, y un corpus más sensible que el del flujo.
+
+**Qué demuestra y qué no.** Demuestra qué pasó en **esta** tarea. No demuestra una ventaja general de ninguna
+de las dos vías, no predice otra tarea y no mide a las personas que usarían cada una. No se midieron tokens,
+porque ningún proveedor los reportó en un registro conservable, y nadie juzgó la calidad de las respuestas: los
+criterios se comprueban sobre el código y se comprobaron ejecutándolo. Las dos vías tampoco partían de cero: la
+memoria del proyecto ya nombraba este defecto, y las dos la heredaron por igual.
+
+El protocolo, los prompts literales, la evaluación y sus límites están en
+`remeasure-retrieval-and-record-flow-comparison/evidence/flow-comparison/`.
+
 ## Los cinco recorridos
 
 Los cinco perfiles se recorrieron completos sobre la aplicación instalada desde el artefacto verificado,
