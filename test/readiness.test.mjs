@@ -581,6 +581,53 @@ test('prosa española pasa y el diagnóstico nombra el patrón sin repetir valor
   assert.equal(JSON.stringify(readinessInternals.placeholderPaths({scope:'TODO '+secret})).includes(secret),false);
 });
 
+test('el corpus de regresión conserva la semántica de marcadores y homógrafos', async () => {
+  const corpus = await sourceJson(
+    'openspec/changes/archive/2026-09-20-remeasure-retrieval-and-record-flow-comparison/evidence/flow-comparison/evaluation.json',
+  );
+  const legitimateRejected = corpus.legitimatePhrases.filter(({ phrase }) => (
+    readinessInternals.placeholderPaths({ scope: phrase }).length > 0
+  ));
+  const markersAccepted = corpus.corpus.markerSources.filter(({ marker }) => (
+    readinessInternals.placeholderPaths({ scope: marker }).length === 0
+  ));
+  assert.equal(legitimateRejected.length, 0, JSON.stringify(legitimateRejected));
+  assert.equal(markersAccepted.length, 0, JSON.stringify(markersAccepted));
+
+  const templateMarkers = [];
+  const collectStrings = (value) => {
+    if (typeof value === 'string') {
+      if (/^(?:Replace with|Complete the|Fill in)\b/.test(value)) templateMarkers.push(value);
+      return;
+    }
+    if (value && typeof value === 'object') Object.values(value).forEach(collectStrings);
+  };
+  for (const relative of [
+    'blueprint/core/docs/engineering/templates/pre-propose-readiness.example.json',
+    'blueprint/core/docs/engineering/templates/readiness.example.json',
+  ]) {
+    collectStrings(await sourceJson(relative));
+  }
+  assert.ok(templateMarkers.length > 0);
+  assert.deepEqual(
+    templateMarkers.filter((marker) => !readinessInternals.placeholderPaths({ scope: marker }).length),
+    [],
+  );
+
+  assert.deepEqual(
+    readinessInternals.placeholderPaths({ change: 'fix-placeholder-homograph-detection' }),
+    [],
+  );
+  assert.deepEqual(
+    readinessInternals.placeholderPaths({ owner: 'TBD-owner' }),
+    ['owner (reserved-marker)'],
+  );
+  assert.deepEqual(
+    readinessInternals.placeholderPaths({ change: 'placeholder' }),
+    ['change (reserved-marker)'],
+  );
+});
+
 test('archive exige assessment capturado cuando existe configuración de deuda', async (t) => {
   const fixture=await createPolicyFixture(t); await createArchiveChange(fixture);
   const config=await sourceJson('blueprint/core/project-os/debt-policy.json');config.github.mode='off';
