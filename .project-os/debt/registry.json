@@ -1634,6 +1634,38 @@
       "createdAt": "2026-09-15",
       "updatedAt": "2026-09-15",
       "resolution": null
+    },
+    {
+      "id": "debt-ad5d4b93ff84",
+      "title": "El generador del mazo transcribe el guion a mano: las cifras quedan comprobadas, el texto no",
+      "description": "El generador del mazo transcribe el guion a mano: las cifras quedan comprobadas, el texto no",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "openspec/changes/congress-presentation-with-measured-evidence/evidence/build-deck.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/congress-presentation-with-measured-evidence/evidence/adversarial-review.md",
+          "date": "2026-09-20"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "congress-presentation-with-measured-evidence",
+          "date": "2026-09-20"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-20",
+      "updatedAt": "2026-09-20",
+      "resolution": null
     }
   ]
 }
