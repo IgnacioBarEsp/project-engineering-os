@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-20T13:31:52.025Z",
+  "deck": "docs/presentations/2026-09-24-congreso.md",
+  "claims": [
+    {
+      "id": "via-a-frases",
+      "shown": "33 de 34",
+      "source": "flow-comparison/evaluation.json"
+    },
+    {
+      "id": "via-a-marcadores",
+      "shown": "19 de 19",
+      "source": "flow-comparison/evaluation.json"
+    },
+    {
+      "id": "via-b-frases",
+      "shown": "34 de 34",
+      "source": "flow-comparison/evaluation.json"
+    },
+    {
+      "id": "via-b-marcadores",
+      "shown": "18 de 19",
+      "source": "flow-comparison/evaluation.json"
+    },
+    {
+      "id": "base-frases",
+      "shown": "2 de 34",
+      "source": "flow-comparison/evaluation.json"
+    },
+    {
+      "id": "base-marcadores",
+      "shown": "16 de 19",
+      "source": "flow-comparison/evaluation.json"
+    },
+    {
+      "id": "via-a-reloj",
+      "shown": "8 minutos 44 segundos",
+      "source": "flow-comparison/timing.json"
+    },
+    {
+      "id": "via-b-reloj",
+      "shown": "31 minutos 3 segundos",
+      "source": "flow-comparison/timing.json"
+    },
+    {
+      "id": "preparado-kubernetes",
+      "shown": "0 de 20",
+      "source": "run-02/kubernetes-website.json y cpython.json"
+    },
+    {
+      "id": "literal-veinte",
+      "shown": "20 de 20",
+      "source": "run-02/kubernetes-website.json y cpython.json"
+    },
+    {
+      "id": "fuentes-indexadas",
+      "shown": "45 de 2654",
+      "source": "run-02/kubernetes-website.json"
+    },
+    {
+      "id": "version-medida",
+      "shown": "versión publicada de hoy",
+      "source": "run-02/measurement.json"
+    },
+    {
+      "id": "contraste-hallazgos",
+      "shown": "**360**",
+      "source": "after/harness-contrast-detail.json"
+    },
+    {
+      "id": "contraste-controles",
+      "shown": "siete botones",
+      "source": "after/harness-contrast-detail.json"
+    },
+    {
+      "id": "arranque-pasos",
+      "shown": "código 0",
+      "source": "after/documented-start.json"
+    },
+    {
+      "id": "microcorpus",
+      "shown": "**10 de 10**",
+      "source": "docs/companion/EVIDENCE.md"
+    }
+  ],
+  "checked": 16,
+  "failures": [],
+  "summary": {
+    "checked": 16,
+    "failures": 0,
+    "verdict": "PASS"
+  }
+}
