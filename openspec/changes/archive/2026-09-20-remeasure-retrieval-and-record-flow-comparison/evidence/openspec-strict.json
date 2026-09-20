@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node",
+    "node_modules/@fission-ai/openspec/bin/openspec.js",
+    "validate",
+    "remeasure-retrieval-and-record-flow-comparison",
+    "--strict",
+    "--no-interactive"
+  ],
+  "exitCode": 0,
+  "stdout": "Change 'remeasure-retrieval-and-record-flow-comparison' is valid\n",
+  "stderr": "",
+  "error": null,
+  "capturedAt": "2026-09-20T12:52:15.632Z"
+}

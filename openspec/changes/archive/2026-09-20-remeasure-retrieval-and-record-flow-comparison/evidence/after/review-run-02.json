@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-20T12:41:38.637Z",
+  "independence": "The verifier imports none of the benchmark runner or summarizer decisions. Frozen inputs are anchored to the precommit blobs; raw outputs are anchored to the commit named below, which is the one that introduces them.",
+  "anchors": {
+    "precommit": "c808967cd46abc4b340d148834a24e3005cc0247",
+    "resultCommit": "cfe754c",
+    "evidence": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/after/run-02",
+    "applicationVersion": "0.3.2",
+    "rawOutputs": "Los cuatro JSON se cotejaron contra los blobs de cfe754c. Ese commit es el que introduce esa corrida: si pertenece a una rama sin integrar, la comprobación dice que los archivos no han cambiado desde que se escribieron, no que estén publicados en main.",
+    "ordering": "El precompromiso c808967 no es ancestro de cfe754c en este historial, porque la integración del protocolo fue por squash. Que las preguntas se congelaran antes de medir no lo sostiene el historial: lo atestigua el PR #113, que conserva c808967c antes que e0a29803. Lo que sí se comprueba aquí es el contenido: los insumos congelados contra los blobs del precompromiso y el protocolo contra el digest de su manifiesto."
+  },
+  "reviewed": {
+    "corpora": 2,
+    "questions": 20,
+    "rawObservations": 180
+  },
+  "attempts": [
+    {
+      "id": "question-changed-after-precommit",
+      "detected": true
+    },
+    {
+      "id": "one-method-favoured-by-question-or-order",
+      "detected": true
+    },
+    {
+      "id": "source-rereads-omitted-from-accounting",
+      "detected": true
+    },
+    {
+      "id": "corpus-commit-adulterated",
+      "detected": true
+    },
+    {
+      "id": "published-result-differs-from-raw-data",
+      "detected": true
+    }
+  ],
+  "verdict": "PASS",
+  "blockers": 0,
+  "majors": 0
+}

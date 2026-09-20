@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "scripts/check-docs.mjs"
+  ],
+  "exitCode": 0,
+  "stdout": "PASS docs 25 README links, prompt contract and 20 spec purposes\n",
+  "stderr": "",
+  "error": null,
+  "capturedAt": "2026-09-20T12:52:16.454Z"
+}

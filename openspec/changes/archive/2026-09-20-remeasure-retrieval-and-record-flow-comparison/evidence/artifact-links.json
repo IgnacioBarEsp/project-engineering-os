@@ -1,0 +1,633 @@
+{
+  "capturedAt": "2026-09-20T12:52:17.433Z",
+  "scope": "openspec/changes/remeasure-retrieval-and-record-flow-comparison, README.md, docs/README.md, docs/companion/EVIDENCE.md, docs/SELF_APPLICATION.md",
+  "markdownFiles": 22,
+  "relativeLinks": 123,
+  "status": "PASS",
+  "failures": [],
+  "findability": {
+    "readmeToEvidence": true,
+    "evidenceToSelfApplication": true,
+    "paths": [
+      "README.md → docs/companion/EVIDENCE.md → docs/SELF_APPLICATION.md"
+    ],
+    "status": "PASS"
+  },
+  "links": [
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/brownfield-baseline.md",
+      "href": "proposal.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/design.md",
+      "href": "evidence/maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/design.md",
+      "href": "proposal.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/adversarial-review.md",
+      "href": "../../../../CONTRIBUTING.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/adversarial-review.md",
+      "href": "flow-comparison/evaluate.mjs",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/after/reviewer-gap.md",
+      "href": "review-run-02.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/flow-comparison/contaminacion.md",
+      "href": "protocol.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/flow-comparison/protocol.md",
+      "href": "../maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/flow-comparison/resultado.md",
+      "href": "protocol.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/flow-comparison/resultado.md",
+      "href": "evaluate.mjs",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/flow-comparison/resultado.md",
+      "href": "evaluation.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/flow-comparison/resultado.md",
+      "href": "evaluation-regression.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/flow-comparison/resultado.md",
+      "href": "contaminacion.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/maintainer-decisions.md",
+      "href": "flow-comparison/protocol.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/validation.md",
+      "href": "maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/validation.md",
+      "href": "after/run-02",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/validation.md",
+      "href": "after/review-run-02.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/validation.md",
+      "href": "flow-comparison/resultado.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/validation.md",
+      "href": "after/harness-contrast.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/validation.md",
+      "href": "after/harness-contrast-detail.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/validation.md",
+      "href": "after/documented-start.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/validation.md",
+      "href": "openspec-strict.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/validation.md",
+      "href": "docs.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/validation.md",
+      "href": "artifact-links.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/validation.md",
+      "href": "../../../../docs/companion/EVIDENCE.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/validation.md",
+      "href": "artifact-links.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/validation.md",
+      "href": "neutrality.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/validation.md",
+      "href": "after/check.json",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/validation.md",
+      "href": "after/reviewer-gap.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/proposal.md",
+      "href": "evidence/maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/tasks.md",
+      "href": "evidence/maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/TLDR.md",
+      "href": "proposal.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/TLDR.md",
+      "href": "design.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/TLDR.md",
+      "href": "specs/companion-evaluation/spec.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/TLDR.md",
+      "href": "specs/published-release-verification/spec.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/TLDR.md",
+      "href": "tasks.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/TLDR.md",
+      "href": "brownfield-baseline.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/TLDR.md",
+      "href": "evidence/plan.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/TLDR.md",
+      "href": "evidence/maintainer-decisions.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/USER_GUIDE.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/README.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/PROJECT_STATUS.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/companion/INSTALLER.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/PROJECT_STATUS.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/assets/companion-current-home.png",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/companion/SCREENSHOTS.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/USER_GUIDE.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/UPSTREAM_OPERATIONS.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/TOOL_CATALOG.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/COMPATIBILITY.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/prompts/PROMPT_ROUTER_INICIO.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/prompts/PROMPT_01_DISCOVERY_PROYECTO.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/CLI_GUIDE.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/RECOVERY.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/REPOSITORY_MAP.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/companion/SECURITY.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "apps/companion/THIRD-PARTY-NOTICES.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/companion/EVIDENCE.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "CONTRIBUTING.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/RELEASES.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/architecture/OWNERSHIP.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/DEBT_CONTROL.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "href": "docs/PROJECT_STATUS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "USER_GUIDE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "PROJECT_STATUS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "companion/DESKTOP.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "companion/ENVIRONMENT.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "companion/INSTALLER.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "companion/EVIDENCE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "companion/HOSTED_INFERENCE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "companion/GLOSSARY.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "companion/COLD_READING.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "CLI_GUIDE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "ONBOARDING_PLAN.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "prompts/PROMPT_ROUTER_INICIO.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "GUIA_MANUAL_USUARIO.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "prompts/PROMPT_01_DISCOVERY_PROYECTO.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "EXISTING_PROJECTS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "ISOLATED_TOOLCHAIN.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "UPSTREAM_OPERATIONS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "PROJECT_OS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "ADAPTIVE_ONBOARDING.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "ONBOARDING_PLAN.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "TOOL_CATALOG.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "DEBT_CONTROL.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "SPEC_PURPOSE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "architecture/OWNERSHIP.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "REPOSITORY_MAP.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "UPSTREAM_CONSUMERS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "SELF_APPLICATION.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "RECOVERY.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "COMPATIBILITY.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "PATH_RULES.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "INSTALL_HARDENING.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "architecture/VERSIONING.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "RELEASES.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "companion/SCREENSHOTS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "COSTS_AND_LICENSES.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "security/SUPPLY_CHAIN_TRIAGE_2026-08-18.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "adr/0001-public-distribution.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "adr/0002-package-manager-supply-chain.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "USER_GUIDE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "ONBOARDING_PLAN.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "prompts/PROMPT_ROUTER_INICIO.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "prompts/PROMPT_00_BOOTSTRAP_ENTORNO.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "prompts/PROMPT_01_DISCOVERY_PROYECTO.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "RECOVERY.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "COMPATIBILITY.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "ADAPTIVE_ONBOARDING.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "TOOL_CATALOG.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "SPEC_PURPOSE.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "DEBT_CONTROL.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "adr/0002-package-manager-supply-chain.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "SELF_APPLICATION.md",
+      "exists": true
+    },
+    {
+      "source": "docs/README.md",
+      "href": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/EVIDENCE.md",
+      "href": "../SELF_APPLICATION.md",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/EVIDENCE.md",
+      "href": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "docs/companion/EVIDENCE.md",
+      "href": "DESKTOP.md",
+      "exists": true
+    },
+    {
+      "source": "docs/SELF_APPLICATION.md",
+      "href": "UPSTREAM_OPERATIONS.md",
+      "exists": true
+    },
+    {
+      "source": "docs/SELF_APPLICATION.md",
+      "href": "README.md",
+      "exists": true
+    },
+    {
+      "source": "docs/SELF_APPLICATION.md",
+      "href": "architecture/OWNERSHIP.md",
+      "exists": true
+    }
+  ]
+}

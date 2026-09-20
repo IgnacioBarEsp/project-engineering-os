@@ -1,0 +1,40 @@
+{
+  "date": "2026-09-20T12:13:11.710Z",
+  "method": "En el árbol de cada vía se restaura el detector original y se ejecuta su propia suite de readiness. Si pasa, sus pruebas no cubren lo que arregló.",
+  "arms": {
+    "via-a": {
+      "withTheirFix": {
+        "exitCode": 0,
+        "tests": 17,
+        "pass": 17,
+        "fail": 0,
+        "failures": []
+      },
+      "withOldDetector": {
+        "exitCode": 1,
+        "tests": 17,
+        "pass": 14,
+        "fail": 3,
+        "failures": []
+      },
+      "detectsRegression": true
+    },
+    "via-b": {
+      "withTheirFix": {
+        "exitCode": 0,
+        "tests": 17,
+        "pass": 17,
+        "fail": 0,
+        "failures": []
+      },
+      "withOldDetector": {
+        "exitCode": 1,
+        "tests": 17,
+        "pass": 16,
+        "fail": 1,
+        "failures": []
+      },
+      "detectsRegression": true
+    }
+  }
+}

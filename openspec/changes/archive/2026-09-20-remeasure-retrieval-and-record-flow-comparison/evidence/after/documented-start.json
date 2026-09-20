@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-20T07:56:59.338Z",
+  "source": "README.md",
+  "packageVersion": "0.5.0",
+  "network": "Requiere el registro de npm. Una ejecución sin red se reporta como no ejecutada, nunca como PASS.",
+  "platform": "win32 10.0.26100",
+  "node": "24.18.0",
+  "steps": [
+    {
+      "command": "git init -q",
+      "exitCode": 0,
+      "elapsedMs": 81,
+      "signal": null,
+      "error": null,
+      "tail": "",
+      "stderrTail": "",
+      "documented": false,
+      "note": "Condición previa que el README enuncia en prosa."
+    },
+    {
+      "command": "npx --yes create-project-engineering-os@0.5.0 bootstrap --target .",
+      "exitCode": 0,
+      "elapsedMs": 2668,
+      "signal": null,
+      "error": null,
+      "tail": "+ | +The doctor diagnoses. It never installs, repairs, authenticates, updates, reindexes, or starts services. | Transacción: tx-2026-09-20T07-57-01-575Z-216c5725",
+      "stderrTail": "",
+      "documented": true
+    },
+    {
+      "command": "npm ci",
+      "exitCode": 0,
+      "elapsedMs": 2740,
+      "signal": null,
+      "error": null,
+      "tail": "  run `npm fund` for details |  | found 0 vulnerabilities",
+      "stderrTail": "",
+      "documented": true
+    },
+    {
+      "command": "npm run openspec:init",
+      "exitCode": 0,
+      "elapsedMs": 6781,
+      "signal": null,
+      "error": null,
+      "tail": "Feedback:   https://github.com/Fission-AI/OpenSpec/issues |  | Restart your IDE for slash commands to take effect.",
+      "stderrTail": "✔ Setup complete for GitHub Copilot | - Setting up OpenCode... | ✔ Setup complete for OpenCode",
+      "documented": true
+    },
+    {
+      "command": "npm run project-os:opsx:adapt",
+      "exitCode": 0,
+      "elapsedMs": 840,
+      "signal": null,
+      "error": null,
+      "tail": "Mutación: sí | Plan: create=0, adopt=0, update=30, delete=0, conflict=0, state=stable | Transacción: 1789891032204-2ecc9e02-ddb9-4e70-9647-cac567a85a9d",
+      "stderrTail": "",
+      "documented": true
+    },
+    {
+      "command": "npm run project-os:check",
+      "exitCode": 0,
+      "elapsedMs": 2160,
+      "signal": null,
+      "error": null,
+      "tail": "project-os debt check: PASS | PASS  debt-config: Politica y registro validos (0 item(s)). | PASS  plan-product-roadmap: Plan activo: 0/5 unidades, 0 flujo(s) con deuda abierta.",
+      "stderrTail": "",
+      "documented": true
+    },
+    {
+      "command": "npm run project-os:doctor",
+      "exitCode": 0,
+      "elapsedMs": 1346,
+      "signal": null,
+      "error": null,
+      "tail": "  Causa: No se encontraron transacciones incompletas. |   Evidencia: {\"corruptJournals\":[],\"incompleteTransactionIds\":[],\"journalCount\":1,\"category\":\"published-obligation\",\"applicability\":\"applicable\"} |   Recuperación: Ejecuta rollback o reanuda el comando mutante de forma explícita; el doctor no repara.",
+      "stderrTail": "",
+      "documented": true
+    }
+  ],
+  "findings": [],
+  "doctor": {
+    "exitCode": 0,
+    "parsed": true,
+    "checks": 29,
+    "fails": []
+  },
+  "summary": {
+    "documentedSteps": 6,
+    "executed": 6,
+    "passed": 6,
+    "findings": 0,
+    "verdict": "PASS"
+  }
+}

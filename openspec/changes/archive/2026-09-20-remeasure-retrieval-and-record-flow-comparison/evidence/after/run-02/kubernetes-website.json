@@ -1,0 +1,2608 @@
+{
+  "schemaVersion": 1,
+  "corpus": {
+    "repository": "https://github.com/kubernetes/website",
+    "commit": "d6e659c193bba313791e6ace4475a475093153f1",
+    "subtree": "content/en",
+    "domain": "prosa y documentacion",
+    "license": {
+      "spdx": "CC-BY-4.0",
+      "path": "LICENSE",
+      "sha256": "d07988f4be47912f75a73b44da8a9c0b602bf6c8ced69de858b848f379ecd973"
+    },
+    "eligibility": {
+      "files": 3262,
+      "corpusBytes": 90137811,
+      "utf8TextFiles": 3096,
+      "utf8TextBytes": 41608178,
+      "required": {
+        "minimumUtf8TextFiles": 2000,
+        "minimumUtf8TextBytes": 20971520
+      },
+      "eligible": true
+    },
+    "skippedLinks": [],
+    "questions": [
+      {
+        "id": "k8s-nodeport-range",
+        "source": "docs/concepts/services-networking/service.md",
+        "sourceSha256": "45a4bd569f73c8b93bce1b74c2b45f98681e42550999dc39d4448ca357162386",
+        "queryAndAnswerLine": 475
+      },
+      {
+        "id": "k8s-grace-period",
+        "source": "docs/concepts/workloads/pods/pod-lifecycle.md",
+        "sourceSha256": "ef29cb02c1c2597fecd40b8a85e4d928a121e93fc31047a4165aa84d800915bf",
+        "queryAndAnswerLine": 916
+      },
+      {
+        "id": "k8s-max-skew",
+        "source": "docs/concepts/scheduling-eviction/topology-spread-constraints.md",
+        "sourceSha256": "b4ddeb280a463f8c981f0a317e398f2f059abb92f4e080647e9e438b621420a8",
+        "queryAndAnswerLine": 86
+      },
+      {
+        "id": "k8s-ttl-after-finished",
+        "source": "docs/concepts/workloads/controllers/ttlafterfinished.md",
+        "sourceSha256": "a82e070333b4ccff04de555eb8c763bd9e8cd7f6f9d07d339cdbe45cff4e16c5",
+        "queryAndAnswerLine": 28
+      },
+      {
+        "id": "k8s-dns-ndots",
+        "source": "docs/concepts/services-networking/dns-pod-service.md",
+        "sourceSha256": "f5365ac0c2a6fcb39a4e1b547e01513db222a19f43d7c47356b81378a9ebff36",
+        "queryAndAnswerLine": 51
+      },
+      {
+        "id": "k8s-qos-classes",
+        "source": "docs/concepts/workloads/pods/pod-qos.md",
+        "sourceSha256": "cc03ad0a9ba8ac575d0cb7898fe75b94beadd6f5e13f61c525a8fc282b921f4d",
+        "queryAndAnswerLine": 30
+      },
+      {
+        "id": "k8s-secret-size",
+        "source": "docs/concepts/configuration/secret.md",
+        "sourceSha256": "04ceb8e040c79fd645cc1b0b0e99b37c2733c8fd249282850d2e434776d65577",
+        "queryAndAnswerLine": 467
+      },
+      {
+        "id": "k8s-anti-affinity",
+        "source": "docs/concepts/scheduling-eviction/assign-pod-node.md",
+        "sourceSha256": "f933f1f25646cfe79f0ae30fc0cb42a70a518b521caf80abfe5428a6cab73156",
+        "queryAndAnswerLine": 287
+      },
+      {
+        "id": "k8s-runtime-class",
+        "source": "docs/concepts/containers/runtime-class.md",
+        "sourceSha256": "dcdbb98a5bb4ff6c67e38c46f7caac3dbe682ba90be4b3315ea1aa70f43c7619",
+        "queryAndAnswerLine": 17
+      },
+      {
+        "id": "k8s-deployment-replicas",
+        "source": "examples/application/deployment.yaml",
+        "sourceSha256": "2746a19c92aafd3022916768fe18262a40e422b0641e27a1a8743a551187976d",
+        "queryAndAnswerLine": 9
+      }
+    ]
+  },
+  "protocol": {
+    "sha256": "9c43e965d4f860a5bb260e2f2ca9db23c21ff1c6d4f8d7905245dbf187782e93",
+    "frozenAt": "2026-09-13",
+    "precommit": "18690bd0b15ccca29e2cfbb5beb0a24ba48f42f4",
+    "guardedFiles": {
+      "apps/companion/benchmarks/real-repositories/protocol.json": "9c43e965d4f860a5bb260e2f2ca9db23c21ff1c6d4f8d7905245dbf187782e93",
+      "apps/companion/benchmarks/real-repositories/protocol.sha256.json": "053d09d8f1c7613dbaafc7d7fdbeaceafd8fd5a448a8accb33ca2876b4e73ddf",
+      "apps/companion/scripts/real-repository-benchmark.mjs": "940f06ff9d3d9d327e23e21203a83c2fc4595aa84746fb8c3d94635a363f149b",
+      "apps/companion/scripts/verify-real-repository-benchmark.mjs": "8a1f77564a8c7b0c87b4c7f49a010aac7970fcbed422d8fb7a95a12be28c8458",
+      "apps/companion/scripts/portable-path.mjs": "45c3b1fb2014ae59db39b8ddaf05de24f0401af3d6a86d1626b1ae16fc8ab7f3"
+    }
+  },
+  "application": {
+    "version": "0.3.2"
+  },
+  "preparation": {
+    "elapsedMs": 100357.4618,
+    "bytesWritten": 5564463,
+    "coverage": {
+      "complete": false,
+      "sources": 2654,
+      "indexed": 45,
+      "partial": 1,
+      "unavailable": 2608,
+      "limitations": [
+        {
+          "path": "",
+          "reason": "entry-limit"
+        }
+      ],
+      "excluded": 29,
+      "chunks": 3000,
+      "textBytes": 308054
+    }
+  },
+  "accounting": {
+    "sourceInventoryBytes": 23353953,
+    "sourceCollectionBytes": 23353953,
+    "sourceValidationBytes": 46707906,
+    "indexBytesPerOpen": 1927270,
+    "indexOpens": 2,
+    "indexBytes": 3854540,
+    "bytesReadPerQuestion": 50562446,
+    "sourceFilesFirstPass": 2394,
+    "sourceFilesSecondPass": 2394,
+    "indexFilesOpened": 2,
+    "filesOpenedPerQuestion": 4790,
+    "excludes": "Directory metadata and small control-state reads are not counted; these are content bytes opened by the installed algorithm, not physical disk I/O."
+  },
+  "cache": "Caliente y no controlada: elegibilidad, verificacion de preguntas y preparacion leen el corpus antes de medir. Cada metodo ocupa una vez cada posicion por pregunta.",
+  "order": [
+    {
+      "repetition": 1,
+      "question": "k8s-nodeport-range",
+      "position": 1,
+      "method": "read-all"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-nodeport-range",
+      "position": 2,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-nodeport-range",
+      "position": 3,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-grace-period",
+      "position": 1,
+      "method": "read-all"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-grace-period",
+      "position": 2,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-grace-period",
+      "position": 3,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-max-skew",
+      "position": 1,
+      "method": "read-all"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-max-skew",
+      "position": 2,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-max-skew",
+      "position": 3,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-ttl-after-finished",
+      "position": 1,
+      "method": "read-all"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-ttl-after-finished",
+      "position": 2,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-ttl-after-finished",
+      "position": 3,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-dns-ndots",
+      "position": 1,
+      "method": "read-all"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-dns-ndots",
+      "position": 2,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-dns-ndots",
+      "position": 3,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-qos-classes",
+      "position": 1,
+      "method": "read-all"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-qos-classes",
+      "position": 2,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-qos-classes",
+      "position": 3,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-secret-size",
+      "position": 1,
+      "method": "read-all"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-secret-size",
+      "position": 2,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-secret-size",
+      "position": 3,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-anti-affinity",
+      "position": 1,
+      "method": "read-all"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-anti-affinity",
+      "position": 2,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-anti-affinity",
+      "position": 3,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-runtime-class",
+      "position": 1,
+      "method": "read-all"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-runtime-class",
+      "position": 2,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-runtime-class",
+      "position": 3,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-deployment-replicas",
+      "position": 1,
+      "method": "read-all"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-deployment-replicas",
+      "position": 2,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 1,
+      "question": "k8s-deployment-replicas",
+      "position": 3,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-nodeport-range",
+      "position": 1,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-nodeport-range",
+      "position": 2,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-nodeport-range",
+      "position": 3,
+      "method": "read-all"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-grace-period",
+      "position": 1,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-grace-period",
+      "position": 2,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-grace-period",
+      "position": 3,
+      "method": "read-all"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-max-skew",
+      "position": 1,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-max-skew",
+      "position": 2,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-max-skew",
+      "position": 3,
+      "method": "read-all"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-ttl-after-finished",
+      "position": 1,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-ttl-after-finished",
+      "position": 2,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-ttl-after-finished",
+      "position": 3,
+      "method": "read-all"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-dns-ndots",
+      "position": 1,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-dns-ndots",
+      "position": 2,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-dns-ndots",
+      "position": 3,
+      "method": "read-all"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-qos-classes",
+      "position": 1,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-qos-classes",
+      "position": 2,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-qos-classes",
+      "position": 3,
+      "method": "read-all"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-secret-size",
+      "position": 1,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-secret-size",
+      "position": 2,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-secret-size",
+      "position": 3,
+      "method": "read-all"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-anti-affinity",
+      "position": 1,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-anti-affinity",
+      "position": 2,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-anti-affinity",
+      "position": 3,
+      "method": "read-all"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-runtime-class",
+      "position": 1,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-runtime-class",
+      "position": 2,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-runtime-class",
+      "position": 3,
+      "method": "read-all"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-deployment-replicas",
+      "position": 1,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-deployment-replicas",
+      "position": 2,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 2,
+      "question": "k8s-deployment-replicas",
+      "position": 3,
+      "method": "read-all"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-nodeport-range",
+      "position": 1,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-nodeport-range",
+      "position": 2,
+      "method": "read-all"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-nodeport-range",
+      "position": 3,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-grace-period",
+      "position": 1,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-grace-period",
+      "position": 2,
+      "method": "read-all"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-grace-period",
+      "position": 3,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-max-skew",
+      "position": 1,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-max-skew",
+      "position": 2,
+      "method": "read-all"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-max-skew",
+      "position": 3,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-ttl-after-finished",
+      "position": 1,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-ttl-after-finished",
+      "position": 2,
+      "method": "read-all"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-ttl-after-finished",
+      "position": 3,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-dns-ndots",
+      "position": 1,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-dns-ndots",
+      "position": 2,
+      "method": "read-all"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-dns-ndots",
+      "position": 3,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-qos-classes",
+      "position": 1,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-qos-classes",
+      "position": 2,
+      "method": "read-all"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-qos-classes",
+      "position": 3,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-secret-size",
+      "position": 1,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-secret-size",
+      "position": 2,
+      "method": "read-all"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-secret-size",
+      "position": 3,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-anti-affinity",
+      "position": 1,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-anti-affinity",
+      "position": 2,
+      "method": "read-all"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-anti-affinity",
+      "position": 3,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-runtime-class",
+      "position": 1,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-runtime-class",
+      "position": 2,
+      "method": "read-all"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-runtime-class",
+      "position": 3,
+      "method": "literal-scan"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-deployment-replicas",
+      "position": 1,
+      "method": "prepared-context"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-deployment-replicas",
+      "position": 2,
+      "method": "read-all"
+    },
+    {
+      "repetition": 3,
+      "question": "k8s-deployment-replicas",
+      "position": 3,
+      "method": "literal-scan"
+    }
+  ],
+  "questions": [
+    {
+      "id": "k8s-nodeport-range",
+      "query": "service-node-port-range",
+      "answer": "30000-32767",
+      "source": "docs/concepts/services-networking/service.md",
+      "asks": "En que rango de puertos asigna Kubernetes un NodePort por omision"
+    },
+    {
+      "id": "k8s-grace-period",
+      "query": "terminationGracePeriodSeconds",
+      "answer": "30 seconds",
+      "source": "docs/concepts/workloads/pods/pod-lifecycle.md",
+      "asks": "Cuanto vale terminationGracePeriodSeconds por omision"
+    },
+    {
+      "id": "k8s-max-skew",
+      "query": "maxSkew",
+      "answer": "unevenly distributed",
+      "source": "docs/concepts/scheduling-eviction/topology-spread-constraints.md",
+      "asks": "Que describe maxSkew en una restriccion de dispersion topologica"
+    },
+    {
+      "id": "k8s-ttl-after-finished",
+      "query": "ttlSecondsAfterFinished",
+      "answer": "field of a Job",
+      "source": "docs/concepts/workloads/controllers/ttlafterfinished.md",
+      "asks": "Donde se configura el TTL de un Job terminado"
+    },
+    {
+      "id": "k8s-dns-ndots",
+      "query": "ndots",
+      "answer": "ndots:5",
+      "source": "docs/concepts/services-networking/dns-pod-service.md",
+      "asks": "Que valor de ndots lleva el resolv.conf de un Pod"
+    },
+    {
+      "id": "k8s-qos-classes",
+      "query": "BestEffort",
+      "answer": "Burstable",
+      "source": "docs/concepts/workloads/pods/pod-qos.md",
+      "asks": "Cuales son las clases de calidad de servicio de un Pod"
+    },
+    {
+      "id": "k8s-secret-size",
+      "query": "1MiB",
+      "answer": "limited to 1MiB",
+      "source": "docs/concepts/configuration/secret.md",
+      "asks": "Que tamano maximo tiene un Secret"
+    },
+    {
+      "id": "k8s-anti-affinity",
+      "query": "podAntiAffinity",
+      "answer": "inter-pod anti-affinity",
+      "source": "docs/concepts/scheduling-eviction/assign-pod-node.md",
+      "asks": "Que campo configura la antiafinidad entre Pods"
+    },
+    {
+      "id": "k8s-runtime-class",
+      "query": "RuntimeClass",
+      "answer": "container runtime configuration",
+      "source": "docs/concepts/containers/runtime-class.md",
+      "asks": "Para que sirve RuntimeClass"
+    },
+    {
+      "id": "k8s-deployment-replicas",
+      "query": "tells deployment to run",
+      "answer": "replicas: 2",
+      "source": "examples/application/deployment.yaml",
+      "asks": "Cuantas replicas declara el ejemplo de Deployment"
+    }
+  ],
+  "methods": [
+    {
+      "id": "read-all",
+      "description": "Abrir todos los archivos del corpus",
+      "observations": 30,
+      "questions": 10,
+      "repetitions": 3,
+      "questionsAnsweredEveryTime": 10,
+      "questionsLocatedEveryTime": 10,
+      "surfacedExpectedSource": 30,
+      "discriminates": false,
+      "answerInReturnedText": 30,
+      "withLocator": 30,
+      "locatorKinds": [
+        "file"
+      ],
+      "bytesReturnedTotal": 2704134330,
+      "bytesReturnedMedian": 90137811,
+      "bytesReadTotal": 2704134330,
+      "bytesReadPerQuestion": [
+        90137811
+      ],
+      "filesOpenedTotal": 97860,
+      "elapsedMs": {
+        "total": 59800.10850000009,
+        "median": 1931.498500000016,
+        "min": 1634.6361000000034,
+        "max": 2409.4982999999775
+      }
+    },
+    {
+      "id": "literal-scan",
+      "description": "Barrido literal sobre los bytes, equivalente a grep -a -n -r",
+      "observations": 30,
+      "questions": 10,
+      "repetitions": 3,
+      "questionsAnsweredEveryTime": 10,
+      "questionsLocatedEveryTime": 10,
+      "surfacedExpectedSource": 30,
+      "discriminates": true,
+      "answerInReturnedText": 30,
+      "withLocator": 30,
+      "locatorKinds": [
+        "file-line"
+      ],
+      "bytesReturnedTotal": 405129,
+      "bytesReturnedMedian": 3835.5,
+      "bytesReadTotal": 2704134330,
+      "bytesReadPerQuestion": [
+        90137811
+      ],
+      "filesOpenedTotal": 97860,
+      "elapsedMs": {
+        "total": 82410.88889999979,
+        "median": 2739.1362500000105,
+        "min": 2473.8907000001054,
+        "max": 3241.130600000004
+      }
+    },
+    {
+      "id": "prepared-context",
+      "description": "Busqueda sobre el contexto preparado por la aplicacion instalada",
+      "observations": 30,
+      "questions": 10,
+      "repetitions": 3,
+      "questionsAnsweredEveryTime": 0,
+      "questionsLocatedEveryTime": 0,
+      "surfacedExpectedSource": 0,
+      "discriminates": true,
+      "answerInReturnedText": 0,
+      "withLocator": 0,
+      "locatorKinds": [
+        "passage"
+      ],
+      "bytesReturnedTotal": 17919,
+      "bytesReturnedMedian": 0,
+      "bytesReadTotal": 1516873380,
+      "bytesReadPerQuestion": [
+        50562446
+      ],
+      "filesOpenedTotal": 143700,
+      "elapsedMs": {
+        "total": 416435.7661999998,
+        "median": 13576.43465000001,
+        "min": 12020.336899999995,
+        "max": 23532.46529999998
+      }
+    }
+  ],
+  "raw": {
+    "read-all": {
+      "id": "read-all",
+      "description": "Abrir todos los archivos del corpus",
+      "perQuestion": [
+        {
+          "id": "k8s-nodeport-range",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2409.4982999999775,
+          "repetition": 1,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-grace-period",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2341.564299999998,
+          "repetition": 1,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-max-skew",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2170.7639999999956,
+          "repetition": 1,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-ttl-after-finished",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2166.274399999995,
+          "repetition": 1,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-dns-ndots",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2171.745200000005,
+          "repetition": 1,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-qos-classes",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1921.926299999992,
+          "repetition": 1,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-secret-size",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1999.5078999999678,
+          "repetition": 1,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-anti-affinity",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2147.3816000000224,
+          "repetition": 1,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-runtime-class",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2121.0255999999936,
+          "repetition": 1,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-deployment-replicas",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1927.8903999999748,
+          "repetition": 1,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-nodeport-range",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1926.6321000000462,
+          "repetition": 2,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-grace-period",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2328.9171000000206,
+          "repetition": 2,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-max-skew",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2194.605900000024,
+          "repetition": 2,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-ttl-after-finished",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1871.7165000000386,
+          "repetition": 2,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-dns-ndots",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2257.5320000000065,
+          "repetition": 2,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-qos-classes",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2045.728599999973,
+          "repetition": 2,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-secret-size",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2019.3156999999774,
+          "repetition": 2,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-anti-affinity",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1808.694300000032,
+          "repetition": 2,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-runtime-class",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1813.5069999999832,
+          "repetition": 2,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-deployment-replicas",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1732.396699999983,
+          "repetition": 2,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-nodeport-range",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1677.3007999999681,
+          "repetition": 3,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-grace-period",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1696.266399999964,
+          "repetition": 3,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-max-skew",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1923.4671999999555,
+          "repetition": 3,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-ttl-after-finished",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1920.6059000000823,
+          "repetition": 3,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-dns-ndots",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1685.891100000008,
+          "repetition": 3,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-qos-classes",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1634.6361000000034,
+          "repetition": 3,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-secret-size",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2170.5326999999816,
+          "repetition": 3,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-anti-affinity",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1876.2162000000244,
+          "repetition": 3,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-runtime-class",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1903.4616000000387,
+          "repetition": 3,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-deployment-replicas",
+          "found": true,
+          "discriminates": false,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file",
+          "contextBytes": 90137811,
+          "bytesReturned": 90137811,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 1935.1066000000574,
+          "repetition": 3,
+          "orderPosition": 2
+        }
+      ]
+    },
+    "literal-scan": {
+      "id": "literal-scan",
+      "description": "Barrido literal sobre los bytes, equivalente a grep -a -n -r",
+      "perQuestion": [
+        {
+          "id": "k8s-nodeport-range",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 8,
+          "returnedSha256": "445f95d4e492ac7f0743176cbca5f775bf86f24d059182c575f8a54c084be2fe",
+          "contextBytes": 1229,
+          "bytesReturned": 1229,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2997.620200000005,
+          "repetition": 1,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-grace-period",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 59,
+          "returnedSha256": "8a9e0a2d2e13fe2d1ab2205ba0466a617b6bec70b781acabbec520f9cdce7d7c",
+          "contextBytes": 9667,
+          "bytesReturned": 9667,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 3241.130600000004,
+          "repetition": 1,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-max-skew",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 35,
+          "returnedSha256": "99ccb5664878e3876e78e480f883ab758bddf4878f977fc79f7387669f45ac76",
+          "contextBytes": 7164,
+          "bytesReturned": 7164,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2629.043399999995,
+          "repetition": 1,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-ttl-after-finished",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 10,
+          "returnedSha256": "0851f5f099a00175cf7c091e44f205ac63a00361b4eb0fed58bbff8d71c448d2",
+          "contextBytes": 2098,
+          "bytesReturned": 2098,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2851.485099999991,
+          "repetition": 1,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-dns-ndots",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 7,
+          "returnedSha256": "070e16ee73c7d0b6ecea8e6810cb2bba1855820bf17262f6691b336138d91f20",
+          "contextBytes": 572,
+          "bytesReturned": 572,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2759.7837,
+          "repetition": 1,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-qos-classes",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 66,
+          "returnedSha256": "edacad34c480728f9d148475b083fee65af17a50f5c08674d6f47077743b201e",
+          "contextBytes": 10772,
+          "bytesReturned": 10772,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2769.175499999983,
+          "repetition": 1,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-secret-size",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 3,
+          "returnedSha256": "1e80958f22cbcb714c9bb97203d52e38d97acffe4e666c804d3e436165fb3951",
+          "contextBytes": 1716,
+          "bytesReturned": 1716,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2744.1091000000015,
+          "repetition": 1,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-anti-affinity",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 35,
+          "returnedSha256": "e4d944f0e8e86ac264df20951db885cf520f6dd8b985e71ba08870aed35bebda",
+          "contextBytes": 5573,
+          "bytesReturned": 5573,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2762.572700000019,
+          "repetition": 1,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-runtime-class",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 199,
+          "returnedSha256": "d1e5e3893f4f139caa745ea895ada38bf878ae8b051876deda549c7e252dccf8",
+          "contextBytes": 96145,
+          "bytesReturned": 96145,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2759.993300000031,
+          "repetition": 1,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-deployment-replicas",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 1,
+          "returnedSha256": "469ba51b3d81baa2dd6d3de84b2051a8156a6d48be8157f3e1e343ee8fe9aa4b",
+          "contextBytes": 107,
+          "bytesReturned": 107,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2715.658400000015,
+          "repetition": 1,
+          "orderPosition": 2
+        },
+        {
+          "id": "k8s-nodeport-range",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 8,
+          "returnedSha256": "445f95d4e492ac7f0743176cbca5f775bf86f24d059182c575f8a54c084be2fe",
+          "contextBytes": 1229,
+          "bytesReturned": 1229,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 3126.445699999982,
+          "repetition": 2,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-grace-period",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 59,
+          "returnedSha256": "8a9e0a2d2e13fe2d1ab2205ba0466a617b6bec70b781acabbec520f9cdce7d7c",
+          "contextBytes": 9667,
+          "bytesReturned": 9667,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2830.781799999997,
+          "repetition": 2,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-max-skew",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 35,
+          "returnedSha256": "99ccb5664878e3876e78e480f883ab758bddf4878f977fc79f7387669f45ac76",
+          "contextBytes": 7164,
+          "bytesReturned": 7164,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2673.425600000017,
+          "repetition": 2,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-ttl-after-finished",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 10,
+          "returnedSha256": "0851f5f099a00175cf7c091e44f205ac63a00361b4eb0fed58bbff8d71c448d2",
+          "contextBytes": 2098,
+          "bytesReturned": 2098,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2701.6435000000056,
+          "repetition": 2,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-dns-ndots",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 7,
+          "returnedSha256": "070e16ee73c7d0b6ecea8e6810cb2bba1855820bf17262f6691b336138d91f20",
+          "contextBytes": 572,
+          "bytesReturned": 572,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2734.1634000000195,
+          "repetition": 2,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-qos-classes",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 66,
+          "returnedSha256": "edacad34c480728f9d148475b083fee65af17a50f5c08674d6f47077743b201e",
+          "contextBytes": 10772,
+          "bytesReturned": 10772,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2818.9599999999627,
+          "repetition": 2,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-secret-size",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 3,
+          "returnedSha256": "1e80958f22cbcb714c9bb97203d52e38d97acffe4e666c804d3e436165fb3951",
+          "contextBytes": 1716,
+          "bytesReturned": 1716,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2691.604900000035,
+          "repetition": 2,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-anti-affinity",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 35,
+          "returnedSha256": "e4d944f0e8e86ac264df20951db885cf520f6dd8b985e71ba08870aed35bebda",
+          "contextBytes": 5573,
+          "bytesReturned": 5573,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2823.0120999999926,
+          "repetition": 2,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-runtime-class",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 199,
+          "returnedSha256": "d1e5e3893f4f139caa745ea895ada38bf878ae8b051876deda549c7e252dccf8",
+          "contextBytes": 96145,
+          "bytesReturned": 96145,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2656.494399999967,
+          "repetition": 2,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-deployment-replicas",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 1,
+          "returnedSha256": "469ba51b3d81baa2dd6d3de84b2051a8156a6d48be8157f3e1e343ee8fe9aa4b",
+          "contextBytes": 107,
+          "bytesReturned": 107,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2557.4048000000184,
+          "repetition": 2,
+          "orderPosition": 1
+        },
+        {
+          "id": "k8s-nodeport-range",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 8,
+          "returnedSha256": "445f95d4e492ac7f0743176cbca5f775bf86f24d059182c575f8a54c084be2fe",
+          "contextBytes": 1229,
+          "bytesReturned": 1229,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2518.6605999999447,
+          "repetition": 3,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-grace-period",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 59,
+          "returnedSha256": "8a9e0a2d2e13fe2d1ab2205ba0466a617b6bec70b781acabbec520f9cdce7d7c",
+          "contextBytes": 9667,
+          "bytesReturned": 9667,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2473.8907000001054,
+          "repetition": 3,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-max-skew",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 35,
+          "returnedSha256": "99ccb5664878e3876e78e480f883ab758bddf4878f977fc79f7387669f45ac76",
+          "contextBytes": 7164,
+          "bytesReturned": 7164,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2986.420299999998,
+          "repetition": 3,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-ttl-after-finished",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 10,
+          "returnedSha256": "0851f5f099a00175cf7c091e44f205ac63a00361b4eb0fed58bbff8d71c448d2",
+          "contextBytes": 2098,
+          "bytesReturned": 2098,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2935.1770999999717,
+          "repetition": 3,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-dns-ndots",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 7,
+          "returnedSha256": "070e16ee73c7d0b6ecea8e6810cb2bba1855820bf17262f6691b336138d91f20",
+          "contextBytes": 572,
+          "bytesReturned": 572,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2505.3372999998974,
+          "repetition": 3,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-qos-classes",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 66,
+          "returnedSha256": "edacad34c480728f9d148475b083fee65af17a50f5c08674d6f47077743b201e",
+          "contextBytes": 10772,
+          "bytesReturned": 10772,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2481.9638999999734,
+          "repetition": 3,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-secret-size",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 3,
+          "returnedSha256": "1e80958f22cbcb714c9bb97203d52e38d97acffe4e666c804d3e436165fb3951",
+          "contextBytes": 1716,
+          "bytesReturned": 1716,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2543.5534999999218,
+          "repetition": 3,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-anti-affinity",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 35,
+          "returnedSha256": "e4d944f0e8e86ac264df20951db885cf520f6dd8b985e71ba08870aed35bebda",
+          "contextBytes": 5573,
+          "bytesReturned": 5573,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 3044.448399999994,
+          "repetition": 3,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-runtime-class",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 199,
+          "returnedSha256": "d1e5e3893f4f139caa745ea895ada38bf878ae8b051876deda549c7e252dccf8",
+          "contextBytes": 96145,
+          "bytesReturned": 96145,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2578.9240999999456,
+          "repetition": 3,
+          "orderPosition": 3
+        },
+        {
+          "id": "k8s-deployment-replicas",
+          "found": true,
+          "discriminates": true,
+          "answerPresent": true,
+          "locator": true,
+          "locatorKind": "file-line",
+          "matches": 1,
+          "returnedSha256": "469ba51b3d81baa2dd6d3de84b2051a8156a6d48be8157f3e1e343ee8fe9aa4b",
+          "contextBytes": 107,
+          "bytesReturned": 107,
+          "bytesRead": 90137811,
+          "filesOpened": 3262,
+          "elapsedMs": 2498.004799999995,
+          "repetition": 3,
+          "orderPosition": 3
+        }
+      ]
+    },
+    "prepared-context": {
+      "id": "prepared-context",
+      "description": "Busqueda sobre el contexto preparado por la aplicacion instalada",
+      "perQuestion": [
+        {
+          "id": "k8s-nodeport-range",
+          "repetition": 1,
+          "orderPosition": 3,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 3605,
+          "bytesReturned": 3605,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 23532.46529999998,
+          "hits": [
+            {
+              "path": "blog/_posts/2015/borg-predecessor-to-kubernetes.md",
+              "kind": "line",
+              "start": 39,
+              "end": 39,
+              "bytes": 513,
+              "textSha256": "23fc33c5ecf570e5faeaf2146686886e8cdaa436e90953d34e5c6846bf9d7228"
+            },
+            {
+              "path": "blog/_posts/2015/borg-predecessor-to-kubernetes.md",
+              "kind": "line",
+              "start": 43,
+              "end": 43,
+              "bytes": 765,
+              "textSha256": "bf3c2134c4c22d83e85587fdb5b3156389469c07e67cdd910f4cec7bc35d1efe"
+            },
+            {
+              "path": "blog/_posts/2015/cluster-level-logging-with-kubernetes.md",
+              "kind": "line",
+              "start": 59,
+              "end": 59,
+              "bytes": 794,
+              "textSha256": "a94a6246d39534ba8f0293f73a24580dc155d925a524fb8eb9423bb93412e4cd"
+            },
+            {
+              "path": "blog/_posts/2015/creating-raspberry-pi-cluster-running.md",
+              "kind": "line",
+              "start": 113,
+              "end": 113,
+              "bytes": 359,
+              "textSha256": "aca07836dd8bebbba83965acc065aac2caa1562be5023068c359556c3ae50aef"
+            },
+            {
+              "path": "blog/_posts/2015/creating-raspberry-pi-cluster-running.md",
+              "kind": "line",
+              "start": 115,
+              "end": 115,
+              "bytes": 95,
+              "textSha256": "95c42bccd53a748131ea66da9ce66a18a191e6281d805066bc65ae96d713bad0"
+            },
+            {
+              "path": "blog/_posts/2015/how-weave-built-a-multi-deployment-solution-for-scope-using-kubernetes.md",
+              "kind": "line",
+              "start": 107,
+              "end": 107,
+              "bytes": 1079,
+              "textSha256": "3fc8fe33297cdc1380ca8eeb849da52d62a38a4d6276d550a90660d2900e98e0"
+            }
+          ]
+        },
+        {
+          "id": "k8s-grace-period",
+          "repetition": 1,
+          "orderPosition": 3,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 17685.21299999999,
+          "hits": []
+        },
+        {
+          "id": "k8s-max-skew",
+          "repetition": 1,
+          "orderPosition": 3,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 13690.917799999996,
+          "hits": []
+        },
+        {
+          "id": "k8s-ttl-after-finished",
+          "repetition": 1,
+          "orderPosition": 3,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 15125.489700000006,
+          "hits": []
+        },
+        {
+          "id": "k8s-dns-ndots",
+          "repetition": 1,
+          "orderPosition": 3,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 13091.414799999999,
+          "hits": []
+        },
+        {
+          "id": "k8s-qos-classes",
+          "repetition": 1,
+          "orderPosition": 3,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 14282.988500000007,
+          "hits": []
+        },
+        {
+          "id": "k8s-secret-size",
+          "repetition": 1,
+          "orderPosition": 3,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 14012.595299999986,
+          "hits": []
+        },
+        {
+          "id": "k8s-anti-affinity",
+          "repetition": 1,
+          "orderPosition": 3,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 14060.882400000002,
+          "hits": []
+        },
+        {
+          "id": "k8s-runtime-class",
+          "repetition": 1,
+          "orderPosition": 3,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 13736.280099999974,
+          "hits": []
+        },
+        {
+          "id": "k8s-deployment-replicas",
+          "repetition": 1,
+          "orderPosition": 3,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 2368,
+          "bytesReturned": 2368,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 13213.2745,
+          "hits": [
+            {
+              "path": "blog/_posts/2015/weekly-kubernetes-community-hangout-2015-04-10.md",
+              "kind": "line",
+              "start": 87,
+              "end": 87,
+              "bytes": 334,
+              "textSha256": "11f313160aab52af9d654dbc09523ff1b0c7b2a49dee1b507bd485373af4ea09"
+            },
+            {
+              "path": "blog/_posts/2015/borg-predecessor-to-kubernetes.md",
+              "kind": "line",
+              "start": 19,
+              "end": 19,
+              "bytes": 295,
+              "textSha256": "df11278c16753fe80fc264231f853595b597317d61a5d87c0899241662c0efad"
+            },
+            {
+              "path": "blog/_posts/2015/borg-predecessor-to-kubernetes.md",
+              "kind": "line",
+              "start": 23,
+              "end": 23,
+              "bytes": 886,
+              "textSha256": "56eeceaa437eef516231e5f0d63c6f972adb40fd61bf469956ea07f1080d9d5f"
+            },
+            {
+              "path": "blog/_posts/2015/how-weave-built-a-multi-deployment-solution-for-scope-using-kubernetes.md",
+              "kind": "line",
+              "start": 26,
+              "end": 26,
+              "bytes": 301,
+              "textSha256": "c932b8dc135315f1f29c4e94221f698dc4fc28f1cdc3ec9ebfd1165dc8f559cb"
+            },
+            {
+              "path": "blog/_posts/2015/how-weave-built-a-multi-deployment-solution-for-scope-using-kubernetes.md",
+              "kind": "line",
+              "start": 35,
+              "end": 35,
+              "bytes": 96,
+              "textSha256": "4bb6900ecdbd8b942b3b634de298e9b809d5bd8bd25c92919f8f64dabae04e0e"
+            },
+            {
+              "path": "blog/_posts/2015/using-kubernetes-namespaces-to-manage.md",
+              "kind": "line",
+              "start": 9,
+              "end": 9,
+              "bytes": 456,
+              "textSha256": "0c6c4cf939209bf52f0eb1bac41e39bec37cc7556b0069e65becf7f08deccd93"
+            }
+          ]
+        },
+        {
+          "id": "k8s-nodeport-range",
+          "repetition": 2,
+          "orderPosition": 2,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 3605,
+          "bytesReturned": 3605,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 13575.651300000027,
+          "hits": [
+            {
+              "path": "blog/_posts/2015/borg-predecessor-to-kubernetes.md",
+              "kind": "line",
+              "start": 39,
+              "end": 39,
+              "bytes": 513,
+              "textSha256": "23fc33c5ecf570e5faeaf2146686886e8cdaa436e90953d34e5c6846bf9d7228"
+            },
+            {
+              "path": "blog/_posts/2015/borg-predecessor-to-kubernetes.md",
+              "kind": "line",
+              "start": 43,
+              "end": 43,
+              "bytes": 765,
+              "textSha256": "bf3c2134c4c22d83e85587fdb5b3156389469c07e67cdd910f4cec7bc35d1efe"
+            },
+            {
+              "path": "blog/_posts/2015/cluster-level-logging-with-kubernetes.md",
+              "kind": "line",
+              "start": 59,
+              "end": 59,
+              "bytes": 794,
+              "textSha256": "a94a6246d39534ba8f0293f73a24580dc155d925a524fb8eb9423bb93412e4cd"
+            },
+            {
+              "path": "blog/_posts/2015/creating-raspberry-pi-cluster-running.md",
+              "kind": "line",
+              "start": 113,
+              "end": 113,
+              "bytes": 359,
+              "textSha256": "aca07836dd8bebbba83965acc065aac2caa1562be5023068c359556c3ae50aef"
+            },
+            {
+              "path": "blog/_posts/2015/creating-raspberry-pi-cluster-running.md",
+              "kind": "line",
+              "start": 115,
+              "end": 115,
+              "bytes": 95,
+              "textSha256": "95c42bccd53a748131ea66da9ce66a18a191e6281d805066bc65ae96d713bad0"
+            },
+            {
+              "path": "blog/_posts/2015/how-weave-built-a-multi-deployment-solution-for-scope-using-kubernetes.md",
+              "kind": "line",
+              "start": 107,
+              "end": 107,
+              "bytes": 1079,
+              "textSha256": "3fc8fe33297cdc1380ca8eeb849da52d62a38a4d6276d550a90660d2900e98e0"
+            }
+          ]
+        },
+        {
+          "id": "k8s-grace-period",
+          "repetition": 2,
+          "orderPosition": 2,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 14373.713199999998,
+          "hits": []
+        },
+        {
+          "id": "k8s-max-skew",
+          "repetition": 2,
+          "orderPosition": 2,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 13577.217999999993,
+          "hits": []
+        },
+        {
+          "id": "k8s-ttl-after-finished",
+          "repetition": 2,
+          "orderPosition": 2,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 13323.137700000021,
+          "hits": []
+        },
+        {
+          "id": "k8s-dns-ndots",
+          "repetition": 2,
+          "orderPosition": 2,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 14040.851399999985,
+          "hits": []
+        },
+        {
+          "id": "k8s-qos-classes",
+          "repetition": 2,
+          "orderPosition": 2,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 13742.577499999956,
+          "hits": []
+        },
+        {
+          "id": "k8s-secret-size",
+          "repetition": 2,
+          "orderPosition": 2,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 13639.666599999997,
+          "hits": []
+        },
+        {
+          "id": "k8s-anti-affinity",
+          "repetition": 2,
+          "orderPosition": 2,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 12258.570999999996,
+          "hits": []
+        },
+        {
+          "id": "k8s-runtime-class",
+          "repetition": 2,
+          "orderPosition": 2,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 12704.28170000005,
+          "hits": []
+        },
+        {
+          "id": "k8s-deployment-replicas",
+          "repetition": 2,
+          "orderPosition": 2,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 2368,
+          "bytesReturned": 2368,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 12305.67259999999,
+          "hits": [
+            {
+              "path": "blog/_posts/2015/weekly-kubernetes-community-hangout-2015-04-10.md",
+              "kind": "line",
+              "start": 87,
+              "end": 87,
+              "bytes": 334,
+              "textSha256": "11f313160aab52af9d654dbc09523ff1b0c7b2a49dee1b507bd485373af4ea09"
+            },
+            {
+              "path": "blog/_posts/2015/borg-predecessor-to-kubernetes.md",
+              "kind": "line",
+              "start": 19,
+              "end": 19,
+              "bytes": 295,
+              "textSha256": "df11278c16753fe80fc264231f853595b597317d61a5d87c0899241662c0efad"
+            },
+            {
+              "path": "blog/_posts/2015/borg-predecessor-to-kubernetes.md",
+              "kind": "line",
+              "start": 23,
+              "end": 23,
+              "bytes": 886,
+              "textSha256": "56eeceaa437eef516231e5f0d63c6f972adb40fd61bf469956ea07f1080d9d5f"
+            },
+            {
+              "path": "blog/_posts/2015/how-weave-built-a-multi-deployment-solution-for-scope-using-kubernetes.md",
+              "kind": "line",
+              "start": 26,
+              "end": 26,
+              "bytes": 301,
+              "textSha256": "c932b8dc135315f1f29c4e94221f698dc4fc28f1cdc3ec9ebfd1165dc8f559cb"
+            },
+            {
+              "path": "blog/_posts/2015/how-weave-built-a-multi-deployment-solution-for-scope-using-kubernetes.md",
+              "kind": "line",
+              "start": 35,
+              "end": 35,
+              "bytes": 96,
+              "textSha256": "4bb6900ecdbd8b942b3b634de298e9b809d5bd8bd25c92919f8f64dabae04e0e"
+            },
+            {
+              "path": "blog/_posts/2015/using-kubernetes-namespaces-to-manage.md",
+              "kind": "line",
+              "start": 9,
+              "end": 9,
+              "bytes": 456,
+              "textSha256": "0c6c4cf939209bf52f0eb1bac41e39bec37cc7556b0069e65becf7f08deccd93"
+            }
+          ]
+        },
+        {
+          "id": "k8s-nodeport-range",
+          "repetition": 3,
+          "orderPosition": 1,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 3605,
+          "bytesReturned": 3605,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 12818.977100000018,
+          "hits": [
+            {
+              "path": "blog/_posts/2015/borg-predecessor-to-kubernetes.md",
+              "kind": "line",
+              "start": 39,
+              "end": 39,
+              "bytes": 513,
+              "textSha256": "23fc33c5ecf570e5faeaf2146686886e8cdaa436e90953d34e5c6846bf9d7228"
+            },
+            {
+              "path": "blog/_posts/2015/borg-predecessor-to-kubernetes.md",
+              "kind": "line",
+              "start": 43,
+              "end": 43,
+              "bytes": 765,
+              "textSha256": "bf3c2134c4c22d83e85587fdb5b3156389469c07e67cdd910f4cec7bc35d1efe"
+            },
+            {
+              "path": "blog/_posts/2015/cluster-level-logging-with-kubernetes.md",
+              "kind": "line",
+              "start": 59,
+              "end": 59,
+              "bytes": 794,
+              "textSha256": "a94a6246d39534ba8f0293f73a24580dc155d925a524fb8eb9423bb93412e4cd"
+            },
+            {
+              "path": "blog/_posts/2015/creating-raspberry-pi-cluster-running.md",
+              "kind": "line",
+              "start": 113,
+              "end": 113,
+              "bytes": 359,
+              "textSha256": "aca07836dd8bebbba83965acc065aac2caa1562be5023068c359556c3ae50aef"
+            },
+            {
+              "path": "blog/_posts/2015/creating-raspberry-pi-cluster-running.md",
+              "kind": "line",
+              "start": 115,
+              "end": 115,
+              "bytes": 95,
+              "textSha256": "95c42bccd53a748131ea66da9ce66a18a191e6281d805066bc65ae96d713bad0"
+            },
+            {
+              "path": "blog/_posts/2015/how-weave-built-a-multi-deployment-solution-for-scope-using-kubernetes.md",
+              "kind": "line",
+              "start": 107,
+              "end": 107,
+              "bytes": 1079,
+              "textSha256": "3fc8fe33297cdc1380ca8eeb849da52d62a38a4d6276d550a90660d2900e98e0"
+            }
+          ]
+        },
+        {
+          "id": "k8s-grace-period",
+          "repetition": 3,
+          "orderPosition": 1,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 12317.297699999996,
+          "hits": []
+        },
+        {
+          "id": "k8s-max-skew",
+          "repetition": 3,
+          "orderPosition": 1,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 12726.762899999972,
+          "hits": []
+        },
+        {
+          "id": "k8s-ttl-after-finished",
+          "repetition": 3,
+          "orderPosition": 1,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 13200.341399999917,
+          "hits": []
+        },
+        {
+          "id": "k8s-dns-ndots",
+          "repetition": 3,
+          "orderPosition": 1,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 14133.580199999968,
+          "hits": []
+        },
+        {
+          "id": "k8s-qos-classes",
+          "repetition": 3,
+          "orderPosition": 1,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 12020.336899999995,
+          "hits": []
+        },
+        {
+          "id": "k8s-secret-size",
+          "repetition": 3,
+          "orderPosition": 1,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 14158.099199999939,
+          "hits": []
+        },
+        {
+          "id": "k8s-anti-affinity",
+          "repetition": 3,
+          "orderPosition": 1,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 12835.375,
+          "hits": []
+        },
+        {
+          "id": "k8s-runtime-class",
+          "repetition": 3,
+          "orderPosition": 1,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 0,
+          "bytesReturned": 0,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 13517.459100000095,
+          "hits": []
+        },
+        {
+          "id": "k8s-deployment-replicas",
+          "repetition": 3,
+          "orderPosition": 1,
+          "found": false,
+          "discriminates": true,
+          "answerPresent": false,
+          "locator": false,
+          "locatorKind": "passage",
+          "contextBytes": 2368,
+          "bytesReturned": 2368,
+          "bytesRead": 50562446,
+          "filesOpened": 4790,
+          "elapsedMs": 12734.674299999955,
+          "hits": [
+            {
+              "path": "blog/_posts/2015/weekly-kubernetes-community-hangout-2015-04-10.md",
+              "kind": "line",
+              "start": 87,
+              "end": 87,
+              "bytes": 334,
+              "textSha256": "11f313160aab52af9d654dbc09523ff1b0c7b2a49dee1b507bd485373af4ea09"
+            },
+            {
+              "path": "blog/_posts/2015/borg-predecessor-to-kubernetes.md",
+              "kind": "line",
+              "start": 19,
+              "end": 19,
+              "bytes": 295,
+              "textSha256": "df11278c16753fe80fc264231f853595b597317d61a5d87c0899241662c0efad"
+            },
+            {
+              "path": "blog/_posts/2015/borg-predecessor-to-kubernetes.md",
+              "kind": "line",
+              "start": 23,
+              "end": 23,
+              "bytes": 886,
+              "textSha256": "56eeceaa437eef516231e5f0d63c6f972adb40fd61bf469956ea07f1080d9d5f"
+            },
+            {
+              "path": "blog/_posts/2015/how-weave-built-a-multi-deployment-solution-for-scope-using-kubernetes.md",
+              "kind": "line",
+              "start": 26,
+              "end": 26,
+              "bytes": 301,
+              "textSha256": "c932b8dc135315f1f29c4e94221f698dc4fc28f1cdc3ec9ebfd1165dc8f559cb"
+            },
+            {
+              "path": "blog/_posts/2015/how-weave-built-a-multi-deployment-solution-for-scope-using-kubernetes.md",
+              "kind": "line",
+              "start": 35,
+              "end": 35,
+              "bytes": 96,
+              "textSha256": "4bb6900ecdbd8b942b3b634de298e9b809d5bd8bd25c92919f8f64dabae04e0e"
+            },
+            {
+              "path": "blog/_posts/2015/using-kubernetes-namespaces-to-manage.md",
+              "kind": "line",
+              "start": 9,
+              "end": 9,
+              "bytes": 456,
+              "textSha256": "0c6c4cf939209bf52f0eb1bac41e39bec37cc7556b0069e65becf7f08deccd93"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "notMeasured": {
+    "modelTokenUsage": "No provider participates; token usage is not measured or estimated from bytes.",
+    "modelAnswerQuality": "No model generates answers in this retrieval comparison.",
+    "hallucinations": "The method cannot observe hallucinations.",
+    "physicalDiskIo": "Content bytes opened by the algorithm are counted; filesystem metadata, cache and physical I/O are not."
+  },
+  "limits": [
+    "One installed application version on one Windows machine.",
+    "Public repositories are fixed samples, not a claim about all repositories.",
+    "Retrieval uses frozen literal queries; autonomous query selection is not measured.",
+    "Warm operating-system cache is not controlled; elapsed time is descriptive and each method occupies every order position.",
+    "Partial coverage and unsupported formats are product outcomes and are not repaired for this experiment."
+  ]
+}

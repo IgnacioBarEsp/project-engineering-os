@@ -1,0 +1,41 @@
+{
+  "date": "2026-09-20T08:03:40.552Z",
+  "old": "a3b1efda6a53501a2a06e277cf0b7f18f11c6bed",
+  "head": "16c23106c3d5058953cd9c1e5b36bb51f6ff4848",
+  "runs": [
+    {
+      "label": "arnes-de-a3b1efd-sobre-a3b1efd",
+      "exitCode": 0,
+      "elapsedMs": 41417,
+      "passed": true,
+      "assertion": null
+    },
+    {
+      "label": "arnes-de-hoy-sobre-a3b1efd",
+      "exitCode": 1,
+      "elapsedMs": 350756,
+      "passed": false,
+      "assertion": "AssertionError [ERR_ASSERTION]: Every control of the current wizard has to be reachable with and without motion, and both copies have to go through the service + actual - expected "
+    },
+    {
+      "label": "arnes-de-hoy-sobre-head",
+      "exitCode": 0,
+      "elapsedMs": 92195,
+      "passed": true,
+      "assertion": null
+    }
+  ],
+  "findings": [],
+  "copied": [
+    "scripts/verify-ui.mjs",
+    "scripts/interface-contract.mjs"
+  ],
+  "contrast": {
+    "detected": true,
+    "reading": "El arnés anterior certificó limpio lo que el de hoy rechaza sobre la misma aplicación."
+  },
+  "summary": {
+    "runs": 3,
+    "findings": 0
+  }
+}

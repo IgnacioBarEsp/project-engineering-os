@@ -1,0 +1,162 @@
+diff --git a/src/readiness.mjs b/src/readiness.mjs
+index 24e3a29..405ceb6 100644
+--- a/src/readiness.mjs
++++ b/src/readiness.mjs
+@@ -33,12 +33,44 @@ const FORBIDDEN_METADATA_KEYS = new Set([
+   'executable',
+   'path',
+ ]);
++// En español el imperativo de los verbos en -ar coincide con el presente de
++// indicativo («completa la verificación» es prosa, no una orden de plantilla),
++// así que el verbo por sí solo no distingue una instrucción sin rellenar. Lo
++// que sí la distingue es que el complemento señale a la propia plantilla:
++// «sustituye este bloque», «reemplaza aquí», «rellena con tu valor».
++const TEMPLATE_FILL_VERB_ES = '(?:reemplaz(?:a|á|ar|e)|sustitu(?:ye|yé|ya|ir)'
++  + '|complet(?:a|á|ar|e)|rellen(?:a|á|ar|e))';
++const TEMPLATE_NOUN_ES = '(?:texto|bloque|campo|valor|marcador|ejemplo|placeholder'
++  + '|secci[oó]n|l[ií]nea|plantilla|apartado|fragmento|contenido|cadena)s?';
++// `\b` de JavaScript solo conoce [A-Za-z0-9_], así que no cierra palabra
++// después de una vocal acentuada («aquí»). El fin de palabra se comprueba con
++// una anticipación sobre letras y dígitos Unicode, que sí cubre el español.
++const WORD_END = '(?![\\p{L}\\p{N}_])';
++const TEMPLATE_INSTRUCTION_ES = new RegExp(
++  `\\b${TEMPLATE_FILL_VERB_ES}\\s+(?:`
++  + `aqu[ií]${WORD_END}`
++  + `|(?:est[eao]s?|aquell[ao]s?)\\s+${TEMPLATE_NOUN_ES}${WORD_END}`
++  + `|con\\s+(?:tu|su|el|la|un|una)\\s+${TEMPLATE_NOUN_ES}${WORD_END}`
++  + `|(?:el|la|los|las)\\s+(?:placeholder|marcador|plantilla)s?${WORD_END}`
++  + ')',
++  'iu',
++);
++// Las plantillas que se publican en blueprint/ vienen en inglés («Replace with
++// verified current behavior», «Complete the review…»), donde no hay ambigüedad
++// entre imperativo e indicativo.
++const TEMPLATE_INSTRUCTION_EN =
++  /\b(?:replace|fill\s+in|complete)\s+(?:with|the|this|these|here)\b/i;
+ const PLACEHOLDER_PATTERNS = Object.freeze([
+-  /<[^>\r\n]{1,80}>/,
+-  /\b(?:TBD|FIXME|CHANGEME|PLACEHOLDER)\b/i,
+-  /\bTODO\b/,
+-  /\b(?:replace|reemplaza|sustituye|completa|conserva)\s+(?:with|con|aqui|aquí|este|esta|the|el|la)\b/i,
+-  /\[(?:replace|placeholder|todo|complete|completar|sustituir)[^\]\r\n]*\]/i,
++  { label: 'angle-placeholder', pattern: /<[^>\r\n]{1,80}>/ },
++  { label: 'reserved-marker', pattern: /\b(?:TBD|FIXME|CHANGEME|PLACEHOLDER)\b/i },
++  // `TODO` distingue mayúsculas a propósito: «todo» es una palabra española corriente.
++  { label: 'TODO', pattern: /\bTODO\b/ },
++  { label: 'replacement-instruction', pattern: TEMPLATE_INSTRUCTION_EN },
++  { label: 'replacement-instruction', pattern: TEMPLATE_INSTRUCTION_ES },
++  {
++    label: 'bracket-placeholder',
++    pattern: /\[(?:replace|placeholder|todo|complete|completar|sustituir)[^\]\r\n]*\]/i,
++  },
+ ]);
+ const PRE_PROPOSE_SHAPE = Object.freeze({
+   schemaVersion: null,
+@@ -178,15 +210,13 @@ function placeholderPaths(value, prefix = '') {
+       placeholderPaths(child, prefix ? `${prefix}.${key}` : key)
+     ));
+   }
+-  if (
+-    typeof value === 'string'
+-    && PLACEHOLDER_PATTERNS.some((pattern) => pattern.test(value))
+-  ) {
+-    const labels = ['angle-placeholder', 'reserved-marker', 'TODO', 'replacement-instruction', 'bracket-placeholder'];
+-    return PLACEHOLDER_PATTERNS.flatMap((pattern, index) => pattern.test(value)
+-      ? [`${prefix || '<root>'} (${labels[index]})`] : []);
+-  }
+-  return [];
++  if (typeof value !== 'string') return [];
++  const labels = new Set(
++    PLACEHOLDER_PATTERNS
++      .filter(({ pattern }) => pattern.test(value))
++      .map(({ label }) => label),
++  );
++  return [...labels].map((label) => `${prefix || '<root>'} (${label})`);
+ }
+ 
+ function result({
+diff --git a/test/readiness.test.mjs b/test/readiness.test.mjs
+index e962bc9..994eb7e 100644
+--- a/test/readiness.test.mjs
++++ b/test/readiness.test.mjs
+@@ -531,6 +531,36 @@ test('pre-archive rechaza placeholders y propiedades adicionales en readiness',
+   );
+ });
+ 
++test('pre-propose acepta un issue redactado en español correcto', async (t) => {
++  const fixture = await createPolicyFixture(t);
++  const metadata = validIssueMetadata({
++    observableCriteria: ['completa la verificación de extremo a extremo'],
++    rollback: {
++      strategy: 'El rollback conserva el historial',
++      trigger: 'El gate detecta una regresión.',
++      recovery: 'Reejecutar validaciones; el revert conserva la evidencia anterior.',
++    },
++    nonGoals: ['No sustituye el instalador solicitado.'],
++  });
++  const remoteIssue = {
++    number: 42,
++    state: 'OPEN',
++    body: issueBody(metadata, fixture.policy),
++    projectItems: [{ title: fixture.productOs.project.title }],
++  };
++  const report = await collectReadinessReport({
++    target: fixture.root,
++    phase: 'propose',
++    issue: 42,
++    runner: githubRunner({ issue: remoteIssue }),
++  });
++
++  const placeholders = report.results.find((entry) => entry.id === 'metadata.placeholders');
++  assert.equal(placeholders.status, 'PASS', placeholders.summary);
++  assert.deepEqual(placeholders.evidence.fields, []);
++  assert.equal(report.verdict, 'PASS');
++});
++
+ test('configuración alterada falla cerrada antes de consultar GitHub', async (t) => {
+   const fixture = await createPolicyFixture(t);
+   fixture.policy.projectMembership.unverifiedStatus = 'WARN';
+@@ -581,6 +611,43 @@ test('prosa española pasa y el diagnóstico nombra el patrón sin repetir valor
+   assert.equal(JSON.stringify(readinessInternals.placeholderPaths({scope:'TODO '+secret})).includes(secret),false);
+ });
+ 
++test('el indicativo español no es una instrucción de plantilla', () => {
++  for (const frase of [
++    'El rollback conserva el historial',
++    'completa la verificación de extremo a extremo',
++    'Instalar o actualizar reemplaza el ejecutable del programa y conserva todo lo demás.',
++    'El prototipo no sustituye el instalador solicitado.',
++    'Una reclasificación posterior al bootstrap no reemplaza la ruta registrada.',
++    'Conserva el lockfile y revisa las excepciones.',
++    'Esta corrida completa la revisión de costo y licencia.',
++  ]) {
++    assert.deepEqual(
++      readinessInternals.placeholderPaths({ scope: [frase] }),
++      [],
++      `prosa válida marcada como plantilla: ${frase}`,
++    );
++  }
++});
++
++test('las plantillas sin rellenar siguen fallando en ambos idiomas', () => {
++  for (const plantilla of [
++    'Replace with verified current behavior and known drift.',
++    'Replace with accountable owner',
++    'Complete the review or document why it is objectively not applicable before propose.',
++    'sustituye este bloque por la evidencia real',
++    'reemplaza aquí con el valor acordado',
++    'Completa esta sección antes de proponer',
++    'rellena con tu valor',
++    'reemplaza el placeholder',
++  ]) {
++    assert.match(
++      readinessInternals.placeholderPaths({ scope: [plantilla] }).join(),
++      /replacement-instruction/,
++      `plantilla sin detectar: ${plantilla}`,
++    );
++  }
++});
++
+ test('archive exige assessment capturado cuando existe configuración de deuda', async (t) => {
+   const fixture=await createPolicyFixture(t); await createArchiveChange(fixture);
+   const config=await sourceJson('blueprint/core/project-os/debt-policy.json');config.github.mode='off';
