@@ -89,6 +89,11 @@ y en el handoff, no se entrega a medias en silencio.
 
 ## Open Questions
 
-- **La tarea de la comparación de flujos**: pendiente de la decisión del mantenedor.
-- **Si el contraste del arnés no aparece con el arnés de hoy**: se publica esa conclusión y #150 queda como el
-  trabajo que falta, sin arrastrarlo a este change.
+Ninguna queda abierta. Las dos que lo estaban se resolvieron antes de ejecutar:
+
+- **La tarea de la comparación de flujos**: el mantenedor eligió #162 el 20 de septiembre de 2026, y la tarea
+  se congeló con su digest antes de lanzar ninguna vía.
+- **Si el contraste del arnés aparecería con el arnés de hoy**: apareció. El arnés actual encuentra 360
+  hallazgos sobre `a3b1efd`, donde el anterior no vio ninguno. #150 sigue abierto por lo que falta —el
+  recorrido de los seis perfiles, los dos modos de movimiento y las pruebas sobre Electron—, y este change no
+  lo arrastra.

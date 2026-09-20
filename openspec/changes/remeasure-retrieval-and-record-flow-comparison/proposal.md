@@ -55,7 +55,7 @@ y `doctor` con código 1 y cuatro FAIL, tres de ellos por
 [#115](https://github.com/IgnacioBarEsp/project-engineering-os/issues/115). El handoff prohíbe arreglarlos de
 pasada. Este change ejecuta arneses existentes y añade una comprobación de verificación; no toca el
 constructor, la matriz de capacidades ni el espejo generado, que son lo que ese perfil cierra. Es la misma
-desviación que el mantenedor aprobó en #143, y queda **propuesta para su decisión**
+desviación que el mantenedor aprobó en #143, y **la aprobó también aquí** el 20 de septiembre de 2026
 ([decisiones](evidence/maintainer-decisions.md)).
 
 **Lo que este change no hace:** no cambia el protocolo, las preguntas ni los commits del benchmark; no ajusta

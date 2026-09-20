@@ -4,7 +4,7 @@ import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { documentedSteps, verdict, verifyDocumentedStart } from '../scripts/verify-documented-start.mjs';
+import { documentedSteps, readDoctor, verdict, verifyDocumentedStart } from '../scripts/verify-documented-start.mjs';
 
 const repoRoot = fileURLToPath(new URL('../', import.meta.url));
 
@@ -60,6 +60,42 @@ test('pasa cuando cada paso publicado sale con código 0', async () => {
     assert.deepEqual(record.findings, []);
     assert.equal(record.packageVersion, null, 'la versión solo se declara si el primer paso la nombra');
   } finally { await rm(root, { recursive: true, force: true }); }
+});
+
+test('un error de npm que nombra el registro no es «sin red»', async () => {
+  // Un 404 por una versión inexistente lleva la URL del registro en su mensaje. Tomarlo por falta de red
+  // convertiría un arranque roto en «no se pudo comprobar», que es lo contrario de lo que exige la spec.
+  const root = await fixture(fixtureReadme(
+    'node --eval "console.error(\'npm error 404 Not Found - GET https://registry.npmjs.org/create-project-engineering-os\'); process.exit(1)"'));
+  try {
+    const record = await verifyDocumentedStart(root);
+    assert.equal(record.summary.verdict, 'FAIL');
+    assert.equal(record.unreachableRegistry, undefined);
+    assert.ok(record.findings.some((f) => f.includes('código 1')), record.findings.join('; '));
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
+
+test('un doctor cuyo esquema no se reconoce no cuenta como «ningún FAIL»', () => {
+  assert.deepEqual(readDoctor({ checks: [{ id: 'uno', status: 'PASS' }] }).findings, []);
+  assert.equal(readDoctor({ checks: [{ id: 'uno', status: 'PASS' }] }).record.checks, 1);
+
+  const unknown = readDoctor({ summary: { checks: [{ id: 'uno', status: 'FAIL' }] } });
+  assert.equal(unknown.record.checks, null);
+  assert.ok(unknown.findings.some((f) => f.includes('sin lista de comprobaciones')), unknown.findings.join('; '));
+
+  const empty = readDoctor({ checks: [] });
+  assert.ok(empty.findings.some((f) => f.includes('ninguna comprobación')), empty.findings.join('; '));
+
+  const failing = readDoctor({ results: [{ id: 'profile.ui', status: 'FAIL' }, { id: 'ok', status: 'PASS' }] });
+  assert.deepEqual(failing.record.fails, ['profile.ui']);
+  assert.ok(failing.findings.some((f) => f.includes('1 FAIL')), failing.findings.join('; '));
+
+  assert.ok(readDoctor(null).findings.some((f) => f.includes('JSON legible')));
+});
+
+test('un comentario del bloque publicado no es un paso', () => {
+  const steps = documentedSteps('```sh\n# primero esto\nnpm ci\necho create-project-engineering-os@0.5.0 bootstrap\n```\n');
+  assert.deepEqual(steps, ['npm ci', 'echo create-project-engineering-os@0.5.0 bootstrap']);
 });
 
 test('sin bloque publicado lo dice en vez de pasar en vacío', async () => {

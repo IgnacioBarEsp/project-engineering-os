@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-09-20T12:22:09.010Z",
+  "capturedAt": "2026-09-20T12:52:17.433Z",
   "scope": "openspec/changes/remeasure-retrieval-and-record-flow-comparison, README.md, docs/README.md, docs/companion/EVIDENCE.md, docs/SELF_APPLICATION.md",
-  "markdownFiles": 21,
-  "relativeLinks": 120,
+  "markdownFiles": 22,
+  "relativeLinks": 123,
   "status": "PASS",
   "failures": [],
   "findability": {
@@ -30,6 +30,16 @@
       "exists": true
     },
     {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/adversarial-review.md",
+      "href": "../../../../CONTRIBUTING.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/adversarial-review.md",
+      "href": "flow-comparison/evaluate.mjs",
+      "exists": true
+    },
+    {
       "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/after/reviewer-gap.md",
       "href": "review-run-02.json",
       "exists": true
@@ -47,6 +57,11 @@
     {
       "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/flow-comparison/resultado.md",
       "href": "protocol.md",
+      "exists": true
+    },
+    {
+      "source": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/flow-comparison/resultado.md",
+      "href": "evaluate.mjs",
       "exists": true
     },
     {

@@ -43,13 +43,14 @@
 ## 6. Publicación y cierre
 
 - [x] 6.1 Actualizar `docs/companion/EVIDENCE.md` con las cuatro mediciones, su método y sus límites.
-- [ ] 6.2 Pasar la revisión adversarial desde contexto limpio y resolver sus Blockers y Majors.
-- [ ] 6.3 Capturar el assessment de deuda después de la última pasada de revisión.
+- [x] 6.2 Pasar la revisión adversarial desde contexto limpio y resolver sus Blockers y Majors.
+- [x] 6.3 Capturar el assessment de deuda después de la última pasada de revisión.
 - [ ] 6.4 Sustituir los estados pendientes de readiness solo con evidencia ejecutada, y pasar strict y el gate
   de archive con `--run-local`.
 - [ ] 6.5 Archivar con el CLI local, corregir los enlaces del change archivado, firmar los commits con DCO y
   entregar por PR protegido.
 
 Alcance decidido por el mantenedor el 20 de septiembre de 2026: las cuatro pruebas, e instalar la aplicación
-publicada para medirla ([decisiones](evidence/maintainer-decisions.md)). Quedan dos decisiones abiertas: la
-superficie y la tarea de la comparación.
+publicada para medirla ([decisiones](evidence/maintainer-decisions.md)). La superficie, la tarea de la
+comparación y el contexto limpio de cada vía también los decidió el mantenedor ese mismo día, antes de
+ejecutar. No queda ninguna decisión abierta.

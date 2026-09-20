@@ -20,7 +20,25 @@ export function documentedSteps(readme) {
   const blocks = [...readme.matchAll(/```sh\n([\s\S]*?)```/g)].map((match) => match[1]);
   const block = blocks.find((text) => /create-project-engineering-os@\d+\.\d+\.\d+ bootstrap/.test(text));
   if (!block) return [];
-  return block.split('\n').map((line) => line.trim()).filter(Boolean);
+  // Un comentario del bloque no es un paso: ejecutarlo produciría un fallo que el arranque no tiene.
+  return block.split('\n').map((line) => line.trim()).filter((line) => line && !line.startsWith('#'));
+}
+
+// Leer la salida del doctor. Un esquema que no se reconoce daría cero comprobaciones y cero FAIL, y eso no es
+// «ningún FAIL»: es no haber mirado. Se separa para poder probarlo sin ejecutar el doctor.
+export function readDoctor(report) {
+  const findings = [];
+  if (!report) {
+    return { record: { parsed: false, checks: null, fails: [] },
+      findings: ['El doctor no devolvió un JSON legible; no se puede afirmar que no haya FAIL.'] };
+  }
+  const checks = Array.isArray(report.checks) ? report.checks
+    : Array.isArray(report.results) ? report.results : null;
+  if (!checks) findings.push('El doctor devolvió un JSON sin lista de comprobaciones reconocible; no se inspeccionó ninguna.');
+  else if (!checks.length) findings.push('El doctor no reportó ninguna comprobación; no se puede afirmar que no haya FAIL.');
+  const fails = (checks ?? []).filter((check) => check?.status === 'FAIL').map((check) => check.id ?? check.name);
+  if (fails.length) findings.push(`El doctor del proyecto recién sembrado reporta ${fails.length} FAIL: ${fails.join(', ')}.`);
+  return { record: { parsed: true, checks: checks ? checks.length : null, fails }, findings };
 }
 
 // Un registro no ejecutado no es un PASS. Se separa para poder probar la regla sin tocar la red.
@@ -29,7 +47,9 @@ export function verdict({ unreachableRegistry = false, findings = [] } = {}) {
   return findings.length ? 'FAIL' : 'PASS';
 }
 
-const OFFLINE = /ENOTFOUND|EAI_AGAIN|ECONNREFUSED|ETIMEDOUT|getaddrinfo|registry\.npmjs\.org/i;
+// Solo fallos de red. El nombre del registro aparece en casi cualquier error de npm —un 404 por una versión
+// inexistente lo lleva—, y tomarlo por «sin red» convertiría un arranque roto en «no se pudo comprobar».
+const OFFLINE = /ENOTFOUND|EAI_AGAIN|ECONNREFUSED|ECONNRESET|ETIMEDOUT|ENETUNREACH|getaddrinfo|network timed out/i;
 
 export async function verifyDocumentedStart(repo) {
   const readme = await readFile(path.join(repo, 'README.md'), 'utf8');
@@ -93,17 +113,19 @@ export async function verifyDocumentedStart(repo) {
     }
 
     // El doctor puede salir con código 0 y aun así reportar FAIL; el arranque documentado promete cero.
+    // Si el README deja de publicar el paso del doctor, esta puerta no se ejecuta. No es un fallo —se
+    // comprueba lo documentado—, pero el registro tiene que decir que no se miró, no callar.
+    const documentsDoctor = steps.some((command) => /project-os:doctor/.test(command));
     const ranDoctor = record.steps.some((step) => /project-os:doctor/.test(step.command) && step.exitCode === 0);
+    if (!documentsDoctor) record.doctor = { documented: false, note: 'El README no publica el paso del doctor; no se inspeccionó.' };
     if (ranDoctor) {
       const { stdout, step } = run('npm run project-os:doctor -- --json', workspace);
       const start = stdout.indexOf('{');
       let report = null;
       if (start >= 0) { try { report = JSON.parse(stdout.slice(start)); } catch { report = null; } }
-      const checks = report?.checks ?? report?.results ?? [];
-      const fails = checks.filter((check) => check.status === 'FAIL');
-      record.doctor = { exitCode: step.exitCode, parsed: Boolean(report), checks: checks.length, fails: fails.map((check) => check.id ?? check.name) };
-      if (!report) finding('El doctor no devolvió un JSON legible; no se puede afirmar que no haya FAIL.');
-      else if (fails.length) finding(`El doctor del proyecto recién sembrado reporta ${fails.length} FAIL: ${record.doctor.fails.join(', ')}.`);
+      const reading = readDoctor(report);
+      record.doctor = { exitCode: step.exitCode, ...reading.record };
+      for (const value of reading.findings) finding(value);
     }
   } catch (error) {
     finding(`La comprobación no pudo completarse: ${String(error.message).split('\n')[0].slice(0, 300)}`);

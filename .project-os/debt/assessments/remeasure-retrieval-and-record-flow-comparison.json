@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "remeasure-retrieval-and-record-flow-comparison",
+  "date": "2026-09-20",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Revisión adversarial en una ronda, agente sin el contexto del apply: 1 Blocker, 7 Majors, 9 Minors y 3 Info, todos corregidos antes de archivar. El Blocker era del mismo tipo que el change denuncia: dos cifras publicadas salían de una comprobación hecha a mano que nunca se guardó. Se corrigió de raíz versionando el script que mide y derivando el corpus de las plantillas, no de la memoria del ejecutor. Este change no introduce deuda: mide, publica y corrige un verificador que estaba roto. Lo que encontró y pertenece a otros sitios: el defecto de recuperación sigue vivo y publicado como resultado adverso, y su corrección es otro cambio; #162 sigue abierto porque ninguna de las dos vías de la comparación entregó el arreglo completo, y sus dos entregas son artefactos de medición que no se integran; #150 sigue abierto con lo que al arnés le falta; y `npm run pack:verify` falla en cualquier checkout de main porque el empaquetador trata un archivo sin saltos de línea como fin de línea no canónico, defecto ajeno encontrado al medir, no arreglado de pasada y pendiente de su propio issue. Límite conocido y documentado, no deuda: desde el historial de main no se puede probar que las preguntas del benchmark se congelaran antes de medir, porque la integración por squash fundió el precompromiso y el resultado en un commit; el orden consta en el PR #113 y el registro del revisor lo dice con esas palabras."
+}

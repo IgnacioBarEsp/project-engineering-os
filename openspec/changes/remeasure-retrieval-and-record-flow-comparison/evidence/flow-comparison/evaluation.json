@@ -1,8 +1,88 @@
 {
-  "date": "2026-09-20T09:02:02.538Z",
+  "schemaVersion": 1,
+  "date": "2026-09-20T12:36:17.671Z",
+  "method": "Se importa el detector de cada árbol y se somete al mismo corpus, extraído del repositorio base. Ninguna cifra sale de los informes de las vías.",
   "corpus": {
     "legitimate": 34,
-    "markers": 8,
+    "markers": 19,
+    "markerSources": [
+      {
+        "source": "blueprint/core/docs/engineering/templates/pre-propose-readiness.example.json",
+        "marker": "Replace with verified current behavior and known drift."
+      },
+      {
+        "source": "blueprint/core/docs/engineering/templates/pre-propose-readiness.example.json",
+        "marker": "Replace with a code, runtime, test, active spec, or operating-rule reference."
+      },
+      {
+        "source": "blueprint/core/docs/engineering/templates/pre-propose-readiness.example.json",
+        "marker": "Replace with one observable in-scope outcome."
+      },
+      {
+        "source": "blueprint/core/docs/engineering/templates/pre-propose-readiness.example.json",
+        "marker": "Replace with one criterion that can pass or fail."
+      },
+      {
+        "source": "blueprint/core/docs/engineering/templates/pre-propose-readiness.example.json",
+        "marker": "Replace with accountable owner"
+      },
+      {
+        "source": "blueprint/core/docs/engineering/templates/pre-propose-readiness.example.json",
+        "marker": "Replace with one risk and keep its mitigation in the enriched issue."
+      },
+      {
+        "source": "blueprint/core/docs/engineering/templates/pre-propose-readiness.example.json",
+        "marker": "Complete the review or document why it is objectively not applicable before propose."
+      },
+      {
+        "source": "blueprint/core/docs/engineering/templates/pre-propose-readiness.example.json",
+        "marker": "Replace with the expected manual evidence."
+      },
+      {
+        "source": "blueprint/core/docs/engineering/templates/pre-propose-readiness.example.json",
+        "marker": "Replace with a bounded reversal strategy."
+      },
+      {
+        "source": "blueprint/core/docs/engineering/templates/pre-propose-readiness.example.json",
+        "marker": "Replace with the observable rollback trigger."
+      },
+      {
+        "source": "blueprint/core/docs/engineering/templates/pre-propose-readiness.example.json",
+        "marker": "Replace with the recovery verification."
+      },
+      {
+        "source": "blueprint/core/docs/engineering/templates/pre-propose-readiness.example.json",
+        "marker": "Replace with an explicit non-goal."
+      },
+      {
+        "source": "blueprint/core/docs/engineering/templates/readiness.example.json",
+        "marker": "Replace with a bounded rollback that preserves unrelated work and evidence."
+      },
+      {
+        "source": "criterio 3 del protocolo",
+        "marker": "reemplaza con el valor"
+      },
+      {
+        "source": "criterio 3 del protocolo",
+        "marker": "<nombre del cambio>"
+      },
+      {
+        "source": "criterio 3 del protocolo",
+        "marker": "TODO"
+      },
+      {
+        "source": "criterio 3 del protocolo",
+        "marker": "[completar]"
+      },
+      {
+        "source": "escape acentuado",
+        "marker": "sustituye aquí el valor"
+      },
+      {
+        "source": "escape acentuado",
+        "marker": "reemplaza aquí"
+      }
+    ],
     "archivedChanges": 50
   },
   "legitimatePhrases": [
@@ -145,142 +225,76 @@
   ],
   "arms": {
     "base": {
+      "legitimateTotal": 34,
       "legitimateRejected": 32,
       "legitimateRejectedSamples": [
-        "publicado; un hash coincidente verifica el archivo, no sustituye la firma del editor.",
-        "[Recuperación](RECOVERY.md) conserva el detalle de reanudación, reversión y conflictos.",
-        "ownership ilegible conserva el comportamiento anterior de indexarlos.",
-        "Estado: **draft reversible**. Se conserva el carácter de Project Engineering OS — claridad"
-      ],
-      "markersAccepted": [
-        "Complete the review before archiving",
-        "sustituye aquí el valor",
-        "reemplaza aquí"
-      ],
-      "markerDetail": {
-        "reemplaza con el valor": {
-          "flagged": true,
-          "detail": "campo (replacement-instruction)"
+        {
+          "file": "README.md",
+          "phrase": "publicado; un hash coincidente verifica el archivo, no sustituye la firma del editor."
         },
-        "<nombre del cambio>": {
-          "flagged": true,
-          "detail": "campo (angle-placeholder)"
+        {
+          "file": "docs/CLI_GUIDE.md",
+          "phrase": "[Recuperación](RECOVERY.md) conserva el detalle de reanudación, reversión y conflictos."
         },
-        "TODO": {
-          "flagged": true,
-          "detail": "campo (TODO)"
+        {
+          "file": "docs/companion/CONTEXT.md",
+          "phrase": "ownership ilegible conserva el comportamiento anterior de indexarlos."
         },
-        "[completar]": {
-          "flagged": true,
-          "detail": "campo (bracket-placeholder)"
-        },
-        "Replace with the change name": {
-          "flagged": true,
-          "detail": "campo (replacement-instruction)"
-        },
-        "Complete the review before archiving": {
-          "flagged": false,
-          "detail": ""
-        },
-        "sustituye aquí el valor": {
-          "flagged": false,
-          "detail": ""
-        },
-        "reemplaza aquí": {
-          "flagged": false,
-          "detail": ""
+        {
+          "file": "docs/companion/DESIGN.md",
+          "phrase": "Estado: **draft reversible**. Se conserva el carácter de Project Engineering OS — claridad, señal verde,"
         }
-      },
-      "namesToken": true,
+      ],
+      "markersTotal": 19,
+      "markersRejected": 16,
+      "markersAccepted": [
+        {
+          "source": "blueprint/core/docs/engineering/templates/pre-propose-readiness.example.json",
+          "marker": "Complete the review or document why it is objectively not applicable before propose."
+        },
+        {
+          "source": "escape acentuado",
+          "marker": "sustituye aquí el valor"
+        },
+        {
+          "source": "escape acentuado",
+          "marker": "reemplaza aquí"
+        }
+      ],
       "namingSample": "campo (replacement-instruction)",
+      "namesToken": true,
       "archivedFlagged": []
     },
     "via-a": {
+      "legitimateTotal": 34,
       "legitimateRejected": 1,
       "legitimateRejectedSamples": [
-        "| `FAIL` `purpose-placeholder` | El Purpose conserva el texto que sembró el archive, o abr"
-      ],
-      "markersAccepted": [],
-      "markerDetail": {
-        "reemplaza con el valor": {
-          "flagged": true,
-          "detail": "campo (replacement-instruction)"
-        },
-        "<nombre del cambio>": {
-          "flagged": true,
-          "detail": "campo (angle-placeholder)"
-        },
-        "TODO": {
-          "flagged": true,
-          "detail": "campo (TODO)"
-        },
-        "[completar]": {
-          "flagged": true,
-          "detail": "campo (bracket-placeholder)"
-        },
-        "Replace with the change name": {
-          "flagged": true,
-          "detail": "campo (replacement-instruction)"
-        },
-        "Complete the review before archiving": {
-          "flagged": true,
-          "detail": "campo (replacement-instruction)"
-        },
-        "sustituye aquí el valor": {
-          "flagged": true,
-          "detail": "campo (replacement-instruction)"
-        },
-        "reemplaza aquí": {
-          "flagged": true,
-          "detail": "campo (replacement-instruction)"
+        {
+          "file": "docs/SPEC_PURPOSE.md",
+          "phrase": "| `FAIL` `purpose-placeholder` | El Purpose conserva el texto que sembró el archive, o abre con un marcador de pendiente"
         }
-      },
-      "namesToken": true,
+      ],
+      "markersTotal": 19,
+      "markersRejected": 19,
+      "markersAccepted": [],
       "namingSample": "campo (replacement-instruction)",
+      "namesToken": true,
       "archivedFlagged": []
     },
     "via-b": {
+      "legitimateTotal": 34,
       "legitimateRejected": 0,
       "legitimateRejectedSamples": [],
+      "markersTotal": 19,
+      "markersRejected": 18,
       "markersAccepted": [
-        "Complete the review before archiving"
-      ],
-      "markerDetail": {
-        "reemplaza con el valor": {
-          "flagged": true,
-          "detail": "campo (replacement-instruction)"
-        },
-        "<nombre del cambio>": {
-          "flagged": true,
-          "detail": "campo (angle-placeholder)"
-        },
-        "TODO": {
-          "flagged": true,
-          "detail": "campo (TODO)"
-        },
-        "[completar]": {
-          "flagged": true,
-          "detail": "campo (bracket-placeholder)"
-        },
-        "Replace with the change name": {
-          "flagged": true,
-          "detail": "campo (replacement-instruction)"
-        },
-        "Complete the review before archiving": {
-          "flagged": false,
-          "detail": ""
-        },
-        "sustituye aquí el valor": {
-          "flagged": true,
-          "detail": "campo (replacement-instruction)"
-        },
-        "reemplaza aquí": {
-          "flagged": true,
-          "detail": "campo (replacement-instruction)"
+        {
+          "source": "blueprint/core/docs/engineering/templates/pre-propose-readiness.example.json",
+          "marker": "Complete the review or document why it is objectively not applicable before propose."
         }
-      },
-      "namesToken": true,
+      ],
       "namingSample": "campo (replacement-instruction)",
+      "namesToken": true,
       "archivedFlagged": []
     }
   }

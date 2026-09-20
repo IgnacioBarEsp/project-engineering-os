@@ -151,7 +151,8 @@ tocaron el protocolo, las preguntas ni los commits; el arnés vuelve a verificar
 devolviendo las veinte. La causa observada tampoco cambió: la preparación indexó **45 de 2654** fuentes en
 Kubernetes y **42 de 2753** en CPython, y las dos volvieron a reportar `entry-limit`.
 
-Lo único que se movió son los tiempos, y no lo bastante: la mediana preparada bajó de 17,159 s a 13,576 s en
+Lo que se movió son los tiempos —y, por unas decenas de bytes, la lectura por consulta, visible en las dos
+tablas—, y no lo bastante: la mediana preparada bajó de 17,159 s a 13,576 s en
 Kubernetes y de 9,134 s a 6,842 s en CPython, pero el barrido literal sigue respondiendo antes, en 2,739 s y
 3,531 s. Preparar el contexto tardó 100,4 s en Kubernetes y 41,6 s en CPython. Son tiempos descriptivos con
 caché caliente no controlada.
@@ -184,8 +185,10 @@ Lo que cambia entre ellas es **la comprobación, no la aplicación**: al árbol 
 | El de hoy | El commit corregido | **Pasa.** Código 0, 92 s |
 
 La misma aplicación, dos comprobaciones: **0 hallazgos contra 360**. Los 360 se reparten en 42 controles que no
-se pueden pulsar, 72 avisos de que la barra final no queda fija, 36 de que tapa contenido y 210 consecuencias
-de lo anterior, repetidos por cada tamaño de ventana y cada modo de movimiento.
+se pueden pulsar, 72 avisos de que la barra final no queda fija, 36 de que tapa contenido y 210 hallazgos más,
+repetidos por cada tamaño de ventana y cada modo de movimiento. No todos esos 210 son consecuencia del
+solapamiento: al menos cuarenta son defectos aparte —veinte de controles sin nombre accesible y veinte de una
+navegación que se declara pulsada sin estarlo—.
 
 Los siete controles distintos que el arnés de hoy declara inalcanzables sobre 0.3.1 son exactamente los que la
 gente no podía pulsar:
@@ -196,8 +199,10 @@ gente no podía pulsar:
 - «Instalar stack base y obtener prompt →» y «Preparar carpeta y generar prompt maestro →», los dos botones de
   Instalación
 
-En cada caso el arnés dice qué había encima: «en su centro está `div.actions`», la barra de acciones. Los
-registros están en `evidence/after/harness-contrast.json` y `harness-contrast-detail.json`.
+En 36 de los 42 avisos el arnés dice qué había encima: «en su centro está `div.actions`», la barra de acciones;
+en los otros seis, otro control. Los registros están en `evidence/after/harness-contrast.json` y
+`harness-contrast-detail.json`, y el commit corregido de la tabla es el de esta rama, no el de la corrección de
+0.3.1 a 0.3.2: lo que cambia entre las dos primeras filas es la comprobación, no la aplicación.
 
 **Qué demuestra y qué no.** Demuestra que la comprobación anterior daba por buena una pantalla en la que un
 control quedaba tapado, y que la de hoy lo detecta sobre esa misma versión. No demuestra que el arnés de hoy
@@ -242,7 +247,7 @@ sometió al mismo corpus, tomado de los documentos reales del repositorio.
 | Criterio | Prompt suelto | Flujo completo |
 | --- | --- | --- |
 | Frases legítimas que pasan | 33 de 34 | 34 de 34 |
-| Marcadores de verdad que siguen rechazados | 9 de 9 | 8 de 9 |
+| Marcadores de verdad que siguen rechazados | 19 de 19 | 18 de 19 |
 | Una regresión hace fallar su suite | Sí, caen 3 pruebas | Sí, cae 1 |
 | Changes archivados que cambian de veredicto | 0 de 50 | 0 de 50 |
 | `npm run check` en el árbol entregado | 344 de 344 | 344 de 344 |
@@ -250,7 +255,7 @@ sometió al mismo corpus, tomado de los documentos reales del repositorio.
 | Archivos tocados | 2 | 28 |
 
 Para leer esas columnas: el detector original rechaza **32 de esas 34** frases legítimas y deja colar **3 de
-los 9** marcadores.
+los 19** marcadores.
 
 **Ninguna de las dos entregó el arreglo completo, y no fallan en lo mismo.** El prompt suelto dejó sin tocar el
 segundo síntoma del defecto —que un identificador con guiones cuente como marcador— y el flujo completo dejó

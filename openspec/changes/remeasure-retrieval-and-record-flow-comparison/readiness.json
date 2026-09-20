@@ -46,7 +46,7 @@
     {
       "id": "adversarial-review",
       "kind": "manual",
-      "status": "pending",
+      "status": "verified",
       "ref": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/adversarial-review.md",
       "justification": null,
       "profileCondition": null
@@ -83,8 +83,8 @@
     "justification": null
   },
   "adversarialReview": {
-    "status": "pending",
-    "ref": null,
+    "status": "passed",
+    "ref": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/adversarial-review.md",
     "blockers": 0,
     "majors": 0
   },

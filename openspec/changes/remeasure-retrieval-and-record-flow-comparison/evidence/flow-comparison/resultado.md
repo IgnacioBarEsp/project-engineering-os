@@ -6,8 +6,16 @@ desde `a02c991`, sin acceso al issue #162, a su diagnóstico, a los criterios ni
 
 **Las dos entregas las evaluó quien escribe, no ellas mismas.** Ningún número de aquí sale de los informes de
 las vías: el detector de cada árbol se importó y se sometió al mismo corpus, construido desde los documentos
-reales del repositorio base. Los scripts y los registros están en [evaluation.json](evaluation.json) y
+reales del repositorio base. El script que mide, [evaluate.mjs](evaluate.mjs), está versionado aquí para que
+cualquiera repita la medición, y sus salidas son [evaluation.json](evaluation.json) y
 [evaluation-regression.json](evaluation-regression.json).
+
+**El corpus no se escribe a mano, y es más amplio que el que enuncia el protocolo.** El protocolo congelado
+habla de «las 22 construcciones legítimas» y nombra cuatro marcadores. Lo que se ejecutó extrae **34 frases
+legítimas** de los documentos del repositorio base —el mismo criterio de búsqueda, sobre el árbol de hoy— y
+**19 marcadores**: los trece literales de las plantillas sembradas, los cuatro que nombra el criterio 3 y las
+dos formas acentuadas. Ampliar el corpus endurece la vara para las dos vías por igual, pero es una desviación
+del protocolo y queda declarada aquí en vez de pasar inadvertida.
 
 Antes de leer nada: [qué sabían las dos vías al empezar](contaminacion.md).
 
@@ -17,7 +25,7 @@ Antes de leer nada: [qué sabían las dos vías al empezar](contaminacion.md).
 | --- | --- | --- | --- |
 | 1 | Las frases legítimas del repositorio pasan | **33 de 34** | **34 de 34** |
 | 2 | «Conserva la carpeta y revisa la recuperación» pasa | Sí | Sí |
-| 3 | Los marcadores de verdad siguen rechazados | **9 de 9** | **8 de 9** |
+| 3 | Los marcadores de verdad siguen rechazados | **19 de 19** | **18 de 19** |
 | 4 | Corpus de las dos clases y una regresión hace fallar la suite | Sí, 3 pruebas caen | Sí, 1 prueba cae |
 | 5 | Ningún change archivado cambia de veredicto | Sí, 0 de 50 | Sí, 0 de 50 |
 | 6 | El mensaje nombra el token rechazado | Sí | Sí |
@@ -26,7 +34,7 @@ Antes de leer nada: [qué sabían las dos vías al empezar](contaminacion.md).
 | 9 | Los defectos quedan registrados con quién y cuándo | Solo en su informe final | En evidencia versionada |
 
 La línea base, para leer las dos columnas: el detector original **rechaza 32 de esas 34 frases legítimas** y
-**deja colar 3 de los 9 marcadores**.
+**deja colar 3 de los 19 marcadores**.
 
 ## Dónde falla cada una, exactamente
 
@@ -54,7 +62,7 @@ escrito en castellano correcto— nunca se detectaba. Las dos lo cerraron.
 | Reloj de pared | **8 min 44 s** | **31 min 3 s** |
 | Llamadas a herramientas | 45 | 146 |
 | Archivos tocados | 2 | 28 |
-| Líneas añadidas | 162 en total | 1822 |
+| Líneas | **111 añadidas, 14 borradas** | **1822 añadidas, 4 borradas** |
 | Entrega | Árbol de trabajo sin commit | Rama y un commit firmado |
 | Artefactos de proceso | Ninguno | Issue verificado con DoR 13 PASS, change OpenSpec válido en estricto, spec, plan y validación, medición versionada y repetible, assessment de deuda `clean` |
 | Dónde se detuvo | Al entregar el arreglo | Antes de archivar: el gate de archive quedó en 14 PASS y 3 FAIL porque dos comprobaciones exigen la matriz de CI protegida, que solo corre con un push |
