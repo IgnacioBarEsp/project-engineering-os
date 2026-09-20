@@ -88,6 +88,12 @@ CC-BY-4.0) y `python/cpython` (`9bd9c7461dabddcd2688b0f14ce00722edbdfee3`, Pytho
 las veinte preguntas y el arnés se precomprometieron en `c808967cd46abc4b340d148834a24e3005cc0247`;
 el SHA-256 del protocolo es `9c43e965d4f860a5bb260e2f2ca9db23c21ff1c6d4f8d7905245dbf187782e93`.
 
+**La comparación se ha ejecutado dos veces** con el mismo protocolo, las mismas veinte preguntas y los mismos
+dos commits: el 13 de septiembre de 2026 sobre la versión **0.1.0** instalada, y el 20 de septiembre de 2026
+sobre la **0.3.2** instalada. Las dos se publican aquí. **El resultado no cambió.**
+
+### 13 de septiembre de 2026, versión 0.1.0 instalada
+
 Cada pregunta se ejecutó tres veces. Las tres vías recibieron el mismo término y la misma exportación
 limpia. La columna de bytes devueltos suma las 30 observaciones; los bytes leídos son bytes de contenido
 abiertos por consulta. No son tokens ni I/O físico.
@@ -125,6 +131,41 @@ repositorios externos.
 dos corpora y estas consultas congeladas. No demuestra que todo repositorio grande falle, no evalúa una
 respuesta generada por un modelo y no mide alucinaciones ni tokens. Mejorar los límites o el orden de
 indexación pertenece a otro cambio: este experimento no alteró el producto para favorecer el resultado.
+
+### 20 de septiembre de 2026, versión 0.3.2 instalada
+
+Entre las dos mediciones se publicaron 0.2.x y 0.3.x. La re-medición usó el instalador publicado de 0.3.2,
+con su SHA-256 comprobado contra el `SHA256SUMS` de la release, instalado y desinstalado para la ocasión. No se
+tocaron el protocolo, las preguntas ni los commits; el arnés vuelve a verificar su digest antes de medir.
+
+| Corpus | Método | Respuesta conocida en las 3 repeticiones | Bytes devueltos, 30 observaciones | Bytes de contenido leídos por consulta |
+| --- | --- | --- | ---: | ---: |
+| Kubernetes | Abrir todo | 10 / 10 | 2 704 134 330 | 90 137 811 |
+| Kubernetes | Barrido literal | 10 / 10 | 405 129 | 90 137 811 |
+| Kubernetes | Contexto preparado | 0 / 10 | 17 919 | 50 562 446 |
+| CPython | Abrir todo | 10 / 10 | 4 168 731 060 | 138 957 702 |
+| CPython | Barrido literal | 10 / 10 | 320 586 | 138 957 702 |
+| CPython | Contexto preparado | 0 / 10 | 3 006 | 61 967 261 |
+
+**El contexto preparado sigue sin devolver ninguna de las veinte respuestas**, y el barrido literal sigue
+devolviendo las veinte. La causa observada tampoco cambió: la preparación indexó **45 de 2654** fuentes en
+Kubernetes y **42 de 2753** en CPython, y las dos volvieron a reportar `entry-limit`.
+
+Lo único que se movió son los tiempos, y no lo bastante: la mediana preparada bajó de 17,159 s a 13,576 s en
+Kubernetes y de 9,134 s a 6,842 s en CPython, pero el barrido literal sigue respondiendo antes, en 2,739 s y
+3,531 s. Preparar el contexto tardó 100,4 s en Kubernetes y 41,6 s en CPython. Son tiempos descriptivos con
+caché caliente no controlada.
+
+**Qué demuestra y qué no.** Demuestra que el defecto de recuperación medido en 0.1.0 **sigue presente en la
+0.3.2 publicada**, bajo los mismos dos corpora y las mismas consultas congeladas. No demuestra que todo
+repositorio grande falle, no evalúa una respuesta generada por un modelo y no mide alucinaciones ni tokens.
+Las versiones intermedias no cambiaron el resultado porque no tocaron los límites de indexación; corregirlos
+sigue perteneciendo a otro cambio.
+
+Los cuatro JSON crudos de esta corrida están en
+`remeasure-retrieval-and-record-flow-comparison/evidence/after/run-02`, con la misma estructura que los de la
+primera. El verificador independiente del benchmark solo sabía revisar la primera corrida; esa limitación la
+destapó esta re-medición y se corrige en el change.
 
 ## Los cinco recorridos
 

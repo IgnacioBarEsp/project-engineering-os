@@ -6,21 +6,21 @@
 - [x] 1.2 Traer los dos corpus a sus commits congelados, fuera del repositorio, y comprobar que `HEAD` coincide.
 - [x] 1.3 Descargar el instalador publicado 0.3.2 y comprobar su SHA-256 contra el `SHA256SUMS` de la release.
 - [x] 1.4 Medir y registrar la salida de `sync --check` y `doctor`, que sostienen la superficie propuesta.
-- [ ] 1.5 Registrar la baseline y el plan de evidencia.
+- [x] 1.5 Registrar la baseline y el plan de evidencia.
 
 ## 2. Prueba 1: re-medir la recuperación
 
-- [ ] 2.1 Instalar el instalador comprobado en una ruta corta y registrar la identidad de la instalación.
-- [ ] 2.2 Ejecutar `verify-real-repository-benchmark.mjs` contra esa instalación y los dos checkouts, con el
+- [x] 2.1 Instalar el instalador comprobado en una ruta corta y registrar la identidad de la instalación.
+- [x] 2.2 Ejecutar `verify-real-repository-benchmark.mjs` contra esa instalación y los dos checkouts, con el
   protocolo, las preguntas y los commits sin tocar, en un directorio de evidencia vacío.
-- [ ] 2.3 Pasar el revisor del benchmark sobre los cuatro JSON producidos.
-- [ ] 2.4 Desinstalar y comprobar que la desinstalación terminó.
-- [ ] 2.5 Publicar el resultado junto al del 13 de septiembre, con la versión y la identidad de cada corrida,
+- [x] 2.3 Pasar el revisor del benchmark sobre los cuatro JSON producidos.
+- [x] 2.4 Desinstalar y comprobar que la desinstalación terminó.
+- [x] 2.5 Publicar el resultado junto al del 13 de septiembre, con la versión y la identidad de cada corrida,
   salga favorable o adverso.
 
 ## 3. Prueba 2: los dos flujos sobre una tarea
 
-- [ ] 3.1 Escribir y congelar la tarea y sus criterios de aceptación antes de ejecutar nada, con su digest.
+- [x] 3.1 Escribir y congelar la tarea y sus criterios de aceptación antes de ejecutar nada, con su digest.
 - [ ] 3.2 Ejecutar la vía del prompt suelto, sin comprobación, y conservar sus artefactos.
 - [ ] 3.3 Ejecutar la vía del flujo completo y conservar los suyos.
 - [ ] 3.4 Registrar lo observable de ambas y declarar en el propio registro que una tarea no demuestra una
@@ -35,10 +35,10 @@
 
 ## 5. Prueba 4: el arranque documentado
 
-- [ ] 5.1 Escribir la comprobación reproducible de los seis pasos contra el paquete publicado, fuera de
+- [x] 5.1 Escribir la comprobación reproducible de los seis pasos contra el paquete publicado, fuera de
   `npm run check`, con su declaración de que necesita red.
 - [ ] 5.2 Ejecutarla y registrar el resultado de cada paso.
-- [ ] 5.3 Probar que falla cuando un paso no sale con código 0.
+- [x] 5.3 Probar que falla cuando un paso no sale con código 0.
 
 ## 6. Publicación y cierre
 

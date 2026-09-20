@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-20T07:55:38.855Z",
+  "independence": "The verifier imports none of the benchmark runner or summarizer decisions and anchors inputs and raw outputs to published Git blobs.",
+  "anchors": {
+    "precommit": "c808967cd46abc4b340d148834a24e3005cc0247",
+    "resultCommit": "cfe754c",
+    "evidence": "openspec/changes/remeasure-retrieval-and-record-flow-comparison/evidence/after/run-02",
+    "applicationVersion": "0.3.2",
+    "ordering": "El precompromiso no está en este historial porque la integración es por squash. El orden lo atestigua el PR #113, que conserva c808967c antes que e0a29803; aquí se comprueba el contenido contra el digest del manifiesto y contra los blobs publicados."
+  },
+  "reviewed": {
+    "corpora": 2,
+    "questions": 20,
+    "rawObservations": 180
+  },
+  "attempts": [
+    {
+      "id": "question-changed-after-precommit",
+      "detected": true
+    },
+    {
+      "id": "one-method-favoured-by-question-or-order",
+      "detected": true
+    },
+    {
+      "id": "source-rereads-omitted-from-accounting",
+      "detected": true
+    },
+    {
+      "id": "corpus-commit-adulterated",
+      "detected": true
+    },
+    {
+      "id": "published-result-differs-from-raw-data",
+      "detected": true
+    }
+  ],
+  "verdict": "PASS",
+  "blockers": 0,
+  "majors": 0
+}
