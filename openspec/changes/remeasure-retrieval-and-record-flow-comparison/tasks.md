@@ -28,16 +28,16 @@
 
 ## 4. Prueba 3: el contraste del arnés
 
-- [ ] 4.1 Ejecutar el arnés de hoy sobre `a3b1efd` en un árbol aparte, sin tocar el renderer de ese commit.
-- [ ] 4.2 Ejecutar el arnés de hoy sobre el commit corregido.
-- [ ] 4.3 Registrar el contraste frente a lo que el arnés anterior certificó, o registrar que no aparece y que
+- [x] 4.1 Ejecutar el arnés de hoy sobre `a3b1efd` en un árbol aparte, sin tocar el renderer de ese commit.
+- [x] 4.2 Ejecutar el arnés de hoy sobre el commit corregido.
+- [x] 4.3 Registrar el contraste frente a lo que el arnés anterior certificó, o registrar que no aparece y que
   #150 sigue haciendo falta.
 
 ## 5. Prueba 4: el arranque documentado
 
 - [x] 5.1 Escribir la comprobación reproducible de los seis pasos contra el paquete publicado, fuera de
   `npm run check`, con su declaración de que necesita red.
-- [ ] 5.2 Ejecutarla y registrar el resultado de cada paso.
+- [x] 5.2 Ejecutarla y registrar el resultado de cada paso.
 - [x] 5.3 Probar que falla cuando un paso no sale con código 0.
 
 ## 6. Publicación y cierre

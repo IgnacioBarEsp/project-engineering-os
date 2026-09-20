@@ -167,6 +167,55 @@ Los cuatro JSON crudos de esta corrida están en
 primera. El verificador independiente del benchmark solo sabía revisar la primera corrida; esa limitación la
 destapó esta re-medición y se corrige en el change.
 
+## Una comprobación que certificó limpio lo que estaba roto
+
+El 18 de septiembre el arnés visual certificó «38 pantallas, 0 hallazgos» sobre una aplicación en la que no se
+podía terminar el asistente: corría con movimiento reducido, que desactiva la animación que rompía el diseño, y
+recorría un flujo que ya no era el del producto. La corrección entró con 0.3.2.
+
+Para que eso sea comprobable y no una anécdota, el 20 de septiembre de 2026 se ejecutaron tres combinaciones.
+Lo que cambia entre ellas es **la comprobación, no la aplicación**: al árbol de `a3b1efd` solo se le copiaron
+`verify-ui.mjs` e `interface-contract.mjs`.
+
+| Arnés | Aplicación | Resultado |
+| --- | --- | --- |
+| El de `a3b1efd` | `a3b1efd` (0.3.1) | **Pasa.** Código 0, 41 s: es la certificación limpia de entonces |
+| El de hoy | `a3b1efd` (0.3.1) | **Falla.** Código 1, 351 s: «Every control of the current wizard has to be reachable with and without motion, and both copies have to go through the service» |
+| El de hoy | El commit corregido | **Pasa.** Código 0, 92 s |
+
+La misma aplicación, dos comprobaciones, resultados opuestos. El registro está en
+`remeasure-retrieval-and-record-flow-comparison/evidence/after/harness-contrast.json`.
+
+**Qué demuestra y qué no.** Demuestra que la comprobación anterior daba por buena una pantalla en la que un
+control quedaba tapado, y que la de hoy lo detecta sobre esa misma versión. No demuestra que el arnés de hoy
+detecte todo: [#150](https://github.com/IgnacioBarEsp/project-engineering-os/issues/150) sigue abierto con el
+recorrido de los seis perfiles, los dos modos de movimiento y las pruebas sobre Electron que aún faltan.
+
+## El arranque documentado funciona, y ahora se comprueba
+
+El README publica seis pasos para empezar en la terminal. Hasta ahora nadie los repetía: si uno dejara de
+funcionar, el repositorio no se enteraría. `scripts/verify-documented-start.mjs` los **lee del propio README**
+—no los copia— y los ejecuta contra el paquete publicado en una carpeta desechable.
+
+Ejecución del 20 de septiembre de 2026 contra `create-project-engineering-os@0.5.0`, con Node 24.18.0:
+
+| Paso | Código de salida | Tiempo |
+| --- | --- | --- |
+| `npx --yes create-project-engineering-os@0.5.0 bootstrap --target .` | 0 | 3 s |
+| `npm ci` | 0 | 3 s |
+| `npm run openspec:init` | 0 | 7 s |
+| `npm run project-os:opsx:adapt` | 0 | 1 s |
+| `npm run project-os:check` | 0 | 2 s |
+| `npm run project-os:doctor` | 0 | 1 s |
+
+El doctor del proyecto recién sembrado reporta **29 comprobaciones y ningún FAIL**. Conviene no confundirlo con
+el doctor sobre este repositorio, que sí reporta FAIL esperados y explicados en
+[SELF_APPLICATION](../SELF_APPLICATION.md).
+
+La comprobación necesita red hacia el registro de npm, así que no entra en `npm run check`, que es offline. Si
+el registro no responde informa **NO EJECUTADA**, nunca PASS: una comprobación que no pudo correr no es una
+comprobación que pasó.
+
 ## Los cinco recorridos
 
 Los cinco perfiles se recorrieron completos sobre la aplicación instalada desde el artefacto verificado,
