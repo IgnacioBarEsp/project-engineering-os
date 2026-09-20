@@ -19,6 +19,7 @@ for (const [name, file, mutate, expected] of [
   ['missing technical route', 'README.md', text => text.replaceAll('](docs/CLI_GUIDE.md)', '](docs/README.md)'), 'entry docs/CLI_GUIDE.md'],
   ['capture presented without its limit', 'README.md', text => text.replaceAll('No es una captura del instalador', 'Captura'), 'visible capture qualifier'],
   ['capture has no immutable source', 'docs/companion/SCREENSHOTS.md', text => text.replace(/\/tree\/[a-f0-9]{40}/, '/tree/main'), 'capture provenance'],
+  ['browser capture declared as real window', 'docs/companion/SCREENSHOTS.md', text => text.replaceAll('ventana real de la aplicación', 'renderer real en navegador'), 'capture provenance'],
   ['integrated source presented as delivered', 'docs/PROJECT_STATUS.md', text => text.replaceAll('pendientes de instalador', 'publicadas'), 'delivery distinction'],
 ]) {
   test(`rejects ${name}`, () => {

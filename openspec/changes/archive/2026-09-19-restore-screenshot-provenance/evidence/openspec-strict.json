@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node",
+    "node_modules/@fission-ai/openspec/bin/openspec.js",
+    "validate",
+    "restore-screenshot-provenance",
+    "--strict",
+    "--no-interactive"
+  ],
+  "exitCode": 0,
+  "stdout": "Change 'restore-screenshot-provenance' is valid\n",
+  "stderr": "",
+  "error": null,
+  "capturedAt": "2026-09-19T23:02:49.582Z"
+}

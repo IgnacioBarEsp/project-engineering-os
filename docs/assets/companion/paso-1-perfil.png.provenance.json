@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "sha256": "5d58a756c82414e2c16a4ea977dbbf0a6724021aa154de26cfced57c1dcb91a1",
+  "bytes": 78323,
+  "width": 1164,
+  "height": 755,
+  "commit": "d744c47ffb618543c18270312810de3a260e7eea",
+  "appVersion": "0.3.2",
+  "ran": "electron .",
+  "engine": "Electron 44.1.1, Chromium 152.0.7977.65",
+  "window": {
+    "outer": {
+      "width": 1180,
+      "height": 820
+    },
+    "viewport": {
+      "width": 1164,
+      "height": 755
+    },
+    "devicePixelRatio": 1
+  },
+  "screen": {
+    "id": "paso-1-perfil",
+    "title": "Empecemos por lo que quieres lograr."
+  },
+  "generator": "apps/companion/scripts/capture-screenshots.mjs",
+  "capturedAt": "2026-09-19T22:54:21.825Z",
+  "platform": "win32 10.0.26100"
+}

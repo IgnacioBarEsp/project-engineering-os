@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "restore-screenshot-provenance",
+  "date": "2026-09-19",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Revisión adversarial en una ronda, hecha por un agente sin el contexto del apply: 0 Blockers, 3 Majors, 7 Minors y 3 Info, todos corregidos antes de archivar. Los tres Majors eran afirmaciones publicadas que sus propias fuentes contradecían (el README sobre los perfiles, la galería sobre los subtipos y el diseño sobre lo que garantizaba la regla de guía pública); los Minors, huecos de la comprobación y del generador, ahora con prueba cada uno. Fuera de alcance apareció un defecto del producto, no de este change: con el perfil «Investigación» el paso 2 ofrece los subtipos de software y preselecciona el primero, que viaja a PROJECT_VISION.md. Por decisión del mantenedor del 19 de septiembre de 2026 se comentó con evidencia en #145, que rehace esa taxonomía, y no entra al registro. Los defectos visibles en las capturas ya tienen issue: #144 y #147. Límite conocido y documentado, no deuda: las capturas se regeneran a mano en Windows con Electron; la CI comprueba hashes y procedencia, no regenera."
+}

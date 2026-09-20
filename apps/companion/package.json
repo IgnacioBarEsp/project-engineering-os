@@ -23,6 +23,7 @@
     "evidence:journeys": "node scripts/verify-journeys.mjs",
     "evidence:native": "node scripts/verify-native-journeys.mjs",
     "evidence:clipboard": "node scripts/verify-native-clipboard.mjs",
+    "evidence:captures": "node scripts/capture-screenshots.mjs",
     "evidence:launches": "node scripts/verify-local-launches.mjs",
     "evidence:model": "node scripts/verify-model-benchmark.mjs",
     "evidence:benchmark": "node scripts/verify-benchmark.mjs",

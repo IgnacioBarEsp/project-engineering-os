@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "sha256": "07e7ca92c7933162da087b2d5835b7ec5996d795cf8c19466eb418bf12311d27",
+  "bytes": 91258,
+  "width": 1164,
+  "height": 755,
+  "commit": "d744c47ffb618543c18270312810de3a260e7eea",
+  "appVersion": "0.3.2",
+  "ran": "electron .",
+  "engine": "Electron 44.1.1, Chromium 152.0.7977.65",
+  "window": {
+    "outer": {
+      "width": 1180,
+      "height": 820
+    },
+    "viewport": {
+      "width": 1164,
+      "height": 755
+    },
+    "devicePixelRatio": 1
+  },
+  "screen": {
+    "id": "paso-2-delimitacion",
+    "title": "¿Cuál es el enfoque principal de tu proyecto?"
+  },
+  "generator": "apps/companion/scripts/capture-screenshots.mjs",
+  "capturedAt": "2026-09-19T22:54:22.798Z",
+  "platform": "win32 10.0.26100"
+}

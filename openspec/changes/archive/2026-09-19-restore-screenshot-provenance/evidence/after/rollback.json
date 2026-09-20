@@ -1,0 +1,39 @@
+{
+  "date": "2026-09-19T23:06:39.526Z",
+  "method": "git worktree aparte en una ruta corta, git revert --no-commit de los commits del change sobre HEAD, y comprobaciones en el árbol revertido. No se tocó la rama ni el árbol de trabajo principal.",
+  "range": "eefa1bc..e5ac741877eb83919f69eee1f4723ef34bbcf81f",
+  "steps": [
+    {
+      "name": "El revert de los commits del change aplica sin conflictos",
+      "ok": true,
+      "detail": "exit 0, 53 rutas revertidas"
+    },
+    {
+      "name": "Las 7 imágenes vuelven byte a byte a las de eefa1bc",
+      "ok": true,
+      "detail": "7 de 7 con el mismo SHA-256"
+    },
+    {
+      "name": "Desaparecen los registros de procedencia, el generador, la comprobación y el rótulo del prototipo",
+      "ok": true,
+      "detail": "0 provenance.json; presentes: ninguno"
+    },
+    {
+      "name": "El árbol revertido no difiere de eefa1bc",
+      "ok": true,
+      "detail": "git diff --stat vacío"
+    },
+    {
+      "name": "check-docs y check-neutrality pasan en el árbol revertido",
+      "ok": true,
+      "detail": "PASS docs 25 README links, prompt contract and 20 spec purposes; PASS public tree neutrality and export allowlist"
+    }
+  ],
+  "findings": [],
+  "note": "Revertir devuelve la documentación al estado anterior, con sus mocks. Ese estado es el defecto que #143 corrige: el rollback recupera la publicación, no la verdad de las capturas.",
+  "summary": {
+    "steps": 5,
+    "passed": 5,
+    "findings": 0
+  }
+}

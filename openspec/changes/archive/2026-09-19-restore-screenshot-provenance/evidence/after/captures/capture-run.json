@@ -1,0 +1,256 @@
+{
+  "date": "2026-09-19T22:54:20.817Z",
+  "ran": "electron .",
+  "commit": "d744c47ffb618543c18270312810de3a260e7eea",
+  "projectFolder": "<public-docs>/peos-captura-8fc225b6",
+  "notADemonstrationOf": [
+    "el instalador ni una instalación",
+    "el selector de carpetas del sistema, que recibe una carpeta de prueba"
+  ],
+  "images": [
+    {
+      "file": "docs/assets/companion/home-companion.png",
+      "schemaVersion": 1,
+      "sha256": "1f5ec9e90f3c9549a4b2b2dc66dcfed70710e2bdebc19a755dc05625c698d775",
+      "bytes": 106571,
+      "width": 1164,
+      "height": 755,
+      "commit": "d744c47ffb618543c18270312810de3a260e7eea",
+      "appVersion": "0.3.2",
+      "ran": "electron .",
+      "engine": "Electron 44.1.1, Chromium 152.0.7977.65",
+      "window": {
+        "outer": {
+          "width": 1180,
+          "height": 820
+        },
+        "viewport": {
+          "width": 1164,
+          "height": 755
+        },
+        "devicePixelRatio": 1
+      },
+      "screen": {
+        "id": "home",
+        "title": "Dale a tu IA un buen punto de partida."
+      },
+      "generator": "apps/companion/scripts/capture-screenshots.mjs",
+      "capturedAt": "2026-09-19T22:54:21.436Z",
+      "platform": "win32 10.0.26100"
+    },
+    {
+      "file": "docs/assets/companion-current-home.png",
+      "schemaVersion": 1,
+      "sha256": "60e93f5afb00f658d3f458a885f643d44ad958a3cff0b7b1f532d47ec7677bad",
+      "bytes": 106279,
+      "width": 1164,
+      "height": 755,
+      "commit": "d744c47ffb618543c18270312810de3a260e7eea",
+      "appVersion": "0.3.2",
+      "ran": "electron .",
+      "engine": "Electron 44.1.1, Chromium 152.0.7977.65",
+      "window": {
+        "outer": {
+          "width": 1180,
+          "height": 820
+        },
+        "viewport": {
+          "width": 1164,
+          "height": 755
+        },
+        "devicePixelRatio": 1
+      },
+      "screen": {
+        "id": "home",
+        "title": "Dale a tu IA un buen punto de partida."
+      },
+      "generator": "apps/companion/scripts/capture-screenshots.mjs",
+      "capturedAt": "2026-09-19T22:54:21.499Z",
+      "platform": "win32 10.0.26100"
+    },
+    {
+      "file": "docs/assets/companion/paso-1-perfil.png",
+      "schemaVersion": 1,
+      "sha256": "5d58a756c82414e2c16a4ea977dbbf0a6724021aa154de26cfced57c1dcb91a1",
+      "bytes": 78323,
+      "width": 1164,
+      "height": 755,
+      "commit": "d744c47ffb618543c18270312810de3a260e7eea",
+      "appVersion": "0.3.2",
+      "ran": "electron .",
+      "engine": "Electron 44.1.1, Chromium 152.0.7977.65",
+      "window": {
+        "outer": {
+          "width": 1180,
+          "height": 820
+        },
+        "viewport": {
+          "width": 1164,
+          "height": 755
+        },
+        "devicePixelRatio": 1
+      },
+      "screen": {
+        "id": "paso-1-perfil",
+        "title": "Empecemos por lo que quieres lograr."
+      },
+      "generator": "apps/companion/scripts/capture-screenshots.mjs",
+      "capturedAt": "2026-09-19T22:54:21.825Z",
+      "platform": "win32 10.0.26100"
+    },
+    {
+      "file": "docs/assets/companion/paso-2-delimitacion.png",
+      "schemaVersion": 1,
+      "sha256": "07e7ca92c7933162da087b2d5835b7ec5996d795cf8c19466eb418bf12311d27",
+      "bytes": 91258,
+      "width": 1164,
+      "height": 755,
+      "commit": "d744c47ffb618543c18270312810de3a260e7eea",
+      "appVersion": "0.3.2",
+      "ran": "electron .",
+      "engine": "Electron 44.1.1, Chromium 152.0.7977.65",
+      "window": {
+        "outer": {
+          "width": 1180,
+          "height": 820
+        },
+        "viewport": {
+          "width": 1164,
+          "height": 755
+        },
+        "devicePixelRatio": 1
+      },
+      "screen": {
+        "id": "paso-2-delimitacion",
+        "title": "¿Cuál es el enfoque principal de tu proyecto?"
+      },
+      "generator": "apps/companion/scripts/capture-screenshots.mjs",
+      "capturedAt": "2026-09-19T22:54:22.798Z",
+      "platform": "win32 10.0.26100"
+    },
+    {
+      "file": "docs/assets/companion/paso-3-vision.png",
+      "schemaVersion": 1,
+      "sha256": "d4e5c5aae714fe779dbe24e29e4cbd790cc8165d279f82c33da248ce868df1e1",
+      "bytes": 76951,
+      "width": 1164,
+      "height": 755,
+      "commit": "d744c47ffb618543c18270312810de3a260e7eea",
+      "appVersion": "0.3.2",
+      "ran": "electron .",
+      "engine": "Electron 44.1.1, Chromium 152.0.7977.65",
+      "window": {
+        "outer": {
+          "width": 1180,
+          "height": 820
+        },
+        "viewport": {
+          "width": 1164,
+          "height": 755
+        },
+        "devicePixelRatio": 1
+      },
+      "screen": {
+        "id": "paso-3-vision",
+        "title": "Cuéntanos en tus palabras: ¿qué quieres lograr?"
+      },
+      "generator": "apps/companion/scripts/capture-screenshots.mjs",
+      "capturedAt": "2026-09-19T22:54:23.092Z",
+      "platform": "win32 10.0.26100"
+    },
+    {
+      "file": "docs/assets/companion/paso-4-instalacion.png",
+      "schemaVersion": 1,
+      "sha256": "1e5ab0c0b3c9537d8d4ab96735586f0b49a02dbcec0b119995075c913ed846da",
+      "bytes": 118913,
+      "width": 1164,
+      "height": 755,
+      "commit": "d744c47ffb618543c18270312810de3a260e7eea",
+      "appVersion": "0.3.2",
+      "ran": "electron .",
+      "engine": "Electron 44.1.1, Chromium 152.0.7977.65",
+      "window": {
+        "outer": {
+          "width": 1180,
+          "height": 820
+        },
+        "viewport": {
+          "width": 1164,
+          "height": 755
+        },
+        "devicePixelRatio": 1
+      },
+      "screen": {
+        "id": "paso-4-instalacion",
+        "title": "Tu espacio está listo. ¿Cómo prefieres equiparlo?"
+      },
+      "generator": "apps/companion/scripts/capture-screenshots.mjs",
+      "capturedAt": "2026-09-19T22:54:23.384Z",
+      "platform": "win32 10.0.26100"
+    },
+    {
+      "file": "docs/assets/companion/proyecto-listo-activacion.png",
+      "schemaVersion": 1,
+      "sha256": "6fa75cc1930e60179d6b962b4c4c7055a17fb72918c5163ac5581b8fada76603",
+      "bytes": 84849,
+      "width": 1164,
+      "height": 755,
+      "commit": "d744c47ffb618543c18270312810de3a260e7eea",
+      "appVersion": "0.3.2",
+      "ran": "electron .",
+      "engine": "Electron 44.1.1, Chromium 152.0.7977.65",
+      "window": {
+        "outer": {
+          "width": 1180,
+          "height": 820
+        },
+        "viewport": {
+          "width": 1164,
+          "height": 755
+        },
+        "devicePixelRatio": 1
+      },
+      "screen": {
+        "id": "proyecto-listo",
+        "title": "¡Tu proyecto está listo para cobrar vida!"
+      },
+      "generator": "apps/companion/scripts/capture-screenshots.mjs",
+      "capturedAt": "2026-09-19T22:54:23.839Z",
+      "platform": "win32 10.0.26100"
+    }
+  ],
+  "findings": [],
+  "runtime": {
+    "electron": "44.1.1",
+    "chrome": "152.0.7977.65",
+    "appVersion": "0.3.2"
+  },
+  "window": {
+    "outer": {
+      "width": 1180,
+      "height": 820
+    },
+    "viewport": {
+      "width": 1164,
+      "height": 755,
+      "devicePixelRatio": 1
+    },
+    "motion": "no-preference"
+  },
+  "console": {
+    "errors": 7,
+    "contentSecurityPolicy": 7,
+    "distinct": [
+      "Applying inline style violates the following Content Security Policy directive 'style-src 'self''. Either the 'unsafe-inline' keyword, a hash ('sha256-UxMCXC7bL2QR6A+iIVvIJkDzYlYhL1GaZe8H5lqDy9E='), or a nonce ('nonce-...') is required to e",
+      "Applying inline style violates the following Content Security Policy directive 'style-src 'self''. Either the 'unsafe-inline' keyword, a hash ('sha256-Hx+b6xJVBtjS+dalTgYwHTZfgXmAF431teeh5WHvlOQ='), or a nonce ('nonce-...') is required to e",
+      "Applying inline style violates the following Content Security Policy directive 'style-src 'self''. Either the 'unsafe-inline' keyword, a hash ('sha256-zAU6mrv49LKwzXbaX+F7ErY4UEN2/ilHbUI4KQIlJdU='), or a nonce ('nonce-...') is required to e",
+      "Applying inline style violates the following Content Security Policy directive 'style-src 'self''. Either the 'unsafe-inline' keyword, a hash ('sha256-qXOe8K3unF7XVzoM0T1xlb90nuPG+Y5izvRDeAsvf1M='), or a nonce ('nonce-...') is required to e"
+    ]
+  },
+  "published": 7,
+  "summary": {
+    "images": 7,
+    "published": 7,
+    "findings": 0
+  }
+}

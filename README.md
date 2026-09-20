@@ -25,7 +25,7 @@ herramientas. Los archivos y decisiones que ya tienes se revisan antes de añadi
 
 1. Descarga **Companion 0.3.2 para Windows x64** desde [Releases](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.2).
 2. Revisa el archivo e instálalo siguiendo la [guía de instalación](docs/companion/INSTALLER.md). Si ya tenías una versión previa, el instalador te ofrecerá reparar, actualizar o desinstalar de forma limpia.
-3. Abre la app, define el nombre de tu proyecto y selecciona uno de los 7 perfiles canónicos.
+3. Abre la app, escribe el nombre y el objetivo de tu proyecto, elige con qué perfil te identificas y marca qué vas a hacer.
 4. Delimita el tipo específico de tu proyecto y describe tu visión en lenguaje natural. Companion creará `PROJECT_VISION.md` conservando intactos todos tus archivos originales.
 5. Elige entre **Instalación rápida** (en segundo plano) o **"Que mi IA se encargue"** para delegar la configuración a tu IA de confianza mediante el prompt de activación estructurado.
 
@@ -38,11 +38,11 @@ publicado; un hash coincidente verifica el archivo, no sustituye la firma del ed
 
 [Consulta qué está publicado y qué sigue en desarrollo](docs/PROJECT_STATUS.md).
 
-## Así se ve Companion 0.3.0
+## Así se ve Companion 0.3.2
 
-![Inicio del Companion: preparar proyecto, 7 perfiles canónicos, diseño Obsidian Precision Studio e integración con IA](docs/assets/companion-current-home.png)
+![Inicio de Companion: titular, tarjetas para crear un proyecto nuevo o abrir una carpeta existente, y la barra superior con Inicio, Tus proyectos, Preparar proyecto y Ayuda](docs/assets/companion-current-home.png)
 
-Captura del asistente de preparación integrado con diseño Obsidian Precision Studio e Impeccable, tomada el 18 de septiembre de 2026. **No es una captura del instalador.**
+Ventana real de la aplicación 0.3.2, ejecutada desde el código del commit `d744c47` el 19 de septiembre de 2026. **No es una captura del instalador.**
 [Procedencia y galería de pantallas](docs/companion/SCREENSHOTS.md).
 
 ## Qué te ayuda a hacer

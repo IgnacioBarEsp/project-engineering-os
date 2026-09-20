@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "sha256": "6fa75cc1930e60179d6b962b4c4c7055a17fb72918c5163ac5581b8fada76603",
+  "bytes": 84849,
+  "width": 1164,
+  "height": 755,
+  "commit": "d744c47ffb618543c18270312810de3a260e7eea",
+  "appVersion": "0.3.2",
+  "ran": "electron .",
+  "engine": "Electron 44.1.1, Chromium 152.0.7977.65",
+  "window": {
+    "outer": {
+      "width": 1180,
+      "height": 820
+    },
+    "viewport": {
+      "width": 1164,
+      "height": 755
+    },
+    "devicePixelRatio": 1
+  },
+  "screen": {
+    "id": "proyecto-listo",
+    "title": "¡Tu proyecto está listo para cobrar vida!"
+  },
+  "generator": "apps/companion/scripts/capture-screenshots.mjs",
+  "capturedAt": "2026-09-19T22:54:23.839Z",
+  "platform": "win32 10.0.26100"
+}

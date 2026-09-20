@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "sha256": "d4e5c5aae714fe779dbe24e29e4cbd790cc8165d279f82c33da248ce868df1e1",
+  "bytes": 76951,
+  "width": 1164,
+  "height": 755,
+  "commit": "d744c47ffb618543c18270312810de3a260e7eea",
+  "appVersion": "0.3.2",
+  "ran": "electron .",
+  "engine": "Electron 44.1.1, Chromium 152.0.7977.65",
+  "window": {
+    "outer": {
+      "width": 1180,
+      "height": 820
+    },
+    "viewport": {
+      "width": 1164,
+      "height": 755
+    },
+    "devicePixelRatio": 1
+  },
+  "screen": {
+    "id": "paso-3-vision",
+    "title": "Cuéntanos en tus palabras: ¿qué quieres lograr?"
+  },
+  "generator": "apps/companion/scripts/capture-screenshots.mjs",
+  "capturedAt": "2026-09-19T22:54:23.092Z",
+  "platform": "win32 10.0.26100"
+}
