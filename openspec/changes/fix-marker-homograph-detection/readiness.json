@@ -51,9 +51,9 @@
     },
     {
       "id": "sync-check",
-      "status": "failed",
+      "status": "passed",
       "evidence": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
-      "justification": "Fallo preexistente PROJECT_OS_PROFILE_SELECTION_DRIFT; corresponde al alcance documentado de #122.",
+      "justification": null,
       "profileCondition": null
     },
     {
@@ -65,16 +65,16 @@
     },
     {
       "id": "opsx-check",
-      "status": "failed",
+      "status": "passed",
       "evidence": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
-      "justification": "Fallo preexistente por ausencia de .project-os/openspec-ownership.json; fuera del alcance del detector.",
+      "justification": null,
       "profileCondition": null
     },
     {
       "id": "doctor-json-check",
-      "status": "failed",
+      "status": "passed",
       "evidence": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
-      "justification": "El doctor conserva cuatro FAIL preexistentes (#115 y estado upstream); no se modifica en este change.",
+      "justification": null,
       "profileCondition": null
     },
     {

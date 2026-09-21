@@ -17,9 +17,16 @@ presenta como revisión humana.
 | `second-run-idempotence` | PASS, la suite de constructor comprueba convergencia sin drift | `npm run check` |
 | `multi-platform-smoke` | PENDIENTE: se ejecutaron Windows fixture normal y `--isolated-toolchain`; falta la matriz protegida de CI | `npm run fixture`, `npm run fixture -- --isolated-toolchain` |
 
-## Checks de harness que bloquean archive
+## Checks de harness y target de ejecución
 
-Se ejecutaron con sus runners fijos sobre el upstream, sin mutación:
+El checkout upstream no tiene la forma de consumidor que esos runners esperan:
+su ejecución directa conserva los fallos históricos descritos abajo. La guía de
+self-application exige ejecutar el gate con `--run-local` sobre un consumidor
+bootstrapeado. En esa fixture, después de un `sync` explícito y aislado, los
+tres runners pasan; el recibo está en
+[disposable-archive-gate.md](disposable-archive-gate.md).
+
+Resultados directos sobre el upstream, sin mutación:
 
 - `sync --check`: **FAIL preexistente**, `PROJECT_OS_PROFILE_SELECTION_DRIFT` entre `config.json` y
   `.project-os/profiles.json` (#122).
@@ -30,9 +37,11 @@ Se ejecutaron con sus runners fijos sobre el upstream, sin mutación:
   `.github/skills/impeccable/scripts/data/font-index.json` y el `status.txt` vacío de la vía `via-b` de #166.
   `npm pack --dry-run` y la instalación del tarball sí pasan; no se tocaron esos archivos fuera de alcance.
 
-El gate de archive con `--run-local` conserva esos fallos honestamente. El change no corrige #115/#122 ni la
-contaminación del checkout porque el diseño los declara fuera de alcance y requiere decisión del mantenedor si
-bloquean archive.
+El change no corrige #115/#122 ni la contaminación del checkout porque el diseño
+los declara fuera de alcance. La evidencia del consumidor es la que respalda los
+estados `passed` de `sync-check`, `opsx-check` y `doctor-json-check` en
+`readiness.json`; el gate sigue pendiente por la matriz protegida y las tareas
+de cierre, no por esos runners.
 
 ## Evidencia manual
 
