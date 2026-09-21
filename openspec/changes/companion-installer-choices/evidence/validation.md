@@ -16,9 +16,11 @@ esta sesión. La instalación silenciosa y las comprobaciones de fuente no se pr
 | `node --check` sobre los scripts modificados | PASS | Sintaxis de los harnesses |
 | `git diff --check` | PASS | Sin errores de whitespace |
 
-El último candidato medido antes del ajuste de limpieza del verificador fue `ProjectEngineeringOS-Setup-0.3.2-x64.exe`,
-133.310.103 bytes, SHA-256 `acb6eabc607ffc21c634b46c692844a4834c24ef4378e05fe0513a67fd26be55`. Al cambiar el
-verificador se debe regenerar el candidato antes de publicar; ese nuevo hash pertenece al commit final de evidencia.
+El candidato medido desde el árbol limpio `dc2509a1e13c4fcd908ea64ddb952489e8cd175b` es
+`ProjectEngineeringOS-Setup-0.3.2-x64.exe`, 133.310.012 bytes, SHA-256
+`3890ab25c794a92629fb65cecc78a436277e0aaf809c997e8382938eda5a2c65`. `pack:verify` observó árbol limpio,
+2.547 archivos empaquetados, 2.619 instalados, núcleo 0.5.0 y firma `NotSigned`. El workflow de release debe
+reconstruir el candidato desde el commit integrado antes de publicar.
 
 ## Qué queda para Windows desechable
 
