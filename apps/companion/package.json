@@ -1,6 +1,6 @@
 {
   "name": "@project-engineering-os/companion",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Prepara carpetas de proyecto y su contexto para trabajar con la IA que ya usas, sin terminal.",
   "author": {
     "name": "Ignacio Barboza Espinoza"
