@@ -40,9 +40,12 @@ nsis:
   perMachine: false
   allowElevation: false
   allowToChangeInstallationDirectory: true
-  createDesktopShortcut: true
+  # The local NSIS include presents this as an assisted choice. Keeping the packager's built-in
+  # shortcut disabled prevents it from creating a link before the person can clear the checkbox.
+  createDesktopShortcut: false
   createStartMenuShortcut: true
   shortcutName: Project Engineering OS
+  language: "1034"
   license: build/license.txt
   installerIcon: build/icon.ico
   uninstallerIcon: build/icon.ico
@@ -50,7 +53,9 @@ nsis:
   # The installer owns its program directory only. Prepared projects, the local history and the
   # managed runtimes live elsewhere on purpose and must survive removal and reinstallation.
   deleteAppDataOnUninstall: false
-  runAfterFinish: false
+  # Assisted installs show the standard, initially checked Finish-page launch choice. Silent installs
+  # never enter that page and therefore keep the release harness non-interactive.
+  runAfterFinish: true
   include: build/installer.nsh
   # allowElevation is false, so the bundled elevation helper would ship unused. Leaving it in would
   # also contradict the build-tools record: no downloaded binary belongs in the published artifact.

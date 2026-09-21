@@ -6,12 +6,21 @@
 # ever reads, and the uninstaller removes the whole installation directory whether or not it created it.
 
 !include LogicLib.nsh
+!include nsDialogs.nsh
+
+!ifndef BUILD_UNINSTALLER
+  Var /GLOBAL createDesktopShortcutChoice
+  Var /GLOBAL desktopShortcutLabel
+  Var /GLOBAL desktopShortcutCheckbox
+!endif
 
 # The installer copies itself to $LOCALAPPDATA\${APP_INSTALLER_STORE_FILE} to support differential
 # updates. This application publishes no update channel, so that copy is dead weight the size of the
 # installer itself. Remove it, and its folder when nothing else is left there.
 # During an update the new installer writes that copy before the old uninstaller runs, so skip it then.
 !macro customUnInstall
+  Delete "$oldDesktopLink"
+  Delete "$newDesktopLink"
   ${ifNot} ${isUpdated}
     Push $R7
     Delete "$LOCALAPPDATA\${APP_INSTALLER_STORE_FILE}"
@@ -29,6 +38,9 @@
 # When an earlier version is installed: allow updating or cancelling.
 # When the person cancels: abort immediately without modifying files or registry.
 !macro customInit
+  # The assisted page can change this value. /S never renders the page, so this checked default is
+  # also the documented silent-install behavior.
+  StrCpy $createDesktopShortcutChoice "true"
   Push $0
   Push $1
   Push $2
@@ -61,6 +73,54 @@
   Pop $1
   Pop $0
 !macroend
+
+!ifndef BUILD_UNINSTALLER
+  # The packager's createDesktopShortcut option is disabled so this choice is made before the install
+  # section creates the files. MUI pages are inserted after the directory page by the stock assisted
+  # installer template.
+  !macro customPageAfterChangeDir
+    Page custom CreateDesktopShortcutPageCreate CreateDesktopShortcutPageLeave
+  !macroend
+
+  Function CreateDesktopShortcutPageCreate
+    nsDialogs::Create 1018
+    Pop $0
+    ${if} $0 == error
+      Abort
+    ${endif}
+    ${NSD_CreateLabel} 0 0 100% 28u "Elige si quieres un acceso directo de Project Engineering OS en el escritorio."
+    Pop $desktopShortcutLabel
+    ${NSD_CreateCheckbox} 0 36u 100% 14u "Crear acceso directo en el escritorio"
+    Pop $desktopShortcutCheckbox
+    ${if} $createDesktopShortcutChoice == "true"
+      ${NSD_SetState} $desktopShortcutCheckbox 1
+    ${else}
+      ${NSD_SetState} $desktopShortcutCheckbox 0
+    ${endif}
+    nsDialogs::Show
+  FunctionEnd
+
+  Function CreateDesktopShortcutPageLeave
+    ${NSD_GetState} $desktopShortcutCheckbox $0
+    ${if} $0 == 1
+      StrCpy $createDesktopShortcutChoice "true"
+    ${else}
+      StrCpy $createDesktopShortcutChoice "false"
+    ${endif}
+  FunctionEnd
+
+  # The generated install section calls this hook after it has set the application and link variables.
+  # It owns exactly the product link, while the Start-menu shortcut remains electron-builder's.
+  !macro customInstall
+    ${if} $createDesktopShortcutChoice == "true"
+      CreateShortCut "$newDesktopLink" "$appExe" "" "$appExe" 0 "" "" "${APP_DESCRIPTION}"
+      WinShell::SetLnkAUMI "$newDesktopLink" "${APP_ID}"
+    ${else}
+      Delete "$oldDesktopLink"
+      Delete "$newDesktopLink"
+    ${endif}
+  !macroend
+!endif
 
 # The uninstaller deletes the installation directory recursively. That is correct for a directory this
 # installer created, and destructive for one the person already filled with their own work. A chosen

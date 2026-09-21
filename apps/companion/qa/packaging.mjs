@@ -48,8 +48,11 @@ test('installation is per-user, guarded, and removal keeps what the application 
   assert.equal(nsis.perMachine, false, 'La instalacion es por usuario y no debe pedir administrador.');
   assert.equal(nsis.allowElevation, false);
   assert.equal(nsis.allowToChangeInstallationDirectory, true);
-  assert.equal(nsis.createDesktopShortcut, true);
+  assert.equal(nsis.createDesktopShortcut, false,
+    'La elección del acceso directo pertenece al include NSIS local, no al valor incondicional del empaquetador.');
   assert.equal(nsis.createStartMenuShortcut, true);
+  assert.equal(nsis.language, '1034', 'El instalador debe declarar español de forma explícita.');
+  assert.equal(nsis.runAfterFinish, true, 'La página Finish debe ofrecer abrir la aplicación.');
   // The local history and the managed runtimes live outside the program directory on purpose.
   assert.equal(nsis.deleteAppDataOnUninstall, false, 'Desinstalar no puede borrar los datos de la persona.');
   // Elevation is disabled, so the helper would ship unused and contradict the build-tools record.
@@ -74,6 +77,19 @@ test('the custom installer steps remove the update cache and refuse a destinatio
   assert.match(script, /FindFirst/);
   assert.match(script, /\n\s+Abort\n/);
   assert.match(script, /!ifndef BUILD_UNINSTALLER/, 'La funcion del instalador no debe compilarse en el desinstalador.');
+});
+
+test('the assisted installer owns an explicit desktop choice and only its product link', async () => {
+  const script = await read('build/installer.nsh');
+  assert.match(script, /!include nsDialogs\.nsh/);
+  assert.match(script, /!macro customPageAfterChangeDir/);
+  assert.match(script, /Crear acceso directo en el escritorio/);
+  assert.match(script, /StrCpy \$createDesktopShortcutChoice "true"/);
+  assert.match(script, /CreateShortCut "\$newDesktopLink"/);
+  assert.match(script, /Delete "\$oldDesktopLink"/);
+  assert.match(script, /Delete "\$newDesktopLink"/);
+  assert.match(script, /!macro customInstall/);
+  assert.match(script, /!macro customUnInstall/);
 });
 
 test('the installer contextually detects existing versions and offers repair, uninstall or upgrade', async () => {
@@ -467,4 +483,3 @@ test('waitForRemoval returns true immediately when target is already absent', as
   assert.equal(removed, true);
   assert.equal(calls, 1);
 });
-
