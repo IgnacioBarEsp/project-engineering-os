@@ -1,7 +1,7 @@
 ## 1. Preflight and baseline
 
 > Rebase de release: 0.3.2 ya se publicó el 19 de septiembre. Conforme a #168, el candidato de este change
-> es 0.3.3; no se reutiliza ni se reemplaza el tag o los assets de 0.3.2.
+> es 0.3.4; no se reutiliza ni se reemplaza ningún tag o asset anterior.
 
 - [ ] 1.1 In a GitHub Actions runner or declared disposable Windows VM, open the unmodified installer before
   editing its language setting; record version, Windows environment, standard-page texts, Finish page and
@@ -10,6 +10,8 @@
   change in the issue contract, installer pin or release harness before modifying source.
 - [x] 1.3 Rebase the candidate identity to 0.3.3 after confirming that `companion-v0.3.2` is published and
   immutable; add matching release notes and retain 0.1.0 as the update source.
+- [x] 1.4 Tras el intento protegido fallido de 0.3.3, resolver el escritorio de la cuenta del runner antes
+  de aislar `USERPROFILE` y rebasar el candidato a 0.3.4; los tags existentes permanecen inmutables.
 
 ## 2. Assisted installer choices
 

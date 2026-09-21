@@ -41,7 +41,7 @@ const readArtifact = async directory => {
 const candidate = await readArtifact(path.resolve(candidateDirectory));
 const previous = await readArtifact(path.resolve(previousDirectory));
 assert.equal(previous.manifest.version, '0.1.0', 'La ruta de actualización debe partir del Companion publicado 0.1.0.');
-assert.equal(candidate.manifest.version, '0.3.3', 'La ruta de actualización debe medir el candidato 0.3.3.');
+assert.equal(candidate.manifest.version, '0.3.4', 'La ruta de actualización debe medir el candidato 0.3.4.');
 assert.equal(candidate.manifest.core, '0.5.0', 'La release de la app no cambia el núcleo fijado.');
 
 const temporaryBase = await realpath(tmpdir());
@@ -57,9 +57,11 @@ const runtimeSentinel = path.join(runtime, 'runtime-sentinel.txt');
 const projectSentinel = path.join(project, 'project-sentinel.txt');
 const environment = { ...process.env, APPDATA: appData, LOCALAPPDATA: localAppData,
   TEMP: path.join(root, 'Temp'), TMP: path.join(root, 'Temp'), USERPROFILE: path.join(root, 'User') };
+// NSIS resolves the shell-known desktop of the runner account. Query it before applying the temporary
+// USERPROFILE used for app data; that temporary profile has no registered Desktop folder on hosted Windows.
 const desktopProbe = await run('pwsh', ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command',
   '[Environment]::GetFolderPath([Environment+SpecialFolder]::Desktop)'],
-{ env: environment, windowsHide: true, shell: false, timeout: 30000, maxBuffer: 1024 * 1024 });
+{ windowsHide: true, shell: false, timeout: 30000, maxBuffer: 1024 * 1024 });
 const desktopPath = desktopProbe.stdout.trim();
 assert(desktopPath, 'PowerShell no devolvió la carpeta de escritorio del runner.');
 const desktop = path.resolve(desktopPath);
@@ -88,7 +90,7 @@ try {
   assert.equal((await installedManifest()).version, previous.manifest.version, 'La instalación base no contiene 0.1.0.');
   assert.equal(await present(desktopShortcut), true, 'La instalación silenciosa debe usar el valor por defecto marcado.');
   await execute(candidate.installer, ['/S', `/D=${installation}`]);
-  assert.equal((await installedManifest()).version, candidate.manifest.version, 'La actualización no contiene 0.3.3.');
+  assert.equal((await installedManifest()).version, candidate.manifest.version, 'La actualización no contiene 0.3.4.');
   assert.equal(await present(desktopShortcut), true, 'La actualización silenciosa debe conservar el enlace por defecto.');
   await access(path.join(installation, 'Project Engineering OS.exe'));
   const uninstaller = path.join(installation, 'Uninstall Project Engineering OS.exe');

@@ -14,5 +14,7 @@ Validación local de este ajuste:
 - `npx --no-install openspec validate companion-installer-choices --strict --no-interactive`: PASS.
 - `git diff --check`: PASS.
 
-La instalación real, las ramas asistidas y el ciclo silencioso continúan pendientes del tag 0.3.3 integrado y del
-runner Windows protegido; esta evidencia no los presenta como ejecutados.
+El intento protegido de 0.3.3 falló antes de instalar por una consulta de Escritorio ligada al perfil temporal;
+queda registrado en [release-attempt-0.3.3.md](release-attempt-0.3.3.md). La instalación real, las ramas
+asistidas y el ciclo silencioso continúan pendientes del candidato 0.3.4 y del runner Windows protegido; esta
+evidencia no los presenta como ejecutados.
