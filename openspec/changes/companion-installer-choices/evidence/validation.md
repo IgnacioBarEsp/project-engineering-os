@@ -3,6 +3,11 @@
 Esta evidencia la produjo el agente del apply. Ninguna persona ejecutó o marcó las casillas del instalador en
 esta sesión. La instalación silenciosa y las comprobaciones de fuente no se presentan como observación humana.
 
+> **Supersedida para publicación:** el candidato descrito abajo era 0.3.2. Esa versión fue publicada antes de
+> que #168 pudiera completar su evidencia, así que no se reutiliza ni se reemplaza. La rebase a 0.3.3 y su
+> validación está en [release-rebase.md](release-rebase.md); hace falta un nuevo candidato de 0.3.3 en Windows
+> protegido antes de que este change pueda archivarse.
+
 ## Resultado local
 
 | Comprobación | Resultado | Registro |
