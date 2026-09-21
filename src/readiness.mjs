@@ -35,9 +35,9 @@ const FORBIDDEN_METADATA_KEYS = new Set([
 ]);
 const PLACEHOLDER_PATTERNS = Object.freeze([
   /<[^>\r\n]{1,80}>/,
-  /\b(?:TBD|FIXME|CHANGEME|PLACEHOLDER)\b/i,
+  /(?<![\p{L}\p{N}_-])(?:TBD|FIXME|CHANGEME|PLACEHOLDER)(?![\p{L}\p{N}_])/iu,
   /\bTODO\b/,
-  /\b(?:replace|reemplaza|sustituye|completa|conserva)\s+(?:with|con|aqui|aquí|este|esta|the|el|la)\b/i,
+  /(?<![\p{L}\p{N}_])(?:replace\s+with|complete\s+the\s+review|reemplaza\s+(?:con|aqui|aquí)|sustituye\s+(?:con|aqui|aquí)|completa\s+(?:con|aqui|aquí))(?![\p{L}\p{N}_])/iu,
   /\[(?:replace|placeholder|todo|complete|completar|sustituir)[^\]\r\n]*\]/i,
 ]);
 const PRE_PROPOSE_SHAPE = Object.freeze({
@@ -178,13 +178,16 @@ function placeholderPaths(value, prefix = '') {
       placeholderPaths(child, prefix ? `${prefix}.${key}` : key)
     ));
   }
-  if (
-    typeof value === 'string'
-    && PLACEHOLDER_PATTERNS.some((pattern) => pattern.test(value))
-  ) {
+  if (typeof value === 'string') {
     const labels = ['angle-placeholder', 'reserved-marker', 'TODO', 'replacement-instruction', 'bracket-placeholder'];
-    return PLACEHOLDER_PATTERNS.flatMap((pattern, index) => pattern.test(value)
-      ? [`${prefix || '<root>'} (${labels[index]})`] : []);
+    const allowReservedMarker = prefix === 'change'
+      && value.includes('-')
+      && CHANGE_NAME.test(value);
+    return PLACEHOLDER_PATTERNS.flatMap((pattern, index) => {
+      if (index === 1 && allowReservedMarker) return [];
+      return pattern.test(value)
+        ? [`${prefix || '<root>'} (${labels[index]})`] : [];
+    });
   }
   return [];
 }

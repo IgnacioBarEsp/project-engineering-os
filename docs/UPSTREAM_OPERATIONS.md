@@ -55,7 +55,11 @@ JSON canónico del config: claves ordenadas recursivamente, arrays en su orden y
 máxima es 30 días; recibos ausentes, ilegibles, vencidos, futuros o con hash incorrecto fallan. El doctor
 no arranca herramientas, indexa código ni interpreta configuración como evidencia de operación.
 
-La metadata permite la palabra española «todo». El marcador pendiente `TODO` en mayúsculas y las formas
-explícitas `[todo ...]` siguen fallando; la salida nombra campo y patrón sin repetir el contenido sensible.
+La metadata permite la palabra española «todo» y la prosa indicativa como «conserva» o «sustituye la firma».
+El detector solo trata como instrucción las formas observadas que nombran una ranura (`Replace with`,
+`Complete the review`, `reemplaza con`, `sustituye aquí`, etc.). El marcador pendiente `TODO` en mayúsculas y
+las formas explícitas `[todo ...]` siguen fallando; la salida nombra campo y patrón sin repetir el contenido
+sensible. Un identificador `change` válido puede contener un término reservado si tiene varios segmentos
+kebab-case; el mismo término en otro campo, o como nombre aislado, sigue fallando.
 
 Vuelve a [documentación](README.md) o a la [decisión de autoaplicación](SELF_APPLICATION.md).

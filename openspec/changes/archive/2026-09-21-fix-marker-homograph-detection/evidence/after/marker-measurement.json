@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-20T21:45:56.155Z",
+  "method": "Corpus congelado de #166, detector importado del árbol bajo prueba; no se reutilizan informes de otra vía.",
+  "corpus": {
+    "legitimateTotal": 34,
+    "markersTotal": 19,
+    "archivedChanges": 50
+  },
+  "detector": {
+    "legitimateRejected": 0,
+    "legitimateRejectedSamples": [],
+    "markersRejected": 19,
+    "markersAccepted": [],
+    "archivedFlagged": [],
+    "namingSample": [
+      "scope (replacement-instruction)"
+    ],
+    "changeIdentifier": [],
+    "malformedReserved": {
+      "owner": [
+        "scope (reserved-marker)"
+      ],
+      "change": [
+        "scope (reserved-marker)"
+      ]
+    }
+  },
+  "acceptance": {
+    "legitimate": true,
+    "markers": true,
+    "archivedMetadata": true
+  }
+}

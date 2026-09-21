@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "fix-marker-homograph-detection",
+  "date": "2026-09-20",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "La revisión del detector no deja deuda nueva. Los fallos históricos de sync/doctor/opsx y la contaminación EOL del checkout se registran como preexistentes y quedan fuera del alcance; no se reclasifican como deuda de este change."
+}
