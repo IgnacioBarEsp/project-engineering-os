@@ -32,12 +32,13 @@
 - [x] 4.2 Actualizar la guía sembrada y la documentación upstream solo donde cambie el contrato público.
 - [x] 4.3 Ejecutar unit/contract, package artifact, compatibilidad, harness, doctor/sync aplicables y la suite
   completa; registrar por separado cualquier fallo preexistente.
-- [ ] 4.4 Ejecutar el smoke multiplataforma en CI protegida y conservar el resultado real.
+- [x] 4.4 Ejecutar el smoke multiplataforma en CI protegida y conservar el resultado real
+  ([CI run 35575048504](https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/35575048504)).
 
 ## 5. Cierre
 
 - [x] 5.1 Ejecutar revisión adversarial desde contexto limpio y resolver todos los Blockers y Majors.
 - [x] 5.2 Capturar el assessment de deuda después de la última corrección.
-- [ ] 5.3 Ensayar rollback e instalación, completar `readiness.json` solo con evidencia ejecutada y pasar el gate
-  de archive con `--run-local`.
-- [ ] 5.4 Archivar con el CLI local y entregar por PR protegido.
+- [x] 5.3 Ensayar rollback e instalación, completar `readiness.json` solo con evidencia ejecutada y pasar el gate
+  de archive con `--run-local` sobre el consumidor desechable.
+- [x] 5.4 Archivar con el CLI local y entregar por PR protegido (este commit).

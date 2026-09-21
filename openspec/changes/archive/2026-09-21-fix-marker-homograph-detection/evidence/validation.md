@@ -15,7 +15,7 @@ presenta como revisión humana.
 | `constructor-tests` | PASS, incluido en la suite completa | `npm run check` |
 | `capability-matrix-check` | PASS, `check:workflows` y las pruebas de matriz en verde | `npm run check` |
 | `second-run-idempotence` | PASS, la suite de constructor comprueba convergencia sin drift | `npm run check` |
-| `multi-platform-smoke` | PENDIENTE: se ejecutaron Windows fixture normal y `--isolated-toolchain`; falta la matriz protegida de CI | `npm run fixture`, `npm run fixture -- --isolated-toolchain` |
+| `multi-platform-smoke` | PASS, matriz protegida completa en Linux, Windows y macOS con Node 20.20.0 y 22.22.0; fixture normal y aislada incluidas | [CI run 35575048504](https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/35575048504) |
 
 ## Checks de harness y target de ejecución
 

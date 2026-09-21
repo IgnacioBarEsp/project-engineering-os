@@ -30,8 +30,8 @@
     },
     {
       "id": "multi-platform-smoke",
-      "status": "pending",
-      "evidence": null,
+      "status": "passed",
+      "evidence": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     },
