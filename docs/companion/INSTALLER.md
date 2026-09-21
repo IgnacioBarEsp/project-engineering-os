@@ -27,9 +27,15 @@ para abrir la aplicación.
 
 ## Qué hace el instalador
 
-El asistente muestra la licencia y el aviso de datos, te deja elegir la carpeta de destino y crea
-accesos directos en el escritorio y en el menú inicio. La instalación es **por usuario**: no pide
-administrador y no modifica el equipo para otras cuentas.
+El asistente muestra la licencia y el aviso de datos, te deja elegir la carpeta de destino y ofrece una
+casilla, marcada por defecto, para crear el acceso directo del escritorio. También ofrece, marcada por
+defecto, abrir la aplicación al terminar. Puedes desmarcar cualquiera de las dos antes de continuar; el
+acceso directo del menú inicio se mantiene. La instalación es **por usuario**: no pide administrador y no
+modifica el equipo para otras cuentas. Las páginas y los mensajes del instalador están en español.
+
+Las instalaciones silenciosas de publicación (`/S`) no muestran esas casillas: aplican el valor por defecto
+(crean el acceso directo y no abren la aplicación por una interacción inexistente). La comprobación
+silenciosa demuestra propiedad de archivos, no que una persona haya visto o seleccionado el asistente.
 
 | Ubicación | Qué contiene | Quién la escribe |
 | --- | --- | --- |

@@ -57,8 +57,10 @@ const runtimeSentinel = path.join(runtime, 'runtime-sentinel.txt');
 const projectSentinel = path.join(project, 'project-sentinel.txt');
 const environment = { ...process.env, APPDATA: appData, LOCALAPPDATA: localAppData,
   TEMP: path.join(root, 'Temp'), TMP: path.join(root, 'Temp'), USERPROFILE: path.join(root, 'User') };
+const desktop = path.join(environment.USERPROFILE, 'Desktop');
+const desktopShortcut = path.join(desktop, 'Project Engineering OS.lnk');
 for (const target of [installation, project, appData, localAppData, runtime, history, runtimeSentinel,
-  projectSentinel, environment.TEMP, environment.USERPROFILE]) {
+  projectSentinel, environment.TEMP, environment.USERPROFILE, desktop, desktopShortcut]) {
   assert(inside(root, target), `Una ruta de prueba sale del root desechable: ${target}`);
 }
 const execute = (file, args) => run(file, args, { env: environment, windowsHide: true, shell: false, timeout: 180000, maxBuffer: 1024 * 1024 });
@@ -68,16 +70,20 @@ const present = async file => access(file).then(() => true, () => false);
 let measurementError = null;
 try {
   await Promise.all([mkdir(project, { recursive: true }), mkdir(path.dirname(history), { recursive: true }),
-    mkdir(runtime, { recursive: true }), mkdir(environment.TEMP, { recursive: true }), mkdir(environment.USERPROFILE, { recursive: true })]);
+    mkdir(runtime, { recursive: true }), mkdir(environment.TEMP, { recursive: true }),
+    mkdir(environment.USERPROFILE, { recursive: true }), mkdir(desktop, { recursive: true })]);
   await Promise.all([writeFile(projectSentinel, 'proyecto de prueba\n'), writeFile(history, 'historial de prueba\n'),
     writeFile(runtimeSentinel, 'runtime de prueba\n')]);
+  await rm(desktopShortcut, { force: true });
 
   // Both installers write only to this disposable runner. /S exercises NSIS file placement and update
   // paths, but does not prove that a person read or clicked the wizard.
   await execute(previous.installer, ['/S', `/D=${installation}`]);
   assert.equal((await installedManifest()).version, previous.manifest.version, 'La instalación base no contiene 0.1.0.');
+  assert.equal(await present(desktopShortcut), true, 'La instalación silenciosa debe usar el valor por defecto marcado.');
   await execute(candidate.installer, ['/S', `/D=${installation}`]);
   assert.equal((await installedManifest()).version, candidate.manifest.version, 'La actualización no contiene 0.3.2.');
+  assert.equal(await present(desktopShortcut), true, 'La actualización silenciosa debe conservar el enlace por defecto.');
   await access(path.join(installation, 'Project Engineering OS.exe'));
   const uninstaller = path.join(installation, 'Uninstall Project Engineering OS.exe');
   await access(uninstaller);
@@ -91,6 +97,7 @@ try {
   await execute(uninstaller, ['/S']);
   const uninstalled = await waitForRemoval(installation, { timeoutMs: 60000, intervalMs: 500 });
   assert.equal(uninstalled, true, 'El desinstalador dejó el directorio del programa.');
+  assert.equal(await present(desktopShortcut), false, 'El desinstalador dejó el enlace de escritorio propio.');
   for (const sentinel of [projectSentinel, history, runtimeSentinel]) {
     assert.equal(await present(sentinel), true, `El desinstalador eliminó un dato que no posee: ${path.basename(sentinel)}.`);
   }
@@ -99,7 +106,8 @@ try {
     status: 'PASS', mode: 'automatización silenciosa en Windows desechable', previous: previous.manifest,
     candidate: candidate.manifest, update: { from: previous.manifest.version, to: candidate.manifest.version },
     preserved: ['project-sentinel.txt', 'history-sentinel.txt', 'runtime-sentinel.txt'],
-    removed: ['installation'], humanObservation: 'No se afirma que una persona leyó o hizo clic en el asistente de NSIS.',
+    removed: ['installation', 'Project Engineering OS.lnk'], desktopShortcut,
+    humanObservation: 'No se afirma que una persona leyó, marcó o hizo clic en el asistente de NSIS.',
   }, null, 2) + '\n');
   console.log(JSON.stringify({ status: 'PASS', updated: `${previous.manifest.version} -> ${candidate.manifest.version}`, nativeJourneys: 5 }, null, 2));
 } catch (error) {
