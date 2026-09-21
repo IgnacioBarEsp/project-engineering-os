@@ -32,7 +32,7 @@ alcance aceptado.
 - No añadir firma, elevación, telemetría, autoactualización, selector de idiomas, otras plataformas ni una
   dependencia de NSIS.
 - No cambiar la detección de versión, la carpeta por usuario, el menú Inicio ni la propiedad de datos. Como
-  0.3.2 ya fue publicada, este cambio usa la nueva identidad inmutable 0.3.3 para poder producir y verificar
+  0.3.2 y el tag fallido 0.3.3 ya existen, este cambio usa la nueva identidad inmutable 0.3.4 para poder producir y verificar
   su instalador sin sustituir assets existentes.
 - No inferir la interacción humana a partir de `/S` ni automatizar una instalación en el escritorio del
   mantenedor.
