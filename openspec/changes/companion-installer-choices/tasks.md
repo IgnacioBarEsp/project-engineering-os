@@ -1,7 +1,8 @@
 ## 1. Preflight and baseline
 
-> Rebase de release: 0.3.2 ya se publicó el 19 de septiembre. Conforme a #168, el candidato de este change
-> es 0.3.4; no se reutiliza ni se reemplaza ningún tag o asset anterior.
+> Rebase de release: 0.3.2 ya se publicó el 19 de septiembre. Tras corregir los fallos del arnés de los
+> intentos 0.3.3 y 0.3.4, el candidato 0.3.5 se publicó. No se reutilizó ni reemplazó ningún tag o asset
+> anterior. La [evidencia de release](evidence/release-0.3.5.md) cubre el ciclo silencioso, no la UI asistida.
 
 - [ ] 1.1 In a GitHub Actions runner or declared disposable Windows VM, open the unmodified installer before
   editing its language setting; record version, Windows environment, standard-page texts, Finish page and
@@ -30,7 +31,7 @@
   candidate and compare every standard page and contextual dialog with the recorded baseline in Windows.
 - [x] 3.2 Extend `qa/packaging.mjs` to protect the choice/default, Spanish locale, Finish behavior and
   shortcut ownership contract; run `npm test --prefix apps/companion`.
-- [ ] 3.3 Extend `verify-release-installation.mjs` to assert the default desktop link after silent
+- [x] 3.3 Extend `verify-release-installation.mjs` to assert the default desktop link after silent
   installation/update and its removal after uninstall, while recording the mode's non-human limit. Run it
   only in GitHub Actions or a declared disposable Windows VM.
 - [x] 3.4 Update `docs/companion/INSTALLER.md` so it distinguishes the two assisted choices from silent

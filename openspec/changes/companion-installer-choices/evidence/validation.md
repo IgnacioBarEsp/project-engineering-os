@@ -3,10 +3,9 @@
 Esta evidencia la produjo el agente del apply. Ninguna persona ejecutó o marcó las casillas del instalador en
 esta sesión. La instalación silenciosa y las comprobaciones de fuente no se presentan como observación humana.
 
-> **Supersedida para publicación:** el candidato descrito abajo era 0.3.2. Esa versión fue publicada antes de
-> que #168 pudiera completar su evidencia, así que no se reutiliza ni se reemplaza. La rebase y el intento 0.3.3
-> están registrados en [release-rebase.md](release-rebase.md); hace falta un nuevo candidato de 0.3.4 en Windows
-> protegido antes de que este change pueda archivarse.
+> **Registro histórico, supersedido para publicación:** el candidato descrito abajo era 0.3.2. Esa versión se
+> publicó antes de completar #168 y no se reemplazó. La publicación y el ciclo silencioso de 0.3.5 constan en
+> [release-0.3.5.md](release-0.3.5.md). Todavía falta la observación de UI asistida.
 
 ## Resultado local
 
@@ -30,8 +29,9 @@ reconstruir el candidato desde el commit integrado antes de publicar.
 ## Qué queda para Windows desechable
 
 El verificador conserva la guardia que solo permite ejecutarse en GitHub Actions o con
-`PROJECT_OS_DISPOSABLE_WINDOWS=1`. En este equipo no hay Windows Sandbox, una VM Windows preparada ni una imagen
-para crearla de forma legítima. El registro de release no se ejecutó y no se marca como PASS.
+`PROJECT_OS_DISPOSABLE_WINDOWS=1`. En esta validación histórica no había Windows Sandbox ni una VM Windows
+preparada. El registro de release no se ejecutó para este candidato 0.3.2; el resultado posterior de 0.3.5 está
+separado en [release-0.3.5.md](release-0.3.5.md).
 
 La ejecución protegida debe registrar, en una única corrida del candidato exacto:
 

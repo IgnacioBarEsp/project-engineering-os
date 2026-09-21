@@ -28,8 +28,9 @@ export function guidanceContractFailures(files, imageHash) {
   }
   const releaseTags = [...readme.matchAll(/\/releases\/tag\/(companion-v\d+\.\d+\.\d+)/g)].map(m => m[1]);
   if (new Set(releaseTags).size !== 1 || !status.includes(`/releases/tag/${releaseTags[0]})`)) failures.push('release identity');
-  if (!/Revisión: \*\*\d{1,2} de [a-záéíóú]+ de \d{4}\*\*/.test(status) || !status.includes('pendientes de instalador') ||
-    !status.includes('Núcleo CLI') || !status.includes('Nueva landing')) failures.push('delivery distinction');
+  if (!/Revisión: \*\*\d{1,2} de [a-záéíóú]+ de \d{4}\*\*/.test(status) ||
+    !/\*\*\d+\.\d+\.\d+ publicado\*\*/.test(status) || !status.includes('Núcleo CLI') ||
+    !/\| Nueva landing \|[^\n]*página final y publicación pendientes \|/.test(status)) failures.push('delivery distinction');
   // El entorno declarado debe estar escrito. Que además sea cierto lo comprueba screenshot-provenance.mjs,
   // que exige que el motor y la forma de ejecutar de los registros aparezcan en esta misma página.
   if (!/\/tree\/[a-f0-9]{40}\)/.test(captures) || !captures.includes('ventana real de la aplicación') ||

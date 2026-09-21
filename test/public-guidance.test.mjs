@@ -20,7 +20,7 @@ for (const [name, file, mutate, expected] of [
   ['capture presented without its limit', 'README.md', text => text.replaceAll('No es una captura del instalador', 'Captura'), 'visible capture qualifier'],
   ['capture has no immutable source', 'docs/companion/SCREENSHOTS.md', text => text.replace(/\/tree\/[a-f0-9]{40}/, '/tree/main'), 'capture provenance'],
   ['browser capture declared as real window', 'docs/companion/SCREENSHOTS.md', text => text.replaceAll('ventana real de la aplicación', 'renderer real en navegador'), 'capture provenance'],
-  ['integrated source presented as delivered', 'docs/PROJECT_STATUS.md', text => text.replaceAll('pendientes de instalador', 'publicadas'), 'delivery distinction'],
+  ['integrated source presented as delivered', 'docs/PROJECT_STATUS.md', text => text.replaceAll('página final y publicación pendientes', 'página final publicada'), 'delivery distinction'],
 ]) {
   test(`rejects ${name}`, () => {
     assert.ok(guidanceContractFailures({ ...files, [file]: mutate(files[file]) }, hash).includes(expected));
