@@ -57,12 +57,18 @@ const runtimeSentinel = path.join(runtime, 'runtime-sentinel.txt');
 const projectSentinel = path.join(project, 'project-sentinel.txt');
 const environment = { ...process.env, APPDATA: appData, LOCALAPPDATA: localAppData,
   TEMP: path.join(root, 'Temp'), TMP: path.join(root, 'Temp'), USERPROFILE: path.join(root, 'User') };
-const desktop = path.join(environment.USERPROFILE, 'Desktop');
+const desktopProbe = await run('pwsh', ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command',
+  '[Environment]::GetFolderPath([Environment+SpecialFolder]::Desktop)'],
+{ env: environment, windowsHide: true, shell: false, timeout: 30000, maxBuffer: 1024 * 1024 });
+const desktopPath = desktopProbe.stdout.trim();
+assert(desktopPath, 'PowerShell no devolvió la carpeta de escritorio del runner.');
+const desktop = path.resolve(desktopPath);
 const desktopShortcut = path.join(desktop, 'Project Engineering OS.lnk');
 for (const target of [installation, project, appData, localAppData, runtime, history, runtimeSentinel,
-  projectSentinel, environment.TEMP, environment.USERPROFILE, desktop, desktopShortcut]) {
+  projectSentinel, environment.TEMP, environment.USERPROFILE]) {
   assert(inside(root, target), `Una ruta de prueba sale del root desechable: ${target}`);
 }
+assert(path.isAbsolute(desktop), `El escritorio desechable no es una ruta absoluta: ${desktop}`);
 const execute = (file, args) => run(file, args, { env: environment, windowsHide: true, shell: false, timeout: 180000, maxBuffer: 1024 * 1024 });
 const installedManifest = async () => JSON.parse(await readFile(path.join(installation, 'resources', 'app', 'package.json'), 'utf8'));
 const present = async file => access(file).then(() => true, () => false);
@@ -113,6 +119,14 @@ try {
 } catch (error) {
   measurementError = error;
 } finally {
+  // The desktop folder is a shell-known path and may not live under the temp root on every runner.
+  // The guard above permits this only on a disposable Windows runner; remove the exact product link
+  // before deleting the bounded test root so a failed run cannot leave its own artifact behind.
+  try {
+    await rm(desktopShortcut, { force: true });
+  } catch (desktopCleanupError) {
+    console.warn(`[WARN] No se pudo retirar el enlace de prueba ${desktopShortcut}: ${desktopCleanupError?.message}`);
+  }
   try {
     const cleanup = await removeDisposableRoot({ root, temporaryBase });
     if (cleanup?.status === 'locked') {

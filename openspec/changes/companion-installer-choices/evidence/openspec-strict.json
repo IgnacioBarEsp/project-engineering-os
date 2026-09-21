@@ -1,0 +1,5 @@
+{
+  "status": "PASS",
+  "runner": "npx --no-install openspec validate companion-installer-choices --strict --no-interactive",
+  "change": "companion-installer-choices"
+}
