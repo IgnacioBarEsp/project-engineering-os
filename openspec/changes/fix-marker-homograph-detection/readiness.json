@@ -137,8 +137,8 @@
     {
       "id": "recovery-rehearsal-for-one-transaction",
       "kind": "manual",
-      "status": "pending",
-      "ref": null,
+      "status": "verified",
+      "ref": "openspec/changes/fix-marker-homograph-detection/evidence/validation.md",
       "justification": null,
       "profileCondition": null
     }

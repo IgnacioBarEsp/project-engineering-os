@@ -41,7 +41,7 @@ bloquean archive.
 - `license-review`: no se añadieron paquetes; el `npm pack` se instaló sin vulnerabilidades reportadas.
 - `install-and-rollback-smoke`: instalación local del tarball y ensayo de revert documentado en
   [rollback-rehearsal.md](rollback-rehearsal.md).
+- `recovery-rehearsal-for-one-transaction`: PASS, el test `rollback normal restaura el repositorio previo y
+  conserva evidencia del journal` pasó junto con 29 casos del archivo de integración (30/30, 0 fallos).
 - `review-of-declared-degradations`: los tres fallos de harness y el EOL histórico están listados arriba sin
   convertirlos en PASS.
-- `recovery-rehearsal-for-one-transaction`: pendiente; este change no ejecuta una transacción mutante del
-  constructor y el perfil harness no permite declararlo N/A.
