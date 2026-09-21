@@ -41,7 +41,7 @@ const readArtifact = async directory => {
 const candidate = await readArtifact(path.resolve(candidateDirectory));
 const previous = await readArtifact(path.resolve(previousDirectory));
 assert.equal(previous.manifest.version, '0.1.0', 'La ruta de actualización debe partir del Companion publicado 0.1.0.');
-assert.equal(candidate.manifest.version, '0.3.4', 'La ruta de actualización debe medir el candidato 0.3.4.');
+assert.equal(candidate.manifest.version, '0.3.5', 'La ruta de actualización debe medir el candidato 0.3.5.');
 assert.equal(candidate.manifest.core, '0.5.0', 'La release de la app no cambia el núcleo fijado.');
 
 const temporaryBase = await realpath(tmpdir());
@@ -56,9 +56,9 @@ const history = path.join(appData, 'Project Engineering OS', 'projects', 'histor
 const runtimeSentinel = path.join(runtime, 'runtime-sentinel.txt');
 const projectSentinel = path.join(project, 'project-sentinel.txt');
 const environment = { ...process.env, APPDATA: appData, LOCALAPPDATA: localAppData,
-  TEMP: path.join(root, 'Temp'), TMP: path.join(root, 'Temp'), USERPROFILE: path.join(root, 'User') };
+  TEMP: path.join(root, 'Temp'), TMP: path.join(root, 'Temp') };
 // NSIS resolves the shell-known desktop of the runner account. Query it before applying the temporary
-// USERPROFILE used for app data; that temporary profile has no registered Desktop folder on hosted Windows.
+// Keep the runner USERPROFILE: NSIS resolves $DESKTOP from it, while the app's mutable data remains isolated.
 const desktopProbe = await run('pwsh', ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command',
   '[Environment]::GetFolderPath([Environment+SpecialFolder]::Desktop)'],
 { windowsHide: true, shell: false, timeout: 30000, maxBuffer: 1024 * 1024 });
@@ -67,7 +67,7 @@ assert(desktopPath, 'PowerShell no devolvió la carpeta de escritorio del runner
 const desktop = path.resolve(desktopPath);
 const desktopShortcut = path.join(desktop, 'Project Engineering OS.lnk');
 for (const target of [installation, project, appData, localAppData, runtime, history, runtimeSentinel,
-  projectSentinel, environment.TEMP, environment.USERPROFILE]) {
+  projectSentinel, environment.TEMP]) {
   assert(inside(root, target), `Una ruta de prueba sale del root desechable: ${target}`);
 }
 assert(path.isAbsolute(desktop), `El escritorio desechable no es una ruta absoluta: ${desktop}`);
@@ -79,7 +79,7 @@ let measurementError = null;
 try {
   await Promise.all([mkdir(project, { recursive: true }), mkdir(path.dirname(history), { recursive: true }),
     mkdir(runtime, { recursive: true }), mkdir(environment.TEMP, { recursive: true }),
-    mkdir(environment.USERPROFILE, { recursive: true }), mkdir(desktop, { recursive: true })]);
+    mkdir(desktop, { recursive: true })]);
   await Promise.all([writeFile(projectSentinel, 'proyecto de prueba\n'), writeFile(history, 'historial de prueba\n'),
     writeFile(runtimeSentinel, 'runtime de prueba\n')]);
   await rm(desktopShortcut, { force: true });
@@ -90,7 +90,7 @@ try {
   assert.equal((await installedManifest()).version, previous.manifest.version, 'La instalación base no contiene 0.1.0.');
   assert.equal(await present(desktopShortcut), true, 'La instalación silenciosa debe usar el valor por defecto marcado.');
   await execute(candidate.installer, ['/S', `/D=${installation}`]);
-  assert.equal((await installedManifest()).version, candidate.manifest.version, 'La actualización no contiene 0.3.4.');
+  assert.equal((await installedManifest()).version, candidate.manifest.version, 'La actualización no contiene 0.3.5.');
   assert.equal(await present(desktopShortcut), true, 'La actualización silenciosa debe conservar el enlace por defecto.');
   await access(path.join(installation, 'Project Engineering OS.exe'));
   const uninstaller = path.join(installation, 'Uninstall Project Engineering OS.exe');

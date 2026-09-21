@@ -6,7 +6,7 @@ Un issue cerrado demuestra el cierre de ese cambio; no publica por sí solo un i
 | Entrega | Estado comprobado | Fuente |
 | --- | --- | --- |
 | Companion para Windows x64 | **0.3.2 publicado**, con sus assets comprobados; corrige los defectos de 0.3.1 (abajo) | [Release 0.3.2](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.2), [notas](../apps/companion/RELEASE_NOTES_0.3.2.md) |
-| Cambios de Companion posteriores a 0.3.2 | Las opciones del instalador de [#168](https://github.com/IgnacioBarEsp/project-engineering-os/issues/168) están integradas; siguen **pendientes de instalador**: artefacto **0.3.4**, evidencia Windows protegida y publicación | [change activo](../openspec/changes/companion-installer-choices/README.md) |
+| Cambios de Companion posteriores a 0.3.2 | Las opciones del instalador de [#168](https://github.com/IgnacioBarEsp/project-engineering-os/issues/168) están integradas; siguen **pendientes de instalador**: artefacto **0.3.5**, evidencia Windows protegida y publicación | [change activo](../openspec/changes/companion-installer-choices/README.md) |
 | Núcleo CLI y biblioteca | **0.5.0 publicado**; la app fija esa dependencia | [Release del núcleo](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/v0.5.0), [paquete de la app](../apps/companion/package.json) |
 | Landing actual | Armonizada con estética Obsidian Studio y contraste AAA | [Página actual](https://ignaciobaresp.github.io/project-engineering-os/), [código fuente](../site/index.html) |
 | Nueva landing | Dirección y base técnica integradas; página final y publicación pendientes | [Repositorio](https://github.com/IgnacioBarEsp/project-engineering-os-landing) |
