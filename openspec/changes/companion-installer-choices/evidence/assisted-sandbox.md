@@ -14,6 +14,7 @@ Las versiones publicadas se comprobaron contra sus SHA-256 de release antes de a
 | 0.3.2 | `cab544dddd31a83fb86f744646cffcb2b1da346f950428c5c6a17b5931ac632e` | Baseline sin las elecciones nuevas |
 | 0.3.5 | `9860c3fe476469a5e07b8f8cdf0936d305b7851638eab37a354cf739a604ab1d` | Release con elecciones, falla idioma |
 | 0.3.6 de trabajo | `c5761c3255316057b92224b928d454d9b59b6332bce9eae995c935c383ca4e68` | Construcción local marcada `dirty`, **no publicable** |
+| 0.3.6 limpio | `b92ffc4b81b80b2df0103a21f99df9d692ead2ca53fe1d99d0f3e39147a2602e` | Build verificado desde `89a7614`, pendiente de UI y publicación |
 
 ## Baseline 0.3.2 y hallazgo 0.3.5
 
@@ -43,5 +44,7 @@ páginas estándar de [licencia](screenshots/candidate-0.3.6-license-spanish.jpg
 tenía [encabezado español y casilla marcada](screenshots/candidate-0.3.6-desktop-checked-spanish.jpg);
 la casilla también se pudo [desmarcar](screenshots/candidate-0.3.6-desktop-unchecked-spanish.jpg).
 
-La construcción local aún no prueba la identidad publicable ni el ciclo completo. Los resultados de
-instalación, ambas ramas de Finish, reparación y desinstalación se añadirán solo cuando se observen.
+El build limpio pasó `pack:verify`, pero su UI y el ciclo completo aún no están observados. La
+construcción desde el futuro tag protegido tendrá otra identidad y requerirá comprobar su hash. Los
+resultados de instalación, ambas ramas de Finish, reparación y desinstalación se añadirán solo cuando se
+observen.

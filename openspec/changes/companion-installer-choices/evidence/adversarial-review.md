@@ -13,9 +13,10 @@ Finish y el efecto del opt-out en disco antes de aprobar la rama.
 El diff nuevo no añade red, secretos, elevación, procesos en el host ni rutas de borrado. El include
 adicional `MUI2.nsh` se necesita porque electron-builder incluye el archivo propio antes de MUI2; la
 compilación real comprueba esa dependencia. Las pruebas de configuración protegen la lista de idiomas y
-el encabezado, y `npm test --prefix apps/companion` pasó 146/146. Veredicto provisional: **solicitar cambios
-hasta completar el recorrido asistido y verificar el build limpio**; no hay otro Blocker o Major en el
-diff de corrección. Esta revisión es del mismo agente, no un reviewer independiente.
+el encabezado, y `npm test --prefix apps/companion` pasó 146/146. El build limpio pasó `pack:verify` desde
+`89a7614`. Veredicto provisional: **solicitar cambios hasta completar el recorrido asistido y la publicación**;
+no hay otro Blocker o Major en el diff de corrección. Esta revisión es del mismo agente, no un reviewer
+independiente.
 
 La revisión se hizo sobre el diff desde `2384fab`, con la lente de seguridad, corrección, rendimiento y
 mantenibilidad de la skill `code-review`. Es una revisión del agente en el mismo checkout; por tanto no se

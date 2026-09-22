@@ -2,9 +2,10 @@
 
 > Rebase de release: 0.3.2 ya se publicó el 19 de septiembre. Tras corregir los fallos del arnés de los
 > intentos 0.3.3 y 0.3.4, el candidato 0.3.5 se publicó. No se reutilizó ni reemplazó ningún tag o asset
-> anterior. La [evidencia de release](evidence/release-0.3.5.md) cubre el ciclo silencioso, no la UI asistida.
+> anterior. La [evidencia de release](evidence/release-0.3.5.md) cubre el ciclo silencioso; la
+> [observación asistida](evidence/assisted-sandbox.md) encontró páginas en inglés y exige corregir en 0.3.6.
 
-- [ ] 1.1 In a GitHub Actions runner or declared disposable Windows VM, open the unmodified installer before
+- [x] 1.1 In a GitHub Actions runner or declared disposable Windows VM, open the unmodified installer before
   editing its language setting; record version, Windows environment, standard-page texts, Finish page and
   contextual-dialog language as baseline evidence.
 - [x] 1.2 Revalidate issue #168, this proposal and the clean worktree immediately before apply; record any

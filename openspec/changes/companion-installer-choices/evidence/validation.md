@@ -2,11 +2,14 @@
 
 ## Revalidación de la corrección 0.3.6 (22 de septiembre de 2026)
 
-El fallo de idioma de 0.3.5 se confirmó en [Windows Sandbox](assisted-sandbox.md). La construcción local
+El fallo de idioma de 0.3.5 se confirmó en [Windows Sandbox](assisted-sandbox.md). Una construcción local
 0.3.6 con `installerLanguages: [es_ES]` compiló y las páginas observadas hasta la elección de escritorio
-salieron en español. Este build está marcado `dirty`: sirve para inspección temprana, **no** para publicar.
-El verificador `pack:verify` lo rechazó correctamente por no tener árbol limpio. Se reconstruirá y
-verificará desde un commit limpio antes de la release.
+salieron en español. Ese primer build estaba marcado `dirty`: sirvió solo para inspección temprana y
+`pack:verify` lo rechazó correctamente. Después se reconstruyó desde el commit limpio
+`89a761483a3cd01a9c4cd7bf0b12555e1ca5aa70`: `pack:verify` pasó para el instalador de 133.228.470
+bytes y SHA-256 `b92ffc4b81b80b2df0103a21f99df9d692ead2ca53fe1d99d0f3e39147a2602e` (2.547 archivos
+empaquetados, 2.619 instalados, núcleo 0.5.0, firma observada `NotSigned`). Este build limpio aún no es el
+artefacto reconstruido desde el futuro tag protegido.
 
 | Comprobación actual | Resultado |
 | --- | --- |
@@ -15,6 +18,8 @@ verificará desde un commit limpio antes de la release.
 | `npm run audit --prefix apps/companion` | 0 vulnerabilidades de producción |
 | `npx --no-install openspec validate companion-installer-choices --strict --no-interactive` | PASS |
 | `git diff --check` | PASS |
+| `npm run pack --prefix apps/companion` desde `89a7614` | PASS, árbol limpio |
+| `npm run pack:verify --prefix apps/companion -- <salida>` | PASS, identidad y contenido del build limpio |
 
 El resto de este archivo es evidencia histórica del primer candidato 0.3.2; no describe el estado
 publicable de 0.3.6.
