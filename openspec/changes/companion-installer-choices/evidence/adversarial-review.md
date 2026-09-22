@@ -1,5 +1,22 @@
 # Revisión adversarial — companion-installer-choices (#168)
 
+## Revisión de la corrección 0.3.6
+
+Una segunda pasada con la lente de seguridad, corrección, rendimiento y mantenibilidad encontró la causa
+que la revisión estática inicial no había captado: en 0.3.5 `nsis.language` fija VERSIONINFO, pero no
+selecciona las páginas MUI. **Major confirmado en el artefacto publicado:** las páginas estándar y el
+encabezado heredado de la página propia seguían en inglés en Windows Sandbox. No se aceptó 0.3.5 como
+cierre de #168. La corrección añade `installerLanguages: [es_ES]` y fija el encabezado propio; el
+instalador local 0.3.6 compiló y las páginas hasta escritorio se observaron en español. Falta medir el
+Finish y el efecto del opt-out en disco antes de aprobar la rama.
+
+El diff nuevo no añade red, secretos, elevación, procesos en el host ni rutas de borrado. El include
+adicional `MUI2.nsh` se necesita porque electron-builder incluye el archivo propio antes de MUI2; la
+compilación real comprueba esa dependencia. Las pruebas de configuración protegen la lista de idiomas y
+el encabezado, y `npm test --prefix apps/companion` pasó 146/146. Veredicto provisional: **solicitar cambios
+hasta completar el recorrido asistido y verificar el build limpio**; no hay otro Blocker o Major en el
+diff de corrección. Esta revisión es del mismo agente, no un reviewer independiente.
+
 La revisión se hizo sobre el diff desde `2384fab`, con la lente de seguridad, corrección, rendimiento y
 mantenibilidad de la skill `code-review`. Es una revisión del agente en el mismo checkout; por tanto no se
 declara revisión independiente ni sustituye al reviewer protegido del PR.

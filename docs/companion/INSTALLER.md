@@ -31,7 +31,9 @@ El asistente muestra la licencia y el aviso de datos, te deja elegir la carpeta 
 casilla, marcada por defecto, para crear el acceso directo del escritorio. También ofrece, marcada por
 defecto, abrir la aplicación al terminar. Puedes desmarcar cualquiera de las dos antes de continuar; el
 acceso directo del menú inicio se mantiene. La instalación es **por usuario**: no pide administrador y no
-modifica el equipo para otras cuentas. Las páginas y los mensajes del instalador están en español.
+modifica el equipo para otras cuentas. **Nota para 0.3.5:** sus diálogos propios están en español, pero
+las páginas estándar de NSIS aparecen en inglés en Windows configurado en inglés. La corrección está en
+preparación para la siguiente release; esta guía no atribuye a 0.3.5 un idioma uniforme que aún no tiene.
 
 Las instalaciones silenciosas de publicación (`/S`) no muestran esas casillas: aplican el valor por defecto
 (crean el acceso directo y no abren la aplicación por una interacción inexistente). La comprobación

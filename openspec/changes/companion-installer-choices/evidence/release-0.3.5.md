@@ -18,5 +18,13 @@ del runner, la retirada de la instalación y la preservación de los sentinelas 
 runtime. Los recorridos nativos de la app también pasaron en esa corrida.
 
 **Límite:** estas pruebas usaron `/S`. No observaron las páginas del asistente, el idioma visible, las ramas
-marcada/desmarcada de las casillas ni la experiencia de una persona. Esa evidencia asistida se registra por
-separado antes de archivar el change.
+marcada/desmarcada de las casillas ni la experiencia de una persona.
+
+La observación asistida posterior en Windows Sandbox (Windows en inglés) encontró un defecto bloqueante:
+0.3.5 muestra las páginas estándar [de licencia](screenshots/candidate-0.3.5-license-english.jpg),
+[opciones](screenshots/candidate-0.3.5-options-english.jpg) y
+[Finish](screenshots/candidate-0.3.5-finish-checked-english.jpg) en inglés, y la página propia
+[hereda un encabezado inglés](screenshots/candidate-0.3.5-desktop-checked.jpg), aunque su diálogo de
+[actualización](screenshots/candidate-0.3.5-upgrade-dialog.jpg) esté en español. Por ello 0.3.5 no satisface
+el criterio de idioma de #168 y no se cierra el issue con esta release. El hallazgo y la corrección 0.3.6
+se registran en la evidencia asistida; los assets y el tag 0.3.5 permanecen inmutables.

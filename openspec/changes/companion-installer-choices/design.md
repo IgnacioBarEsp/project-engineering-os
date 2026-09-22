@@ -7,7 +7,9 @@ y desinstalación, por lo que puede añadir comportamiento sin sustituir el scri
 electron-builder.
 
 La versión fijada de electron-builder es 26.15.3. Su interfaz documenta que `runAfterFinish: false` elimina
-la casilla del final y que, si no se declara `language`, NSIS usa LCID 1033. Sus plantillas 26.15.3 ofrecen
+la casilla del final. La observación de 0.3.5 en Windows Sandbox mostró que `nsis.language: "1034"`
+solo fija el LCID de los metadatos del ejecutable: las páginas estándar seguían en inglés. La selección
+de los idiomas MUI del asistente depende de `nsis.installerLanguages`. Sus plantillas 26.15.3 ofrecen
 los hooks `customPageAfterChangeDir` y `customInstall`; las páginas no se ejecutan bajo `/S`. El verificador
 de release ya se niega a ejecutarse fuera de GitHub Actions o una VM Windows desechable declarada, pero hoy
 solo comprueba directorio, actualización y desinstalación, no el enlace.
@@ -31,9 +33,8 @@ alcance aceptado.
 
 - No añadir firma, elevación, telemetría, autoactualización, selector de idiomas, otras plataformas ni una
   dependencia de NSIS.
-- No cambiar la detección de versión, la carpeta por usuario, el menú Inicio ni la propiedad de datos. Como
-  0.3.2 y el tag fallido 0.3.3 ya existen, este cambio usa la nueva identidad inmutable 0.3.4 para poder producir y verificar
-  su instalador sin sustituir assets existentes.
+- No cambiar la detección de versión, la carpeta por usuario, el menú Inicio ni la propiedad de datos. Las
+  identidades 0.3.2 a 0.3.5 ya existen; la corrección observada en Sandbox usa 0.3.6 sin sustituir assets.
 - No inferir la interacción humana a partir de `/S` ni automatizar una instalación en el escritorio del
   mantenedor.
 
@@ -70,11 +71,11 @@ desmarque la opción y mezclaría el comportamiento interactivo con la automatiz
 
 ### 3. Español fijo y comprobado en un instalador real
 
-La configuración declarará el LCID español `"1034"` y no añadirá un selector de idioma. Los mensajes
-personalizados existentes, la licencia y la guía permanecerán en español. Antes de cambiar esa
-configuración, el apply capturará en Windows desechable el baseline del instalador actual: versión,
-plataforma, páginas estándar, texto del final y los diálogos contextuales. Después se comparará el
-artefacto candidato para confirmar que no mezcla controles estándar en inglés con el contenido propio.
+La configuración mantendrá el LCID español `"1034"` para los metadatos y declarará únicamente
+`installerLanguages: [es_ES]` para las páginas NSIS MUI, sin selector de idioma. Los mensajes
+personalizados existentes, la licencia y la guía permanecerán en español. La página propia de escritorio
+establecerá su encabezado explícitamente para no heredar el de la página anterior. El baseline 0.3.2 y el
+fallo de 0.3.5 se capturaron en Windows Sandbox; se comparará 0.3.6 con ambos antes de aceptar la corrección.
 
 Se descarta depender de detección automática del idioma del sistema: el producto, sus mensajes propios y
 su documentación ya usan español, y un resultado dependiente del perfil no cumple una experiencia

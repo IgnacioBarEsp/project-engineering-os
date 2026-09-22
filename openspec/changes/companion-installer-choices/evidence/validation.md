@@ -1,5 +1,24 @@
 # Validación — companion-installer-choices (#168)
 
+## Revalidación de la corrección 0.3.6 (22 de septiembre de 2026)
+
+El fallo de idioma de 0.3.5 se confirmó en [Windows Sandbox](assisted-sandbox.md). La construcción local
+0.3.6 con `installerLanguages: [es_ES]` compiló y las páginas observadas hasta la elección de escritorio
+salieron en español. Este build está marcado `dirty`: sirve para inspección temprana, **no** para publicar.
+El verificador `pack:verify` lo rechazó correctamente por no tener árbol limpio. Se reconstruirá y
+verificará desde un commit limpio antes de la release.
+
+| Comprobación actual | Resultado |
+| --- | --- |
+| `npm test --prefix apps/companion` | 146/146 PASS |
+| `npm run check` | 351/351 PASS |
+| `npm run audit --prefix apps/companion` | 0 vulnerabilidades de producción |
+| `npx --no-install openspec validate companion-installer-choices --strict --no-interactive` | PASS |
+| `git diff --check` | PASS |
+
+El resto de este archivo es evidencia histórica del primer candidato 0.3.2; no describe el estado
+publicable de 0.3.6.
+
 Esta evidencia la produjo el agente del apply. Ninguna persona ejecutó o marcó las casillas del instalador en
 esta sesión. La instalación silenciosa y las comprobaciones de fuente no se presentan como observación humana.
 
