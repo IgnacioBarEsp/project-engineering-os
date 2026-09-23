@@ -7,6 +7,7 @@
 
 !include LogicLib.nsh
 !include nsDialogs.nsh
+!include MUI2.nsh
 
 !ifndef BUILD_UNINSTALLER
   Var /GLOBAL createDesktopShortcutChoice
@@ -83,6 +84,7 @@
   !macroend
 
   Function CreateDesktopShortcutPageCreate
+    !insertmacro MUI_HEADER_TEXT "Acceso directo del escritorio" "Elige si quieres crearlo para esta cuenta."
     nsDialogs::Create 1018
     Pop $0
     ${if} $0 == error

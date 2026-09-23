@@ -45,7 +45,11 @@ nsis:
   createDesktopShortcut: false
   createStartMenuShortcut: true
   shortcutName: Project Engineering OS
+  # `language` sets only the executable's VERSIONINFO locale. The actual MUI pages are compiled
+  # from `installerLanguages`; without this list they remain English on an English Windows host.
   language: "1034"
+  installerLanguages:
+    - es_ES
   license: build/license.txt
   installerIcon: build/icon.ico
   uninstallerIcon: build/icon.ico

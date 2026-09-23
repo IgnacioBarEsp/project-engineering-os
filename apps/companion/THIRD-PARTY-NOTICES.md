@@ -1,6 +1,6 @@
 # Third-party notices
 
-Project Engineering OS Companion 0.3.5 is MIT; see LICENSE. It also ships two bodies of
+Project Engineering OS Companion 0.3.6 is MIT; see LICENSE. It also ships two bodies of
 third-party software: the Electron runtime that executes it, and the npm packages it depends on.
 
 ## Electron runtime
