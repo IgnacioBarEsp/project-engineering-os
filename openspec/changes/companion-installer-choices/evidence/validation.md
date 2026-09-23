@@ -1,6 +1,6 @@
 # Validación — companion-installer-choices (#168)
 
-## Revalidación de la corrección 0.3.6 (22 de septiembre de 2026)
+## Revalidación de la corrección 0.3.6 (22–23 de septiembre de 2026)
 
 El fallo de idioma de 0.3.5 se confirmó en [Windows Sandbox](assisted-sandbox.md). Una construcción local
 0.3.6 con `installerLanguages: [es_ES]` compiló y las páginas observadas hasta la elección de escritorio
@@ -10,6 +10,32 @@ salieron en español. Ese primer build estaba marcado `dirty`: sirvió solo para
 bytes y SHA-256 `b92ffc4b81b80b2df0103a21f99df9d692ead2ca53fe1d99d0f3e39147a2602e` (2.547 archivos
 empaquetados, 2.619 instalados, núcleo 0.5.0, firma observada `NotSigned`). Este build limpio aún no es el
 artefacto reconstruido desde el futuro tag protegido.
+
+El 23 de septiembre se terminó en Windows Sandbox la instalación limpia de ese build y una reparación sobre
+la misma versión. Las páginas estándar observadas (licencia, opciones, destino y Finish) estaban en español;
+el texto MIT sigue en inglés y el aviso de datos propio, en español. La casilla Desktop empezó marcada,
+respondió a Espacio y el `.lnk` quedó visible en Desktop. Finish abrió la aplicación en español. Tras Repair,
+Finish volvió a abrirla y el `.lnk` permaneció. Las capturas y la limitación de idioma de los botones nativos
+del diálogo contextual están detalladas en [assisted-sandbox.md](assisted-sandbox.md). Las ramas no marcadas
+constan en la observación de la actualización 0.3.5 → 0.3.6. La inspección visual a la resolución activa del
+invitado muestra la página NSIS completa, con encabezado, casilla, texto y botones visibles sin recorte; este
+resultado cubre el layout del asistente en Windows y no afirma pruebas a todas las resoluciones o escalas.
+
+### Revisión manual de teclado, conectividad y claridad
+
+- La página propia se recorrió con Tab y Shift+Tab; Espacio desmarcó y volvió a marcar la casilla. El control
+  mantuvo foco visible y respondió por teclado. No se usó lector de pantalla; no se atribuye esa cobertura.
+- Windows Sandbox tenía la red deshabilitada. El instalador autocontenido completó instalación y Repair sin
+  conectividad. Esta superficie no carga estados dinámicos vacíos/error desde un servicio; no se extrapola
+  el resultado al comportamiento de red de la aplicación en ejecución.
+- Revisión de claridad/ownership de [INSTALLER.md](../../../../docs/companion/INSTALLER.md) y del
+  [mapa de ownership](../../../../docs/architecture/OWNERSHIP.md): la guía identifica a quién sirve, qué
+  elige la persona, los defaults silenciosos, las rutas de datos y qué preserva la desinstalación. El enlace
+  publicado sigue apuntando a 0.3.5 y advierte de su idioma inglés; no promete anticipadamente 0.3.6. El
+  Companion permanece propiedad upstream y no introduce producto/stack en los consumidores.
+
+La revisión de claridad y la comprobación de teclado son del agente del apply; la revisión adversarial
+independiente sigue siendo un gate separado y pendiente.
 
 | Comprobación actual | Resultado |
 | --- | --- |
@@ -24,8 +50,8 @@ artefacto reconstruido desde el futuro tag protegido.
 El resto de este archivo es evidencia histórica del primer candidato 0.3.2; no describe el estado
 publicable de 0.3.6.
 
-Esta evidencia la produjo el agente del apply. Ninguna persona ejecutó o marcó las casillas del instalador en
-esta sesión. La instalación silenciosa y las comprobaciones de fuente no se presentan como observación humana.
+Esta evidencia de UI la produjo el agente del apply en Windows Sandbox; no se presenta como observación
+humana. La instalación silenciosa y las comprobaciones de fuente tampoco equivalen a interacción humana.
 
 > **Registro histórico, supersedido para publicación:** el candidato descrito abajo era 0.3.2. Esa versión se
 > publicó antes de completar #168 y no se reemplazó. La publicación y el ciclo silencioso de 0.3.5 constan en
@@ -50,20 +76,20 @@ El candidato medido desde el árbol limpio `dc2509a1e13c4fcd908ea64ddb952489e8cd
 2.547 archivos empaquetados, 2.619 instalados, núcleo 0.5.0 y firma `NotSigned`. El workflow de release debe
 reconstruir el candidato desde el commit integrado antes de publicar.
 
-## Qué queda para Windows desechable
+## Cobertura Windows pendiente
 
 El verificador conserva la guardia que solo permite ejecutarse en GitHub Actions o con
-`PROJECT_OS_DISPOSABLE_WINDOWS=1`. En esta validación histórica no había Windows Sandbox ni una VM Windows
-preparada. El registro de release no se ejecutó para este candidato 0.3.2; el resultado posterior de 0.3.5 está
-separado en [release-0.3.5.md](release-0.3.5.md).
+`PROJECT_OS_DISPOSABLE_WINDOWS=1`. La release 0.3.5 completó el ciclo silencioso documentado en
+[release-0.3.5.md](release-0.3.5.md). El workflow de release para el tag protegido aún no se ejecutó para 0.3.6;
+los checks verdes del PR validan sus propios trabajos, pero no se presentan como ejecución del arnés de
+instalación. La ejecución del release debe registrar actualización, desinstalación, retirada del enlace y
+preservación de los tres sentinelas. Esa automatización no se presentará como interacción humana.
 
-La ejecución protegida debe registrar, en una única corrida del candidato exacto:
-
-1. Baseline de las páginas estándar y diálogos contextuales del instalador anterior.
-2. Las ramas marcada/desmarcada de la página «Crear acceso directo en el escritorio».
-3. Las ramas marcada/desmarcada de la casilla estándar de Finish.
-4. Español en las páginas estándar y en los mensajes propios.
-5. Instalación silenciosa, actualización desde 0.1.0, desinstalación y preservación de proyecto, historial y runtime.
+La observación asistida cubre el baseline 0.3.2, el defecto de idioma de 0.3.5, las dos ramas de las casillas
+con 0.3.6, una instalación limpia 0.3.6, la apertura desde Finish, la reparación y la persistencia del enlace.
+La desinstalación con datos sentinel en Sandbox queda pendiente de autorización específica. También quedan
+pendientes la ejecución del workflow protegido desde el tag, el ensayo de rollback, revisión independiente y
+gates de archivo/PR; no se atribuye a esta evidencia el cierre de #168.
 
 ## Deriva y límites
 

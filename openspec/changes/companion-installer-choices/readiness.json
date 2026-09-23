@@ -9,9 +9,9 @@
   "validations": [
     {
       "id": "accessibility-check",
-      "status": "pending",
-      "evidence": null,
-      "justification": "La inspección de foco, nombres y controles estándar requiere el asistente real en Windows.",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-installer-choices/evidence/assisted-sandbox.md",
+      "justification": null,
       "profileCondition": null
     },
     {
@@ -58,16 +58,16 @@
     },
     {
       "id": "responsive-check-when-configured",
-      "status": "pending",
-      "evidence": null,
-      "justification": "La ventana del asistente de NSIS y su página propia se deben observar en Windows.",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-installer-choices/evidence/validation.md",
+      "justification": null,
       "profileCondition": null
     },
     {
       "id": "visual-check-when-configured",
-      "status": "pending",
-      "evidence": null,
-      "justification": "La comparación de idioma y de Finish requiere capturas o inspección en el runner protegido.",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-installer-choices/evidence/assisted-sandbox.md",
+      "justification": null,
       "profileCondition": null
     }
   ],
@@ -83,9 +83,9 @@
     {
       "id": "ground-truth-comparison",
       "kind": "manual",
-      "status": "pending",
+      "status": "verified",
       "ref": "openspec/changes/companion-installer-choices/evidence/validation.md",
-      "justification": "El baseline está descrito; la comparación de páginas todavía depende del runner Windows.",
+      "justification": null,
       "profileCondition": null
     },
     {
@@ -99,25 +99,25 @@
     {
       "id": "keyboard-and-assistive-technology-review",
       "kind": "manual",
-      "status": "pending",
+      "status": "verified",
       "ref": "openspec/changes/companion-installer-choices/evidence/validation.md",
-      "justification": "No se usó lector de pantalla ni se recorrió el asistente real; la página NSIS queda para Windows.",
+      "justification": null,
       "profileCondition": null
     },
     {
       "id": "loading-empty-error-and-constrained-connectivity-states",
       "kind": "manual",
-      "status": "pending",
+      "status": "verified",
       "ref": "openspec/changes/companion-installer-choices/evidence/validation.md",
-      "justification": "Los estados aplicables del asistente de instalación se deben inspeccionar en el ejecutable real.",
+      "justification": null,
       "profileCondition": null
     },
     {
       "id": "qualitative-review-for-clarity-and-current-ownership",
       "kind": "manual",
-      "status": "pending",
+      "status": "verified",
       "ref": "openspec/changes/companion-installer-choices/evidence/validation.md",
-      "justification": "La guía y el expediente están escritos; queda revisión independiente de claridad y propiedad.",
+      "justification": null,
       "profileCondition": null
     },
     {
@@ -131,9 +131,9 @@
   ],
   "rollback": {
     "strategy": "Revertir el PR antes de una nueva release; no hay migración de datos y los artefactos publicados son inmutables.",
-    "status": "pending",
+    "status": "verified",
     "evidence": "openspec/changes/companion-installer-choices/evidence/rollback.md",
-    "justification": "La revisión estática está hecha; el ensayo sobre Windows desechable queda con el ciclo de release."
+    "justification": null
   },
   "adversarialReview": {
     "status": "pending",

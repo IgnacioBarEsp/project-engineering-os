@@ -23,12 +23,12 @@
 - [ ] 2.2 Create or remove only the named product desktop link according to the chosen state and remove it
   during uninstall without touching other desktop entries. Verify the checked and unchecked branches, then
   install/update/uninstall in disposable Windows.
-- [ ] 2.3 Restore the standard initially selected Finish-page launch choice without auto-launching under
+- [x] 2.3 Restore the standard initially selected Finish-page launch choice without auto-launching under
   `/S`. Verify configuration/source assertions and both interactive checked/unchecked outcomes.
 
 ## 3. Language, harness and documentation
 
-- [ ] 3.1 Declare Spanish NSIS language and retain Spanish custom dialogs, license and guide. Build the
+- [x] 3.1 Declare Spanish NSIS language and retain Spanish custom dialogs, license and guide. Build the
   candidate and compare every standard page and contextual dialog with the recorded baseline in Windows.
 - [x] 3.2 Extend `qa/packaging.mjs` to protect the choice/default, Spanish locale, Finish behavior and
   shortcut ownership contract; run `npm test --prefix apps/companion`.

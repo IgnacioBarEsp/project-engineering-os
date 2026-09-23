@@ -2,10 +2,11 @@
 
 ## Entorno y alcance
 
-Observación el 22 de septiembre de 2026 en Windows Sandbox de Windows 11, interfaz del sistema en inglés,
-con la carpeta de instaladores del host montada de solo lectura en `C:\TestInstallers`, red y vGPU
-deshabilitadas. Todo lo instalado se limitó al invitado desechable; no se ejecutó un instalador en el host.
-Las capturas incluyen la barra de Windows Sandbox para distinguir el invitado.
+Observación inicial el 22 y continuación el 23 de septiembre de 2026 en Windows Sandbox de Windows 11,
+interfaz del sistema en inglés, con la carpeta de instaladores del host montada de solo lectura en
+`C:\TestInstallers`, red y vGPU deshabilitadas. Todo lo instalado se limitó al invitado desechable; no se
+ejecutó un instalador en el host. Las capturas incluyen la barra de Windows Sandbox para distinguir el
+invitado.
 
 Las versiones publicadas se comprobaron contra sus SHA-256 de release antes de abrirlas:
 
@@ -44,7 +45,42 @@ páginas estándar de [licencia](screenshots/candidate-0.3.6-license-spanish.jpg
 tenía [encabezado español y casilla marcada](screenshots/candidate-0.3.6-desktop-checked-spanish.jpg);
 la casilla también se pudo [desmarcar](screenshots/candidate-0.3.6-desktop-unchecked-spanish.jpg).
 
-El build limpio pasó `pack:verify`, pero su UI y el ciclo completo aún no están observados. La
-construcción desde el futuro tag protegido tendrá otra identidad y requerirá comprobar su hash. Los
-resultados de instalación, ambas ramas de Finish, reparación y desinstalación se añadirán solo cuando se
-observen.
+Con la casilla de escritorio desmarcada, la actualización 0.3.5 → 0.3.6 completó. La página
+[Finish apareció en español con apertura marcada por defecto](screenshots/candidate-0.3.6-finish-checked-spanish.jpg).
+Se [desmarcó la apertura](screenshots/candidate-0.3.6-finish-unchecked-spanish.jpg), se pulsó Terminar y
+no se abrió la app. La [carpeta Escritorio de la cuenta](screenshots/candidate-0.3.6-desktop-unchecked-user-folder.jpg)
+contenía solo el acceso de Microsoft Edge: el enlace de Project Engineering OS que existía desde 0.3.5
+había sido retirado. El shell conservó el icono unos segundos, pero al refrescarse
+[también desapareció del escritorio visible](screenshots/candidate-0.3.6-desktop-unchecked-cleared.jpg).
+
+### Candidato limpio: instalación y reparación completadas (23 de septiembre)
+
+Se instaló en una sesión nueva de Windows Sandbox el build limpio 0.3.6 (SHA-256
+`b92ffc4b81b80b2df0103a21f99df9d692ead2ca53fe1d99d0f3e39147a2602e`, construido desde `89a7614`).
+Las páginas de [licencia](screenshots/candidate-0.3.6-clean-install-license.jpg),
+[opciones por usuario](screenshots/candidate-0.3.6-clean-install-options.jpg) y
+[destino](screenshots/candidate-0.3.6-clean-install-location.jpg) mostraron encabezados y controles estándar
+en español. El texto legal MIT permanece en inglés y el aviso de datos propio, en español. En la página
+personalizada la casilla apareció [marcada por defecto](screenshots/candidate-0.3.6-clean-desktop-checked.jpg);
+con el foco de teclado sobre la casilla, Espacio la desmarcó y volvió a marcarla. Se instaló con ella marcada.
+
+Finish mostró el control estándar [«Ejecutar Project Engineering OS» marcado](screenshots/candidate-0.3.6-clean-finish-checked.jpg).
+Al pulsar Terminar, la [aplicación se abrió y presentó su inicio en español](screenshots/candidate-0.3.6-clean-opened-app.jpg).
+El Explorador confirmó en la carpeta Desktop el archivo `Project Engineering OS`, tipo Acceso directo;
+la [captura de disco](screenshots/candidate-0.3.6-clean-desktop-shortcut-disk.jpg) conserva esa verificación.
+
+Después se abrió el mismo instalador limpio con 0.3.6 ya instalado. Reconoció la versión y presentó el
+[diálogo de reparación/desinstalación/cancelación](screenshots/candidate-0.3.6-repair-choice-spanish.jpg):
+el mensaje es español; los botones Sí/No/Cancelar son controles nativos que Windows Sandbox, configurado en
+inglés, muestra en inglés. Se eligió Sí, se recorrieron las páginas de acuerdo, instalación por usuario,
+destino y [acceso directo marcado](screenshots/candidate-0.3.6-clean-desktop-checked.jpg), y Repair terminó.
+Finish volvió a abrir la app; la [pantalla inicial quedó operativa](screenshots/candidate-0.3.6-repair-opened-app.jpg).
+El Explorador confirmó que el [acceso directo persiste tras Repair](screenshots/candidate-0.3.6-repair-desktop-shortcut-preserved.jpg).
+
+Las ramas de rechazo de la casilla del escritorio y Finish, incluida la comprobación en disco de que el enlace
+desaparece, constan en la sección de actualización 0.3.5 → 0.3.6 de arriba. El arnés automatizado contiene
+comprobaciones para instalación silenciosa, actualización y preservación de sentinelas, pero no se ejecutó
+contra este candidato desde el workflow de release protegido. La CI del PR solo valida sus checks declarados;
+no se presenta como prueba de ese arnés. La desinstalación manual del Sandbox aún espera autorización específica.
+Este build limpio tampoco procede de un tag protegido: una reconstrucción de release tendrá otra identidad y
+requerirá una nueva comprobación de hash.
