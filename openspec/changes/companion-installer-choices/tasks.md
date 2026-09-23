@@ -37,6 +37,9 @@
   only in GitHub Actions or a declared disposable Windows VM.
 - [x] 3.4 Update `docs/companion/INSTALLER.md` so it distinguishes the two assisted choices from silent
   defaults and contains no unsupported claim; validate links and repository checks.
+- [x] 3.5 Require maintainer attestation and committed Windows Sandbox evidence for the checked and
+  unchecked Desktop and Finish choices before the protected release workflow can publish; keep the
+  automated silent-install scope and its non-human limit explicit.
 
 ## 4. Evidence and closeout
 

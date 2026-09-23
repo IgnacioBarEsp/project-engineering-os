@@ -7,6 +7,15 @@ on:
         description: Existing annotated Companion tag on protected main, for example companion-v0.3.0
         required: true
         type: string
+      assisted_ui_verified:
+        description: Confirm the disposable Windows Sandbox checked and unchecked Desktop and Finish choices for this release source.
+        required: true
+        default: false
+        type: boolean
+      assisted_ui_evidence:
+        description: Repository-relative JSON evidence file for the assisted installer checks.
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -52,6 +61,52 @@ jobs:
           if (git status --porcelain) { throw 'El checkout del tag no está limpio.' }
           $version = (node -p "require('./apps/companion/package.json').version").Trim()
           if ($tag -ne "companion-v$version") { throw "El tag $tag no coincide con versión $version." }
+      - name: Require verified assisted installer evidence
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+          ASSISTED_UI_VERIFIED: ${{ inputs.assisted_ui_verified }}
+          ASSISTED_UI_EVIDENCE: ${{ inputs.assisted_ui_evidence }}
+        shell: pwsh
+        run: |
+          if ($env:ASSISTED_UI_VERIFIED -ne 'true') {
+            throw 'Antes de publicar, confirma las pruebas asistidas en Windows Sandbox.'
+          }
+          $relativePath = $env:ASSISTED_UI_EVIDENCE
+          if ([string]::IsNullOrWhiteSpace($relativePath) -or [IO.Path]::IsPathRooted($relativePath) -or
+              $relativePath -match '(^|[\\/])\.\.([\\/]|$)') {
+            throw 'La evidencia debe ser una ruta relativa dentro del checkout.'
+          }
+          $repoRoot = (Resolve-Path -LiteralPath '.').Path.TrimEnd([IO.Path]::DirectorySeparatorChar)
+          $repoPrefix = $repoRoot + [IO.Path]::DirectorySeparatorChar
+          $evidencePath = [IO.Path]::GetFullPath((Join-Path $repoRoot $relativePath))
+          if (-not $evidencePath.StartsWith($repoPrefix, [StringComparison]::OrdinalIgnoreCase) -or
+              !(Test-Path -LiteralPath $evidencePath -PathType Leaf)) {
+            throw 'No se encontró un archivo de evidencia dentro del checkout.'
+          }
+          $evidence = Get-Content -LiteralPath $evidencePath -Raw | ConvertFrom-Json
+          $version = $env:RELEASE_TAG -replace '^companion-v', ''
+          if ($evidence.candidateVersion -ne $version) {
+            throw "La evidencia no corresponde a Companion $version."
+          }
+          if ($evidence.sourceTree -notmatch '^[0-9a-f]{40}$') {
+            throw 'La evidencia debe identificar el árbol fuente probado.'
+          }
+          $tagCommit = (git rev-list -n 1 $env:RELEASE_TAG).Trim()
+          $tagTree = (git rev-parse "${tagCommit}:apps/companion").Trim()
+          if ($LASTEXITCODE -ne 0 -or $evidence.sourceTree -ne $tagTree) {
+            throw 'El árbol apps/companion probado no coincide con el tag que se va a publicar.'
+          }
+          foreach ($caseName in @('desktopChecked', 'desktopUnchecked', 'finishChecked', 'finishUnchecked', 'spanishPages')) {
+            $case = $evidence.cases.$caseName
+            if ($null -eq $case -or $case.status -ne 'passed' -or [string]::IsNullOrWhiteSpace($case.evidence)) {
+              throw "Falta evidencia PASS para el caso asistido: $caseName."
+            }
+            $caseEvidencePath = [IO.Path]::GetFullPath((Join-Path $repoRoot $case.evidence))
+            if (-not $caseEvidencePath.StartsWith($repoPrefix, [StringComparison]::OrdinalIgnoreCase) -or
+                !(Test-Path -LiteralPath $caseEvidencePath -PathType Leaf)) {
+              throw "No se encontró evidencia del caso $caseName dentro del checkout."
+            }
+          }
       - name: Use reviewed npm
         run: npm install --global --ignore-scripts npm@11.19.1
       - name: Install and verify root source

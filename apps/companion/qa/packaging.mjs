@@ -318,6 +318,34 @@ test('the 0.3.6 release path is private, disposable and never replaces a prior r
 
   const workflow = await readFile(path.resolve(app, '../../.github/workflows/companion-release.yml'), 'utf8');
   assert.match(workflow, /^\s*workflow_dispatch:/m);
+  const dispatchInputs = parseYaml(workflow).on.workflow_dispatch.inputs;
+  assert.deepEqual(dispatchInputs.assisted_ui_verified, {
+    description: 'Confirm the disposable Windows Sandbox checked and unchecked Desktop and Finish choices for this release source.',
+    required: true,
+    default: false,
+    type: 'boolean',
+  }, 'La publicación debe exigir una confirmación explícita de las pruebas asistidas.');
+  assert.deepEqual(dispatchInputs.assisted_ui_evidence, {
+    description: 'Repository-relative JSON evidence file for the assisted installer checks.',
+    required: true,
+    type: 'string',
+  }, 'La publicación debe enlazar evidencia versionada para las ramas asistidas.');
+  assert.match(workflow, /name: Require verified assisted installer evidence[\s\S]*?if \(\$env:ASSISTED_UI_VERIFIED -ne 'true'\)/,
+    'El workflow debe rechazar la publicación sin attestación manual.');
+  assert.match(workflow, /git rev-parse "\$\{tagCommit\}:apps\/companion"/,
+    'La evidencia debe corresponder al árbol Companion exacto del tag, incluso si main integró el PR con squash.');
+  assert.ok(workflow.indexOf('name: Require verified assisted installer evidence') < workflow.indexOf('gh release create'),
+    'El gate asistido debe ejecutarse antes de crear un borrador de release.');
+  const assistedEvidence = JSON.parse(await readFile(path.resolve(app,
+    '../../openspec/changes/companion-installer-choices/evidence/assisted-sandbox-0.3.6.json'), 'utf8'));
+  assert.equal(assistedEvidence.candidateVersion, '0.3.6');
+  assert.equal(assistedEvidence.sourceTree, '57c0d841ea34e5c6fb9272321f7a7a471316c5c1');
+  for (const caseName of ['desktopChecked', 'desktopUnchecked', 'finishChecked', 'finishUnchecked', 'spanishPages']) {
+    const assistedCase = assistedEvidence.cases[caseName];
+    assert.equal(assistedCase.status, 'passed', `Falta PASS de Sandbox para ${caseName}.`);
+    assert.ok(await readFile(path.resolve(app, '../../', assistedCase.evidence)),
+      `Falta la captura asociada a ${caseName}.`);
+  }
   assert.ok(!/^\s*pull_request:/m.test(workflow), 'Una PR no puede crear una release automáticamente.');
   assert.match(workflow, /runs-on: windows-latest/);
   assert.match(workflow, /gh release create .*--draft/);
