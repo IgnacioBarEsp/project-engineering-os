@@ -11,15 +11,18 @@ bytes y SHA-256 `b92ffc4b81b80b2df0103a21f99df9d692ead2ca53fe1d99d0f3e39147a2602
 empaquetados, 2.619 instalados, núcleo 0.5.0, firma observada `NotSigned`). Este build limpio aún no es el
 artefacto reconstruido desde el futuro tag protegido.
 
-El 23 de septiembre se terminó en Windows Sandbox la instalación limpia de ese build y una reparación sobre
-la misma versión. Las páginas estándar observadas (licencia, opciones, destino y Finish) estaban en español;
-el texto MIT sigue en inglés y el aviso de datos propio, en español. La casilla Desktop empezó marcada,
-respondió a Espacio y el `.lnk` quedó visible en Desktop. Finish abrió la aplicación en español. Tras Repair,
-Finish volvió a abrirla y el `.lnk` permaneció. Las capturas y la limitación de idioma de los botones nativos
-del diálogo contextual están detalladas en [assisted-sandbox.md](assisted-sandbox.md). Las ramas no marcadas
-constan en la observación de la actualización 0.3.5 → 0.3.6. La inspección visual a la resolución activa del
-invitado muestra la página NSIS completa, con encabezado, casilla, texto y botones visibles sin recorte; este
-resultado cubre el layout del asistente en Windows y no afirma pruebas a todas las resoluciones o escalas.
+El 23 de septiembre se terminó en Windows Sandbox la instalación limpia de ese build, una reparación sobre
+la misma versión y su desinstalación. Las páginas estándar observadas (licencia, opciones, destino y Finish)
+estaban en español; el texto MIT sigue en inglés y el aviso de datos propio, en español. La casilla Desktop
+empezó marcada, respondió a Espacio y el `.lnk` quedó visible en Desktop. Finish abrió la aplicación en
+español. Tras Repair, Finish volvió a abrirla y el `.lnk` permaneció. Después, el desinstalador confirmó que
+la app quedó desinstalada; su carpeta quedó vacía y el Escritorio conservó solo Microsoft Edge. No se
+añadieron datos centinela, así que esta observación no demuestra por sí misma la preservación de proyectos,
+historial ni runtimes. Las capturas y la limitación de idioma de los botones nativos del diálogo contextual
+están detalladas en [assisted-sandbox.md](assisted-sandbox.md). Las ramas no marcadas constan en la observación
+de la actualización 0.3.5 → 0.3.6. La inspección visual a la resolución activa del invitado muestra la página
+NSIS completa, con encabezado, casilla, texto y botones visibles sin recorte; este resultado cubre el layout
+del asistente en Windows y no afirma pruebas a todas las resoluciones o escalas.
 
 ### Revisión manual de teclado, conectividad y claridad
 
@@ -86,10 +89,9 @@ instalación. La ejecución del release debe registrar actualización, desinstal
 preservación de los tres sentinelas. Esa automatización no se presentará como interacción humana.
 
 La observación asistida cubre el baseline 0.3.2, el defecto de idioma de 0.3.5, las dos ramas de las casillas
-con 0.3.6, una instalación limpia 0.3.6, la apertura desde Finish, la reparación y la persistencia del enlace.
-La desinstalación con datos sentinel en Sandbox queda pendiente de autorización específica. También quedan
-pendientes la ejecución del workflow protegido desde el tag, el ensayo de rollback, revisión independiente y
-gates de archivo/PR; no se atribuye a esta evidencia el cierre de #168.
+con 0.3.6, una instalación limpia, actualización, reparación, apertura desde Finish, desinstalación y retirada
+del enlace. La preservación de datos centinela y la ejecución del workflow protegido desde el tag aún quedan
+pendientes, junto con la revisión independiente y los gates de archivo/PR; esta evidencia no cierra #168.
 
 ## Deriva y límites
 

@@ -78,9 +78,14 @@ Finish volvió a abrir la app; la [pantalla inicial quedó operativa](screenshot
 El Explorador confirmó que el [acceso directo persiste tras Repair](screenshots/candidate-0.3.6-repair-desktop-shortcut-preserved.jpg).
 
 Las ramas de rechazo de la casilla del escritorio y Finish, incluida la comprobación en disco de que el enlace
-desaparece, constan en la sección de actualización 0.3.5 → 0.3.6 de arriba. El arnés automatizado contiene
-comprobaciones para instalación silenciosa, actualización y preservación de sentinelas, pero no se ejecutó
-contra este candidato desde el workflow de release protegido. La CI del PR solo valida sus checks declarados;
-no se presenta como prueba de ese arnés. La desinstalación manual del Sandbox aún espera autorización específica.
-Este build limpio tampoco procede de un tag protegido: una reconstrucción de release tendrá otra identidad y
-requerirá una nueva comprobación de hash.
+desaparece, constan en la sección de actualización 0.3.5 → 0.3.6 de arriba. Al terminar Repair se ejecutó el
+desinstalador incluido por el build limpio 0.3.6 dentro del mismo invitado: el asistente confirmó en español
+que Project Engineering OS quedó desinstalado, la carpeta de instalación quedó vacía y el Escritorio del
+usuario mostró solo el acceso de Microsoft Edge. La carpeta compartida `C:\TestInstallers` del host no se
+modificó. Esta pasada no creó datos centinela y, por tanto, no prueba por sí sola la preservación de proyectos,
+historial local ni runtimes.
+
+El arnés automatizado contiene comprobaciones para instalación silenciosa, actualización y preservación de
+sentinelas, pero no se ejecutó contra este candidato desde el workflow de release protegido. La CI del PR solo
+valida sus checks declarados; no se presenta como prueba de ese arnés. Este build limpio tampoco procede de un
+tag protegido: una reconstrucción de release tendrá otra identidad y requerirá una nueva comprobación de hash.

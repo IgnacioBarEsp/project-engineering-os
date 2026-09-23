@@ -20,7 +20,7 @@
 - [x] 2.1 Configure the package so its default desktop-link creation is owned by the local NSIS include;
   add an initially selected custom desktop-choice page and preserve its value through install, repair and
   update. Verify with focused packaging assertions and a built installer.
-- [ ] 2.2 Create or remove only the named product desktop link according to the chosen state and remove it
+- [x] 2.2 Create or remove only the named product desktop link according to the chosen state and remove it
   during uninstall without touching other desktop entries. Verify the checked and unchecked branches, then
   install/update/uninstall in disposable Windows.
 - [x] 2.3 Restore the standard initially selected Finish-page launch choice without auto-launching under
@@ -40,7 +40,7 @@
 
 ## 4. Evidence and closeout
 
-- [ ] 4.1 Build and inspect the Windows artifact; capture the checked and unchecked desktop branches, the
+- [x] 4.1 Build and inspect the Windows artifact; capture the checked and unchecked desktop branches, the
   checked and unchecked Finish branches, Spanish pages, upgrade/reinstall and uninstall results with
   artifact identity and environment.
 - [ ] 4.2 Run the relevant Companion tests, `npm run check`, a rollback rehearsal and an adversarial review;
