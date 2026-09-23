@@ -326,12 +326,18 @@ test('the 0.3.6 release path is private, disposable and never replaces a prior r
     type: 'boolean',
   }, 'La publicación debe exigir una confirmación explícita de las pruebas asistidas.');
   assert.deepEqual(dispatchInputs.assisted_ui_evidence, {
-    description: 'Repository-relative JSON evidence file for the assisted installer checks.',
+    description: 'JSON evidence file committed in the protected main workflow revision.',
     required: true,
     type: 'string',
   }, 'La publicación debe enlazar evidencia versionada para las ramas asistidas.');
+  assert.match(workflow, /RELEASE_WORKFLOW_REF: \$\{\{ github\.ref \}\}[\s\S]*?if \(\$env:RELEASE_WORKFLOW_REF -ne 'refs\/heads\/main'\)/,
+    'El workflow debe ejecutarse desde main protegido para leer la misma revisión que contiene el gate.');
+  assert.match(workflow, /name: Checkout protected workflow evidence[\s\S]*?ref: \$\{\{ github\.sha \}\}[\s\S]*?path: workflow-evidence-source/,
+    'La evidencia debe leerse desde el commit protegido que ejecuta el workflow, no desde el checkout del tag.');
   assert.match(workflow, /name: Require verified assisted installer evidence[\s\S]*?if \(\$env:ASSISTED_UI_VERIFIED -ne 'true'\)/,
     'El workflow debe rechazar la publicación sin attestación manual.');
+  assert.match(workflow, /Join-Path \$workflowEvidenceRoot \$relativePath/,
+    'El JSON de Sandbox puede vivir en el commit del workflow aunque el tag apunte a un commit anterior.');
   assert.match(workflow, /git rev-parse "\$\{tagCommit\}:apps\/companion"/,
     'La evidencia debe corresponder al árbol Companion exacto del tag, incluso si main integró el PR con squash.');
   assert.ok(workflow.indexOf('name: Require verified assisted installer evidence') < workflow.indexOf('gh release create'),

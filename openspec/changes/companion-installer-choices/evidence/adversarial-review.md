@@ -69,3 +69,10 @@ de exigir que el commit de prueba sea ancestro, conserva la comprobación ante e
 queda explícita: la CI sigue probando los defaults silenciosos; el gate requiere una persona mantenedora que revise
 la evidencia de Sandbox para el asistente real. La mitigación aún requiere CI y revisión del PR de seguimiento
 antes de cambiar el veredicto de archive.
+
+La primera revisión independiente del PR #182 encontró un P1 en el flujo de refs: el candidato 0.3.6 apunta al
+commit `cb0995e`, que contiene las capturas y el árbol probado pero no el JSON de evidencia recién añadido. El
+gate inicial leía ese JSON desde el checkout del tag, por lo que fallaría; mover el tag al commit con el JSON
+cambiaría indebidamente el árbol fuente que se probó. La corrección mantiene el tag en el commit candidato,
+exige despachar desde `main` protegido y obtiene el JSON desde el SHA exacto del workflow; las capturas y el
+`sourceTree` se siguen comprobando contra el tag. La segunda revisión independiente y CI quedan pendientes.
