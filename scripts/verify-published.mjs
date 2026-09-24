@@ -41,11 +41,20 @@ export function publishedIdentity(tag) {
 }
 
 export function assertPublishedManifest(manifest, identity, commit) {
+  const hasFileCount = Object.hasOwn(manifest ?? {}, 'fileCount');
+  const hasUnpackedBytes = Object.hasOwn(manifest ?? {}, 'unpackedBytes');
+  const inventoryValid = hasFileCount === hasUnpackedBytes
+    && (!hasFileCount || (
+      Number.isSafeInteger(manifest.fileCount) && manifest.fileCount > 0 && manifest.fileCount <= 10_000
+      && Number.isSafeInteger(manifest.unpackedBytes) && manifest.unpackedBytes > 0
+      && manifest.unpackedBytes <= 128 * 1024 * 1024
+    ));
   if (manifest?.schemaVersion !== 1 || manifest.package !== identity.name
     || manifest.version !== identity.version || manifest.tarball !== identity.tarball
     || !/^[a-f0-9]{40}$/.test(commit) || manifest.commit !== commit
     || !/^[a-f0-9]{64}$/.test(manifest.sha256) || manifest.tested !== true
-    || !Number.isSafeInteger(manifest.bytes) || manifest.bytes < 1 || manifest.bytes > 32 * 1024 * 1024) {
+    || !Number.isSafeInteger(manifest.bytes) || manifest.bytes < 1 || manifest.bytes > 32 * 1024 * 1024
+    || !inventoryValid) {
     throw new Error('Canonical manifest differs from the requested tag or artifact identity.');
   }
 }

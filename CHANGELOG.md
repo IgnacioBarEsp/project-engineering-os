@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Limita el tarball npm a la CLI, el blueprint y documentación del núcleo. La guía del Companion,
+  diseños de Stitch, estado/release upstream e imágenes siguen en el repositorio, pero ya no se copian a
+  instalaciones npm; consulta el [índice de documentación del núcleo](docs/README.md) y el
+  [árbol público de documentación](https://github.com/IgnacioBarEsp/project-engineering-os/tree/main/docs).
+- Las nuevas evidencias de release incluyen cantidad de archivos y bytes sin comprimir del tarball,
+  además de su tamaño comprimido existente.
+
 ## 1.0.0 - 2026-09-23
 
 - **BREAKING:** require maintained Node LTS lines `^22.22.0 || ^24.18.0`; Node 24 is recommended. Node 20

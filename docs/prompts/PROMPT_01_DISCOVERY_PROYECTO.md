@@ -83,4 +83,4 @@ del primer change. No declares producto listo por documentos, herramientas o tes
 ```
 
 El prompt debe detenerse antes de instalar el stack recomendado. Esa implementación comienza en un issue y
-change posteriores. Vuelve a la [guía del usuario](../USER_GUIDE.md) para revisar las cuatro etapas.
+change posteriores. Vuelve a la [guía CLI](../CLI_GUIDE.md) para revisar las cuatro etapas.

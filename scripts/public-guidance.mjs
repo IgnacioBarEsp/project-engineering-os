@@ -24,7 +24,10 @@ export function guidanceContractFailures(files, imageHash) {
   if (firstDownload < 0 || firstCommand < 0 || firstDownload > firstCommand) failures.push('companion-first');
   for (const destination of ['docs/USER_GUIDE.md', 'docs/CLI_GUIDE.md', 'docs/REPOSITORY_MAP.md',
     'docs/PROJECT_STATUS.md', 'docs/companion/INSTALLER.md', 'docs/companion/SCREENSHOTS.md']) {
-    if (!readme.includes(`](${destination})`)) failures.push(`entry ${destination}`);
+    const repositoryUrl = `https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/${destination}`;
+    if (!readme.includes(`](${destination})`) && !readme.includes(`](${repositoryUrl})`)) {
+      failures.push(`entry ${destination}`);
+    }
   }
   const releaseTags = [...readme.matchAll(/\/releases\/tag\/(companion-v\d+\.\d+\.\d+)/g)].map(m => m[1]);
   if (new Set(releaseTags).size !== 1 || !status.includes(`/releases/tag/${releaseTags[0]})`)) failures.push('release identity');

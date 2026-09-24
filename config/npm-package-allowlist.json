@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    "bin/",
+    "blueprint/",
+    "schema/",
+    "src/",
+    "docs/adr/",
+    "docs/architecture/",
+    "docs/prompts/",
+    "docs/security/",
+    "docs/README.md",
+    "docs/ADAPTIVE_ONBOARDING.md",
+    "docs/AI_OPPORTUNITY_GUIDE.md",
+    "docs/CLI_GUIDE.md",
+    "docs/COMPATIBILITY.md",
+    "docs/COSTS_AND_LICENSES.md",
+    "docs/DEBT_CONTROL.md",
+    "docs/EXISTING_PROJECTS.md",
+    "docs/GUIA_MANUAL_USUARIO.md",
+    "docs/INSTALL_HARDENING.md",
+    "docs/ISOLATED_TOOLCHAIN.md",
+    "docs/ONBOARDING_PLAN.md",
+    "docs/PATH_RULES.md",
+    "docs/PROJECT_OS.md",
+    "docs/RECOVERY.md",
+    "docs/REPOSITORY_MAP.md",
+    "docs/SELF_APPLICATION.md",
+    "docs/SPEC_PURPOSE.md",
+    "docs/TOOL_CATALOG.md",
+    "docs/TRACKERS.md",
+    "docs/UPSTREAM_CONSUMERS.md",
+    "docs/UPSTREAM_OPERATIONS.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "MANAGED_FILES_NOTICE.md",
+    "README.md",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "implicitFiles": [
+    "package.json"
+  ]
+}

@@ -29,6 +29,21 @@ El cliente de instalación y publicación está fijado a npm 11.19.1. Revisa la 
 release, trimestralmente y ante un advisory del cliente; ensaya el tarball completo antes de cambiarla.
 Consulta [la política de instalación](INSTALL_HARDENING.md) para la cuarentena y sus límites.
 
+### Alcance del tarball npm
+
+`package.json#files` es una allowlist explícita para `bin/`, `src/`, `schema/`, `blueprint/` y guías del
+núcleo seleccionadas. El tarball incluye `docs/README.md`, la guía CLI, recuperación, ownership,
+ADRs, prompts y las políticas de herramienta/cadena de suministro descritas en el
+[mapa del repositorio](REPOSITORY_MAP.md). No incluye documentación de Companion, diseños de Stitch,
+capturas o imágenes, estado de entregas ni esta guía de releases. Esos
+archivos permanecen en GitHub y no forman parte de la instalación del consumidor. La allowlist de
+`config/export-allowlist.json` describe el source exportado; no sustituye el límite del paquete npm.
+
+Antes de una release, `check:package` empaca el `.tgz` real, compara cada ruta de su inventario con
+`package.json#files` y valida los enlaces relativos dentro de la extracción. Una nueva ruta documental
+requiere una adición deliberada a la allowlist y enlaces locales cuyo destino viaje en el mismo paquete.
+No se amplía el patrón a todo `docs/` ni a `docs/assets/`.
+
 Una release es un único artefacto verificable. Se crea y prueba antes de llegar a GitHub; si la aprobación
 de npm tarda, el tag vuelve a demostrar que esos mismos bytes siguen siendo publicables. Esta guía resume
 el camino y la recuperación cuando algo falla.
@@ -47,7 +62,7 @@ Una release:
 2. ejecuta CI sin secretos sobre el source;
 3. empaca una sola vez;
 4. prueba ese tarball fuera del repositorio;
-5. genera `SHA256SUMS` y manifest con commit;
+5. genera `SHA256SUMS` y manifest con commit, cantidad de archivos, bytes comprimidos y bytes sin comprimir;
 6. adjunta exactamente esos artefactos a GitHub Release;
 7. espera la aprobación del environment `npm-publish`;
 8. descarga los tres assets canónicos desde el GitHub Release;

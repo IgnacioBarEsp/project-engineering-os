@@ -9,7 +9,7 @@ Aquí puedes comprobar dónde se prueba el paquete y qué representa realmente c
 
 Esta tabla corresponde al **núcleo CLI**, no al instalador. Companion se distribuye para Windows x64,
 incluye su runtime de aplicación y administra herramientas adicionales cuando corresponde al proyecto.
-No exige al usuario instalar el Node de esta tabla. [Estado de entregas](PROJECT_STATUS.md).
+No exige al usuario instalar el Node de esta tabla. [Estado de entregas en GitHub](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/PROJECT_STATUS.md).
 
 | Sistema | Node probado en CI | Contrato |
 |---|---|---|
@@ -87,4 +87,4 @@ que lo vuelve un candidato real. Entrará a la matriz solo cuando cumpla el mism
 renderer con destino declarado, fuente oficial fechada, versión mínima, fixture, fallback y degradación por
 cada una de las seis capacidades. Parecerse a otra superficie no promueve una celda.
 
-Vuelve a la [guía del usuario](USER_GUIDE.md) para continuar con el setup.
+Vuelve a la [guía CLI](CLI_GUIDE.md) para continuar con el setup del núcleo.

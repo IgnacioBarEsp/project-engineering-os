@@ -31,4 +31,4 @@ código o documentación versionada, esa escritura sí sigue SDD.
 
 Autoriza el resultado y el alcance, no una lista abierta de acciones. Después de intervenir, pide al agente
 que repita el smoke o gate correspondiente y registre la evidencia sin imprimir secretos. Para volver al
-recorrido normal, abre la [guía del usuario](USER_GUIDE.md).
+recorrido normal, abre la [guía CLI](CLI_GUIDE.md).

@@ -85,4 +85,4 @@ Cuando la ruta quede registrada y aprobada, continúa con el [Prompt 00](PROMPT_
 Para entender qué detecta la clasificación y cómo responder sus cinco preguntas, revisa el
 [contrato del clasificador](../ONBOARDING_PLAN.md). La visión completa está en la
 [decisión de onboarding adaptativo](../ADAPTIVE_ONBOARDING.md) y el recorrido por etapas en la
-[guía del usuario](../USER_GUIDE.md).
+[guía CLI](../CLI_GUIDE.md).

@@ -13,7 +13,13 @@ import { fileURLToPath } from 'node:url';
 import { CONSTRUCTOR_VERSION } from '../src/constants.mjs';
 import test from 'node:test';
 
-import { checkPackageRoot, checkSeededIdentity } from '../scripts/check-package.mjs';
+import {
+  checkPackageAllowlist,
+  checkPackageRoot,
+  checkPackedFiles,
+  checkRelativeMarkdownLinks,
+  checkSeededIdentity,
+} from '../scripts/check-package.mjs';
 import { compareReleaseDirectories } from '../scripts/compare-release.mjs';
 import { assertStableReleaseVersion, nonCanonicalEolEntries, sha256 } from '../scripts/release-lib.mjs';
 import { checkReleaseWorkflow, checkPinnedClient } from '../scripts/release-workflow-policy.mjs';
@@ -23,12 +29,14 @@ const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 
 async function packageFixture(name) {
   const root = await mkdtemp(path.join(tmpdir(), `project-os-${name}-`));
+  await mkdir(path.join(root, 'config'));
   for (const relative of [
     'package.json',
     'package-lock.json',
     'LICENSE',
     'MANAGED_FILES_NOTICE.md',
     'THIRD_PARTY_NOTICES.md',
+    'config/npm-package-allowlist.json',
   ]) {
     await cp(path.join(packageRoot, relative), path.join(root, relative));
   }
@@ -56,6 +64,8 @@ async function releaseFixture(name, content = 'verified tarball fixture') {
       tarball: filename,
       sha256: digest,
       bytes: tarball.byteLength,
+      fileCount: 1,
+      unpackedBytes: tarball.byteLength,
       tested: true,
     }, null, 2)}\n`,
   );
@@ -83,6 +93,41 @@ test('package contract rechaza bin ausente y licencia incompatible', async () =>
     failures.some((failure) => failure.includes(`dependency license ${dependency}`)),
     true,
   );
+});
+
+test('package allowlist rechaza globs amplios y rutas del Companion o fuera de lista', async () => {
+  const manifest = JSON.parse(await readFile(path.join(packageRoot, 'package.json'), 'utf8'));
+  const policy = JSON.parse(await readFile(path.join(packageRoot, 'config', 'npm-package-allowlist.json'), 'utf8'));
+  assert.deepEqual(checkPackageAllowlist(manifest.files, policy), []);
+
+  const broadEntry = 'docs/**/*.md';
+  const broad = [...manifest.files, broadEntry];
+  assert.ok(checkPackageAllowlist(broad, { ...policy, files: broad })
+    .some((failure) => failure.includes('unsupported package allowlist entry')));
+
+  const baseTarball = ['package.json', 'README.md', 'LICENSE', 'bin/project-os.mjs'];
+  assert.deepEqual(checkPackedFiles(baseTarball, manifest.files, { requireDeclared: false }), []);
+  assert.ok(checkPackedFiles([...baseTarball, 'docs/NOT_DECLARED.md'], manifest.files, { requireDeclared: false })
+    .some((failure) => failure.includes('outside allowlist')));
+  assert.ok(checkPackedFiles([...baseTarball, 'docs/companion/INSTALLER.md'], manifest.files, { requireDeclared: false })
+    .some((failure) => failure.includes('forbidden tarball path')));
+});
+
+test('package link check reads extracted Markdown and rejects missing relative destinations', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'project-os-package-links-'));
+  try {
+    await mkdir(path.join(root, 'docs'));
+    await writeFile(path.join(root, 'README.md'), '[guide](docs/guide.md)\n[docs](docs/)\n[web](https://example.com)\n');
+    await writeFile(path.join(root, 'docs', 'guide.md'), '[home](../README.md)\n');
+    const files = ['README.md', 'docs/guide.md'];
+    assert.deepEqual(await checkRelativeMarkdownLinks(root, files), []);
+
+    await writeFile(path.join(root, 'README.md'), '[missing][guide]\n\n[guide]: docs/absent.md\n<a href="docs/other-missing.md">broken</a>\n');
+    assert.ok((await checkRelativeMarkdownLinks(root, files))
+      .some((failure) => failure.includes('broken package link in README.md')));
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
 });
 
 test('blueprint identity rechaza el par sembrado desincronizado', async () => {
@@ -135,8 +180,14 @@ test('release verifier rejects an altered tarball', async () => {
     /el source verificado/,
   );
 
+  const manifestPath = path.join(root, 'release-manifest.json');
+  const releaseManifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  await writeFile(manifestPath, `${JSON.stringify({ ...releaseManifest, fileCount: 0 }, null, 2)}\n`);
+  await assert.rejects(verifyRelease(root), /métricas válidas/);
+  await writeFile(manifestPath, `${JSON.stringify(releaseManifest, null, 2)}\n`);
+
   await writeFile(tarballPath, Buffer.from('altered tarball fixture'));
-  await assert.rejects(verifyRelease(root), /Checksum divergente/);
+  await assert.rejects(verifyRelease(root), /tamaño comprimido/);
 });
 
 test('release comparison accepts only identical canonical assets', async () => {

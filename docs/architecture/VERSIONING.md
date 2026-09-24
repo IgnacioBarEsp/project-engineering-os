@@ -15,5 +15,5 @@ State, debt config, registry and assessment schemas have independent integer ver
 future schema before writing. Supported migrations are deterministic, listed by `upgrade --check` and
 covered by fixtures. Releases are immutable: a bad version is deprecated and corrected by a new version.
 
-El proceso de publicación está en [releases](../RELEASES.md). Las fronteras de escritura están en
+El proceso de publicación está en [releases en GitHub](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/RELEASES.md). Las fronteras de escritura están en
 [ownership](OWNERSHIP.md).

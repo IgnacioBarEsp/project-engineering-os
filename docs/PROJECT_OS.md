@@ -8,7 +8,7 @@ bloqueado.
 
 El upstream y los repositorios consumidores tienen fuentes distintas porque gobiernan momentos distintos:
 
-- este repositorio usa [`.project-os/repository-governance.json`](../.project-os/repository-governance.json);
+- este repositorio usa [`.project-os/repository-governance.json` en GitHub](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/.project-os/repository-governance.json);
 - el bootstrap instala `.project-os/github/product-os.json` en cada repositorio consumidor;
 - antes de que ese archivo exista, `github-plan` puede previsualizar el seed versionado en
   `blueprint/core/project-os/github/product-os.json` y lo identifica como `blueprint-seed`.

@@ -16,7 +16,7 @@ test('public routes, current source and published download remain distinguishabl
 for (const [name, file, mutate, expected] of [
   ['CLI promoted ahead of Companion', 'README.md', text => '```sh\nexample\n```\n' + text, 'companion-first'],
   ['download differs from recorded release', 'README.md', text => text.replaceAll(/companion-v\d+\.\d+\.\d+/g, 'companion-v99.0.0'), 'release identity'],
-  ['missing technical route', 'README.md', text => text.replaceAll('](docs/CLI_GUIDE.md)', '](docs/README.md)'), 'entry docs/CLI_GUIDE.md'],
+  ['missing technical route', 'README.md', text => text.replaceAll('docs/CLI_GUIDE.md', 'docs/README.md'), 'entry docs/CLI_GUIDE.md'],
   ['capture presented without its limit', 'README.md', text => text.replaceAll('No es una captura del instalador', 'Captura'), 'visible capture qualifier'],
   ['capture has no immutable source', 'docs/companion/SCREENSHOTS.md', text => text.replace(/\/tree\/[a-f0-9]{40}/, '/tree/main'), 'capture provenance'],
   ['browser capture declared as real window', 'docs/companion/SCREENSHOTS.md', text => text.replaceAll('ventana real de la aplicación', 'renderer real en navegador'), 'capture provenance'],
