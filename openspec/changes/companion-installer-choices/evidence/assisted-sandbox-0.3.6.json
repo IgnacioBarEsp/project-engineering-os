@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 168,
+  "candidateVersion": "0.3.6",
+  "sourceTree": "57c0d841ea34e5c6fb9272321f7a7a471316c5c1",
+  "candidateArtifactSha256": "b92ffc4b81b80b2df0103a21f99df9d692ead2ca53fe1d99d0f3e39147a2602e",
+  "artifactScope": "Disposable prepublication candidate built from sourceTree; the release workflow rebuilds the artifact from the annotated tag and verifies the published bytes separately.",
+  "environment": {
+    "platform": "Windows Sandbox",
+    "hostInstallerExecution": false
+  },
+  "cases": {
+    "desktopChecked": {
+      "status": "passed",
+      "evidence": "openspec/changes/companion-installer-choices/evidence/screenshots/candidate-0.3.6-clean-desktop-checked.jpg"
+    },
+    "desktopUnchecked": {
+      "status": "passed",
+      "evidence": "openspec/changes/companion-installer-choices/evidence/screenshots/candidate-0.3.6-desktop-unchecked-cleared.jpg"
+    },
+    "finishChecked": {
+      "status": "passed",
+      "evidence": "openspec/changes/companion-installer-choices/evidence/screenshots/candidate-0.3.6-clean-opened-app.jpg"
+    },
+    "finishUnchecked": {
+      "status": "passed",
+      "evidence": "openspec/changes/companion-installer-choices/evidence/screenshots/candidate-0.3.6-finish-unchecked-spanish.jpg"
+    },
+    "spanishPages": {
+      "status": "passed",
+      "evidence": "openspec/changes/companion-installer-choices/evidence/screenshots/candidate-0.3.6-clean-install-location.jpg"
+    }
+  },
+  "limitations": [
+    "This manual evidence covers the assisted UI choices; silent install, update, uninstall, and data-sentinel preservation remain the responsibility of the protected release harness.",
+    "The release workflow requires a maintainer to attest to the assisted UI check and provide this committed evidence before publication."
+  ]
+}

@@ -10,8 +10,9 @@ cierre de #168. La corrección añade `installerLanguages: [es_ES]` y fija el en
 limpio 0.3.6 mostró páginas estándar en español; la prueba asistida confirmó Desktop marcado por defecto,
 ambas ramas de apertura en Finish, creación del `.lnk`, reconocimiento de misma versión, Repair completado,
 apertura real tras Finish/Repair y persistencia del enlace tras Repair. El opt-out anterior retiró el enlace
-de escritorio y no abrió la app tras desmarcar Finish. La desinstalación asistida sigue pendiente de respuesta
-a la solicitud de confirmación; el workflow de release protegido tampoco se ejecutó para este candidato.
+de escritorio y no abrió la app tras desmarcar Finish. En aquel momento la desinstalación asistida y el
+workflow de release protegido seguían pendientes. La desinstalación quedó después comprobada en Sandbox el
+23 de septiembre; la release 0.3.6 sigue pendiente.
 
 El diff nuevo no añade red, secretos, elevación, procesos en el host ni rutas de borrado. El include
 adicional `MUI2.nsh` se necesita porque electron-builder incluye el archivo propio antes de MUI2; la
@@ -36,9 +37,9 @@ No surgieron Blockers o Majors de código nuevos en esta pasada. Los botones Sí
 contextual siguen la lengua configurada en Windows; el mensaje propio está en español y esa limitación queda
 registrada en la evidencia Sandbox.
 
-Esta segunda pasada también es del agente implementador, no independiente. El PR #181 sigue Draft y sin
-decisión de review. Veredicto: **no aprobar archive todavía**; falta cerrar el ensayo asistido de uninstall,
-ejecutar el workflow protegido sobre el tag integrado y recibir revisión independiente.
+Esta segunda pasada también es del agente implementador, no independiente. Al registrarla, el PR #181 seguía
+Draft y sin decisión de review. Veredicto provisional: **no aprobar archive todavía**; faltaban el ensayo
+asistido de uninstall, el workflow protegido sobre el tag integrado y una revisión independiente.
 
 ## Hallazgos
 
@@ -53,3 +54,25 @@ No se encontró inyección de rutas, elevación nueva, escritura fuera de las su
 nueva, autoejecución bajo `/S` ni eliminación de archivos que no sean el enlace con nombre del producto. No hay
 Blockers de código identificados; la evidencia interactiva pendiente impide cerrar el gate de archive, no se oculta
 como aprobación.
+
+### Revisión independiente Bugbot del PR #181 (23 de septiembre)
+
+Bugbot revisó de forma independiente el diff integrado de #181. No encontró defectos accionables en la corrección
+de idioma, pero señaló un P2 en `verify-release-installation.mjs`: el arnés protegido solo cubre el valor
+predeterminado silencioso, no la opción asistida desmarcada. La evidencia Sandbox existente sí demuestra las ramas
+marcadas y desmarcadas, pero hasta ahora no era un pre-requisito del workflow de publicación.
+
+Resolución en curso en `codex/168-manual-installer-release-gate`: `workflow_dispatch` exige una confirmación
+explícita y una ruta a evidencia JSON committed; el gate verifica versión, árbol `apps/companion` exacto del tag,
+estado PASS de las cinco ramas y existencia de cada captura antes de construir o publicar. Usar el árbol, en vez
+de exigir que el commit de prueba sea ancestro, conserva la comprobación ante el squash merge de #181. La limitación
+queda explícita: la CI sigue probando los defaults silenciosos; el gate requiere una persona mantenedora que revise
+la evidencia de Sandbox para el asistente real. La mitigación aún requiere CI y revisión del PR de seguimiento
+antes de cambiar el veredicto de archive.
+
+La primera revisión independiente del PR #182 encontró un P1 en el flujo de refs: el candidato 0.3.6 apunta al
+commit `cb0995e`, que contiene las capturas y el árbol probado pero no el JSON de evidencia recién añadido. El
+gate inicial leía ese JSON desde el checkout del tag, por lo que fallaría; mover el tag al commit con el JSON
+cambiaría indebidamente el árbol fuente que se probó. La corrección mantiene el tag en el commit candidato,
+exige despachar desde `main` protegido y obtiene el JSON desde el SHA exacto del workflow; las capturas y el
+`sourceTree` se siguen comprobando contra el tag. La segunda revisión independiente y CI quedan pendientes.
