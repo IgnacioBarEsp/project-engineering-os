@@ -31,11 +31,10 @@ Fecha: 2026-09-24. Worktree de Windows; Node 24.18.0 y npm 11.19.1.
 - `node bin/project-os.mjs debt check --root . --json` y `debt gate --phase pre-archive --change
   distinguish-provenance-from-repository-drift --json`: PASS; 4 hallazgos históricos abiertos, sin
   deuda nueva ni Blocker/Major abierto del flujo.
-- `npm exec --yes --package=npm@11.19.1 -- npm run pack:verify` en `b47f42872558d249107b142bf593125c57478725`:
-  PASS; generó e instaló el tarball local exacto, validó versión/help, bootstrap, segundo check y deuda.
-  SHA-256 `17f8159c84b7fee4f6452e6e6920de130ec8340e80de8ab95d7e3eeef42435bf`, 167 archivos, 267947 bytes.
-- Repetición de `pack:verify` en `bf58251b09459ea941eb625bddf2aca1f03fd730`: PASS, mismo digest e
-  inventario; el manifest quedó ligado a ese commit.
+- `npm exec --yes --package=npm@11.19.1 -- npm run pack:verify` en el commit con archive
+  `bb94d5a024b643a9d35b040367e11001f7b1ae5c`: PASS; generó e instaló el tarball local exacto,
+  validó versión/help, bootstrap, segundo check y deuda. SHA-256
+  `17f8159c84b7fee4f6452e6e6920de130ec8340e80de8ab95d7e3eeef42435bf`, 167 archivos, 267947 bytes.
 - `readiness-check --phase archive --run-local --json` confirmó 15 PASS locales, incluida validación
   estricta y los gates de deuda. El resultado pre-CI quedó FAIL de forma esperada: solo 2 tareas (3.3,
   3.4) seguían pendientes y `multi-platform-smoke` dependía del PR. Tras completarlas, la repetición
