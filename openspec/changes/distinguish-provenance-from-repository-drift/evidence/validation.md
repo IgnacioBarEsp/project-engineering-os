@@ -21,8 +21,8 @@ queda pendiente hasta que exista el PR.
 
 ## Verificaciones automáticas locales
 
-- `npm exec --yes --package=npm@11.19.1 -- npm run check`: PASS; paquete, neutralidad, enlaces/docs,
-  workflows y deuda; 364/364 pruebas, 0 fallidas.
+- `npm exec --yes --package=npm@11.19.1 -- npm run check` sobre `b47f42872558d249107b142bf593125c57478725`:
+  PASS; paquete, neutralidad, enlaces/docs, workflows y deuda; 364/364 pruebas, 0 fallidas.
 - `npm exec --yes --package=@fission-ai/openspec@1.6.0 -- openspec validate --all --strict`: PASS,
   21/21 specs y changes.
 - Navegación documental de dos saltos comprobada: `docs/README.md` descubre `CLI_GUIDE.md`, y la guía
@@ -32,14 +32,13 @@ queda pendiente hasta que exista el PR.
 - `node bin/project-os.mjs debt check --root . --json` y `debt gate --phase pre-archive --change
   distinguish-provenance-from-repository-drift --json`: PASS; 4 hallazgos históricos abiertos, sin
   deuda nueva ni Blocker/Major abierto del flujo.
-- `npm exec --yes --package=npm@11.19.1 -- npm run pack:verify`: PASS; generó e instaló el tarball
-  local exacto, validó versión/help, bootstrap, segundo check y deuda. SHA-256
-  `17f8159c84b7fee4f6452e6e6920de130ec8340e80de8ab95d7e3eeef42435bf`, 167 archivos, 267947 bytes.
-  Esta ejecución fue antes del commit candidato; se repetirá con el commit integrado para fijar la
-  procedencia del manifest.
-- El primer `readiness-check --phase archive --run-local` confirmó 15 checks locales PASS, incluidos
-  OpenSpec estricto y los gates de deuda; falló solo por cuatro tareas aún abiertas y las dos
-  validaciones deliberadamente pendientes en esa etapa. Se repetirá cuando CI esté completo.
+- `npm exec --yes --package=npm@11.19.1 -- npm run pack:verify` en `b47f42872558d249107b142bf593125c57478725`:
+  PASS; generó e instaló el tarball local exacto, validó versión/help, bootstrap, segundo check y deuda.
+  SHA-256 `17f8159c84b7fee4f6452e6e6920de130ec8340e80de8ab95d7e3eeef42435bf`, 167 archivos, 267947 bytes.
+- `readiness-check --phase archive --run-local --json` confirmó 15 PASS locales, incluida validación
+  estricta y los gates de deuda. El resultado pre-CI queda FAIL de forma esperada: solo 2 tareas (3.3,
+  3.4) siguen pendientes y `multi-platform-smoke` aún depende del PR. No se presenta como archive-ready;
+  se repetirá cuando la matriz remota esté completa.
 
 ## Revisión, compatibilidad y rollback
 
