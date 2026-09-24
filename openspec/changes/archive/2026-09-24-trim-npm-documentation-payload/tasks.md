@@ -20,7 +20,7 @@
 
 - [x] 4.1 Ejecutar OpenSpec strict, las comprobaciones del tarball, la suite completa y `npm run check`; resultado en `evidence/validation.md`.
 - [x] 4.2 Registrar conteos y exclusiones observados, revisar enlaces, completar revisión adversarial y capturar assessment de deuda; refs en `evidence/`.
-- [ ] 4.3 Pasar CI requerida en la matriz multiplataforma del PR y registrar sus resultados en `evidence/validation.md`.
+- [x] 4.3 Pasar CI requerida en la matriz multiplataforma del PR y registrar sus resultados en `evidence/validation.md`.
 
 Tras 4.3, completar readiness de archive, archivar con el CLI oficial fijado y conservar la salida del
 gate como evidencia. Después, integrar el change archivado exclusivamente mediante un PR protegido con

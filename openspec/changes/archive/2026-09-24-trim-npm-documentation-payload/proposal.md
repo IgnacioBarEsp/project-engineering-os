@@ -1,5 +1,7 @@
 ## Why
 
+[Issue #156](https://github.com/IgnacioBarEsp/project-engineering-os/issues/156) identifica el payload upstream que llega al consumidor de npm y fija el alcance de esta propuesta.
+
 El paquete npm del núcleo incluye documentación específica de Companion, archivos de diseño Stitch y una captura que no pertenece al producto publicado. La allowlist amplia de Markdown permite que contenido upstream y visual llegue por omisión a quienes instalan solo la CLI; el inventario actual contiene 193 archivos y 1.404.376 bytes sin comprimir.
 
 ## What Changes
