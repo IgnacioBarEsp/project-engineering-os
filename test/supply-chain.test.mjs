@@ -322,10 +322,10 @@ test('release pack acepta solo estados LF coherentes con índice y worktree', ()
   ].join('\n');
 
   assert.deepEqual(nonCanonicalEolEntries(output), [
-    { path: 'bin/project-os.mjs', indexEol: 'lf', worktreeEol: 'crlf' },
-    { path: 'docs/README.md', indexEol: 'lf', worktreeEol: 'mixed' },
-    { path: 'data/removed-lines.json', indexEol: 'lf', worktreeEol: 'none' },
-    { path: 'data/added-line.json', indexEol: 'none', worktreeEol: 'lf' },
-    { path: 'unknown-state.txt', indexEol: 'none', worktreeEol: 'unknown' },
+    { path: 'bin/project-os.mjs', worktreeEol: 'crlf' },
+    { path: 'docs/README.md', worktreeEol: 'mixed' },
+    { path: 'data/removed-lines.json', worktreeEol: 'none' },
+    { path: 'data/added-line.json', worktreeEol: 'lf' },
+    { path: 'unknown-state.txt', worktreeEol: 'unknown' },
   ]);
 });

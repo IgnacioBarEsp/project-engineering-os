@@ -97,7 +97,7 @@ try {
   if (eolOffenders.length > 0) {
     const sample = eolOffenders
       .slice(0, 10)
-      .map((entry) => `${entry.path} (i/${entry.indexEol}, w/${entry.worktreeEol})`)
+      .map((entry) => `${entry.path} (w/${entry.worktreeEol})`)
       .join(', ');
     throw new Error(
       `El working tree no respeta LF canónico en ${eolOffenders.length} archivo(s): ${sample}. `

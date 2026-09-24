@@ -59,9 +59,9 @@ export function nonCanonicalEolEntries(output) {
     .filter((match) => /\beol=lf\b/.test(match[3])
       && !((match[1] === 'lf' && match[2] === 'lf')
         || (match[1] === 'none' && match[2] === 'none')))
+    // Immutable tags run their historical tests against this overlaid helper; keep its old result shape.
     .map((match) => ({
       path: match[4],
-      indexEol: match[1],
       worktreeEol: match[2],
     }));
 }
