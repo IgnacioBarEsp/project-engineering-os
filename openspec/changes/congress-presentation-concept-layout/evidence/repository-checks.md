@@ -9,5 +9,6 @@ Fecha: 24 de septiembre de 2026; runtime Node 24.19.0; OpenSpec CLI 1.6.0 desde 
   neutralidad/docs/workflows/deuda PASS, pruebas 364/364; 0 fallos.
 - `openspec validate --all --strict`: PASS, 21/21 items, incluido el nuevo change.
 - `openspec validate --specs --strict`: PASS, 20/20 specs.
-- `readiness-check --phase archive --change congress-presentation-concept-layout --run-local`: pendiente
-  hasta completar el comentario con enlaces de rama y ejecutar el gate final previo al archivo.
+- `readiness-check --phase archive --change congress-presentation-concept-layout --target . --run-local --json`:
+  PASS 17/17, 0 FAIL, 0 EXCEPTION; `mutationPerformed: false`. El comentario de #165 ya enlaza los
+  artefactos de la rama con sus hashes.

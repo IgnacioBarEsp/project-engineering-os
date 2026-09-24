@@ -17,7 +17,7 @@
 
 - [x] 3.1 Complete adversarial review and a debt assessment for this bounded documentation change.
 - [x] 3.2 Run repository checks and OpenSpec strict validation.
-- [ ] 3.3 Preserve the corrected PPTX/PDF in the evidence dossier and link both branch artifacts from #165 with their hashes; replace these with main-branch links after merge.
+- [x] 3.3 Preserve the corrected PPTX/PDF in the evidence dossier and link both branch artifacts from #165 with their hashes; replace these with main-branch links after merge.
 
 Release order after these tasks: run the local archive gate, archive with the pinned OpenSpec CLI, open and
 merge through a protected PR, then close #165 only after the required CI checks and acceptance conditions pass.

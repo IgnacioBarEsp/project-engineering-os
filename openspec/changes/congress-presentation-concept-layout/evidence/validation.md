@@ -17,4 +17,5 @@ El PPTX y el PDF finales se conservaron en `C:/Users/RitualDesktop/Documents/Pro
 y se incluyen como artefactos descargables en `docs/presentations/2026-09-24-congreso.pptx` y
 `docs/presentations/2026-09-24-congreso.pdf`; la página del guion enlaza ambos y registra sus hashes. El
 manifiesto `files` de `package.json` no incluye `docs/presentations/`, por lo que estos materiales no entran
-en el paquete npm. Tras integrar el PR, el comentario de #165 enlazará ambas rutas públicas y sus hashes.
+en el paquete npm. El comentario [de #165](https://github.com/IgnacioBarEsp/project-engineering-os/issues/165#issuecomment-5812766305)
+enlaza ambos artefactos públicos de la rama y sus hashes; tras integrar el PR, los enlaces se actualizarán a `main`.

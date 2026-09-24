@@ -19,12 +19,12 @@ text placed inside cards as an error.
 
 Build from the versioned generator with the pinned temporary `pptxgenjs` build tool; do not add it to package
 dependencies. Check 22 slides and all 90 figures, run the geometry regression, export a local PDF, and inspect
-all 22 rendered pages. Record the PPTX/PDF SHA-256 values and attach the verified PDF (and corrected PPTX) to
-the already-open #165.
+all 22 rendered pages. Record the PPTX/PDF SHA-256 values, publish both outside the npm package, and link the
+verified PDF and corrected PPTX from the already-open #165.
 
 ## Risk and recovery
 
 The layout change is limited to three alternating concept slides. The visual render is the decisive check
 because font substitution and text overflow are not captured by coordinate bounds alone. If any page still
-clips or overlaps, do not attach it; adjust the generator and repeat the render. Reverting the PR restores the
+clips or overlaps, do not publish it; adjust the generator and repeat the render. Reverting the PR restores the
 previous generator and checker.

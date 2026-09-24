@@ -14,4 +14,4 @@ tarjeta no tenga texto propio.
 #### Scenario: El PDF final se prepara para presentarse sin conexión
 - **WHEN** la presentación se exporta como PDF para el congreso
 - **THEN** las 22 páginas se pueden abrir y renderizar sin depender de Canva
-- **AND** se inspeccionan visualmente todas las páginas antes de adjuntar el PDF al issue
+- **AND** se inspeccionan visualmente todas las páginas antes de publicar un enlace descargable desde el issue

@@ -12,7 +12,7 @@
 4. ¿La corrección puede alterar cifras, claims o notas? **No:** solo cambia la coordenada horizontal del texto;
    la comprobación de cifras valida las 90 apariciones de diapositivas y notas frente al guion.
 5. ¿El PDF depende de Canva o deja páginas ausentes? **No:** PDF local de 22 páginas, reabierto con Poppler y
-   renderizado antes de adjuntarlo.
+   renderizado antes de publicar un enlace descargable desde el issue.
 6. ¿La revisión de geometría garantiza fidelidad entre fuentes? **No:** por eso se comprobó visualmente cada
    página renderizada y no se afirma apertura en PowerPoint/Canva.
 
