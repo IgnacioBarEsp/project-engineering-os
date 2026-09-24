@@ -23,13 +23,37 @@ export function checkPublishedVerificationWorkflow(content) {
 
 export function checkReleaseWorkflow(content) {
   const failures = checkPinnedClient(content, 2);
+  const buildJob = content.match(/^  build:\r?\n([\s\S]*?)^  github-release:/m)?.[1] ?? '';
+  const githubReleaseJob = content.match(/^  github-release:\r?\n([\s\S]*?)^  npm:/m)?.[1] ?? '';
   const npmJob = content.match(/^  npm:\r?\n([\s\S]*)$/m)?.[1] ?? '';
+  const releaseToolsLoadFromMain = (job) => (
+    job.includes('RELEASE_TOOL_SHA: ${{ github.sha }}')
+    && job.includes('test "$GITHUB_REF" = "refs/heads/main"')
+    && job.includes('git fetch --no-tags origin "$RELEASE_TOOL_SHA"')
+    && job.includes('git show "$RELEASE_TOOL_SHA:scripts/release-lib.mjs" > scripts/release-lib.mjs')
+    && job.includes('git show "$RELEASE_TOOL_SHA:scripts/validate-release.mjs" > scripts/validate-release.mjs')
+    && job.includes('git show "$RELEASE_TOOL_SHA:scripts/release-source.mjs" > scripts/release-source.mjs')
+  );
+  const releaseToolsLoadBeforeUse = (job, packRequired) => {
+    const loadAt = job.indexOf('- name: Load reviewed');
+    const validateAt = job.indexOf('node scripts/validate-release.mjs');
+    const packAt = job.indexOf('node scripts/pack-release.mjs --output release');
+    return loadAt >= 0 && validateAt > loadAt && (!packRequired || packAt > validateAt);
+  };
+  const tagInputTransportIsSafe = () => {
+    const qualifiedTagCheckouts = content.match(/^\s+ref: refs\/tags\/\$\{\{ inputs\.tag \}\}\s*$/gm) ?? [];
+    const tagEnvironmentValues = content.match(/^\s+RELEASE_TAG: \$\{\{ inputs\.tag \}\}\s*$/gm) ?? [];
+    const inputContextInRun = /^        run:[^\n]*\$\{\{[^}]*\binputs\b[^}]*\}\}|^        run:[^\n]*\n(?:(?!^        [\w-]+:|^      - name:|^  [\w-]+:)[\s\S])*?\$\{\{[^}]*\binputs\b[^}]*\}\}/m;
+    return qualifiedTagCheckouts.length === 3
+      && tagEnvironmentValues.length === 5
+      && !inputContextInRun.test(content);
+  };
 
   if (!/name:\s*release-candidate[\s\S]{0,400}retention-days:\s*35\b/.test(content)) {
     failures.push('release candidate retention must cover the 30-day approval window');
   }
   if (
-    !content.includes('gh release view "${{ inputs.tag }}"')
+    !content.includes('gh release view "$RELEASE_TAG"')
     || !content.includes('node scripts/compare-release.mjs release existing-release')
   ) {
     failures.push('existing release recovery missing');
@@ -38,13 +62,44 @@ export function checkReleaseWorkflow(content) {
     failures.push('npm job missing');
     return failures;
   }
+  if (!buildJob || !releaseToolsLoadFromMain(buildJob)
+    || !releaseToolsLoadFromMain(githubReleaseJob)
+    || !releaseToolsLoadFromMain(npmJob)
+    || !releaseToolsLoadBeforeUse(buildJob, true)
+    || !releaseToolsLoadBeforeUse(githubReleaseJob, false)
+    || !releaseToolsLoadBeforeUse(npmJob, true)
+    || !githubReleaseJob.includes('git show "$RELEASE_TOOL_SHA:scripts/verify-release.mjs" > scripts/verify-release.mjs')) {
+    failures.push('release jobs must load the source validator and resolver from the exact workflow commit on main before use, including candidate verification in github-release');
+  }
+  const verifierLoadAt = githubReleaseJob.indexOf('git show "$RELEASE_TOOL_SHA:scripts/verify-release.mjs" > scripts/verify-release.mjs');
+  const verifierUseAt = githubReleaseJob.indexOf('node scripts/verify-release.mjs release --commit "$SOURCE_COMMIT"');
+  if (verifierLoadAt < 0 || verifierUseAt <= verifierLoadAt) {
+    failures.push('github-release must load its candidate verifier from the workflow commit before checking the manifest');
+  }
+  if (!githubReleaseJob.includes('node scripts/validate-release.mjs --tag "$RELEASE_TAG" --verify-tag-source')
+    || !githubReleaseJob.includes('node scripts/verify-release.mjs release --commit "$SOURCE_COMMIT"')) {
+    failures.push('github-release must bind candidate manifest identity to the verified tag checkout');
+  }
+  if (!tagInputTransportIsSafe()) {
+    failures.push('release inputs must use fully qualified tag refs and pass to shell only through environment data');
+  }
+  if (!/^  github-release:[\s\S]*?^    environment: github-release\s*$/m.test(content)) {
+    failures.push('GitHub Release publishing must use the branch-restricted github-release environment');
+  }
+  const jobBlocks = content.split(/(?=^  [\w-]+:\s*$)/m);
+  for (const job of ['build', 'github-release', 'npm']) {
+    const block = jobBlocks.find((candidate) => candidate.startsWith(`  ${job}:`)) ?? '';
+    if (!/^    if: github\.ref == 'refs\/heads\/main'\s*$/m.test(block)) {
+      failures.push(`${job} job must run only for a workflow dispatch from main`);
+    }
+  }
 
   const required = [
     'environment: npm-publish',
     'id-token: write',
-    'ref: ${{ inputs.tag }}',
+    'ref: refs/tags/${{ inputs.tag }}',
     'node scripts/pack-release.mjs --output release',
-    'gh release download "${{ inputs.tag }}" --dir canonical-release',
+    'gh release download "$RELEASE_TAG" --dir canonical-release',
     'node scripts/compare-release.mjs release canonical-release',
     'npm publish ./canonical-release/*.tgz --access public --provenance',
   ];

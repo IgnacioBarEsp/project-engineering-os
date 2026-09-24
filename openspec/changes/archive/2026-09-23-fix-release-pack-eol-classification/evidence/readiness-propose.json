@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 155,
+  "change": "fix-release-pack-eol-classification",
+  "phase": "propose",
+  "verdict": "PASS",
+  "counts": { "PASS": 13, "FAIL": 0, "EXCEPTION": 0 },
+  "mutationPerformed": false,
+  "issueState": "OPEN",
+  "issueUrl": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/155",
+  "enrichment": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/155#issuecomment-5806810525"
+}

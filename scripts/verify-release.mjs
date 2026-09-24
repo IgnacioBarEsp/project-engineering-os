@@ -6,9 +6,17 @@ import { fileURLToPath } from 'node:url';
 
 import { readJson, sha256 } from './release-lib.mjs';
 
-export async function verifyRelease(releaseRoot) {
+export async function verifyRelease(releaseRoot, { expectedCommit } = {}) {
   const root = path.resolve(releaseRoot);
   const manifest = await readJson(path.join(root, 'release-manifest.json'));
+  if (expectedCommit !== undefined) {
+    if (!/^[0-9a-f]{40,64}$/.test(expectedCommit)) {
+      throw new Error('El commit esperado para el artefacto no es válido.');
+    }
+    if (manifest.commit !== expectedCommit) {
+      throw new Error(`El artefacto declara ${manifest.commit}; el source verificado es ${expectedCommit}.`);
+    }
+  }
   const checksums = await readFile(path.join(root, 'SHA256SUMS'), 'utf8');
   const tarball = await readFile(path.join(root, manifest.tarball));
   const observed = sha256(tarball);
@@ -21,7 +29,11 @@ export async function verifyRelease(releaseRoot) {
 }
 
 if (path.resolve(process.argv[1] ?? '') === fileURLToPath(import.meta.url)) {
-  const root = process.argv[2] ?? 'release';
-  const result = await verifyRelease(root);
+  const args = process.argv.slice(2);
+  const root = args[0] && !args[0].startsWith('--') ? args[0] : 'release';
+  const commitIndex = args.indexOf('--commit');
+  const expectedCommit = commitIndex >= 0 ? args[commitIndex + 1] : undefined;
+  if (commitIndex >= 0 && !expectedCommit) throw new Error('--commit requiere un SHA.');
+  const result = await verifyRelease(root, { expectedCommit });
   process.stdout.write(`PASS ${result.tarball} ${result.sha256}\n`);
 }

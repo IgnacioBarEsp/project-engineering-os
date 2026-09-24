@@ -44,15 +44,24 @@ export function assertSemver(version) {
   }
 }
 
+export function assertStableReleaseVersion(version) {
+  assertSemver(version);
+  if (version.includes('-')) {
+    throw new Error('El flujo de publicación actual solo admite versiones estables; no admite prereleases.');
+  }
+}
+
 export function nonCanonicalEolEntries(output) {
   return output
     .split(/\r?\n/)
-    .map((line) => line.match(/^i\/\S+\s+w\/(\S+)\s+attr\/([^\t]+)\t(.+)$/))
+    .map((line) => line.match(/^i\/(\S+)\s+w\/(\S+)\s+attr\/([^\t]+)\t(.+)$/))
     .filter(Boolean)
-    .filter((match) => /\beol=lf\b/.test(match[2]) && match[1] !== 'lf')
+    .filter((match) => /\beol=lf\b/.test(match[3])
+      && !((match[1] === 'lf' && match[2] === 'lf')
+        || (match[1] === 'none' && match[2] === 'none')))
     .map((match) => ({
-      path: match[3],
-      worktreeEol: match[1],
+      path: match[4],
+      indexEol: match[1],
+      worktreeEol: match[2],
     }));
 }
-

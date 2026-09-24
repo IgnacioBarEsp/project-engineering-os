@@ -1,0 +1,4 @@
+schema: spec-driven
+created: 2026-09-24
+goal: Allow the v1.0.0 protected-tag release to complete while still rejecting
+  CRLF and mixed-EOL checkouts.

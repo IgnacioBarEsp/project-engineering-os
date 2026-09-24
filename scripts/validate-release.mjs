@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
+import { execFileSync } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { assertSemver, readJson } from './release-lib.mjs';
+import { assertStableReleaseVersion, readJson } from './release-lib.mjs';
+import { assertCommitMatchesRemoteTag } from './release-source.mjs';
 import { isSupportedNode, supportedNodeRemediation } from '../src/runtime-support.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -12,10 +14,21 @@ const args = process.argv.slice(2);
 const tagIndex = args.indexOf('--tag');
 const tag = tagIndex >= 0 ? args[tagIndex + 1] : process.env.GITHUB_REF_NAME;
 const remote = args.includes('--remote');
+const verifyTagSource = remote || args.includes('--verify-tag-source');
 const packageJson = await readJson(path.join(root, 'package.json'));
-assertSemver(packageJson.version);
+assertStableReleaseVersion(packageJson.version);
 if (!tag || tag !== `v${packageJson.version}`) {
   throw new Error(`El tag ${tag ?? '<missing>'} no coincide con v${packageJson.version}.`);
+}
+if (verifyTagSource) {
+  const runGit = (argsForGit) => execFileSync(
+    'git', argsForGit, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] },
+  );
+  const actualCommit = execFileSync(
+    'git', ['rev-parse', '--verify', 'HEAD^{commit}'],
+    { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] },
+  ).trim();
+  assertCommitMatchesRemoteTag(tag, actualCommit, runGit);
 }
 const changelog = await readFile(path.join(root, 'CHANGELOG.md'), 'utf8');
 if (!changelog.includes(`## ${packageJson.version}`)) {

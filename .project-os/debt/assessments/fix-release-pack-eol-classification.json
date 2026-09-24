@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-24",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "La revisión adversarial independiente encontró riesgos de source binding, orden de herramientas y prereleases sin canal explícito. Todos se corrigieron dentro de este flujo, se agregaron regresiones y la revisión final quedó PASS sin findings abiertos. El cambio añade controles de release; no deja deuda técnica residual ni reclasifica obligaciones previas del upstream.",
+  "flow": "fix-release-pack-eol-classification"
+}

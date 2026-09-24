@@ -15,7 +15,7 @@ import test from 'node:test';
 
 import { checkPackageRoot, checkSeededIdentity } from '../scripts/check-package.mjs';
 import { compareReleaseDirectories } from '../scripts/compare-release.mjs';
-import { nonCanonicalEolEntries, sha256 } from '../scripts/release-lib.mjs';
+import { assertStableReleaseVersion, nonCanonicalEolEntries, sha256 } from '../scripts/release-lib.mjs';
 import { checkReleaseWorkflow, checkPinnedClient } from '../scripts/release-workflow-policy.mjs';
 import { verifyRelease } from '../scripts/verify-release.mjs';
 
@@ -129,6 +129,11 @@ test('release verifier rejects an altered tarball', async () => {
   const { root, filename, digest } = await releaseFixture('release-negative');
   const tarballPath = path.join(root, filename);
   assert.equal((await verifyRelease(root)).sha256, digest);
+  assert.equal((await verifyRelease(root, { expectedCommit: 'a'.repeat(40) })).sha256, digest);
+  await assert.rejects(
+    verifyRelease(root, { expectedCommit: 'b'.repeat(40) }),
+    /el source verificado/,
+  );
 
   await writeFile(tarballPath, Buffer.from('altered tarball fixture'));
   await assert.rejects(verifyRelease(root), /Checksum divergente/);
@@ -189,8 +194,46 @@ test('release workflow policy preserves delayed approval recovery', async () => 
   );
   assert.equal(
     checkReleaseWorkflow(workflow.replace(
-      'gh release download "${{ inputs.tag }}" --dir canonical-release',
-      'gh release download "${{ inputs.tag }}" --dir release',
+      'git show "$RELEASE_TOOL_SHA:scripts/release-lib.mjs" > scripts/release-lib.mjs',
+      'git show "$RELEASE_TOOL_SHA:scripts/other.mjs" > scripts/release-lib.mjs',
+    )).some((failure) => failure.includes('exact workflow commit on main')),
+    true,
+  );
+  assert.equal(
+    checkReleaseWorkflow(workflow.replace(
+      'git show "$RELEASE_TOOL_SHA:scripts/validate-release.mjs" > scripts/validate-release.mjs',
+      'git show "$RELEASE_TOOL_SHA:scripts/other.mjs" > scripts/validate-release.mjs',
+    )).some((failure) => failure.includes('source validator and resolver')),
+    true,
+  );
+  const loadAt = workflow.indexOf('      - name: Load reviewed release tools from workflow commit');
+  const validateAt = workflow.indexOf('      - name: Validate tag and source');
+  const packAt = workflow.indexOf('      - name: Pack once and smoke exact tarball');
+  const misordered = `${workflow.slice(0, loadAt)}${workflow.slice(validateAt, packAt)}${workflow.slice(loadAt, validateAt)}${workflow.slice(packAt)}`;
+  assert.equal(
+    checkReleaseWorkflow(misordered).some((failure) => failure.includes('load the source validator and resolver')),
+    true,
+  );
+  const verifierExtraction = '          git show "$RELEASE_TOOL_SHA:scripts/verify-release.mjs" > scripts/verify-release.mjs\n';
+  const verifierCall = '          node scripts/verify-release.mjs release --commit "$SOURCE_COMMIT"';
+  const verifierMisordered = workflow
+    .replace(verifierExtraction, '')
+    .replace(verifierCall, `${verifierCall}\n${verifierExtraction.trimEnd()}`);
+  assert.equal(
+    checkReleaseWorkflow(verifierMisordered).some((failure) => failure.includes('load its candidate verifier')),
+    true,
+  );
+  assert.equal(
+    checkReleaseWorkflow(workflow.replace(
+      'node scripts/verify-release.mjs release --commit "$SOURCE_COMMIT"',
+      'node scripts/verify-release.mjs release',
+    )).some((failure) => failure.includes('bind candidate manifest identity')),
+    true,
+  );
+  assert.equal(
+    checkReleaseWorkflow(workflow.replace(
+      'gh release download "$RELEASE_TAG" --dir canonical-release',
+      'gh release download "$RELEASE_TAG" --dir release',
     )).some((failure) => failure.includes('release download')),
     true,
   );
@@ -213,18 +256,76 @@ test('release workflow policy preserves delayed approval recovery', async () => 
       .some((failure) => failure.includes('workflow artifact')),
     true,
   );
+  assert.equal(
+    checkReleaseWorkflow(workflow.replace(
+      'node scripts/validate-release.mjs --tag "$RELEASE_TAG" --remote',
+      'node scripts/validate-release.mjs --tag "${{ inputs.tag }}" --remote',
+    )).some((failure) => failure.includes('release inputs must use fully qualified tag refs')),
+    true,
+  );
+  assert.equal(
+    checkReleaseWorkflow(workflow.replace(
+      'node scripts/validate-release.mjs --tag "$RELEASE_TAG" --remote',
+      'node scripts/validate-release.mjs --tag "${{ github.event.inputs.tag }}" --remote',
+    )).some((failure) => failure.includes('release inputs must use fully qualified tag refs')),
+    true,
+  );
+  assert.equal(
+    checkReleaseWorkflow(workflow.replace(
+      'node scripts/validate-release.mjs --tag "$RELEASE_TAG" --verify-tag-source',
+      'node scripts/validate-release.mjs --tag "${{ github.event.inputs[\'tag\'] }}" --verify-tag-source',
+    )).some((failure) => failure.includes('release inputs must use fully qualified tag refs')),
+    true,
+  );
+  assert.equal(
+    checkReleaseWorkflow(workflow.replace(
+      'ref: refs/tags/${{ inputs.tag }}',
+      'ref: ${{ inputs.tag }}',
+    )).some((failure) => failure.includes('release inputs must use fully qualified tag refs')),
+    true,
+  );
+  assert.equal(
+    checkReleaseWorkflow(workflow.replace(
+      'environment: github-release',
+      'environment: unprotected',
+    )).some((failure) => failure.includes('branch-restricted github-release environment')),
+    true,
+  );
+  assert.equal(
+    checkReleaseWorkflow(workflow.replace(
+      "    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest",
+      '    runs-on: ubuntu-latest',
+    )).some((failure) => failure.includes('build job must run only')),
+    true,
+  );
 });
 
-test('release pack rechaza CRLF o mixed cuando el atributo exige LF', () => {
+test('release validation rejects prereleases before creating a GitHub Release', () => {
+  assert.doesNotThrow(() => assertStableReleaseVersion('1.2.3'));
+  assert.throws(
+    () => assertStableReleaseVersion('1.2.3-rc.1'),
+    /solo admite versiones estables/,
+  );
+});
+
+test('release pack acepta solo estados LF coherentes con índice y worktree', () => {
   const output = [
     'i/lf    w/lf    attr/text=auto eol=lf \tREADME.md',
     'i/lf    w/crlf  attr/text=auto eol=lf \tbin/project-os.mjs',
     'i/lf    w/mixed attr/text=auto eol=lf \tdocs/README.md',
+    'i/lf    w/none  attr/text=auto eol=lf \tdata/removed-lines.json',
+    'i/none  w/lf    attr/text=auto eol=lf \tdata/added-line.json',
+    'i/none  w/none  attr/text=auto eol=lf \tdata/no-final-newline.json',
+    'i/none  w/none  attr/text=auto eol=lf \tlogs/empty.txt',
+    'i/none  w/unknown attr/text=auto eol=lf \tunknown-state.txt',
     'i/-text w/-text attr/-text             \tasset.png',
   ].join('\n');
 
   assert.deepEqual(nonCanonicalEolEntries(output), [
-    { path: 'bin/project-os.mjs', worktreeEol: 'crlf' },
-    { path: 'docs/README.md', worktreeEol: 'mixed' },
+    { path: 'bin/project-os.mjs', indexEol: 'lf', worktreeEol: 'crlf' },
+    { path: 'docs/README.md', indexEol: 'lf', worktreeEol: 'mixed' },
+    { path: 'data/removed-lines.json', indexEol: 'lf', worktreeEol: 'none' },
+    { path: 'data/added-line.json', indexEol: 'none', worktreeEol: 'lf' },
+    { path: 'unknown-state.txt', indexEol: 'none', worktreeEol: 'unknown' },
   ]);
 });
