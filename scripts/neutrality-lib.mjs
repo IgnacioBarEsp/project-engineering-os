@@ -88,6 +88,45 @@ export async function scanPublicTree(root, allowlist) {
   ));
 }
 
+// Repository-owned hooks are an explicit execution surface. Keep this allowlist closed in source
+// rather than deriving it from files in the checkout; it is intentionally empty today.
+const APPROVED_PROJECT_HOOKS = new Set();
+
+export async function checkProjectHookPolicy(root) {
+  const hookRoot = path.join(root, '.github', 'hooks');
+  const violations = [];
+  let rootStats;
+  try {
+    rootStats = await lstat(hookRoot);
+  } catch (error) {
+    if (error.code === 'ENOENT') return violations;
+    throw error;
+  }
+  if (rootStats.isSymbolicLink() || !rootStats.isDirectory()) {
+    return [{ kind: 'unapproved-project-hook', path: '.github/hooks' }];
+  }
+
+  async function visit(relative = '') {
+    const absolute = path.join(hookRoot, relative);
+    const entries = await readdir(absolute, { withFileTypes: true });
+    for (const entry of entries.sort((left, right) => left.name.localeCompare(right.name))) {
+      const child = normalized(path.join(relative, entry.name));
+      const projectPath = `.github/hooks/${child}`;
+      const stats = await lstat(path.join(hookRoot, child));
+      if (stats.isSymbolicLink()) {
+        violations.push({ kind: 'unapproved-project-hook', path: projectPath });
+      } else if (stats.isDirectory()) {
+        await visit(child);
+      } else if (!stats.isFile() || !APPROVED_PROJECT_HOOKS.has(projectPath)) {
+        violations.push({ kind: 'unapproved-project-hook', path: projectPath });
+      }
+    }
+  }
+
+  await visit();
+  return violations.sort((left, right) => left.path.localeCompare(right.path));
+}
+
 export const neutralityInternals = Object.freeze({
   forbiddenCount: FORBIDDEN_TERMS.length,
   secretPatternCount: SECRET_PATTERNS.length,

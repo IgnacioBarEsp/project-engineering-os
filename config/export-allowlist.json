@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "directories": [
     ".github",
-    ".impeccable",
     ".project-os",
     "apps",
     "bin",
@@ -40,6 +39,7 @@
     ".git",
     "coverage",
     "node_modules",
-    "release"
+    "release",
+    ".impeccable"
   ]
 }
