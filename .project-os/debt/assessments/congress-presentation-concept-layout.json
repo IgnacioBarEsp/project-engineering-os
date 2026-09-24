@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-24",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "notes": "El defecto visual reproducido en el entregable #165 quedó corregido en el generador, detectado por una regresión geométrica y vuelto a inspeccionar en las 22 páginas. No queda deuda nueva atribuible a este cambio. La posibilidad de sustitución de fuentes al abrir en PowerPoint/Canva ya se declara como límite y no se presenta como verificada.",
+  "flow": "congress-presentation-concept-layout"
+}

@@ -208,7 +208,7 @@ concepts.forEach(([eyebrow, title, problem, oneLine, example, notes], index) => 
   const rightCard = index % 2 === 0;
   kicker(s, eyebrow);
   titleOn(s, title);
-  const textX = rightCard ? M : 6.3;
+  const textX = rightCard ? M : 6.6;
   const cardX = rightCard ? 6.9 : M;
   s.addText(oneLine, { x: textX, y: 2.15, w: 5.6, h: 2.0, isTextBox: true, margin: 0, fontFace: HEAD, fontSize: 22, color: INK, lineSpacing: 32 });
   card(s, { x: cardX, y: 2.0, w: 5.6, h: 3.9 });
