@@ -59,7 +59,7 @@
     {
       "id": "multi-platform-smoke",
       "status": "passed",
-      "evidence": "https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/35974213394",
+      "evidence": "https://github.com/IgnacioBarEsp/project-engineering-os/pull/189",
       "justification": null,
       "profileCondition": null
     },
