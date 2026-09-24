@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
-import { access, readFile, readdir } from "node:fs/promises";
+import { access, readFile, readdir, stat } from "node:fs/promises";
 import { constants as fsConstants } from "node:fs";
 import path from "node:path";
 import {
@@ -10,7 +10,12 @@ import {
   reportExitCode,
   result,
 } from "./report.mjs";
-import { CONSTRUCTOR_VERSION, PACKAGE_NAME } from "./constants.mjs";
+import { CONSTRUCTOR_VERSION, PACKAGE_NAME, PACKAGE_ROOT } from "./constants.mjs";
+import {
+  assertNoSymlinkEscape,
+  normalizeRelativePath,
+  resolveInside,
+} from "./paths.mjs";
 import {
   isSupportedNode,
   SUPPORTED_NODE_RANGE,
@@ -37,6 +42,11 @@ const TECHNICAL_PROFILES = [
   "infra-deploy",
   "library-cli",
 ];
+const TECHNICAL_PROFILE_EVIDENCE_SCHEMA_VERSION = "1.0.0";
+const MAX_TECHNICAL_PROFILE_RECEIPT_BYTES = 256 * 1024;
+const MAX_TECHNICAL_PROFILE_ARTIFACT_BYTES = 10 * 1024 * 1024;
+const MAX_TECHNICAL_PROFILE_TOTAL_ARTIFACT_BYTES = 50 * 1024 * 1024;
+const MAX_TECHNICAL_PROFILE_EVIDENCE_AGE_MS = 30 * 24 * 60 * 60 * 1000;
 
 const SAFE_COMMANDS = Object.freeze({
   nodeVersion: { command: process.execPath, args: ["--version"], timeoutMs: 5_000 },
@@ -258,6 +268,324 @@ function activeProfiles(config, profileCatalog) {
     profileCatalog?.profiles?.filter((profile) => profile.active).map((profile) => profile.id) ??
     [];
   return new Set(active);
+}
+
+function jsonObject(value) {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function hasExactKeys(value, keys) {
+  return jsonObject(value)
+    && Object.keys(value).length === keys.length
+    && keys.every((key) => Object.hasOwn(value, key));
+}
+
+function requiredProfileItems(definition, key) {
+  const items = definition?.[key];
+  if (
+    !Array.isArray(items)
+    || items.length === 0
+    || items.some((item) => typeof item !== "string" || item.trim() === "")
+    || new Set(items).size !== items.length
+  ) {
+    return null;
+  }
+  return items;
+}
+
+function technicalProfileConfigProjection(profileId, config, profileCatalog, catalogPath, active) {
+  const catalogEntries = Array.isArray(profileCatalog?.profiles)
+    ? profileCatalog.profiles
+    : [];
+  const catalogEntry = catalogEntries.find((entry) => entry?.id === profileId);
+  const catalogActive = Array.isArray(profileCatalog?.active)
+    ? [...profileCatalog.active].sort()
+    : profileCatalog?.profiles
+      ? catalogEntries.filter((entry) => entry?.active === true).map((entry) => entry.id).sort()
+      : null;
+  return {
+    profileId,
+    activeProfiles: [...active].sort(),
+    configuredActiveProfiles: Array.isArray(config?.activeProfiles)
+      ? [...config.activeProfiles].sort()
+      : config?.activeProfiles ?? null,
+    catalogPath,
+    catalogActiveProfiles: catalogActive,
+    profileDecision: catalogEntry
+      ? {
+        id: catalogEntry.id,
+        active: catalogEntry.active ?? null,
+        activationDecision: catalogEntry.activationDecision ?? null,
+      }
+      : null,
+  };
+}
+
+function canonicalTimestamp(value) {
+  if (typeof value !== "string") return null;
+  const timestamp = Date.parse(value);
+  if (!Number.isFinite(timestamp)) return null;
+  return new Date(timestamp).toISOString() === value ? timestamp : null;
+}
+
+function technicalEvidenceReadCause(error) {
+  if (error?.code === "PATH_TRAVERSAL") return "La ruta intenta salir de la raíz del repositorio.";
+  if (error?.code === "PATH_INVALID") return "La ruta no es relativa o no usa una forma admitida.";
+  if (error?.code === "SYMLINK_ESCAPE") return "La ruta apunta fuera del repositorio mediante un enlace.";
+  if (error?.code === "EVIDENCE_SIZE_LIMIT") return "El registro o un artefacto excede el límite de lectura.";
+  if (error?.code === "EVIDENCE_NOT_REGULAR") return "La referencia no es un archivo regular.";
+  return "El registro o uno de sus artefactos no se pudo leer de forma segura.";
+}
+
+async function readBoundedRootFile(target, relativePath, maxBytes, label) {
+  const normalized = normalizeRelativePath(relativePath, label);
+  if (normalized !== relativePath) {
+    const error = new Error("La ruta debe usar una forma relativa canónica.");
+    error.code = "PATH_TRAVERSAL";
+    throw error;
+  }
+  await assertNoSymlinkEscape(target, normalized);
+  const absolutePath = resolveInside(target, normalized, label);
+  let metadata;
+  try {
+    metadata = await stat(absolutePath);
+  } catch (error) {
+    if (error?.code === "ENOENT") return null;
+    throw error;
+  }
+  if (!metadata.isFile()) {
+    const error = new Error("La referencia no es un archivo regular.");
+    error.code = "EVIDENCE_NOT_REGULAR";
+    throw error;
+  }
+  if (metadata.size > maxBytes) {
+    const error = new Error("El archivo excede el límite de lectura.");
+    error.code = "EVIDENCE_SIZE_LIMIT";
+    throw error;
+  }
+  const content = await readFile(absolutePath);
+  if (content.byteLength > maxBytes) {
+    const error = new Error("El archivo excede el límite de lectura.");
+    error.code = "EVIDENCE_SIZE_LIMIT";
+    throw error;
+  }
+  return content;
+}
+
+async function verifyTechnicalProfileEvidence({
+  target,
+  profileId,
+  config,
+  profileCatalog,
+  catalogPath,
+  active,
+  canonicalDefinition,
+}) {
+  const relative = `.project-os/evidence/technical-profile-${profileId}.json`;
+  const invalid = (cause, extra = {}) => ({ state: "invalid", relative, cause, ...extra });
+  if (!canonicalDefinition) {
+    return invalid("Falta la definición canónica empaquetada del perfil.");
+  }
+  const automatic = requiredProfileItems(canonicalDefinition, "automaticValidations");
+  const manual = requiredProfileItems(canonicalDefinition, "manualEvidence");
+  const negative = requiredProfileItems(canonicalDefinition, "negativeCases");
+  if (
+    !automatic
+    || !manual
+    || !negative
+    || typeof canonicalDefinition.rollback !== "string"
+    || canonicalDefinition.rollback.trim() === ""
+    || typeof canonicalDefinition.closureGate !== "string"
+    || canonicalDefinition.closureGate.trim() === ""
+  ) {
+    return invalid("La definición canónica no contiene requisitos de perfil válidos.");
+  }
+
+  let bytes;
+  try {
+    bytes = await readBoundedRootFile(
+      target,
+      relative,
+      MAX_TECHNICAL_PROFILE_RECEIPT_BYTES,
+      "recibo de perfil técnico",
+    );
+  } catch (error) {
+    return invalid(technicalEvidenceReadCause(error));
+  }
+  if (bytes === null) return { state: "missing", relative };
+
+  let receipt;
+  try {
+    receipt = JSON.parse(bytes.toString("utf8"));
+  } catch {
+    return invalid("El registro no contiene JSON válido.");
+  }
+  const receiptKeys = [
+    "schemaVersion",
+    "profileId",
+    "configHash",
+    "profileHash",
+    "issuedAt",
+    "expiresAt",
+    "automaticValidations",
+    "manualEvidence",
+    "negativeCases",
+    "rollback",
+    "closureGate",
+  ];
+  if (!hasExactKeys(receipt, receiptKeys)) {
+    return invalid("El registro no coincide con el contrato fijo de evidencia.");
+  }
+  if (receipt.schemaVersion !== TECHNICAL_PROFILE_EVIDENCE_SCHEMA_VERSION) {
+    return invalid(`schemaVersion debe ser ${TECHNICAL_PROFILE_EVIDENCE_SCHEMA_VERSION}.`);
+  }
+  if (receipt.profileId !== profileId) {
+    return invalid("El registro pertenece a otro perfil técnico.");
+  }
+
+  let configHash;
+  try {
+    configHash = sha256(`${stableJson(technicalProfileConfigProjection(
+      profileId,
+      config,
+      profileCatalog,
+      catalogPath,
+      active,
+    ))}\n`);
+  } catch {
+    return invalid("No se pudo calcular un hash seguro para la selección actual del perfil.");
+  }
+  const profileHash = sha256(`${stableJson(canonicalDefinition)}\n`);
+  if (!/^[a-f0-9]{64}$/.test(receipt.configHash) || receipt.configHash !== configHash) {
+    return invalid("El hash de configuración de perfil no coincide con la selección actual.");
+  }
+  if (!/^[a-f0-9]{64}$/.test(receipt.profileHash) || receipt.profileHash !== profileHash) {
+    return invalid("El hash de definición no coincide con el catálogo empaquetado.");
+  }
+
+  const issuedAt = canonicalTimestamp(receipt.issuedAt);
+  const expiresAt = canonicalTimestamp(receipt.expiresAt);
+  const now = Date.now();
+  if (
+    issuedAt === null
+    || expiresAt === null
+    || issuedAt > now
+    || expiresAt <= now
+    || expiresAt <= issuedAt
+    || expiresAt - issuedAt > MAX_TECHNICAL_PROFILE_EVIDENCE_AGE_MS
+  ) {
+    return invalid("La ventana de vigencia debe ser UTC canónica, no futura y durar como máximo 30 días.");
+  }
+
+  const artifactCache = new Map();
+  let totalArtifactBytes = 0;
+  const references = [];
+  const verifyArtifact = async (artifact) => {
+    if (!hasExactKeys(artifact, ["path", "sha256"])) {
+      return { error: "La referencia del artefacto no coincide con el contrato fijo." };
+    }
+    if (typeof artifact.path !== "string" || artifact.path.trim() === "") {
+      return { error: "La ruta de un artefacto está vacía o no es válida." };
+    }
+    if (artifact.path.length > 2048) {
+      return { error: "La ruta de un artefacto excede el máximo de 2048 caracteres." };
+    }
+    if (typeof artifact.sha256 !== "string" || !/^[a-f0-9]{64}$/.test(artifact.sha256)) {
+      return { error: "Un artefacto no declara SHA-256 válido." };
+    }
+    let normalized;
+    try {
+      normalized = normalizeRelativePath(artifact.path, "artefacto de perfil");
+    } catch (error) {
+      return { error: technicalEvidenceReadCause(error) };
+    }
+    if (normalized !== artifact.path) {
+      return { error: "La ruta del artefacto no usa una forma relativa canónica." };
+    }
+    let artifactBytes = artifactCache.get(normalized);
+    if (!artifactBytes) {
+      try {
+        const remaining = MAX_TECHNICAL_PROFILE_TOTAL_ARTIFACT_BYTES - totalArtifactBytes;
+        if (remaining <= 0) return { error: "El total de artefactos supera el límite de lectura." };
+        artifactBytes = await readBoundedRootFile(
+          target,
+          normalized,
+          Math.min(MAX_TECHNICAL_PROFILE_ARTIFACT_BYTES, remaining),
+          "artefacto de perfil",
+        );
+      } catch (error) {
+        return { error: technicalEvidenceReadCause(error) };
+      }
+      if (artifactBytes === null) return { error: "Falta un artefacto referenciado." };
+      totalArtifactBytes += artifactBytes.byteLength;
+      artifactCache.set(normalized, artifactBytes);
+    }
+    if (sha256(artifactBytes) !== artifact.sha256) {
+      return { error: "El SHA-256 de un artefacto no coincide con sus bytes actuales." };
+    }
+    references.push(normalized);
+    return { path: normalized };
+  };
+
+  const verifyList = async (key, expected) => {
+    const entries = receipt[key];
+    if (!Array.isArray(entries) || entries.length > expected.length) {
+      return { error: `La lista ${key} falta o contiene elementos fuera del catálogo.` };
+    }
+    const expectedIds = new Set(expected);
+    const seen = new Set();
+    for (const entry of entries) {
+      if (
+        !hasExactKeys(entry, ["id", "status", "artifact"])
+        || typeof entry.id !== "string"
+        || entry.id.length > 512
+      ) {
+        return { error: `Un elemento de ${key} no coincide con el contrato fijo.` };
+      }
+      if (!expectedIds.has(entry.id)) return { error: `La lista ${key} contiene un elemento desconocido.` };
+      if (seen.has(entry.id)) return { error: `La lista ${key} contiene evidencia duplicada.` };
+      seen.add(entry.id);
+      if (entry.status !== "PASS") return { error: `El elemento ${key} no declara PASS.` };
+      const artifact = await verifyArtifact(entry.artifact);
+      if (artifact.error) return { error: `${key}: ${artifact.error}` };
+    }
+    const missing = expected.filter((id) => !seen.has(id));
+    if (missing.length > 0) {
+      return { error: `Falta evidencia requerida en ${key}: ${missing.join(", ")}.`, missing };
+    }
+    return {};
+  };
+
+  for (const [key, expected] of [
+    ["automaticValidations", automatic],
+    ["manualEvidence", manual],
+    ["negativeCases", negative],
+  ]) {
+    const checked = await verifyList(key, expected);
+    if (checked.error) return invalid(checked.error, checked.missing ? { missing: checked.missing } : {});
+  }
+  for (const key of ["rollback", "closureGate"]) {
+    const entry = receipt[key];
+    if (!hasExactKeys(entry, ["status", "artifact"]) || entry.status !== "PASS") {
+      return invalid(`La evidencia de ${key} debe declarar PASS con una referencia válida.`);
+    }
+    const artifact = await verifyArtifact(entry.artifact);
+    if (artifact.error) return invalid(`${key}: ${artifact.error}`);
+  }
+  return {
+    state: "valid",
+    relative,
+    configHash,
+    profileHash,
+    artifacts: [...new Set(references)],
+    evidenceCounts: {
+      automaticValidations: automatic.length,
+      manualEvidence: manual.length,
+      negativeCases: negative.length,
+      rollback: 1,
+      closureGate: 1,
+    },
+  };
 }
 
 async function evidenceReceipt(target, name, expectedConfigHash) {
@@ -649,24 +977,72 @@ export async function collectDoctorReport({
   ]);
   const config = location?.configuration ?? null;
   const active = activeProfiles(config, profileData.value);
+  const canonicalProfileCatalog = await readJson(
+    path.join(PACKAGE_ROOT, "blueprint/core/project-os/profiles.json"),
+  );
+  const canonicalProfiles = new Map(
+    (Array.isArray(canonicalProfileCatalog?.profiles) ? canonicalProfileCatalog.profiles : [])
+      .map((profile) => [profile?.id, profile]),
+  );
   for (const profile of TECHNICAL_PROFILES) {
-    results.push(
-      result({
+    if (!active.has(profile)) {
+      results.push(result({
         id: `profile.${profile}`,
         profile,
-        status: active.has(profile) ? "FAIL" : "SKIP",
-        summary: active.has(profile)
-          ? `Perfil ${profile} activo sin probe de Ola 0`
-          : `Perfil ${profile} inactivo antes del discovery`,
-        cause: active.has(profile)
-          ? "La Ola 0 no implementa validaciones técnicas para este perfil."
-          : "El perfil requiere una decisión posterior al discovery.",
-        remediation: active.has(profile)
-          ? "Desactiva el perfil o implementa su contrato completo mediante un change aprobado."
-          : "No actives el perfil hasta aprobar discovery, ADR, validaciones, casos negativos y rollback.",
-        evidence: { active: active.has(profile), catalog: profileData.relative },
-      }),
-    );
+        status: "SKIP",
+        summary: `Perfil ${profile} inactivo antes del discovery`,
+        cause: "El perfil requiere una decisión posterior al discovery.",
+        remediation: "No actives el perfil hasta aprobar discovery, ADR, validaciones, casos negativos y rollback.",
+        evidence: { active: false, catalog: profileData.relative },
+      }));
+      continue;
+    }
+
+    const evidence = await verifyTechnicalProfileEvidence({
+      target: root,
+      profileId: profile,
+      config,
+      profileCatalog: profileData.value,
+      catalogPath: profileData.relative,
+      active,
+      canonicalDefinition: canonicalProfiles.get(profile),
+    });
+    const valid = evidence.state === "valid";
+    results.push(result({
+      id: `profile.${profile}`,
+      profile,
+      status: valid ? "PASS" : "FAIL",
+      summary: valid
+        ? `Perfil ${profile} activo con expediente de evidencia íntegro`
+        : evidence.state === "missing"
+          ? `Perfil ${profile} activo sin expediente de evidencia`
+          : `Perfil ${profile} activo con evidencia inválida`,
+      cause: valid
+        ? "El doctor verificó catálogo, selección, vigencia y hashes; no ejecutó ni autenticó las pruebas o revisiones del consumidor."
+        : evidence.state === "missing"
+          ? `No existe el recibo esperado ${evidence.relative}.`
+          : evidence.cause,
+      remediation: valid
+        ? "Ninguna. Renueva el expediente cuando cambien los requisitos o expire; conserva evidencia independiente de las pruebas."
+        : "Completa el recibo del perfil según el schema empaquetado, vuelve a producir sus artefactos y calcula hashes actuales; no desactives el perfil para ocultar el bloqueo.",
+      evidence: valid
+        ? {
+          active: true,
+          catalog: profileData.relative,
+          receipt: evidence.relative,
+          configHash: evidence.configHash,
+          profileHash: evidence.profileHash,
+          evidenceCounts: evidence.evidenceCounts,
+          artifacts: evidence.artifacts,
+          verification: "integrity-and-completeness-only",
+        }
+        : {
+          active: true,
+          catalog: profileData.relative,
+          expectedReceipt: evidence.relative,
+          ...(evidence.missing ? { missing: evidence.missing } : {}),
+        },
+    }));
   }
 
   const mcpData = await readFirstJson(root, [".project-os/mcp.json", ".project-os/mcp/servers.json"]);
@@ -919,6 +1295,7 @@ export const doctorInternals = Object.freeze({
   mcpServers,
   sha256,
   stableStringify: stableJson,
+  technicalProfileConfigProjection,
   spawnReadOnly,
   normalizedRelative,
 });

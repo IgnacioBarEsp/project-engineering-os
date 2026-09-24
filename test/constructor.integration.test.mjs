@@ -742,7 +742,7 @@ test("schemas JSON 2020-12 compilan en strict y validan artefactos reales", asyn
   const schemaFiles = (await readdir(installedSchemaRoot))
     .filter((file) => file.endsWith(".schema.json"))
     .sort();
-  assert.equal(schemaFiles.length, 10);
+  assert.equal(schemaFiles.length, 11);
 
   const ajv = new Ajv2020({ allErrors: true, strict: true });
   for (const schemaFile of schemaFiles) {

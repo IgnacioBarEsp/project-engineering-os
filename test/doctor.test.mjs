@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { cp, mkdtemp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { cp, mkdtemp, mkdir, readFile, readdir, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
+import Ajv2020 from "ajv/dist/2020.js";
 
 test('doctor diferencia upstream explícito de consumidor sin ocultar obligaciones', async (t) => {
   const root=await createHealthyFixture(t);
@@ -47,9 +48,10 @@ test('indexación opt-in valida recibos independientes, recientes y ligados al c
   await json(root,'.project-constructor/config.json',{...config,codeIndexable:false});
   assert.equal(await status(),'SKIP');
 });
-import { CONSTRUCTOR_VERSION } from "../src/constants.mjs";
+import { CONSTRUCTOR_VERSION, PACKAGE_ROOT } from "../src/constants.mjs";
 import { collectDoctorReport, doctorInternals, runDoctor } from "../src/doctor.mjs";
 import { createReport, formatHuman, formatJson, result } from "../src/report.mjs";
+import { configureTechnicalProfiles } from "./helpers/technical-profile-evidence.mjs";
 
 function hash(content) {
   return createHash("sha256").update(content).digest("hex");
@@ -301,6 +303,305 @@ test("doctor es read-only sobre la fixture", async (t) => {
   });
   const after = await snapshot(root);
   assert.deepEqual(after, before);
+});
+
+test("doctor acepta evidencia técnica completa sin mutarla y conserva SKIP inactivo", async (t) => {
+  const root = await createHealthyFixture(t);
+  const baseline = await collectDoctorReport({
+    target: root,
+    runner: healthyRunner(),
+    parityChecker: healthyParity,
+    env: {},
+  });
+  const setup = await configureTechnicalProfiles(root, ["ui", "infra-deploy"]);
+  const ui = setup.records.get("ui");
+  const before = await snapshot(root);
+  const report = await collectDoctorReport({
+    target: root,
+    runner: healthyRunner(),
+    parityChecker: healthyParity,
+    env: {},
+  });
+
+  for (const profile of ["ui", "infra-deploy"]) {
+    const entry = report.results.find((candidate) => candidate.id === `profile.${profile}`);
+    assert.equal(entry.status, "PASS", entry.cause);
+    assert.equal(entry.evidence.verification, "integrity-and-completeness-only");
+    assert.equal(entry.evidence.receipt, `.project-os/evidence/technical-profile-${profile}.json`);
+    assert.equal(entry.evidence.artifacts.length, 13);
+    assert.match(entry.cause, /no ejecutó ni autenticó/);
+  }
+  assert.equal(report.results.find((entry) => entry.id === "profile.backend-api").status, "SKIP");
+  assert.deepEqual(
+    report.results.filter((entry) => !entry.id.startsWith("profile.")).map(({ id, status }) => ({ id, status })),
+    baseline.results.filter((entry) => !entry.id.startsWith("profile.")).map(({ id, status }) => ({ id, status })),
+  );
+  assert.deepEqual(await snapshot(root), before);
+
+  const incomplete = structuredClone(ui);
+  incomplete.manualEvidence = [];
+  await json(root, ".project-os/evidence/technical-profile-ui.json", incomplete);
+  const catalog = JSON.parse(await readFile(path.join(root, ".project-os/profiles.json"), "utf8"));
+  catalog.profiles.find((profile) => profile.id === "ui").manualEvidence = [];
+  await json(root, ".project-os/profiles.json", catalog);
+  const tamperedCatalog = await collectDoctorReport({
+    target: root,
+    runner: healthyRunner(),
+    parityChecker: healthyParity,
+    env: {},
+  });
+  const uiResult = tamperedCatalog.results.find((entry) => entry.id === "profile.ui");
+  assert.equal(uiResult.status, "FAIL");
+  assert.match(uiResult.cause, /Falta evidencia requerida en manualEvidence/);
+});
+
+test("schema empaquetado del recibo acepta la forma válida y rechaza propiedades ajenas", async (t) => {
+  const root = await createHealthyFixture(t);
+  const { records } = await configureTechnicalProfiles(root, ["ui"]);
+  const schema = JSON.parse(await readFile(
+    path.join(PACKAGE_ROOT, "blueprint/schema/technical-profile-evidence.schema.json"),
+    "utf8",
+  ));
+  const validate = new Ajv2020({ strict: true, allErrors: true }).compile(schema);
+  const record = records.get("ui");
+  assert.equal(validate(record), true, JSON.stringify(validate.errors));
+  assert.equal(validate({ ...record, command: "must not execute" }), false);
+  assert.equal(validate({
+    ...record,
+    automaticValidations: record.automaticValidations.map((item, index) => ({
+      ...item,
+      status: index === 0 ? "N/A" : item.status,
+    })),
+  }), false);
+});
+
+test("evidencia técnica activa falla cerrado ante recibos inválidos o desactualizados", async (t) => {
+  const root = await createHealthyFixture(t);
+  const { records, config } = await configureTechnicalProfiles(root, ["ui"]);
+  const receiptPath = ".project-os/evidence/technical-profile-ui.json";
+  const original = records.get("ui");
+  const status = async () => (await collectDoctorReport({
+    target: root,
+    runner: healthyRunner(),
+    parityChecker: healthyParity,
+    env: {},
+  })).results.find((entry) => entry.id === "profile.ui");
+
+  assert.equal((await status()).status, "PASS");
+  await rm(path.join(root, receiptPath));
+  assert.equal((await status()).status, "FAIL");
+  await json(root, receiptPath, original);
+
+  const invalidCases = [
+    ["schemaVersion", (record) => { record.schemaVersion = "2.0.0"; }],
+    ["profileId", (record) => { record.profileId = "infra-deploy"; }],
+    ["profileHash", (record) => { record.profileHash = "0".repeat(64); }],
+    ["unknown field", (record) => { record.command = "must not execute"; }],
+    ["impossible timestamp", (record) => { record.issuedAt = "2026-02-30T12:00:00.000Z"; }],
+    ["future issue time", (record) => { record.issuedAt = new Date(Date.now() + 60_000).toISOString(); }],
+    ["stale time window", (record) => {
+      record.issuedAt = new Date(Date.now() - 32 * 24 * 60 * 60 * 1000).toISOString();
+      record.expiresAt = new Date(Date.now() - 60_000).toISOString();
+    }],
+    ["missing canonical entry", (record) => { record.automaticValidations.pop(); }],
+    ["duplicate canonical entry", (record) => {
+      record.automaticValidations[1] = structuredClone(record.automaticValidations[0]);
+    }],
+    ["unknown canonical entry", (record) => { record.automaticValidations[0].id = "injected-command"; }],
+    ["non-PASS outcome", (record) => { record.automaticValidations[0].status = "N/A"; }],
+    ["artifact hash", (record) => { record.automaticValidations[0].artifact.sha256 = "0".repeat(64); }],
+    ["traversal", (record) => { record.automaticValidations[0].artifact.path = "../outside.txt"; }],
+  ];
+  for (const [label, mutate] of invalidCases) {
+    const changed = structuredClone(original);
+    mutate(changed);
+    await json(root, receiptPath, changed);
+    assert.equal((await status()).status, "FAIL", label);
+  }
+
+  await write(root, receiptPath, "{ malformed json");
+  assert.equal((await status()).status, "FAIL", "malformed JSON");
+
+  const changedConfig = JSON.parse(await readFile(path.join(root, ".project-constructor/config.json"), "utf8"));
+  changedConfig.activeProfiles.push("backend-api");
+  await json(root, ".project-constructor/config.json", changedConfig);
+  await json(root, receiptPath, original);
+  assert.equal((await status()).status, "FAIL", "changed effective profile configuration");
+  await json(root, ".project-constructor/config.json", config);
+
+  const oversized = Buffer.from(" ".repeat(256 * 1024 + 1));
+  await write(root, receiptPath, oversized);
+  const oversizedResult = await status();
+  assert.equal(oversizedResult.status, "FAIL");
+  assert.match(oversizedResult.cause, /límite de lectura/);
+
+  const oversizedArtifactRecord = structuredClone(original);
+  const oversizedArtifact = Buffer.alloc(10 * 1024 * 1024 + 1, 0x61);
+  const artifact = oversizedArtifactRecord.automaticValidations[0].artifact;
+  await write(root, artifact.path, oversizedArtifact);
+  artifact.sha256 = hash(oversizedArtifact);
+  await json(root, receiptPath, oversizedArtifactRecord);
+  const oversizedArtifactResult = await status();
+  assert.equal(oversizedArtifactResult.status, "FAIL");
+  assert.match(oversizedArtifactResult.cause, /límite de lectura/);
+
+  const aggregateRoot = await createHealthyFixture(t);
+  const { records: aggregateRecords } = await configureTechnicalProfiles(aggregateRoot, ["ui"]);
+  const aggregateReceipt = structuredClone(aggregateRecords.get("ui"));
+  const aggregateItems = [
+    ...aggregateReceipt.automaticValidations,
+    ...aggregateReceipt.manualEvidence,
+    ...aggregateReceipt.negativeCases,
+  ].slice(0, 6);
+  const largeArtifact = Buffer.alloc(9 * 1024 * 1024, 0x61);
+  for (const [index, entry] of aggregateItems.entries()) {
+    const artifactPath = `.project-os/evidence/artifacts/ui/aggregate-${index}.bin`;
+    await write(aggregateRoot, artifactPath, largeArtifact);
+    entry.artifact = { path: artifactPath, sha256: hash(largeArtifact) };
+  }
+  await json(aggregateRoot, receiptPath, aggregateReceipt);
+  const aggregateReport = await collectDoctorReport({
+    target: aggregateRoot,
+    runner: healthyRunner(),
+    parityChecker: healthyParity,
+    env: {},
+  });
+  const aggregateResult = aggregateReport.results.find((entry) => entry.id === "profile.ui");
+  assert.equal(aggregateResult.status, "FAIL");
+  assert.match(aggregateResult.cause, /límite de lectura/);
+});
+
+test("doctor informa FAIL para selección profundamente anidada sin perder el reporte", async (t) => {
+  const root = await createHealthyFixture(t);
+  await configureTechnicalProfiles(root, ["ui"]);
+  const configPath = path.join(root, ".project-constructor", "config.json");
+  const config = JSON.parse(await readFile(configPath, "utf8"));
+  const encoded = JSON.stringify({ ...config, activeProfiles: ["ui"] });
+  const nested = '{"child":'.repeat(6_000) + "0" + "}".repeat(6_000);
+  await write(root, ".project-constructor/config.json", encoded.replace(
+    '"activeProfiles":["ui"]',
+    `"activeProfiles":["ui",${nested}]`,
+  ));
+
+  const report = await collectDoctorReport({
+    target: root,
+    runner: healthyRunner(),
+    parityChecker: healthyParity,
+    env: {},
+  });
+  const profile = report.results.find((entry) => entry.id === "profile.ui");
+  assert.equal(profile.status, "FAIL");
+  assert.match(profile.cause, /hash seguro/);
+  assert.equal(report.results.find((entry) => entry.id === "runtime.node").status, "PASS");
+});
+
+test("doctor bloquea recibos y artefactos que escapan por symlink", async (t) => {
+  const root = await createHealthyFixture(t);
+  const { records } = await configureTechnicalProfiles(root, ["ui"]);
+  const outside = await mkdtemp(path.join(tmpdir(), "project-os-profile-evidence-outside-"));
+  t.after(async () => rm(outside, { force: true, recursive: true }));
+  const evidenceRoot = path.join(root, ".project-os", "evidence");
+  const outsideEvidence = path.join(outside, "evidence");
+  await cp(evidenceRoot, outsideEvidence, { recursive: true });
+  await rm(evidenceRoot, { force: true, recursive: true });
+  try {
+    await symlink(outsideEvidence, evidenceRoot, process.platform === "win32" ? "junction" : "dir");
+  } catch (error) {
+    if (["EPERM", "EACCES", "ENOTSUP"].includes(error?.code)) {
+      t.skip("La plataforma no permite crear el enlace temporal de la prueba.");
+      return;
+    }
+    throw error;
+  }
+
+  const report = await collectDoctorReport({
+    target: root,
+    runner: healthyRunner(),
+    parityChecker: healthyParity,
+    env: {},
+  });
+  const entry = report.results.find((candidate) => candidate.id === "profile.ui");
+  assert.equal(entry.status, "FAIL");
+  assert.match(entry.cause, /fuera del repositorio/);
+  assert.ok(records.has("ui"));
+
+  const artifactRoot = await createHealthyFixture(t);
+  await configureTechnicalProfiles(artifactRoot, ["ui"]);
+  const internalArtifacts = path.join(artifactRoot, ".project-os", "evidence", "artifacts", "ui");
+  const outsideArtifacts = path.join(outside, "artifacts");
+  await cp(internalArtifacts, outsideArtifacts, { recursive: true });
+  await rm(internalArtifacts, { force: true, recursive: true });
+  try {
+    await symlink(outsideArtifacts, internalArtifacts, process.platform === "win32" ? "junction" : "dir");
+  } catch (error) {
+    if (["EPERM", "EACCES", "ENOTSUP"].includes(error?.code)) {
+      t.skip("La plataforma no permite crear el enlace temporal de la prueba.");
+      return;
+    }
+    throw error;
+  }
+  const artifactReport = await collectDoctorReport({
+    target: artifactRoot,
+    runner: healthyRunner(),
+    parityChecker: healthyParity,
+    env: {},
+  });
+  const artifactEntry = artifactReport.results.find((candidate) => candidate.id === "profile.ui");
+  assert.equal(artifactEntry.status, "FAIL");
+  assert.match(artifactEntry.cause, /fuera del repositorio/);
+});
+
+test("configuración con forma 0.5.0 sigue siendo legible y fail-closed", async (t) => {
+  const root = await createHealthyFixture(t);
+  const setup = await configureTechnicalProfiles(root, ["ui"], { writeReceipts: false });
+  const legacyConfig = {
+    schemaVersion: "1.0.0",
+    stage: "environment-bootstrap",
+    codeIndexable: false,
+    activeProfiles: setup.activeProfiles,
+    harnesses: ["codex", "claude-code", "cursor", "opencode", "github-copilot"],
+    githubMode: "dry-run",
+    branchStrategy: {
+      status: "manual-pending",
+      defaultBranch: null,
+      protectedBranches: [],
+      changeBranchPrefix: null,
+    },
+  };
+  await json(root, ".project-constructor/config.json", legacyConfig);
+  const legacyCatalog = {
+    schemaVersion: "1.0.0",
+    active: setup.activeProfiles,
+    profiles: setup.canonicalCatalog.profiles.map((profile) => ({
+      id: profile.id,
+      active: setup.activeProfiles.includes(profile.id),
+      activationRequires: profile.activationRequires,
+      automaticValidations: profile.automaticValidations,
+      manualEvidence: profile.manualEvidence,
+      negativeCases: profile.negativeCases,
+      rollback: profile.rollback,
+      naConditions: profile.naConditions,
+      closureGate: profile.closureGate,
+      ...(profile.conditionalSignals ? { conditionalSignals: profile.conditionalSignals } : {}),
+    })),
+    activationPolicy: {
+      implicitActivation: false,
+      toolPresenceDoesNotActivateProfile: true,
+      decisionArtifactRequiredForConditionalProfiles: true,
+      naRequiresDeclaredConditionAndJustification: true,
+    },
+  };
+  await json(root, ".project-os/profiles.json", legacyCatalog);
+
+  const report = await collectDoctorReport({
+    target: root,
+    runner: healthyRunner(),
+    parityChecker: healthyParity,
+    env: {},
+  });
+  assert.equal(report.results.find((entry) => entry.id === "profile.ui").status, "FAIL");
+  assert.equal(report.results.find((entry) => entry.id === "profile.backend-api").status, "SKIP");
+  assert.ok(!report.results.some((entry) => entry.id.startsWith("doctor.internal.")));
 });
 
 test("doctor falla ante runtime duplicado y estado de deuda corrupto sin repararlos", async (t) => {
