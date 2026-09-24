@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-24",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Las pruebas nuevas cubren procedencia aislada, deriva real, conflictos y migración reversible de estado. La auto-revisión registró y corrigió el posible enmascaramiento de conflictos. No se detectó deuda nueva; el plan y los cuatro hallazgos preexistentes permanecen sin reclasificar.",
+  "flow": "distinguish-provenance-from-repository-drift"
+}

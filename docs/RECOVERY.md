@@ -7,6 +7,20 @@ mutables dejan una transacción verificable; el rollback usa esa evidencia en lu
 
 Cada bootstrap, sync o upgrade crea una transacción antes de escribir. La salida incluye su ID.
 
+## Interpretar `sync --check`
+
+- `IN_SYNC` (código `0`): no hay diferencias administradas.
+- `PROVENANCE_MISMATCH` (código `0`): solo difiere el `packageHash` del CLI; el resultado nombra el valor
+  guardado y el observado, no propone operaciones y no cambia el repositorio. Es informativo y no
+  requiere reparación. Si esperabas usar una release concreta, comprueba que el comando se ejecutó desde
+  esa distribución y no desde un checkout distinto.
+- `DRIFT` (código `1`): revisa cada operación y campo de estado informado. Conserva las ediciones del
+  proyecto y ejecuta el `sync` mutante solo después de aceptar el plan.
+
+Los códigos `2` y `3` indican entrada/estado inválidos o un fallo transaccional, respectivamente. Para
+`3`, conserva el journal y usa la sección de ejecución interrumpida antes de reintentar o revertir. El
+check es read-only en todos estos casos.
+
 ## Ejecución interrumpida
 
 Repite exactamente el comando y versión originales. Si blueprint, configuración o contenido planeado no

@@ -23,6 +23,17 @@ const STATE_OWNERS = new Set([
   'human-overlay',
   'project',
 ]);
+const STATE_DIAGNOSTIC_FIELDS = Object.freeze([
+  'packageHash',
+  'blueprintHash',
+  'configurationHash',
+  'activeProfiles',
+  'stateFormatVersion',
+  'packageName',
+  'packageVersion',
+  'packageHashAlgorithm',
+  'schemaVersion',
+]);
 
 function migrateOwner(owner, target) {
   const migrated = Object.hasOwn(LEGACY_OWNER_ALIASES, owner)
@@ -233,6 +244,23 @@ export function comparableState(state) {
 
 export function stateNeedsWrite(previousState, nextState) {
   return sha256Json(comparableState(previousState)) !== sha256Json(comparableState(nextState));
+}
+
+export function stateFieldChanges(
+  savedState,
+  observedState,
+  { savedStateFormatVersion = undefined } = {},
+) {
+  return STATE_DIAGNOSTIC_FIELDS.flatMap((field) => {
+    const saved = field === 'stateFormatVersion' && savedStateFormatVersion !== undefined
+      ? savedStateFormatVersion
+      : savedState?.[field] ?? null;
+    const observed = observedState?.[field] ?? null;
+    if (JSON.stringify(saved) === JSON.stringify(observed)) {
+      return [];
+    }
+    return [{ field, observed, saved }];
+  });
 }
 
 export function stateAbsolutePath(targetRoot) {

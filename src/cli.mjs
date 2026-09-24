@@ -294,9 +294,23 @@ function humanPlan(result) {
   }
   if (result.plan?.summary) {
     const summary = result.plan.summary;
+    const stateFields = (result.plan.stateChanges ?? []).map((change) => change.field);
+    const stateStatus = result.status === 'PROVENANCE_MISMATCH'
+      ? 'provenance-mismatch'
+      : summary.stateUpdate
+        ? `update (${stateFields.join(', ') || 'file metadata'})`
+        : 'stable';
     lines.push(
-      `Plan: create=${summary.creates}, adopt=${summary.adopts ?? 0}, update=${summary.updates}, delete=${summary.deletes}, conflict=${summary.conflicts}, state=${summary.stateUpdate ? 'update' : 'stable'}`,
+      `Plan: create=${summary.creates}, adopt=${summary.adopts ?? 0}, update=${summary.updates}, delete=${summary.deletes}, conflict=${summary.conflicts}, state=${stateStatus}`,
     );
+    if (result.status === 'PROVENANCE_MISMATCH') {
+      lines.push('El CLI proviene de otro árbol de paquete; no se propone reparar ni escribir el repositorio.');
+    }
+    for (const change of result.plan.stateChanges ?? []) {
+      lines.push(
+        `Estado: ${change.field} guardado=${JSON.stringify(change.saved)} observado=${JSON.stringify(change.observed)}`,
+      );
+    }
     for (const candidate of result.plan.adoptionCandidates ?? []) {
       lines.push(`Adopción disponible (requiere revisión): ${candidate.target} sha256=${candidate.hash}`);
     }
