@@ -15,11 +15,18 @@ import Ajv2020 from 'ajv/dist/2020.js';
 
 import { PACKAGE_ROOT } from '../src/constants.mjs';
 import { capture } from '../src/debt/capture.mjs';
+import { collectDoctorReport } from '../src/doctor.mjs';
 import {
   collectReadinessReport,
   readinessInternals,
   runReadinessCheck,
 } from '../src/readiness.mjs';
+import {
+  createHealthyDoctorFixture,
+  healthyDoctorParity,
+  healthyDoctorRunner,
+} from './helpers/doctor-fixture.mjs';
+import { configureTechnicalProfiles } from './helpers/technical-profile-evidence.mjs';
 
 function hash(content) {
   return createHash('sha256').update(content).digest('hex');
@@ -56,11 +63,13 @@ async function snapshot(root, relative = '') {
   return output;
 }
 
-async function createPolicyFixture(t) {
-  const root = await mkdtemp(path.join(tmpdir(), 'project-constructor-readiness-'));
-  t.after(async () => {
-    await rm(root, { force: true, recursive: true });
-  });
+async function createPolicyFixture(t, { root: existingRoot } = {}) {
+  const root = existingRoot ?? await mkdtemp(path.join(tmpdir(), 'project-constructor-readiness-'));
+  if (!existingRoot) {
+    t.after(async () => {
+      await rm(root, { force: true, recursive: true });
+    });
+  }
   const policy = await sourceJson('blueprint/core/project-os/readiness-policy.json');
   const profiles = await sourceJson('blueprint/core/project-os/profiles.json');
   const productOs = await sourceJson('blueprint/core/project-os/github/product-os.json');
@@ -168,12 +177,12 @@ function githubRunner({
 
 async function createArchiveChange(fixture, {
   change = 'sample-change',
+  surfaces = ['documentation', 'harness-tooling'],
   mutate = (value) => value,
 } = {}) {
   const profileById = new Map(
     fixture.profiles.profiles.map((profile) => [profile.id, profile]),
   );
-  const surfaces = ['documentation', 'harness-tooling'];
   const validationIds = readinessInternals.activeValidationIds(
     fixture.policy,
     profileById,
@@ -417,6 +426,63 @@ test('--run-local usa solo runners fijos y conserva salida humana/JSON equivalen
 
   assert.equal(parsed.verdict, 'PASS');
   assert.match(human.output, /Veredicto: PASS/);
+  assert.deepEqual(
+    [...new Set(calls)].sort(),
+    [
+      'local.constructor-doctor-json',
+      'local.constructor-opsx-check',
+      'local.constructor-sync-check',
+      'local.openspec-strict',
+    ],
+  );
+});
+
+test('--run-local archive consume PASS de doctor para ui/infra con recibos completos', async (t) => {
+  const root = await createHealthyDoctorFixture(t);
+  const fixture = await createPolicyFixture(t, { root });
+  await configureTechnicalProfiles(root, ['ui', 'infra-deploy']);
+  await rm(path.join(root, '.project-os/debt/config.json'), { force: true });
+  await rm(path.join(root, '.project-os/debt/registry.json'), { force: true });
+  await createArchiveChange(fixture, {
+    surfaces: ['documentation', 'harness-tooling', 'ui', 'infra-deploy'],
+  });
+
+  const calls = [];
+  let doctorReport;
+  const runner = async (_command, _args, context) => {
+    calls.push(context.id);
+    if (context.id === 'local.constructor-doctor-json') {
+      doctorReport = await collectDoctorReport({
+        target: root,
+        runner: healthyDoctorRunner(),
+        parityChecker: healthyDoctorParity,
+        env: {},
+      });
+      return {
+        status: doctorReport.verdict === 'PASS' ? 0 : 1,
+        stdout: JSON.stringify(doctorReport),
+        stderr: '',
+      };
+    }
+    return { status: 0, stdout: '{}', stderr: '' };
+  };
+
+  const readiness = await runReadinessCheck({
+    target: root,
+    phase: 'archive',
+    change: 'sample-change',
+    runLocal: true,
+    json: true,
+    runner,
+  });
+
+  assert.equal(
+    readiness.verdict,
+    'PASS',
+    JSON.stringify(readiness.results.filter((entry) => entry.status === 'FAIL')),
+  );
+  assert.equal(doctorReport.results.find((entry) => entry.id === 'profile.ui').status, 'PASS');
+  assert.equal(doctorReport.results.find((entry) => entry.id === 'profile.infra-deploy').status, 'PASS');
   assert.deepEqual(
     [...new Set(calls)].sort(),
     [

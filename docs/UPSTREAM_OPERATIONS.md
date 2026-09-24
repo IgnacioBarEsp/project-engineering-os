@@ -53,6 +53,52 @@ Para activar un perfil condicional, actualiza su flag `active`, la lista `active
 con una referencia a la decisión aprobada. Los dos perfiles de base permanecen activos. El gate exige la
 evidencia aplicable del catálogo y nombra perfiles sin decisión o listas incoherentes.
 
+### Evidencia de perfiles técnicos
+
+Cada perfil técnico activo requiere un recibo consumer-owned en
+`.project-os/evidence/technical-profile-<profile-id>.json`. El formato publicable se instala en
+`.project-constructor/schema/technical-profile-evidence.schema.json`; los requisitos concretos siempre salen
+del catálogo empaquetado `blueprint/core/project-os/profiles.json`, no de las listas editables de
+`.project-os/profiles.json`. Mantén el recibo y sus artefactos como evidencia del consumidor: el doctor no
+los genera, migra, normaliza ni modifica.
+
+El recibo contiene `schemaVersion: "1.0.0"`, `profileId`, `configHash`, `profileHash`, `issuedAt`,
+`expiresAt`, y listas `automaticValidations`, `manualEvidence`, `negativeCases`, además de `rollback` y
+`closureGate`. Cada elemento de las tres listas debe tener el ID exacto del catálogo, `status: "PASS"` y un
+`artifact` con `path` relativa al repositorio y `sha256` en hexadecimal minúsculo. `rollback` y `closureGate`
+usan el mismo objeto de estado y artefacto. No se aceptan listas incompletas, IDs desconocidos o repetidos,
+propiedades extra, estados `N/A` ni comandos. Una comprobación condicional como `visual-check-when-configured`
+también necesita un artefacto `PASS` que documente cómo se evaluó su condición.
+
+Los hashes usan SHA-256 sobre UTF-8 de JSON estable más un salto de línea: claves ordenadas
+recursivamente y arrays conservados en su orden. `profileHash` resume la entrada completa del perfil
+canónico empaquetado. `configHash` resume esta proyección: `profileId`, el conjunto efectivo ordenado de
+perfiles activos, `config.activeProfiles` ordenado (o `null` si falta), la ruta relativa del catálogo,
+`catalog.active` ordenado (o la lista derivada de `profiles[].active`) y la selección del perfil
+`{id, active, activationDecision}` (o `null` si no está en el catálogo). Cada referencia de artefacto lleva
+el SHA-256 de sus bytes actuales; las rutas deben ser relativas, normalizadas, permanecer dentro del repo y
+resolver a un archivo regular; cada ruta admite hasta 2048 caracteres y cada ID hasta 512. No uses URLs ni
+enlaces que salgan del repositorio.
+
+`issuedAt` y `expiresAt` deben ser instantes UTC canónicos como `2026-09-24T18:30:00.000Z`; la emisión no
+puede estar en el futuro, el vencimiento debe ser posterior a la hora actual y a la emisión, y la ventana
+no puede superar 30 días. El doctor limita cada recibo a 256 KiB, cada artefacto a 10 MiB y el total leído
+por perfil a 50 MiB. Una evidencia ausente, no legible, desactualizada, futura, de otra configuración o con
+hash incorrecto mantiene `FAIL`; revisa la causa y reemplaza manualmente el expediente por uno completo y
+actual. Los checks no escriben nada.
+
+En un `PASS`, el doctor verifica catálogo, selección, vigencia, completitud e integridad de las referencias.
+**No afirma que ejecutó o autenticó las pruebas, despliegues, rollback ni aprobaciones humanas del
+consumidor.** Conserva por separado sus logs, revisiones y aprobaciones originales; no uses el `PASS` del
+core como prueba independiente de su veracidad.
+
+La configuración sembrada por `create-project-engineering-os@0.5.0` sigue siendo legible. La compatibilidad
+no transforma recibos viejos: cada perfil técnico activo permanece `FAIL` hasta que el consumidor cree un
+recibo vigente para este contrato y el catálogo del core corregido. El workaround temporal fail-closed
+usado por el consumer de landing se conserva hasta que esa versión esté publicada; después se retira en un
+cambio propio revisado del consumer, migrando la evidencia y volviendo a ejecutar su misma suite. No
+desactives perfiles ni relajes el runner fijo para evitar el gate, y conserva cualquier `FAIL` no relacionado.
+
 `codeIndexable: true` habilita comprobación, no instalación. GitNexus y CodeGraph usan recibos separados
 `code-intelligence-gitnexus.json` y `code-intelligence-codegraph.json` en `.project-os/evidence/` (también
 se admite la ubicación histórica `.project-constructor/evidence/`). Cada recibo exige `schemaVersion:
