@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-24",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "La revisión posterior a la implementación no encontró deuda técnica nueva. El cambio mantiene el alcance en el runtime neutral, el blueprint y la política de soporte; las obligaciones preexistentes del upstream no se reclasifican como deuda de este flujo.",
+  "flow": "raise-supported-node-baseline"
+}

@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { assertSemver, readJson } from './release-lib.mjs';
+import { isSupportedNode, supportedNodeRemediation } from '../src/runtime-support.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -20,9 +21,8 @@ const changelog = await readFile(path.join(root, 'CHANGELOG.md'), 'utf8');
 if (!changelog.includes(`## ${packageJson.version}`)) {
   throw new Error(`CHANGELOG no contiene ## ${packageJson.version}.`);
 }
-const [major, minor] = process.versions.node.split('.').map(Number);
-if (remote && (major < 22 || (major === 22 && minor < 14))) {
-  throw new Error('Publicación requiere Node >=22.14.');
+if (remote && !isSupportedNode(process.versions.node)) {
+  throw new Error(`Publicación requiere un runtime soportado. ${supportedNodeRemediation()}`);
 }
 if (remote) {
   if (process.env.GITHUB_REPOSITORY !== 'IgnacioBarEsp/project-engineering-os') {
@@ -33,4 +33,3 @@ if (remote) {
   }
 }
 process.stdout.write(`PASS release preflight ${packageJson.name}@${packageJson.version}\n`);
-

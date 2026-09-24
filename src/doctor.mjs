@@ -11,6 +11,12 @@ import {
   result,
 } from "./report.mjs";
 import { CONSTRUCTOR_VERSION, PACKAGE_NAME } from "./constants.mjs";
+import {
+  isSupportedNode,
+  SUPPORTED_NODE_RANGE,
+  supportedNodeRemediation,
+  unsupportedNodeCause,
+} from "./runtime-support.mjs";
 import { checkState as checkDebtState } from "./debt/gates.mjs";
 import { isConfigured as debtConfigured } from "./debt/store.mjs";
 import {
@@ -21,7 +27,6 @@ import {
   resolveLocalToolchain,
 } from "../blueprint/core/project-constructor/toolchain.mjs";
 
-const SUPPORTED_NODE_RANGE = "^20.20.0 || >=22.22.0";
 const EVIDENCE_SCHEMA_VERSION = "1.0.0";
 const TECHNICAL_PROFILES = [
   "ui",
@@ -59,22 +64,6 @@ const SAFE_COMMANDS = Object.freeze({
   },
   ghVersion: { command: "gh", args: ["--version"], timeoutMs: 5_000 },
 });
-
-function isSupportedNode(actual) {
-  const parts = String(actual)
-    .replace(/^v/, "")
-    .split(".")
-    .slice(0, 3)
-    .map((part) => Number.parseInt(part, 10));
-  if (parts.some(Number.isNaN) || parts.length < 2) {
-    return false;
-  }
-  const [major, minor] = parts;
-  if (major === 20) return minor >= 20;
-  if (major === 21) return false;
-  if (major === 22) return minor >= 22;
-  return major > 22;
-}
 
 async function exists(filePath) {
   try {
@@ -415,8 +404,10 @@ export async function collectDoctorReport({
       cause:
         nodeResponse.ok && isSupportedNode(nodeVersion)
           ? `Node ${nodeVersion} satisface ${SUPPORTED_NODE_RANGE}.`
-          : `Node no está disponible o no satisface ${SUPPORTED_NODE_RANGE}.`,
-      remediation: `Instala una versión mantenida de Node compatible con ${SUPPORTED_NODE_RANGE} y vuelve a ejecutar el doctor.`,
+          : nodeResponse.ok
+            ? unsupportedNodeCause(nodeVersion)
+            : `Node no está disponible. ${unsupportedNodeCause('desconocido')}`,
+      remediation: supportedNodeRemediation(),
       evidence: { version: nodeVersion || "no disponible" },
     }),
   );

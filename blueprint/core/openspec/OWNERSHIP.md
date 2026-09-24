@@ -37,7 +37,7 @@ fallback.
 The OPSX checker:
 
 1. resolves `node_modules/@fission-ai/openspec/package.json`;
-2. confirms version `1.6.0` and the effective locked engine `^20.20.0 || >=22.22.0`;
+2. confirms version `1.6.0` and the effective locked engine `^22.22.0 || ^24.18.0`;
 3. reads `.project-os/openspec-ownership.json`;
 4. discovers generated files only under the declared globs;
 5. verifies the files identify OpenSpec as owner and contain no constructor-managed blocks;

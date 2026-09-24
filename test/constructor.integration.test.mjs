@@ -367,6 +367,16 @@ test("bootstrap prepara un repositorio Git vacío sin copiar un runtime editable
   );
   const consumerPackage = await readJson(path.join(baselineRoot, "package.json"));
   assert.equal(consumerPackage.devDependencies["create-project-engineering-os"], CONSTRUCTOR_VERSION);
+  assert.equal(consumerPackage.engines.node, "^22.22.0 || ^24.18.0");
+  const consumerLock = await readJson(path.join(baselineRoot, "package-lock.json"));
+  assert.equal(consumerLock.packages[""].engines.node, consumerPackage.engines.node);
+  const consumerWorkflow = await readFile(
+    path.join(baselineRoot, ".github", "workflows", "project-constructor.yml"),
+    "utf8",
+  );
+  assert.equal((consumerWorkflow.match(/node: "22\.22\.0"/g) ?? []).length, 3);
+  assert.equal((consumerWorkflow.match(/node: "24\.x"/g) ?? []).length, 3);
+  assert.doesNotMatch(consumerWorkflow, /20\.20\.0/);
   assert.equal(await exists(path.join(baselineRoot, "AGENTS.md")), true);
   assert.equal(await exists(path.join(baselineRoot, "openspec", "config.yaml")), true);
   assert.equal(baselineBootstrap.plan.externalOwnership.owner, "external-openspec");

@@ -80,7 +80,7 @@ async function snapshot(root, relative = "") {
   return output;
 }
 
-function healthyRunner(calls = []) {
+function healthyRunner(calls = [], overrides = {}) {
   return async (_spec, { id }) => {
     calls.push(id);
     const outputs = {
@@ -90,6 +90,7 @@ function healthyRunner(calls = []) {
       gitStatus: "",
       ghVersion: "gh version 2.75.0\n",
       gitVersion: "git version 2.50.0\n",
+      ...overrides,
     };
     return { ok: true, exitCode: 0, stdout: outputs[id] ?? "", stderr: "", timedOut: false };
   };
@@ -463,13 +464,36 @@ test("una asignación sensible se detecta aunque aparezca en un campo descriptiv
   );
 });
 
-test("engine efectivo acepta 20.20/22.22 y rechaza 20.19/21/22.21", () => {
-  assert.equal(doctorInternals.isSupportedNode("v20.20.0"), true);
+test("engine efectivo acepta las líneas LTS 22/24 y rechaza EOL, no-LTS y versiones bajo el piso", () => {
+  assert.equal(doctorInternals.isSupportedNode("v20.20.0"), false);
   assert.equal(doctorInternals.isSupportedNode("20.19.9"), false);
   assert.equal(doctorInternals.isSupportedNode("21.9.0"), false);
   assert.equal(doctorInternals.isSupportedNode("22.21.0"), false);
   assert.equal(doctorInternals.isSupportedNode("22.22.0"), true);
-  assert.equal(doctorInternals.isSupportedNode("26.4.0"), true);
+  assert.equal(doctorInternals.isSupportedNode("22.23.0"), true);
+  assert.equal(doctorInternals.isSupportedNode("23.0.0"), false);
+  assert.equal(doctorInternals.isSupportedNode("24.17.99"), false);
+  assert.equal(doctorInternals.isSupportedNode("24.18.0"), true);
+  assert.equal(doctorInternals.isSupportedNode("24.19.0"), true);
+  assert.equal(doctorInternals.isSupportedNode("25.0.0"), false);
+  assert.equal(doctorInternals.isSupportedNode("26.4.0"), false);
+  assert.equal(doctorInternals.isSupportedNode("24.18.0-rc.1"), false);
+});
+
+test("doctor explica el EOL de Node 20 y recomienda la línea 24 al rechazarla", async (t) => {
+  const root = await createHealthyFixture(t);
+  const report = await collectDoctorReport({
+    target: root,
+    runner: healthyRunner([], { nodeVersion: "v20.20.0\n" }),
+    parityChecker: healthyParity,
+    env: {},
+  });
+  const runtime = report.results.find((entry) => entry.id === "runtime.node");
+  assert.equal(runtime.status, "FAIL");
+  assert.match(runtime.cause, /2026-04-30/);
+  assert.match(runtime.cause, /Node 24\.18\.0\+ \(recomendado\)/);
+  assert.match(runtime.remediation, /Node 22\.22\.0/);
+  assert.match(runtime.remediation, /Node 24\.18\.0/);
 });
 
 test("estado desconocido se convierte en fallo interno, no WARN", () => {

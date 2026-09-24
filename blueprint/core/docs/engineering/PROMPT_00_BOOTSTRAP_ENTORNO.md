@@ -13,7 +13,8 @@ antes de escribir. No reabras la clasificación ni preguntes por stack o por el 
 estado registrado, sigue el orden estándar y decláralo.
 
 1. Lee AGENTS.md y clasifica Git root, working tree, conflictos y trabajo activo.
-2. Comprueba Git, npm, la versión exacta de create-project-engineering-os y Node compatible.
+2. Comprueba Git, npm, la versión exacta de create-project-engineering-os y Node `^22.22.0 || ^24.18.0`;
+   recomienda Node 24 LTS.
 3. Ejecuta `npm run project-os:bootstrap`; revisa colisiones y transaction ID.
 4. Ejecuta `npm ci`.
 5. Genera OPSX solo con:
