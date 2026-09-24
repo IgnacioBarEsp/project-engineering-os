@@ -115,6 +115,12 @@ try {
     throw new Error('npm pack no produjo un único tarball.');
   }
   const metadata = packed[0];
+  if (!Number.isSafeInteger(metadata.entryCount) || metadata.entryCount < 1 || metadata.entryCount > 10_000
+    || !Number.isSafeInteger(metadata.unpackedSize) || metadata.unpackedSize < 1
+    || metadata.unpackedSize > 128 * 1024 * 1024
+    || !Number.isSafeInteger(metadata.size) || metadata.size < 1 || metadata.size > 32 * 1024 * 1024) {
+    throw new Error('npm pack devolvió métricas de inventario inválidas.');
+  }
   const tarballPath = path.join(outputRoot, metadata.filename);
   const unexpected = metadata.files
     .map((file) => file.path)
@@ -189,6 +195,9 @@ try {
   );
 
   const tarball = await readFile(tarballPath);
+  if (metadata.size !== tarball.byteLength) {
+    throw new Error('El tamaño comprimido de npm pack difiere del tarball generado.');
+  }
   const digest = sha256(tarball);
   const commit = (
     await runChecked('git', ['rev-parse', 'HEAD'], { cwd: root }, 'commit identity')
@@ -201,6 +210,8 @@ try {
     tarball: metadata.filename,
     sha256: digest,
     bytes: tarball.byteLength,
+    fileCount: metadata.entryCount,
+    unpackedBytes: metadata.unpackedSize,
     tested: true,
   };
   await writeFile(path.join(outputRoot, 'SHA256SUMS'), `${digest}  ${metadata.filename}\n`);

@@ -1,0 +1,5 @@
+schema: spec-driven
+created: 2026-09-24
+goal: Evitar distribuir documentación del Companion, prototipos de Stitch,
+  imágenes no esenciales y documentación de estado upstream en el paquete CLI;
+  registrar métricas del artefacto.

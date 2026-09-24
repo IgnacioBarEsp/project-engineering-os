@@ -11,7 +11,8 @@ const integrity = `sha512-${Buffer.alloc(64, 1).toString('base64')}`;
 const metadata = { name: identity.name, version: identity.version,
   dist: { integrity, tarball: urls.tarball, attestations: { url: urls.attestations } } };
 const manifest = { schemaVersion: 1, package: identity.name, version: identity.version,
-  tarball: identity.tarball, commit: 'a'.repeat(40), sha256: 'b'.repeat(64), bytes: 20, tested: true };
+  tarball: identity.tarball, commit: 'a'.repeat(40), sha256: 'b'.repeat(64), bytes: 20,
+  fileCount: 10, unpackedBytes: 200, tested: true };
 const ok = (data = metadata) => new Response(JSON.stringify(data));
 
 function clocked(fetchResponse, maxWaitMs = 600_000) {
@@ -106,9 +107,16 @@ test('published tag validation rejects shell and path arguments before any execu
 
 test('canonical manifest confines filenames and rejects tag, byte and test-evidence drift', () => {
   assert.doesNotThrow(() => assertPublishedManifest(manifest, identity, manifest.commit));
+  const { fileCount: _fileCount, unpackedBytes: _unpackedBytes, ...historical } = manifest;
+  assert.doesNotThrow(() => assertPublishedManifest(historical, identity, manifest.commit));
+  const partial = { ...manifest };
+  delete partial.unpackedBytes;
+  assert.throws(() => assertPublishedManifest(partial, identity, manifest.commit), /manifest/);
   for (const change of [
     { tarball: '../private' }, { tarball: 'C:\\private' }, { package: 'other' }, { version: '0.3.1' },
-    { commit: 'c'.repeat(40) }, { tested: 'true' }, { bytes: -1 }, { bytes: 40 * 1024 * 1024 }, { sha256: 'bad' },
+    { commit: 'c'.repeat(40) }, { tested: 'true' }, { bytes: -1 }, { bytes: 40 * 1024 * 1024 },
+    { sha256: 'bad' }, { fileCount: 0 }, { unpackedBytes: 0 },
+    { fileCount: 1_000_000 }, { unpackedBytes: 129 * 1024 * 1024 },
   ]) assert.throws(() => assertPublishedManifest({ ...manifest, ...change }, identity, manifest.commit), /manifest/);
 });
 

@@ -83,4 +83,4 @@ dependency confusion, registros hostiles o una autorización demasiado amplia. E
 lo aprobado; también puede reproducir un error. Provenance acredita origen, no inocuidad.
 
 Relaciona esta guía con [la decisión del upstream](adr/0002-package-manager-supply-chain.md) y con
-[el procedimiento de releases](RELEASES.md). Los consumidores son dueños de sus políticas y excepciones.
+[el procedimiento de releases en GitHub](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/RELEASES.md). Los consumidores son dueños de sus políticas y excepciones.

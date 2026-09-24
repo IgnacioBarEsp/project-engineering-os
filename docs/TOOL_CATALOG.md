@@ -83,7 +83,7 @@ Registrar una entrada no enciende nada:
 - una entrada MCP conserva `enabled: false` en el catálogo.
 
 El catálogo neutral deja declarados esos insumos; no los ejecuta. La app tiene su propia instalación
-autorizada y acotada de herramientas administradas, descrita en [el entorno de Companion](companion/ENVIRONMENT.md).
+autorizada y acotada de herramientas administradas, descrita en [el entorno de Companion en GitHub](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/companion/ENVIRONMENT.md).
 Eso no equivale a un instalador general de cualquier skill o servidor MCP del catálogo.
 
 ## Las tres señales MCP siguen siendo independientes

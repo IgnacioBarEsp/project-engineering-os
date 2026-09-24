@@ -1,69 +1,52 @@
-# Qué hace cada pieza y por qué sigue aquí
+# Qué pertenece al repositorio y qué recibe quien instala npm
 
-La aplicación visual simplifica cómo empiezas. Por dentro siguen haciendo falta el motor, sus
-herramientas y las pruebas que comprueban lo que promete. Este inventario, revisado el **14 de septiembre
-de 2026**, separa esas funciones de los archivos históricos y las salidas locales.
+El repositorio mantiene dos superficies upstream distintas: el núcleo universal CLI/biblioteca y la
+aplicación Companion para Windows. La publicación `create-project-engineering-os` contiene el núcleo y las
+guías para su consumidor; no instala Companion ni transfiere al proyecto consumidor las herramientas del
+repositorio upstream.
 
-## ¿Sigo necesitando npm, CLI y bootstrap?
+## Contenido del paquete npm
 
-| Pieza | Para qué sirve | Qué necesita saber quien usa Companion |
-| --- | --- | --- |
-| Companion | Elegir carpeta, revisar plan, preparar contexto y continuar con tu IA | Es la entrada principal; se instala una vez |
-| Núcleo | Reglas, preparación de ingeniería, comprobaciones, deuda y recuperación | La app lo usa cuando corresponde al proyecto |
-| CLI | Pedir esas operaciones desde scripts o terminal | Es una ruta opcional, no otro paso de instalación de la app |
-| Bootstrap | Primera preparación del método en una carpeta | La app presenta el plan; no necesitas memorizar el comando |
-| npm | Distribuir paquetes e instalar herramientas fijadas | Companion administra su copia; el contribuidor usa un cliente revisado |
-| Node y Git | Ejecutar herramientas de ingeniería y conservar cambios | La app revisa las descargas aplicables, sin cambiar el PATH global |
-| OpenSpec | Mantener spec y tareas antes de implementar | Forma parte del método para desarrollo; no se impone a una carpeta de documentos |
+`package.json#files` declara las rutas publicables. `scripts/check-package.mjs` empaca y extrae el artefacto
+real, rechaza rutas que no coinciden con esa declaración y comprueba los enlaces relativos desde el `.tgz`.
+La allowlist del [export del repositorio en GitHub](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/config/export-allowlist.json) cubre otra superficie: preserva
+el checkout completo y no concede por sí sola permiso para incluir un archivo en npm.
 
-**Evidencia del vínculo:** [package.json de la app](../apps/companion/package.json) fija el núcleo;
-[constructor-adapter](../apps/companion/engine/constructor-adapter.mjs) llama
-`runBootstrapOrSync`; [environment](../apps/companion/runtime/environment.mjs) prepara herramientas;
-[toolchain](../apps/companion/runtime/toolchain.mjs) usa el lock revisado en la carpeta administrada.
-Retirar el núcleo o bootstrap rompería funciones que la app ya usa.
+| Ruta incluida | Para qué la necesita el consumidor |
+| --- | --- |
+| `bin/`, `src/`, `schema/`, `blueprint/` | CLI, API, contratos y semillas que bootstrap prepara en el repositorio consumidor |
+| `CHANGELOG.md`, `LICENSE`, avisos y `README.md` | Historia de cambios, licencia y entrada obligatoria/documentación del paquete |
+| `docs/README.md`, `CLI_GUIDE.md`, `EXISTING_PROJECTS.md`, `ISOLATED_TOOLCHAIN.md` | Instalación, adopción segura y uso del núcleo |
+| `docs/COMPATIBILITY.md`, `PATH_RULES.md`, `TOOL_CATALOG.md`, `ONBOARDING_PLAN.md`, `GUIA_MANUAL_USUARIO.md` | Límites, selección de herramientas y decisiones del usuario |
+| `docs/DEBT_CONTROL.md`, `PROJECT_OS.md`, `RECOVERY.md`, `SPEC_PURPOSE.md` | Operación, diagnóstico y recuperación del método |
+| `docs/ADAPTIVE_ONBOARDING.md`, `AI_OPPORTUNITY_GUIDE.md`, `COSTS_AND_LICENSES.md`, `INSTALL_HARDENING.md`, `SELF_APPLICATION.md`, `TRACKERS.md`, `UPSTREAM_CONSUMERS.md`, `UPSTREAM_OPERATIONS.md` | Orientación neutral y contratos de operación del núcleo |
+| `docs/adr/`, `docs/architecture/`, `docs/prompts/`, `docs/security/` | Decisiones, ownership/versionado, prompts base y política de cadena de suministro |
 
-npm limita qué paquetes puede resolver; el catálogo de la app también limita deliberadamente qué puede
-instalar de forma verificada. Hoy hay un conjunto pequeño de tecnologías opcionales, no un instalador de
-cualquier SDK. Esa frontera está en [el entorno del Companion](companion/ENVIRONMENT.md).
-Cambiar de gestor no añade soporte para Unity, Python o Flutter ni resuelve por sí solo licencias,
-integridad o recuperación. Evaluar otra distribución requiere una necesidad y una migración comprobables.
+La lista exacta de documentos está en `package.json#files`; las carpetas de documentación permitidas se
+limitan a `adr/`, `architecture/`, `prompts/` y `security/`. El checker detecta archivos Markdown nuevos o
+imágenes fuera de esas rutas antes de una release.
 
-## Archivos versionados
+## Contenido que permanece solo en el repositorio
 
-| Superficie | Owner y uso actual | Disposición |
-| --- | --- | --- |
-| `src/`, `bin/`, `schema/`, `blueprint/` | Núcleo upstream; API/CLI y archivos que se preparan para consumidores | Conservar; forman parte del paquete y sus contratos |
-| `apps/companion/` | App upstream, dependencias y versión propias | Conservar fuera del núcleo universal |
-| `test/`, `scripts/`, `.github/` | Pruebas, empaquetado y controles de publicación | Conservar; retirar solo con referencias y reemplazo probados |
-| `docs/`, README y políticas raíz | Guías públicas y contratos del mantenedor | Actualizar rutas vigentes; historia identificada como historia |
-| `openspec/specs/` | Comportamiento acordado | Mantener y sincronizar mediante OpenSpec |
-| `openspec/changes/archive/`, `.project-os/debt/` | Historia de decisiones, evidencia y deuda | Conservar trazabilidad; antigüedad no demuestra que sobren |
-| `site/index.html`, `site/NOTAS.md` | Landing publicada por `landing.yml` | Conservar hasta reemplazo verificado; consolidación #118 |
-| Nueva landing, en repositorio separado | Producto consumidor y su propio SDD | No copiar aquí su `site/`, dependencias ni preparación |
-| `package.json`, lockfiles, avisos de licencia | Identidad reproducible, dependencias y distribución | Conservar; cada paquete tiene función distinta |
+No se distribuyen `docs/companion/`, `docs/stitch uxui/`, `docs/assets/`, `docs/USER_GUIDE.md`,
+`docs/PROJECT_STATUS.md`, `docs/RELEASES.md` ni las presentaciones. Explican la aplicación, su diseño
+visual, capturas o estado del upstream, no el CLI que se acaba de instalar; tampoco
+se envían imágenes, incluida la captura antigua que no debe interpretarse como evidencia del Companion.
+Estos documentos siguen versionados en GitHub y no se borran al recortar el tarball. El índice de npm es
+esta [guía neutral](README.md); la portada del repositorio mantiene los enlaces a las guías del app.
 
-El [modelo de ownership](architecture/OWNERSHIP.md) explica quién puede actualizar cada archivo.
-Los archivos generados por OpenSpec se actualizan con su CLI oficial; no se editan como duplicados manuales.
+La app vive en `apps/companion/`, con dependencias y ciclo de release propios; no está en `files`. Las
+pruebas, scripts, configuración, workflows, landing y archivos de OpenSpec son del mantenimiento upstream,
+no del consumidor npm. La documentación completa de Companion sigue en el árbol público
+[`docs/companion`](https://github.com/IgnacioBarEsp/project-engineering-os/tree/main/docs/companion).
 
-## Salidas locales e información privada
+## Qué verificar al cambiar la distribución
 
-El checkout contiene salidas ignoradas: `node_modules/`, `release/`, `apps/companion/dist/`,
-`apps/companion/build/npm-dist.zip` y `site/.project-os/`. No están publicadas como source.
-Algunas conservan ensayos anteriores o preparación local: comprobar su uso y su recuperación antes de
-liberar espacio. La presencia de un directorio no autoriza borrarlo.
+1. Revisar `package.json#files`, no inferir el paquete a partir de la allowlist de exportación.
+2. Ejecutar `npm run check:package` y comprobar las rutas y enlaces del tarball extraído.
+3. Registrar `fileCount`, `unpackedBytes`, `bytes` y SHA-256 del mismo tarball en el manifest de release.
+4. Confirmar que no se borraron guías del repositorio y que la reversión propuesta conserva tags y releases.
 
-También existen documentos personales ignorados bajo `docs/`; no son documentación pública. No se
-leyeron ni se incorporaron a esta revisión. Carpetas de otros proyectos y worktrees vecinos quedan fuera
-de la limpieza. Un archivo ignorado no debe asumirse regenerable.
-
-## Lo que aún se debe consolidar
-
-[#118](https://github.com/IgnacioBarEsp/project-engineering-os/issues/118) debe comprobar referencias de la
-landing antigua, su exportación y workflow; decidir qué retirar cuando la nueva esté publicada; y revisar
-qué documentación o imágenes necesitan realmente el tarball y el instalador. Este inventario **no declara
-una limpieza ya ejecutada**.
-
-Para retirar cualquier pieza se registra: owner, consumidores, motivo, reemplazo, prueba negativa y cómo
-restaurarla. El borrado local, si hace falta, se limita a rutas exactas verificadas.
-
-Vuelve al [estado de entregas](PROJECT_STATUS.md) o a la [guía visual](USER_GUIDE.md).
+El [modelo de ownership](architecture/OWNERSHIP.md) asigna responsables. Para instalar el núcleo, sigue la
+[guía CLI](CLI_GUIDE.md); para las fechas y la integridad de cada ciclo de publicación, consulta la
+[guía de releases del repositorio](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/RELEASES.md).

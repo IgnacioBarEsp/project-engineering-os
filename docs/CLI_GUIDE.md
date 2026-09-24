@@ -1,7 +1,7 @@
 # Usar el núcleo desde la terminal
 
 Esta ruta es para quien quiere automatizar la preparación o trabajar sin la app de Windows.
-Para usar Companion, empieza por la [guía visual](USER_GUIDE.md).
+Para usar Companion, empieza por su [guía visual en el repositorio](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/USER_GUIDE.md).
 
 ## Carpeta nueva
 
@@ -72,7 +72,7 @@ instalan ni autentican. Rollback sí modifica archivos propios tras comparar has
 [Recuperación](RECOVERY.md) conserva el detalle de reanudación, reversión y conflictos.
 
 El upstream no debe bootstraperse sobre sí mismo: quien mantiene este repositorio sigue
-[operación upstream](UPSTREAM_OPERATIONS.md) y [CONTRIBUTING](../CONTRIBUTING.md).
+[operación upstream](UPSTREAM_OPERATIONS.md) y [CONTRIBUTING en GitHub](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/CONTRIBUTING.md).
 
 ## Siguiente paso
 

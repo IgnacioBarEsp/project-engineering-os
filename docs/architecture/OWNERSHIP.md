@@ -22,7 +22,7 @@ Consumer acceptance specs may pin expected behavior, but runtime evolution start
 
 La app es la entrada pública principal; la CLI sigue siendo una interfaz del motor que la app utiliza.
 Cambiar de entrada no cambia ownership. Consulta [qué hace cada pieza](../REPOSITORY_MAP.md) y el
-[estado por canal](../PROJECT_STATUS.md) antes de retirar archivos o atribuir una capacidad a una release.
+[estado por canal en GitHub](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/PROJECT_STATUS.md) antes de retirar archivos o atribuir una capacidad a una release.
 
 Una semilla preexistente cuyo owner sea `project` puede [adoptarse mediante ruta y hash revisados](../EXISTING_PROJECTS.md).
 La adopción registra ownership sin escribir sus bytes ni activar dependencias; los archivos del constructor,

@@ -7,7 +7,9 @@
 Prepara tu proyecto, encuentra su contexto y continúa con la IA que ya usas.
 
 [Descargar Companion para Windows](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.6) ·
-[Empezar](docs/USER_GUIDE.md) · [Documentación](docs/README.md) · [Estado del proyecto](docs/PROJECT_STATUS.md)
+[Empezar](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/USER_GUIDE.md) ·
+[Documentación del núcleo](docs/README.md) ·
+[Estado del proyecto](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/PROJECT_STATUS.md)
 
 </div>
 
@@ -24,7 +26,7 @@ herramientas. Los archivos y decisiones que ya tienes se revisan antes de añadi
 ## Empieza con Companion
 
 1. Descarga **Companion 0.3.6 para Windows x64** desde [Releases](https://github.com/IgnacioBarEsp/project-engineering-os/releases/tag/companion-v0.3.6).
-2. Revisa el archivo e instálalo siguiendo la [guía de instalación](docs/companion/INSTALLER.md). Si ya tenías una versión previa, el instalador te ofrecerá reparar, actualizar o desinstalar de forma limpia.
+2. Revisa el archivo e instálalo siguiendo la [guía de instalación](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/companion/INSTALLER.md). Si ya tenías una versión previa, el instalador te ofrecerá reparar, actualizar o desinstalar de forma limpia.
 3. Abre la app, escribe el nombre y el objetivo de tu proyecto, elige con qué perfil te identificas y marca qué vas a hacer.
 4. Delimita el tipo específico de tu proyecto y describe tu visión en lenguaje natural. Companion creará `PROJECT_VISION.md` conservando intactos todos tus archivos originales.
 5. Elige entre **Instalación rápida** (en segundo plano) o **"Que mi IA se encargue"** para delegar la configuración a tu IA de confianza mediante el prompt de activación estructurado.
@@ -36,14 +38,11 @@ No descarga modelos de IA.
 El instalador **no tiene certificado de editor**: Windows puede advertirte al abrirlo. Comprueba el SHA-256
 publicado; un hash coincidente verifica el archivo, no sustituye la firma del editor.
 
-[Consulta qué está publicado y qué sigue en desarrollo](docs/PROJECT_STATUS.md).
+[Consulta qué está publicado y qué sigue en desarrollo](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/PROJECT_STATUS.md).
 
-## Así se ve Companion 0.3.2
-
-![Inicio de Companion: titular, tarjetas para crear un proyecto nuevo o abrir una carpeta existente, y la barra superior con Inicio, Tus proyectos, Preparar proyecto y Ayuda](docs/assets/companion-current-home.png)
-
-Ventana real de la aplicación 0.3.2, ejecutada desde el código del commit `d744c47` el 19 de septiembre de 2026. **No es una captura del instalador.**
-[Procedencia y galería de pantallas](docs/companion/SCREENSHOTS.md).
+La galería de pantallas reales y su procedencia está disponible en la
+[documentación de Companion en GitHub](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/companion/SCREENSHOTS.md).
+La ventana mostrada allí es de la app. **No es una captura del instalador.**
 
 ## Qué te ayuda a hacer
 
@@ -55,7 +54,7 @@ Ventana real de la aplicación 0.3.2, ejecutada desde el código del commit `d74
 
 Un PDF escaneado necesita reconocimiento de texto antes de poder buscarlo. Los formatos no leídos se
 señalan. Abrir un chat web no le entrega automáticamente tus archivos.
-La [guía del usuario](docs/USER_GUIDE.md) explica el recorrido y los límites.
+La [guía del usuario](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/USER_GUIDE.md) explica el recorrido y los límites.
 
 ## El método que se lleva a cada proyecto
 
@@ -116,13 +115,14 @@ herramientas administradas. No son cuatro productos que debas aprender para usar
 La preparación básica es local, sin cuenta propia ni suscripción. Tus documentos no se suben
 automáticamente. El código actual ofrece redacción opcional con un modelo local o proveedor propio:
 revisa qué datos compartirás y el costo de ese proveedor antes de activarla.
-[Privacidad del Companion](docs/companion/SECURITY.md).
+[Privacidad del Companion](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/companion/SECURITY.md).
 
 El proyecto usa licencia MIT. El núcleo no tiene dependencias de producción; el Companion tiene las suyas
-y su [aviso de terceros](apps/companion/THIRD-PARTY-NOTICES.md). No hay un ahorro de tiempo o dinero
-general demostrado: [aquí están las mediciones y sus límites](docs/companion/EVIDENCE.md).
+y su [aviso de terceros](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/apps/companion/THIRD-PARTY-NOTICES.md). No hay un ahorro de tiempo o dinero
+general demostrado: [aquí están las mediciones y sus límites](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/companion/EVIDENCE.md).
 
-Para contribuir: [CONTRIBUTING](CONTRIBUTING.md), [releases](docs/RELEASES.md),
+Para contribuir: [CONTRIBUTING](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/CONTRIBUTING.md),
+[releases](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/RELEASES.md),
 [ownership](docs/architecture/OWNERSHIP.md) y [control de deuda](docs/DEBT_CONTROL.md).
 La [landing actual](https://ignaciobaresp.github.io/project-engineering-os/) sigue disponible mientras
 la [nueva landing](https://github.com/IgnacioBarEsp/project-engineering-os-landing) se termina en su repositorio.
@@ -133,7 +133,7 @@ la [nueva landing](https://github.com/IgnacioBarEsp/project-engineering-os-landi
 Project Engineering OS helps prepare project context and a repeatable way of working with your existing AI.
 Start with the Windows Companion installer; the neutral core CLI remains available for automation on
 Windows, macOS and Linux. The app and core have separate versions. See the
-[current delivery status](docs/PROJECT_STATUS.md) before assuming a feature in source is in the download.
+[current delivery status](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/PROJECT_STATUS.md) before assuming a feature in source is in the download.
 
 </details>
 

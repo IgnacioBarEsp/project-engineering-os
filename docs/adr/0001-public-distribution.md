@@ -34,4 +34,4 @@ consumers own product code, seed-once policy, overlays and acceptance contracts.
 - Creating the public repository, changing protection and publishing remain human-authorized gates.
 
 La operación cotidiana se explica en [upstream y consumidores](../UPSTREAM_CONSUMERS.md) y el proceso de
-publicación en [releases](../RELEASES.md).
+publicación en [releases en GitHub](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/RELEASES.md).

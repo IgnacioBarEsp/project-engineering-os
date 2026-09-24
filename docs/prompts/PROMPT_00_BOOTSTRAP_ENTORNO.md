@@ -62,4 +62,4 @@ SKIP, configuración presente o ausencia de checks como éxito. Termina antes de
 Cuando la salida no tenga FAIL injustificados y apruebes la Etapa A, continúa con el
 [Prompt 01](PROMPT_01_DISCOVERY_PROYECTO.md). Si todavía no clasificaste la carpeta, vuelve al
 [prompt router](PROMPT_ROUTER_INICIO.md). Para contexto adicional vuelve a la
-[guía del usuario](../USER_GUIDE.md).
+[guía CLI](../CLI_GUIDE.md).
