@@ -53,11 +53,14 @@ Fecha: 2026-09-24. Worktree de Windows; Node 24.18.0 y npm 11.19.1.
 
 ## CI protegido
 
-Pull request [#190](https://github.com/IgnacioBarEsp/project-engineering-os/pull/190), GitHub Actions
-[run 35982892523](https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/35982892523):
-PASS en Linux, macOS y Windows con Node 22.22.0 y 24.x; Companion en los tres sistemas; auditoría de
-dependencias y `CI / required`. Socket y Snyk también pasaron. La corrida inicial probó el candidato
-antes del archive; el PR protegido volverá a ejecutar CI sobre el commit que contiene el archive.
+Pull request [#190](https://github.com/IgnacioBarEsp/project-engineering-os/pull/190). La corrida
+[35982892523](https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/35982892523) pasó
+antes del archive; la repetición posterior al archive,
+[35984177631](https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/35984177631), también
+pasó: Linux, macOS y Windows con Node 22.22.0 y 24.x, Companion en los tres sistemas, auditoría de
+dependencias y `CI / required`. Socket y Snyk también pasaron en ambas corridas. El PR sigue draft
+mientras se publica este recibo de evidencia; los checks protegidos volverán a correr sobre el commit
+que lo registra.
 
 ## Archivo
 
