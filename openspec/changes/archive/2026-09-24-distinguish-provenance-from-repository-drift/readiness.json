@@ -58,9 +58,9 @@
     },
     {
       "id": "multi-platform-smoke",
-      "status": "pending",
-      "evidence": "openspec/changes/distinguish-provenance-from-repository-drift/evidence/validation.md",
-      "justification": "Requiere el PR protegido y la matriz remota multiplataforma.",
+      "status": "passed",
+      "evidence": "https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/35982892523",
+      "justification": null,
       "profileCondition": null
     },
     {

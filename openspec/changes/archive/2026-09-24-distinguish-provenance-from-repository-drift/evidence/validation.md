@@ -1,7 +1,6 @@
 # Evidencia de validación
 
-Fecha: 2026-09-24. Worktree de Windows; Node 24.18.0 y npm 11.19.1. La verificación remota de CI
-queda pendiente hasta que exista el PR.
+Fecha: 2026-09-24. Worktree de Windows; Node 24.18.0 y npm 11.19.1.
 
 ## Reproducción y regresión
 
@@ -35,10 +34,12 @@ queda pendiente hasta que exista el PR.
 - `npm exec --yes --package=npm@11.19.1 -- npm run pack:verify` en `b47f42872558d249107b142bf593125c57478725`:
   PASS; generó e instaló el tarball local exacto, validó versión/help, bootstrap, segundo check y deuda.
   SHA-256 `17f8159c84b7fee4f6452e6e6920de130ec8340e80de8ab95d7e3eeef42435bf`, 167 archivos, 267947 bytes.
+- Repetición de `pack:verify` en `bf58251b09459ea941eb625bddf2aca1f03fd730`: PASS, mismo digest e
+  inventario; el manifest quedó ligado a ese commit.
 - `readiness-check --phase archive --run-local --json` confirmó 15 PASS locales, incluida validación
-  estricta y los gates de deuda. El resultado pre-CI queda FAIL de forma esperada: solo 2 tareas (3.3,
-  3.4) siguen pendientes y `multi-platform-smoke` aún depende del PR. No se presenta como archive-ready;
-  se repetirá cuando la matriz remota esté completa.
+  estricta y los gates de deuda. El resultado pre-CI quedó FAIL de forma esperada: solo 2 tareas (3.3,
+  3.4) seguían pendientes y `multi-platform-smoke` dependía del PR. Tras completarlas, la repetición
+  final fue PASS, 17/17 y cero excepciones; no realizó mutaciones.
 
 ## Revisión, compatibilidad y rollback
 
@@ -53,5 +54,20 @@ queda pendiente hasta que exista el PR.
 
 ## CI protegido
 
-Pendiente: la matriz multiplataforma, compatibilidad de Node, auditoría y checks externos se llenarán
-con la URL y el resultado exactos del PR; no se anticipa un PASS.
+Pull request [#190](https://github.com/IgnacioBarEsp/project-engineering-os/pull/190), GitHub Actions
+[run 35982892523](https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/35982892523):
+PASS en Linux, macOS y Windows con Node 22.22.0 y 24.x; Companion en los tres sistemas; auditoría de
+dependencias y `CI / required`. Socket y Snyk también pasaron. La corrida inicial probó el candidato
+antes del archive; el PR protegido volverá a ejecutar CI sobre el commit que contiene el archive.
+
+## Archivo
+
+- `readiness-check --phase archive --change distinguish-provenance-from-repository-drift --target . --run-local --json`:
+  PASS, 17/17, cero excepciones; no realizó mutaciones.
+- `npm exec --yes --package=@fission-ai/openspec@1.6.0 -- openspec archive distinguish-provenance-from-repository-drift --yes --json`:
+  PASS; `specsUpdated=true`, dos requisitos añadidos y archive
+  `openspec/changes/archive/2026-09-24-distinguish-provenance-from-repository-drift/`.
+- Después del archive, `npm exec --yes --package=@fission-ai/openspec@1.6.0 -- openspec validate --specs --strict --json`:
+  PASS, 20/20 specs, 0 fallos.
+- Después del archive, `npm exec --yes --package=npm@11.19.1 -- npm run check`: PASS; todos los
+  checks de paquete/docs/neutralidad/workflows/deuda y 364/364 pruebas.

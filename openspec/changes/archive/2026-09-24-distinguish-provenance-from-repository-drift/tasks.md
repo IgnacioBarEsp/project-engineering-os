@@ -14,8 +14,8 @@
 
 - [x] 3.1 Document sync results, exit codes 0–3 and recovery steps in `docs/CLI_GUIDE.md` and `docs/RECOVERY.md`.
 - [x] 3.2 Perform adversarial review, classify findings, and run the configured debt assessment.
-- [ ] 3.3 Pass the full local check suite, strict OpenSpec validation and archive-local checks; record manual two-origin evidence.
-- [ ] 3.4 Pass required cross-platform CI and security checks on the protected PR; record the run evidence.
+- [x] 3.3 Pass the full local check suite, strict OpenSpec validation and archive-local checks; record manual two-origin evidence.
+- [x] 3.4 Pass required cross-platform CI and security checks on the protected PR; record the run evidence.
 
 After 3.4 passes, complete archive readiness and archive with the official fixed OpenSpec CLI. Then push the
 archived change in a signed-off commit, merge only through the protected PR flow, and verify issue closure.
