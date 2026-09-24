@@ -21,7 +21,7 @@
 
 - [x] 4.1 Run strict OpenSpec validation, focused runtime tests, full `npm run check`, root fixture, isolated-toolchain fixture, package parity and debt assessment; record outputs.
 - [x] 4.2 Complete manual generated-consumer bootstrap inspection and adversarial review; record evidence and close findings.
-- [ ] 4.3 Pass cross-platform CI on exact Node 22 minimum and Node 24 recommended line without reducing required protections.
+- [x] 4.3 Pass cross-platform CI on exact Node 22 minimum and Node 24 recommended line without reducing required protections.
 
 After 4.3 passes, complete archive readiness on a synchronized disposable consumer, capture its gate evidence, and archive through the official OpenSpec CLI. This is the immediate workflow step after readiness passes, not a checkbox that can be completed before the gate itself.
 

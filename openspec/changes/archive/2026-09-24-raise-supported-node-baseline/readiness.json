@@ -14,7 +14,7 @@
     { "id": "critical-document-presence", "status": "passed", "evidence": "evidence/validation.md", "justification": null, "profileCondition": null },
     { "id": "doctor-json-check", "status": "passed", "evidence": "evidence/bootstrap-fixture.json", "justification": null, "profileCondition": null },
     { "id": "findability-two-hop-check", "status": "passed", "evidence": "evidence/bootstrap-fixture.json", "justification": null, "profileCondition": null },
-    { "id": "multi-platform-smoke", "status": "pending", "evidence": null, "justification": null, "profileCondition": null },
+    { "id": "multi-platform-smoke", "status": "passed", "evidence": "evidence/validation.md", "justification": null, "profileCondition": null },
     { "id": "neutrality-check", "status": "passed", "evidence": "evidence/validation.md", "justification": null, "profileCondition": null },
     { "id": "openspec-strict", "status": "passed", "evidence": "evidence/validation.md", "justification": null, "profileCondition": null },
     { "id": "opsx-check", "status": "passed", "evidence": "evidence/bootstrap-fixture.json", "justification": null, "profileCondition": null },

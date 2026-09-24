@@ -7,13 +7,15 @@ Fecha: 2026-09-24. Rama `codex/155-raise-supported-node-baseline`, runtime local
 | Comprobación | Resultado | Evidencia |
 | --- | --- | --- |
 | OpenSpec strict | PASS | `node_modules/.bin/openspec.cmd validate raise-supported-node-baseline --strict --no-interactive` |
+| OpenSpec estricto post-archivo | PASS, 20/20 | `node_modules/.bin/openspec.cmd validate --all --strict --no-interactive` después del archivo oficial |
 | Suite del repositorio | PASS, 354/354, 0 fallos | `npm run check`; incluye package, neutralidad, docs, workflows, deuda y `node --test` |
 | Fixture normal empaquetada | PASS | [bootstrap-fixture.json](bootstrap-fixture.json) |
 | Fixture de toolchain aislado | PASS | [isolated-fixture.json](isolated-fixture.json) |
 | Fixture limpia y rollback de transacción | PASS; restauró 90 elementos | [rollback-fixture.json](rollback-fixture.json), transacción `tx-2026-09-24T02-10-27-042Z-ba0b43c0` |
 | `git diff --check` | PASS | comando ejecutado sobre el cambio |
 | Captura y check de deuda | PASS, resultado de este flujo `clean` | [assessment](../../../../.project-os/debt/assessments/raise-supported-node-baseline.json); `debt check` detecta solo deuda preexistente y no pausa el plan |
-| Matriz multiplataforma protegida | PENDIENTE | Se comprobará en CI del PR para Ubuntu, Windows y macOS con Node 22.22.0 y 24.x; el estado actual del gate temporal queda en [disposable-archive-gate.md](disposable-archive-gate.md) |
+| Matriz multiplataforma protegida | PASS | [CI del PR #185, ejecución 35946948408](https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/35946948408): Ubuntu, Windows y macOS con Node 22.22.0 y 24.x; también pasaron Companion, auditoría y `CI / required`. |
+| Gate archive en consumidor sincronizado | PASS, 20/20 | [archive-readiness.json](archive-readiness.json) y detalle en [disposable-archive-gate.md](disposable-archive-gate.md); `mutationPerformed: false`. |
 
 La inspección manual del consumidor normal confirmó `engines.node` igual en `package.json`, raíz del lock y entrada instalada del paquete; versión instalada `1.0.0`; tres celdas Node 22.22.0 y tres Node 24.x; ninguna celda Node 20. La app Companion conserva su runtime propio. El tarball local fue `create-project-engineering-os-1.0.0.tgz`, 506213 bytes, SHA-256 `a13218806ed340d1cc7618e26d3105e7aa42a45ff615c34eecb0abbd7e16bbdc`. El fixture verificó instalación desde ese tarball, primer bootstrap, segundo bootstrap no-op, `sync --check`, `opsx-check` y doctor JSON; los comandos terminaron con código 0.
 
