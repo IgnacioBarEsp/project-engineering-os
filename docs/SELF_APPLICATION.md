@@ -66,8 +66,9 @@ La pregunta abierta era: ¿qué ocurre cuando un archivo gestionado por el const
 de ese mismo archivo gestionado?
 
 **Respuesta medida: no ocurre. El modelo de ownership ya lo impide, y nunca nadie lo ejecutó para verlo.**
-`sync --check` sobre el upstream reporta 9 conflictos y 0 escrituras. Se detiene antes de escribir, que es
-exactamente su contrato.
+En la medición histórica `a3b1efd`, `sync --check` sobre el upstream reportó 9 conflictos y 0 escrituras.
+Desde #122 el check read-only reconoce que el upstream no es consumidor y devuelve `SKIP`; la medición
+original se conserva como evidencia histórica, y el comportamiento del blueprint se valida en fixtures.
 
 Lo que sí revela la medición es *por qué* la colisión es irreconciliable en cuatro rutas:
 
@@ -112,9 +113,9 @@ Escala de veredictos:
 | Mecanismo | Veredicto | Razón |
 | --- | --- | --- |
 | `bootstrap` | **No aplicar (forma de consumidor)** | 9 conflictos irreconciliables y 26 archivos que rompen la neutralidad. El upstream es el origen de la semilla. |
-| `sync --check` | **Adoptar adaptado** | Inútil como gate global mientras el upstream no esté bootstrapeado. Sí sirve como sonda documentada de la recursión, que es como se produjo esta decisión. |
+| `sync --check` | **No aplicar (forma de consumidor)** | El upstream explícito no consume el layout generado: el check read-only devuelve `SKIP`. Valida el blueprint en un fixture consumidor; la medición histórica de conflictos sigue documentada como evidencia, no como veredicto operativo vigente. |
 | `sync --apply` | **No aplicar (forma de consumidor)** | Escribiría sobre `package.json`, `README.md` y `AGENTS.md`. Prohibido por la regla de la sección 3. |
-| `upgrade --check` / `--apply` | **No aplicar (forma de consumidor)** | Adoptar una versión de sí mismo no tiene significado. |
+| `upgrade --check` / `--apply` | **No aplicar (forma de consumidor)** | El check read-only devuelve `SKIP`; aplicar una versión del paquete sobre su propio upstream no tiene significado y conserva los gates estrictos. |
 | `rollback`, journal, resume | **No aplicar (forma de consumidor)** | Sin mutaciones del constructor sobre este árbol no hay transacción que revertir. `constructor.transactions` ya pasa. |
 | `ownership.json`, `path-rules.json` | **Adoptar adaptado** | No como estado de bootstrap, sino como la allowlist de neutralidad que ya cumple ese papel. Documentar la equivalencia. |
 | `MANAGED_FILES_NOTICE.md` | **Ya aplicado** | Existe en la raíz. |

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-24",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "La discrepancia se resolvió con clasificación de aplicabilidad acotada; los defaults de consumidor, perfiles upstream y decisiones de activación permanecen intactos. Las regresiones comprueban ambas identidades, ausencia de planes y mutaciones, y gates estrictos en consumidores y comandos mutantes. No se detecta deuda nueva ni se reclasifican findings previos.",
+  "flow": "classify-upstream-profile-drift"
+}

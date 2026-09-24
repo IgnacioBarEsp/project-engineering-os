@@ -1,0 +1,4 @@
+schema: spec-driven
+created: 2026-09-24
+goal: sync y upgrade no confunden perfiles propios aprobados del upstream con
+  deriva de un consumidor.

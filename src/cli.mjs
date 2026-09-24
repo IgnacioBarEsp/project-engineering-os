@@ -292,6 +292,9 @@ function humanPlan(result) {
   if (result.incompleteTransaction) {
     lines.push(`Transacción incompleta: ${result.incompleteTransaction}`);
   }
+  if (result.status === 'SKIP' && result.skipReason) {
+    lines.push(`Motivo: ${result.skipReason}`);
+  }
   if (result.plan?.summary) {
     const summary = result.plan.summary;
     const stateFields = (result.plan.stateChanges ?? []).map((change) => change.field);
