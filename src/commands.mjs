@@ -394,7 +394,21 @@ export async function runBootstrapOrSync({
   const incomplete = prepared.incompleteTransaction?.id ?? null;
 
   if (check || dryRun) {
-    const hasDrift = prepared.plan.hasDrift || incomplete !== null;
+    const provenanceMismatch = (
+      check
+      && command === 'sync'
+      && incomplete === null
+      && prepared.plan.provenanceOnlyStateChange
+    );
+    const hasDrift = !provenanceMismatch && (prepared.plan.hasDrift || incomplete !== null);
+    const reportedPlan = provenanceMismatch
+      ? {
+        ...planView,
+        hasDrift: false,
+        operations: [],
+        summary: { ...planView.summary, stateUpdate: false },
+      }
+      : { ...planView, hasDrift };
     return {
       command,
       dryRun: true,
@@ -402,11 +416,8 @@ export async function runBootstrapOrSync({
       incompleteTransaction: incomplete,
       mode: check ? 'check' : 'dry-run',
       mutationPerformed: false,
-      plan: {
-        ...planView,
-        hasDrift,
-      },
-      status: hasDrift ? 'DRIFT' : 'IN_SYNC',
+      plan: reportedPlan,
+      status: provenanceMismatch ? 'PROVENANCE_MISMATCH' : hasDrift ? 'DRIFT' : 'IN_SYNC',
     };
   }
 

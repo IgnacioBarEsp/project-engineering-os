@@ -71,6 +71,33 @@ Sustituye issue, change e identificador de transacción por los de tu proyecto. 
 instalan ni autentican. Rollback sí modifica archivos propios tras comparar hashes.
 [Recuperación](RECOVERY.md) conserva el detalle de reanudación, reversión y conflictos.
 
+## Resultados y códigos de salida
+
+`sync --check` distingue tres resultados:
+
+- `IN_SYNC` (`0`): el estado administrado coincide.
+- `PROVENANCE_MISMATCH` (`0`): solo difiere `packageHash`; la versión, blueprint, configuración,
+  perfiles activos y formato del estado coinciden. El CLI explica el origen distinto, informa el hash
+  guardado y el observado, no propone operaciones y no escribe en el destino. No requiere reparación.
+- `DRIFT` (`1`): existe deriva real en archivos, configuración u otro campo del estado. Revisa las
+  operaciones y diferencias antes de decidir si aplicas `sync`.
+
+La salida `--json` incluye `plan.stateChanges`, una lista con `field`, `saved` y `observed` para cada
+campo de estado cambiado. La salida humana nombra los mismos campos y valores; no deja un `state=update`
+sin explicar qué cambió.
+
+Los códigos de salida del CLI son:
+
+| Código | Significado |
+| --- | --- |
+| `0` | Éxito. Incluye `IN_SYNC` y el aviso no bloqueante `PROVENANCE_MISMATCH`. |
+| `1` | Deriva real detectada por un check. |
+| `2` | Argumentos, entrada o estado inválidos/incompatibles. |
+| `3` | Fallo transaccional; inspecciona el journal y sigue [recuperación](RECOVERY.md). |
+
+Por ello, `npm run project-os:check` continúa con sus otros checks ante un desajuste de procedencia y
+sigue fallando cuando hay deriva real.
+
 El upstream no debe bootstraperse sobre sí mismo: quien mantiene este repositorio sigue
 [operación upstream](UPSTREAM_OPERATIONS.md) y [CONTRIBUTING en GitHub](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/CONTRIBUTING.md).
 

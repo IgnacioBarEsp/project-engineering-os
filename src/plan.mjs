@@ -15,6 +15,7 @@ import {
 } from './paths.mjs';
 import {
   createNextState,
+  stateFieldChanges,
   stateNeedsWrite,
 } from './state.mjs';
 
@@ -643,7 +644,24 @@ export async function buildPlan({
     previousState,
     transactionId: previousState?.lastTransaction ?? null,
   });
-  const requiresStateWrite = stateNeedsWrite(previousState, proposedState);
+  const requiresStateWrite = stateNeedsWrite(previousState, proposedState) || stateMigrations.length > 0;
+  const stateChanges = stateFieldChanges(previousState, proposedState, {
+    savedStateFormatVersion: stateMigrations[0]?.from,
+  });
+  const previousWithObservedPackageHash = previousState === null
+    ? null
+    : { ...previousState, packageHash: proposedState.packageHash };
+  const onlyPackageHashChanged = previousState !== null
+    && stateChanges.length === 1
+    && stateChanges[0].field === 'packageHash'
+    && stateMigrations.length === 0
+    && previousState.packageVersion === proposedState.packageVersion
+    && previousState.blueprintHash === proposedState.blueprintHash
+    && previousState.configurationHash === proposedState.configurationHash
+    && JSON.stringify(previousState.activeProfiles) === JSON.stringify(proposedState.activeProfiles)
+    && previousState.stateFormatVersion === proposedState.stateFormatVersion
+    && !items.some((item) => item.material || item.conflict)
+    && !stateNeedsWrite(previousWithObservedPackageHash, proposedState);
   const conflicts = items.filter((item) => item.conflict);
   const materialItems = items.filter((item) => item.material);
   const adoptionCandidates = [];
@@ -679,7 +697,9 @@ export async function buildPlan({
     materialItems,
     migrations,
     proposedState,
+    provenanceOnlyStateChange: onlyPackageHashChanged,
     requiresStateWrite,
+    stateChanges,
     rollbackPoint: previousState?.lastTransaction ?? 'pre-bootstrap',
     summary: {
       adopts: items.filter((item) => item.operation === 'adopt').length,
@@ -722,6 +742,7 @@ export function publicPlan(plan, externalOwnership = null) {
     })),
     summary: plan.summary,
     rollbackPoint: plan.rollbackPoint,
+    stateChanges: plan.stateChanges,
     validations: [
       'git-root-and-writability',
       'blueprint-schema-and-sources',

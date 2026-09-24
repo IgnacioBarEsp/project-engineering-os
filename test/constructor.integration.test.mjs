@@ -187,6 +187,49 @@ async function runInstalled(target, command, extra = []) {
   return runConstructor(sourceCli, command, target, extra);
 }
 
+function shellQuote(value) {
+  return process.platform === "win32"
+    ? `"${value}"`
+    : `'${value.replaceAll("'", "'\\''")}'`;
+}
+
+async function configureProjectOsCheckScripts(target, cli) {
+  const packagePath = path.join(target, "package.json");
+  const consumerPackage = await readJson(packagePath);
+  const invoke = (...args) => ["node", shellQuote(cli), ...args].join(" ");
+  consumerPackage.scripts["project-os:sync:check"] = invoke(
+    "sync", "--target", ".", "--check",
+  );
+  consumerPackage.scripts["project-os:opsx:check"] = invoke(
+    "opsx-check", "--target", ".",
+  );
+  consumerPackage.scripts["debt:check"] = invoke(
+    "debt", "check", "--root", ".",
+  );
+  consumerPackage.scripts["project-os:check"] =
+    "npm run project-os:sync:check && npm run project-os:opsx:check && npm run debt:check";
+  await writeFile(packagePath, `${JSON.stringify(consumerPackage, null, 2)}\n`);
+}
+
+async function runProjectOsCheck(target) {
+  const npmCliCandidates = [
+    process.env.npm_execpath,
+    path.join(path.dirname(process.execPath), "node_modules", "npm", "bin", "npm-cli.js"),
+    path.join(path.dirname(path.dirname(process.execPath)), "lib", "node_modules", "npm", "bin", "npm-cli.js"),
+  ].filter(Boolean);
+  let npmCli;
+  for (const candidate of npmCliCandidates) {
+    if (await exists(candidate)) {
+      npmCli = candidate;
+      break;
+    }
+  }
+  assert.ok(npmCli, "npm-cli.js debe estar disponible para probar npm run");
+  return run(process.execPath, [npmCli, "run", "project-os:check", "--silent"], {
+    cwd: target,
+  });
+}
+
 async function snapshot(root, relative = "") {
   const current = path.join(root, relative);
   const entries = await readdir(current, { withFileTypes: true });
@@ -396,6 +439,151 @@ test("bootstrap prepara un repositorio Git vacío sin copiar un runtime editable
     ),
     false,
   );
+});
+
+test("sync --check distingue procedencia de deriva y reporta campos de estado", {
+  timeout: 180_000,
+}, async () => {
+  const { target } = await prepareOpsxFixture("sync-provenance-mismatch");
+  const adapted = await runInstalled(target, "opsx-adapt");
+  assertSuccessfulConstructor(adapted, "preparación OPSX para project-os:check");
+  const alternateOrigin = path.join(suiteRoot, "sync-alternate-package-origin");
+  await mkdir(alternateOrigin, { recursive: true });
+  for (const directory of ["bin", "blueprint", "schema", "src"]) {
+    await cp(path.join(packageRoot, directory), path.join(alternateOrigin, directory), {
+      recursive: true,
+    });
+  }
+  for (const file of [
+    "CHANGELOG.md",
+    "LICENSE",
+    "MANAGED_FILES_NOTICE.md",
+    "README.md",
+    "THIRD_PARTY_NOTICES.md",
+    "package.json",
+    "package-lock.json",
+  ]) {
+    await cp(path.join(packageRoot, file), path.join(alternateOrigin, file));
+  }
+  await symlink(
+    path.join(packageRoot, "node_modules"),
+    path.join(alternateOrigin, "node_modules"),
+    "junction",
+  );
+  const alternateReadme = await readFile(path.join(alternateOrigin, "README.md"), "utf8");
+  await writeFile(
+    path.join(alternateOrigin, "README.md"),
+    `${alternateReadme}\n<!-- alternate package-origin fixture -->\n`,
+  );
+  const alternateCli = path.join(alternateOrigin, "bin", "project-os.mjs");
+  const originalStatePath = path.join(target, stateRelative);
+  const originalState = await readJson(originalStatePath);
+  const originalPackageHash = originalState.packageHash;
+  const beforeProvenanceCheck = await exactSnapshot(target);
+
+  const provenance = await runConstructor(alternateCli, "sync", target, ["--check"]);
+  assertSuccessfulConstructor(provenance, "check de procedencia");
+  const provenancePayload = parseJson(provenance, "check de procedencia");
+  assert.equal(provenancePayload.status, "PROVENANCE_MISMATCH");
+  assert.equal(provenancePayload.exitCode, 0);
+  assert.equal(provenancePayload.plan.hasDrift, false);
+  assert.equal(provenancePayload.plan.summary.stateUpdate, false);
+  assert.deepEqual(provenancePayload.plan.operations, []);
+  assert.equal(provenancePayload.plan.stateChanges.length, 1);
+  assert.equal(provenancePayload.plan.stateChanges[0].field, "packageHash");
+  assert.equal(provenancePayload.plan.stateChanges[0].saved, originalPackageHash);
+  assert.notEqual(provenancePayload.plan.stateChanges[0].observed, originalPackageHash);
+  assert.deepEqual(await exactSnapshot(target), beforeProvenanceCheck);
+
+  const human = await run(
+    process.execPath,
+    [alternateCli, "sync", "--target", target, "--check"],
+    { cwd: target },
+  );
+  assert.equal(human.exitCode, 0, human.stderr || human.stdout);
+  assert.match(human.stdout, /\[PROVENANCE_MISMATCH\] sync/);
+  assert.match(human.stdout, /packageHash guardado=/);
+  assert.match(human.stdout, /no se propone reparar ni escribir/);
+  assert.doesNotMatch(human.stdout, /state=update(?:\s|$)/);
+
+  await configureProjectOsCheckScripts(target, alternateCli);
+  const convergedScripts = await runInstalled(target, "sync");
+  assertSuccessfulConstructor(convergedScripts, "sync tras configurar scripts de fixture");
+  const projectCheckBefore = await exactSnapshot(target);
+  const projectCheck = await runProjectOsCheck(target);
+  assert.equal(projectCheck.exitCode, 0, projectCheck.stderr || projectCheck.stdout);
+  assert.match(projectCheck.stdout, /\[PROVENANCE_MISMATCH\] sync/);
+  assert.match(projectCheck.stdout, /PASS|SKIP/);
+  assert.deepEqual(await exactSnapshot(target), projectCheckBefore);
+
+  const settingsPath = path.join(target, ".claude", "settings.json");
+  const originalSettings = await readFile(settingsPath, "utf8");
+  await writeFile(settingsPath, "Consumer settings edit.\n");
+  const conflictBefore = await exactSnapshot(target);
+  const conflict = await runConstructor(alternateCli, "sync", target, ["--check"]);
+  assert.equal(conflict.exitCode, 1);
+  const conflictPayload = parseJson(conflict, "conflicto con procedencia distinta");
+  assert.equal(conflictPayload.status, "DRIFT");
+  assert.ok(
+    conflictPayload.plan.operations.some(
+      (operation) => operation.target === ".claude/settings.json" && operation.operation === "conflict",
+    ),
+  );
+  assert.deepEqual(await exactSnapshot(target), conflictBefore);
+  await writeFile(settingsPath, originalSettings);
+
+  await writeFile(path.join(target, "AGENTS.md"), "Consumer-owned edit for drift fixture.\n");
+  const driftBefore = await exactSnapshot(target);
+  const realDrift = await runProjectOsCheck(target);
+  assert.equal(realDrift.exitCode, 1, realDrift.stderr || realDrift.stdout);
+  assert.match(realDrift.stdout, /\[DRIFT\] sync/);
+  const driftPayload = await runConstructor(alternateCli, "sync", target, ["--check"]);
+  assert.equal(driftPayload.exitCode, 1);
+  const driftJson = parseJson(driftPayload, "deriva con procedencia distinta");
+  assert.ok(driftJson.plan.operations.some((operation) => operation.target === "AGENTS.md"));
+  assert.equal(driftJson.plan.stateChanges.some((change) => change.field === "packageHash"), true);
+  assert.deepEqual(await exactSnapshot(target), driftBefore);
+});
+
+test("sync --check nombra diferencias de perfiles y estado legado", {
+  timeout: 120_000,
+}, async () => {
+  const target = await cloneBaseline("sync-state-field-deltas");
+  const statePath = path.join(target, stateRelative);
+  const original = await readJson(statePath);
+  const cases = [
+    ["activeProfiles", []],
+    ["blueprintHash", "saved-blueprint-hash"],
+    ["configurationHash", "saved-configuration-hash"],
+    ["stateFormatVersion", 1],
+  ];
+
+  for (const [field, saved] of cases) {
+    await writeFile(statePath, `${JSON.stringify({ ...original, [field]: saved }, null, 2)}\n`);
+    const before = await exactSnapshot(target);
+    const response = await runInstalled(target, "sync", ["--check"]);
+    assert.equal(response.exitCode, 1, `${field}: ${response.stderr || response.stdout}`);
+    const payload = parseJson(response, `diferencia ${field}`);
+    assert.equal(payload.status, "DRIFT", field);
+    assert.ok(
+      payload.plan.stateChanges.some((change) => change.field === field),
+      `${field} debe aparecer en el delta: ${JSON.stringify(payload.plan.stateChanges)}`,
+    );
+    const change = payload.plan.stateChanges.find((item) => item.field === field);
+    assert.deepEqual(change.saved, saved);
+    assert.notEqual(JSON.stringify(change.observed), JSON.stringify(saved));
+    if (field === "activeProfiles") {
+      const human = await run(
+        process.execPath,
+        [sourceCli, "sync", "--target", target, "--check"],
+        { cwd: target },
+      );
+      assert.equal(human.exitCode, 1, human.stderr || human.stdout);
+      assert.match(human.stdout, /state=update \(activeProfiles\)/);
+      assert.match(human.stdout, /Estado: activeProfiles guardado=/);
+    }
+    assert.deepEqual(await exactSnapshot(target), before);
+  }
 });
 
 test("bootstrap inicializa deuda vacía y el namespace debt usa la misma release", async () => {
@@ -1412,6 +1600,7 @@ test("estado futuro se rechaza sin mutación y estado antiguo compatible migra a
   const legacyState = JSON.parse(await readFile(legacyStatePath, "utf8"));
   legacyState.stateFormatVersion = 0;
   await writeFile(legacyStatePath, `${JSON.stringify(legacyState, null, 2)}\n`);
+  const beforeLegacyMigration = await snapshot(legacyTarget);
 
   const migration = await runInstalled(legacyTarget, "sync");
   const migrationPayload = parseJson(migration, "migración compatible");
@@ -1421,6 +1610,14 @@ test("estado futuro se rechaza sin mutación y estado antiguo compatible migra a
   const check = await runInstalled(legacyTarget, "sync", ["--check"]);
   assertSuccessfulConstructor(check, "check tras migración");
   assert.equal(parseJson(check, "check tras migración").plan.hasDrift, false);
+
+  const rollback = await runInstalled(legacyTarget, "rollback", [
+    "--transaction",
+    migrationPayload.transaction.transactionId,
+  ]);
+  assertSuccessfulConstructor(rollback, "rollback de la migración de estado");
+  assert.deepEqual(await snapshot(legacyTarget), beforeLegacyMigration);
+  assert.equal(JSON.parse(await readFile(legacyStatePath, "utf8")).stateFormatVersion, 0);
 });
 
 test("opsx-check observa el Purpose de las capabilities publicadas y solo cuando existen", { timeout: 180_000 }, async () => {
