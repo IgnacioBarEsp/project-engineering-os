@@ -27,6 +27,87 @@ test('doctor diferencia upstream explícito de consumidor sin ocultar obligacion
   assert.equal((await collectDoctorReport(options)).results.find(r=>r.id==='debt.health').status,'SKIP');
 });
 
+test('doctor exige contrato fijo y fechado para el recibo de GitHub Project sin ejecutar renovaciones', async t => {
+  const root=await createHealthyFixture(t);
+  const config=JSON.parse(await readFile(path.join(root,'.project-os/github/product-os.json'),'utf8'));
+  const legacyReceipt={
+    schemaVersion:'1.0.0',status:'PASS',optIn:true,
+    configHash:doctorInternals.sha256(`${doctorInternals.stableStringify(config)}\n`),
+    issuedAt:new Date(Date.now()-1000).toISOString(),
+    expiresAt:new Date(Date.now()+30*24*60*60*1000).toISOString(),
+  };
+  await json(root,'.project-os/evidence/github-project.json',legacyReceipt);
+  const calls=[];
+  const options={target:root,runner:healthyRunner(calls),parityChecker:healthyParity,env:{}};
+  const status=async()=> (await collectDoctorReport(options)).results.find(r=>r.id==='github.project');
+  assert.equal((await status()).status,'PASS');
+  const pkg=JSON.parse(await readFile(path.join(root,'package.json'),'utf8'));
+  pkg.name='create-project-engineering-os';
+  await json(root,'package.json',pkg);
+  const lock=JSON.parse(await readFile(path.join(root,'package-lock.json'),'utf8'));
+  lock.name=pkg.name;lock.packages[''].name=pkg.name;
+  await json(root,'package-lock.json',lock);
+  await json(root,'.project-os/repository-governance.json',{repositoryKind:'upstream'});
+  assert.equal((await status()).status,'FAIL');
+  const receipt={
+    ...legacyReceipt,
+    source:'https://github.com/users/Owner/projects/3',
+    verification:'Read-only project view matched the configured owner and title.',
+    renewalCommand:'gh project view 3 --owner Owner --format json',
+    };
+    await json(root,'.project-os/evidence/github-project.json',receipt);
+    assert.equal((await status()).status,'PASS');
+    await mkdir(path.join(root,'.project-constructor/evidence'),{recursive:true});
+    await json(root,'.project-constructor/evidence/github-project.json',receipt);
+    await rm(path.join(root,'.project-os/evidence/github-project.json'));
+    const legacyUpstream=await status();
+    assert.equal(legacyUpstream.status,'WARN');
+    assert.equal(legacyUpstream.evidence.expectedReceipt,'.project-os/evidence/github-project.json');
+    await json(root,'.project-os/evidence/github-project.json',receipt);
+    assert.equal((await status()).status,'PASS');
+    await json(root,'.project-os/evidence/github-project.json',{
+      ...receipt,
+      verification:'x'.repeat(17*1024),
+    });
+    const oversized=await status();
+    assert.equal(oversized.status,'FAIL');
+    assert.match(oversized.cause,/límite de lectura/);
+    for(const change of [
+      {renewalCommand:'gh project delete 3 --owner Owner'},
+    {verification:''},
+    {expiresAt:new Date(Date.now()+181*24*60*60*1000).toISOString()},
+    {issuedAt:new Date(Date.now()+60*60*1000).toISOString()},
+  ]) {
+    await json(root,'.project-os/evidence/github-project.json',{...receipt,...change});
+    assert.equal((await status()).status,'FAIL');
+  }
+    assert.equal(calls.filter(call=>call==='ghVersion').length,10);
+  assert.ok(calls.every(call=>['nodeVersion','npmVersion','gitRoot','gitStatus','ghVersion'].includes(call)));
+});
+
+test('doctor conserva la ruta heredada del recibo de GitHub Project para consumidores', async t => {
+  const root=await createHealthyFixture(t);
+  const config=JSON.parse(await readFile(path.join(root,'.project-os/github/product-os.json'),'utf8'));
+  const legacyReceipt={
+    schemaVersion:'1.0.0',
+    status:'PASS',
+    configHash:doctorInternals.sha256(`${doctorInternals.stableStringify(config)}\n`),
+    expiresAt:new Date(Date.now()+30*24*60*60*1000).toISOString(),
+  };
+  await mkdir(path.join(root,'.project-constructor/evidence'),{recursive:true});
+  await json(root,'.project-constructor/evidence/github-project.json',legacyReceipt);
+  await rm(path.join(root,'.project-os/evidence/github-project.json'),{force:true});
+  const report=await collectDoctorReport({
+    target:root,
+    runner:healthyRunner(),
+    parityChecker:healthyParity,
+    env:{},
+  });
+  const project=report.results.find(entry=>entry.id==='github.project');
+  assert.equal(project.status,'PASS');
+  assert.equal(project.evidence.receipt,'.project-constructor/evidence/github-project.json');
+});
+
 test('indexación opt-in valida recibos independientes, recientes y ligados al config', async (t) => {
   const root=await createHealthyFixture(t);
   const config={codeIndexable:true,activeProfiles:['documentation','harness-tooling']};

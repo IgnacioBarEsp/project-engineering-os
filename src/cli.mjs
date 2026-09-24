@@ -25,6 +25,7 @@ import {
   runUpgrade,
 } from './commands.mjs';
 import { runReadinessCheck } from './readiness.mjs';
+import { freshnessText, runFreshness } from './freshness.mjs';
 import {
   runToolCatalog,
   toolCatalogText,
@@ -37,6 +38,7 @@ Uso:
   project-os sync [--target <ruta>] [--check|--dry-run] [--json]
   project-os upgrade [--target <ruta>] <--check|--apply> [--open-pr] [--json]
   project-os doctor [--target <ruta>] [--json]
+  project-os freshness [--target <ruta>] [--json]
   project-os opsx-adapt [--target <ruta>] [--json]
   project-os opsx-check [--target <ruta>] [--json]
   project-os readiness-check --phase propose --issue <n> [--target <ruta>] [--json]
@@ -56,9 +58,10 @@ Opciones de fixture:
 Adopción explícita (bootstrap y sync):
   --adopt-project-seeds <json>    Lista revisada de {target, hash}; conserva los archivos existentes.
 
-doctor, github-plan, onboarding-plan, tool-catalog, opsx-check y readiness-check son read-only. opsx-adapt muta
+doctor, freshness, github-plan, onboarding-plan, tool-catalog, opsx-check y readiness-check son read-only. opsx-adapt muta
 solo archivos generados por OpenSpec bajo su contrato separado. sync --check no escribe ni repara.
 tool-catalog describe herramientas sin activarlas y solo acepta rutas locales: no descarga contenido.
+freshness reporta pines y recibos con fecha; no contacta servicios ni ejecuta comandos de renovación.
 `;
 
 export function assertSupportedNode(version = process.versions.node) {
@@ -192,6 +195,7 @@ function parseArguments(argv) {
   if (![
     'bootstrap',
     'doctor',
+    'freshness',
     'github-plan',
     'onboarding-plan',
     'opsx-adapt',
@@ -432,6 +436,9 @@ export async function runCli(argv = process.argv.slice(2)) {
       case 'doctor':
         result = await runDoctorDynamic(parsed.options);
         break;
+      case 'freshness':
+        result = await runFreshness(parsed.options);
+        break;
       case 'readiness-check':
         result = await runReadinessCheck(parsed.options);
         break;
@@ -451,6 +458,8 @@ export async function runCli(argv = process.argv.slice(2)) {
       write(onboardingPlanText(result));
     } else if (parsed.command === 'tool-catalog') {
       write(toolCatalogText(result));
+    } else if (parsed.command === 'freshness') {
+      write(freshnessText(result));
     } else if (parsed.command === 'opsx-check') {
       write(`${result.checks.map((item) => (
         `[${item.status}] ${item.id}: ${item.summary}${item.remediation ? `\n  Recuperación: ${item.remediation}` : ''}`

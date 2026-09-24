@@ -59,6 +59,7 @@ Estos comandos están disponibles como `project-os` cuando el paquete está en e
 ```sh
 project-os sync --target . --check
 project-os doctor --target . --json
+project-os freshness --target . --json
 project-os onboarding-plan --target . --json
 project-os readiness-check --phase propose --issue 123 --target .
 project-os readiness-check --phase archive --change mi-change --target .
@@ -70,6 +71,13 @@ project-os rollback --target . --transaction <id>
 Sustituye issue, change e identificador de transacción por los de tu proyecto. Los checks no reparan,
 instalan ni autentican. Rollback sí modifica archivos propios tras comparar hashes.
 [Recuperación](RECOVERY.md) conserva el detalle de reanudación, reversión y conflictos.
+
+`freshness` combina la frescura del catálogo de herramientas con los recibos locales que tienen
+vencimiento. Indica si usó el catálogo del target o la semilla empaquetada. La salida puede mostrar una
+fecha vencida aunque el código de salida sea `0`: es diagnóstico, no reparación. Los comandos de
+renovación son instrucciones para una persona; el CLI no los ejecuta, no autentica ni consulta servicios.
+El estado `fresh` también exige que el hash del recibo coincida con el manifiesto Product OS local; un
+cambio de configuración invalida el recibo aunque su fecha siga vigente.
 
 ## Resultados y códigos de salida
 
