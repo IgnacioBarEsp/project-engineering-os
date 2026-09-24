@@ -15,7 +15,7 @@ Las versiones publicadas se comprobaron contra sus SHA-256 de release antes de a
 | 0.3.2 | `cab544dddd31a83fb86f744646cffcb2b1da346f950428c5c6a17b5931ac632e` | Baseline sin las elecciones nuevas |
 | 0.3.5 | `9860c3fe476469a5e07b8f8cdf0936d305b7851638eab37a354cf739a604ab1d` | Release con elecciones, falla idioma |
 | 0.3.6 de trabajo | `c5761c3255316057b92224b928d454d9b59b6332bce9eae995c935c383ca4e68` | Construcción local marcada `dirty`, **no publicable** |
-| 0.3.6 limpio | `b92ffc4b81b80b2df0103a21f99df9d692ead2ca53fe1d99d0f3e39147a2602e` | Build verificado desde `89a7614`, pendiente de UI y publicación |
+| 0.3.6 limpio | `b92ffc4b81b80b2df0103a21f99df9d692ead2ca53fe1d99d0f3e39147a2602e` | Candidato prepublicación verificado en Sandbox; la release protegida se reconstruyó desde el tag |
 
 ## Baseline 0.3.2 y hallazgo 0.3.5
 

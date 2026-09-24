@@ -12,27 +12,27 @@
   "cases": {
     "desktopChecked": {
       "status": "passed",
-      "evidence": "openspec/changes/companion-installer-choices/evidence/screenshots/candidate-0.3.6-clean-desktop-checked.jpg"
+      "evidence": "openspec/changes/archive/2026-09-24-companion-installer-choices/evidence/screenshots/candidate-0.3.6-clean-desktop-checked.jpg"
     },
     "desktopUnchecked": {
       "status": "passed",
-      "evidence": "openspec/changes/companion-installer-choices/evidence/screenshots/candidate-0.3.6-desktop-unchecked-cleared.jpg"
+      "evidence": "openspec/changes/archive/2026-09-24-companion-installer-choices/evidence/screenshots/candidate-0.3.6-desktop-unchecked-cleared.jpg"
     },
     "finishChecked": {
       "status": "passed",
-      "evidence": "openspec/changes/companion-installer-choices/evidence/screenshots/candidate-0.3.6-clean-opened-app.jpg"
+      "evidence": "openspec/changes/archive/2026-09-24-companion-installer-choices/evidence/screenshots/candidate-0.3.6-clean-opened-app.jpg"
     },
     "finishUnchecked": {
       "status": "passed",
-      "evidence": "openspec/changes/companion-installer-choices/evidence/screenshots/candidate-0.3.6-finish-unchecked-spanish.jpg"
+      "evidence": "openspec/changes/archive/2026-09-24-companion-installer-choices/evidence/screenshots/candidate-0.3.6-finish-unchecked-spanish.jpg"
     },
     "spanishPages": {
       "status": "passed",
-      "evidence": "openspec/changes/companion-installer-choices/evidence/screenshots/candidate-0.3.6-clean-install-location.jpg"
+      "evidence": "openspec/changes/archive/2026-09-24-companion-installer-choices/evidence/screenshots/candidate-0.3.6-clean-install-location.jpg"
     }
   },
   "limitations": [
     "This manual evidence covers the assisted UI choices; silent install, update, uninstall, and data-sentinel preservation remain the responsibility of the protected release harness.",
-    "The release workflow requires a maintainer to attest to the assisted UI check and provide this committed evidence before publication."
+    "Before publication, the release workflow required a maintainer to attest to the assisted UI check and provide this committed evidence."
   ]
 }

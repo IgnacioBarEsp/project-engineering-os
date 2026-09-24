@@ -9,10 +9,10 @@ La fuente de implementación es el include NSIS local. `qa/packaging.mjs` proteg
 `verify-release-installation.mjs` comprueba el enlace en el ciclo silencioso de instalar, actualizar y desinstalar
 cuando se ejecuta en GitHub Actions o en una VM Windows desechable declarada.
 
-La implementación y los gates locales están completos. La release 0.3.5 pasó el ciclo silencioso protegido de
-instalación, actualización y desinstalación. La observación de las cuatro ramas asistidas y la comparación de
-idioma siguen pendientes en Windows Sandbox; ninguna ejecución silenciosa se presenta como lectura o interacción
-con el asistente.
+La implementación y los gates locales están completos. La release 0.3.6 pasó el ciclo silencioso protegido de
+instalación, actualización y desinstalación; Windows Sandbox verificó las cuatro ramas asistidas y las páginas
+en español. La publicación exige evidencia mantenedora para las elecciones asistidas, mientras la CI cubre los
+defaults silenciosos; ninguno de esos resultados se presenta como sustituto del otro.
 
 - Propuesta: [proposal.md](proposal.md)
 - Diseño: [design.md](design.md)
@@ -20,4 +20,5 @@ con el asistente.
 - Tareas: [tasks.md](tasks.md)
 - Baseline: [brownfield-baseline.md](brownfield-baseline.md)
 - Validación y límites: [evidence/validation.md](evidence/validation.md)
-- Publicación y ciclo silencioso 0.3.5: [evidence/release-0.3.5.md](evidence/release-0.3.5.md)
+- Recorrido asistido 0.3.6: [evidence/assisted-sandbox.md](evidence/assisted-sandbox.md)
+- Release 0.3.6: [evidence/release-0.3.6.md](evidence/release-0.3.6.md)

@@ -343,7 +343,7 @@ test('the 0.3.6 release path is private, disposable and never replaces a prior r
   assert.ok(workflow.indexOf('name: Require verified assisted installer evidence') < workflow.indexOf('gh release create'),
     'El gate asistido debe ejecutarse antes de crear un borrador de release.');
   const assistedEvidence = JSON.parse(await readFile(path.resolve(app,
-    '../../openspec/changes/companion-installer-choices/evidence/assisted-sandbox-0.3.6.json'), 'utf8'));
+    '../../openspec/changes/archive/2026-09-24-companion-installer-choices/evidence/assisted-sandbox-0.3.6.json'), 'utf8'));
   assert.equal(assistedEvidence.candidateVersion, '0.3.6');
   assert.equal(assistedEvidence.sourceTree, '57c0d841ea34e5c6fb9272321f7a7a471316c5c1');
   for (const caseName of ['desktopChecked', 'desktopUnchecked', 'finishChecked', 'finishUnchecked', 'spanishPages']) {
