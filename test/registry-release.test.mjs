@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { registryIdentity, readBounded, waitForRegistryRelease } from '../scripts/registry-release.mjs';
-import { assertPublishedManifest, assertSignedRelease, publishedIdentity, RELEASE_REPO } from '../scripts/verify-published.mjs';
+import { assertPublishedManifest, assertPublishingRun, assertSignedRelease, publishedIdentity, RELEASE_REPO } from '../scripts/verify-published.mjs';
 import { checkPublishedVerificationWorkflow } from '../scripts/release-workflow-policy.mjs';
 
 const identity = publishedIdentity('v0.3.0');
@@ -114,44 +114,102 @@ test('canonical manifest confines filenames and rejects tag, byte and test-evide
 
 function signedFixture() {
   const predicateType = 'https://slsa.dev/provenance/v1';
+  const workflowCommit = 'c'.repeat(40);
   const statement = { predicateType, subject: [{ name: `pkg:npm/${identity.name}@${identity.version}`,
     digest: { sha512: Buffer.alloc(64, 1).toString('hex') } }],
   predicate: { buildDefinition: {
-    externalParameters: { workflow: { repository: `https://github.com/${RELEASE_REPO}`, path: '.github/workflows/release.yml' } },
-    resolvedDependencies: [{ uri: `git+https://github.com/${RELEASE_REPO}@refs/heads/main`, digest: { gitCommit: manifest.commit } }],
-  } } };
+    externalParameters: { workflow: {
+      repository: `https://github.com/${RELEASE_REPO}`, path: '.github/workflows/release.yml', ref: 'refs/heads/main',
+    } },
+    resolvedDependencies: [{ uri: `git+https://github.com/${RELEASE_REPO}@refs/heads/main`,
+      digest: { gitCommit: workflowCommit } }],
+  }, runDetails: { metadata: {
+    invocationId: `https://github.com/${RELEASE_REPO}/actions/runs/12345/attempts/2`,
+  } } } };
   const audit = { invalid: [], missing: [], verified: [{ name: identity.name, version: identity.version,
     registry: 'https://registry.npmjs.org/', attestations: { url: urls.attestations },
     attestationBundles: [{ predicateType, bundle: { dsseEnvelope: {
       payload: Buffer.from(JSON.stringify(statement)).toString('base64'),
     } } }],
   }] };
-  return { audit, statement };
+  return { audit, statement, workflowCommit, provenance: { runId: 12345, attempt: 2, workflowCommit } };
 }
 
 test('signed release requires successful audit and attestation for the exact artifact', () => {
-  const { audit } = signedFixture();
-  assert.doesNotThrow(() => assertSignedRelease(audit, identity, manifest, integrity));
+  const { audit, workflowCommit } = signedFixture();
+  assert.notEqual(workflowCommit, manifest.commit);
+  assert.deepEqual(assertSignedRelease(audit, identity, integrity), {
+    runId: 12345, attempt: 2, workflowCommit,
+  });
   for (const change of [{ invalid: ['bad'] }, { missing: ['absent'] }, { verified: [] },
     { verified: [{ ...audit.verified[0], attestationBundles: [] }] }]) {
-    assert.throws(() => assertSignedRelease({ ...audit, ...change }, identity, manifest, integrity), /signature|provenance/);
+    assert.throws(() => assertSignedRelease({ ...audit, ...change }, identity, integrity), /signature|provenance/);
   }
   audit.verified[0].attestationBundles[0].bundle.dsseEnvelope.payload = Buffer.from('private-malformed-output').toString('base64');
-  assert.throws(() => assertSignedRelease(audit, identity, manifest, integrity), (error) =>
+  assert.throws(() => assertSignedRelease(audit, identity, integrity), (error) =>
     error.message === 'Verification evidence is not valid JSON.');
 });
 
-test('signed provenance binds subject digest, repository and commit', () => {
+test('signed provenance binds the canonical digest, release workflow, ref, dependency and invocation', () => {
   for (const mutate of [
     (s) => { s.subject[0].digest.sha512 = 'a'.repeat(128); },
     (s) => { s.predicate.buildDefinition.externalParameters.workflow.repository = 'https://github.com/other/repo'; },
-    (s) => { s.predicate.buildDefinition.resolvedDependencies[0].digest.gitCommit = 'c'.repeat(40); },
+    (s) => { s.predicate.buildDefinition.externalParameters.workflow.path = '.github/workflows/other.yml'; },
+    (s) => { s.predicate.buildDefinition.externalParameters.workflow.ref = 'refs/tags/v0.3.0'; },
+    (s) => { s.predicate.buildDefinition.resolvedDependencies[0].digest.gitCommit = 'bad'; },
+    (s) => { s.predicate.buildDefinition.resolvedDependencies[0].uri = 'https://example.com/repo'; },
+    (s) => { s.predicate.runDetails.metadata.invocationId = 'https://example.com/actions/runs/12345/attempts/2'; },
+    (s) => { s.predicate.runDetails.metadata.invocationId = `https://github.com/${RELEASE_REPO}/actions/runs/0/attempts/2`; },
   ]) {
     const { audit, statement } = signedFixture();
     mutate(statement);
     audit.verified[0].attestationBundles[0].bundle.dsseEnvelope.payload = Buffer.from(JSON.stringify(statement)).toString('base64');
-    assert.throws(() => assertSignedRelease(audit, identity, manifest, integrity), /Signed provenance differs/);
+    assert.throws(() => assertSignedRelease(audit, identity, integrity), /provenance|invocation/);
   }
+});
+
+test('signed provenance resolves to the exact successful release run and required steps', () => {
+  const { provenance } = signedFixture();
+  const runInfo = { id: 12345, run_attempt: 2, event: 'workflow_dispatch', status: 'completed',
+    conclusion: 'success', head_branch: 'main', head_sha: provenance.workflowCommit,
+    path: '.github/workflows/release.yml' };
+  const attemptJobs = { jobs: [
+    { name: 'Release / build exact artifact', run_id: 12345, run_attempt: 2, conclusion: 'success',
+      started_at: '2026-01-01T00:00:00Z', completed_at: '2026-01-01T00:01:00Z', steps: [
+      { name: 'Validate tag and source', conclusion: 'success' },
+      { name: 'Pack once and smoke exact tarball', conclusion: 'success' },
+      { name: 'Upload immutable candidate', conclusion: 'success' },
+    ] },
+    { name: 'Release / GitHub', run_id: 12345, run_attempt: 2, conclusion: 'success',
+      started_at: '2026-01-01T00:01:01Z', completed_at: '2026-01-01T00:02:00Z', steps: [
+      { name: 'Validate source and candidate identity', conclusion: 'success' },
+      { name: 'Create immutable GitHub Release', conclusion: 'success' },
+    ] },
+    { name: 'Release / npm trusted publishing', run_id: 12345, run_attempt: 2, conclusion: 'success',
+      started_at: '2026-01-01T00:02:01Z', completed_at: '2026-01-01T00:03:00Z', steps: [
+      { name: 'Rebuild verification copy from protected tag', conclusion: 'success' },
+      { name: 'Compare canonical assets with rebuilt tag', conclusion: 'success' },
+      { name: 'Publish exact tarball without token fallback', conclusion: 'success' },
+      { name: 'Verify registry provenance', conclusion: 'success' },
+    ] },
+  ] };
+  assert.doesNotThrow(() => assertPublishingRun(runInfo, attemptJobs, provenance));
+  for (const changedRun of [
+    { ...runInfo, event: 'push' }, { ...runInfo, head_branch: 'other' },
+    { ...runInfo, head_sha: 'd'.repeat(40) }, { ...runInfo, run_attempt: 1 },
+    { ...runInfo, conclusion: 'failure' },
+  ]) assert.throws(() => assertPublishingRun(changedRun, attemptJobs, provenance), /workflow run/);
+  const missingStep = structuredClone(attemptJobs);
+  missingStep.jobs[2].steps[1].conclusion = 'failure';
+  assert.throws(() => assertPublishingRun(runInfo, missingStep, provenance), /workflow run/);
+  const reorderedSteps = structuredClone(attemptJobs);
+  [reorderedSteps.jobs[2].steps[1], reorderedSteps.jobs[2].steps[2]] =
+    [reorderedSteps.jobs[2].steps[2], reorderedSteps.jobs[2].steps[1]];
+  assert.throws(() => assertPublishingRun(runInfo, reorderedSteps, provenance), /workflow run/);
+  const overlappingJobs = structuredClone(attemptJobs);
+  overlappingJobs.jobs[2].started_at = '2026-01-01T00:01:59Z';
+  assert.throws(() => assertPublishingRun(runInfo, overlappingJobs, provenance), /workflow run/);
+  assert.throws(() => assertPublishingRun(runInfo, { jobs: attemptJobs.jobs.slice(0, 2) }, provenance), /workflow run/);
 });
 
 test('published verification workflow rejects write permission, publishing and inline tag interpolation', async () => {

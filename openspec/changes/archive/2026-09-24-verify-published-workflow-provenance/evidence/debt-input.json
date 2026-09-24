@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-24",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "La revisión adversarial y las regresiones cubren los límites de identidad workflow/tag, digest, run/attempt y orden de publicación; no queda deuda nueva atribuible a este cambio. La limitación de que la API de GitHub no devuelve inputs/logs del dispatch está documentada como supuesto de confianza del workflow protegido, no como una verificación que el código afirme hacer. debt check conserva el estado upstream previo y sus issues abiertos sin reclasificarlos.",
+  "flow": "verify-published-workflow-provenance"
+}

@@ -1,0 +1,5 @@
+schema: spec-driven
+created: 2026-09-24
+goal: Verify the cryptographically signed npm artifact against the exact
+  canonical release while independently checking the provenance's main workflow
+  run and the release manifest's immutable tag commit.
