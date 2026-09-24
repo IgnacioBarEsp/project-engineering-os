@@ -1,9 +1,9 @@
 ## 1. Preflight and baseline
 
-> Rebase de release: 0.3.2 ya se publicó el 19 de septiembre. Tras corregir los fallos del arnés de los
-> intentos 0.3.3 y 0.3.4, el candidato 0.3.5 se publicó. No se reutilizó ni reemplazó ningún tag o asset
-> anterior. La [evidencia de release](evidence/release-0.3.5.md) cubre el ciclo silencioso; la
-> [observación asistida](evidence/assisted-sandbox.md) encontró páginas en inglés y exige corregir en 0.3.6.
+> Rebase de release: 0.3.2 se publicó el 19 de septiembre; después se publicaron 0.3.5 y 0.3.6 con tags y
+> assets distintos e inmutables. La evidencia Sandbox encontró páginas en inglés en 0.3.5; 0.3.6 corrigió
+> el idioma y completó el ciclo protegido. Consultar [release 0.3.5](evidence/release-0.3.5.md),
+> [Sandbox asistido](evidence/assisted-sandbox.md) y [release 0.3.6](evidence/release-0.3.6.md).
 
 - [x] 1.1 In a GitHub Actions runner or declared disposable Windows VM, open the unmodified installer before
   editing its language setting; record version, Windows environment, standard-page texts, Finish page and
@@ -46,5 +46,8 @@
 - [x] 4.1 Build and inspect the Windows artifact; capture the checked and unchecked desktop branches, the
   checked and unchecked Finish branches, Spanish pages, upgrade/reinstall and uninstall results with
   artifact identity and environment.
-- [ ] 4.2 Run the relevant Companion tests, `npm run check`, a rollback rehearsal and an adversarial review;
+- [x] 4.2 Run the relevant Companion tests, `npm run check`, a rollback rehearsal and an adversarial review;
   resolve Blockers and Majors, record debt, refresh readiness and archive through the protected-PR flow.
+  Evidence: Companion 146/146; root suite 351/351; rollback of #181–#183 returns to the exact `ad9ebf0`
+  tree; independent Bugbot review of #182 found no open actionable defects; debt assessment/gate clean.
+  Readiness is refreshed in `readiness.json`; this change is archived by the protected closeout PR.

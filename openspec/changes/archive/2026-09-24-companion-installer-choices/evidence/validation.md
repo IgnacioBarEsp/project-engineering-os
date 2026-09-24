@@ -34,11 +34,13 @@ del asistente en Windows y no afirma pruebas a todas las resoluciones o escalas.
 - Revisión de claridad/ownership de [INSTALLER.md](../../../../docs/companion/INSTALLER.md) y del
   [mapa de ownership](../../../../docs/architecture/OWNERSHIP.md): la guía identifica a quién sirve, qué
   elige la persona, los defaults silenciosos, las rutas de datos y qué preserva la desinstalación. El enlace
-  publicado sigue apuntando a 0.3.5 y advierte de su idioma inglés; no promete anticipadamente 0.3.6. El
-  Companion permanece propiedad upstream y no introduce producto/stack en los consumidores.
+  publicado apunta ahora a 0.3.6, y la guía distingue el idioma de las páginas del instalador del idioma de
+  los cuadros propios de Windows. El Companion permanece propiedad upstream y no introduce producto/stack
+  en los consumidores.
 
-La revisión de claridad y la comprobación de teclado son del agente del apply; la revisión adversarial
-independiente sigue siendo un gate separado y pendiente.
+La revisión de claridad y la comprobación de teclado son del agente del apply. La revisión adversarial
+independiente posterior consta en [adversarial-review.md](adversarial-review.md); no se infiere de las
+pruebas locales ni de CI.
 
 | Comprobación actual | Resultado |
 | --- | --- |
@@ -49,6 +51,7 @@ independiente sigue siendo un gate separado y pendiente.
 | `git diff --check` | PASS |
 | `npm run pack --prefix apps/companion` desde `89a7614` | PASS, árbol limpio |
 | `npm run pack:verify --prefix apps/companion -- <salida>` | PASS, identidad y contenido del build limpio |
+| Workflow protegido 35937040623 | PASS; build del tag, ciclo 0.1.0 → 0.3.6 → desinstalación, preservación de sentinelas y comparación canónica; [detalle](release-0.3.6.md) |
 
 El resto de este archivo es evidencia histórica del primer candidato 0.3.2; no describe el estado
 publicable de 0.3.6.
@@ -79,22 +82,28 @@ El candidato medido desde el árbol limpio `dc2509a1e13c4fcd908ea64ddb952489e8cd
 2.547 archivos empaquetados, 2.619 instalados, núcleo 0.5.0 y firma `NotSigned`. El workflow de release debe
 reconstruir el candidato desde el commit integrado antes de publicar.
 
-## Cobertura Windows pendiente
+## Cobertura Windows del candidato publicado 0.3.6
 
 El verificador conserva la guardia que solo permite ejecutarse en GitHub Actions o con
-`PROJECT_OS_DISPOSABLE_WINDOWS=1`. La release 0.3.5 completó el ciclo silencioso documentado en
-[release-0.3.5.md](release-0.3.5.md). El workflow de release para el tag protegido aún no se ejecutó para 0.3.6;
-los checks verdes del PR validan sus propios trabajos, pero no se presentan como ejecución del arnés de
-instalación. La ejecución del release debe registrar actualización, desinstalación, retirada del enlace y
-preservación de los tres sentinelas. Esa automatización no se presentará como interacción humana.
+`PROJECT_OS_DISPOSABLE_WINDOWS=1`. El [workflow protegido de 0.3.6](release-0.3.6.md) reconstruyó el tag,
+actualizó 0.1.0 a 0.3.6, retiró instalación y acceso directo tras desinstalar y preservó los sentinelas de
+proyecto, historial y runtime. Es cobertura automatizada silenciosa en un runner desechable, no interacción
+humana con el asistente.
 
 La observación asistida cubre el baseline 0.3.2, el defecto de idioma de 0.3.5, las dos ramas de las casillas
 con 0.3.6, una instalación limpia, actualización, reparación, apertura desde Finish, desinstalación y retirada
-del enlace. La preservación de datos centinela y la ejecución del workflow protegido desde el tag aún quedan
-pendientes, junto con la revisión independiente y los gates de archivo/PR; esta evidencia no cierra #168.
+del enlace, en Windows Sandbox. La preservación de datos se atribuye solo al arnés automatizado, no a la
+observación Sandbox. El gate de publicación exige la confirmación del mantenedor y las cinco capturas antes
+de construir y publicar. El verificador no automatiza la casilla asistida desmarcada: esa rama queda cubierta
+por la observación manual versionada y el gate obligatorio; la CI sí comprueba los defaults silenciosos.
+
+El informe complementario `native-journeys.json` registró cinco perfiles abiertos, cero hallazgos y diez
+etapas no verificadas que requerían responder selectores del sistema. No se declara como ejecución completa
+de esas etapas ni como cobertura del instalador. La revisión adversarial, el rollback conjunto y los gates
+de deuda/readiness están registrados por separado para el archive.
 
 ## Deriva y límites
 
-No se detecta deriva de versión, núcleo, rutas de datos o propiedad del menú Inicio. La observación real de UI,
-la comparación contra el baseline y la ejecución de instalación/actualización/desinstalación son una deuda de
-evidencia del runner protegido, no una afirmación satisfecha por este checkout.
+No se detecta deriva de versión, núcleo, rutas de datos o propiedad del menú Inicio. La UI asistida, la
+comparación contra el baseline y el ciclo de publicación tienen evidencia manual/automatizada separada; sus
+límites de cobertura permanecen explícitos y no se presentan como señales equivalentes.
