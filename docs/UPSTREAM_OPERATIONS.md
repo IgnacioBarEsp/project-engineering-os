@@ -41,6 +41,12 @@ Cada resultado expone `evidence.category` y `evidence.applicability`. La declara
 consumidor sean SKIP y conserven `originalStatus`. OpenSpec, deuda y manifiesto Product OS siguen siendo
 obligaciones verificables. El consumidor conserva los checks de su layout.
 
+`sync --check` y `upgrade --check` también son comprobaciones de forma de consumidor: en este upstream
+devuelven `SKIP`, sin construir un plan ni mutar archivos, cuando coinciden `repositoryKind: upstream` y la
+identidad del paquete `create-project-engineering-os`. Ejecuta esos checks sobre un fixture bootstrapeado de
+consumidor para verificar el blueprint. La omisión no aplica a `sync --dry-run`, `sync` mutante ni
+`upgrade --apply`; esas operaciones conservan sus gates estrictos y el upstream no debe ejecutarlas.
+
 ## Perfiles y evidencia estructural
 
 Para activar un perfil condicional, actualiza su flag `active`, la lista `active` y `activationDecision`

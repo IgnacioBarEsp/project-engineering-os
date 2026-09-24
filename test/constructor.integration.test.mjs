@@ -5,6 +5,7 @@ import Ajv2020 from "ajv/dist/2020.js";
 import {
   access,
   cp,
+  copyFile,
   mkdir,
   mkdtemp,
   readFile,
@@ -18,7 +19,7 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import test, { after, before } from "node:test";
 
-import { CONSTRUCTOR_VERSION } from "../src/constants.mjs";
+import { CONSTRUCTOR_VERSION, PACKAGE_NAME } from "../src/constants.mjs";
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourceCli = path.join(packageRoot, "bin", "project-os.mjs");
 const stateRelative = path.join(".project-constructor", "state.json");
@@ -583,6 +584,96 @@ test("sync --check nombra diferencias de perfiles y estado legado", {
       assert.match(human.stdout, /Estado: activeProfiles guardado=/);
     }
     assert.deepEqual(await exactSnapshot(target), before);
+  }
+});
+
+test("checks read-only omiten el upstream reconocido pero conservan los gates de consumidor y apply", {
+  timeout: 120_000,
+}, async () => {
+  const upstream = await cloneBaseline("upstream-check-applicability");
+  const packagePath = path.join(upstream, "package.json");
+  const packageManifest = await readJson(packagePath);
+  packageManifest.name = PACKAGE_NAME;
+  await writeFile(packagePath, `${JSON.stringify(packageManifest, null, 2)}\n`);
+  await writeFile(
+    path.join(upstream, ".project-os", "repository-governance.json"),
+    `${JSON.stringify({ repositoryKind: "upstream" }, null, 2)}\n`,
+  );
+  await copyFile(
+    path.join(packageRoot, ".project-os", "profiles.json"),
+    path.join(upstream, ".project-os", "profiles.json"),
+  );
+  await rm(path.join(upstream, ".project-constructor", "config.json"), { force: true });
+
+  const before = await exactSnapshot(upstream);
+  for (const [command, args] of [
+    ["sync", ["--check"]],
+    ["upgrade", ["--check"]],
+  ]) {
+    const response = await runInstalled(upstream, command, args);
+    assert.equal(response.exitCode, 0, response.stderr || response.stdout);
+    const payload = parseJson(response, `${command} upstream`);
+    assert.equal(payload.status, "SKIP");
+    assert.equal(payload.skipReason, "El upstream no consume el layout gestionado; valida este check en un fixture consumidor.");
+    assert.equal(payload.mutationPerformed, false);
+    assert.equal(payload.plan, undefined);
+    assert.deepEqual(await exactSnapshot(upstream), before);
+  }
+  const humanSkip = await run(
+    process.execPath,
+    [sourceCli, "sync", "--target", upstream, "--check"],
+    { cwd: upstream },
+  );
+  assert.equal(humanSkip.exitCode, 0, humanSkip.stderr || humanSkip.stdout);
+  assert.match(humanSkip.stdout, /^\[SKIP\] sync/m);
+  assert.match(humanSkip.stdout, /fixture consumidor/);
+
+  for (const [command, args] of [
+    ["sync", ["--dry-run"]],
+    ["sync", []],
+    ["upgrade", ["--apply"]],
+  ]) {
+    const response = await runInstalled(upstream, command, args);
+    assert.equal(response.exitCode, 2, `${command} ${args.join(" ")}: ${response.stderr || response.stdout}`);
+    assert.equal(parseJson(response, `${command} mutation guard`).code, "PROJECT_OS_PROFILE_SELECTION_DRIFT");
+    assert.deepEqual(await exactSnapshot(upstream), before);
+  }
+
+  const markerOnly = await cloneBaseline("upstream-marker-with-consumer-identity");
+  await copyFile(
+    path.join(packageRoot, ".project-os", "profiles.json"),
+    path.join(markerOnly, ".project-os", "profiles.json"),
+  );
+  await writeFile(
+    path.join(markerOnly, ".project-os", "repository-governance.json"),
+    `${JSON.stringify({ repositoryKind: "upstream" }, null, 2)}\n`,
+  );
+  const markerBefore = await exactSnapshot(markerOnly);
+  for (const command of ["sync", "upgrade"]) {
+    const markerMismatch = await runInstalled(markerOnly, command, ["--check"]);
+    assert.equal(markerMismatch.exitCode, 2);
+    const payload = parseJson(markerMismatch, `marker sin package identity: ${command}`);
+    assert.equal(payload.code, "PROJECT_OS_PROFILE_SELECTION_DRIFT");
+    assert.ok(payload.details.some((detail) => detail.includes("documentation,harness-tooling")));
+    assert.ok(payload.details.some((detail) => detail.includes("auth-security")));
+    assert.deepEqual(await exactSnapshot(markerOnly), markerBefore);
+  }
+
+  const packageOnly = await cloneBaseline("upstream-package-without-marker");
+  const consumerManifest = await readJson(path.join(packageOnly, "package.json"));
+  consumerManifest.name = PACKAGE_NAME;
+  await writeFile(path.join(packageOnly, "package.json"), `${JSON.stringify(consumerManifest, null, 2)}\n`);
+  await copyFile(
+    path.join(packageRoot, ".project-os", "profiles.json"),
+    path.join(packageOnly, ".project-os", "profiles.json"),
+  );
+  await rm(path.join(packageOnly, ".project-os", "repository-governance.json"), { force: true });
+  const packageBefore = await exactSnapshot(packageOnly);
+  for (const command of ["sync", "upgrade"]) {
+    const packageMismatch = await runInstalled(packageOnly, command, ["--check"]);
+    assert.equal(packageMismatch.exitCode, 2);
+    assert.equal(parseJson(packageMismatch, `package sin upstream marker: ${command}`).code, "PROJECT_OS_PROFILE_SELECTION_DRIFT");
+    assert.deepEqual(await exactSnapshot(packageOnly), packageBefore);
   }
 });
 
