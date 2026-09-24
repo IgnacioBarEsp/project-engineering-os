@@ -14,6 +14,7 @@ import { CONSTRUCTOR_VERSION, PACKAGE_NAME, PACKAGE_ROOT } from "./constants.mjs
 import {
   assertNoSymlinkEscape,
   normalizeRelativePath,
+  readBoundedFile,
   resolveInside,
 } from "./paths.mjs";
 import {
@@ -24,6 +25,10 @@ import {
 } from "./runtime-support.mjs";
 import { checkState as checkDebtState } from "./debt/gates.mjs";
 import { isConfigured as debtConfigured } from "./debt/store.mjs";
+import {
+  classifyGithubProjectReceipt,
+  FRESHNESS_RECEIPT_MAX_BYTES,
+} from "./freshness.mjs";
 import {
   inspectLocalPackage,
   inspectLocalToolchain,
@@ -346,30 +351,12 @@ async function readBoundedRootFile(target, relativePath, maxBytes, label) {
   }
   await assertNoSymlinkEscape(target, normalized);
   const absolutePath = resolveInside(target, normalized, label);
-  let metadata;
   try {
-    metadata = await stat(absolutePath);
+    return await readBoundedFile(absolutePath, maxBytes, label);
   } catch (error) {
     if (error?.code === "ENOENT") return null;
     throw error;
   }
-  if (!metadata.isFile()) {
-    const error = new Error("La referencia no es un archivo regular.");
-    error.code = "EVIDENCE_NOT_REGULAR";
-    throw error;
-  }
-  if (metadata.size > maxBytes) {
-    const error = new Error("El archivo excede el límite de lectura.");
-    error.code = "EVIDENCE_SIZE_LIMIT";
-    throw error;
-  }
-  const content = await readFile(absolutePath);
-  if (content.byteLength > maxBytes) {
-    const error = new Error("El archivo excede el límite de lectura.");
-    error.code = "EVIDENCE_SIZE_LIMIT";
-    throw error;
-  }
-  return content;
 }
 
 async function verifyTechnicalProfileEvidence({
@@ -588,13 +575,29 @@ async function verifyTechnicalProfileEvidence({
   };
 }
 
-async function evidenceReceipt(target, name, expectedConfigHash) {
-  const candidates = [`.project-os/evidence/${name}.json`, `.project-constructor/evidence/${name}.json`];
+async function evidenceReceipt(target, name, expectedConfigHash, { maxBytes, canonicalOnly = false } = {}) {
+  const candidates = [`.project-os/evidence/${name}.json`];
+  if (!canonicalOnly) candidates.push(`.project-constructor/evidence/${name}.json`);
   let relative = candidates[0];
   for (const candidate of candidates) {
     if (await exists(path.join(target, candidate))) { relative = candidate; break; }
   }
-  const receipt = await readJson(path.join(target, relative));
+  let receipt;
+  if (maxBytes !== undefined) {
+    try {
+      const bytes = await readBoundedRootFile(target, relative, maxBytes, `recibo ${name}`);
+      if (bytes === null) return { state: "missing", relative };
+      receipt = JSON.parse(bytes.toString("utf8"));
+    } catch (error) {
+      return {
+        state: "invalid",
+        relative,
+        cause: technicalEvidenceReadCause(error) ?? "El recibo no contiene JSON legible.",
+      };
+    }
+  } else {
+    receipt = await readJson(path.join(target, relative));
+  }
   if (!receipt) {
     if (await exists(path.join(target, relative))) return { state: 'invalid', relative, cause: 'El recibo no contiene JSON legible.' };
     return { state: "missing", relative };
@@ -621,7 +624,7 @@ async function evidenceReceipt(target, name, expectedConfigHash) {
   if (receipt.status !== "PASS") {
     return { state: "invalid", relative, cause: "La evidencia no contiene un PASS explícito." };
   }
-  return { state: "valid", relative };
+  return { state: "valid", relative, ...(maxBytes === undefined ? {} : { document: receipt }) };
 }
 
 function receiptResult({
@@ -755,6 +758,8 @@ export async function collectDoctorReport({
   let rootPackage;
   try { rootPackage = readProjectManifest(root); }
   catch { rootPackage = null; }
+  const governance = await readJson(path.join(root, '.project-os/repository-governance.json'));
+  const upstream = governance?.repositoryKind === 'upstream' && rootPackage?.name === PACKAGE_NAME;
   let location, packageJson, packageLock, toolchainError;
   try {
     location = resolveLocalToolchain(root);
@@ -1151,7 +1156,23 @@ export async function collectDoctorReport({
   const productOsHash = productOs
     ? sha256(`${stableJson(productOs)}\n`)
     : "missing";
-  const projectReceipt = await evidenceReceipt(root, "github-project", productOsHash);
+  const {
+    document: projectReceiptDocument,
+    ...checkedProjectReceipt
+  } = await evidenceReceipt(root, "github-project", productOsHash, upstream
+    ? { maxBytes: FRESHNESS_RECEIPT_MAX_BYTES, canonicalOnly: true }
+    : undefined);
+  let projectReceipt = checkedProjectReceipt;
+  if (upstream && projectReceipt.state === "valid") {
+    const lifecycle = classifyGithubProjectReceipt(projectReceiptDocument);
+    if (lifecycle.state === "invalid") {
+      projectReceipt = {
+        state: "invalid",
+        relative: projectReceipt.relative,
+        cause: lifecycle.reason,
+      };
+    }
+  }
   results.push(productOs
     ? receiptResult({
       id: "github.project",
@@ -1251,8 +1272,6 @@ export async function collectDoctorReport({
     }),
   );
 
-  const governance = await readJson(path.join(root, '.project-os/repository-governance.json'));
-  const upstream = governance?.repositoryKind === 'upstream' && rootPackage?.name === PACKAGE_NAME;
   const consumerShape = new Set(['release.identity', 'harness.parity', 'mcp.configuration', 'ci.configuration']);
   return createReport(results.map((entry) => {
     const category = consumerShape.has(entry.id) ? 'consumer-shape' : 'published-obligation';

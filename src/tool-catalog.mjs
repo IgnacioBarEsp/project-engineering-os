@@ -1,8 +1,7 @@
-import { readFile, stat } from 'node:fs/promises';
-
 import { ConstructorError } from './errors.mjs';
 import {
   assertNoSymlinkEscape,
+  readBoundedFile,
   resolveInside,
 } from './paths.mjs';
 
@@ -562,10 +561,24 @@ export function resolveEntryState(entry, { freshnessWindowDays, now = new Date()
 async function readLocalJson(root, relativePath, label) {
   const absolute = resolveInside(root, relativePath, label);
   await assertNoSymlinkEscape(root, relativePath);
-  let stats;
+  let raw;
   try {
-    stats = await stat(absolute);
+    raw = await readBoundedFile(absolute, MAX_TOOL_CATALOG_INPUT_BYTES, label);
   } catch (error) {
+    if (error?.code === 'EVIDENCE_SIZE_LIMIT') {
+      throw new ConstructorError(
+        'TOOL_CATALOG_INPUT_TOO_LARGE',
+        `${label} supera ${MAX_TOOL_CATALOG_INPUT_BYTES} bytes.`,
+        { remediation: 'Reduzca el archivo; el catálogo describe herramientas, no contenido investigado.', cause: error },
+      );
+    }
+    if (error?.code !== 'ENOENT') {
+      throw new ConstructorError(
+        'TOOL_CATALOG_INPUT_INVALID',
+        `${label} no es un archivo regular legible.`,
+        { remediation: 'Corrija la ruta y vuelva a ejecutar; el comando no repara archivos.', cause: error },
+      );
+    }
     throw new ConstructorError(
       'TOOL_CATALOG_INPUT_MISSING',
       `No se encontró ${label} en ${relativePath}.`,
@@ -575,16 +588,8 @@ async function readLocalJson(root, relativePath, label) {
       },
     );
   }
-  if (stats.size > MAX_TOOL_CATALOG_INPUT_BYTES) {
-    throw new ConstructorError(
-      'TOOL_CATALOG_INPUT_TOO_LARGE',
-      `${label} supera ${MAX_TOOL_CATALOG_INPUT_BYTES} bytes.`,
-      { remediation: 'Reduzca el archivo; el catálogo describe herramientas, no contenido investigado.' },
-    );
-  }
-  const raw = await readFile(absolute, 'utf8');
   try {
-    return JSON.parse(raw);
+    return JSON.parse(raw.toString('utf8'));
   } catch (error) {
     throw new ConstructorError(
       'TOOL_CATALOG_INPUT_INVALID',

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1.0.0",
+  "entries": [
+    {
+      "id": "profile.auth-security",
+      "profile": "auth-security",
+      "issue": 115
+    },
+    {
+      "id": "profile.library-cli",
+      "profile": "library-cli",
+      "issue": 115
+    },
+    {
+      "id": "profile.ui",
+      "profile": "ui",
+      "issue": 115
+    }
+  ]
+}

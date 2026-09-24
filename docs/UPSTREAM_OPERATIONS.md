@@ -107,6 +107,41 @@ JSON canónico del config: claves ordenadas recursivamente, arrays en su orden y
 máxima es 30 días; recibos ausentes, ilegibles, vencidos, futuros o con hash incorrecto fallan. El doctor
 no arranca herramientas, indexa código ni interpreta configuración como evidencia de operación.
 
+## Baseline y recibo del doctor upstream
+
+El upstream conserva activados sus perfiles elegidos. Como no es un consumidor y no tiene evidencias de
+producto para esos perfiles, `profile.auth-security`, `profile.library-cli` y `profile.ui` continúan en
+`FAIL` hasta que exista evidencia verificable bajo el contrato de #115. El archivo
+`.project-os/doctor-failure-baseline.json` los relaciona con ese issue; no los convierte en PASS ni cambia
+su estado. `npm run check` compara el conjunto completo de fallos actuales con esa lista. Un FAIL nuevo o
+una fila retirada mientras el doctor aún falla detiene el gate. Una fila solo se retira después de que el
+doctor ya no produzca ese FAIL y la resolución tenga evidencia.
+
+El `github.project` smoke es independiente de `doctor`: el doctor solo lee el recibo.
+`.project-os/evidence/github-project.json` conserva el Project configurado, fechas UTC canónicas, el hash
+del manifiesto, y el procedimiento permitido. `freshness` compara ese hash con el manifiesto Product OS
+local; un recibo aún no vencido también queda `invalid` si cambió la configuración. Su lectura no demuestra
+acceso futuro ni autoriza escritura.
+
+Para renovar manualmente:
+
+```sh
+gh project view 3 --owner IgnacioBarEsp --format json
+```
+
+Compara el número 3, owner `IgnacioBarEsp` y título `Project Engineering OS` con
+`.project-os/github/product-os.json`. Guarda solo owner, URL, título/resultado de esa comparación y los
+tiempos `issuedAt`/`expiresAt`; no guardes tokens, item lists, issues ni detalles privados. La vigencia no
+puede superar 180 días. `project-os freshness --target . --json` muestra el recibo como `due-soon`, `stale`
+o `invalid` junto a las entradas de frescura del catálogo; devuelve código 0 cuando solo está vencido y
+nunca ejecuta el comando de renovación. `npm run check` sí falla si el recibo expirado convierte
+`github.project` en un FAIL nuevo. El gate es local y offline.
+
+La semilla del catálogo se informa como `blueprint-seed` en el upstream porque este repositorio no consume
+`.project-os/tool-catalog.json`; en un consumer se informa `target`. La frescura de herramientas y la de
+recibos conservan sus estados separados. El catálogo futuro de decisiones con `reviewBy` y el workflow que
+abre issues corresponden a #158, no a este baseline.
+
 La metadata permite la palabra española «todo» y la prosa indicativa como «conserva» o «sustituye la firma».
 El detector solo trata como instrucción las formas observadas que nombran una ranura (`Replace with`,
 `Complete the review`, `reemplaza con`, `sustituye aquí`, etc.). El marcador pendiente `TODO` en mayúsculas y
