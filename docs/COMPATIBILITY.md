@@ -13,11 +13,29 @@ No exige al usuario instalar el Node de esta tabla. [Estado de entregas](PROJECT
 
 | Sistema | Node probado en CI | Contrato |
 |---|---|---|
-| Ubuntu | 20.20.0, 22.22.0 | suite, fixture y tarball |
-| Windows | 20.20.0, 22.22.0 | misma CLI sin dependencia Bash |
-| macOS | 20.20.0, 22.22.0 | misma CLI y rutas portables |
+| Ubuntu | 22.22.0, 24.x | suite, fixture y tarball |
+| Windows | 22.22.0, 24.x | misma CLI sin dependencia Bash |
+| macOS | 22.22.0, 24.x | misma CLI y rutas portables |
 
-Rango soportado: `^20.20.0 || >=22.22.0`. npm es el único package manager garantizado en v1.
+Rango soportado: `^22.22.0 || ^24.18.0`. Node 24 LTS es la línea recomendada y `.nvmrc` fija 24.18.0.
+El soporte sigue las líneas LTS mantenidas por el proyecto Node.js; el mínimo avanza cuando una línea
+soportada llega a EOL. Actualmente Node 22 está en Maintenance LTS y Node 24 en Active LTS. Node 20 llegó a
+EOL el 2026-04-30; Node 22 tiene EOL previsto para 2027-04-30 y Node 24 para 2028-04-30. Node 26 sigue
+excluido mientras sea Current. La próxima revisión del contrato se
+programa para el 2026-10-28, fecha de transición a LTS actualmente prevista para Node 26; confirma el
+[calendario oficial](https://github.com/nodejs/Release#release-schedule) antes de cambiar el rango. También
+se consultan [las líneas y versiones soportadas](https://nodejs.org/en/about/previous-releases) y
+[la política EOL](https://nodejs.org/en/about/eol). La detección automática de frescura se lleva por #158.
+
+npm es el único package manager garantizado en v1.
+
+### Migrar desde Node 20
+
+Antes de instalar el núcleo 1.0.0, cambia el runtime local y el de CI a Node 22.22.0 o posterior dentro de
+Node 22, o Node 24.18.0 o posterior dentro de Node 24 (recomendado). Actualiza `.nvmrc` y la matriz de tu
+repositorio si las mantienes. No hay migración de datos: el instalador de paquetes rechazará runtimes fuera
+del nuevo `engines.node`. Las versiones publicadas anteriores siguen siendo inmutables, pero Node 20 no
+recibe parches de seguridad desde su fecha EOL.
 
 ## Harnesses
 

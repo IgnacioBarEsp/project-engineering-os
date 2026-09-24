@@ -25,7 +25,7 @@ añadas preguntas de ruta y no preguntes por stack, framework, base de datos, cl
 completo. Si el archivo no existe, continúa en el orden estándar y declara que la ruta no quedó registrada.
 
 1. Lee AGENTS.md si existe y clasifica Git root, working tree, trabajo activo y conflictos.
-2. Comprueba Git, npm y Node ^20.20.0 o >=22.22.0 sin reparar automáticamente.
+2. Comprueba Git, npm y Node ^22.22.0 o ^24.18.0 sin reparar automáticamente; recomienda Node 24 LTS.
 3. Si el repositorio tiene contenido, ejecuta primero:
    npx --yes create-project-engineering-os@<VERSION_APROBADA> bootstrap --target . --dry-run
    Revisa cada colisión y detente si requiere decisión humana.

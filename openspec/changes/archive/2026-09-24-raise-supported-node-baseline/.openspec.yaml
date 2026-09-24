@@ -1,0 +1,4 @@
+schema: spec-driven
+created: 2026-09-24
+goal: Reject EOL Node 20 and keep the core, seed, diagnostics, CI and
+  compatibility guidance aligned on Node 22.22+ and Node 24.18+.

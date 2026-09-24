@@ -4,7 +4,7 @@
 
 1. Trabaja en la raíz Git y clasifica el working tree.
 2. Usa la versión exacta declarada en `package.json`/lockfile.
-3. Verifica Node `^20.20.0 || >=22.22.0` y npm.
+3. Verifica Node `^22.22.0 || ^24.18.0` y npm; se recomienda Node 24 LTS.
 4. En brownfield, ejecuta primero dry-run:
 
 ```sh

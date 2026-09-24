@@ -6,6 +6,11 @@ import {
 import { asConstructorError, ConstructorError } from './errors.mjs';
 import { githubPlanText } from './github-plan.mjs';
 import { stableStringify } from './json.mjs';
+import {
+  isSupportedNode,
+  supportedNodeRemediation,
+  unsupportedNodeCause,
+} from './runtime-support.mjs';
 import { readAdoptionConsent } from './adoption.mjs';
 import {
   onboardingPlanText,
@@ -56,22 +61,13 @@ solo archivos generados por OpenSpec bajo su contrato separado. sync --check no 
 tool-catalog describe herramientas sin activarlas y solo acepta rutas locales: no descarga contenido.
 `;
 
-function nodeVersionTuple(version) {
-  return version.split('.').map((value) => Number(value));
-}
-
-function assertSupportedNode() {
-  const [major, minor] = nodeVersionTuple(process.versions.node);
-  const supported = (major === 20 && minor >= 20)
-    || (major === 22 && minor >= 22)
-    || major > 22;
-  if (!supported) {
+export function assertSupportedNode(version = process.versions.node) {
+  if (!isSupportedNode(version)) {
     throw new ConstructorError(
       'NODE_VERSION_UNSUPPORTED',
-      `Node ${process.versions.node} no cumple ^20.20.0 || >=22.22.0.`,
+      unsupportedNodeCause(version),
       {
-        remediation:
-          'Active Node 20.20.x, Node 22.22 o una versión posterior compatible y vuelva a ejecutar.',
+        remediation: supportedNodeRemediation(),
       },
     );
   }

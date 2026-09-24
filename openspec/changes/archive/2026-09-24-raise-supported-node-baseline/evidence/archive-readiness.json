@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 155,
+  "change": "raise-supported-node-baseline",
+  "capturedAt": "2026-09-24",
+  "fixture": "project-constructor-empty-HkF4sv (disposable consumer under TEMP)",
+  "preflight": {
+    "command": "project-os sync --check --target <fixture> --json",
+    "status": "IN_SYNC",
+    "mutationPerformed": false
+  },
+  "command": "project-os readiness-check --phase archive --change raise-supported-node-baseline --run-local --target <fixture> --json",
+  "ciRun": "https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/35946948408",
+  "baseCommit": "b320c800db9da7578bafb34f77e374259f177be6",
+  "evaluatedOpenSpecArtifacts": "working tree immediately before official archive",
+  "phase": "archive",
+  "verdict": "PASS",
+  "mutationPerformed": false,
+  "counts": {
+    "PASS": 20,
+    "FAIL": 0,
+    "EXCEPTION": 0
+  },
+  "results": [
+    { "id": "change.root", "status": "PASS" },
+    { "id": "change.artifacts", "status": "PASS" },
+    { "id": "change.specs", "status": "PASS" },
+    { "id": "change.tasks", "status": "PASS" },
+    { "id": "readiness.contract", "status": "PASS" },
+    { "id": "readiness.placeholders", "status": "PASS" },
+    { "id": "readiness.command-injection", "status": "PASS" },
+    { "id": "readiness.secrets", "status": "PASS" },
+    { "id": "readiness.issue-traceability", "status": "PASS" },
+    { "id": "readiness.surfaces", "status": "PASS" },
+    { "id": "readiness.validations", "status": "PASS" },
+    { "id": "readiness.evidence", "status": "PASS" },
+    { "id": "readiness.rollback", "status": "PASS" },
+    { "id": "readiness.adversarial-review", "status": "PASS" },
+    { "id": "local.doctor-json-check", "status": "PASS" },
+    { "id": "local.openspec-strict", "status": "PASS" },
+    { "id": "local.opsx-check", "status": "PASS" },
+    { "id": "local.sync-check", "status": "PASS" },
+    { "id": "debt.debt-assessment", "status": "PASS" },
+    { "id": "debt.debt-gate", "status": "PASS" }
+  ],
+  "reviewCaveat": "The readiness field records the agent's adversarial self-review; see adversarial-review.md. It is not a human or independent PR approval. PR #185 still requires the actual maintainer decision before merge."
+}

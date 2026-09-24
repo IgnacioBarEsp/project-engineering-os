@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+## 1.0.0 - 2026-09-23
+
+- **BREAKING:** require maintained Node LTS lines `^22.22.0 || ^24.18.0`; Node 24 is recommended. Node 20
+  reached EOL on 2026-04-30. The active compatibility policy now advances the minimum at upstream EOL,
+  excludes Node 26 while it is Current, and schedules a support review for 2026-10-28. See the migration
+  guidance in [compatibility](docs/COMPATIBILITY.md).
+- Replace the EOL Node 20 CI leg with Node 24.x across the core and generated consumer matrices, and make
+  the CLI, doctor, seed metadata and compatibility guidance enforce the same contract. Companion's app
+  runtime and package-manager policy are unchanged.
+
 ## 0.5.0 - 2026-09-10
 
 - Support an explicitly selected local engineering toolchain with a shared bounded resolver for the

@@ -5,13 +5,14 @@ Para usar Companion, empieza por la [guía visual](USER_GUIDE.md).
 
 ## Carpeta nueva
 
-Requisitos del núcleo 0.5.0: Git, npm y Node `^20.20.0 || >=22.22.0`.
+Requisitos del núcleo 1.0.0: Git, npm y Node `^22.22.0 || ^24.18.0`; se recomienda Node 24 LTS. Para
+migrar desde Node 20, consulta la [guía de compatibilidad](COMPATIBILITY.md#migrar-desde-node-20).
 
 ```sh
 mkdir mi-proyecto
 cd mi-proyecto
 git init
-npx --yes create-project-engineering-os@0.5.0 bootstrap --target .
+npx --yes create-project-engineering-os@1.0.0 bootstrap --target .
 npm ci
 npm run openspec:init
 npm run project-os:opsx:adapt
@@ -29,8 +30,8 @@ contrato upstream. Consulta [política de instalación](INSTALL_HARDENING.md).
 Trabaja desde una rama y un árbol limpio. Inspecciona antes de escribir:
 
 ```sh
-npx --yes create-project-engineering-os@0.5.0 onboarding-plan --target .
-npx --yes create-project-engineering-os@0.5.0 bootstrap --target . --dry-run
+npx --yes create-project-engineering-os@1.0.0 onboarding-plan --target .
+npx --yes create-project-engineering-os@1.0.0 bootstrap --target . --dry-run
 ```
 
 Revisa colisiones y ownership. Solo después de aceptar el plan ejecuta el bootstrap sin `--dry-run`.

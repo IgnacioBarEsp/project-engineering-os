@@ -339,7 +339,7 @@ export function exactPackageEntry() {
     },
     dev: true,
     engines: {
-      node: '^20.20.0 || >=22.22.0',
+      node: '^22.22.0 || ^24.18.0',
     },
     license: 'MIT',
     // Sin integrity: el blueprint viaja dentro del mismo tarball que ese hash describiría.

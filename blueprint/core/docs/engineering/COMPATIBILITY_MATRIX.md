@@ -76,11 +76,19 @@ the six capabilities. Resemblance to an already supported surface never promotes
 
 | Environment | Runtime configured in advisory CI | Contract |
 |---|---|---|
-| Ubuntu | Node 20.20.0 and 22.22.0 | Locked install, parity check, OPSX check, doctor JSON, and OpenSpec validation |
-| Windows | Node 20.20.0 and 22.22.0 | Same commands through npm and the Node runtime; no Bash dependency in the constructor |
-| macOS | Node 20.20.0 and 22.22.0 | Same commands through npm and the Node runtime |
+| Ubuntu | Node 22.22.0 and 24.x | Locked install, parity check, OPSX check, doctor JSON, and OpenSpec validation |
+| Windows | Node 22.22.0 and 24.x | Same commands through npm and the Node runtime; no Bash dependency in the constructor |
+| macOS | Node 22.22.0 and 24.x | Same commands through npm and the Node runtime |
 
-The supported Node range is `^20.20.0 || >=22.22.0`. Generated text uses LF and repository-relative paths.
+The supported Node range is `^22.22.0 || ^24.18.0`; Node 24 is recommended. Support follows upstream LTS
+lines, the minimum advances when a supported line reaches EOL, and Node 26 stays excluded until it becomes
+LTS and the policy is reviewed. The next review checkpoint is 2026-10-28; confirm the current
+[Node.js release schedule](https://github.com/nodejs/Release#release-schedule) before changing the range.
+Generated text uses LF and repository-relative paths.
+
+Consumers moving from Node 20 must switch their local and CI runtime to Node 22.22.0+ or Node 24.18.0+
+(recommended) before installing core 1.0.0; update `.nvmrc` and the consumer matrix. No data migration is
+required, and prior published package artifacts remain immutable.
 Filesystem preflight rejects unsafe traversal and symlink escape. The advisory matrix uses `fail-fast:
 false` to collect all results, but an individual failure remains a failure. A missing, skipped, or
 cancelled job is not success evidence.

@@ -110,7 +110,8 @@ mutación hostil simultánea del sistema de archivos está fuera de esta garant�
 | [saxes](https://github.com/lddubeau/saxes) | 6.0.0 | ISC; xmlchars 2.2.0 MIT | Validación XML con namespaces y párrafos vacíos; sustituye una extracción con expresiones regulares que falló revisión adversarial |
 | [@napi-rs/canvas](https://github.com/Brooooooklyn/canvas) | 1.0.8, lockfile | MIT, con avisos de bibliotecas nativas | Dependencia opcional de PDF.js necesaria para sus objetos gráficos en Node; no se usa para generar assets |
 
-La app usa Node 24.18.0 para validación; el núcleo conserva sus versiones Node 20/22. El lockfile incluye
+La app usa Node 24.18.0 para validación; el núcleo 1.0.0 admite Node 22.22.0+ y 24.18.0+ y recomienda
+Node 24. El runtime declarado por la app no cambia. El lockfile incluye
 integridades de paquetes por plataforma. No hay servicio pagado, cuenta ni telemetría de Companion.
 Los avisos completos de dependencias deben acompañar el instalador en #80; MIT no sustituye los avisos
 de PDF.js o bibliotecas nativas. El paquete público del núcleo excluye `apps/` y sus dependencias.

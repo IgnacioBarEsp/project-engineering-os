@@ -78,11 +78,11 @@ integraciones realmente verificadas.
 
 ## Si prefieres la terminal
 
-El núcleo **0.5.0** sigue disponible para automatización y para Windows, macOS y Linux.
-Necesitas Git, npm y Node `^20.20.0 || >=22.22.0`. En una carpeta Git vacía:
+El núcleo **1.0.0** sigue disponible para automatización y para Windows, macOS y Linux.
+Necesitas Git, npm y Node `^22.22.0 || ^24.18.0`; recomendamos Node 24 LTS. En una carpeta Git vacía:
 
 ```sh
-npx --yes create-project-engineering-os@0.5.0 bootstrap --target .
+npx --yes create-project-engineering-os@1.0.0 bootstrap --target .
 npm ci
 npm run openspec:init
 npm run project-os:opsx:adapt
