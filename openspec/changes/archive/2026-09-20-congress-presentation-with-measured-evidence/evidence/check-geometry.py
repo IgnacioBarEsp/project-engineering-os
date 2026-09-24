@@ -36,6 +36,27 @@ for index, name in enumerate(slides, start=1):
         elif x < MARGIN or y < MARGIN or x + w > W - MARGIN or y + h > H - MARGIN:
             problems.append(f"slide {index}: {tag} a menos de {MARGIN}\" del borde en ({x:.2f},{y:.2f}) {w:.2f}x{h:.2f} «{text}»")
 
+    # On concept slides 6-12, the single 5.6 x 2.0 inch headline sits beside an empty card background.
+    # Empty shapes are normally excluded below so text inside cards is allowed; explicitly guard this pair so
+    # an adjacent sentence cannot be painted underneath its card (as happened on slides 7, 9, and 11).
+    if 6 <= index <= 12:
+        concept_cards = [b for b in boxes if b[0] == "p:sp" and not b[6].strip()
+                         and abs(b[2] - 2.0) < 0.03 and abs(b[3] - 5.6) < 0.03
+                         and abs(b[4] - 3.9) < 0.03]
+        concept_copy = [b for b in boxes if b[0] == "p:sp" and b[6].strip()
+                        and abs(b[2] - 2.15) < 0.03 and abs(b[3] - 5.6) < 0.03
+                        and abs(b[4] - 2.0) < 0.03]
+        if len(concept_cards) != 1 or len(concept_copy) != 1:
+            problems.append(f"slide {index}: se esperaba una tarjeta y una explicación de concepto identificables")
+        else:
+            card_box = concept_cards[0]
+            copy_box = concept_copy[0]
+            gap = (copy_box[1] - (card_box[1] + card_box[3])
+                   if copy_box[1] >= card_box[1]
+                   else card_box[1] - (copy_box[1] + copy_box[3]))
+            if gap < 0.15:
+                problems.append(f"slide {index}: explicación y tarjeta de concepto separadas por solo {gap:.2f}\"")
+
     # Solape: dos textos encima uno de otro es un defecto visible, y una imagen encima de un texto tambien.
     # Filtrar por "tiene texto" dejaba fuera imagenes y tablas, que es donde ese defecto pasa inadvertido.
     visible = [b for b in boxes if b[0] != "p:sp" or b[6].strip()]

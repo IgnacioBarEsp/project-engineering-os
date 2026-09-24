@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "cli": "@fission-ai/openspec 1.6.0 (local, pinned)",
+  "commands": [
+    {
+      "command": "openspec validate --all --strict",
+      "status": "PASS",
+      "itemsPassed": 21,
+      "itemsFailed": 0
+    },
+    {
+      "command": "openspec validate --specs --strict",
+      "status": "PASS",
+      "itemsPassed": 20,
+      "itemsFailed": 0
+    }
+  ],
+  "date": "2026-09-24"
+}
