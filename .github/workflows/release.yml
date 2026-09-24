@@ -14,6 +14,7 @@ permissions:
 jobs:
   build:
     name: Release / build exact artifact
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -22,7 +23,7 @@ jobs:
       - name: Checkout protected tag
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.tag }}
+          ref: refs/tags/${{ inputs.tag }}
       - name: Node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -32,9 +33,20 @@ jobs:
         run: npm install --global --ignore-scripts npm@11.19.1
       - name: Install
         run: npm ci --ignore-scripts
-      - name: Validate tag and source
+      - name: Load reviewed release tools from workflow commit
+        env:
+          RELEASE_TOOL_SHA: ${{ github.sha }}
         run: |
-          node scripts/validate-release.mjs --tag "${{ inputs.tag }}"
+          test "$GITHUB_REF" = "refs/heads/main"
+          git fetch --no-tags origin "$RELEASE_TOOL_SHA"
+          git show "$RELEASE_TOOL_SHA:scripts/release-lib.mjs" > scripts/release-lib.mjs
+          git show "$RELEASE_TOOL_SHA:scripts/validate-release.mjs" > scripts/validate-release.mjs
+          git show "$RELEASE_TOOL_SHA:scripts/release-source.mjs" > scripts/release-source.mjs
+      - name: Validate tag and source
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: |
+          node scripts/validate-release.mjs --tag "$RELEASE_TAG" --verify-tag-source
           npm run check
           node scripts/check-version-available.mjs
       - name: Pack once and smoke exact tarball
@@ -50,37 +62,60 @@ jobs:
   github-release:
     name: Release / GitHub
     needs: [build]
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    environment: github-release
     permissions:
       contents: write
     steps:
       - name: Checkout metadata
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.tag }}
+          ref: refs/tags/${{ inputs.tag }}
+      - name: Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22.22.0
+      - name: Load reviewed source validators from workflow commit
+        env:
+          RELEASE_TOOL_SHA: ${{ github.sha }}
+        run: |
+          test "$GITHUB_REF" = "refs/heads/main"
+          git fetch --no-tags origin "$RELEASE_TOOL_SHA"
+          git show "$RELEASE_TOOL_SHA:scripts/release-lib.mjs" > scripts/release-lib.mjs
+          git show "$RELEASE_TOOL_SHA:scripts/validate-release.mjs" > scripts/validate-release.mjs
+          git show "$RELEASE_TOOL_SHA:scripts/release-source.mjs" > scripts/release-source.mjs
+          git show "$RELEASE_TOOL_SHA:scripts/verify-release.mjs" > scripts/verify-release.mjs
       - name: Download exact candidate
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: release-candidate
           path: release
-      - name: Verify checksum
-        run: node scripts/verify-release.mjs release
+      - name: Validate source and candidate identity
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: |
+          node scripts/validate-release.mjs --tag "$RELEASE_TAG" --verify-tag-source
+          SOURCE_COMMIT="$(git rev-parse --verify HEAD^{commit})"
+          node scripts/verify-release.mjs release --commit "$SOURCE_COMMIT"
       - name: Create immutable GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag }}
         run: |
-          if gh release view "${{ inputs.tag }}" >/dev/null 2>&1; then
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
             mkdir -p existing-release
-            gh release download "${{ inputs.tag }}" --dir existing-release
+            gh release download "$RELEASE_TAG" --dir existing-release
             node scripts/compare-release.mjs release existing-release
           else
-            gh release create "${{ inputs.tag }}" release/* --verify-tag --generate-notes
+            gh release create "$RELEASE_TAG" release/* --verify-tag --generate-notes
           fi
 
   npm:
     name: Release / npm trusted publishing
     needs: [build, github-release]
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     environment: npm-publish
@@ -91,7 +126,7 @@ jobs:
       - name: Checkout identity
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.tag }}
+          ref: refs/tags/${{ inputs.tag }}
       - name: Node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -101,18 +136,30 @@ jobs:
         run: npm install --global --ignore-scripts npm@11.19.1
       - name: Install from lockfile
         run: npm ci --ignore-scripts
-      - name: Rebuild verification copy from protected tag
+      - name: Load reviewed release tools from workflow commit
+        env:
+          RELEASE_TOOL_SHA: ${{ github.sha }}
         run: |
-          node scripts/validate-release.mjs --tag "${{ inputs.tag }}" --remote
+          test "$GITHUB_REF" = "refs/heads/main"
+          git fetch --no-tags origin "$RELEASE_TOOL_SHA"
+          git show "$RELEASE_TOOL_SHA:scripts/release-lib.mjs" > scripts/release-lib.mjs
+          git show "$RELEASE_TOOL_SHA:scripts/validate-release.mjs" > scripts/validate-release.mjs
+          git show "$RELEASE_TOOL_SHA:scripts/release-source.mjs" > scripts/release-source.mjs
+      - name: Rebuild verification copy from protected tag
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: |
+          node scripts/validate-release.mjs --tag "$RELEASE_TAG" --remote
           npm run check
           node scripts/check-version-available.mjs
           node scripts/pack-release.mjs --output release
       - name: Download canonical GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag }}
         run: |
           mkdir canonical-release
-          gh release download "${{ inputs.tag }}" --dir canonical-release
+          gh release download "$RELEASE_TAG" --dir canonical-release
       - name: Compare canonical assets with rebuilt tag
         run: node scripts/compare-release.mjs release canonical-release
       - name: Publish exact tarball without token fallback

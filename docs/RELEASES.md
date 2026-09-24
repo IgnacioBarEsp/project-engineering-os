@@ -37,6 +37,9 @@ el camino y la recuperación cuando algo falla.
 
 La versión sigue SemVer. Patch corrige comportamiento compatible; minor añade capacidad compatible;
 major permite cambios incompatibles con migración y rollback documentados.
+El workflow actual solo publica versiones estables; rechaza una versión prerelease durante el preflight.
+Para habilitar prereleases hace falta diseñar y probar el canal `dist-tag` de npm y marcar la Release
+de GitHub como prerelease antes de ampliar este flujo.
 
 Una release:
 
@@ -66,6 +69,14 @@ Se investiga y se relanza el workflow con el mismo tag solo si npm aún no acept
 No se mueve el tag, no se reutiliza la versión y no
 se sustituye el Release por una reconstrucción distinta. Habilitar immutable releases es un endurecimiento
 administrativo compatible, pero no un requisito ni una mutación automática de este flujo.
+
+El tag que se despacha se valida como dato y se resuelve siempre mediante `refs/tags/<tag>`, nunca
+como una referencia ambigua. Los comandos reciben su valor mediante `RELEASE_TAG`; el preflight
+compara `HEAD` con el commit del tag remoto exacto antes de generar o publicar artefactos; el job
+GitHub compara además el commit del manifest del candidato con ese checkout. Los tres jobs cargan
+los validadores revisados desde el SHA exacto del workflow despachado en `main`. Todos los jobs exigen
+despacho desde `main`; los environments `github-release` y `npm-publish` también se limitan a `main`
+y deshabilitan el bypass administrativo. `npm-publish` conserva su revisión requerida.
 
 ## Publicación aceptada y verificación pendiente
 
@@ -109,9 +120,14 @@ El cierre con la ejecución de recuperación se registra en el
 
 ## Checkout y recuperación de defectos
 
-Antes de empacar, `pack-release.mjs` exige que todo archivo con `eol=lf` tenga LF real en el working tree.
-Un checkout legacy con CRLF falla nombrando rutas. La recuperación es crear una worktree/clone fresca del
-commit; no se normaliza ni reescribe automáticamente la copia del usuario.
+Antes de empacar, `pack-release.mjs` rechaza archivos con `eol=lf` que Git detecta como `crlf`,
+`mixed`, desconocidos o divergentes entre índice y worktree. `none` significa que no hay terminadores;
+se acepta solo cuando tanto índice como worktree reportan `none`, sin reescribir el archivo. Para una
+release cuyo tag inmutable preceda una corrección de las herramientas, los jobs de build y npm cargan
+`release-lib.mjs`, el validador y el resolvedor del SHA exacto del workflow despachado en `main`; el job
+GitHub carga además el verificador del manifest. Así se corrigen las herramientas sin cambiar los bytes
+del tag ni del paquete. Un checkout no canónico sigue fallando con rutas concretas; no se normaliza ni
+reescribe automáticamente la copia del usuario.
 
 No se reutiliza una versión ni se mueve un tag publicado. Una release defectuosa se depreca y se corrige
 con patch. `unpublish` no es el rollback normal.
