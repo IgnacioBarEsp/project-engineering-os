@@ -12,3 +12,10 @@ Fecha: 24 de septiembre de 2026; runtime Node 24.19.0; OpenSpec CLI 1.6.0 desde 
 - `readiness-check --phase archive --change congress-presentation-concept-layout --target . --run-local --json`:
   PASS 17/17, 0 FAIL, 0 EXCEPTION; `mutationPerformed: false`. El comentario de #165 ya enlaza los
   artefactos de la rama con sus hashes.
+
+## Verificación después del archivo
+
+- `openspec archive congress-presentation-concept-layout --yes --json`: PASS; archivado como
+  `2026-09-24-congress-presentation-concept-layout`; especificación canónica actualizada (1 capacidad).
+- `npm run check`: PASS, 364/364 pruebas; `openspec validate --all --strict`: PASS, 20/20; y
+  `openspec validate --specs --strict`: PASS, 20/20.
