@@ -1,8 +1,12 @@
 import {
+  constants as fsConstants,
+} from 'node:fs';
+import {
   access,
   lstat,
   open,
   realpath,
+  stat,
 } from 'node:fs/promises';
 import {
   dirname,
@@ -151,7 +155,20 @@ export async function readBoundedFile(absolutePath, maxBytes, label = 'archivo')
   if (!Number.isSafeInteger(maxBytes) || maxBytes < 0) {
     throw new TypeError('maxBytes debe ser un entero seguro no negativo.');
   }
-  const handle = await open(absolutePath, 'r');
+  // Reject stable special files before opening them: opening a FIFO for
+  // reading can otherwise wait indefinitely before fstat gets a chance to
+  // reject it. O_NONBLOCK also closes that wait if the path changes to a FIFO
+  // between this check and open on POSIX systems.
+  const metadata = await stat(absolutePath);
+  if (!metadata.isFile()) {
+    const error = new Error(`${label} no es un archivo regular.`);
+    error.code = 'EVIDENCE_NOT_REGULAR';
+    throw error;
+  }
+  const flags = process.platform === 'win32'
+    ? fsConstants.O_RDONLY
+    : fsConstants.O_RDONLY | fsConstants.O_NONBLOCK;
+  const handle = await open(absolutePath, flags);
   try {
     return await readBoundedHandle(handle, maxBytes, label);
   } finally {

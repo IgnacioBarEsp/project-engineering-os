@@ -1,7 +1,20 @@
 import assert from 'node:assert/strict';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import test from 'node:test';
 
-import { pathsInternals } from '../src/paths.mjs';
+import { pathsInternals, readBoundedFile } from '../src/paths.mjs';
+
+test('readBoundedFile rejects a non-regular path before opening it', async (t) => {
+  const root = await mkdtemp(path.join(tmpdir(), 'project-os-bounded-path-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+
+  await assert.rejects(
+    readBoundedFile(root, 64, 'entrada'),
+    (error) => error.code === 'EVIDENCE_NOT_REGULAR',
+  );
+});
 
 test('readBoundedHandle stops at limit plus one when a file grows after fstat', async () => {
   const limit = 64;
