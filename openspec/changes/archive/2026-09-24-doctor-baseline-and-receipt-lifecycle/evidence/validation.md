@@ -4,9 +4,9 @@ Date: 2026-09-24. Change: `doctor-baseline-and-receipt-lifecycle`; issue [#160](
 
 ## Automated checks
 
-- Focused suite `node --test test/doctor.test.mjs test/freshness.test.mjs test/upstream-doctor-baseline.test.mjs`: 39 passed, 0 failed. This includes the upstream-canonical-path and consumer-legacy-path regressions.
-- `npm run check`: PASS; package, neutrality, documentation, workflow, debt and upstream-baseline checks passed; 387 tests passed, 0 failed.
-- `npm run fixture -- --json`: PASS on the disposable empty Git consumer. The packed tarball was 277,866 bytes (SHA-256 `100d29216e8b85457466cc17ba58e20a800e04c6a2a826b745c8ccc10160531e`). Bootstrap, second-run idempotence, sync-check, OpenSpec init, `opsx-adapt`, `opsx-check` and consumer doctor JSON all exited 0; fixture cleanup completed.
+- Focused suite `node --test test/paths.test.mjs test/doctor.test.mjs test/freshness.test.mjs test/tool-catalog.test.mjs test/upstream-doctor-baseline.test.mjs`: 58 passed, 0 failed. It includes the upstream-canonical-path and consumer-legacy-path regressions plus a simulated post-`fstat` file growth proving the shared reader stops at limit + 1.
+- `npm run check`: PASS; package, neutrality, documentation, workflow, debt and upstream-baseline checks passed; 388 tests passed, 0 failed.
+- `npm run fixture -- --json`: PASS on the disposable empty Git consumer. The packed tarball was 278,384 bytes (SHA-256 `0b93b6f9a0d47ea5bbf6858c1b5ad2cd113135b79890f9199895b46f9e9f5e73`). Bootstrap, second-run idempotence, sync-check, OpenSpec init, `opsx-adapt`, `opsx-check` and consumer doctor JSON all exited 0.
 - Fixed local CLI `node node_modules/@fission-ai/openspec/bin/openspec.js validate doctor-baseline-and-receipt-lifecycle --strict --no-interactive`: valid.
 - `node bin/project-os.mjs debt check --root . --json`: PASS. The existing repository state remains four open debt items in three flows; this change introduced no registry-item changes.
 - `node bin/project-os.mjs debt gate --phase pre-archive --change doctor-baseline-and-receipt-lifecycle --root . --json`: PASS, 2 PASS / 0 FAIL.
@@ -27,5 +27,6 @@ The optional `readiness-check --run-local` mode was not used on the upstream roo
 
 - Before archival, `readiness-check --phase archive`: PASS, 16 PASS / 0 FAIL; `debt gate --phase pre-archive`: PASS, 2 PASS / 0 FAIL.
 - Official local OpenSpec CLI archived the change as `2026-09-24-doctor-baseline-and-receipt-lifecycle`; `specsUpdated: true`, 4 requirements added, 0 modified or removed.
-- After archival, `openspec validate --all --strict --no-interactive`: 20 passed, 0 failed; `npm run check`: 387 passed, 0 failed; `npm run fixture`: PASS.
+- At initial archival, `openspec validate --all --strict --no-interactive`: 20 passed, 0 failed; `npm run check`: 387 passed, 0 failed; `npm run fixture`: PASS.
+- After the final bounded-read hardening, `openspec validate --all --strict --no-interactive`: 20 passed, 0 failed; `npm run check`: 388 passed, 0 failed; `npm run fixture -- --json`: PASS with the tarball digest above.
 - `git diff --check`: PASS.

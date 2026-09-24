@@ -1,8 +1,8 @@
 import { createHash } from 'node:crypto';
-import { readFile, stat } from 'node:fs/promises';
+import { stat } from 'node:fs/promises';
 
 import { DEFAULT_BLUEPRINT_ROOT } from './constants.mjs';
-import { assertNoSymlinkEscape, resolveInside } from './paths.mjs';
+import { assertNoSymlinkEscape, readBoundedFile, resolveInside } from './paths.mjs';
 import { DEFAULT_TOOL_CATALOG_PATH, runToolCatalog } from './tool-catalog.mjs';
 
 export const FRESHNESS_DUE_SOON_DAYS = 30;
@@ -121,12 +121,8 @@ async function readGithubProjectReceipt(root, now) {
   const absolute = resolveInside(root, GITHUB_PROJECT_RECEIPT_PATH, 'recibo GitHub Project');
   try {
     await assertNoSymlinkEscape(root, GITHUB_PROJECT_RECEIPT_PATH);
-    const info = await stat(absolute);
-    if (!info.isFile()) return { id: 'github.project', path: GITHUB_PROJECT_RECEIPT_PATH, ...invalid('La ruta no es un archivo regular.') };
-    if (info.size > FRESHNESS_RECEIPT_MAX_BYTES) {
-      return { id: 'github.project', path: GITHUB_PROJECT_RECEIPT_PATH, ...invalid('El recibo supera el límite de 16 KiB.') };
-    }
-    const raw = await readFile(absolute, 'utf8');
+    const bytes = await readBoundedFile(absolute, FRESHNESS_RECEIPT_MAX_BYTES, 'recibo GitHub Project');
+    const raw = bytes.toString('utf8');
     let receipt;
     try {
       receipt = JSON.parse(raw);
@@ -158,25 +154,25 @@ async function readGithubProjectReceipt(root, now) {
     if (error?.code === 'ENOENT') {
       return { id: 'github.project', path: GITHUB_PROJECT_RECEIPT_PATH, state: 'missing' };
     }
-    return { id: 'github.project', path: GITHUB_PROJECT_RECEIPT_PATH, ...invalid('No se pudo leer el recibo de forma confinada.') };
+    const reason = error?.code === 'EVIDENCE_SIZE_LIMIT'
+      ? 'El recibo supera el límite de 16 KiB.'
+      : error?.code === 'EVIDENCE_NOT_REGULAR'
+        ? 'La ruta no es un archivo regular.'
+        : 'No se pudo leer el recibo de forma confinada.';
+    return { id: 'github.project', path: GITHUB_PROJECT_RECEIPT_PATH, ...invalid(reason) };
   }
 }
 
 async function readProductOsConfigHash(root) {
   const absolute = resolveInside(root, PRODUCT_OS_CONFIG_PATH, 'manifiesto Product OS');
   await assertNoSymlinkEscape(root, PRODUCT_OS_CONFIG_PATH);
-  let info;
+  let raw;
   try {
-    info = await stat(absolute);
+    raw = await readBoundedFile(absolute, FRESHNESS_CONFIG_MAX_BYTES, 'manifiesto Product OS');
   } catch (error) {
     if (error?.code === 'ENOENT') return { state: 'missing' };
-    throw error;
-  }
-  if (!info.isFile() || info.size > FRESHNESS_CONFIG_MAX_BYTES) {
     return { state: 'invalid' };
   }
-  const raw = await readFile(absolute);
-  if (raw.byteLength > FRESHNESS_CONFIG_MAX_BYTES) return { state: 'invalid' };
   let config;
   try {
     config = JSON.parse(raw.toString('utf8'));

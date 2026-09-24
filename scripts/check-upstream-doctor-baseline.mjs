@@ -1,10 +1,9 @@
-import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { collectDoctorReport } from '../src/doctor.mjs';
 import { runFreshness } from '../src/freshness.mjs';
-import { assertNoSymlinkEscape, resolveInside } from '../src/paths.mjs';
+import { assertNoSymlinkEscape, readBoundedFile, resolveInside } from '../src/paths.mjs';
 
 const ROOT = fileURLToPath(new URL('../', import.meta.url));
 const BASELINE_PATH = '.project-os/doctor-failure-baseline.json';
@@ -78,11 +77,8 @@ export function compareDoctorFailureBaseline(report, baseline) {
 async function readBaseline(root) {
   const absolute = resolveInside(root, BASELINE_PATH, 'baseline del doctor upstream');
   await assertNoSymlinkEscape(root, BASELINE_PATH);
-  const info = await stat(absolute);
-  if (!info.isFile() || info.size > BASELINE_MAX_BYTES) {
-    throw new Error(`El baseline no es un archivo regular dentro del límite de ${BASELINE_MAX_BYTES} bytes.`);
-  }
-  return JSON.parse(await readFile(absolute, 'utf8'));
+  const bytes = await readBoundedFile(absolute, BASELINE_MAX_BYTES, 'baseline del doctor upstream');
+  return JSON.parse(bytes.toString('utf8'));
 }
 
 export async function checkUpstreamDoctorBaseline({ root = ROOT, now = new Date() } = {}) {

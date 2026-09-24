@@ -14,6 +14,7 @@ import { CONSTRUCTOR_VERSION, PACKAGE_NAME, PACKAGE_ROOT } from "./constants.mjs
 import {
   assertNoSymlinkEscape,
   normalizeRelativePath,
+  readBoundedFile,
   resolveInside,
 } from "./paths.mjs";
 import {
@@ -350,30 +351,12 @@ async function readBoundedRootFile(target, relativePath, maxBytes, label) {
   }
   await assertNoSymlinkEscape(target, normalized);
   const absolutePath = resolveInside(target, normalized, label);
-  let metadata;
   try {
-    metadata = await stat(absolutePath);
+    return await readBoundedFile(absolutePath, maxBytes, label);
   } catch (error) {
     if (error?.code === "ENOENT") return null;
     throw error;
   }
-  if (!metadata.isFile()) {
-    const error = new Error("La referencia no es un archivo regular.");
-    error.code = "EVIDENCE_NOT_REGULAR";
-    throw error;
-  }
-  if (metadata.size > maxBytes) {
-    const error = new Error("El archivo excede el límite de lectura.");
-    error.code = "EVIDENCE_SIZE_LIMIT";
-    throw error;
-  }
-  const content = await readFile(absolutePath);
-  if (content.byteLength > maxBytes) {
-    const error = new Error("El archivo excede el límite de lectura.");
-    error.code = "EVIDENCE_SIZE_LIMIT";
-    throw error;
-  }
-  return content;
 }
 
 async function verifyTechnicalProfileEvidence({
