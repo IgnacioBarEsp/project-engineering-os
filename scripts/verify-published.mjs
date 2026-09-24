@@ -14,6 +14,16 @@ import { UPSTREAM_NPM_VERSION } from './release-workflow-policy.mjs';
 export const RELEASE_REPO = 'IgnacioBarEsp/project-engineering-os';
 export const RELEASE_PACKAGE = 'create-project-engineering-os';
 const PROVENANCE = 'https://slsa.dev/provenance/v1';
+const RELEASE_WORKFLOW = '.github/workflows/release.yml';
+const RELEASE_BRANCH = 'refs/heads/main';
+const REQUIRED_RELEASE_STEPS = new Map([
+  ['Release / build exact artifact', ['Validate tag and source', 'Pack once and smoke exact tarball', 'Upload immutable candidate']],
+  ['Release / GitHub', ['Validate source and candidate identity', 'Create immutable GitHub Release']],
+  ['Release / npm trusted publishing', [
+    'Rebuild verification copy from protected tag', 'Compare canonical assets with rebuilt tag',
+    'Publish exact tarball without token fallback', 'Verify registry provenance',
+  ]],
+]);
 
 function parseEvidenceJson(value) {
   try {
@@ -40,7 +50,19 @@ export function assertPublishedManifest(manifest, identity, commit) {
   }
 }
 
-export function assertSignedRelease(audit, identity, manifest, integrity) {
+function parseWorkflowInvocation(invocationId) {
+  const prefix = `https://github.com/${RELEASE_REPO}/actions/runs/`;
+  if (typeof invocationId !== 'string' || !invocationId.startsWith(prefix)) {
+    throw new Error('Signed provenance does not identify a release workflow run.');
+  }
+  const match = /^([1-9]\d*)\/attempts\/([1-9]\d*)$/.exec(invocationId.slice(prefix.length));
+  if (!match || !Number.isSafeInteger(Number(match[1])) || !Number.isSafeInteger(Number(match[2]))) {
+    throw new Error('Signed provenance does not identify a bounded release workflow attempt.');
+  }
+  return { runId: Number(match[1]), attempt: Number(match[2]) };
+}
+
+export function assertSignedRelease(audit, identity, integrity) {
   if (!Array.isArray(audit.invalid) || audit.invalid.length !== 0
     || !Array.isArray(audit.missing) || audit.missing.length !== 0) {
     throw new Error('npm signature verification is missing or invalid.');
@@ -55,15 +77,49 @@ export function assertSignedRelease(audit, identity, manifest, integrity) {
   const statement = parseEvidenceJson(Buffer.from(provenance.bundle.dsseEnvelope.payload, 'base64').toString('utf8'));
   const expectedDigest = Buffer.from(integrity.slice('sha512-'.length), 'base64').toString('hex');
   const definition = statement.predicate?.buildDefinition;
+  const workflow = definition?.externalParameters?.workflow;
+  const workflowDependency = definition?.resolvedDependencies?.find((entry) =>
+    entry.uri === `git+https://github.com/${RELEASE_REPO}@${RELEASE_BRANCH}`);
+  const invocation = parseWorkflowInvocation(statement.predicate?.runDetails?.metadata?.invocationId);
   if (statement.predicateType !== PROVENANCE
     || !statement.subject?.some((entry) => entry.name === `pkg:npm/${identity.name}@${identity.version}`
       && entry.digest?.sha512 === expectedDigest)
-    || definition?.externalParameters?.workflow?.repository !== `https://github.com/${RELEASE_REPO}`
-    || definition.externalParameters.workflow.path !== '.github/workflows/release.yml'
-    || !definition.resolvedDependencies?.some((entry) =>
-      entry.uri?.startsWith(`git+https://github.com/${RELEASE_REPO}@`)
-      && entry.digest?.gitCommit === manifest.commit)) {
-    throw new Error('Signed provenance differs from the canonical artifact or source commit.');
+    || workflow?.repository !== `https://github.com/${RELEASE_REPO}`
+    || workflow.path !== RELEASE_WORKFLOW || workflow.ref !== RELEASE_BRANCH
+    || !/^[a-f0-9]{40}$/.test(workflowDependency?.digest?.gitCommit ?? '')) {
+    throw new Error('Signed provenance differs from the canonical artifact or release workflow.');
+  }
+  return { ...invocation, workflowCommit: workflowDependency.digest.gitCommit };
+}
+
+export function assertPublishingRun(runInfo, attemptJobs, provenance) {
+  if (runInfo?.id !== provenance.runId || runInfo.run_attempt !== provenance.attempt
+    || runInfo.event !== 'workflow_dispatch' || runInfo.status !== 'completed'
+    || runInfo.conclusion !== 'success' || runInfo.head_branch !== 'main'
+    || runInfo.head_sha !== provenance.workflowCommit || runInfo.path !== RELEASE_WORKFLOW
+    || !Array.isArray(attemptJobs?.jobs)) {
+    throw new Error('Signed provenance workflow run is missing, incomplete or mismatched.');
+  }
+  let previousJobCompletion = -Infinity;
+  for (const [jobName, requiredSteps] of REQUIRED_RELEASE_STEPS) {
+    const job = attemptJobs.jobs.find((entry) => entry.name === jobName
+      && entry.run_id === provenance.runId && entry.run_attempt === provenance.attempt);
+    const jobStarted = Date.parse(job?.started_at);
+    const jobCompleted = Date.parse(job?.completed_at);
+    if (job?.conclusion !== 'success' || !Array.isArray(job.steps)
+      || !Number.isFinite(jobStarted) || !Number.isFinite(jobCompleted)
+      || jobStarted < previousJobCompletion || jobCompleted < jobStarted) {
+      throw new Error('Signed provenance workflow run is missing, incomplete or mismatched.');
+    }
+    previousJobCompletion = jobCompleted;
+    let previousStepIndex = -1;
+    for (const stepName of requiredSteps) {
+      const stepIndex = job.steps.findIndex((step) => step.name === stepName && step.conclusion === 'success');
+      if (stepIndex <= previousStepIndex) {
+        throw new Error('Signed provenance workflow run is missing, incomplete or mismatched.');
+      }
+      previousStepIndex = stepIndex;
+    }
   }
 }
 
@@ -131,14 +187,18 @@ export async function verifyPublished(tag) {
     || installed.resolved !== metadata.dist.tarball) throw new Error('Installed artifact differs from verified identity.');
   const audit = parseEvidenceJson(npmRun(['audit', 'signatures', '--json', '--include-attestations',
     '--registry=https://registry.npmjs.org']));
-  assertSignedRelease(audit, identity, manifest, integrity);
+  const provenance = assertSignedRelease(audit, identity, integrity);
+  const workflowRun = parseEvidenceJson(run('gh', ['api', `repos/${RELEASE_REPO}/actions/runs/${provenance.runId}`]));
+  const attemptJobs = parseEvidenceJson(run('gh', ['api',
+    `repos/${RELEASE_REPO}/actions/runs/${provenance.runId}/attempts/${provenance.attempt}/jobs?per_page=100`]));
+  assertPublishingRun(workflowRun, attemptJobs, provenance);
   const installedPackage = await readJson(path.join(target, 'node_modules', identity.name, 'package.json'));
   if (installedPackage.name !== identity.name || installedPackage.version !== identity.version) {
     throw new Error('Installed package identity differs.');
   }
   const result = { status: 'PASS', tag, package: identity.name, version: identity.version,
     commit, bytes: manifest.bytes, sha256: manifest.sha256, integrity,
-    signatures: 'verified', provenance: 'verified artifact and source commit',
+    signatures: 'verified', provenance: 'verified publisher workflow, artifact and source tag',
     release: `https://github.com/${RELEASE_REPO}/releases/tag/${tag}` };
   await writeFile(path.join(assets, 'verification.json'), `${JSON.stringify(result, null, 2)}\n`);
   return result;
