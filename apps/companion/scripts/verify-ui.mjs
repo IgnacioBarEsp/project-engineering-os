@@ -398,7 +398,8 @@ try {
   assert.deepEqual(wizard.problems,[],'Every control of the current wizard has to be reachable with and without motion, and both copies have to go through the service');
   assert.equal(wizard.summary.screensVisited,wizard.summary.screensExpected,'Every screen of every run has to be visited');
   evidence.checks.push(`Asistente vigente: ${runs.length} recorridos (${WIZARD_VIEWPORTS.length} ventanas × 2 preferencias de movimiento × 2 formas de instalar), ${wizard.summary.screensVisited} pantallas, ${wizard.summary.controlsReachable} de ${wizard.summary.controlsMeasured} controles alcanzables al tocar su centro, ${wizard.summary.copiesEqual} de ${wizard.summary.copies} copias con el texto exacto, y una visión sin texto que conserva el objetivo del primer paso en ${wizard.withoutText.length} de ${wizard.withoutText.length} casos PASS`);
-  for(const profile of ['research','software','unity','media','general']){
+  for(const profile of ['research','software','studies','business','unity','media','general']){
+    const selectedProfile={unity:'software',media:'content',general:'personal'}[profile]??profile;
     const root=path.join(temp,profile);await mkdir(root);
     await writeFile(path.join(root,'notes.txt'),'Evidence: tokens must be measured. A byte budget is not an observed token reduction.');
     await writeFile(path.join(root,'private-notes.txt'),'Confidential excluded material.');
@@ -408,7 +409,7 @@ try {
     }
     if(profile==='unity'){await mkdir(path.join(root,'ProjectSettings'));await writeFile(path.join(root,'ProjectSettings/ProjectVersion.txt'),'m_EditorVersion: 6000.0.0f1');}
     if(profile==='media')await writeFile(path.join(root,'workflow.json'),JSON.stringify({prompt:'An original image',seed:42}));
-    const engineeringProfile=['software','unity'].includes(profile);
+    const engineeringProfile=selectedProfile==='software';
     if(engineeringProfile){
       await writeFile(path.join(root,profile==='unity'?'Game.cs':'budget.js'),profile==='unity'?'public class ResearchGame { public int Points() { return 2; } }':'export function calculateBudget(hours) { return hours * 2; }');
       await writeFile(path.join(root,'package.json'),'{"name":"existing-product","scripts":{"postinstall":"exit 99"}}');
@@ -443,7 +444,7 @@ try {
     await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
     const name=profile==='general'?'Estudio'.repeat(14):profile==='research'?'<img src=x onerror=alert(1)>':'Proyecto '+profile;
     await page.getByLabel('Nombre de tu proyecto').fill(name);await page.getByLabel('¿Qué quieres lograr?').fill('Comparar evidencia sobre tokens medidos');
-    await page.locator(`input[name="profile"][value="${profile}"]`).check();
+    await page.locator(`input[name="profile"][value="${selectedProfile}"]`).check();
     assert(await page.locator('input[name="agent"][value="web"]').isChecked(),'Default AI should be reflected in the form');
     // The technology answer, and for a software project the first of the three, so the screen that shows what
     // would be installed is visited by a journey instead of only by a unit test. Nothing is installed here: the
@@ -454,6 +455,10 @@ try {
     await noOverflow(page,profile+' setup');
     await checkScreen(page,`${profile} asistente`);
     await click(page,'Elegir carpeta →');await click(page,'Buscar carpeta en este equipo');
+    await click(page,'Continuar a delimitación →');
+    const focusName=profile==='unity'?'Videojuego':profile==='media'?'Contenido creativo':null;
+    if(focusName)await page.locator('.delimitation-card').filter({hasText:focusName}).click();
+    await click(page,'Volver');
     await click(page,'Revisar preparación →');await click(page,'Guardar esta preparación →');
     if(profile==='software'){
       await heading(page,'Esto es lo que pediste instalar.');
@@ -478,7 +483,7 @@ try {
     await heading(page,'Tus archivos, leídos y ubicables.');
     await page.getByText('Dejar materiales fuera',{exact:true}).click();await page.getByLabel('Una ruta relativa por línea').fill('private-notes.txt');await click(page,'Revisar con estas exclusiones');
     await click(page,'Guardar y continuar →');
-    if(['software','unity'].includes(profile)){await heading(page,'Conectemos lo leído con las instrucciones.');await click(page,'Actualizar las instrucciones');await heading(page,'Una última pasada al resumen.');await click(page,'Guardar y ver mi proyecto');}
+    if(engineeringProfile){await heading(page,'Conectemos lo leído con las instrucciones.');await click(page,'Actualizar las instrucciones');await heading(page,'Una última pasada al resumen.');await click(page,'Guardar y ver mi proyecto');}
     await heading(page,name);assert.equal(await page.locator('#view img').count(),0);
     if(manager&&engineeringProfile){
       await heading(page,'Mapa de código · No preparado');await click(page,'Revisar mapa de código');await click(page,'Crear mapa de código');
@@ -494,7 +499,8 @@ try {
     await click(page,'Preparar un texto para pegar en tu chat');await page.getByRole('dialog').waitFor();assert.equal(copied.length,0);await page.keyboard.press('Escape');
     await page.waitForFunction(()=>document.activeElement.textContent==='Preparar un texto para pegar en tu chat');
     await click(page,'Preparar un texto para pegar en tu chat');await click(page,'Copiar este texto');assert.equal(copied.length,1);assert(copied[0].includes('notes.txt'));assert.equal(opened.length,0);
-    await click(page,'Recetas');await page.locator('.recipe').first().waitFor();assert.equal(await page.locator('.recipe').count(),3);
+    await click(page,'Recetas');await page.locator('.recipe').first().waitFor();
+    assert.equal(await page.locator('.recipe').count(),(await service.workspace({id:(await service.listProjects())[0].id})).recipes.length);
     await click(page,'Continuar con mi IA');await click(page,'Continuar con ChatGPT u otro chat web');await page.getByRole('dialog').waitFor();
     assert(!/^(null|undefined)$/m.test(await page.getByRole('dialog').innerText()),'Absent optional handoff content must not render as literal text');
     const shown=await page.getByLabel('Instrucción inicial').innerText();await click(page,'Copiar instrucción y abrir');assert.equal(copied[1],shown);assert.equal(opened.length,1);
@@ -630,7 +636,7 @@ try {
   evidence.checks.push(`La guía difiere entre los ${signatures.size} perfiles, comparada por sus pasos PASS`);
   evidence.checks.push(`Estado mostrado por fila en la lista: ${listStates.map(e=>`${e.profile}=${e.state}`).join(', ')}`);
   evidence.listStates=listStates;
-  evidence.checks.push(`Contraste, orden de encabezados, teclado, nombres accesibles y la regla de vocabulario comprobados en ${screensSeen.size} pantallas de los cinco perfiles: 0 hallazgos PASS`);
+  evidence.checks.push(`Contraste, orden de encabezados, teclado, nombres accesibles y la regla de vocabulario comprobados en ${screensSeen.size} pantallas de las siete variantes de prueba: 0 hallazgos PASS`);
   evidence.checks.push(`${termsSeen.length} controles de definición comprobados contra el término que abren: 0 desajustes PASS`);
   const thin=screenDenominators.filter(entry=>!entry.contrastMeasured||!entry.vocabularyChars||!entry.controls);
   assert.deepEqual(thin,[],'Every screen has to report a non-zero denominator, or the pass is vacuous');

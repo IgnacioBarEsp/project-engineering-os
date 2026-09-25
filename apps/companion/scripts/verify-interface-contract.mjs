@@ -6,6 +6,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { portable } from './portable-path.mjs';
 import {ASSETS, CSP} from '../desktop/assets.mjs';
+import {PROFILES, PROFILE_IDS, LEGACY_PROFILE_MAP, resolveProfile, offeredStacks} from '../engine/profiles.mjs';
 import { ACTION_PAIRS, UNDEFINED_VOCABULARY, TERM_LABELS, LIST_PURITY, ACCESSIBILITY, ACCESSIBLE_NAMES,
   EXPECTED_ACTIONS, collectActionPairs, duplicateActionNames, undeclaredActions, vacuous,
   ROW_ACTION_PAIRS, ROW_MENUS, READY_CLAIMS, GUIDE, ACTION_COUNTS, EXPECTED_ROW_ACTIONS,
@@ -372,7 +373,14 @@ const COPY_ANSWERS = {
 // The page's own clipboard is counted, never used: the copies of the wizard must not reach it in any answer.
 const PAGE_CLIPBOARD_SPY = `window.__pageClipboardWrites=0;if(navigator.clipboard){const own=navigator.clipboard.writeText?.bind(navigator.clipboard);
   navigator.clipboard.writeText=async(...args)=>{window.__pageClipboardWrites+=1;return own?.(...args);};}`;
+const PROFILE_CATALOG = {legacyProfiles:LEGACY_PROFILE_MAP,profiles:PROFILE_IDS.map(id=>({
+  id,label:PROFILES[id].label,description:PROFILES[id].description,
+  defaultFocus:resolveProfile(id).focus,engineering:PROFILES[id].engineering,stages:[...PROFILES[id].stages],
+  focuses:PROFILES[id].focuses.map(item=>({id:item.id,label:item.label,description:item.description,
+    stacks:offeredStacks({profile:id,focus:item.id})})),
+}))};
 const stub = (mode, copy = 'ok') => `${PAGE_CLIPBOARD_SPY}window.companion={
+  profileCatalog:async()=>({ok:true,value:${JSON.stringify(PROFILE_CATALOG)}}),
   chooseFolder:async()=>({ok:true,value:{id:'44444444-4444-4444-8444-444444444444',root:'C:/ruta/del/asistente',name:'Carpeta del asistente',
     inspection:{files:[{path:'notas.txt'},{path:'guia.md'}],recommendation:'research'}}}),
   previewBase:async()=>({ok:true,value:{id:'77777777-7777-4777-8777-777777777777',

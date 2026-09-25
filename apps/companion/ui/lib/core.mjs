@@ -7,21 +7,8 @@ import {actions, wizardBar} from '../components/actions-bar.mjs';
 import {steps as stepRail} from '../components/step-rail.mjs';
 const api=window.companion;
 const $=id=>document.getElementById(id);
-const profiles={
-  software:['Software o página web','Código, especificaciones, aplicaciones y pruebas técnicas.'],
-  science:['Investigación científica','Artículos, papers, experimentos y evidencia reproducible.'],
-  studies:['Estudios y universidad','Proyectos académicos, tesis, guías y preparación de entregas.'],
-  docs:['Contenido y documentación','Manuales técnicos, especificaciones y guías interactivas.'],
-  mvp:['Prototipos rápidos (MVP)','Validación ágil de ideas, interfaces y pruebas de concepto.'],
-  personal:['Uso personal y laboratorio','Notas, utilidades cotidianas, ideas y experimentos libres.'],
-  automation:['Automatización y scripting','Scripts, bots, pipelines de datos y herramientas operativas.'],
-  research:['Investigación','Artículos, PDF, documentos y evidencia.'],
-  unity:['Videojuego con Unity','Escenas, scripts y un proceso de desarrollo.'],
-  media:['Contenido creativo','Imágenes, música, video y sus workflows.'],
-  general:['Otro proyecto','Materiales de trabajo, ideas y tareas cotidianas.']
-};
+const profiles={};
 const agents={codex:'Codex','claude-code':'Claude',cursor:'Cursor','github-copilot':'GitHub Copilot',opencode:'OpenCode',antigravity:'Antigravity',web:'ChatGPT u otro chat web'};
-const roles={researcher:'Investigador/a',student:'Estudiante',developer:'Desarrollador/a o área de TI',freelancer:'Freelancer',creator:'Creador/a de contenido',general:'Usuario/a general'};
 const techDecisions={chosen:['Sí, ya sé cuál quiero','Se te ofrece instalarla, con su licencia, su tamaño y su destino a la vista.'],
   unsure:['No sé todavía, o empiezo ahora','Se te recomienda una a partir de tu tipo de proyecto y de lo que hay en tu carpeta, y puedes decir que no.'],
   'too-early':['Es pronto para decidirlo','No se instala ninguna tecnología, y el proyecto te dice por qué eso está bien.']};
@@ -50,7 +37,7 @@ const stageList=stages=>stages.flatMap((stage,index)=>{
   return index?[', ',node]:[node];});
 const onDate=value=>{const when=new Date(value??'');return Number.isNaN(when.getTime())?null
   :when.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});};
-const state={page:'start',tab:'overview',busy:false,projects:[],project:null,plan:null,status:null,query:'',inference:null,notes:null,stacks:null,providerModels:null,selection:{name:'',goal:'',role:'researcher',profile:'research',experience:'guided',agents:['web'],stack:{decision:'too-early',requested:[]}}};
+const state={page:'start',tab:'overview',busy:false,projects:[],project:null,plan:null,status:null,query:'',inference:null,notes:null,stacks:null,providerModels:null,selection:{name:'',goal:'',profile:'software',focus:'website',experience:'guided',agents:['web'],stack:{decision:'too-early',requested:[]}}};
 const screenState=createScreenState();
 const p=(text,cls='')=>el('p',{class:cls,text});
 const btn=(text,action,cls='secondary')=>el('button',{type:'button',class:cls,onClick:()=>run(action)},text);
@@ -118,6 +105,19 @@ function setBusy(value){state.busy=value;document.querySelectorAll('button,input
 const TRANSPORT_FAILED={code:'TRANSPORT_FAILED',message:'La ventana no pudo comunicarse con la aplicación.',
   action:'Vuelve a intentarlo. Si sigue igual, cierra la aplicación y ábrela de nuevo; tus proyectos se conservan.'};
 async function call(name,input={}){let r;try{r=await api[name](input);}catch{throw TRANSPORT_FAILED;}if(!r?.ok)throw r?.error??TRANSPORT_FAILED;return r.value;}
+async function loadProfiles(){
+  if(state.profileCatalog)return state.profileCatalog;
+  const catalog=await call('profileCatalog');
+  for(const item of catalog.profiles)profiles[item.id]=[item.label,item.description];
+  state.profileCatalog=catalog;
+  return catalog;
+}
+const profileInfo=id=>state.profileCatalog?.profiles.find(item=>item.id===(state.profileCatalog?.legacyProfiles[id]?.profile??id));
+const canonicalProfile=value=>{
+  const prior=state.profileCatalog?.legacyProfiles[value.profile];
+  return {profile:prior?.profile??value.profile,focus:value.focus??prior?.focus??profileInfo(value.profile)?.defaultFocus};
+};
+const isEngineeringProfile=id=>profileInfo(id)?.engineering??false;
 let actionOrigin=null;
 async function run(fn){if(state.busy)return;actionOrigin=document.activeElement;$('feedback').hidden=true;notice('');setBusy(true);try{await fn();}catch(e){error(e);}finally{setBusy(false);}}
 // The bar covers the bottom of the window while it sticks there, so the browser is told how much: scroll padding
@@ -142,4 +142,4 @@ let dialogReturn=null;
 function openDialog(title,content){dialogReturn=state.busy?actionOrigin:document.activeElement;$('dialog-title').textContent=title;$('dialog-body').replaceChildren(...content.filter(node=>node!==null&&node!==undefined));$('dialog').showModal();$('close-dialog').focus();}
 function closeDialog(){$('dialog').close();}
 
-export {api, $, profiles, agents, roles, techDecisions, projectStates, stageWords, stageNode, stageList, onDate, state, screenState, el, p, btn, ACTIONS, doBtn, ROW_ACTIONS, rowBtn, heading, own, ownHeading, actions, wizardBar, panel, term, field, input, select, steps, notice, error, setBusy, TRANSPORT_FAILED, call, actionOrigin, run, barHeight, render, dialogReturn, openDialog, closeDialog, GLOSSARY, byId};
+export {api, $, profiles, profileInfo, canonicalProfile, isEngineeringProfile, loadProfiles, agents, techDecisions, projectStates, stageWords, stageNode, stageList, onDate, state, screenState, el, p, btn, ACTIONS, doBtn, ROW_ACTIONS, rowBtn, heading, own, ownHeading, actions, wizardBar, panel, term, field, input, select, steps, notice, error, setBusy, TRANSPORT_FAILED, call, actionOrigin, run, barHeight, render, dialogReturn, openDialog, closeDialog, GLOSSARY, byId};

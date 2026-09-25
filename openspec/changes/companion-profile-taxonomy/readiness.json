@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 145,
+  "change": "companion-profile-taxonomy",
+  "surfaces": ["ui"],
+  "validations": [
+    {"id":"openspec-strict","status":"passed","evidence":"openspec/changes/companion-profile-taxonomy/evidence/validation.md","justification":null,"profileCondition":null},
+    {"id":"component-or-interaction-tests","status":"passed","evidence":"openspec/changes/companion-profile-taxonomy/evidence/validation.md","justification":null,"profileCondition":null},
+    {"id":"accessibility-check","status":"passed","evidence":"openspec/changes/companion-profile-taxonomy/evidence/validation.md","justification":null,"profileCondition":null},
+    {"id":"visual-check-when-configured","status":"pending","evidence":null,"justification":"La lectura visual de nombres y descripciones por el mantenedor está pendiente.","profileCondition":null},
+    {"id":"responsive-check-when-configured","status":"passed","evidence":"openspec/changes/companion-profile-taxonomy/evidence/validation.md","justification":null,"profileCondition":null}
+  ],
+  "evidence": [
+    {"id":"issue-link","kind":"manual","status":"verified","ref":"https://github.com/IgnacioBarEsp/project-engineering-os/issues/145","justification":null,"profileCondition":null},
+    {"id":"adversarial-review","kind":"manual","status":"pending","ref":"openspec/changes/companion-profile-taxonomy/evidence/adversarial-review.md","justification":"La revisión propia no sustituye a la independiente.","profileCondition":null},
+    {"id":"ground-truth-comparison","kind":"manual","status":"verified","ref":"openspec/changes/companion-profile-taxonomy/evidence/validation.md","justification":null,"profileCondition":null},
+    {"id":"keyboard-and-assistive-technology-review","kind":"manual","status":"verified","ref":"openspec/changes/companion-profile-taxonomy/evidence/validation.md","justification":null,"profileCondition":null},
+    {"id":"loading-empty-error-and-constrained-connectivity-states","kind":"manual","status":"verified","ref":"openspec/changes/companion-profile-taxonomy/evidence/validation.md","justification":null,"profileCondition":null}
+  ],
+  "rollback": {
+    "strategy":"Revertir el PR; los recibos antiguos siguen intactos y no se migran por lectura.",
+    "status":"verified",
+    "evidence":"openspec/changes/companion-profile-taxonomy/evidence/validation.md",
+    "justification":null
+  },
+  "adversarialReview": {
+    "status":"pending",
+    "ref":"openspec/changes/companion-profile-taxonomy/evidence/adversarial-review.md",
+    "blockers":0,
+    "majors":0
+  },
+  "exceptions":[]
+}

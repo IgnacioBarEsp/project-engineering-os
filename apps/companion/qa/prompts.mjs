@@ -19,6 +19,16 @@ const SELECTIONS = {
     goal: 'Comparar cómo se midió el resultado en cada fuente', agents: ['web'] },
   software: { name: 'Servicio', profile: 'software', experience: 'familiar', role: 'developer',
     goal: 'Entender cómo se calcula el presupuesto antes de cambiarlo', agents: ['codex'] },
+  studies: { name: 'Curso', profile: 'studies', experience: 'guided', role: 'student',
+    goal: 'Preparar una entrega de clase', agents: ['web'] },
+  content: { name: 'Serie', profile: 'content', focus: 'creative', experience: 'guided', role: 'creator',
+    goal: 'Conservar la receta que produjo cada pieza', agents: ['web'] },
+  business: { name: 'Trabajo', profile: 'business', experience: 'guided',
+    goal: 'Entregar el informe del mes', agents: ['web'] },
+  personal: { name: 'Notas', profile: 'personal', experience: 'guided',
+    goal: 'Ordenar mis notas', agents: ['web'] },
+};
+const LEGACY_SELECTIONS = {
   unity: { name: 'Juego', profile: 'unity', experience: 'guided', role: 'developer',
     goal: 'Localizar cómo se calcula el puntaje', agents: ['cursor'] },
   media: { name: 'Serie', profile: 'media', experience: 'guided', role: 'creator',
@@ -33,7 +43,7 @@ const INVENTORY = { files: [
 ], limitations: [{ path: 'privado/x', reason: 'unreadable' }], excluded: ['privado'], complete: true };
 const PATHS = INVENTORY.files.map(file => file.path);
 
-test('the five profiles produce different prompts, and the same inputs always produce the same text', () => {
+test('the six profiles produce different prompts, and the same inputs always produce the same text', () => {
   const summary = aggregate(INVENTORY);
   const texts = new Map();
   for (const [profile, selection] of Object.entries(SELECTIONS)) {
@@ -44,11 +54,11 @@ test('the five profiles produce different prompts, and the same inputs always pr
   }
   assert.equal(new Set(texts.values()).size, texts.size, 'Dos perfiles no pueden producir el mismo texto.');
   // Different in what they instruct, not in length: each one names its own material.
-  assert.match(texts.get('unity'), /ProjectSettings\/ProjectVersion\.txt/);
-  assert.match(texts.get('software'), /gestor de paquetes/);
-  assert.match(texts.get('media'), /licencia/);
+  assert.match(composePrompt({selection:LEGACY_SELECTIONS.unity,summary,pending:[]}).text, /ProjectSettings\/ProjectVersion\.txt/);
+  assert.match(texts.get('software'), /gestor y versiones/);
+  assert.match(texts.get('content'), /licencia/);
   assert.match(texts.get('research'), /reconocimiento óptico/);
-  assert.doesNotMatch(texts.get('general'), /instalar nada para empezar|ProjectSettings/);
+  assert.doesNotMatch(texts.get('personal'), /ProjectSettings/);
   // Pure: no clock, no filesystem, no network.
   assert.equal(composePrompt({ selection: SELECTIONS.software, summary, pending: [] }).text, texts.get('software'));
   // The experience level changes the instructions rather than the tone.
@@ -316,7 +326,7 @@ test('the application is complete with no model, ships the provider level off, a
   assert.equal(prompt.usedLevel, 'off');
   assert.equal(prompt.fromModel, false);
   assert.ok(prompt.text.length > 1200, `${prompt.text.length} caracteres`);
-  assert.match(prompt.text, /software o una página web/);
+  assert.match(prompt.text, /software y apps/);
   assert.match(prompt.text, /Entender el presupuesto antes de cambiarlo/);
   assert.equal(prompt.text.includes('notas.txt'), false, 'Ningún nombre de archivo entra en el texto.');
 
@@ -387,4 +397,3 @@ test('master activation prompt provides tailored instructions for quick install 
   assert.match(ai, /conviértelos a \.md sin tocar ni eliminar los archivos originales/);
   assert.match(ai, /verificar que todo el entorno y código funcionen correctamente/);
 });
-

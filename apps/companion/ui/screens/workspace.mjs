@@ -1,4 +1,4 @@
-import { $, profiles, agents, onDate, state, el, p, btn, doBtn, own, ownHeading, actions, panel, term, field, input, select, steps, notice, error, call, run, render, openDialog, closeDialog} from '../lib/core.mjs';
+import { $, profiles, isEngineeringProfile, agents, onDate, state, el, p, btn, doBtn, own, ownHeading, actions, panel, term, field, input, select, steps, notice, error, call, run, render, openDialog, closeDialog} from '../lib/core.mjs';
 import {showProjects, stackPanel} from '../lib/bridge.mjs';
 async function openProject(id){state.status=await call('openProject',{id});state.project=state.status.project;state.selection={...state.selection,...state.project.selection};state.tab='overview';await showWorkspace(false);}
 async function forget(project){openDialog('Quitar de la lista',[
@@ -59,16 +59,16 @@ async function showWorkspace(refresh=true){state.page='workspace';if(refresh)sta
     // repeated here: one control per action per screen, because two controls for the same thing read as two
     // different things to do. The journey harness found exactly that collision.
     panel(el('h2',{text:'Herramientas de este proyecto'}),el('p',{},s.context.context==='current'?'Busca algo en tus archivos, mira una ':'Lee tus archivos para empezar a trabajar con ellos. Después habrá ',term('receta'),s.context.context==='current'?' o sigue en tu IA.':' que te ayuden a pedir un resultado concreto.'),
-      ['software','unity'].includes(s.base.selection?.profile)?el('p',{class:'subtle'},'Este proyecto también usa ',term('openspec'),' y el ',term('ingenieria'),'.'):null,
-      actions(once('read-files','primary'),doBtn('recheck-project'),['software','unity'].includes(s.base.selection?.profile)?once('review-development'):null)),
-    s.capabilities?.codeGraph&&['software','unity'].includes(s.base.selection?.profile)?panel(el('h2',{text:`Mapa de código · ${{'not-prepared':'No preparado',empty:'Vacío',verified:'Verificado',stale:'Desactualizado',corrupt:'Corrupto','requires-repair':'Requiere reparación','requires-action':'Requiere reparación'}[s.code?.status]??'Por revisar'}`}),
+      isEngineeringProfile(s.base.selection?.profile)?el('p',{class:'subtle'},'Este proyecto también usa ',term('openspec'),' y el ',term('ingenieria'),'.'):null,
+      actions(once('read-files','primary'),doBtn('recheck-project'),isEngineeringProfile(s.base.selection?.profile)?once('review-development'):null)),
+    s.capabilities?.codeGraph&&isEngineeringProfile(s.base.selection?.profile)?panel(el('h2',{text:`Mapa de código · ${{'not-prepared':'No preparado',empty:'Vacío',verified:'Verificado',stale:'Desactualizado',corrupt:'Corrupto','requires-repair':'Requiere reparación','requires-action':'Requiere reparación'}[s.code?.status]??'Por revisar'}`}),
       el('p',{},'Un ',term('mapa-de-codigo'),'. ',s.code?.status==='verified'?`${s.code.symbols} símbolos y ${s.code.relations} relaciones comprobados con tus archivos actuales.`:s.code?.message??'Localiza funciones y clases antes de cambiar el proyecto. Puedes añadirlo cuando tengas código.'),
       actions(once('review-code-map'),s.code?.status==='verified'?btn('Buscar símbolos',async()=>{state.tab='search';await showWorkspace(false);}):null,
         doBtn('repair-tools'))):null,
     stackPanel(s),
     // Named only where they exist: a document or a creative project has no OpenSpec and no code map, and
     // putting those words on its screen would be jargon with nothing behind it.
-    ['software','unity'].includes(s.base.selection?.profile)
+    isEngineeringProfile(s.base.selection?.profile)
       ?el('p',{class:'subtle'},'Que un archivo de configuración exista no demuestra que la herramienta funcione. ',term('openspec'),', el ',term('mapa-de-codigo'),' y tu IA se comprueban cada uno por su lado.')
       :p('Que un archivo exista no demuestra que la herramienta funcione. Tu IA se comprueba por su lado.','subtle'),
     ...[s.base.error,s.context.error,s.engineering.error,s.environment?.error,s.code?.error].filter(Boolean).map(e=>panel(el('h3',{text:e.message}),p(e.action))),recovery(s),

@@ -21,8 +21,8 @@ async function fixture(t,profile='research',options={}) {
 async function prepare(f) {const plan=await f.service.previewBase({id:f.project.id,selection:f.selection});await f.service.applyBase({plan:plan.id});const ctx=await f.service.previewContext({id:f.project.id});await f.service.applyContext({plan:ctx.id});return ctx;}
 const code=value=>error=>error.code===value;
 
-test('desktop five profiles: reviewed real writes, attributed search, reusable history and external handoff',async t=>{
-  for(const profile of ['research','software','unity','media','general']){
+test('desktop six profiles: reviewed real writes, attributed search, reusable history and external handoff',async t=>{
+  for(const profile of ['research','software','studies','content','business','personal']){
     const f=await fixture(t,profile);const original=await readFile(path.join(f.root,'original.txt'));
     await prepare(f);const s=await f.service.status({id:f.project.id});assert.equal(s.base.base,'prepared');assert.equal(s.context.context,'current');
     assert.equal(s.base.selection.goal,f.selection.goal);assert.equal(s.base.selection.role,'researcher');

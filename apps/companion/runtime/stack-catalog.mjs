@@ -1,3 +1,5 @@
+import {PROFILE_IDS, offeredStacks, resolveProfile, isEngineering} from '../engine/profiles.mjs';
+
 // What technology a project gets, decided from what the person said and from the inventory already measured.
 //
 // Three things are deliberate here. The catalogue is data, not a lookup into the network: a technology can only
@@ -13,7 +15,7 @@ const stacks = {
     id: 'web-interface', name: 'Interfaz web con React', relative: '.project-os/stack/web-interface',
     packages: [{ name: 'react', version: '19.2.0', license: 'MIT' }, { name: 'react-dom', version: '19.2.0', license: 'MIT' },
       { name: 'scheduler', version: '0.27.0', license: 'MIT' }],
-    closure: 3, licenses: ['MIT'], profiles: ['software'],
+    closure: 3, licenses: ['MIT'],
     purpose: 'Construir pantallas web con componentes.',
     downloadBytes: 1311203, installedBytes: 7576468, files: 88,
     treeHash: '07606f27e39876cabb3daf9a2d577837b980bfe0bc57105f40a3e562902ad57f',
@@ -21,7 +23,7 @@ const stacks = {
   'typed-code': {
     id: 'typed-code', name: 'TypeScript', relative: '.project-os/stack/typed-code',
     packages: [{ name: 'typescript', version: '5.9.3', license: 'Apache-2.0' }],
-    closure: 1, licenses: ['Apache-2.0'], profiles: ['software'],
+    closure: 1, licenses: ['Apache-2.0'],
     purpose: 'Escribir código con tipos y comprobarlo antes de ejecutarlo.',
     downloadBytes: 4377468, installedBytes: 23626590, files: 135,
     treeHash: '6b8717621a496905b68e41fbf5211d0d0cd71ff1f3dec0c588427073527cb7fe',
@@ -29,7 +31,7 @@ const stacks = {
   'http-service': {
     id: 'http-service', name: 'Servicio HTTP con Express', relative: '.project-os/stack/http-service',
     packages: [{ name: 'express', version: '5.1.0', license: 'MIT' }],
-    closure: 68, licenses: ['BSD-3-Clause', 'ISC', 'MIT'], profiles: ['software'],
+    closure: 68, licenses: ['BSD-3-Clause', 'ISC', 'MIT'],
     purpose: 'Atender peticiones desde un servidor propio.',
     downloadBytes: 743738, installedBytes: 2396995, files: 604,
     treeHash: '74c5c6549f87f0855304883d3bdfca0b1bad7253bc63dc944649015b7163cb93',
@@ -46,21 +48,25 @@ const notOffered = [
     reason: 'No se distribuye como un cierre de dependencias de npm, y cambiar el Python del sistema es una decisión que afecta a todo el equipo, no solo a este proyecto.' },
 ];
 function freeze(value) { for (const child of Object.values(value)) if (child && typeof child === 'object') freeze(child); return Object.freeze(value); }
+for(const item of Object.values(stacks))item.profiles=PROFILE_IDS.filter(id=>offeredStacks(id).includes(item.id));
 export const STACKS = freeze(stacks);
 export const NOT_OFFERED = freeze(notOffered);
 export const STACK_IDS = Object.freeze(Object.keys(stacks));
 export const DECISIONS = Object.freeze(['chosen', 'unsure', 'too-early']);
 
-export function offeredFor(profile) { return STACK_IDS.filter(id => STACKS[id].profiles.includes(profile)); }
+export function offeredFor(profile,focus) {
+  return offeredStacks({profile,focus}).filter(id=>STACK_IDS.includes(id));
+}
 
 const countOf = (inventory, extension) => (inventory?.files ?? []).reduce((total, file) =>
   total + (String(file.path ?? '').toLowerCase().endsWith(extension) ? 1 : 0), 0);
 
 // The recommendation reads the profile the person chose and the inventory this application already measured.
 // It never reads a file, never asks a model, and can only return ids that exist in the frozen catalogue.
-export function recommend({ profile, inventory } = {}) {
-  if (profile === 'unity') return { stacks: [], because: 'El editor de Unity se instala aparte, con su propia licencia, y este proyecto no necesita nada más de esta lista.' };
-  if (profile !== 'software') return { stacks: [], because: 'Este tipo de proyecto no necesita un stack de programación: lo que hace falta ya se preparó.' };
+export function recommend({ profile, focus, inventory } = {}) {
+  const resolved=resolveProfile({profile:profile??'personal',focus});
+  if (resolved.focus==='game') return { stacks: [], because: 'El editor de Unity o del motor elegido se instala aparte, con su propia licencia, y este proyecto no necesita nada más de esta lista.' };
+  if (!isEngineering(resolved.profile)) return { stacks: [], because: 'Este tipo de proyecto no necesita un stack de programación: lo que hace falta ya se preparó.' };
   const interfaceFiles = countOf(inventory, '.tsx') + countOf(inventory, '.jsx');
   const typedFiles = countOf(inventory, '.ts');
   if (interfaceFiles > 0) return { stacks: ['web-interface', ...(typedFiles > 0 ? ['typed-code'] : [])],
@@ -82,7 +88,7 @@ export function stackDecision(selection, inventory) {
       because: 'Para este tipo de proyecto no hay ninguna tecnología que esta aplicación pueda instalar con la verificación que exige. Abajo está lo que no se instala desde aquí, con su motivo.' };
     return { kind: 'chosen', stacks: requested, because: 'Lo pediste al preparar este proyecto.' };
   }
-  if (decision === 'unsure') { const value = recommend({ profile: selection?.profile, inventory });
+  if (decision === 'unsure') { const value = recommend({ profile: selection?.profile,focus:selection?.focus, inventory });
     return { kind: value.stacks.length ? 'recommended' : 'none', stacks: value.stacks, because: value.because }; }
   return { kind: 'none', stacks: [],
     because: 'Dijiste que todavía es pronto para elegir tecnología, así que no se instaló ninguna. Puedes decidirlo cuando el proyecto lo pida.' };

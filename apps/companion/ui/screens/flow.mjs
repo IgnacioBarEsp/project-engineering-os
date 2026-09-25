@@ -1,49 +1,5 @@
-import {api, profiles, state, el, p, btn, doBtn, heading, own, actions, wizardBar, field, input, steps, notice, error, call, render} from '../lib/core.mjs';
+import {api, profiles, profileInfo, state, el, p, btn, doBtn, heading, own, term, actions, wizardBar, field, input, steps, notice, error, call, render} from '../lib/core.mjs';
 import {showFolder} from '../lib/bridge.mjs';
-const DELIMITATIONS = {
-  software: [
-    { id: 'saas', title: 'Plataforma Web / SaaS', desc: 'App interactiva con interfaz, base de datos y autenticación.', stack: 'React · Next.js · Node · DB', tag: 'Frontend + Backend' },
-    { id: 'landing', title: 'Página Web o Landing', desc: 'Sitio rápido enfocado en contenido, velocidad y SEO.', stack: 'Astro · Tailwind · HTML5', tag: 'Rápido y Ligero' },
-    { id: 'mobile', title: 'Aplicación Móvil', desc: 'App nativa o híbrida para dispositivos móviles.', stack: 'React Native / Flutter / Kotlin', tag: 'iOS & Android' },
-    { id: 'custom', title: 'Prototipo o Arquitectura Propia', desc: 'Tu IA te orientará para elegir la mejor combinación técnica.', stack: 'Multistack · Guiado por IA', tag: 'Flexible' },
-  ],
-  science: [
-    { id: 'paper', title: 'Artículo o Documento Científico', desc: 'Estructura formal con metodología, resultados y discusión.', stack: 'LaTeX · Markdown · Referencias', tag: 'Publicación' },
-    { id: 'thesis', title: 'Tesis de Grado o Posgrado', desc: 'Marco teórico riguroso, hipótesis y análisis empírico.', stack: 'LaTeX · Datasets · Tablas', tag: 'Académico' },
-    { id: 'analysis', title: 'Análisis Cuantitativo y Datos', desc: 'Modelos estadísticos, procesamiento y visualizaciones.', stack: 'Python · Pandas · Gráficos', tag: 'Datos' },
-    { id: 'custom', title: 'Exploración Abierta', desc: 'Síntesis conceptual y análisis sin formato predefinido.', stack: 'Documentos · Notas', tag: 'Exploración' },
-  ],
-  studies: [
-    { id: 'course', title: 'Proyecto de Asignatura / Curso', desc: 'Entregables guiados según rúbricas y criterios de evaluación.', stack: 'Entregables · Ejercicios', tag: 'Universidad' },
-    { id: 'guide', title: 'Guía de Repaso Activo', desc: 'Fichas, resúmenes organizados y autoevaluaciones.', stack: 'Resúmenes · Mapas conceptuales', tag: 'Repaso' },
-    { id: 'lab', title: 'Reporte Técnico o Laboratorio', desc: 'Bitácora de prácticas, mediciones y conclusiones.', stack: 'Bitácoras · Mediciones', tag: 'Práctica' },
-    { id: 'custom', title: 'Estudio Libre y Autónomo', desc: 'Ruta de aprendizaje autodidacta a tu propio ritmo.', stack: 'Ruta personal', tag: 'Autónomo' },
-  ],
-  docs: [
-    { id: 'api-docs', title: 'Documentación Técnica de API', desc: 'Endpoints, contratos de interfaz, tipos y ejemplos.', stack: 'OpenAPI · Markdown · Schemas', tag: 'Técnico' },
-    { id: 'manual', title: 'Manual de Uso o Guía Práctica', desc: 'Instrucciones paso a paso, capturas y resolución de dudas.', stack: 'Guías · Procedimientos', tag: 'Usuarios' },
-    { id: 'knowledge-base', title: 'Base de Conocimiento o Guías', desc: 'Índice de procedimientos, políticas y recursos comunes.', stack: 'Guías interconectadas · FAQ', tag: 'Equipo' },
-    { id: 'custom', title: 'Contenido Creativo y Notas', desc: 'Artículos, boletines, borradores e ideas en desarrollo.', stack: 'Markdown · Borradores', tag: 'Creativo' },
-  ],
-  mvp: [
-    { id: 'poc', title: 'Validación Temprana (PoC)', desc: 'Validación técnica ágil de la funcionalidad crítica.', stack: 'Componentes mínimos · Prototipo', tag: 'Validación' },
-    { id: 'landing-mvp', title: 'Landing con Registro', desc: 'Página de presentación con formulario de registro temprano.', stack: 'Landing · Analytics · Formulario', tag: 'Mercado' },
-    { id: 'interactive', title: 'Prototipo Interactivo', desc: 'Flujo de usuario completo para demostraciones y pruebas.', stack: 'UI interactiva · Datos simulados', tag: 'Demo' },
-    { id: 'custom', title: 'Experimento Rápido', desc: 'Validar una idea en horas antes de escribir más código.', stack: 'Iteración express', tag: 'Ágil' },
-  ],
-  personal: [
-    { id: 'finance-org', title: 'Organización y Finanzas', desc: 'Control de presupuestos, metas, inventario o trámites.', stack: 'Tablas · Resúmenes · Cuentas', tag: 'Organización' },
-    { id: 'notes-journal', title: 'Notas y Aprendizaje', desc: 'Bitácora personal, reflexiones y documentos de consulta.', stack: 'Notas · Bitácora personal', tag: 'Reflexión' },
-    { id: 'tools-daily', title: 'Herramientas de Uso Diario', desc: 'Utilidades cotidianas para simplificar tareas personales.', stack: 'Scripts · Atajos personales', tag: 'Utilidad' },
-    { id: 'custom', title: 'Espacio de Ideas Libres', desc: 'Espacio flexible para pensar, planificar y estructurar.', stack: 'Borradores · Sin ataduras', tag: 'Libre' },
-  ],
-  automation: [
-    { id: 'scraping', title: 'Extracción de Datos y Scraping', desc: 'Captura periódica y estructuración de información web.', stack: 'Python · Cheerio · Playwright', tag: 'Extracción' },
-    { id: 'bot', title: 'Bot o Asistente Automatizado', desc: 'Respuestas automáticas, webhooks o interacciones por chat.', stack: 'Node · Python · APIs', tag: 'Bot' },
-    { id: 'etl', title: 'Pipeline de Archivos', desc: 'Transformación y normalización automática de formatos.', stack: 'Scripts CLI · JSON · CSV', tag: 'Pipeline' },
-    { id: 'custom', title: 'Flujo de Trabajo Operativo', desc: 'Automatización a medida adaptada a tus necesidades.', stack: 'Herramientas operativas', tag: 'A Medida' },
-  ],
-};
 
 const INSPIRATION_CHIPS = [
   { title: 'Público Objetivo', text: '\n\n### Público Objetivo\nDirigido a personas que necesitan resolver esta necesidad de manera clara y eficiente.' },
@@ -76,33 +32,31 @@ Si encuentras archivos de investigación, notas o documentos, conviértelos a .m
 function showDelimitation() {
   state.page = 'delimitation';
   const s = state.selection;
-  const profileKey = Object.hasOwn(DELIMITATIONS, s.profile) ? s.profile : 'software';
-  const items = DELIMITATIONS[profileKey] || DELIMITATIONS.software;
-  if (!s.subtype) s.subtype = items[0].title;
+  const items = profileInfo(s.profile).focuses;
+  if (!items.some(item=>item.id===s.focus))s.focus=items[0].id;
 
   const cards = el('div', { class: 'delimitation-grid' }, items.map(item => {
-    const isSelected = s.subtype === item.title;
+    const isSelected = s.focus === item.id;
     return el('article', {
       class: `delimitation-card ${isSelected ? 'selected' : ''}`,
       role: 'radio',
       'aria-checked': String(isSelected),
       tabindex: '0',
-      onClick: () => { s.subtype = item.title; showDelimitation(); },
-      onKeydown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); s.subtype = item.title; showDelimitation(); } }
+      onClick: () => { s.focus = item.id; s.stack.requested=s.stack.requested.filter(id=>item.stacks.includes(id)); showDelimitation(); },
+      onKeydown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); s.focus = item.id; s.stack.requested=s.stack.requested.filter(id=>item.stacks.includes(id)); showDelimitation(); } }
     },
       el('div', {},
-        el('span', { class: 'badge', text: item.tag }),
-        el('h3', { class: 'option-title', text: item.title }),
-        p(item.desc)
+        el('h3', { class: 'option-title', text: item.label }),
+        p(item.description)
       ),
-      el('small', { class: 'subtle', text: item.stack })
     );
   }));
 
   render([
     steps(1),
     ...heading('¿Cuál es el enfoque principal de tu proyecto?',
-      `Elige el subtipo para ${profiles[s.profile]?.[0] ?? s.profile} para ajustar las recomendaciones.`),
+      `Elige el enfoque para ${profiles[s.profile]?.[0] ?? s.profile} para ajustar las recomendaciones.`),
+    el('p',{class:'subtle'},'Si vas a trabajar con ',term('fuente','fuentes'),', puedes abrir aquí su definición.'),
     el('div', { class: 'folder-card' },
       own(s.name || state.project?.name || 'Mi proyecto', 'h2'),
       state.project ? own(state.project.root, 'p', { class: 'path' }) : null
@@ -259,7 +213,7 @@ function showFinished() {
   const promptText = masterActivationPrompt({
     path: pRoot,
     profile: s.profile,
-    subtype: s.subtype,
+    focus: s.focus,
     vision: s.vision,
     installMode: s.installMode
   });
@@ -338,4 +292,4 @@ function showFinished() {
   ], 'PROYECTO LISTO / ACTIVACIÓN DE IA');
 }
 
-export {DELIMITATIONS, INSPIRATION_CHIPS, masterActivationPrompt, showDelimitation, showVision, showInstall, visionObjective, executeInstallation, showFinished};
+export {INSPIRATION_CHIPS, masterActivationPrompt, showDelimitation, showVision, showInstall, visionObjective, executeInstallation, showFinished};

@@ -1,4 +1,4 @@
-import {profiles, agents, state, el, p, btn, doBtn, heading, own, actions, wizardBar, panel, term, field, steps, notice, error, call, render, openDialog, closeDialog} from '../lib/core.mjs';
+import {profiles, canonicalProfile, isEngineeringProfile, agents, state, el, p, btn, doBtn, heading, own, actions, wizardBar, panel, term, field, steps, notice, error, call, render, openDialog, closeDialog} from '../lib/core.mjs';
 import {showFolder, showWorkspace} from '../lib/bridge.mjs';
 function changes(files){return el('details',{},el('summary',{text:`Ver archivos previstos (${files.length})`}),el('ul',{class:'file-list'},files.map(f=>el('li',{text:`${{create:'Añadir',update:'Actualizar',remove:'Retirar',unchanged:'Conservar',adopt:'Conservar original',preserve:'Conservar',noop:'Sin cambios'}[f.action]??f.action} · ${f.path}`}))));}
 function showBaseReview(){state.page='base-review';const s=state.selection;
@@ -10,7 +10,7 @@ function showBaseReview(){state.page='base-review';const s=state.selection;
       // What the person answered about technology is asked here, once the selection is recorded and the folder
       // has been looked at, because a recommendation is only honest after both. With nothing to offer this step
       // does not exist, and the project screen is where the reason is said instead.
-      const after=async()=>{if(['software','unity'].includes(s.profile))await reviewEngineering();else await prepareContext();};
+      const after=async()=>{if(isEngineeringProfile(s.profile))await reviewEngineering();else await prepareContext();};
       await reviewStack(after);},'primary')));}
 // Technology, in the three ways the person could have answered. `items` empty is not an error and not a gap: it
 // is the third answer, and it comes with the sentence that says why installing nothing is right. Nothing here
@@ -147,8 +147,8 @@ function showCodeReview(){state.page='code-review';const plan=state.plan,allowed
 // starting it would leave the project and clear the answers, which is what an independent review found when
 // it followed the guidance's own first step.
 async function resaveBase(){const s=state.selection;
-  state.plan=await call('previewBase',{id:state.project.id,selection:{name:s.name,goal:s.goal,role:s.role,
-    profile:s.profile,experience:s.experience,agents:s.agents,stack:s.stack}});
+  state.plan=await call('previewBase',{id:state.project.id,selection:{name:s.name,goal:s.goal,
+    ...canonicalProfile(s),experience:s.experience,agents:s.agents,stack:s.stack}});
   showBaseReview();}
 
 export {changes, showBaseReview, reviewStack, showStackReview, notOfferedPanel, stackPanel, stackName, reviewEngineering, downloadSize, reviewRepair, showEnvironmentReview, showEngineeringReview, showActivationReview, prepareContext, showContextReview, showSyncReview, showFinalContext, reviewCode, showCodeReview, resaveBase};
