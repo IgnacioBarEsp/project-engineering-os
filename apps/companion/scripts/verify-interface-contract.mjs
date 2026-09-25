@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { portable } from './portable-path.mjs';
+import {ASSETS, CSP} from '../desktop/assets.mjs';
 import { ACTION_PAIRS, UNDEFINED_VOCABULARY, TERM_LABELS, LIST_PURITY, ACCESSIBILITY, ACCESSIBLE_NAMES,
   EXPECTED_ACTIONS, collectActionPairs, duplicateActionNames, undeclaredActions, vacuous,
   ROW_ACTION_PAIRS, ROW_MENUS, READY_CLAIMS, GUIDE, ACTION_COUNTS, EXPECTED_ROW_ACTIONS,
@@ -35,9 +36,14 @@ const source = fileURLToPath(new URL('../ui/', import.meta.url));
 const temp = await realpath(await mkdtemp(path.join(tmpdir(), 'peos-contract-')));
 const ui = path.join(temp, 'ui');
 await cp(source, ui, { recursive: true });
-const FILES = ['index.html', 'app.mjs', 'glossary.mjs', 'app.css'];
+const FILES = [...ASSETS.keys()].map(file => file.slice(1));
 const pristine = new Map();
 for (const file of FILES) pristine.set(file, await readFile(path.join(ui, file), 'utf8'));
+function resolvePatch(patch) {
+  const matches = [...pristine].filter(([, source]) => source.includes(patch.from)).map(([file]) => file);
+  assert.equal(matches.length, 1, `La mutación ${patch.from.slice(0, 60)} debe tener un solo sitio de inserción; halló ${matches.join(', ') || 'ninguno'}.`);
+  return {...patch, file: matches[0]};
+}
 
 const listOf = report => report.screens['tus proyectos'];
 const anyScreen = (report, predicate) => Object.entries(report.screens).filter(([, screen]) => predicate(screen));
@@ -152,8 +158,8 @@ const MUTATIONS = [
     detect: report => report.duplicated.some(entry => entry.startsWith('prepare-project')) },
   { id: 'a-second-name-only-assistive-technology-hears', file: 'app.mjs',
     reason: 'una acción declarada lleva un aria-label distinto de su texto visible, que es el nombre que dice un lector de pantalla',
-    from: "$('topbar-actions').replaceChildren(doBtn('privacy-scope','quiet'));",
-    to: "$('topbar-actions').replaceChildren(Object.assign(doBtn('privacy-scope','quiet'),{}));$('topbar-actions').firstChild.setAttribute('aria-label','Alcance y datos que salen de aquí');",
+    from: "$('topbar-actions').replaceChildren(privacy);",
+    to: "privacy.setAttribute('aria-label','Alcance y datos que salen de aquí');$('topbar-actions').replaceChildren(privacy);",
     detect: report => report.duplicated.some(entry => entry.startsWith('privacy-scope') && entry.includes('hablado')) },
   { id: 'a-duplicate-action-inside-a-dialog', file: 'app.mjs',
     reason: 'una acción declarada se ofrece con otro nombre dentro de un diálogo, que es donde la recogida anterior nunca miraba',
@@ -162,8 +168,8 @@ const MUTATIONS = [
     detect: report => report.duplicated.some(entry => entry.startsWith('open-project-list') && entry.includes('diálogo')) },
   { id: 'an-action-offered-under-an-undeclared-id', file: 'app.mjs',
     reason: 'un control declara una acción que no está en el conjunto cerrado',
-    from: "actions(doBtn('prepare-project','primary')),",
-    to: "actions(doBtn('prepare-project','primary'),el('button',{type:'button','data-action':'go-somewhere',text:'Volver al estado'})),",
+    from: "el('div',{class:'home-actions'},doBtn('prepare-project','primary'),",
+    to: "el('div',{class:'home-actions'},doBtn('prepare-project','primary'),el('button',{type:'button','data-action':'go-somewhere',text:'Volver al estado'}),",
     detect: report => report.undeclared.includes('go-somewhere') },
   { id: 'greeting-back-in-the-list-as-a-paragraph', file: 'app.mjs',
     reason: 'la lista de proyectos recupera un saludo explicativo',
@@ -210,17 +216,17 @@ const MUTATIONS = [
     detect: report => anyScreen(report, screen => screen.vocabulary.missing.some(entry => entry.id === 'inventario')).length > 0 },
   { id: 'action-removed-from-the-page', file: 'app.mjs',
     reason: 'se retira la declaración de una acción, que es la forma de satisfacer la comprobación por omisión',
-    from: "['open-start','open-project-list','prepare-project','open-help']",
-    to: "['open-start','open-project-list','prepare-project']",
+    from: "['open-start', 'open-project-list', 'prepare-project', 'open-help']",
+    to: "['open-start', 'open-project-list', 'prepare-project']",
     detect: report => !report.actions.some(([id]) => id === 'open-help') },
   { id: 'glossary-stops-listing-every-term', file: 'app.mjs',
     reason: 'la ayuda deja de reunir todas las definiciones',
     from: 'GLOSSARY.flatMap(', to: 'GLOSSARY.slice(0,5).flatMap(',
     detect: report => report.glossaryEntries !== report.glossaryTerms },
-  { id: 'state-text-loses-its-contrast', file: 'app.mjs',
+  { id: 'state-text-loses-its-contrast', file: 'app.css',
     reason: 'el estado de cada proyecto se vuelve ilegible sobre su fondo',
-    from: "el('p',{class:`project-state state-${project.state}`}",
-    to: "el('p',{class:`project-state state-${project.state}`,style:'color:#1a2030'}",
+    from: '.project-state{font-size:.86rem;color:var(--muted);',
+    to: '.project-state{font-size:.86rem;color:#1a2030;',
     detect: report => listOf(report).accessibility.contrast.some(entry => entry.class?.includes('project-state')) },
   { id: 'contrast-broken-inside-the-definition-dialog', file: 'app.css',
     reason: 'el texto del diálogo que define un término se vuelve ilegible',
@@ -229,12 +235,12 @@ const MUTATIONS = [
     detect: report => report.dialog.accessibility.contrast.length > 0 },
   { id: 'contrast-broken-on-the-persistent-navigation', file: 'app.css',
     reason: 'la navegación, que está en todas las pantallas, se vuelve ilegible',
-    from: '.nav-button:hover{color:#b9e0c2}', to: '.nav-button{color:#2a3a2e}.nav-button:hover{color:#b9e0c2}',
+    from: '.nav-button:hover{color:var(--green-200)}', to: '.nav-button{color:#2a3a2e}.nav-button:hover{color:var(--green-200)}',
     detect: report => anyScreen(report, screen => screen.accessibility.contrast.some(entry => entry.class?.includes('nav-button'))).length > 0 },
   { id: 'navigation-entries-break-mid-word', file: 'app.css',
     reason: 'las entradas de navegación vuelven a partirse por la mitad de una palabra en el ancho mínimo',
-    from: '@media(max-width:650px){.sidebar nav{flex-wrap:wrap;gap:10px 18px}.nav-button{overflow-wrap:normal;word-break:keep-all;white-space:nowrap}}',
-    to: '@media(max-width:650px){.sidebar nav{gap:20px}.nav-button{overflow-wrap:anywhere}}',
+    from: '.nav-button { white-space: nowrap; word-break: keep-all; flex: none; }',
+    to: '.nav-button { white-space: normal; word-break: break-all; flex: none; width: 34px; }',
     detect: report => report.narrow.accessibility.brokenWords.length > 0 },
   { id: 'a-term-stops-being-a-control', file: 'glossary.mjs',
     reason: 'un término deja de poder activarse con el teclado y pasa a ser texto',
@@ -249,8 +255,8 @@ const MUTATIONS = [
       || report.rendererErrors.some(message => /no nombra el término/.test(message)) },
   { id: 'a-control-loses-its-accessible-name', file: 'app.mjs',
     reason: 'un control queda sin nombre accesible, así que con un lector de pantalla es inservible',
-    from: "$('topbar-actions').replaceChildren(doBtn('privacy-scope','quiet'));",
-    to: "$('topbar-actions').replaceChildren(el('button',{type:'button',class:'quiet','data-action':'privacy-scope'}));",
+    from: "$('topbar-actions').replaceChildren(privacy);",
+    to: "privacy.removeAttribute('aria-label');privacy.replaceChildren();$('topbar-actions').replaceChildren(privacy);",
     detect: report => anyScreen(report, screen => screen.names.unnamed.length > 0).length > 0 },
   { id: 'the-boot-shell-loses-its-stated-cause', file: 'index.html',
     reason: 'si el módulo no carga, la ventana vuelve a quedar en blanco sin decir por qué',
@@ -263,17 +269,17 @@ const MUTATIONS = [
   { id: 'the-final-bar-fixed-again-inside-the-animated-content', wizard: true,
     reason: 'la barra final vuelve a estar dentro de .enter con position:fixed, y la animación con transform la ancla al contenido',
     patches: [
-      { file: 'app.mjs', from: "[el('div',{class:'enter'},content),bar].filter(Boolean)", to: "[el('div',{class:'enter'},content,bar)].filter(Boolean)" },
-      { file: 'app.css',
-        from: '.wizard-footer{position:sticky;bottom:0;z-index:10;margin-top:28px;padding:18px 0;background:rgba(11,15,25,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(0,0,0,0.5)}main#content:has(>#view>.wizard-footer){padding-bottom:0}main#content:has(>#view>.wizard-footer) .notice:empty{margin:0;min-height:0}html{scroll-padding-bottom:var(--wizard-footer-height,0px)}',
-        to: 'main:has(.steps){padding-bottom:145px}main:has(.steps) #view .enter>.actions,main:has(.steps) #view form>.actions{position:fixed;bottom:0;left:0;right:0;margin:0;padding:18px clamp(24px,4.4vw,70px);background:rgba(11,15,25,0.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(0,0,0,0.5);z-index:10}' }],
+      { file: 'lib/core.mjs', from: "$('view').replaceChildren(...[body,bar].filter(Boolean));", to: "if(bar)body.append(bar);$('view').replaceChildren(body);" },
+      { file: 'pages.css',
+        from: '.wizard-footer { position: sticky; bottom: 0; margin-top: 24px; padding: 14px 0; }',
+        to: '.wizard-footer { position: fixed; bottom: 0; left: 0; right: 0; margin: 0; padding: 18px; background: var(--surface-root); z-index: 10; }' }],
     detect: report => (report.wizard ?? []).some(run => run.motion === 'no-preference' && run.visited.includes('install')
       && run.problems.some(problem => problem.startsWith('install: «') && problem.includes('no se puede pulsar')
         && /Instalar stack base|Preparar carpeta y generar/.test(problem))) },
-  { id: 'install-and-finished-drop-the-preparation-pill', file: 'app.mjs', wizard: true,
-    reason: 'la navegación deja de marcar «Preparar proyecto» en instalación y en la pantalla final',
-    from: "const WIZARD_PAGES=['setup','folder','delimitation','vision','install','finished','stack-choice','ready'];",
-    to: "const WIZARD_PAGES=['setup','folder','delimitation','vision','stack-choice','ready'];",
+  { id: 'install-route-drops-the-preparation-pill', file: 'lib/router.mjs', wizard: true,
+    reason: 'la navegación deja de marcar «Preparar proyecto» en instalación',
+    from: "install: wizard('PREPARAR PROYECTO / PREPARAR', 3),",
+    to: "install: {breadcrumb: 'PREPARAR PROYECTO / PREPARAR', nav: 'open-start', step: 3},",
     detect: report => (report.wizard ?? []).some(run => run.visited.includes('install')
       && run.problems.some(problem => problem.startsWith('install:') && problem.includes('«prepare-project» declara aria-pressed="false"'))) },
   // Only the observed consequence of the mutation counts. Copies that were never observed are a failure of the
@@ -292,24 +298,28 @@ const MUTATIONS = [
   // on a long screen the actions only appear at its end.
   { id: 'the-final-bar-no-longer-sticks', file: 'app.css', wizard: true,
     reason: 'la barra final deja de ser sticky y, en una pantalla larga, sus acciones solo aparecen al final',
-    from: '.wizard-footer{position:sticky;', to: '.wizard-footer{position:static;',
+    from: '.wizard-footer { position: sticky; bottom: 0; margin-top: 24px; padding: 14px 0; }',
+    to: '.wizard-footer { position: static; bottom: 0; margin-top: 24px; padding: 14px 0; }',
     detect: report => (report.wizard ?? []).some(run => run.problems.some(problem => problem.includes('la barra final no es sticky (static)'))) },
 ];
 const COPY_CONSEQUENCE = /: «[^»]+» (anunció «.*» sin haber copiado|no mostró la causa del fallo|cambió su etiqueta a «.*» sin haber copiado)$/;
+const stalePatches = [...CONSTRUCTION_PROBES, ...MUTATIONS.flatMap(mutation => mutation.patches ?? [mutation])]
+  .filter(patch => [...pristine.values()].filter(source => source.includes(patch.from)).length !== 1)
+  .map(patch => `${patch.id ?? patch.from.slice(0, 75)}: ${patch.from.slice(0, 75)}`);
+assert.deepEqual(stalePatches, [], 'Cada mutación debe apuntar a una sola fuente real antes de abrir el navegador.');
 
-const types = { '.html': 'text/html', '.css': 'text/css', '.mjs': 'text/javascript' };
 let breakModule = false;
 const server = createServer(async (request, response) => {
-  const name = request.url === '/' ? 'index.html' : request.url.slice(1);
-  if (request.method !== 'GET' || !/^[a-z.]+$/.test(name) || !Object.hasOwn(types, path.extname(name))) {
+  const name = request.url === '/' ? '/index.html' : request.url;
+  if (request.method !== 'GET' || !ASSETS.has(name)) {
     response.writeHead(404); response.end(); return;
   }
   // The one thing a static server has to be able to do here: refuse a module, so the shell a person is left
   // with when the application cannot load itself can be read.
-  if (breakModule && name === 'glossary.mjs') { response.writeHead(404); response.end(); return; }
-  const body = await readFile(path.join(ui, name)).catch(() => null);
+  if (breakModule && name === '/glossary.mjs') { response.writeHead(404); response.end(); return; }
+  const body = await readFile(path.join(ui, name.slice(1))).catch(() => null);
   if (!body) { response.writeHead(404); response.end(); return; }
-  response.setHeader('Content-Type', types[path.extname(name)]); response.end(body);
+  response.setHeader('Content-Type', ASSETS.get(name)); response.setHeader('Content-Security-Policy', CSP); response.end(body);
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const url = `http://127.0.0.1:${server.address().port}`;
@@ -796,8 +806,7 @@ try {
 
   record.constructionProbes = [];
   for (const probe of CONSTRUCTION_PROBES) {
-    const target = path.join(ui, probe.file), original = pristine.get(probe.file);
-    assert.ok(original.includes(probe.from), `La sonda ${probe.id} no encontró su punto de inserción.`);
+    const patch = resolvePatch(probe), target = path.join(ui, patch.file), original = pristine.get(patch.file);
     await writeFile(target, original.replace(probe.from, probe.to));
     let holds = false, by = null;
     try { holds = !!probe.holds(flat(await inspect(page))); }
@@ -809,7 +818,7 @@ try {
 
   for (const mutation of MUTATIONS) {
     // A defect can live in more than one file: the bar of 0.3.1 needs both its place in the markup and its rule.
-    const patches = mutation.patches ?? [{ file: mutation.file, from: mutation.from, to: mutation.to }];
+    const patches = (mutation.patches ?? [{ file: mutation.file, from: mutation.from, to: mutation.to }]).map(resolvePatch);
     const mutated = new Map(patches.map(patch => [patch.file, pristine.get(patch.file)]));
     for (const patch of patches) {
       assert.ok(mutated.get(patch.file).includes(patch.from), `La mutación ${mutation.id} no encontró su punto de inserción en ${patch.file}.`);

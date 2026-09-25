@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Project Engineering OS</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./app.css">
   <script type="module" src="./app.mjs"></script>
 </head>
@@ -12,18 +13,9 @@
   <div class="shell">
     <header class="app-header sidebar" aria-label="Project Engineering OS">
       <div class="header-left">
-        <div class="window-dots" aria-hidden="true">
-          <span class="dot red"></span>
-          <span class="dot yellow"></span>
-          <span class="dot green"></span>
-        </div>
-        <div class="header-separator" aria-hidden="true"></div>
         <div class="brand">
           <div class="brand-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="4 17 10 11 4 5"></polyline>
-              <line x1="12" y1="19" x2="20" y2="19"></line>
-            </svg>
+            <svg width="20" height="20" aria-hidden="true"><use href="./icons.svg#icon-terminal"></use></svg>
           </div>
           <span class="brand-name">Project Engineering OS</span>
           <span class="edition badge">Companion</span>
@@ -33,10 +25,6 @@
         <nav id="nav" class="nav-pill-group" aria-label="Navegación principal"></nav>
       </div>
       <div class="header-right">
-        <div class="status-indicator">
-          <span class="pulse-dot" aria-hidden="true"></span>
-          <span class="status-label">Entorno listo</span>
-        </div>
         <div id="topbar-actions" class="topbar-actions"></div>
       </div>
     </header>

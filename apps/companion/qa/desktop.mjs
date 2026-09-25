@@ -165,7 +165,8 @@ test('the preload exposes exactly the service operations, copyText included, and
   assert.ok(methods.includes('copyText'));
   // 0.3.1 called a copyText the preload never exposed, so the button fell through to a clipboard the window has no
   // permission for. Every operation the renderer names has to be one the preload hands it.
-  const renderer=await readFile(new URL('../ui/app.mjs',import.meta.url),'utf8');
+  const renderer=(await Promise.all(['app.mjs','lib/core.mjs','screens/home.mjs','screens/setup.mjs','screens/flow.mjs','screens/reviews.mjs','screens/workspace.mjs']
+    .map(file=>readFile(new URL(`../ui/${file}`,import.meta.url),'utf8')))).join('\n');
   const named=[...renderer.matchAll(/call\('([A-Za-z]+)'/g),...renderer.matchAll(/\bapi\.([A-Za-z]+)/g)].map(match=>match[1]);
   assert.ok(named.length>20,`The scan found only ${named.length} operations; it has to read the renderer to prove anything`);
   assert.deepEqual([...new Set(named)].filter(name=>!methods.includes(name)),[],'The renderer calls operations the preload does not expose');
