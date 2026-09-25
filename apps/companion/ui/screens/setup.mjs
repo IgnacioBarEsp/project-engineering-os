@@ -1,6 +1,6 @@
-import {profiles, agents, roles, techDecisions, state, el, p, btn, doBtn, heading, own, actions, wizardBar, panel, term, field, input, select, steps, call, run, render} from '../lib/core.mjs';
+import {profiles, profileInfo, loadProfiles, agents, techDecisions, state, el, p, btn, doBtn, heading, own, actions, wizardBar, panel, term, field, input, steps, call, run, render} from '../lib/core.mjs';
 import {showDelimitation, changes, showBaseReview, downloadSize} from '../lib/bridge.mjs';
-async function startSetup(){state.project=null;state.selection={name:'',goal:'',role:'researcher',profile:'research',experience:'guided',agents:['web'],stack:{decision:'too-early',requested:[]}};
+async function startSetup(){await loadProfiles();state.project=null;state.selection={name:'',goal:'',profile:'software',focus:'website',experience:'guided',agents:['web'],stack:{decision:'too-early',requested:[]}};
   state.stacks=state.stacks??await call('stackCatalog');showSetup();}
 function showSetup(){state.page='setup';const s=state.selection;
   const types=el('fieldset',{},el('legend',{text:'¿Qué vas a hacer?'}),el('div',{class:'choices'},Object.entries(profiles).map(([id,[label,hint]])=>{
@@ -9,8 +9,8 @@ function showSetup(){state.page='setup';const s=state.selection;
     // refused three screens later on the folder step — which has no technology control — with a remedy pointing
     // at the folder. An independent review walked into that dead end in the real renderer.
     const radio=el('input',{type:'radio',name:'profile',value:id,checked:s.profile===id,onChange:()=>{
-      s.profile=id;
-      const offeredHere=new Set((state.stacks?.stacks??[]).filter(entry=>entry.profiles.includes(id)).map(entry=>entry.id));
+      s.profile=id;s.focus=profileInfo(id).focuses[0].id;
+      const offeredHere=new Set(profileInfo(id).focuses[0].stacks);
       s.stack={decision:s.stack?.decision??'too-early',requested:(s.stack?.requested??[]).filter(chosen=>offeredHere.has(chosen))};
       showSetup();}});
     return el('label',{class:'choice'},radio,el('span',{},el('strong',{text:label}),el('small',{text:hint})));})));
@@ -21,7 +21,8 @@ function showSetup(){state.page='setup';const s=state.selection;
     el('label',{class:'choice'},el('input',{type:'radio',name:'stack-decision',value:id,checked:(s.stack?.decision??'too-early')===id,
       onChange:()=>{s.stack={decision:id,requested:id==='chosen'?(s.stack?.requested??[]):[]};showSetup();}}),
       el('span',{},el('strong',{text:label}),el('small',{text:hint})))));
-  const offered=(state.stacks?.stacks??[]).filter(entry=>entry.profiles.includes(s.profile));
+  const allowed=new Set(profileInfo(s.profile)?.focuses.find(item=>item.id===s.focus)?.stacks??[]);
+  const offered=(state.stacks?.stacks??[]).filter(entry=>allowed.has(entry.id));
   const tech=el('fieldset',{},el('legend',{text:'¿Sabes con qué tecnología vas a trabajar?'}),techChoices,
     (s.stack?.decision==='chosen'&&offered.length)?el('div',{class:'choices'},offered.map(entry=>
       el('label',{class:'choice'},el('input',{type:'checkbox',name:'stack',value:entry.id,checked:(s.stack?.requested??[]).includes(entry.id),
@@ -32,9 +33,10 @@ function showSetup(){state.page='setup';const s=state.selection;
   // The submit control lives in the final bar, outside the form, and belongs to it through `form`: a click, Enter
   // in a field and the browser's own required-field check all reach this one handler, as they did inside it.
   const form=el('form',{id:'setup-form',onSubmit:e=>{e.preventDefault();void run(async()=>{if(!s.agents.length)throw{message:'Elige al menos una IA.',action:'Marca la que usas habitualmente.'};showFolder();});}},
-    el('div',{class:'fields'},field('Nombre de tu proyecto','name',input('name',s.name,100,v=>s.name=v),'Por ejemplo: Evidencia para mi tesis'),field('¿Con qué perfil te identificas?','role',select('role',roles,s.role,v=>s.role=v))),
-    field('¿Qué quieres lograr?','goal',input('goal',s.goal,500,v=>s.goal=v),'Un objetivo concreto ayuda a tu IA a empezar con dirección.'),types,tech,ai,
-    field('¿Cuánta guía prefieres?','experience',select('experience',{guided:'Paso a paso, con explicaciones',familiar:'Conozco las herramientas de IA'},s.experience,v=>s.experience=v)));
+    el('div',{class:'fields'},field('Nombre de tu proyecto','name',input('name',s.name,100,v=>s.name=v),'Por ejemplo: Evidencia para mi tesis')),
+    field('¿Qué quieres lograr?','goal',input('goal',s.goal,500,v=>s.goal=v),'Un objetivo concreto ayuda a tu IA a empezar con dirección.'),types,
+    el('p',{class:'subtle'},'Si vas a trabajar con ',term('fuente','fuentes'),', puedes abrir aquí su definición.'),tech,ai,
+    );
   render([steps(0),...heading('Empecemos por lo que quieres lograr.','La preparación se adapta a tu trabajo. Puedes usar una IA instalada en tu equipo o pegar el texto en un chat web.'),
     el('p',{class:'subtle'},'Lo que elijas aquí queda como el ',term('perfil'),' del proyecto, y puedes cambiarlo después.'),form],'PREPARAR PROYECTO / TU OBJETIVO',
     wizardBar(doBtn('open-start'),el('button',{type:'submit',form:'setup-form',class:'primary',text:'Elegir carpeta  →'})));

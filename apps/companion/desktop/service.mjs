@@ -4,10 +4,11 @@ import path from 'node:path';
 import { canonicalFolder, hash, snapshot, writeChecked, withLock, fail, json } from '../engine/files.mjs';
 import { glossaryIdsIn } from '../ui/glossary.mjs';
 import { createPreparationEngine, normalizeSelection, AGENT_IDS, WEB_AGENT } from '../engine/preparation.mjs';
+import {PROFILES, PROFILE_IDS, LEGACY_PROFILE_MAP, READABLE_PROFILE_IDS, requiredStages, isEngineering, profileLabel, focusLabel, resolveProfile, offeredStacks} from '../engine/profiles.mjs';
 import { createContextEngine } from '../context/engine.mjs';
 import { createConstructorAdapter } from '../engine/constructor-adapter.mjs';
 import { recipesFor } from '../context/recipes.mjs';
-import { aggregate, investigationPrompt, projectPromptFor, PROFILE_LABELS } from '../context/prompts.mjs';
+import { aggregate, investigationPrompt, projectPromptFor } from '../context/prompts.mjs';
 import { createInferenceClient, clearsTheFloor, withLocalRules, LEVELS, LEVEL_LABELS, PROVIDERS } from '../runtime/inference.mjs';
 import { graphOptions } from '../context/graph-tools.mjs';
 import { createActivationEngine } from '../runtime/activation.mjs';
@@ -16,7 +17,6 @@ import { createStackStore } from '../runtime/stack.mjs';
 import { NOT_OFFERED, STACKS, STACK_IDS } from '../runtime/stack-catalog.mjs';
 
 const UUID = /^[a-f0-9-]{36}$/;
-const ROLES = ['researcher','student','developer','freelancer','creator','general'];
 // A read of a remembered folder can hang for as long as the operating system is willing to wait for a
 // network share. The project list reads every row before it can render anything, so an unreachable share
 // froze the whole window with no indicator and no way to stop. Exported so the bound itself can be tested
@@ -86,9 +86,7 @@ export function publicError(error) {
 // when the check ran and that it did not re-read the person's files.
 export const WITNESS_LIMIT = 200, WITNESS_MAX_BYTES = 8 * 1024 * 1024, UNREADABLE = 'unreadable';
 export const VERDICTS_MAX_BYTES = 8 * 1024 * 1024, WITNESS_PATH_MAX = 256;
-export const REQUIRED_STAGES = Object.freeze({ research: ['base', 'context'], media: ['base', 'context'],
-  general: ['base', 'context'], software: ['base', 'context', 'environment', 'engineering'],
-  unity: ['base', 'context', 'environment', 'engineering'] });
+export const REQUIRED_STAGES = Object.freeze(Object.fromEntries(READABLE_PROFILE_IDS.map(id=>[id,Object.freeze(requiredStages(id))])));
 export const STAGE_IDS = Object.freeze(['base', 'context', 'environment', 'engineering', 'code']);
 // A code map is an addition this interface offers, and a software project with no code files has nothing to
 // map, so never having created one is not a missing stage. A stale, corrupt or unrepaired one is: it is a
@@ -97,7 +95,7 @@ const CODE_SOUND = ['verified', 'empty', 'not-prepared', 'not-requested'];
 const reason = (...values) => values.find(value => typeof value === 'string' && value) ?? 'unknown';
 export function stageReport(status) {
   const profile = status.base?.selection?.profile ?? status.project?.selection?.profile ?? null;
-  const required = REQUIRED_STAGES[profile] ?? ['base', 'context'];
+  const required = profile?requiredStages(profile):['base', 'context'];
   const stages = [{ id: 'base', state: status.base?.base === 'prepared' && status.base?.inventory === 'current' ? 'ready'
       : status.base?.base === 'prepared' ? 'inventory-stale' : reason(status.base?.base, status.base?.status) },
     { id: 'context', state: status.context?.context === 'current' ? 'ready' : reason(status.context?.context, status.context?.status) }];
@@ -119,7 +117,7 @@ function validVerdict(value) {
   return !!value && typeof value === 'object' && !Array.isArray(value) && UUID.test(value.id ?? '')
     && typeof value.rootHash === 'string' && /^[a-f0-9]{64}$/.test(value.rootHash)
     && typeof value.at === 'string' && value.at.length <= 40 && !Number.isNaN(Date.parse(value.at))
-    && (value.profile === null || (typeof value.profile === 'string' && Object.hasOwn(REQUIRED_STAGES, value.profile)))
+    && (value.profile === null || (typeof value.profile === 'string' && READABLE_PROFILE_IDS.includes(value.profile)))
     && Array.isArray(value.required) && value.required.every(id => STAGE_IDS.includes(id))
     && Array.isArray(value.stages) && value.stages.length <= STAGE_IDS.length
     && value.stages.every(stage => !!stage && STAGE_IDS.includes(stage.id) && typeof stage.state === 'string'
@@ -221,11 +219,10 @@ function copyable(input) {
   if (Buffer.byteLength(value)>COPY_TEXT_MAX_BYTES || Buffer.byteLength(JSON.stringify(input))>COPY_REQUEST_MAX_BYTES) fail('INPUT_INVALID','Ese texto es más largo de lo que se puede copiar desde aquí.',retry);
   return value;
 }
-function selection(input) {
-  exact(input,['name','profile','agents','experience','role','goal','stack','subtype','vision','installMode']);
-  if (!ROLES.includes(input.role)) fail('ROLE_INVALID','Elige el perfil que te representa.');
+function selection(input,{legacyRead=false}={}) {
+  exact(input,['name','profile','focus','agents','experience','role','goal','stack','subtype','vision','installMode']);
   if (input.stack !== undefined) exact(input.stack,['decision','requested']);
-  return { ...normalizeSelection(input), role: input.role, goal: text(input.goal,500,'el objetivo del proyecto (hasta 500 caracteres)') };
+  return { ...normalizeSelection(input,{legacyRead}), goal: text(input.goal,500,'el objetivo del proyecto (hasta 500 caracteres)') };
 }
 const fileList = plan => plan.files.map(({path: p,action,bytes})=>({path:p,action,bytes}));
 // What the person hands to their AI. It used to be one template with the name and the goal in it, identical
@@ -252,7 +249,7 @@ export async function createDesktopService({ dataRoot, core, environment = null,
     if (!state.content) return {state,items:[]};
     let value;try {value=JSON.parse(state.content);} catch {fail('HISTORY_INVALID','No se puede leer el historial local.','La carpeta de tus proyectos sigue intacta. Conserva el registro para recuperarlo.');}
     if (value?.version!==1 || !Array.isArray(value.items) || value.items.length>50 || value.items.some(i=>!i || !UUID.test(i.id??'') || typeof i.root!=='string' || !path.isAbsolute(i.root) || i.root.length>4096 || typeof i.name!=='string' || i.name.length>100)) fail('HISTORY_INVALID','El historial local no tiene un formato reconocido.');
-    for (const item of value.items) if (item.selection) selection(item.selection);
+    for (const item of value.items) if (item.selection) selection(item.selection,{legacyRead:true});
     if (new Set(value.items.map(i=>i.id)).size!==value.items.length) fail('HISTORY_INVALID','El historial contiene identificadores repetidos.');
     return {state,items:value.items};
   }
@@ -372,7 +369,8 @@ export async function createDesktopService({ dataRoot, core, environment = null,
   async function usePlan(id,kind) {noJob();const plan=plans.get(id);if(!plan||plan.kind!==kind)fail('PLAN_UNKNOWN','Vuelve a revisar los cambios antes de aplicarlos.');const p=await project(plan.project);plans.delete(id);return {plan,p};}
   async function status(p, controls = {}) {
     const b=await safeStage(()=>base.verify(p.root),controls), c=await safeStage(()=>context.verify(p.root),controls);
-    const requested=['software','unity'].includes(b.selection?.profile??p.selection?.profile);
+    const chosen=b.selection??p.selection;
+    const requested=chosen?isEngineering(chosen):false;
     const tools=environment&&requested ? await safeStage(()=>environment.verify(p.root,controls),controls) : {status:'not-requested'};
     const e=requested ? await safeStage(()=>engineering.verify(p.root,controls),controls) : {files:'not-requested',workflows:'not-requested'};
     const a=activation&&requested&&e.files==='prepared' ? await safeStage(()=>activation.verify(p.root,controls),controls) : null;
@@ -430,8 +428,8 @@ export async function createDesktopService({ dataRoot, core, environment = null,
         goal: selection?.goal, agents: selection?.agents, pending, summary },
       paths: (inventory.files ?? []).map(file => file.path) });
     if (!result.text) return { ...result, text: null };
-    const floor = clearsTheFloor(result.text, draft.text, { profile: selection?.profile,
-      profileLabel: PROFILE_LABELS[selection?.profile] ?? '', goal: selection?.goal ?? '' });
+    const floor = clearsTheFloor(result.text, draft.text, { profile: selection?.profile,focus:selection?.focus,
+      profileLabel: selection?profileLabel(selection):'', goal: selection?.goal ?? '' });
     if (!floor.clears) return { used: 'off', text: null, elapsedMs: result.elapsedMs,
       reason: `el modelo no superó la plantilla: ${floor.problems.join('; ')}` };
     return { ...result, floor };
@@ -457,7 +455,10 @@ export async function createDesktopService({ dataRoot, core, environment = null,
       return Promise.all(items.map(async i=>{
         // The selection travels with the row because duplicating reuses the person's own answers, and those
         // answers are already theirs. Nothing derived from the folder's contents is added here.
-        const entry={id:i.id,name:i.name,root:i.root,profile:i.selection?.profile??null,selection:i.selection??null,
+        const original=i.selection??null;
+        const entry={id:i.id,name:i.name,root:i.root,profile:original?.profile??null,
+          profileLabel:original?profileLabel(original):null,focusLabel:original?focusLabel(original):null,
+          mappedProfile:original?resolveProfile(original).profile:null,mappedFocus:original?resolveProfile(original).focus:null,selection:original,
           recorded:true,checkedAt:null,missing:[],changed:[]};
         try {
           return await withBudget((async()=>{
@@ -471,7 +472,10 @@ export async function createDesktopService({ dataRoot, core, environment = null,
             // your folder is out of date" are different sentences and only one of them is true at a time.
             const missing=(verdict?.stages??[]).filter(stage=>stage.state!=='ready')
               .map(stage=>({id:stage.id,state:stage.state}));
+            const shown=b.selection??original;
             return {...entry,profile:b.selection?.profile??verdict?.profile??entry.profile,
+              profileLabel:shown?profileLabel(shown):entry.profileLabel,focusLabel:shown?focusLabel(shown):entry.focusLabel,
+              mappedProfile:shown?resolveProfile(shown).profile:entry.mappedProfile,mappedFocus:shown?resolveProfile(shown).focus:entry.mappedFocus,
               checkedAt:verdict?.at??null,missing,changed,
               state:b.interrupted||c.interrupted?'interrupted'
                 :!b.prepared?'not-prepared'
@@ -503,7 +507,7 @@ export async function createDesktopService({ dataRoot, core, environment = null,
       await remember(p);const result=await base.apply(plan.engineId,controls);await remember(p,plan.selection);return {result,status:await status(p,controls)};
     });},
     async previewEnvironment(input) {exact(input,['id']);noJob();const p=await project(input.id);
-      if(!environment||!['software','unity'].includes(p.selection?.profile))fail('ENVIRONMENT_UNAVAILABLE','Este proyecto no necesita estas herramientas de desarrollo.');
+      if(!environment||!p.selection||!isEngineering(p.selection))fail('ENVIRONMENT_UNAVAILABLE','Este proyecto no necesita estas herramientas de desarrollo.');
       return operation('Revisar herramientas',async controls=>{const plan=await environment.plan(p.root,controls);return {...plan,id:plan.id?keepPlan(p,'environment',plan):null};});},
     async applyEnvironment(input) {exact(input,['plan']);const {p,plan}=await usePlan(input.plan,'environment');
       if(!environment)fail('ENVIRONMENT_UNAVAILABLE','La preparación de herramientas no está disponible.');
@@ -511,6 +515,12 @@ export async function createDesktopService({ dataRoot, core, environment = null,
     // The reviewed list, so the wizard can offer what exists without the renderer importing a runtime module:
     // the interface is served from an exact allowlist under its own directory, and widening that to reach into
     // the runtime would be a bigger change than passing the data through the door that already exists.
+    async profileCatalog(input={}) {exact(input,[]);noJob();
+      return {legacyProfiles:LEGACY_PROFILE_MAP,profiles:PROFILE_IDS.map(id=>({id,label:PROFILES[id].label,description:PROFILES[id].description,
+        defaultFocus:resolveProfile(id).focus,
+        engineering:PROFILES[id].engineering,stages:[...PROFILES[id].stages],
+        focuses:PROFILES[id].focuses.map(item=>({id:item.id,label:item.label,description:item.description,
+          stacks:offeredStacks({profile:id,focus:item.id})}))}))};},
     async stackCatalog(input={}) {exact(input,[]);noJob();
       return {stacks:STACK_IDS.map(id=>({id,name:STACKS[id].name,purpose:STACKS[id].purpose,profiles:[...STACKS[id].profiles],
         licenses:[...STACKS[id].licenses],closure:STACKS[id].closure,downloadBytes:STACKS[id].downloadBytes,
@@ -557,7 +567,7 @@ export async function createDesktopService({ dataRoot, core, environment = null,
     });},
     async applyEngineering(input) {exact(input,['plan']);const {p,plan}=await usePlan(input.plan,'engineering');return operation('Preparar entorno de desarrollo',async controls=>{const result=await engineering.apply(plan.engineId,controls);return {result,status:await status(p,controls)};});},
     async previewActivation(input) {exact(input,['id']);noJob();const p=await project(input.id);
-      if(!activation||!['software','unity'].includes(p.selection?.profile))fail('ENVIRONMENT_UNAVAILABLE','Este proyecto no necesita activación de desarrollo.');
+      if(!activation||!p.selection||!isEngineering(p.selection))fail('ENVIRONMENT_UNAVAILABLE','Este proyecto no necesita activación de desarrollo.');
       return operation('Revisar activación de OpenSpec',async controls=>{const plan=await activation.plan(p.root,controls);return {...plan,id:plan.id?keepPlan(p,'activation',plan):null};});},
     async applyActivation(input) {exact(input,['plan']);const {p,plan}=await usePlan(input.plan,'activation');
       if(!activation)fail('ENVIRONMENT_UNAVAILABLE','La activación no está disponible.');
@@ -604,7 +614,7 @@ export async function createDesktopService({ dataRoot, core, environment = null,
     async guide(input) {exact(input,['id']);noJob();const p=await project(input.id);
       const {items}=await readVerdicts(),verdict=items.find(v=>v.id===p.id&&v.rootHash===hash(p.root))??null;
       if(!verdict)fail('VERDICT_MISSING','Todavía no hay una comprobación de este proyecto.','Comprueba el proyecto para saber qué le falta.');
-      const steps=guideSteps({profile:verdict.profile,required:verdict.required,stages:verdict.stages},recipesFor(verdict.profile??'general'));
+      const steps=guideSteps({profile:verdict.profile,required:verdict.required,stages:verdict.stages},recipesFor(p.selection??verdict.profile??'personal'));
       const id=randomUUID();
       guides.set(id,{project:p.id,witness:verdict.witness,steps});
       if(guides.size>10)guides.delete(guides.keys().next().value);
@@ -691,7 +701,7 @@ export async function createDesktopService({ dataRoot, core, environment = null,
       if(notes.size>20)notes.delete(notes.keys().next().value);
       return {stored:notes.has(p.id),characters:notes.get(p.id)?.length??0};},
     async workspace(input) {exact(input,['id']);noJob();const p=await project(input.id);return operation('Abrir herramientas del proyecto',async()=>{
-      const b=await base.verify(p.root);return {recipes:recipesFor(b.selection?.profile),graphs:await graphOptions(p.root,b.selection?.profile??'general')};});},
+      const b=await base.verify(p.root);return {recipes:recipesFor(b.selection),graphs:await graphOptions(p.root,b.selection?.profile??'personal')};});},
     async exportPreview(input) {exact(input,['id','query','maxBytes']);noJob();const p=await project(input.id);
       return operation('Preparar contexto para compartir',async()=>{const result=await context.export(p.root,input.query,{maxBytes:input.maxBytes??12000}),id=randomUUID();
         exports.set(id,{project:p.id,receiptHash:(await snapshot(p.root,'.project-os/companion/context/receipt.json')).hash,...result});if(exports.size>10)exports.delete(exports.keys().next().value);return {id,...result};});},

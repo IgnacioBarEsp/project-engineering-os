@@ -3,6 +3,7 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { canonicalFolder, assertPath, snapshot, writeChecked, withLock, hash, json, fail } from '../engine/files.mjs';
+import {isEngineering} from '../engine/profiles.mjs';
 import { collectSources, likelySecret, normalizeContextOptions } from '../context/sources.mjs';
 import { validateQuery } from '../context/retrieval.mjs';
 import { isolatedEnvironment, runFixedProcess } from './process.mjs';
@@ -115,7 +116,7 @@ export function createCodeGraphEngine(manager, { executeWorker, readOptions } = 
   }
   return {
     async plan(target, profile, options = {}, controls = {}) {
-      if (!['software','unity'].includes(profile)) fail('GRAPH_PROFILE', 'Este mapa está pensado para proyectos de software o Unity.');
+      if (!isEngineering(profile)) fail('GRAPH_PROFILE', 'Este mapa está pensado para proyectos de software o videojuegos.');
       const root = await canonicalFolder(target);
       const check = await current(root, options, controls);
       if (['corrupt','requires-repair'].includes(check.status)) return { id: null, ...check };

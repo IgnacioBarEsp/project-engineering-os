@@ -6,6 +6,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { portable } from './portable-path.mjs';
 import {ASSETS, CSP} from '../desktop/assets.mjs';
+import {PROFILES, PROFILE_IDS, LEGACY_PROFILE_MAP, resolveProfile, offeredStacks} from '../engine/profiles.mjs';
 import { ACTION_PAIRS, UNDEFINED_VOCABULARY, TERM_LABELS, LIST_PURITY, ACCESSIBILITY, ACCESSIBLE_NAMES,
   EXPECTED_ACTIONS, collectActionPairs, duplicateActionNames, undeclaredActions, vacuous,
   ROW_ACTION_PAIRS, ROW_MENUS, READY_CLAIMS, GUIDE, ACTION_COUNTS, EXPECTED_ROW_ACTIONS,
@@ -158,8 +159,8 @@ const MUTATIONS = [
     detect: report => report.duplicated.some(entry => entry.startsWith('prepare-project')) },
   { id: 'a-second-name-only-assistive-technology-hears', file: 'app.mjs',
     reason: 'una acción declarada lleva un aria-label distinto de su texto visible, que es el nombre que dice un lector de pantalla',
-    from: "$('topbar-actions').replaceChildren(doBtn('privacy-scope','quiet'));",
-    to: "$('topbar-actions').replaceChildren(Object.assign(doBtn('privacy-scope','quiet'),{}));$('topbar-actions').firstChild.setAttribute('aria-label','Alcance y datos que salen de aquí');",
+    from: "$('topbar-actions').replaceChildren(privacy);",
+    to: "privacy.setAttribute('aria-label','Alcance y datos que salen de aquí');$('topbar-actions').replaceChildren(privacy);",
     detect: report => report.duplicated.some(entry => entry.startsWith('privacy-scope') && entry.includes('hablado')) },
   { id: 'a-duplicate-action-inside-a-dialog', file: 'app.mjs',
     reason: 'una acción declarada se ofrece con otro nombre dentro de un diálogo, que es donde la recogida anterior nunca miraba',
@@ -255,8 +256,8 @@ const MUTATIONS = [
       || report.rendererErrors.some(message => /no nombra el término/.test(message)) },
   { id: 'a-control-loses-its-accessible-name', file: 'app.mjs',
     reason: 'un control queda sin nombre accesible, así que con un lector de pantalla es inservible',
-    from: "$('topbar-actions').replaceChildren(doBtn('privacy-scope','quiet'));",
-    to: "$('topbar-actions').replaceChildren(el('button',{type:'button',class:'quiet','data-action':'privacy-scope'}));",
+    from: "$('topbar-actions').replaceChildren(privacy);",
+    to: "privacy.removeAttribute('aria-label');privacy.replaceChildren();$('topbar-actions').replaceChildren(privacy);",
     detect: report => anyScreen(report, screen => screen.names.unnamed.length > 0).length > 0 },
   { id: 'the-boot-shell-loses-its-stated-cause', file: 'index.html',
     reason: 'si el módulo no carga, la ventana vuelve a quedar en blanco sin decir por qué',
@@ -372,7 +373,14 @@ const COPY_ANSWERS = {
 // The page's own clipboard is counted, never used: the copies of the wizard must not reach it in any answer.
 const PAGE_CLIPBOARD_SPY = `window.__pageClipboardWrites=0;if(navigator.clipboard){const own=navigator.clipboard.writeText?.bind(navigator.clipboard);
   navigator.clipboard.writeText=async(...args)=>{window.__pageClipboardWrites+=1;return own?.(...args);};}`;
+const PROFILE_CATALOG = {legacyProfiles:LEGACY_PROFILE_MAP,profiles:PROFILE_IDS.map(id=>({
+  id,label:PROFILES[id].label,description:PROFILES[id].description,
+  defaultFocus:resolveProfile(id).focus,engineering:PROFILES[id].engineering,stages:[...PROFILES[id].stages],
+  focuses:PROFILES[id].focuses.map(item=>({id:item.id,label:item.label,description:item.description,
+    stacks:offeredStacks({profile:id,focus:item.id})})),
+}))};
 const stub = (mode, copy = 'ok') => `${PAGE_CLIPBOARD_SPY}window.companion={
+  profileCatalog:async()=>({ok:true,value:${JSON.stringify(PROFILE_CATALOG)}}),
   chooseFolder:async()=>({ok:true,value:{id:'44444444-4444-4444-8444-444444444444',root:'C:/ruta/del/asistente',name:'Carpeta del asistente',
     inspection:{files:[{path:'notas.txt'},{path:'guia.md'}],recommendation:'research'}}}),
   previewBase:async()=>({ok:true,value:{id:'77777777-7777-4777-8777-777777777777',

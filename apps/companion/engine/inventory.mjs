@@ -7,9 +7,6 @@ const EXCLUDED = new Set(['.git','.project-os','.project-constructor',
   '.ssh','.aws','.azure','.gnupg','.kube','models','checkpoints','loras','output','outputs']);
 const PRIVATE = /(^\.env($|\.)|(?:credential|secret|token|password)s?(?:[._-]|$)|\.(?:pem|key|p12|pfx|keystore)$)/i;
 const TEXT = new Set(['.md','.txt','.csv','.json','.yaml','.yml','.toml','.xml','.js','.mjs','.cjs','.ts','.tsx','.jsx','.css','.html','.cs','.py','.shader','.unity','.asset']);
-export const CANONICAL_PROFILE_IDS = Object.freeze(['software','science','studies','docs','mvp','personal','automation']);
-export const LEGACY_PROFILE_IDS = Object.freeze(['research','unity','media','general']);
-export const PROFILE_IDS = Object.freeze([...CANONICAL_PROFILE_IDS, ...LEGACY_PROFILE_IDS]);
 // Scope is explicit and constant: these are policy/control surfaces, not source documents.
 export const CONTROL_PATHS = Object.freeze(['.project-os', '.project-constructor', '.codegraph', '.gitnexus',
   'graphify-out', 'AGENTS.md', 'CLAUDE.md', 'PROJECT_VISION.md', '.cursor/rules/project-os-companion.mdc', '.github/copilot-instructions.md']);
@@ -72,11 +69,24 @@ export async function inspectFolder(target, options = {}) {
   if (visited > limits.entries) limitations.push({ path: '', reason: 'entry-limit' });
   files.sort((a,b) => a.path < b.path ? -1 : a.path > b.path ? 1 : 0);
   limitations.sort((a,b) => a.path < b.path ? -1 : a.path > b.path ? 1 : 0);
-  const names = files.map(f => f.path.toLowerCase());
-  const recommendation = names.some(n => n === 'projectsettings/projectversion.txt') ? 'unity'
-    : names.some(n => /(^|\/)(comfy|workflow|recipe|receta)/.test(n)) && files.some(f => ['.png','.mp4','.wav','.safetensors'].includes(f.extension)) ? 'media'
-    : files.some(f => ['.js','.mjs','.ts','.tsx','.cs','.py','.html'].includes(f.extension)) ? 'software'
-    : files.some(f => ['.pdf','.docx','.bib'].includes(f.extension)) ? 'research' : 'general';
-  return { root, files, limitations, excluded, bytesRead, complete: !limitations.length, recommendation,
+  const names=files.map(file=>file.path.toLowerCase()),extensions=new Set(files.map(file=>file.extension));
+  const has=name=>names.includes(name);
+  const suggested=has('projectsettings/projectversion.txt')?['software','game','Unity ProjectVersion.txt']
+    :has('project.godot')?['software','game','Godot project.godot']
+    :has('package.json')?['software','open','package.json']
+    :extensions.has('.ipynb')?['research','data','notebook .ipynb']
+    :extensions.has('.tex')||extensions.has('.bib')?['research','paper','LaTeX/BibTeX']
+    :names.some(name=>/(^|\/)(propuesta|cotizaci[oó]n|plan-de-negocio|business-plan)[^/]*\.(md|docx|xlsx|pdf)$/.test(name))?['business','plan','propuesta o plan de negocio']
+    :names.some(name=>/(^|\/)(manual|gu[ií]a|guide)[^/]*\.(md|docx|pdf)$/.test(name))?['content','manual','manual o guía']
+    :names.some(name=>/(^|\/)(libro|book|bolet[ií]n|newsletter)[^/]*\.(md|docx|pdf)$/.test(name))?['content','book','libro o boletín']
+    :names.some(name=>/(^|\/)(comfy|workflow|recipe|receta)/.test(name))
+      && files.some(file=>['.png','.mp4','.wav','.safetensors'].includes(file.extension))?['content','creative','workflow y medios locales']
+    :files.some(file=>['.js','.mjs','.ts','.tsx','.cs','.py','.html'].includes(file.extension))?['software','open','archivos de código']
+    :extensions.has('.pptx')?['studies','presentation','presentación .pptx']
+    :files.some(file=>['.pdf','.docx'].includes(file.extension))?['research','open','documentos PDF/DOCX']
+    :['personal','open','sin señal especializada'];
+  const [recommendation,focusRecommendation,recommendationSignal]=suggested;
+  return { root, files, limitations, excluded, bytesRead, complete: !limitations.length,
+    recommendation,focusRecommendation,recommendationSignal,
     fingerprint: hash(json({ files, limitations, excluded })), limits, controlPaths: CONTROL_PATHS };
 }

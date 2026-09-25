@@ -75,8 +75,8 @@ test('PDF pages, DOCX paragraphs and text lines are real, with visible incomplet
   assert.equal((await engine.verify(root)).context,'current');
 });
 
-test('five profiles have useful recipes; all selected routes preserve instructions and repeat idempotently', async t => {
-  for (const profile of ['research','software','unity','media','general']) {
+test('six profiles have useful recipes; all selected routes preserve instructions and repeat idempotently', async t => {
+  for (const profile of ['research','software','studies','content','business','personal']) {
     const original = '# Mis reglas\r\nPreservar este texto.\r\n';
     const { root, engine, base } = await fixture(t,{ 'AGENTS.md':original, 'CLAUDE.md':'# Claude local', 'brief.txt':'objetivo verificable' },profile,
       ['codex','claude-code','cursor','github-copilot','opencode','web']);
@@ -165,7 +165,7 @@ test('route collisions and invalid encoding preserve user data; web-only does no
   await assert.rejects(engine.plan(root),fails('ROUTE_CONFLICT'));
   const other = await fixture(t,{ 'AGENTS.md':Buffer.from([255,254,0,0]), 'note.txt':'Evidence' });
   await assert.rejects(other.engine.plan(other.root),fails('ROUTE_ENCODING'));
-  const web = await fixture(t,{ 'note.txt':'Evidence' },'general',['web']);
+  const web = await fixture(t,{ 'note.txt':'Evidence' },'personal',['web']);
   await prepare(web.engine,web.root); await assert.rejects(lstat(path.join(web.root,'AGENTS.md')),{code:'ENOENT'});
 });
 
