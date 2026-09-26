@@ -8,8 +8,8 @@ import { createRuntimeManager } from '../runtime/manager.mjs';
 import { createEnvironmentEngine } from '../runtime/environment.mjs';
 import { createLocalAppLauncher } from './local-apps.mjs';
 import { CSP, localAsset } from './assets.mjs';
+import {APP_URL,isAppDocument} from './app-url.mjs';
 
-const APP_URL = 'peos://app/index.html';
 // An exact allowlist, extended one path at a time on purpose: a prefix or a glob here would serve whatever
 // happens to sit in the interface directory.
 const staticRoot=fileURLToPath(new URL('../ui/',import.meta.url));
@@ -52,7 +52,7 @@ else void app.whenReady().then(async () => {
     onProgress:value=>{if(!window.isDestroyed())window.webContents.send('companion:progress',value);}});
   for(const [name,handler] of Object.entries(service))ipcMain.handle(`companion:${name}`,async(event,input)=>{
     try{
-      if(event.sender!==window.webContents||event.senderFrame!==window.webContents.mainFrame||event.senderFrame.url!==APP_URL)throw Error('Untrusted sender');
+      if(event.sender!==window.webContents||event.senderFrame!==window.webContents.mainFrame||!isAppDocument(event.senderFrame.url))throw Error('Untrusted sender');
       if(Buffer.byteLength(JSON.stringify(input??{}))>64000)throw Error('Oversized request');
       return {ok:true,value:await handler(input??{})};
     }catch(error){return {ok:false,error:publicError(error)};}
@@ -62,7 +62,7 @@ else void app.whenReady().then(async () => {
     try{
       const job=await service.job();if(job){await dialog.showMessageBox(window,{type:'info',message:'Hay una preparación en curso.',detail:'Usa Detener en la app y espera a que termine antes de cerrar.',buttons:['Volver al proyecto']});return;}
       // No user text becomes code. Only the shipping main-frame hook is called; it has no new privilege.
-      if(window.webContents.getURL()===APP_URL){
+      if(isAppDocument(window.webContents.getURL())){
         const saved=await window.webContents.executeJavaScript("typeof globalThis.companionBeforeClose !== 'function' || globalThis.companionBeforeClose()");
         if(saved!==true)return;
       }

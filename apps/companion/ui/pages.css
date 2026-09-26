@@ -152,3 +152,21 @@ main#content {
 .preparation-stages li {padding:4px 0;}
 .preparation-stages li > span:last-child {float:right;margin-left:16px;}
 #preparation-progress progress {width:100%;}
+.project-header {padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:20px;}
+.project-header h1 {margin-bottom:10px;overflow-wrap:anywhere;}
+.project-header .intro {margin-bottom:12px;}
+.project-header .actions {margin-top:12px;}
+.project-segments {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:4px;border:1px solid var(--line);border-radius:12px;background:var(--surface-low);}
+.project-segments button {min-height:44px;border-radius:8px;background:transparent;color:var(--slate-300);padding:8px;}
+.project-segments button[aria-pressed="true"] {background:var(--surface-higher);color:var(--slate-50);}
+.project-segments button:hover {background:var(--surface-card-hover);}
+.tab-note {margin:12px 0 20px;}
+.project-loading {min-height:116px;}
+.skeleton-line {display:block;height:16px;width:72%;margin:12px 0;background:var(--surface-higher);border-radius:4px;}
+.skeleton-line.short {width:44%;}
+.project-list .project {border-radius:0;}
+#project-panel > .panel:first-child {margin-top:0;}
+#project-panel {min-width:0;overflow-wrap:anywhere;}
+#project-panel pre.prompt {white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%;}
+#project-panel .search-line .field {min-width:0;}
+@media(max-width:480px){.project-segments button {font-size:.82rem;padding:8px 3px;}}

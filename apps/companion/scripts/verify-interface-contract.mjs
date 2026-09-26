@@ -149,8 +149,8 @@ const MUTATIONS = [
     detect: report => (report.screens['mi proyecto']?.vocabulary.missing ?? []).length > 0 },
   { id: 'the-same-action-in-two-controls-of-one-screen', file: 'app.mjs',
     reason: 'la guía ofrece un paso pendiente y otro panel ofrece la misma acción otra vez en la misma pantalla',
-    from: "actions(once('read-files','primary'),doBtn('recheck-project')",
-    to: "actions(doBtn('read-files','primary'),doBtn('recheck-project')",
+    from: "actions(once('read-files','primary'),isEngineeringProfile",
+    to: "actions(doBtn('read-files','primary'),isEngineeringProfile",
     detect: report => (report.screens['mi proyecto']?.repeated ?? []).some(entry => entry.startsWith('read-files')) },
   { id: 'two-names-for-one-action-deeper-in-the-wizard', file: 'app.mjs',
     reason: 'una acción declarada se ofrece con otro nombre en una pantalla del asistente',
@@ -468,6 +468,7 @@ async function inspect(page) {
   };
   const visit = async (where, action, heading) => {
     if (action && !await go(action, heading)) { unreachable.push(where); return; }
+    if(action==='open-project-list')await page.locator('.project-list[aria-busy="false"]').waitFor();
     await collect(where);
     screens[where] = await probe(page);
   };
@@ -512,7 +513,7 @@ async function inspect(page) {
     await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true').catch(() => {});
     if (await page.locator('.guide').count()) { await collect('mi proyecto'); screens['mi proyecto'] = await probe(page); }
     else unreachable.push('mi proyecto');
-    const toHandoff = page.getByRole('button', { name: 'Continuar con mi IA', exact: true });
+    const toHandoff = page.getByRole('button', { name: 'Tu IA', exact: true });
     const reachedHandoff = await toHandoff.count()
       ? await toHandoff.click({ timeout: 4000 }).then(() => true, () => false)
       : false;
@@ -801,7 +802,7 @@ try {
     await otherPage.locator('#nav [data-action="open-project-list"]').click();
     await otherPage.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true');
     states[mode] = { text: (await otherPage.locator('body').innerText()).replace(/\s+/g, ' ').slice(0, 400),
-      feedbackVisible: await otherPage.locator('#feedback').isVisible(),
+      feedbackVisible: await otherPage.locator('#view .list-error[role="alert"]').isVisible(),
       offersTheAction: await otherPage.locator('#view [data-action="prepare-project"]').count() > 0,
       accessibility: (await probe(otherPage)).accessibility, rendererErrors: otherErrors };
     await other.close();

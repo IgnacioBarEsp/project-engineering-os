@@ -1,0 +1,8 @@
+import {state,el,p,panel,term,call} from '../lib/core.mjs';
+export async function recipesView(){
+    const w=await call('workspace',{id:state.project.id});return [el('p',{class:'subtle'},'Cada ',term('receta'),' es un recorrido corto para pedir un resultado concreto y comprobarlo. El ',term('presupuesto'),' se expresa en bytes, no en ',term('token','tokens'),'.'),
+      ...w.recipes.map(r=>el('article',{class:'recipe'},el('h2',{text:r.title}),p(`Necesitas: ${r.inputs.join(' · ')}`,'muted'),el('ol',{},r.steps.map(step=>el('li',{text:step}))),el('details',{},el('summary',{text:'Cómo comprobar el resultado'}),el('ul',{},r.validation.map(v=>el('li',{text:v}))),p(r.stop),p(`Presupuesto inicial: ${r.budget.contextBytes} bytes; ${r.budget.attempts} intentos antes de replantear.`,'subtle')))),
+      panel(el('h2',{text:'Palabras que aparecen en estas recetas'}),el('p',{},'Estas recetas están escritas para que tu IA las siga, así que usan su vocabulario: ',
+        ...['sdd','openspec','deuda','revision-adversarial','cita','fuente','contexto','inventario','ingenieria','exclusion','perfil','firma','recuperacion','mapa-de-codigo','agente'].flatMap((id,i)=>i?[', ',term(id)]:[term(id)]),'.')),
+      panel(el('h2',{text:'Herramientas de relaciones entre archivos'}),p('El mapa de código de esta aplicación y los índices externos tienen estados separados. Cambiar a otra alternativa necesita revisar antes sus requisitos, su licencia y que funcione.'),...w.graphs.options.map(g=>p(`${g.id} · ${g.license} · ${g.presence==='artifact-present'?'Se encontró un índice externo sin comprobar':'Índice externo no comprobado'}.`,'subtle')) )];
+}

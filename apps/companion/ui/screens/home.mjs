@@ -35,42 +35,6 @@ function showStart(){state.page='start';render([
     p('Compartir es una acción tuya y aparte: primero ves el texto, y después decides si lo copias.'),
     actions(doBtn('privacy-scope','quiet'))),
 ],'INICIO');}
-// Tus proyectos: the list, and nothing else. No greeting, no explanation, no numbered steps — that was the
-// finding. Each entry carries its own state, the state says it is the recorded one, and when a row cannot be
-// read it carries the reason the service actually gave rather than a guess about a moved folder.
-async function showProjects(){state.page='projects';state.projects=await call('listProjects');render([
-  el('h1',{tabindex:'-1',text:'Tus proyectos'}),
-  state.projects.length?el('div',{class:'project-list'},state.projects.map(project=>{
-    const [label,detail]=projectStates[project.state]??['Estado desconocido','Ábrelo para comprobarlo.'];
-    const stages=project.state==='changed'?project.changed:project.state==='incomplete'?project.missing:[];
-    const when=onDate(project.checkedAt);
-    return el('article',{class:'project'},
-      // The card is the control that opens the project. There is no second control for opening, so there is
-      // no second name for it either.
-      el('h2',{},rowBtn('open-project',project,'card-open',own(project.name,'span',{class:'card-name'}))),
-      own(project.root,'p',{class:'path'}),
-      el('p',{class:`project-state state-${project.state}`},
-        el('b',{},el('span',{class:'state-mark','aria-hidden':true,text:project.state==='verified'?'✓':project.state==='unreadable'?'!':'○'}),' ',label),' ',
-        project.state==='unreadable'?(project.error?.message??detail):detail,
-        stages.length?[' ',...stageList(stages),'.']:null,
-        // Said at the same size as the state, because what a check did not cover is part of what it found.
-        el('span',{class:'recorded'},project.state==='verified'&&when
-          // What the mark does not cover, named where the mark is. The managed tools are here because they
-          // live outside this folder: nothing the list can read would notice if they were removed, so a
-          // check from two weeks ago is all this row knows about them.
-          ?[`Comprobado el ${when} contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el `,term('mapa-de-codigo'),
-            ...(isEngineeringProfile(project.profile)?[', las herramientas de desarrollo']:[]),' ni tu IA: ábrelo para eso.']
-          :project.state==='changed'&&when?[`Se había comprobado el ${when}. Ábrelo para comprobarlo otra vez.`]
-          :project.state==='incomplete'&&when?[`Comprobado el ${when}. Ábrelo para continuar donde quedó.`]
-          :['Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.'])),
-      project.profile?el('span',{class:'tag',text:[project.profileLabel,project.focusLabel].filter(Boolean).join(' · ')}):null,
-      // Secondary and destructive only. Opening stays outside, which is what the check reads off the page.
-      el('details',{class:'more'},
-        el('summary',{},el('span',{'aria-hidden':true,text:'⋯'}),el('span',{class:'sr-only',text:'Más acciones'}),
-          el('span',{class:'sr-only','data-content':'person',text:` — ${project.name}`})),
-        el('div',{class:'more-actions'},rowBtn('duplicate-project',project),rowBtn('forget-project',project))));
-  })):el('div',{class:'empty-state'},p('Aún no hay proyectos en esta lista.','empty'),actions(doBtn('prepare-project','primary'))),
-],'TUS PROYECTOS');}
 // Duplicating reuses the answers and nothing else. The folder is chosen now, the answers arrive already
 // filled in and editable, and nothing is written until the plan is approved like any other preparation:
 // there is no call here that copies a prepared folder.
@@ -116,4 +80,4 @@ function showPrivacy(){openDialog('Tu carpeta, bajo tu control',[
   el('p',{},'Las herramientas de desarrollo y el ',term('mapa-de-codigo'),' se descargan aparte y se comprueban aparte. Preparar archivos no instala modelos ni demuestra que una IA externa haya leído tu proyecto.'),
 ]);}
 
-export {showStart, showProjects, duplicate, showHelp, showTerm, showPrivacy};
+export {showStart, duplicate, showHelp, showTerm, showPrivacy};

@@ -488,7 +488,7 @@ try {
       await capture(page,profile+'-verified-code-search');
       evidence.checks.push(`${profile}: reviewed tools → constructor/adoption → official OpenSpec → context → real CodeGraph → symbol search PASS`);
     }
-    await click(page,'Buscar en mis archivos');await page.getByLabel('¿Qué necesitas encontrar?').fill('tokens');await click(page,'Buscar');
+    await click(page,'Archivos');await page.getByLabel('¿Qué necesitas encontrar?').fill('tokens');await click(page,'Buscar');
     await page.locator('.result').first().waitFor();const resultText=await page.locator('#search-results').innerText();assert(resultText.includes('notes.txt'));assert(!resultText.includes('private-notes.txt'));
     if(profile==='research'){assert(resultText.includes('paper.pdf · página 1'));assert(resultText.includes('protocol.docx · párrafo 1'));await capture(page,'research-sources');}
     await click(page,'Preparar un texto para pegar en tu chat');await page.getByRole('dialog').waitFor();assert.equal(copied.length,0);await page.keyboard.press('Escape');
@@ -496,7 +496,7 @@ try {
     await click(page,'Preparar un texto para pegar en tu chat');await click(page,'Copiar este texto');assert.equal(copied.length,1);assert(copied[0].includes('notes.txt'));assert.equal(opened.length,0);
     await click(page,'Recetas');await page.locator('.recipe').first().waitFor();
     assert.equal(await page.locator('.recipe').count(),(await service.workspace({id:(await service.listProjects())[0].id})).recipes.length);
-    await click(page,'Continuar con mi IA');await click(page,'Continuar con ChatGPT u otro chat web');await page.getByRole('dialog').waitFor();
+    await click(page,'Tu IA');await click(page,'Abrir en ChatGPT u otro chat web');await page.getByRole('dialog').waitFor();
     assert(!/^(null|undefined)$/m.test(await page.getByRole('dialog').innerText()),'Absent optional handoff content must not render as literal text');
     const shown=await page.getByLabel('Instrucción inicial').innerText();await click(page,'Copiar instrucción y abrir');assert.equal(copied[1],shown);assert.equal(opened.length,1);
     await click(page,'Tus proyectos');await heading(page,'Tus proyectos');await collectActions(page,'tus proyectos');
