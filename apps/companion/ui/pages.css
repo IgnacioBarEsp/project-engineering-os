@@ -147,3 +147,8 @@ main#content {
   .privacy-icon { display: block; width: 18px; height: 18px; }
   main#content { padding: 14px 12px 20px; max-width: none; }
 }
+/* Stage rows report operations; the final verdict separately reports current readiness. */
+.preparation-stages {display:grid;gap:8px;padding-left:20px;}
+.preparation-stages li {padding:4px 0;}
+.preparation-stages li > span:last-child {float:right;margin-left:16px;}
+#preparation-progress progress {width:100%;}

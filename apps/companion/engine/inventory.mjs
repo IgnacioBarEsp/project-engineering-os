@@ -9,7 +9,7 @@ const PRIVATE = /(^\.env($|\.)|(?:credential|secret|token|password)s?(?:[._-]|$)
 const TEXT = new Set(['.md','.txt','.csv','.json','.yaml','.yml','.toml','.xml','.js','.mjs','.cjs','.ts','.tsx','.jsx','.css','.html','.cs','.py','.shader','.unity','.asset']);
 // Scope is explicit and constant: these are policy/control surfaces, not source documents.
 export const CONTROL_PATHS = Object.freeze(['.project-os', '.project-constructor', '.codegraph', '.gitnexus',
-  'graphify-out', 'AGENTS.md', 'CLAUDE.md', 'PROJECT_VISION.md', '.cursor/rules/project-os-companion.mdc', '.github/copilot-instructions.md']);
+  'graphify-out', 'AGENTS.md', 'CLAUDE.md', 'GEMINI.md', '.kiro/steering/project-os.md', '.windsurfrules', 'PROJECT_VISION.md', '.cursor/rules/project-os-companion.mdc', '.github/copilot-instructions.md']);
 
 export function normalizeScanLimits(options = {}) {
   if (!options || typeof options !== 'object' || Array.isArray(options)
@@ -37,7 +37,7 @@ export async function inspectFolder(target, options = {}) {
       const rel = relative ? `${relative}/${entry.name}` : entry.name;
       if (CONTROL_PATHS.some(p=>p.toLowerCase()===rel.toLowerCase())) continue;
       // Creating a route parent must not consume the budget of the corpus it routes to.
-      if (!['.github','.cursor','.cursor/rules'].includes(rel.toLowerCase()) && ++visited > limits.entries) { stopped = true; break; }
+      if (!['.github','.cursor','.cursor/rules','.kiro','.kiro/steering'].includes(rel.toLowerCase()) && ++visited > limits.entries) { stopped = true; break; }
       if (PRIVATE.test(entry.name) || EXCLUDED.has(entry.name.toLowerCase())) { excluded++; continue; }
       let stat;
       try { stat = await lstat(path.join(root, rel)); } catch (error) { limitations.push({ path: rel, reason: 'unreadable', code: error.code }); continue; }

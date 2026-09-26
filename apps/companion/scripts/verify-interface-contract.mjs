@@ -292,13 +292,13 @@ const MUTATIONS = [
   // harness, reported by copyProblems in their own words, and never a detection.
   { id: 'a-refused-copy-is-swallowed-and-announced-anyway', file: 'app.mjs', copies: true,
     reason: 'un rechazo del portapapeles vuelve a quedar en un catch vacío y la pantalla anuncia la copia igual',
-    from: "      await call('copyText', { text });\n      notice(announce);",
-    to: "      try { await call('copyText', { text }); } catch {}\n      notice(announce);",
+    from: "    await call('copyText',{text});notice(announce);",
+    to: "    try { await call('copyText',{text}); } catch {} notice(announce);",
     detect: report => copyProblems(report.copies).some(problem => COPY_CONSEQUENCE.test(problem) && problem.startsWith('refused:')) },
   { id: 'a-new-copy-keeps-the-previous-confirmation', file: 'app.mjs', copies: true,
     reason: 'un segundo intento conserva la etiqueta de confirmación del anterior, y queda junto al error de una copia que falló',
-    from: "      clearTimeout(revert);\n      node.textContent = label;\n      await call('copyText', { text });",
-    to: "      await call('copyText', { text });",
+    from: "    clearTimeout(revert);node.textContent=label;\n    await call('copyText',{text});",
+    to: "    await call('copyText',{text});",
     detect: report => copyProblems(report.copies).some(problem => COPY_CONSEQUENCE.test(problem) && problem.startsWith('ok-then-refused:')) },
   // Static, the bar still leaves every control reachable once scrolled to, which is why no interception catches it:
   // on a long screen the actions only appear at its end.
@@ -395,6 +395,11 @@ const stub = (mode, copy = 'ok') => `${PAGE_CLIPBOARD_SPY}window.companion={
   previewBase:async()=>({ok:true,value:{id:'77777777-7777-4777-8777-777777777777',
     files:[{path:'.project-os/companion/receipt.json',action:'create'},{path:'PROJECT_VISION.md',action:'create'}],inventory:{},selection:{}}}),
   applyBase:async()=>({ok:true,value:{result:{},status:${STATUS}}}),
+  previewContext:async()=>({ok:true,value:{id:'88888888-8888-4888-8888-888888888888',files:[{path:'.project-os/companion/context/MAP.md',action:'create'}],
+    coverage:{sources:[{path:'notas.txt'}],chunks:1,complete:true},exclude:[]}}),
+  applyContext:async()=>({ok:true,value:{result:{},status:${STATUS}}}),
+  preparationResult:async()=>({ok:true,value:{status:${STATUS},report:{stages:${STATUS}.verdict.stages},
+    prompt:'Lee PROJECT_VISION.md. Solo las herramientas e instrucciones están comprobadas. La lectura queda pendiente.',done:['environment','engineering'],pending:['base','context','code']}}),
   copyText:${COPY_ANSWERS[copy]},
   listProjects:async()=>(${mode === 'error'
     ? `{ok:false,error:{code:'HISTORY_INVALID',message:'No se puede leer el historial local.',action:'La carpeta de tus proyectos sigue intacta. Conserva el registro para recuperarlo.'}}`
@@ -580,8 +585,9 @@ const WIZARD_STEPS = [
   { screen: 'delimitation', heading: '¿Qué tipo de trabajo harás?', primary: ['Volver', 'Continuar a Visión →'], next: 'Continuar a Visión →' },
   { screen: 'vision', heading: 'Cuéntalo en tus palabras', primary: ['Volver', 'Continuar a Preparar →'], next: 'Continuar a Preparar →' },
   { screen: 'install', heading: 'Cómo quieres continuar', primary: ['Volver', 'Guardar la preparación revisada →'], next: 'Guardar la preparación revisada →' },
+  { screen: 'context', heading: 'Preparar tu proyecto', primary: ['Aplicar este plan y continuar →'], next: 'Aplicar este plan y continuar →' },
 ];
-const FINISHED = 'Preparación base guardada';
+const FINISHED = 'Resultado de la preparación';
 const settled = page => page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true'
   && !(document.querySelector('#view .enter')?.getAnimations() ?? []).some(animation => animation.playState === 'running'),
 null, { timeout: 4000 }).catch(() => {});

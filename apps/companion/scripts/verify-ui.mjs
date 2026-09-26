@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {finishPreparation} from './wizard-journey.mjs';
 import { createServer } from 'node:http';
 import { mkdir, mkdtemp, readFile, writeFile, realpath, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -128,7 +129,7 @@ const WIZARD_VIEWPORTS=[[1180,820],[1160,810],[1040,700],[582,377],[464,475]],MO
 const INSTALL={quick:'Guardar la preparación revisada →',ai:'Guardar la preparación revisada →'};
 const PRIMARY={setup:['Inicio','Elegir carpeta','Continuar a Enfoque →'],
   delimitation:['Volver','Continuar a Visión →'],vision:['Volver','Continuar a Preparar →'],
-  install:['Volver','Guardar la preparación revisada →'],finished:['Copiar ruta','Copiar instrucción','Ver mi proyecto','Tus proyectos']};
+  install:['Volver','Guardar la preparación revisada →'],context:['Aplicar este plan y continuar →'],finished:['Copiar ruta','Copiar instrucción','Ver mi proyecto','Tus proyectos']};
 const WIZARD_SCREENS=Object.keys(PRIMARY),WITH_BAR=new Set(WIZARD_SCREENS.filter(screen=>screen!=='finished'));
 const wizard={date:new Date().toISOString(),
   scope:'Renderer real y servicio real en el navegador; selector de carpeta, portapapeles y apertura externa inyectados. Asistente vigente en las tres ventanas del informe y en las dos ventanas pequeñas de la aplicación real (por defecto con zoom al 200 % y mínima), con movimiento normal y reducido y con las dos formas de instalar.',
@@ -177,7 +178,7 @@ async function walkWizard(width,height,motion,branch){
     for(const [action,value] of Object.entries(report.nav)){
       if(value!==String(action==='prepare-project'))problems.push(`${screen}: la navegación «${action}» declara aria-pressed="${value}"`);
     }
-    const route=routeFor(screen);
+    const route=routeFor(screen==='context'?'install':screen);
     const routeView=await page.evaluate(()=>{
       const main=document.getElementById('content'),rail=document.querySelector('.wizard-rail'),steps=rail?.querySelector('.steps');
       const previous=main.scrollTop;main.scrollTop=main.scrollHeight;
@@ -284,7 +285,9 @@ async function walkWizard(width,height,motion,branch){
     if(!await press('Continuar a Preparar →','vision')||!await reached('Cómo quieres continuar','vision'))return;
     await page.locator(`input[name="install-mode"][value="${branch}"]`).check();await settle(page);
     await measure('install');
-    if(!await press(INSTALL[branch],'install')||!await reached('Preparación base guardada','install'))return;
+    if(!await press(INSTALL[branch],'install'))return;
+    await finishPreparation(page,{measure:async id=>{if(id==='context')await measure('context');}});
+    if(!await reached('Resultado de la preparación','install'))return;
     await measure('finished');
     // The vision keeps its paragraphs in the folder, and the objective the preparation recorded is one line.
     const written=await readFile(path.join(root,'PROJECT_VISION.md'),'utf8').catch(()=>'');
@@ -314,7 +317,7 @@ async function walkWizard(width,height,motion,branch){
     }
     // The quick prompt says what happened: the folder was prepared and nothing was installed. 0.3.1 told the AI
     // that the base dependencies were already provisioned.
-    if(branch==='quick'&&(/aprovisionad/i.test(shown['Copiar instrucción'])||!shown['Copiar instrucción'].includes('no ha leído todos los archivos'))){
+    if(branch==='quick'&&(/aprovisionad/i.test(shown['Copiar instrucción'])||!shown['Copiar instrucción'].includes('Qué ya preparó Companion'))){
       problems.push('finished: el prompt de instalación rápida afirma dependencias que no se instalaron');
     }
     await page.locator('#nav [data-action="open-start"]').click();await reached('Dale a tu IA un buen punto de partida.','finished');
@@ -358,7 +361,7 @@ async function walkVisionWithoutText(tag,drafts){
       await go('Continuar a Preparar →','Cómo quieres continuar');
       if(index<drafts.length-1)await go('Volver','Cuéntalo en tus palabras');
     }
-    await go(INSTALL.ai,'Preparación base guardada');
+    await go(INSTALL.ai,'Preparar tu proyecto');await finishPreparation(page);
     const recorded=(await service.listProjects())[0]?.selection?.goal;
     if(recorded!==goal)problems.push(`el objetivo registrado es ${JSON.stringify(recorded)} y no el del primer paso`);
     const written=await readFile(path.join(root,'PROJECT_VISION.md'),'utf8').catch(()=>'');
@@ -446,7 +449,7 @@ try {
     await page.getByLabel('¿Qué quieres lograr?').fill('Comparar evidencia sobre tokens medidos');
     await click(page,'Continuar a Preparar →');
     assert(await page.locator('input[name="agent"][value="web"]').isChecked());
-    await click(page,INSTALL.ai);await heading(page,'Preparación base guardada');
+    await click(page,INSTALL.ai);await finishPreparation(page);await heading(page,'Resultado de la preparación');
     await click(page,'Ver mi proyecto');await heading(page,name);
     // The old review route is now project maintenance, not a second onboarding path.
     if(profile==='software')await page.locator('[data-action="review-stack"]').click();
@@ -550,10 +553,9 @@ try {
       assert.deepEqual(await readFile(index),saved);
       evidence.checks.push(`${profile}: code map stale and corrupt states are refused and recover without replacing the saved map PASS`);
     }
-    // A recovery rehearsal for one transaction, driven from the interface rather than asserted from the
-    // engine: undo the file reading, confirm the application refuses to claim the context afterwards, and
-    // confirm the person's own files came through it untouched. This is the one stage a journey without the
-    // managed toolchain can undo end to end.
+    // The wizard already prepared context. Undoing the later exclusion update restores that previous
+    // valid context; it must not falsely become unprepared. Then change a source deliberately to exercise
+    // the negative readiness/guide checks separately, still through the real interface.
     if(profile==='general'){
       await page.setViewportSize({width:1180,height:820});
       await click(page,'Estado');
@@ -563,22 +565,23 @@ try {
       assert(/deshace la última operación registrada/.test(await page.getByRole('dialog').innerText()),
         'The dialog has to say what undoing this stage does before it is done');
       await click(page,'Deshacer etapa');
-      await page.getByRole('heading',{name:'Archivos leídos · Por revisar',exact:true}).waitFor();
+      await page.getByRole('heading',{name:'Archivos leídos · Preparado',exact:true}).waitFor();
       for(const [file,content] of originals)assert.deepEqual(await readFile(path.join(root,file)),content,
         `Recovery must not touch ${file}`);
-      // A stage of a verified project broken on purpose, from the interface: the guidance gains the step that
-      // is now missing, and the list stops showing the project as ready and names the stage.
+      const notes=path.join(root,'notes.txt');await writeFile(notes,Buffer.concat([await readFile(notes),Buffer.from('\nCambio deliberado de la fuente de prueba.')]));
+      await click(page,'Comprobar de nuevo');await heading(page,'Archivos leídos · Por revisar');
       const undone=await page.evaluate(GUIDE);
       assert.notEqual(guideSignature(undone),guideSignatures.at(-1)[1],
         'Undoing a stage has to change the guidance for this project');
-      assert.match(undone.steps[0].title,/Falta leer tus archivos/,JSON.stringify(undone.steps[0]));
+      assert.ok(undone.steps.some(step=>/Falta leer tus archivos/.test(step.title)),JSON.stringify(undone.steps));
       await click(page,'Tus proyectos');await heading(page,'Tus proyectos');
       const broken=(await page.evaluate(READY_CLAIMS))[0];
       assert.doesNotMatch(broken.className,/state-verified/,`${broken.className}: ${broken.text}`);
       assert.notEqual(broken.mark,'✓','A project with a stage undone may not carry the mark');
       assert.match(broken.text,/la lectura de tus archivos/,broken.text);
       assert.deepEqual(readyProblems([broken]),[]);
-      evidence.checks.push('general: a stage of a verified project undone from the interface removes the ready mark, names the stage in the list, and adds the step to the guidance PASS');
+      evidence.checks.push('general: rollback restores prior current context and originals; a subsequent source change removes the ready mark, names missing stages and adds guidance PASS');
+      await writeFile(notes,originals.get('notes.txt'));
       // Duplicating: the answers are reused, the new folder is chosen, and nothing of the original travels
       // with it. Measured on disk before anything is written, which is the only place it can be measured.
       const copyRoot=path.join(temp,'general-copia');await mkdir(copyRoot);

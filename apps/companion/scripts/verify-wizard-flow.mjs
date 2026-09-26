@@ -7,6 +7,7 @@ import {fileURLToPath,pathToFileURL} from 'node:url';
 import * as core from 'create-project-engineering-os';
 import {ASSETS,CSP} from '../desktop/assets.mjs';
 import {createDesktopService,publicError} from '../desktop/service.mjs';
+import {finishPreparation} from './wizard-journey.mjs';
 
 const pw=await import(process.env.PROJECT_OS_PLAYWRIGHT_MODULE?pathToFileURL(process.env.PROJECT_OS_PLAYWRIGHT_MODULE).href:'playwright');
 const {chromium}=pw.default??pw;
@@ -95,13 +96,19 @@ async function journey(profile,focus,route){
       assert.equal(await page.locator('input[name="install-mode"]:checked').inputValue(),'ai');
       assert.equal(await page.locator('input[name="agent"][value="codex"]').isChecked(),true);
     }
-    await button('Guardar la preparación revisada  →').click();await heading('Preparación base guardada');
+    await button('Guardar la preparación revisada  →').click();
+    const stages=await finishPreparation(page,{allowUnavailable:profile==='software'&&route==='quick'});
+    await heading('Resultado de la preparación');
+    const checked=await service.preparationResult({id:(await service.listProjects())[0].id});
+    assert.ok(checked.done.includes('base')&&checked.done.includes('context'));
+    if(profile==='software')assert.ok(checked.pending.includes('environment'));
+    else assert.deepEqual(checked.pending,[]);
     const written=await readFile(path.join(root,'PROJECT_VISION.md'),'utf8');
     assert.match(written,/Comprobar este recorrido/);
     assert.equal((await service.listProjects()).length,1);
     assert.equal(await service.draftLoad(),null);
     assert.deepEqual(errors,[]);
-    results.push({profile,route,files:count,errors:errors.length});
+    results.push({profile,route,stages,files:count,errors:errors.length});
   }catch(error){
     const visible=await page.locator('#feedback').innerText().catch(()=>'');
     throw new Error(`${profile}/${route}: ${error.message}\nFeedback: ${visible}\nPage: ${await page.locator('#view').innerText().catch(()=>'')}`);

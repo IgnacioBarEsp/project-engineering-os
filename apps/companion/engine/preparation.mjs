@@ -9,8 +9,9 @@ const VERSION = 1;
 // field records that preference, because the list of chosen AIs already is it — and reading it from here is what
 // keeps the two lists from drifting apart.
 export const DESKTOP_AGENTS = Object.freeze(['antigravity','claude-code','codex','cursor','github-copilot','opencode']);
+export const MANUAL_AGENTS = Object.freeze(['gemini','kiro','windsurf']);
 export const WEB_AGENT = 'web';
-const AGENTS = new Set([...DESKTOP_AGENTS, WEB_AGENT]);
+const AGENTS = new Set([...DESKTOP_AGENTS, ...MANUAL_AGENTS, WEB_AGENT]);
 export const AGENT_IDS = Object.freeze([...AGENTS]);
 const OWNED = Object.freeze(['project.json','START.md','inventory.json']);
 const RECEIPT = `${NAMESPACE}/receipt.json`, JOURNAL = `${NAMESPACE}/transaction.json`;
@@ -82,6 +83,8 @@ ${vision!==goal?`\n## 2. Descripción\n${vision}\n`:''}
 ## Perfil y Delimitación
 - **Perfil**: ${profile}
 - **Subtipo**: ${subtype}
+
+## Cómo comprobar que esto funciona
 `;
 }
 
@@ -102,8 +105,8 @@ function validateReceipt(value) {
 }
 
 function validateJournal(value) {
-  const allowed = [...OWNED.map(ownPath), RECEIPT];
-  if (!object(value) || value.version !== VERSION || !/^[a-f0-9-]{36}$/.test(value.id ?? '')
+  const allowed = [...OWNED.map(ownPath), RECEIPT,...(value?.version===2?['PROJECT_VISION.md']:[])];
+  if (!object(value) || ![1,2].includes(value.version) || !/^[a-f0-9-]{36}$/.test(value.id ?? '')
       || !['applying','interrupted','committed','rolled-back'].includes(value.status)
       || !Array.isArray(value.operations) || value.operations.length !== allowed.length || value.operations.some(op=>!object(op))
       || !digest(value.rootHash) || !digest(value.inventoryFingerprint)) fail('JOURNAL_INVALID', 'La operación guardada no es válida.');
@@ -116,6 +119,8 @@ function validateJournal(value) {
         || typeof op.after !== 'string' || Buffer.byteLength(op.after) > MAX_STATE
         || (op.before === null ? op.beforeHash !== null : hash(op.before) !== op.beforeHash)
         || hash(op.after) !== op.afterHash) fail('JOURNAL_INVALID', 'La evidencia de un archivo no coincide con la operación.');
+    if(op.path==='PROJECT_VISION.md'&&op.before!==null&&op.after!==op.before)
+      fail('JOURNAL_INVALID','La recuperación no puede sustituir una visión preexistente.');
   }
   const receipt = validateReceipt(parse(value.operations.find(op=>op.path===RECEIPT).after, 'recibo de la operación'));
   if (receipt.inventoryFingerprint !== value.inventoryFingerprint || json(receipt.selection) !== json(value.selection)
@@ -207,6 +212,12 @@ export function createPreparationEngine() {
       const next = { version: VERSION, selection, scanLimits: inventory.limits, inventoryFingerprint: inventory.fingerprint, files: Object.fromEntries(OWNED.map(n=>[n,hash(contents[n])])) };
       const operations = OWNED.map(name => ({ path: ownPath(name), before: snapshots[name].content?.toString('utf8') ?? null, beforeHash: snapshots[name].hash, after: contents[name], afterHash: hash(contents[name]) }));
       operations.push({ path: RECEIPT, before: previous.current.content?.toString('utf8') ?? null, beforeHash: previous.current.hash, after: json(next), afterHash: hash(json(next)) });
+      const vision=await snapshot(root,'PROJECT_VISION.md');
+      let visionBefore=null;
+      if(vision.content!==null){try{visionBefore=new TextDecoder('utf-8',{fatal:true,ignoreBOM:true}).decode(vision.content);}
+        catch{fail('VISION_ENCODING','La visión existente no está en UTF-8.','Conserva el archivo y revisa su formato antes de preparar.');}}
+      const visionText=visionBefore??renderProjectVision(selection);
+      operations.push({path:'PROJECT_VISION.md',before:visionBefore,beforeHash:vision.hash,after:visionText,afterHash:hash(visionText)});
       const id = randomUUID();
       plans.set(id, { root, selection, inventory, operations, journalHash: prior.current.hash });
       if (plans.size > 20) plans.delete(plans.keys().next().value);
@@ -222,18 +233,9 @@ export function createPreparationEngine() {
         for (const op of plan.operations) if ((await snapshot(plan.root, op.path)).hash !== op.beforeHash) fail('PLAN_STALE', 'La preparación cambió después de la revisión.');
         if ((await snapshot(plan.root, JOURNAL, 10 * MAX_STATE)).hash !== plan.journalHash) fail('PLAN_STALE', 'Otra operación cambió la preparación.');
         if (plan.operations.every(op=>op.beforeHash===op.afterHash)) { plans.delete(id); return { status: 'unchanged', changed: 0, transaction: null }; }
-        const journal = { version: VERSION, id: randomUUID(), status: 'applying', rootHash: hash(plan.root), selection: plan.selection, scanLimits: plan.inventory.limits, inventoryFingerprint: plan.inventory.fingerprint, operations: plan.operations };
+        const journal = { version: 2, id: randomUUID(), status: 'applying', rootHash: hash(plan.root), selection: plan.selection, scanLimits: plan.inventory.limits, inventoryFingerprint: plan.inventory.fingerprint, operations: plan.operations };
         const journalHash = await saveJournal(plan.root, journal, plan.journalHash);
-        const runResult = await runJournal(plan.root, journal, journalHash, options);
-        if (plan.selection) {
-          try {
-            const visionSnap = await snapshot(plan.root, 'PROJECT_VISION.md');
-            if (visionSnap.content === null) {
-              await writeChecked(plan.root, 'PROJECT_VISION.md', renderProjectVision(plan.selection), null);
-            }
-          } catch {}
-        }
-        return runResult;
+        return runJournal(plan.root, journal, journalHash, options);
       });
     },
     async resume(target, options = {}) {
@@ -276,7 +278,7 @@ export function createPreparationEngine() {
     // returned; whoever records a verdict hashes them, so every stage's digest is computed the same way.
     async witnessPaths(target) {
       const receipt = await readReceipt(await canonicalFolder(target));
-      return [RECEIPT, JOURNAL, ...Object.keys(receipt.value?.files ?? {}).map(ownPath)];
+      return [RECEIPT, JOURNAL,'PROJECT_VISION.md', ...Object.keys(receipt.value?.files ?? {}).map(ownPath)];
     },
     async verify(target) {
       const root = await canonicalFolder(target), journal = await readJournal(root), receipt = await readReceipt(root);
@@ -285,6 +287,7 @@ export function createPreparationEngine() {
       await validateOwned(root, receipt.value);
       const inventory = await inspectFolder(root, receipt.value.scanLimits);
       return { base: 'prepared', context: 'pending', externalTools: 'not-verified',
+        vision:(await snapshot(root,'PROJECT_VISION.md')).content===null?'missing':'present',
         engineering: isEngineering(receipt.value.selection) ? 'pending' : 'not-requested',
         inventory: inventory.fingerprint === receipt.value.inventoryFingerprint ? 'current' : 'stale', selection: receipt.value.selection };
     },

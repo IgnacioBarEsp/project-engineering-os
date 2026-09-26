@@ -28,6 +28,33 @@ Consulta [contexto](CONTEXT.md), [entorno](ENVIRONMENT.md) y [experiencia](EXPER
 
 ## Tus datos y la recuperación
 
+### Preparación por etapas de la ola 3 (código en revisión, no una release)
+
+El [cambio #147](https://github.com/IgnacioBarEsp/project-engineering-os/issues/147) distingue dos vías en
+el cuarto paso del asistente. **Prepararlo ahora** guarda elecciones y visión, lee los archivos y, solo
+para Software, prepara herramientas, instrucciones, método y tecnología elegida. **Que mi IA se encargue**
+guarda elecciones y lectura y deja el resto explícitamente pendiente en una instrucción revisable.
+
+Cada nuevo plan se muestra dentro de ese mismo paso antes de aplicarlo. El siguiente puede necesitar
+que termine el anterior: el listado acumulado solo incluye planes ya calculados, no archivos futuros
+inventados. Las descargas muestran bytes, licencia y destino. Detener conserva etapas completadas;
+reintentar vuelve a calcular el plan, y una operación interrumpida ofrece recuperación por su registro.
+
+El resultado usa la comprobación real del proyecto, no la vía elegida. Copiar espera al portapapeles
+nativo; abrir una IA sigue exigiendo el contrato de apertura verificado. Gemini, Kiro y Windsurf tienen
+rutas de instrucciones, pero no se afirma una apertura local comprobada. En rutas directas, Claude
+importa AGENTS.md; los espejos oficiales del núcleo conservan su formato y propiedad.
+
+La visión existente se conserva. Su creación nueva participa en el plan y la recuperación, y los
+journals v1 siguen siendo legibles. Antes de volver a un binario antiguo, termina o deshaz con el nuevo
+cualquier operación v2; no se promete que lectores anteriores entiendan el nuevo formato.
+
+Prueba nativa del código fuente en Windows x64: `npm run evidence:preparation --prefix apps/companion`.
+Usa carpetas temporales y cache administrada verificada; sustituye solo el selector de carpeta. No es
+prueba del instalador ni de la calidad de respuestas de una IA externa.
+
+### Historial y archivos
+
 La app guarda un historial acotado en su directorio de datos. La configuración, índices y registros de
 recuperación del proyecto permanecen en la carpeta elegida. Los índices contienen fragmentos de fuentes;
 los registros pueden conservar versiones anteriores de archivos propios de la app. Protégelos como parte

@@ -8,7 +8,8 @@ import { createPreparationEngine } from '../engine/preparation.mjs';
 import { createContextEngine } from '../context/engine.mjs';
 import { parseSource, DEFAULT_LIMITS, PARSER_STARTUP_MS } from '../context/sources.mjs';
 import { recipesFor } from '../context/recipes.mjs';
-import { ROUTE_TEXT } from '../context/routes.mjs';
+import { ROUTE_TEXT, routeText, LEGACY_ROUTE_PATHS } from '../context/routes.mjs';
+import {hash,json} from '../engine/files.mjs';
 import { graphOptions } from '../context/graph-tools.mjs';
 import { execFileSync } from 'node:child_process';
 import { createConstructorAdapter } from '../engine/constructor-adapter.mjs';
@@ -31,6 +32,48 @@ async function fixture(t, files = {}, profile = 'research', agents = ['codex','w
 }
 async function prepare(engine, root, options) { const plan = await engine.plan(root,options); await engine.apply(plan.id); return plan; }
 const fails = code => error => error.code === code;
+
+// Construct the exact prior schema, not a v2 record merely labelled v1. New route paths,
+// Claude import blocks and the core-presence field did not exist in those journals.
+async function makeLegacyJournal(root,{committed=false}={}) {
+  const file=path.join(root,ns,'transaction.json'),journal=JSON.parse(await readFile(file,'utf8'));
+  journal.version=1;
+  journal.operations=journal.operations.filter(op=>op.path.startsWith(ns+'/')||LEGACY_ROUTE_PATHS.includes(op.path));
+  for(const op of journal.operations){
+    if(op.path===`${ns}/receipt.json`){const receipt=JSON.parse(op.after);receipt.version=1;delete receipt.corePresent;op.after=json(receipt);}
+    if(op.path==='CLAUDE.md'&&op.after)op.after=op.after.replace(routeText('CLAUDE.md'),ROUTE_TEXT);
+    op.afterHash=op.after===null?null:hash(op.after);
+    if(committed&&op.after!==null)await writeFile(path.join(root,op.path),op.after);
+  }
+  await writeFile(file,json(journal));
+}
+
+test('v1 context journals resume and roll back with their original closed path set',async t=>{
+  for(const action of ['resume','rollback']){
+    const {root,engine}=await fixture(t,{'note.txt':'Original evidence'},'research',['codex']);
+    const plan=await engine.plan(root);let writes=0;
+    await assert.rejects(engine.apply(plan.id,{onProgress:()=>{if(++writes===1)throw Error('interrupted');}}));
+    await makeLegacyJournal(root);const old=await readFile(path.join(root,ns,'transaction.json'));
+    const fresh=createContextEngine();await fresh.summary(root);
+    assert.deepEqual(await readFile(path.join(root,ns,'transaction.json')),old,'Read does not migrate');
+    await fresh[action](root);
+    assert.equal((await fresh.verify(root)).context,action==='resume'?'current':'not-prepared');
+    assert.equal(await readFile(path.join(root,'note.txt'),'utf8'),'Original evidence');
+  }
+});
+
+test('v1 Claude routes migrate only on reviewed apply and preserve adjacent original text',async t=>{
+  const original='# Mis instrucciones\nNo borrar.\n';
+  const {root,engine}=await fixture(t,{'CLAUDE.md':original,'note.txt':'Evidence'},'research',['codex','claude-code']);
+  await prepare(engine,root);await makeLegacyJournal(root,{committed:true});
+  const before=await readFile(path.join(root,'CLAUDE.md'),'utf8');assert.ok(before.includes(ROUTE_TEXT));
+  assert.equal((await engine.verify(root)).context,'current');
+  assert.equal(await readFile(path.join(root,'CLAUDE.md'),'utf8'),before);
+  const plan=await engine.plan(root);assert.equal(await readFile(path.join(root,'CLAUDE.md'),'utf8'),before);
+  await engine.apply(plan.id);
+  const after=await readFile(path.join(root,'CLAUDE.md'),'utf8');assert.ok(after.startsWith(original));assert.match(after,/@AGENTS\.md/);
+  assert.equal((await engine.verify(root)).context,'current');
+});
 
 function pdf(pages) {
   const objects = ['<< /Type /Catalog /Pages 2 0 R >>', '', '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>'];

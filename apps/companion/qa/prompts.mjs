@@ -6,7 +6,9 @@ import path from 'node:path';
 import test from 'node:test';
 import * as core from 'create-project-engineering-os';
 import { createDesktopService } from '../desktop/service.mjs';
-import { aggregate, composePrompt, investigationPrompt, PROFILE_LABELS, masterActivationPrompt } from '../context/prompts.mjs';
+import { aggregate, composePrompt, investigationPrompt, PROFILE_LABELS, activationPrompt } from '../context/prompts.mjs';
+import {PROFILES} from '../engine/profiles.mjs';
+import {TOOLCHAIN} from '../runtime/toolchain-pin.mjs';
 import { clearsTheFloor, createInferenceClient, projectDataIn, shareableFacts, withLocalRules,
   LEVELS, LOCAL_ORIGINS, PROVIDERS, MAX_RESPONSE_BYTES } from '../runtime/inference.mjs';
 
@@ -383,17 +385,25 @@ test('every level is declared, and the levels that leave this machine are the on
   for (const origin of LOCAL_ORIGINS) assert.equal(new URL(origin).hostname.match(/^(127\.0\.0\.1|localhost)$/) !== null, true);
 });
 
-test('master activation prompt provides tailored instructions for quick install and AI delegation', () => {
-  const quick = masterActivationPrompt({ path: 'C:/MiApp', profile: 'software', subtype: 'Plataforma Web / SaaS', installMode: 'quick' });
-  assert.match(quick, /Instalación Rápida/);
-  assert.match(quick, /PROJECT_VISION\.md/);
-  assert.match(quick, /conviértelos a formato \.md sin borrar ni alterar los archivos originales/);
-  assert.match(quick, /verificar que todo funcione correctamente/);
-
-  const ai = masterActivationPrompt({ path: 'C:/MiApp', profile: 'software', subtype: 'Plataforma Web / SaaS', installMode: 'ai' });
-  assert.match(ai, /Hazme 3 preguntas breves y sencillas/);
-  assert.match(ai, /PROJECT_VISION\.md/);
-  assert.match(ai, /investiga las mejores herramientas y librerías actuales/);
-  assert.match(ai, /conviértelos a \.md sin tocar ni eliminar los archivos originales/);
-  assert.match(ai, /verificar que todo el entorno y código funcionen correctamente/);
+test('activation prompts are deterministic by profile and focus, bounded and never infer success from route', () => {
+  const texts=[];
+  for(const [profile,definition] of Object.entries(PROFILES))for(const focus of definition.focuses){
+    const input={profile,focus:focus.id,vision:'Quiero comparar el resultado de mis pruebas.',agents:['web'],
+      done:['base','context'],pending:definition.stages.filter(id=>!['base','context'].includes(id)),route:'ai',aggregate:aggregate(INVENTORY)};
+    const text=activationPrompt(input);texts.push(text);
+    assert.equal(activationPrompt(input),text);
+    assert.match(text,/Quiero comparar el resultado de mis pruebas/);
+    assert.match(text,/Tres preguntas/);assert.match(text,/hash del original antes y después/);
+    assert.match(text,/exportación revisada/);assert.match(text,/Cómo comprobar que esto funciona/);
+    assert.ok(!text.includes('100%'));assert.ok(Buffer.byteLength(text)<20000);
+    if(definition.engineering)assert.ok(text.includes(`create-project-engineering-os@${TOOLCHAIN.core} doctor --target . --json`));
+    else {assert.doesNotMatch(text,/npx|doctor --target/);assert.match(text,/No instales herramientas/);}
+    const quick=activationPrompt({...input,route:'quick',done:[],pending:[]});
+    assert.match(quick,/No hay etapas comprobadas como listas/);assert.doesNotMatch(quick,/Tres preguntas/);
+  }
+  assert.equal(new Set(texts).size,texts.length,'Every profile/focus has its own instructions');
+  const redacted=activationPrompt({profile:'research',vision:'Proyecto C:/Privado/Archivo\nOtro /home/usuario_privado/secreto\nY \\\\servidor\\carpeta',path:'C:/never-used'});
+  assert.doesNotMatch(redacted,/Privado|usuario_privado|servidor|never-used/);
+  const contradictory=activationPrompt({profile:'software',done:['base','context','environment'],pending:['environment']});
+  assert.doesNotMatch(contradictory.split('## Qué falta')[0],/herramientas de desarrollo administradas/);
 });
