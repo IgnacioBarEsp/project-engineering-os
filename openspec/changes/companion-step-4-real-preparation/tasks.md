@@ -17,5 +17,5 @@
 
 ## 4. Evidencia
 
-- [ ] 4.1 Ejecutar suites Companion, UI, contrato, Electron y raíz; OpenSpec strict.
-- [ ] 4.2 Registrar revisión propia, evaluación de deuda, recuperación y límites humanos; preparar PR borrador apilado.
+- [x] 4.1 Ejecutar suites Companion, UI, contrato, Electron y raíz; OpenSpec strict.
+- [x] 4.2 Registrar revisión propia, evaluación de deuda, recuperación y límites humanos; preparar PR borrador apilado.

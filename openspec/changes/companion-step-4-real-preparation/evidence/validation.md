@@ -7,13 +7,13 @@
 | OpenSpec local 1.6.0 strict | PASS antes de implementar y tras ampliar la transacción de visión. |
 | Companion | PASS 170/170. Rutas v1/v2, journal de visión, prompts, IPC, orquestador y casos negativos. |
 | Wizard navegador | PASS 12 recorridos (6 perfiles × 2 vías), reapertura y carpeta existente. La falta de entorno nativo en ese harness se declara pendiente, no éxito. |
-| Contrato de interfaz | PASS 46/46 mutaciones, construcción 1/1, 366/366 controles en 36 pantallas; copias ante éxito/rechazo/transporte/rechazo después de éxito. |
+| Contrato de interfaz | PASS 46/46 mutaciones, construcción 1/1, 372/372 controles en 36 pantallas; copias ante éxito/rechazo/transporte/rechazo después de éxito. |
 | Electron 44.1.1 Windows x64, vía local | PASS base, contexto, herramientas, ingeniería, activación y TypeScript comprobados; pendientes vacíos y fila verified. Motores reales y cache administrada verificada. |
 | Electron, vía IA | PASS base/contexto comprobados; environment/engineering/activation pendientes y fila incomplete. |
 | Clipboard nativo | PASS ruta e instrucción leídas del clipboard coinciden exactamente con lo mostrado en ambas vías. No se abrió una IA externa. |
 | Cancelación nativa | PASS barra igual a completed/total real; Detener conserva base, no escribe contexto antes de aprobar, reintento termina y 48 originales coinciden. |
 | Base en raíz | PASS 17/17; lenguaje 9/9. |
-| UI general | Repetición final pendiente tras ajustar el ensayo de rollback y añadir las definiciones de los términos en el plan de preparación. |
+| UI general | PASS: 20 recorridos, 120 pantallas de asistente, 1220/1220 controles alcanzables, 40/40 copias; 48 pantallas de siete variantes sin hallazgos AA/teclado/vocabulario; 736 definiciones sin desajustes. |
 | npm run check | PASS 391/391 en árbol inmóvil, antes de la corrección de definiciones. Lenguaje 9/9 y OpenSpec strict repetidos después. |
 | Recuperación, flujo y lista (última revisión) | PASS 23/23, incluyendo v1, visión seed-once, cancelación y pureza de la lista. |
 
