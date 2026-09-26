@@ -37,7 +37,7 @@ const stageList=stages=>stages.flatMap((stage,index)=>{
   return index?[', ',node]:[node];});
 const onDate=value=>{const when=new Date(value??'');return Number.isNaN(when.getTime())?null
   :when.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});};
-const state={page:'start',tab:'overview',busy:false,projects:[],project:null,plan:null,status:null,query:'',inference:null,notes:null,stacks:null,providerModels:null,selection:{name:'',goal:'',profile:'software',focus:'website',experience:'guided',agents:['web'],stack:{decision:'too-early',requested:[]}}};
+const state={page:'start',tab:'overview',busy:false,projects:[],project:null,plan:null,status:null,query:'',inference:null,notes:null,stacks:null,providerModels:null,wizardActive:false,wizardStep:0,resumeDraft:null,draftError:null,selection:{name:'',goal:'',profile:'software',focus:'website',experience:'guided',agents:['web'],stack:{decision:'too-early',requested:[]}}};
 const screenState=createScreenState();
 const p=(text,cls='')=>el('p',{class:cls,text});
 const btn=(text,action,cls='secondary')=>el('button',{type:'button',class:cls,onClick:()=>run(action)},text);
@@ -97,7 +97,7 @@ const term=createTerm(id=>showTerm(id));
 function field(label,id,node,hint){return el('div',{class:'field'},el('label',{for:id,text:label}),node,hint?el('small',{text:hint}):null);}
 function input(id,value,max,change){const n=el('input',{type:'text',id,maxlength:max,required:true,value,onInput:e=>change(e.target.value)});return n;}
 function select(id,options,value,change){const n=el('select',{id,onChange:e=>change(e.target.value)},Object.entries(options).map(([v,label])=>el('option',{value:v,text:label})));n.value=value;return n;}
-function steps(){return stepRail(state.page,state.tab);}
+function steps(options){return stepRail(state.page,state.tab,options);}
 function notice(message){$('notice').textContent=message;}
 function error(value){if($('dialog').open)closeDialog();$('feedback').replaceChildren(el('strong',{text:value.message??'No se pudo completar la acción.'}),p(value.action??'Vuelve a intentarlo.'),el('small',{text:value.code??''}));$('feedback').hidden=false;$('feedback').scrollIntoView({block:'nearest'});}
 function setBusy(value){state.busy=value;document.querySelectorAll('button,input,textarea,select').forEach(n=>{if(!['cancel','close-dialog'].includes(n.id))n.disabled=value;});$('content').setAttribute('aria-busy',String(value));}

@@ -1,14 +1,15 @@
 import {registerFunctions} from './lib/bridge.mjs';
 import * as home from './screens/home.mjs';
-import * as setup from './screens/setup.mjs';
-import * as flow from './screens/flow.mjs';
 import * as reviews from './screens/reviews.mjs';
 import * as workspace from './screens/workspace.mjs';
+import * as wizard from './screens/wizard.mjs';
 import {api, $, state, el, p, doBtn, panel, error, call, loadProfiles, run, render, dialogReturn, closeDialog} from './lib/core.mjs';
 import {NAV_IDS} from './lib/router.mjs';
 import {icon} from './lib/dom.mjs';
 import {showStart} from './lib/bridge.mjs';
-registerFunctions({...home, ...setup, ...flow, ...reviews, ...workspace});
+registerFunctions({...home, ...reviews, ...workspace, ...wizard});
+// The main process waits for this narrow, fixed hook before closing the local window.
+Object.defineProperty(globalThis,'companionBeforeClose',{value:wizard.beforeClose,writable:false,configurable:false});
 $('dialog').addEventListener('close',()=>{if(dialogReturn?.isConnected)dialogReturn.focus();});
 $('close-dialog').addEventListener('click',closeDialog);
 // The navigation and the topbar control are rendered from the same table as every other control, so the
@@ -24,7 +25,7 @@ document.querySelector('.skip').addEventListener('click',e=>{e.preventDefault();
 api?.onProgress(value=>{$('activity').hidden=value.stage==='idle';if(value.stage!=='idle')$('activity-text').textContent=value.label+(Number.isInteger(value.completed)&&Number.isInteger(value.total)?` · ${value.completed} de ${value.total}`:'…');});
 // The static shell in index.html said the module never loaded. It did, so that shell is replaced either by
 // the first screen or by the reason this window cannot reach the application behind it.
-if(api)void run(async()=>{await loadProfiles();showStart();});
+if(api)void run(async()=>{await loadProfiles();showStart();try{state.resumeDraft=await call('draftLoad');if(state.resumeDraft)showStart();}catch(failure){state.draftError=failure;showStart();error(failure);}});
 else{
   state.page='connection-error';
   render([el('h1',{tabindex:'-1',text:'No se pudo conectar con la aplicación.'}),

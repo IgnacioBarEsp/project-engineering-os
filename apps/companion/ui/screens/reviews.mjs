@@ -1,12 +1,12 @@
-import {profiles, canonicalProfile, isEngineeringProfile, agents, state, el, p, btn, doBtn, heading, own, actions, wizardBar, panel, term, field, steps, notice, error, call, render, openDialog, closeDialog} from '../lib/core.mjs';
-import {showFolder, showWorkspace} from '../lib/bridge.mjs';
+import {profiles, canonicalProfile, isEngineeringProfile, agents, state, el, p, btn, doBtn, heading, own, actions, wizardBar, panel, term, field, notice, error, call, render, openDialog, closeDialog} from '../lib/core.mjs';
+import {showWorkspace} from '../lib/bridge.mjs';
 function changes(files){return el('details',{},el('summary',{text:`Ver archivos previstos (${files.length})`}),el('ul',{class:'file-list'},files.map(f=>el('li',{text:`${{create:'Añadir',update:'Actualizar',remove:'Retirar',unchanged:'Conservar',adopt:'Conservar original',preserve:'Conservar',noop:'Sin cambios'}[f.action]??f.action} · ${f.path}`}))));}
 function showBaseReview(){state.page='base-review';const s=state.selection;
-  render([steps(2),...heading('Esto es lo que se va a escribir.','Primero se guardan tus elecciones y la lista de lo que hay en la carpeta. Después revisas qué archivos se leen y qué instrucciones recibe tu IA.'),
+  render([...heading('Esto es lo que se va a escribir.','Primero se guardan tus elecciones y la lista de lo que hay en la carpeta. Después revisas qué archivos se leen y qué instrucciones recibe tu IA.'),
     panel(el('dl',{class:'review-grid'},[['Proyecto',s.name,true],['Tipo de trabajo',profiles[s.profile][0],false],['Tu objetivo',s.goal,true],['Tu IA',s.agents.map(a=>agents[a]).join(', '),false]].flatMap(([k,v,fromPerson])=>[el('div',{},el('dt',{text:k}),fromPerson?own(v,'dd'):el('dd',{text:v}))])),own(state.project.root,'p',{class:'path'}),changes(state.plan.files)),
     el('p',{class:'subtle'},'Uno de esos archivos es el ',term('inventario'),': la lista de lo que se encontró, con su tipo y su tamaño, y los archivos que no se pudieron leer con su motivo. No guarda el contenido completo.'),
     p('Tus archivos originales no se modifican. Se guarda un registro para poder comprobar cambios y deshacer una operación que quede a medias.','subtle'),
-  ],'PREPARAR PROYECTO / REVISIÓN',wizardBar(btn('Volver',()=>showFolder()),btn('Guardar esta preparación  →',async()=>{const r=await call('applyBase',{plan:state.plan.id});state.status=r.status;state.project={...state.project,...r.status.project};
+  ],'PREPARAR PROYECTO / REVISIÓN',wizardBar(doBtn('open-workspace'),btn('Guardar esta preparación  →',async()=>{const r=await call('applyBase',{plan:state.plan.id});state.status=r.status;state.project={...state.project,...r.status.project};
       // What the person answered about technology is asked here, once the selection is recorded and the folder
       // has been looked at, because a recommendation is only honest after both. With nothing to offer this step
       // does not exist, and the project screen is where the reason is said instead.
@@ -69,13 +69,13 @@ async function reviewEngineering(){
 }
 const downloadSize=bytes=>`${(bytes/(1024*1024)).toLocaleString('es',{maximumFractionDigits:1})} MiB`;
 async function reviewRepair(){state.page='repair-review';state.plan=await call('previewRepair',{id:state.project.id});const plan=state.plan;
-  render([steps(),...heading('Recuperemos tus herramientas.','Se comprueban otra vez la ubicación y el registro de cada herramienta antes de reemplazar su copia.'),
+  render([...heading('Recuperemos tus herramientas.','Se comprueban otra vez la ubicación y el registro de cada herramienta antes de reemplazar su copia.'),
     panel(p(plan.message),...(plan.items??[]).map(item=>el('article',{},el('h2',{text:item.name}),p(`${downloadSize(item.downloadBytes)} de descarga · ${downloadSize(item.replacedBytes)} por reemplazar`),own(item.destination,'p',{class:'path'})))),
     ...(plan.blocked??[]).map(item=>panel(el('h2',{text:item.tool}),p(item.message),p(item.action))),
     p('Tus proyectos y los índices que ya usabas se conservan. Una carpeta sin registro válido se deja como está para que la revises; no se borra sola.','subtle'),
     actions(doBtn('open-workspace'),plan.id?btn('Reparar herramientas revisadas',async()=>{state.status=(await call('applyRepair',{plan:plan.id})).status;await showWorkspace(false);},'primary'):null)],'TU PROYECTO / REPARACIÓN');}
 function showEnvironmentReview(){state.page='environment-review';const plan=state.plan,allowed=plan.status==='planned';
-  render([steps(2),...heading('Tus herramientas, listas en este equipo.','Se descargan las herramientas con las que se programa y se conservan las dependencias que tu proyecto ya tenía. Revisa esta instalación antes de continuar.'),
+  render([...heading('Tus herramientas, listas en este equipo.','Se descargan las herramientas con las que se programa y se conservan las dependencias que tu proyecto ya tenía. Revisa esta instalación antes de continuar.'),
     allowed?panel(el('span',{class:'tag',text:plan.downloadBytes?`Descarga prevista: ${downloadSize(plan.downloadBytes)}`:'Ya están en este equipo y comprobadas'}),
       ...(plan.tools??[]).map(tool=>el('article',{class:'recipe'},el('h2',{text:tool.name}),p(tool.purpose),p(tool.status==='verified'?'Lista para reutilizar':tool.downloadBytes?`${downloadSize(tool.downloadBytes)} de descarga`:'Incluida en la aplicación','subtle'),
         el('details',{},el('summary',{text:'Versión, licencia y ubicación'}),p(`${tool.version} · ${tool.license}`),own(tool.source,'p',{class:'path'}),own(tool.destination,'p',{class:'path'})))),
@@ -89,7 +89,7 @@ function showEnvironmentReview(){state.page='environment-review';const plan=stat
     },'primary'):doBtn('repair-tools')));}
 function showEngineeringReview(){state.page='engineering-review';const plan=state.plan,allowed=plan.status==='planned';
   const operations=plan.plan?.operations??[];
-  render([steps(2),...heading('Un proceso claro para desarrollar.','Se añaden instrucciones para tu IA, un lugar donde escribir qué va a cambiar y comprobaciones. Que funcionen se comprueba en el paso siguiente, no aquí.'),
+  render([...heading('Un proceso claro para desarrollar.','Se añaden instrucciones para tu IA, un lugar donde escribir qué va a cambiar y comprobaciones. Que funcionen se comprueba en el paso siguiente, no aquí.'),
     panel(el('span',{class:`tag ${allowed?'':'pending'}`,text:allowed?'Hay un plan listo para revisar':'Necesita atención'}),p(plan.message??(allowed?'Revisa los archivos antes de continuar.':'La carpeta tiene conflictos que hay que resolver antes.')),
       plan.action?p(plan.action,'subtle'):null,plan.incompleteTransaction?p('Hay una operación a medias. Continuar comprueba primero su registro y después completa los archivos que faltan.'):null,changes(operations.map(o=>({path:o.target,action:o.operation})))),
     plan.preservedOriginals?.length?p(`Estos archivos tuyos se conservan sin modificar: ${plan.preservedOriginals.join(', ')}.`):null,
@@ -98,7 +98,7 @@ function showEngineeringReview(){state.page='engineering-review';const plan=stat
       if(state.status.capabilities?.environment){state.plan=await call('previewActivation',{id:state.project.id});showActivationReview();}else await prepareContext();},'primary'):null,
       plan.incompleteTransaction?btn('Deshacer la operación a medias',()=>openDialog('Deshacer esta operación',[p('Se deshace la operación a medias que acabas de revisar. Antes se comprueba si editaste esos archivos después, para no perder tu edición.'),actions(btn('Conservar',async()=>closeDialog()),btn('Deshacer operación',async()=>{state.status=(await call('rollbackEngineering',{plan:plan.id})).status;closeDialog();await showWorkspace();},'danger'))]),'quiet'):doBtn('read-files')));}
 function showActivationReview(){state.page='activation-review';const plan=state.plan;
-  render([steps(2),...heading('Un método de trabajo para tu IA.','Se instalan los recorridos oficiales que ordenan cada cambio: primero qué se espera, después el código, al final la revisión.'),
+  render([...heading('Un método de trabajo para tu IA.','Se instalan los recorridos oficiales que ordenan cada cambio: primero qué se espera, después el código, al final la revisión.'),
     plan.status==='planned'?panel(el('span',{class:'tag',text:'OpenSpec 1.6.0, comprobado en una carpeta de prueba'}),el('p',{},'Se aplican esos recorridos y se conectan las herramientas. Después se comprueba que ',term('openspec'),' responde de verdad en tu proyecto. Ese método se llama ',term('sdd'),'.'),changes(plan.files)):
       panel(el('h2',{text:plan.message??'Hay instrucciones que necesitan revisión'}),p(plan.action),plan.conflicts?el('ul',{class:'file-list'},plan.conflicts.map(f=>el('li',{text:f}))):null),
   ],'PREPARAR PROYECTO / MÉTODO',wizardBar(doBtn('open-workspace'),doBtn('read-files'),plan.status==='planned'?btn('Activar y continuar  →',async()=>{
@@ -108,7 +108,7 @@ async function prepareContext(exclude){state.plan=await call('previewContext',{i
 function showContextReview(){state.page='context-review';const plan=state.plan,c=plan.coverage;
   const exclusion=el('textarea',{id:'exclusions',rows:3,placeholder:'carpeta-privada\nnotas-personales.txt'});
   exclusion.value=(plan.exclude??[]).join('\n');
-  render([steps(3),...heading('Tus archivos, leídos y ubicables.','Al buscar, encontrarás el fragmento y el archivo, la página o el párrafo de donde salió. Revisa qué se pudo leer y qué no.'),
+  render([...heading('Tus archivos, leídos y ubicables.','Al buscar, encontrarás el fragmento y el archivo, la página o el párrafo de donde salió. Revisa qué se pudo leer y qué no.'),
     panel(el('span',{class:`tag ${c.complete?'':'pending'}`,text:c.complete?'Se pudo leer todo lo previsto':'Hay archivos o partes pendientes'}),
       p(`${c.sources.length} archivos · ${c.chunks} fragmentos · ${c.textBytes.toLocaleString('es')} bytes de texto`),
       el('p',{class:'subtle'},'Cada archivo que entra aquí queda como una ',term('fuente'),', y solo una fuente puede aparecer en una ',term('cita'),'.'),
@@ -130,7 +130,7 @@ function showSyncReview(){state.page='sync-review';const plan=state.plan;
       const r=await call('applyEngineering',{plan:plan.id});state.status=r.status;
       state.plan=await call('previewContext',{id:state.project.id});showFinalContext();
     },'primary'):null)],'PREPARAR PROYECTO / INSTRUCCIONES');}
-function showFinalContext(){state.page='context-final';const plan=state.plan;render([steps(),...heading('Una última pasada al resumen.','Las instrucciones ya están actualizadas. Guarda el resumen para que las búsquedas usen los archivos vigentes.'),panel(p(`${plan.coverage.sources.length} archivos · ${plan.coverage.chunks} fragmentos. ${plan.coverage.complete?'Se pudo leer todo lo previsto.':'Hay partes pendientes.'}`),p(`Se dejó fuera: ${plan.exclude?.join(', ')||'nada'}.`,'subtle'),changes(plan.files)),actions(btn('Guardar y ver mi proyecto',async()=>{state.status=(await call('applyContext',{plan:plan.id})).status;await showWorkspace();},'primary'))],'PREPARAR PROYECTO / ÚLTIMA PASADA');}
+function showFinalContext(){state.page='context-final';const plan=state.plan;render([...heading('Una última pasada al resumen.','Las instrucciones ya están actualizadas. Guarda el resumen para que las búsquedas usen los archivos vigentes.'),panel(p(`${plan.coverage.sources.length} archivos · ${plan.coverage.chunks} fragmentos. ${plan.coverage.complete?'Se pudo leer todo lo previsto.':'Hay partes pendientes.'}`),p(`Se dejó fuera: ${plan.exclude?.join(', ')||'nada'}.`,'subtle'),changes(plan.files)),actions(btn('Guardar y ver mi proyecto',async()=>{state.status=(await call('applyContext',{plan:plan.id})).status;await showWorkspace();},'primary'))],'PREPARAR PROYECTO / ÚLTIMA PASADA');}
 async function reviewCode(){state.plan=await call('previewCode',{id:state.project.id});showCodeReview();}
 function showCodeReview(){state.page='code-review';const plan=state.plan,allowed=plan.status==='planned';
   render([...heading('Encuentra las piezas de tu código.','Un índice opcional de funciones, clases y cómo se relacionan. Sirve para localizar el archivo correcto antes de proponer un cambio.'),

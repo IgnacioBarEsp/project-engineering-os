@@ -13,6 +13,11 @@ test('every route has exactly one known destination and a valid wizard step', ()
     assert.deepEqual(routeFor(id), route);
   }
   assert.throws(() => routeFor('unknown'), /Ruta sin declarar/);
+  for(const id of ['base-review','stack-review','repair-review','environment-review','engineering-review','activation-review','context-review','sync-review','context-final','code-review']){
+    assert.equal(routeFor(id).nav,'open-project-list',id);
+    assert.equal(routeFor(id).step,null,id);
+  }
+  for(const retired of ['folder','stack-choice','ready'])assert.throws(()=>routeFor(retired),/Ruta sin declarar/);
   assert.equal(routeFor('workspace', {tab: 'handoff'}).breadcrumb, 'TU PROYECTO / TU IA');
   assert.throws(() => routeFor('workspace', {tab: 'unknown'}), /Pestaña sin declarar/);
 });

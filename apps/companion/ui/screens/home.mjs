@@ -1,11 +1,20 @@
 import {profiles, isEngineeringProfile, agents, projectStates, stageList, onDate, state, el, p, btn, doBtn, rowBtn, heading, own, actions, panel, term, steps, notice, error, call, render, openDialog, GLOSSARY, byId} from '../lib/core.mjs';
-import {showFolder, forget} from '../lib/bridge.mjs';
+import {chooseFromHome, resumeDraft, startFromDuplicate, forget} from '../lib/bridge.mjs';
 function showStart(){state.page='start';render([
   el('p',{class:'eyebrow',text:'Preparación local · Tú conservas el control'}),
   el('h1',{class:'hero-title',tabindex:'-1'},'Dale a tu IA',el('br'),el('span',{class:'hero-gradient',text:'un buen punto de partida.'})),
   p('Esta aplicación lee la carpeta de tu proyecto, ordena lo que hay dentro y deja un resumen que puedes darle a la IA que ya usas, con la ubicación exacta de cada frase para que puedas comprobarla.','intro'),
   el('div',{class:'home-actions'},doBtn('prepare-project','primary'),
-    btn('Abrir una carpeta existente',async()=>{const result=await call('chooseFolder');if(result){state.project=result;showFolder();}},'secondary')),
+    btn('Abrir una carpeta existente',()=>chooseFromHome(),'secondary')),
+  state.resumeDraft?panel(el('h2',{text:'Tienes una preparación sin terminar'}),
+    p('Tus respuestas se conservaron en esta aplicación; la carpeta del proyecto no cambió por guardar el borrador.'),
+    actions(btn('Continuar borrador',()=>resumeDraft(),'primary'))):null,
+  state.draftError?panel(el('h2',{text:'El borrador necesita atención'}),p(state.draftError.message),
+    p('Puedes conservar una copia del borrador dañado en los datos de esta aplicación y empezar otra vez; la carpeta del proyecto no cambia.','subtle'),
+    actions(btn('Conservar copia y empezar nuevo',async()=>{
+      const result=await call('draftClear',{preserveInvalid:true});state.draftError=null;
+      notice(result.preservedAs?'Se conservó una copia del borrador en los datos de la aplicación.':'No había borrador que conservar.');
+      showStart();},'secondary'))):null,
   // The four steps are h3, so they need their own h2 above them: a page that goes from h1 straight to h3
   // reads, to anyone navigating by headings, as a level that was skipped. The previous home had the same
   // jump; the contrast and heading probe found it.
@@ -65,14 +74,7 @@ async function showProjects(){state.page='projects';state.projects=await call('l
 // Duplicating reuses the answers and nothing else. The folder is chosen now, the answers arrive already
 // filled in and editable, and nothing is written until the plan is approved like any other preparation:
 // there is no call here that copies a prepared folder.
-async function duplicate(project){const chosen=await call('chooseFolder');if(!chosen)return;
-  const answers=project.selection??{};
-  state.project=chosen;
-  state.selection={name:answers.name??project.name,goal:answers.goal??'',
-    profile:project.mappedProfile??'research',focus:project.mappedFocus,experience:answers.experience??'guided',
-    agents:answers.agents?.length?[...answers.agents]:['web'],
-    stack:answers.stack?{decision:answers.stack.decision,requested:[...(answers.stack.requested??[])]}:{decision:'too-early',requested:[]}};
-  state.stacks=state.stacks??await call('stackCatalog');showFolder();}
+async function duplicate(project){await startFromDuplicate(project);}
 function showHelp(){state.page='help';render([
   el('h1',{tabindex:'-1',text:'Ayuda'}),
   p('Cómo trabaja esta aplicación, qué quiere decir que algo esté listo, y qué significa cada palabra que aparece en pantalla.','intro'),

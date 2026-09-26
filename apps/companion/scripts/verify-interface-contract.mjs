@@ -154,8 +154,8 @@ const MUTATIONS = [
     detect: report => (report.screens['mi proyecto']?.repeated ?? []).some(entry => entry.startsWith('read-files')) },
   { id: 'two-names-for-one-action-deeper-in-the-wizard', file: 'app.mjs',
     reason: 'una acción declarada se ofrece con otro nombre en una pantalla del asistente',
-    from: "wizardBar(doBtn('open-start'),el('button',{type:'submit',form:'setup-form',class:'primary',text:'Elegir carpeta  →'})));",
-    to: "wizardBar(doBtn('open-start'),el('button',{type:'button',class:'secondary','data-action':'prepare-project',text:'Preparar una carpeta'}),el('button',{type:'submit',form:'setup-form',class:'primary',text:'Elegir carpeta  →'})));",
+    from: "wizardBar(doBtn('open-start'),el('button',{type:'submit',form:'wizard-project-form',class:'primary',text:'Continuar a Enfoque  →'})));",
+    to: "wizardBar(doBtn('open-start'),el('button',{type:'button',class:'secondary','data-action':'prepare-project',text:'Preparar una carpeta'}),el('button',{type:'submit',form:'wizard-project-form',class:'primary',text:'Continuar a Enfoque  →'})));",
     detect: report => report.duplicated.some(entry => entry.startsWith('prepare-project')) },
   { id: 'a-second-name-only-assistive-technology-hears', file: 'app.mjs',
     reason: 'una acción declarada lleva un aria-label distinto de su texto visible, que es el nombre que dice un lector de pantalla',
@@ -208,8 +208,8 @@ const MUTATIONS = [
     detect: report => report.screens.ayuda.vocabulary.missing.some(entry => entry.id === 'inventario') },
   { id: 'term-as-prose-inside-a-placeholder', file: 'app.mjs',
     reason: 'un término llega a la pantalla por un placeholder, que se dibuja pero no es textContent',
-    from: "function input(id,value,max,change){const n=el('input',{type:'text',id,maxlength:max,required:true,value,",
-    to: "function input(id,value,max,change){const n=el('input',{type:'text',id,maxlength:max,required:true,value,placeholder:'la firma de este archivo',",
+    from: "const name=el('input',{id:'wizard-name',type:'text',maxlength:100,required:true,value:s.name,",
+    to: "const name=el('input',{id:'wizard-name',type:'text',maxlength:100,required:true,value:s.name,placeholder:'la firma de este archivo',",
     detect: report => anyScreen(report, screen => screen.vocabulary.missing.some(entry => entry.id === 'firma')).length > 0 },
   { id: 'term-as-prose-inside-an-aria-label', file: 'index.html',
     reason: 'un término llega a la pantalla por un aria-label, que es lo que dice un lector de pantalla, y este está en todas',
@@ -274,9 +274,14 @@ const MUTATIONS = [
       { file: 'pages.css',
         from: '.wizard-footer { position: sticky; bottom: 0; margin-top: 24px; padding: 14px 0; }',
         to: '.wizard-footer { position: fixed; bottom: 0; left: 0; right: 0; margin: 0; padding: 18px; background: var(--surface-root); z-index: 10; }' }],
-    detect: report => (report.wizard ?? []).some(run => run.motion === 'no-preference' && run.visited.includes('install')
-      && run.problems.some(problem => problem.startsWith('install: «') && problem.includes('no se puede pulsar')
-        && /Instalar stack base|Preparar carpeta y generar/.test(problem))) },
+    detect: report => (report.wizard ?? []).some(run => run.motion === 'no-preference'
+      && run.problems.some(problem => /^(setup|delimitation|vision|install): /.test(problem)
+        && /no se puede pulsar|la barra tapa contenido|la barra final no es sticky \(fixed\)/.test(problem))) },
+  { id: 'a-wizard-button-becomes-a-decorative-span', wizard: true,
+    reason: 'el botón principal conserva estilo de botón, pero pierde semántica y acción por teclado',
+    from: "el('button',{type:'submit',form:'wizard-project-form',class:'primary'",
+    to: "el('span',{type:'submit',form:'wizard-project-form',class:'primary'",
+    detect: report => (report.wizard ?? []).some(run => run.problems.some(problem => problem.includes('control decorativo sin semántica de botón'))) },
   { id: 'install-route-drops-the-preparation-pill', file: 'lib/router.mjs', wizard: true,
     reason: 'la navegación deja de marcar «Preparar proyecto» en instalación',
     from: "install: wizard('PREPARAR PROYECTO / PREPARAR', 3),",
@@ -380,6 +385,10 @@ const PROFILE_CATALOG = {legacyProfiles:LEGACY_PROFILE_MAP,profiles:PROFILE_IDS.
     stacks:offeredStacks({profile:id,focus:item.id})})),
 }))};
 const stub = (mode, copy = 'ok') => `${PAGE_CLIPBOARD_SPY}window.companion={
+  draftLoad:async()=>({ok:true,value:null}),
+  draftSave:async()=>({ok:true,value:{saved:true}}),
+  draftClear:async()=>({ok:true,value:{cleared:true}}),
+  previewVision:async()=>({ok:true,value:{text:'Un objetivo revisado.'}}),
   profileCatalog:async()=>({ok:true,value:${JSON.stringify(PROFILE_CATALOG)}}),
   chooseFolder:async()=>({ok:true,value:{id:'44444444-4444-4444-8444-444444444444',root:'C:/ruta/del/asistente',name:'Carpeta del asistente',
     inspection:{files:[{path:'notas.txt'},{path:'guia.md'}],recommendation:'research'}}}),
@@ -483,7 +492,7 @@ async function inspect(page) {
       await page.waitForFunction(() => !document.getElementById('dialog').open).catch(() => {});
     }
   }
-  await visit('asistente', 'prepare-project', 'Empecemos por lo que quieres lograr.');
+  await visit('asistente', 'prepare-project', '¿Qué vas a preparar?');
   await visit('tus proyectos', 'open-project-list', 'Tus proyectos');
   // The project screen, reached the way a person reaches it: by its own card. Stubbed payloads, because what
   // these mutations break is the renderer — the real ones are walked by the journey harness.
@@ -567,13 +576,12 @@ const flat = report => ({
 // is recorded as such, and only interception on a screen that was visited counts as detecting the bar defect.
 const WIZARD_WINDOWS = [[1180, 820], [1160, 810], [1040, 700]];
 const WIZARD_STEPS = [
-  { screen: 'setup', heading: 'Empecemos por lo que quieres lograr.', primary: ['Inicio', 'Elegir carpeta →'], next: 'Elegir carpeta →' },
-  { screen: 'folder', heading: 'Tu trabajo empieza en una carpeta.', primary: ['Volver', 'Continuar a delimitación →', 'Revisar preparación →'], next: 'Continuar a delimitación →' },
-  { screen: 'delimitation', heading: '¿Cuál es el enfoque principal de tu proyecto?', primary: ['Volver', 'Paso 3: Visión y Descripción →'], next: 'Paso 3: Visión y Descripción →' },
-  { screen: 'vision', heading: 'Cuéntanos en tus palabras: ¿qué quieres lograr?', primary: ['Volver', 'Paso 4: Instalación →'], next: 'Paso 4: Instalación →' },
-  { screen: 'install', heading: 'Tu espacio está listo. ¿Cómo prefieres equiparlo?', primary: ['Volver', 'Instalar stack base y obtener prompt →', 'Preparar carpeta y generar prompt maestro →'], next: 'Preparar carpeta y generar prompt maestro →' },
+  { screen: 'setup', heading: '¿Qué vas a preparar?', primary: ['Inicio', 'Cambiar carpeta', 'Continuar a Enfoque →'], next: 'Continuar a Enfoque →' },
+  { screen: 'delimitation', heading: '¿Qué tipo de trabajo harás?', primary: ['Volver', 'Continuar a Visión →'], next: 'Continuar a Visión →' },
+  { screen: 'vision', heading: 'Cuéntalo en tus palabras', primary: ['Volver', 'Continuar a Preparar →'], next: 'Continuar a Preparar →' },
+  { screen: 'install', heading: 'Cómo quieres continuar', primary: ['Volver', 'Guardar la preparación revisada →'], next: 'Guardar la preparación revisada →' },
 ];
-const FINISHED = '¡Tu proyecto está listo para cobrar vida!';
+const FINISHED = 'Preparación base guardada';
 const settled = page => page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true'
   && !(document.querySelector('#view .enter')?.getAnimations() ?? []).some(animation => animation.playState === 'running'),
 null, { timeout: 4000 }).catch(() => {});
@@ -586,12 +594,10 @@ async function walkToFinished(page, run) {
     await settled(page);
     if (step.screen === 'setup') {
       await page.getByLabel('Nombre de tu proyecto').fill('Carpeta del asistente');
-      await page.getByLabel('¿Qué quieres lograr?').fill('Terminar el asistente');
-    }
-    if (step.screen === 'folder' && !await page.locator('.folder-card .path').count()) {
-      if (!await pressed(page, 'Buscar carpeta en este equipo')) { run.problems.push('folder: no se pudo elegir la carpeta'); return false; }
+      if (!await pressed(page, 'Elegir carpeta')) { run.problems.push('setup: no se pudo elegir la carpeta'); return false; }
       await settled(page);
     }
+    if (step.screen === 'vision') await page.getByLabel('¿Qué quieres lograr?').fill('Terminar el asistente');
     await run.measure?.(step);
     if (!await pressed(page, step.next)) { run.problems.push(`${step.screen}: un clic normal no pudo pulsar «${step.next}»`); return false; }
   }
@@ -618,7 +624,7 @@ async function inspectWizard() {
     try {
       await page.addInitScript(stub('filled'));
       await page.goto(url, { waitUntil: 'networkidle' });
-      if (await walkToFinished(page, run)) await measure({ screen: 'finished', primary: ['Copiar ruta', 'Copiar Prompt Maestro'] }, false);
+      if (await walkToFinished(page, run)) await measure({ screen: 'finished', primary: ['Copiar ruta', 'Copiar instrucción'] }, false);
     } catch (error) {
       run.problems.push(`la comprobación no pudo evaluarse: ${String(error.message).split('\n')[0].slice(0, 160)}`);
     } finally { delete run.measure; await context.close(); }
@@ -639,7 +645,7 @@ async function inspectCopies() {
       await page.addInitScript(stub('filled', answer));
       await page.goto(url, { waitUntil: 'networkidle' });
       entry.reached = await walkToFinished(page, { problems: [] });
-      for (const control of entry.reached ? ['Copiar ruta', 'Copiar Prompt Maestro'] : []) {
+      for (const control of entry.reached ? ['Copiar ruta', 'Copiar instrucción'] : []) {
         const button = await page.getByRole('button', { name: control, exact: true }).elementHandle({ timeout: 4000 });
         for (let attempt = 0; attempt < (answer === 'ok-then-refused' ? 2 : 1); attempt += 1) {
           await button.click();
