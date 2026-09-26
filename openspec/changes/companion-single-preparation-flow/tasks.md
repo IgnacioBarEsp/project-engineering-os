@@ -19,5 +19,5 @@
 ## 4. Evidencia y cierre
 
 - [x] 4.1 Ampliar harness a seis perfiles y ambas vías; comprobar ida/vuelta, borrador, rutas, 1180×820/1024×700, movimiento y controles.
-- [ ] 4.2 Ejecutar suites Companion, UI, contrato de mutaciones, raíz y OpenSpec strict.
-- [ ] 4.3 Registrar revisión adversarial propia, deuda, rollback y gates humanos reales; preparar PR borrador sin atribuir aprobación.
+- [x] 4.2 Ejecutar suites Companion, UI, contrato de mutaciones, raíz y OpenSpec strict.
+- [x] 4.3 Registrar revisión adversarial propia, deuda, rollback y gates humanos reales; preparar PR borrador sin atribuir aprobación.
