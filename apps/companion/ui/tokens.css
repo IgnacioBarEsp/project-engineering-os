@@ -1,4 +1,8 @@
 :root {
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 280ms;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --surface-card: #121826;
   --surface-card-hover: #182236;
   --cyan-500: #06b6d4;

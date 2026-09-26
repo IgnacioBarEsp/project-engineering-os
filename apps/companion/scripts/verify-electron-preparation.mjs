@@ -79,7 +79,7 @@ try{
   await page.evaluate(()=>{window.__cancelProgressStart=window.__progress.length;});
   await page.getByRole('button',{name:'Guardar la preparación revisada →',exact:true}).click();
   await page.waitForFunction(()=>window.__progress.slice(window.__cancelProgressStart).some(value=>value.stage==='context'&&value.completed>0));
-  const measured=await page.evaluate(()=>{const value=window.__progress.filter(value=>value.stage==='context').at(-1),bar=document.querySelector('#preparation-progress progress');
+  const measured=await page.evaluate(()=>{const value=window.__progress.filter(value=>value.stage==='context').at(-1),bar=document.querySelector('#activity progress');
     return {completed:value.completed,total:value.total,shown:bar?.value,max:bar?.max};});
   assert.equal(measured.shown,measured.completed);assert.equal(measured.max,measured.total);
   await page.locator('#cancel').click();

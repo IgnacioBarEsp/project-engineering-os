@@ -3,6 +3,9 @@ import { GLOSSARY, byId } from '../glossary.mjs';
 import {el, own, term as createTerm} from './dom.mjs';
 import {routeFor} from './router.mjs';
 import {projectHash} from './project-route.mjs';
+import {createTransitions} from './transition.mjs';
+import {createToasts} from '../components/toast.mjs';
+import {activity,mountProgress} from '../components/progress.mjs';
 import {createScreenState} from './state.mjs';
 import {actions, wizardBar} from '../components/actions-bar.mjs';
 import {steps as stepRail} from '../components/step-rail.mjs';
@@ -99,7 +102,8 @@ function field(label,id,node,hint){return el('div',{class:'field'},el('label',{f
 function input(id,value,max,change){const n=el('input',{type:'text',id,maxlength:max,required:true,value,onInput:e=>change(e.target.value)});return n;}
 function select(id,options,value,change){const n=el('select',{id,onChange:e=>change(e.target.value)},Object.entries(options).map(([v,label])=>el('option',{value:v,text:label})));n.value=value;return n;}
 function steps(options){return stepRail(state.page,state.tab,options);}
-function notice(message){$('notice').textContent=message;}
+const notice=createToasts($('notice'));
+const transition=createTransitions({document,reduced:()=>matchMedia('(prefers-reduced-motion: reduce)').matches});
 function error(value){if($('dialog').open)closeDialog();$('feedback').replaceChildren(el('strong',{text:value.message??'No se pudo completar la acción.'}),p(value.action??'Vuelve a intentarlo.'),el('small',{text:value.code??''}));$('feedback').hidden=false;$('feedback').scrollIntoView({block:'nearest'});}
 function setBusy(value){state.busy=value;document.querySelectorAll('button,input,textarea,select').forEach(n=>{if(!['cancel','close-dialog'].includes(n.id))n.disabled=value;});$('content').setAttribute('aria-busy',String(value));}
 // A transport that fails says so in words a person can act on. Its own message names an internal channel.
@@ -120,18 +124,22 @@ const canonicalProfile=value=>{
 };
 const isEngineeringProfile=id=>profileInfo(id)?.engineering??false;
 let actionOrigin=null;
-async function run(fn){if(state.busy)return;actionOrigin=document.activeElement;$('feedback').hidden=true;notice('');setBusy(true);try{await fn();}catch(e){error(e);}finally{setBusy(false);if(state.focusAfterAction?.isConnected)state.focusAfterAction.focus();state.focusAfterAction=null;}}
+async function run(fn){if(state.busy)return;actionOrigin=document.activeElement;$('feedback').hidden=true;notice('');setBusy(true);try{await fn();await state.renderReady;}catch(e){await state.renderReady?.catch(()=>{});error(e);}finally{setBusy(false);const focus=typeof state.focusAfterAction==='function'?state.focusAfterAction():state.focusAfterAction;if(focus?.isConnected)focus.focus();state.focusAfterAction=null;}}
 // The bar covers the bottom of the window while it sticks there, so the browser is told how much: scroll padding
 // keeps keyboard focus and scrolling from stopping underneath it.
 const barHeight=new ResizeObserver(([entry])=>document.documentElement.style.setProperty('--wizard-footer-height',`${Math.ceil(entry.target.getBoundingClientRect().height)}px`));
 function render(content,_breadcrumb,bar=null){const route=routeFor(state.page,{tab:state.tab});screenState.update(state.page,{visited:true,tab:state.tab});
-  history.replaceState(null,'',state.page==='workspace'?projectHash(state.project.id,state.tab):`#/${state.page}`);
+  const destination=state.page==='workspace'?projectHash(state.project.id,state.tab):`#/${state.page}`;
   const body=el('div',{class:'enter'},content);
   const rail=body.querySelector(':scope > .steps');
   if(rail){const rest=[...body.childNodes].filter(node=>node!==rail);body.replaceChildren(el('div',{class:'wizard-layout'},el('aside',{class:'wizard-rail','aria-label':'Pasos de preparación'},rail),el('div',{class:'wizard-content'},rest)));}
+  activity();
+  state.renderReady=transition(destination,()=>{
+  history.replaceState(null,'',destination);
   $('view').replaceChildren(...[body,bar].filter(Boolean));
+  mountProgress(bar);
   barHeight.disconnect();if(bar)barHeight.observe(bar);else document.documentElement.style.removeProperty('--wizard-footer-height');
-  $('breadcrumb').textContent=route.breadcrumb;$('feedback').hidden=true;setBusy(state.busy);$('nav')?.querySelectorAll('button').forEach(b=>{const active=b.dataset.action===route.nav;b.setAttribute('aria-pressed',String(active));b.classList.toggle('active',active);});const h=$('view').querySelector('h1');h?.focus({preventScroll:true});$('content').scrollTo({top:0});}
+  $('breadcrumb').textContent=route.breadcrumb;$('feedback').hidden=true;setBusy(state.busy);$('nav')?.querySelectorAll('button').forEach(b=>{const active=b.dataset.action===route.nav;b.setAttribute('aria-pressed',String(active));b.classList.toggle('active',active);});const h=$('view').querySelector('h1');h?.focus({preventScroll:true});$('content').scrollTo({top:0});});return state.renderReady;}
 // Inicio: what the application does, how it works, what it downloads and why, what stays here, and the one
 // action that starts. Not a project list — that has its own destination and its own name.
 //

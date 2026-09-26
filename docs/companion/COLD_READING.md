@@ -55,6 +55,25 @@ frío.
 
 ## Estado
 
+### Ampliación de la ola 3 (#149)
+
+Para #149 se necesitan **dos personas diferentes**, ajenas a la aplicación. La regla anterior de una
+persona corresponde al protocolo original de #97, no basta para cerrar #149. Con cada persona, sin
+explicación previa, mostrar Inicio y después el paso 1 «Tu proyecto»:
+
+- Inicio: «¿qué hace esta aplicación?».
+- Paso 1: «¿qué te pide esta pantalla y qué harías ahora?».
+
+Registrar un identificador anónimo de lector, pantalla, pregunta literal, respuesta literal, dudas y
+preguntas previas. El paso 1 se entiende si la respuesta identifica elegir carpeta, nombrar el proyecto
+y escoger su tipo, sin asistencia del evaluador. Conservar también la prueba del control de exportación.
+No registrar nombres, grabaciones ni datos personales sin consentimiento.
+
+El archivo del change de #149 comienza con `status: "pending"` y `readers: []`. No es evidencia positiva.
+Anotar versión/commit y fecha reales al recibir respuestas; si una respuesta revela una ambigüedad,
+corregir la interfaz y repetir con una persona nueva. Una prueba automática o un agente no sustituye
+ninguna de estas dos personas.
+
 Ambos criterios están **sin verificar** desde el 12 de septiembre de 2026, y su causa es esta: requieren una
 persona y nadie la ha hecho todavía. No se sustituyeron por una heurística, por un agente ni por el juicio
 de quien escribió el texto.

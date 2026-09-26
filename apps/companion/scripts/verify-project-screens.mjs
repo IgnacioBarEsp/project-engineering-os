@@ -38,13 +38,22 @@ try{
       if(name==='listProjects'){if(hang)return await new Promise(()=>{});if(hold)await new Promise(resolve=>releaseList=resolve);}
       return {ok:true,value:await service[name](input)};
     }catch(error){return {ok:false,error:publicError(error)};}});
-    await page.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>window.qaCall(name,input??{})]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
-    await page.clock.install({time:new Date('2026-09-26T00:00:00Z')});await page.clock.pauseAt(new Date('2026-09-26T00:00:00Z'));
+    await page.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>{if(name==='listProjects')window.__listAt=Date.now();return window.qaCall(name,input??{});} ]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
+    const listAge=async age=>{
+      for(let count=0;count<100&&await page.evaluate(()=>window.__listAt==null);count++)await page.clock.runFor(20);
+      const elapsed=await page.evaluate(()=>window.__listAt==null?null:Date.now()-window.__listAt);
+      assert.notEqual(elapsed,null,'List transport was not called after rendering');
+      assert.ok(elapsed<=age,'Test clock has already passed the requested boundary');
+      await page.clock.runFor(age-elapsed);
+    };
+    await page.clock.install({time:new Date('2026-09-26T00:00:00Z')});
     await page.goto(`http://127.0.0.1:${server.address().port}`);await page.locator('#nav [data-action="open-project-list"]').waitFor();
     // Virtual renderer clock isolates the precise threshold from disk/IPC timing. Hold IPC until observed.
     hold=true;
     await page.locator('#nav [data-action="open-project-list"]').click();
-    await page.clock.runFor(299);assert.equal(await page.locator('.project-loading').count(),0);
+    await page.waitForFunction(()=>window.__listAt!=null);
+    await page.clock.pauseAt(await page.evaluate(()=>Date.now()));
+    await listAge(299);assert.equal(await page.locator('.project-loading').count(),0);
     await page.clock.runFor(1);assert.equal(await page.locator('.project-loading').count(),3);
     assert.equal(await page.locator('.state-mark').count(),0);
     assert.equal(typeof releaseList,'function');releaseList();
@@ -55,6 +64,7 @@ try{
     await page.clock.resume();
     await page.locator('article.project').filter({has:page.locator('.state-verified')}).first().locator('.card-open').click();
     await page.locator('#project-panel[data-project-tab="overview"]').waitFor();
+    await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
     assert.deepEqual(guideProblems(await page.evaluate(GUIDE)),[]);
     assert.equal(await page.locator('#project-panel h2').first().innerText(),'Qué hacer ahora');
     assert.deepEqual(repeatedActions(await page.evaluate(ACTION_COUNTS)),[]);
@@ -64,6 +74,7 @@ try{
       for(const [tab,key] of [['search','ArrowRight'],['recipes','ArrowRight'],['handoff','End'],['overview','Home']]){
         await page.locator('.project-segments [aria-pressed="true"]').focus();await page.keyboard.press(key);await page.keyboard.press('Enter');
         await page.locator(`#project-panel[data-project-tab="${tab}"]`).waitFor();
+        await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
         assert.equal(await page.locator('.project-segments [aria-pressed="true"]').count(),1);
         assert.equal(await page.locator('#project-panel').count(),1);assert.equal(await page.evaluate(()=>document.activeElement.dataset.projectSegment),tab);
         assert.ok(page.url().endsWith(`/project/${identity}/${tab}`));
@@ -82,8 +93,11 @@ try{
     assert.equal(calls.length,before);assert.equal(await page.locator('#project-panel').getAttribute('data-project-tab'),'overview');
     await page.evaluate(id=>{location.hash=`#/project/${id}/search`;},identity);await page.locator('#project-panel[data-project-tab="search"]').waitFor();
     // Re-entry uses known identities but never stale verdicts. Timeout leaves no endless skeleton.
-    await page.clock.pauseAt(await page.evaluate(()=>Date.now()+100));
-    hang=true;await page.locator('#nav [data-action="open-project-list"]').click();await page.clock.runFor(300);
+    await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
+    hang=true;await page.evaluate(()=>{window.__listAt=null;});
+    await page.locator('#nav [data-action="open-project-list"]').click();
+    await page.waitForFunction(()=>window.__listAt!=null);
+    await page.clock.pauseAt(await page.evaluate(()=>Date.now()));await listAge(300);
     assert.equal(await page.locator('.project-loading').count(),5);assert.equal(await page.locator('.state-mark').count(),0);
     await page.clock.runFor(9700);await page.getByRole('heading',{name:'La lista tardó demasiado en responder.'}).waitFor();
     assert.equal(await page.locator('.project-loading').count(),0);assert.equal(await page.locator('#content').getAttribute('aria-busy'),'false');

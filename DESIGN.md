@@ -100,6 +100,29 @@ status, remote fonts, emoji icons, or network assets. Local SVG icons carry the 
 Long operations report progress and can be cancelled at safe boundaries. Errors explain what was not
 changed and what the person can do next.
 
+### Motion and waiting contract (#149)
+
+The source tokens are `--dur-fast:120ms`, `--dur-base:200ms`, `--dur-slow:280ms` and
+`--ease-out:cubic-bezier(0.23,1,0.32,1)`. No ease-in, duration above 300 ms, persistent transformed
+screen container or idle pulse. Press uses scale(.97); the first eight project rows enter with 40 ms
+stagger (0–280 ms delay, 200 ms duration). Indigo-to-cyan text belongs only to Inicio and the final title.
+Disabled controls retain readable colors, with opacity 1.
+
+Destination and project-segment changes use same-document View Transitions where available, with the
+rail's own stable transition identity. Commit precedes animation completion; controls become interactive
+only after completion or skip, because Chromium snapshots are not the live controls. In reduced-motion
+or unsupported engines, the exact same destination commits immediately without that API. Forms and
+progress do not trigger navigation animation. A stale transition callback cannot replace a newer screen.
+
+Project skeletons appear at 300 ms and become an actionable error at 10 s. Known project names may remain,
+never an old readiness badge. Other indeterminate activity waits 1 s; real completed/total events show
+their actual values immediately. At 10 s, stage text and Detener remain visible. Wizard activity lives in
+the action footer; outside the wizard it is in normal flow, not an overlay.
+
+Success notices are plain-text polite status messages, at most two, for 4 s. Errors remain in an explicit
+panel. A copy control says Copiado for 2 s only after IPC confirms success; a refusal/transport failure
+does not display a success notice. These durations do not replace manual reader evidence.
+
 ## Verification
 
 For every changed screen, run real-browser journeys at 1180, 1024, 768 and 480 px, with ordinary and

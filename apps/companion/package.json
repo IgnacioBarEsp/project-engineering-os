@@ -35,6 +35,8 @@
     "evidence:draft-close": "node scripts/verify-electron-draft.mjs",
     "evidence:preparation": "node scripts/verify-electron-preparation.mjs",
     "evidence:project": "node scripts/verify-project-screens.mjs",
+    "evidence:motion": "node scripts/verify-motion.mjs",
+    "evidence:motion-native": "node scripts/verify-motion.mjs --native",
     "evidence:mutations": "node scripts/verify-service-mutations.mjs",
     "evidence:prompts": "node scripts/verify-prompts.mjs",
     "evidence:stack": "node scripts/verify-stack-install.mjs",

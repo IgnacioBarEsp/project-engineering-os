@@ -36,7 +36,7 @@ export async function showWorkspace(refresh=true,{focusTab=false}={}){
     el('p',{class:'subtle tab-note'},'Cada ',term('receta'),' es un recorrido corto para pedir un resultado concreto y comprobarlo.'),
     el('section',{id:'project-panel','data-project-tab':state.tab,'aria-labelledby':`project-tab-${state.tab}`},content),
   ]);
-  if(focusTab)state.focusAfterAction=document.getElementById(`project-tab-${state.tab}`);
+  if(focusTab)state.focusAfterAction=()=>document.getElementById(`project-tab-${state.tab}`);
 }
 window.addEventListener('hashchange',()=>{
   if(state.page!=='workspace'||state.busy)return;
