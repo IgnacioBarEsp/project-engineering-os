@@ -8,6 +8,7 @@ export const showTerm = (...args) => { if (!registered.showTerm) throw Error('Re
 export const showPrivacy = (...args) => { if (!registered.showPrivacy) throw Error('Renderer not registered: showPrivacy'); return registered.showPrivacy(...args); };
 export const startSetup = (...args) => { if (!registered.startSetup) throw Error('Renderer not registered: startSetup'); return registered.startSetup(...args); };
 export const resumeDraft = (...args) => { if (!registered.resumeDraft) throw Error('Renderer not registered: resumeDraft'); return registered.resumeDraft(...args); };
+export const suspendWizard = (...args) => { if (!registered.suspendWizard) throw Error('Renderer not registered: suspendWizard'); return registered.suspendWizard(...args); };
 export const chooseFromHome = (...args) => { if (!registered.chooseFromHome) throw Error('Renderer not registered: chooseFromHome'); return registered.chooseFromHome(...args); };
 export const startFromDuplicate = (...args) => { if (!registered.startFromDuplicate) throw Error('Renderer not registered: startFromDuplicate'); return registered.startFromDuplicate(...args); };
 export const changes = (...args) => { if (!registered.changes) throw Error('Renderer not registered: changes'); return registered.changes(...args); };
