@@ -15,6 +15,8 @@ No es aceptación visual del mantenedor ni lectura en frío.
   cambio (seis defaults coincidían). Ahora todas las celdas tienen exactamente las recetas de la
   selección completa y conservan la fuente original. El consumidor durable ya no pasa solo el perfil.
 - Companion npm test: 187/187 PASS en esta rama. Incluye 32 subcasos de recetas y su test padre.
+- Repositorio npm run check: 391/391 PASS; también pasan contratos, neutralidad, documentación,
+  workflows, deuda y doctor del OpenSpec fijado.
 - OpenSpec local fijado 1.6.0: strict PASS antes de aplicar la corrección.
 
 ## Reproducción
