@@ -21,3 +21,9 @@
 - [x] 4.1 Ampliar harness a seis perfiles y ambas vías; comprobar ida/vuelta, borrador, rutas, 1180×820/1024×700, movimiento y controles.
 - [x] 4.2 Ejecutar suites Companion, UI, contrato de mutaciones, raíz y OpenSpec strict.
 - [x] 4.3 Registrar revisión adversarial propia, deuda, rollback y gates humanos reales; preparar PR borrador sin atribuir aprobación.
+
+## 5. Correcciones de revisión independiente (2026-09-27)
+
+- [x] 5.1 R1: guardar/suspender el borrador antes de abrir otro proyecto y restaurar su carpeta/respuestas al volver; cierre y fallo de guardado no deben sustituirlo.
+- [x] 5.2 R4: elegir/cambiar carpeta conserva perfil, enfoque y tecnologías explícitos; la recomendación solo orienta.
+- [ ] 5.3 Ejecutar regresiones en ambos modos de movimiento, propagar a los PRs dependientes y registrar revisión del SHA corregido sin simular aceptación humana.

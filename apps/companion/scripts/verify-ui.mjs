@@ -10,6 +10,8 @@ import {ASSETS, CSP} from '../desktop/assets.mjs';
 import {routeFor} from '../ui/lib/router.mjs';
 import {QUALITY} from './interface-contract.mjs';
 import {verifyRouteCoverage} from './verify-route-coverage.mjs';
+import {verifyProfileCompatibility} from './verify-profile-compatibility.mjs';
+import {verifyWizardIsolation} from './verify-wizard-isolation.mjs';
 import { zipSync, strToU8 } from 'fflate';
 import * as core from 'create-project-engineering-os';
 import { createDesktopService, publicError } from '../desktop/service.mjs';
@@ -663,3 +665,5 @@ finally{await browser?.close();await new Promise(r=>server.close(r));assert(path
 
 const routeReport=await verifyRouteCoverage(path.join(output,'declared-routes'));
 console.log(JSON.stringify({declaredRoutes:routeReport.routes,routeCells:routeReport.cells,negativeControls:routeReport.negatives.length}));
+await verifyProfileCompatibility(path.join(output,'profile-compatibility'));
+await verifyWizardIsolation(path.join(output,'wizard-isolation'));

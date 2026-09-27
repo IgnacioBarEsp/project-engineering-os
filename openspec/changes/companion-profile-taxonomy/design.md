@@ -22,6 +22,15 @@ Servicio y preparación derivan etapas/capacidades del par resuelto; prompts y r
 
 ## Verification strategy
 
+### Corrección de revisión independiente — 2026-09-27
+
+R2 y R3 incumplen los contratos ya aprobados, no amplían producto. Al abrir un proyecto se reemplaza
+la selección del renderer por una copia de la selección de ese proyecto, resuelta con el catálogo del
+servicio; no se mezcla con respuestas anteriores. Las etiquetas de revisión usan esa resolución.
+Los recibos y el historial siguen sin migrarse por leer. El generador de RECIPES.md recibe la selección
+completa, igual que la pantalla Recetas. La regresión cubre archivos escritos para todos los enfoques
+y navegación real de selecciones históricas sin foco, hasta el plan sin aplicar.
+
 | Límite | Prueba |
 | --- | --- |
 | Taxonomía | Matriz de seis perfiles × enfoques: ids únicos, pertenencia cerrada, etiquetas/descripciones breves, etapas y diferencias de receta/setup/method dentro de cada perfil. |

@@ -22,3 +22,9 @@
 - [x] 4.3 Completar TLDR, baseline, readiness y OpenSpec strict sin Blockers/Majors.
 
 Después de esas tareas: gate de archive, archivo por CLI oficial, DCO y PR protegido. La revisión propia de 4.2 no es independiente: `readiness.json` mantiene pendientes la revisión ajena y lectura visual del mantenedor, y #144 sigue como dependencia. No se archiva ni fusiona hasta que esos gates se resuelvan.
+
+## 5. Correcciones de revisión independiente (2026-09-27)
+
+- [x] 5.1 R2: abrir/revisar selecciones históricas desde sus propios datos, sin foco global heredado ni lookup de etiqueta no canónica; comprobar recibos sin mutación antes de aprobar.
+- [x] 5.2 R3: pasar la selección completa al archivo durable de recetas y probar todos los enfoques.
+- [ ] 5.3 Registrar pruebas, revisión independiente del SHA corregido y assessment de deuda, conservando los gates humanos.
