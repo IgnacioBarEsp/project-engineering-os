@@ -115,7 +115,9 @@ async function loadProfiles(){
 const profileInfo=id=>state.profileCatalog?.profiles.find(item=>item.id===(state.profileCatalog?.legacyProfiles[id]?.profile??id));
 const canonicalProfile=value=>{
   const prior=state.profileCatalog?.legacyProfiles[value.profile];
-  return {profile:prior?.profile??value.profile,focus:value.focus??prior?.focus??profileInfo(value.profile)?.defaultFocus};
+  const info=profileInfo(value.profile),named=value.focus??value.subtype;
+  const owned=info?.focuses.find(item=>item.id===named||item.label===named);
+  return {profile:prior?.profile??value.profile,focus:owned?.id??value.focus??prior?.focus??info?.defaultFocus};
 };
 const isEngineeringProfile=id=>profileInfo(id)?.engineering??false;
 let actionOrigin=null;
