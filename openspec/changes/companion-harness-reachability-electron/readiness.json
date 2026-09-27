@@ -97,9 +97,9 @@
     {
       "id": "adversarial-review",
       "kind": "manual",
-      "status": "pending",
-      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/adversarial-review.md",
-      "justification": "Autorrevisión no sustituye informe independiente.",
+      "status": "verified",
+      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-recheck.md",
+      "justification": null,
       "profileCondition": null
     },
     {
@@ -150,8 +150,8 @@
     "justification": null
   },
   "adversarialReview": {
-    "status": "pending",
-    "ref": "openspec/changes/companion-harness-reachability-electron/evidence/adversarial-review.md",
+    "status": "passed",
+    "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-recheck.md",
     "blockers": 0,
     "majors": 0
   },

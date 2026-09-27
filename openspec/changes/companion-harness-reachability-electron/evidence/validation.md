@@ -1,5 +1,11 @@
 # Validación técnica #150
 
+Actualización 2026-09-27: [correcciones R1–R4 y reprueba completa](review-fixes-validation.md),
+[informe independiente favorable](independent-recheck.md). Esta actualización no cambia el
+resultado histórico de abajo ni acredita aceptación humana.
+
+## Ejecución inicial
+
 Fecha local 2026-09-26 (artefactos UTC 2026-09-27). Node 24.18.0, Electron 44.1.1.
 Worktree aislado codex/150-harness-electron sobre #149. Sin modificación de la instalación o proyectos del usuario.
 
@@ -51,6 +57,7 @@ CI adjunta companion-browser-evidence y companion-electron-evidence; el segundo 
 
 ## Cierre
 
-Revisión independiente y aceptación humana: pendientes. No archivar, fusionar ni cerrar #150 sin ellas.
+Estado inicial: revisión independiente y aceptación humana pendientes. La revisión independiente
+posterior está enlazada arriba; la aceptación humana sigue pendiente. No archivar, fusionar ni cerrar #150 sin ella.
 #149 también conserva dos lectores humanos pendientes. La ola 4 no se ha iniciado.
 Rollback: revertir este PR; las correcciones son de CSS y pruebas/CI, sin migración de datos.

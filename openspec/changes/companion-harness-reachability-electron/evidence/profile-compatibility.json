@@ -1,0 +1,230 @@
+{
+  "scope": "Historical persisted selections with real renderer/service; native boundary injected; no plan applied.",
+  "cases": [
+    {
+      "legacy": {
+        "profile": "science"
+      },
+      "motion": "no-preference",
+      "profile": "research",
+      "focus": "open",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "docs"
+      },
+      "motion": "no-preference",
+      "profile": "content",
+      "focus": "technical",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "mvp"
+      },
+      "motion": "no-preference",
+      "profile": "software",
+      "focus": "prototype",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "automation"
+      },
+      "motion": "no-preference",
+      "profile": "software",
+      "focus": "automation",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "unity"
+      },
+      "motion": "no-preference",
+      "profile": "software",
+      "focus": "game",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "media"
+      },
+      "motion": "no-preference",
+      "profile": "content",
+      "focus": "creative",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "general"
+      },
+      "motion": "no-preference",
+      "profile": "personal",
+      "focus": "open",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "software"
+      },
+      "motion": "no-preference",
+      "profile": "software",
+      "focus": "open",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "research"
+      },
+      "motion": "no-preference",
+      "profile": "research",
+      "focus": "open",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "software",
+        "subtype": "Aplicación móvil"
+      },
+      "motion": "no-preference",
+      "profile": "software",
+      "focus": "mobile",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "research",
+        "focus": "paper"
+      },
+      "motion": "no-preference",
+      "profile": "research",
+      "focus": "paper",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "science"
+      },
+      "motion": "reduce",
+      "profile": "research",
+      "focus": "open",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "docs"
+      },
+      "motion": "reduce",
+      "profile": "content",
+      "focus": "technical",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "mvp"
+      },
+      "motion": "reduce",
+      "profile": "software",
+      "focus": "prototype",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "automation"
+      },
+      "motion": "reduce",
+      "profile": "software",
+      "focus": "automation",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "unity"
+      },
+      "motion": "reduce",
+      "profile": "software",
+      "focus": "game",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "media"
+      },
+      "motion": "reduce",
+      "profile": "content",
+      "focus": "creative",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "general"
+      },
+      "motion": "reduce",
+      "profile": "personal",
+      "focus": "open",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "software"
+      },
+      "motion": "reduce",
+      "profile": "software",
+      "focus": "open",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "research"
+      },
+      "motion": "reduce",
+      "profile": "research",
+      "focus": "open",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "software",
+        "subtype": "Aplicación móvil"
+      },
+      "motion": "reduce",
+      "profile": "software",
+      "focus": "mobile",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    },
+    {
+      "legacy": {
+        "profile": "research",
+        "focus": "paper"
+      },
+      "motion": "reduce",
+      "profile": "research",
+      "focus": "paper",
+      "reviewedFiles": 5,
+      "bytesPreserved": 4
+    }
+  ],
+  "completed": true
+}

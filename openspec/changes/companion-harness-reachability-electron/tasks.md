@@ -11,4 +11,5 @@
 ## 3. Verification and handoff
 - [x] 3.1 Execute suites, own adversarial review and debt assessment; document independent protocol.
 - [ ] 3.2 Complete protected PR integration after parent PRs, revalidate CI on its final base and record remaining gates (initial draft/CI status lives in the linked PR).
-- [ ] 3.3 Obtain actual independent review and human acceptance before archive/merge; stop before Wave 4.
+- [x] 3.3 Obtain actual independent review of the integrated fixes; preserve reviewer identity, original FAIL, exact SHAs and test-scope limits.
+- [ ] 3.4 Obtain human acceptance before archive/merge, including the two real cold readers of #149; stop before Wave 4.

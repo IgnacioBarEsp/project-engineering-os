@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-27",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Revalidación acumulada de R1–R4: 215 pruebas Companion, 391 raíz, 22 históricos, 10 de aislamiento, matriz y contrato pasan. Se corrigió una expectativa del harness sobre environment:null sin relajar la condición de pendientes ni aceptar otros errores. Sin nueva deuda ni dependencias; CI final, aceptación humana e integración protegida conservan su estado separado.",
+  "flow": "companion-wave3-independent-fixes"
+}

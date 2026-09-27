@@ -1,8 +1,8 @@
 {
   "counts": {
     "EXCEPTION": 0,
-    "FAIL": 4,
-    "PASS": 12
+    "FAIL": 2,
+    "PASS": 14
   },
   "mutationPerformed": false,
   "ok": false,
@@ -49,7 +49,7 @@
     {
       "cause": "Persisten 2 tareas pendientes.",
       "evidence": {
-        "completed": 7,
+        "completed": 8,
         "pending": 2
       },
       "id": "change.tasks",
@@ -135,7 +135,7 @@
       "summary": "missing=-; unknown=-; duplicate=-; pending/invalid=visual-check-when-configured."
     },
     {
-      "cause": "missing=-; duplicate=-; pending/invalid=adversarial-review.",
+      "cause": "Evidencia automática/manual proporcional está verificada.",
       "evidence": {
         "required": [
           "adversarial-review",
@@ -148,9 +148,9 @@
         ]
       },
       "id": "readiness.evidence",
-      "remediation": "Registra refs verificables por perfil; la evidencia de una superficie activa no admite excepción.",
-      "status": "FAIL",
-      "summary": "missing=-; duplicate=-; pending/invalid=adversarial-review."
+      "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+      "status": "PASS",
+      "summary": "Evidencia automática/manual proporcional está verificada."
     },
     {
       "cause": "Rollback verificado con estrategia y evidencia.",
@@ -161,12 +161,12 @@
       "summary": "Rollback verificado con estrategia y evidencia."
     },
     {
-      "cause": "La revisión adversarial falta, falló o conserva Blockers/Majors.",
+      "cause": "Revisión adversarial independiente sin Blockers ni Majors.",
       "evidence": {},
       "id": "readiness.adversarial-review",
-      "remediation": "Ejecuta revisión desde contexto limpio, corrige Blockers/Majors y registra el ref.",
-      "status": "FAIL",
-      "summary": "La revisión adversarial falta, falló o conserva Blockers/Majors."
+      "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+      "status": "PASS",
+      "summary": "Revisión adversarial independiente sin Blockers ni Majors."
     },
     {
       "cause": "Assessment de 'companion-harness-reachability-electron' presente y valido (resultado: clean).",
