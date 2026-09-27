@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "date": "2026-09-27",
-  "kind": "remediation",
+  "date": "2026-09-25",
+  "kind": "feature",
   "result": "clean",
   "candidates": [],
-  "notes": "Correcciones R2/R3 de revisión independiente: selección histórica aislada sin migrar bytes y recetas durables por enfoque, con regresiones antes/después. Sin nuevas dependencias ni cambios al núcleo. La revisión del SHA corregido y la aceptación visual siguen pendientes; no se transforman en deuda ni se declaran aprobadas.",
+  "notes": "Sin dependencias, servicios ni cambios en el núcleo neutral. Los recibos 0.3.x se leen sin mutar. El flujo paralelo de pantallas ya estaba registrado en #146 y no se presenta como deuda introducida por #145. La revisión humana e independiente son gates abiertos separados, no evidencia de pase.",
   "flow": "companion-profile-taxonomy"
 }
