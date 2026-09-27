@@ -1,5 +1,19 @@
 # Validación #147
 
+## Revalidación de integración — 2026-09-27
+
+La corrección R4 conserva el perfil Software al elegir carpeta. El recorrido general del harness
+(environment:null) dependía del reemplazo implícito anterior y ahora alcanzó correctamente la etapa
+nativa no disponible. Se reprodujo en Windows y CI Linux sobre los heads corregidos.
+El caller de finishPreparation se ajusta al ámbito declarado de este fixture: solo admite la
+indisponibilidad de environment con su mensaje específico, exige que quick haya pasado por ella
+(la vía IA no), y comprueba que environment no sea ready y que la pantalla muestre pendientes.
+No se cambia el motor, el renderer ni el helper que rechaza cualquier otro fallo. Se repetirá la
+suite general; la matriz separada de 72 recorridos ya pasó sobre los bytes de producto corregidos.
+Evidencia inicial: actions/runs/36337062234/job/108669817724. No se declara todavía PASS de reprueba.
+
+## Evidencia inicial
+
 2026-09-26. Worktree aislado, proyectos temporales, sin release ni cambios a proyectos del usuario.
 
 | Prueba | Resultado |

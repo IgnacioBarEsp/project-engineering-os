@@ -288,8 +288,16 @@ async function walkWizard(width,height,motion,branch){
     await page.locator(`input[name="install-mode"][value="${branch}"]`).check();await settle(page);
     await measure('install');
     if(!await press(INSTALL[branch],'install'))return;
-    await finishPreparation(page,{measure:async id=>{if(id==='context')await measure('context');}});
+    // This renderer fixture deliberately has environment:null. The chosen/default
+    // Software profile must survive folder selection, so quick mode reaches the
+    // unavailable native stage instead of silently becoming a personal project.
+    const preparationStages=await finishPreparation(page,{allowUnavailable:true,
+      measure:async id=>{if(id==='context')await measure('context');}});
+    assert.equal(preparationStages.includes('environment-unavailable'),branch==='quick');
     if(!await reached('Resultado de la preparación','install'))return;
+    const report=await page.evaluate(async()=>(await import('/lib/core.mjs')).state.preparationResult.report);
+    assert.ok(report.stages.some(item=>item.id==='environment'&&item.state!=='ready'));
+    assert.equal(await page.getByRole('heading',{name:'Qué queda pendiente',exact:true}).count(),1);
     await measure('finished');
     // The vision keeps its paragraphs in the folder, and the objective the preparation recorded is one line.
     const written=await readFile(path.join(root,'PROJECT_VISION.md'),'utf8').catch(()=>'');
