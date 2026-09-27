@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-27",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Correcciones R2/R3 de revisión independiente: selección histórica aislada sin migrar bytes y recetas durables por enfoque, con regresiones antes/después. Sin nuevas dependencias ni cambios al núcleo. La revisión del SHA corregido y la aceptación visual siguen pendientes; no se transforman en deuda ni se declaran aprobadas.",
+  "flow": "companion-profile-taxonomy-review-fixes"
+}

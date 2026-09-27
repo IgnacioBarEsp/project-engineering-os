@@ -11,6 +11,7 @@ import {createPreparationEngine, renderProjectVision} from '../engine/preparatio
 import {createDesktopService} from '../desktop/service.mjs';
 import {composePrompt} from '../context/prompts.mjs';
 import {recipesFor} from '../context/recipes.mjs';
+import {createContextEngine} from '../context/engine.mjs';
 import {PROFILES, PROFILE_IDS, READABLE_PROFILE_IDS, resolveProfile, profileLabel, focusLabel,
   requiredStages, isEngineering, offeredStacks} from '../engine/profiles.mjs';
 
@@ -61,6 +62,23 @@ test('historical ids resolve without editing input and retain special Unity/medi
   assert.deepEqual(offeredStacks('unity'),[]);
   assert.equal(isEngineering('media'),false);
   assert.throws(()=>resolveProfile('unknown'),/Perfil desconocido/);
+});
+
+test('written recipes retain every selected focus, not only the profile default',async t=>{
+  for(const profile of PROFILE_IDS)for(const focus of PROFILES[profile].focuses){
+    await t.test(profile+'/'+focus.id,async t=>{
+      const parent=await realpath(tmpdir()),root=await realpath(await mkdtemp(path.join(parent,'peos-focus-recipes-')));
+      t.after(async()=>{assert.equal(path.dirname(root),parent);assert.ok(path.basename(root).startsWith('peos-focus-recipes-'));await rm(root,{recursive:true,force:true});});
+      await writeFile(path.join(root,'notes.txt'),'Source preserved across preparation.');
+      const chosen={name:'Focus recipes',goal:'Verify durable context',profile,focus:focus.id,agents:['web']};
+      const base=createPreparationEngine();await base.apply((await base.plan(root,chosen)).id);
+      const context=createContextEngine();await context.apply((await context.plan(root)).id);
+      const text=await readFile(path.join(root,'.project-os/companion/context/RECIPES.md'),'utf8');
+      const ids=[...text.matchAll(/^ID: (.+)$/gm)].map(match=>match[1]);
+      assert.deepEqual(ids,recipesFor(chosen).map(recipe=>recipe.id));
+      assert.equal(await readFile(path.join(root,'notes.txt'),'utf8'),'Source preserved across preparation.');
+    });
+  }
 });
 
 test('measured folder signals recommend a canonical profile and owned focus',async t=>{
