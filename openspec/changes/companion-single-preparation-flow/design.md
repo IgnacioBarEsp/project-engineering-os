@@ -20,6 +20,20 @@ El renderer modular de #144 ya separa rutas y pantallas; #145 provee seis perfil
 
 ## Risks / Trade-offs
 
+### Corrección de revisión independiente — 2026-09-27
+
+R1: antes de que Abrir proyecto cambie la selección compartida, el asistente vacía su debounce/cola
+y conserva una instantánea separada de paso, carpeta y respuestas para reanudar. Solo después de
+guardar correctamente se suspende el asistente; un error impide cambiar al otro proyecto. Cerrar
+mientras se consulta otro proyecto no guarda esa selección encima del borrador. Volver al paso 4
+genera un nuevo plan para la carpeta del borrador, no reutiliza el del proyecto consultado.
+
+R4: el selector de carpeta dentro del asistente solo cambia la carpeta y, si estaba vacío, su nombre.
+No reasigna perfil/enfoque/stack. La entrada inicial Abrir carpeta existente, cuando no hay respuestas
+previas y la carpeta no está preparada, puede ofrecer la recomendación inicial como ya se especificó.
+Las regresiones recorren cambio de proyecto, cierre/reapertura y cambios de carpeta con respuestas,
+en ambos modos de movimiento, sin escribir en proyectos personales.
+
 - Borrador corrupto o apuntando a otra carpeta → validación estricta, tamaño límite, no aplicar ni borrar automáticamente, error accionable.
 - Interrupción durante escritura del borrador → lock y writeChecked; el último borrador íntegro es el único que se ofrece.
 - Ruta elegida mientras el usuario vuelve de paso 4 → invalidate plan, preview nuevo; `applyBase` vuelve a comprobar hash y carpeta.

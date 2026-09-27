@@ -12,6 +12,13 @@ function persist(){
 }
 function schedulePersist(){clearTimeout(saveTimer);saveTimer=setTimeout(()=>{void persist().catch(error);},150);}
 async function flushPersist(){clearTimeout(saveTimer);await persist();}
+async function suspendWizard(){
+  if(!state.wizardActive)return;
+  // Save A before opening B. A failed save must leave A active and retryable.
+  await flushPersist();
+  state.resumeDraft={...draft(),project:structuredClone(state.project)};
+  state.wizardActive=false;
+}
 async function beforeClose(){
   try{await flushPersist();return true;}catch(failure){error(failure);return false;}
 }
@@ -48,7 +55,7 @@ async function beginWithFolder(chosen,{answers=null}={}){
 async function chooseFromHome(){
   const chosen=await call('chooseFolder');if(!chosen)return;
   const known=(await call('listProjects')).find(item=>item.root===chosen.root&&item.selection);
-  if(known){state.wizardActive=false;await openProject(known.id);return;}
+  if(known){await openProject(known.id);return;}
   await beginWithFolder(chosen);
 }
 async function startFromDuplicate(project){
@@ -88,9 +95,7 @@ function showProject(){
     btn(chosen?'Cambiar carpeta':'Elegir carpeta',async()=>{
       const result=await call('chooseFolder');if(!result)return;state.project=result;
       if(!s.name.trim())s.name=result.name.slice(0,100);
-      const recommendation=result.inspection?.recommendation;
-      if(profiles[recommendation]){s.profile=recommendation;s.focus=profileInfo(recommendation).focuses.some(item=>item.id===result.inspection?.focusRecommendation)
-        ?result.inspection.focusRecommendation:profileInfo(recommendation).defaultFocus;s.stack={decision:'too-early',requested:[]};}
+      // The inspection is guidance above, not permission to replace explicit answers.
       await flushPersist();showProject();},'secondary'));
   const form=el('form',{id:'wizard-project-form',onSubmit:event=>{event.preventDefault();void run(async()=>{
     if(!s.name.trim())throw {message:'Ponle un nombre al proyecto.',action:'Escribe un nombre corto para reconocerlo.'};
@@ -232,4 +237,4 @@ function showFinished(){
     actions(doBtn('open-workspace','primary'),doBtn('open-project-list'))],null);
 }
 
-export {startSetup,resumeDraft,chooseFromHome,startFromDuplicate,showWizard,showProject,showFocus,showVision,showPrepare,showFinished,beforeClose};
+export {startSetup,resumeDraft,suspendWizard,chooseFromHome,startFromDuplicate,showWizard,showProject,showFocus,showVision,showPrepare,showFinished,beforeClose};
