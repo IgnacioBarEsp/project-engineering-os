@@ -175,7 +175,7 @@ export function createContextEngine() {
       const canonical = await canonicalRouting(root), routes = selectedRoutes(selection, canonical);
       if (previous.value && previous.value.canonicalRouting !== canonical) fail('ROUTE_STRATEGY_CHANGED', 'La preparación de ingeniería cambió la propiedad de las instrucciones.', 'Deshaz las rutas anteriores antes de adoptar el entorno de ingeniería.');
       const localTools = await activatedLocalTools(root);
-      const contents = { [INDEX]: json(index), [`${DIR}/MAP.md`]: renderMap(index, selection, localTools), [`${DIR}/RECIPES.md`]: renderRecipes(selection.profile) };
+      const contents = { [INDEX]: json(index), [`${DIR}/MAP.md`]: renderMap(index, selection, localTools), [`${DIR}/RECIPES.md`]: renderRecipes(selection) };
       for (const relative of ROUTE_PATHS) {
         const existing = states[relative].content?.toString('utf8') ?? null;
         // Mirrored blocks belong to the constructor, including a block copied by its last sync.

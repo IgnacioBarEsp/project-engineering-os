@@ -1,6 +1,9 @@
-import { $, profiles, isEngineeringProfile, agents, onDate, state, el, p, btn, doBtn, own, ownHeading, actions, panel, term, field, input, select, steps, notice, error, call, run, render, openDialog, closeDialog} from '../lib/core.mjs';
+import { $, profiles, canonicalProfile, isEngineeringProfile, agents, onDate, state, el, p, btn, doBtn, own, ownHeading, actions, panel, term, field, input, select, steps, notice, error, call, run, render, openDialog, closeDialog} from '../lib/core.mjs';
 import {showProjects, stackPanel} from '../lib/bridge.mjs';
-async function openProject(id){state.status=await call('openProject',{id});state.project=state.status.project;state.selection={...state.selection,...state.project.selection};state.tab='overview';await showWorkspace(false);}
+async function openProject(id){state.status=await call('openProject',{id});state.project=state.status.project;
+  // Resolve this project's answers only. Merging global answers leaks another project's focus.
+  const saved=structuredClone(state.project.selection??{});
+  state.selection={...saved,...canonicalProfile(saved)};state.tab='overview';await showWorkspace(false);}
 async function forget(project){openDialog('Quitar de la lista',[
   el('p',{},'Se quita ',own(project.name),' de esta lista. Los archivos de la carpeta se quedan donde están.'),actions(btn('Conservar',async()=>closeDialog()),btn('Quitar de la lista',async()=>{await call('forgetProject',{id:project.id});closeDialog();await showProjects();},'danger'))]);}
 function statusCard(title,done,detail){const label=done==='not-requested'?'No aplica':done?'Preparado':'Por revisar';return el('article',{class:'status-card'},el('span',{class:'status-icon','aria-hidden':true,text:done==='not-requested'?'—':done?'✓':'○'}),el('h2',{text:`${title} · ${label}`}),p(detail));}

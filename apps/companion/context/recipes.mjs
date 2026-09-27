@@ -22,7 +22,7 @@ export function recipesFor(selection) {
     ...chosen.recipes.map((entry,index)=>materialize(`${profile}-${focus}-${index}`,entry))]);
 }
 
-export function renderRecipes(profile) {
-  return '# Recetas para este proyecto\n\nEl presupuesto es un máximo de bytes de contexto, no una medición de tokens.\n\n' + recipesFor(profile).map(r =>
+export function renderRecipes(selection) {
+  return '# Recetas para este proyecto\n\nEl presupuesto es un máximo de bytes de contexto, no una medición de tokens.\n\n' + recipesFor(selection).map(r =>
     `## ${r.title}\n\nID: ${r.id}\n\nEntradas: ${r.inputs.join('; ')}.\n\n${r.steps.map((s,i)=>`${i+1}. ${s}`).join('\n')}\n\nSalidas: ${r.outputs.join('; ')}.\n\nValidación:\n${r.validation.map(s=>`- ${s}`).join('\n')}\n\nPresupuesto inicial: ${r.budget.contextBytes} bytes; hasta ${r.budget.attempts} intentos antes de replantear.\n${r.stop}\n`).join('\n');
 }
