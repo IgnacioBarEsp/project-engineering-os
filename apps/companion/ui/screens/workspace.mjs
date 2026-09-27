@@ -1,5 +1,5 @@
 import {profiles,canonicalProfile,state,el,p,btn,doBtn,own,ownHeading,actions,term,call,run,render,openDialog,closeDialog} from '../lib/core.mjs';
-import {showProjects} from '../lib/bridge.mjs';
+import {showProjects,suspendWizard} from '../lib/bridge.mjs';
 import {overviewView} from './project-overview.mjs';
 import {filesView} from './project-files.mjs';
 import {recipesView} from './project-recipes.mjs';
@@ -7,7 +7,10 @@ import {handoffView} from './project-ai.mjs';
 import {currentVerdict} from '../components/project-verdict.mjs';
 import {projectSegments} from '../components/project-segments.mjs';
 import {parseProjectHash} from '../lib/project-route.mjs';
-async function openProject(id){state.status=await call('openProject',{id});state.project=state.status.project;state.selection={...state.selection,...state.project.selection};state.tab='overview';await showWorkspace(false);}
+async function openProject(id){await suspendWizard();state.status=await call('openProject',{id});state.project=state.status.project;
+  // Resolve this project's answers only. Merging global answers leaks another project's focus.
+  const saved=structuredClone(state.project.selection??{});
+  state.selection={...saved,...canonicalProfile(saved)};state.tab='overview';await showWorkspace(false);}
 async function forget(project){openDialog('Quitar de la lista',[
   el('p',{},'Se quita ',own(project.name),' de esta lista. Los archivos de la carpeta se quedan donde están.'),actions(btn('Conservar',async()=>closeDialog()),btn('Quitar de la lista',async()=>{await call('forgetProject',{id:project.id});closeDialog();await showProjects();},'danger'))]);}
 

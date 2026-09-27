@@ -8,6 +8,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import {ASSETS, CSP} from '../desktop/assets.mjs';
 import {routeFor} from '../ui/lib/router.mjs';
+import {verifyProfileCompatibility} from './verify-profile-compatibility.mjs';
+import {verifyWizardIsolation} from './verify-wizard-isolation.mjs';
 import { zipSync, strToU8 } from 'fflate';
 import * as core from 'create-project-engineering-os';
 import { createDesktopService, publicError } from '../desktop/service.mjs';
@@ -649,3 +651,5 @@ try {
   await writeFile(path.join(output,'browser-evidence.json'),JSON.stringify(evidence,null,2)+'\n');console.log(JSON.stringify(evidence,null,2));
 }catch(error){if(browser){const pages=browser.contexts().flatMap(c=>c.pages());if(pages.length){await capture(pages.at(-1),'failure');console.error((await pages.at(-1).locator('body').innerText()).slice(-6000));}}throw error;}
 finally{await browser?.close();await new Promise(r=>server.close(r));assert(path.dirname(temp)===await realpath(tmpdir())&&path.basename(temp).startsWith('peos-desktop-ui-'));await rm(temp,{recursive:true,force:true});}
+await verifyProfileCompatibility(path.join(output,'profile-compatibility'));
+await verifyWizardIsolation(path.join(output,'wizard-isolation'));

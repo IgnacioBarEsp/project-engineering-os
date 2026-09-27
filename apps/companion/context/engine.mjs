@@ -188,7 +188,7 @@ export function createContextEngine() {
       if ((previous.value?.version===1?previous.value.canonicalRouting:previous.value?.corePresent) && !corePresent)
         fail('ROUTE_STRATEGY_CHANGED', 'Se retiró la preparación de ingeniería.', 'Recupera sus instrucciones antes de preparar el contexto.');
       const localTools = await activatedLocalTools(root);
-      const contents = { [INDEX]: json(index), [`${DIR}/MAP.md`]: renderMap(index, selection, localTools), [`${DIR}/RECIPES.md`]: renderRecipes(selection.profile) };
+      const contents = { [INDEX]: json(index), [`${DIR}/MAP.md`]: renderMap(index, selection, localTools), [`${DIR}/RECIPES.md`]: renderRecipes(selection) };
       for (const relative of ROUTE_PATHS) {
         const existing = states[relative].content?.toString('utf8') ?? null;
         // Mirrored blocks belong to the constructor, including a block copied by its last sync.
