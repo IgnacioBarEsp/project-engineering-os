@@ -8,6 +8,11 @@ import * as core from 'create-project-engineering-os';
 import {ASSETS,CSP} from '../desktop/assets.mjs';
 import {createDesktopService,publicError} from '../desktop/service.mjs';
 import {finishPreparation} from './wizard-journey.mjs';
+import {QUALITY,assertCoverage} from './quality-probes.mjs';
+import {REACH,INTERACTIVE,reachProblems} from './interface-contract.mjs';
+import {routeFor} from '../ui/lib/router.mjs';
+import {PROFILE_IDS,PROFILES} from '../engine/profiles.mjs';
+const WINDOWS=[[1180,820],[1024,700],[480,540]],MOTIONS=['no-preference','reduce'];
 
 const pw=await import(process.env.PROJECT_OS_PLAYWRIGHT_MODULE?pathToFileURL(process.env.PROJECT_OS_PLAYWRIGHT_MODULE).href:'playwright');
 const {chromium}=pw.default??pw;
@@ -24,13 +29,15 @@ const url=`http://127.0.0.1:${server.address().port}`;
 const temp=await realpath(await mkdtemp(path.join(tmpdir(),'peos-wizard-flow-')));
 const browser=await chromium.launch({...(process.platform==='win32'?{channel:'msedge'}:{}),headless:true});
 const results=[];
-async function journey(profile,focus,route){
-  const root=path.join(temp,`${profile}-${route}`),dataRoot=path.join(temp,`${profile}-${route}-data`);
+const output=process.argv[2]??path.join(tmpdir(),'project-os-closeout','companion-ui');
+await mkdir(output,{recursive:true});
+async function journey(profile,focus,route,motion,width,height){
+  const root=path.join(temp,`${profile}-${route}-${motion}-${width}`),dataRoot=path.join(temp,`${profile}-${route}-${motion}-${width}-data`);
   await mkdir(root);await writeFile(path.join(root,'notes.txt'),'A source document.');
   const copied=[],serviceOptions={dataRoot,core,chooseFolder:async()=>root,copyText:async text=>copied.push(text),openExternal:async()=>{}};
   let service=await createDesktopService(serviceOptions);
-  const viewport=route==='quick'?{width:1180,height:820}:{width:1024,height:700};
-  const context=await browser.newContext({viewport,reducedMotion:route==='quick'?'reduce':'no-preference'});
+  const viewport={width,height};
+  const context=await browser.newContext({viewport,reducedMotion:motion});
   const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
   await page.exposeFunction('qaCall',async(name,input)=>{
     if(!Object.hasOwn(service,name))return {ok:false,error:{message:`Unknown ${name}`}};
@@ -38,7 +45,19 @@ async function journey(profile,focus,route){
   });
   await page.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>window.qaCall(name,input??{})]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
   const button=name=>page.getByRole('button',{name,exact:true});
-  const heading=name=>page.getByRole('heading',{name,exact:true}).waitFor();
+  const screens=[];
+  const measure=async()=>{
+    await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
+    await page.evaluate(()=>Promise.all(document.getAnimations().map(a=>a.finished.catch(()=>{}))));
+    const current=await page.evaluate(async()=>{const {state}=await import('/lib/core.mjs');return {page:state.page,tab:state.tab};});
+    const expected=routeFor(current.page,current);
+    if(current.page==='delimitation')expected.focuses=PROFILES[profile].focuses.map(item=>item.id);
+    const quality=await page.evaluate(QUALITY,expected),reach=await page.evaluate(REACH,INTERACTIVE);
+    assert.deepEqual(quality.issues,[],JSON.stringify({profile,route,motion,width,page:current.page,quality}));
+    assert.deepEqual(reachProblems(reach),[]);
+    screens.push({page:current.page,quality,controls:reach.controls.length});
+  };
+  const heading=async name=>{await page.getByRole('heading',{name,exact:true}).waitFor();await measure();};
   try{
     await page.goto(url);await heading('Dale a tu IA un buen punto de partida.');
     await button('Preparar proyecto').last().click();await heading('¿Qué vas a preparar?');
@@ -78,9 +97,13 @@ async function journey(profile,focus,route){
     }
     await page.locator(`input[name="install-mode"][value="${route}"]`).check();
     await page.locator('input[name="agent"][value="codex"]').check();
+    // Agent changes persist and asynchronously rebuild the plan. Measure the new screen,
+    // not the old scrolled form while its save is still in flight.
+    await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
+    await page.evaluate(()=>Promise.all(document.getAnimations().map(a=>a.finished.catch(()=>{}))));
     const count=await page.locator('.wizard-file-plan li').count();assert.ok(count>0);
     const primary=await button('Guardar la preparación revisada  →').boundingBox();
-    assert.ok(primary&&primary.y>=0&&primary.y+primary.height<=viewport.height,`Preparar oculta el botón principal a ${viewport.width}×${viewport.height}`);
+    assert.ok(primary&&primary.y>=0&&primary.y+primary.height<=viewport.height,`Preparar oculta el botón principal a ${viewport.width}×${viewport.height}: ${JSON.stringify(primary)}`);
     if(profile==='software'&&route==='ai'){
       await page.locator('.wizard-rail .step-back').first().click();await heading('¿Qué vas a preparar?');
       assert.equal(await page.locator('#wizard-name').inputValue(),'Proyecto software');
@@ -97,7 +120,7 @@ async function journey(profile,focus,route){
       assert.equal(await page.locator('input[name="agent"][value="codex"]').isChecked(),true);
     }
     await button('Guardar la preparación revisada  →').click();
-    const stages=await finishPreparation(page,{allowUnavailable:profile==='software'&&route==='quick'});
+    const stages=await finishPreparation(page,{allowUnavailable:profile==='software'&&route==='quick',measure});
     await heading('Resultado de la preparación');
     const checked=await service.preparationResult({id:(await service.listProjects())[0].id});
     assert.ok(checked.done.includes('base')&&checked.done.includes('context'));
@@ -108,18 +131,18 @@ async function journey(profile,focus,route){
     assert.equal((await service.listProjects()).length,1);
     assert.equal(await service.draftLoad(),null);
     assert.deepEqual(errors,[]);
-    results.push({profile,route,stages,files:count,errors:errors.length});
+    results.push({profile,route,motion,window:width+'x'+height,stages,files:count,errors:errors.length,screens});
   }catch(error){
     const visible=await page.locator('#feedback').innerText().catch(()=>'');
     throw new Error(`${profile}/${route}: ${error.message}\nFeedback: ${visible}\nPage: ${await page.locator('#view').innerText().catch(()=>'')}`);
   }finally{await context.close();}
 }
-async function resumeJourney(){
-  const root=path.join(temp,'resume'),dataRoot=path.join(temp,'resume-data');await mkdir(root);
+async function resumeJourney(motion){
+  const root=path.join(temp,'resume-'+motion),dataRoot=path.join(temp,'resume-data-'+motion);await mkdir(root);
   await writeFile(path.join(root,'notes.txt'),'The original source.');
   const options={dataRoot,core,chooseFolder:async()=>root,copyText:async()=>{},openExternal:async()=>{}};
   let service=await createDesktopService(options);
-  const context=await browser.newContext({viewport:{width:1180,height:820}}),page=await context.newPage();
+  const context=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:motion}),page=await context.newPage();
   await page.exposeFunction('qaCall',async(name,input)=>{
     try{return {ok:true,value:await service[name](input)};}catch(error){return {ok:false,error:publicError(error)};}
   });
@@ -142,13 +165,21 @@ async function resumeJourney(){
     assert.equal(await page.locator('#vision-free').inputValue(),'Material que escribí yo y que no debe perderse.');
     assert.equal((await service.draftLoad()).project.root,root);
     assert.deepEqual(await readdir(root),['notes.txt']);
-    results.push({case:'restart',answers:'preserved',projectWrites:0});
+    results.push({case:'restart',motion,answers:'preserved',projectWrites:0});
   }finally{await context.close();}
 }
-async function existingFolderJourney(){
-  const root=path.join(temp,'software-quick'),dataRoot=path.join(temp,'software-quick-data');
-  const service=await createDesktopService({dataRoot,core,chooseFolder:async()=>root,copyText:async()=>{},openExternal:async()=>{}});
-  const context=await browser.newContext({viewport:{width:1180,height:820}}),page=await context.newPage();
+async function existingFolderJourney(motion,width,height){
+  const root=path.join(temp,`software-quick-${motion}-${width}`),dataRoot=root+'-data';
+  let picked=root;
+  const service=await createDesktopService({dataRoot,core,chooseFolder:async()=>picked,copyText:async()=>{},openExternal:async()=>{}});
+  const context=await browser.newContext({viewport:{width,height},reducedMotion:motion}),page=await context.newPage(),screens=[];
+  const measure=async()=>{
+    await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
+    await page.evaluate(()=>Promise.all(document.getAnimations().map(a=>a.finished.catch(()=>{}))));
+    const current=await page.evaluate(async()=>{const {state}=await import('/lib/core.mjs');return {page:state.page,tab:state.tab};});
+    const quality=await page.evaluate(QUALITY,routeFor(current.page,current));assert.deepEqual(quality.issues,[]);
+    assert.deepEqual(reachProblems(await page.evaluate(REACH,INTERACTIVE)),[]);screens.push({page:current.page,quality});
+  };
   await page.exposeFunction('qaCall',async(name,input)=>{
     try{return {ok:true,value:await service[name](input)};}catch(error){return {ok:false,error:publicError(error)};}
   });
@@ -159,13 +190,33 @@ async function existingFolderJourney(){
     await page.getByRole('heading',{name:'Proyecto software',exact:true}).waitFor();
     assert.equal(await page.locator('#feedback').isVisible(),false);
     assert.equal(await page.locator('#view h1').innerText(),'Proyecto software');
-    results.push({case:'existing folder',destination:'workspace',nameInvalid:false});
+    await measure();
+    const before=(await readdir(root,{recursive:true})).sort(),original=await readFile(path.join(root,'notes.txt'));
+    await page.locator('#nav [data-action="open-project-list"]').click();await measure();
+    await page.locator('article.project details.more > summary').click();
+    await page.locator('[data-row-action="forget-project"]').click();await page.getByRole('dialog').waitFor();
+    await page.getByRole('dialog').getByRole('button',{name:'Quitar de la lista',exact:true}).click();await measure();
+    assert.equal((await service.listProjects()).length,0);
+    assert.deepEqual((await readdir(root,{recursive:true})).sort(),before);
+    assert.deepEqual(await readFile(path.join(root,'notes.txt')),original);
+    picked=path.join(temp,`unprepared-${motion}-${width}`);await mkdir(picked);await writeFile(path.join(picked,'source.txt'),'Original sin preparar');
+    await page.locator('#nav [data-action="open-start"]').click();await measure();
+    await page.getByRole('button',{name:'Abrir una carpeta existente',exact:true}).click();await measure();
+    assert.equal(await page.locator('#view h1').innerText(),'¿Qué vas a preparar?');
+    assert.equal(await page.locator('.wizard-folder .path').innerText(),picked);
+    assert.deepEqual(await readdir(picked),['source.txt']);
+    results.push({case:'existing prepared / forget / unprepared',motion,window:width+'x'+height,preparedDestination:'workspace',unpreparedDestination:'setup',originals:'preserved',screens});
   }finally{await context.close();}
 }
 try{
   for(const [profile,focus] of [['software','website'],['research','paper'],['studies','course'],['content','manual'],['business','plan'],['personal','open']]){
-    for(const route of ['quick','ai'])await journey(profile,focus,route);
+    for(const route of ['quick','ai'])for(const motion of MOTIONS)for(const [width,height] of WINDOWS)await journey(profile,focus,route,motion,width,height);
   }
-  await resumeJourney();await existingFolderJourney();
-  process.stdout.write(JSON.stringify({journeys:12,additional:2,results},null,2)+'\n');
+  for(const motion of MOTIONS){await resumeJourney(motion);for(const [width,height] of WINDOWS)await existingFolderJourney(motion,width,height);}
+  const matrix=results.filter(item=>item.profile);
+  const cells=new Set(matrix.map(item=>[item.profile,item.route,item.motion,item.window].join('|')));
+  assert.deepEqual(assertCoverage({routes:[],cells:true,profiles:PROFILE_IDS,choices:['quick','ai'],motions:MOTIONS,windows:WINDOWS.map(w=>w.join('x')),observedCells:cells}),[]);
+  const summary={journeys:matrix.length,additional:results.length-matrix.length,screens:matrix.reduce((sum,item)=>sum+item.screens.length,0),errors:0};
+  await writeFile(path.join(output,'profile-matrix.json'),JSON.stringify({scope:'Real renderer and service; native transport injected; no managed tools downloaded',...summary,results},null,2)+'\n');
+  console.log(JSON.stringify(summary,null,2));
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve));await rm(temp,{recursive:true,force:true});}

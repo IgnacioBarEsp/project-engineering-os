@@ -1,0 +1,1183 @@
+{
+  "browserChecks": [
+    "Asistente vigente: 28 recorridos (7 ventanas × 2 preferencias de movimiento × 2 formas de instalar), 168 pantallas, 1708 de 1708 controles alcanzables al tocar su centro, 56 de 56 copias con el texto exacto, y una visión sin texto que conserva el objetivo del primer paso en 3 de 3 casos PASS",
+    "research: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+    "software: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+    "studies: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+    "business: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+    "unity: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+    "media: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+    "general: rollback restores prior current context and originals; a subsequent source change removes the ready mark, names missing stages and adds guidance PASS",
+    "general: duplicating reuses the answers, writes nothing into the new folder before the plan is approved, and copies none of the original preparation PASS",
+    "general: recovery rehearsal for one transaction — the file reading was undone from the interface, the application then refused to claim it, the original documents were byte-identical, and reading again restored the state PASS",
+    "general: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+    "research: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+    "software: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+    "studies: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+    "business: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+    "unity: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+    "media: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+    "general: rollback restores prior current context and originals; a subsequent source change removes the ready mark, names missing stages and adds guidance PASS",
+    "general: duplicating reuses the answers, writes nothing into the new folder before the plan is approved, and copies none of the original preparation PASS",
+    "general: recovery rehearsal for one transaction — the file reading was undone from the interface, the application then refused to claim it, the original documents were byte-identical, and reading again restored the state PASS",
+    "general: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+    "La guía difiere entre los 7 perfiles, comparada por sus pasos PASS",
+    "Estado mostrado por fila en la lista: research=verified, software=incomplete, studies=verified, business=verified, unity=incomplete, media=verified, general=verified, research=verified, software=incomplete, studies=verified, business=verified, unity=incomplete, media=verified, general=verified",
+    "Contraste, orden de encabezados, teclado, nombres accesibles y la regla de vocabulario comprobados en 48 pantallas de las siete variantes de prueba: 0 hallazgos PASS",
+    "1472 controles de definición comprobados contra el término que abren: 0 desajustes PASS",
+    "Denominadores: 18–102 elementos medidos para contraste por pantalla, 492–4006 caracteres leídos para vocabulario, 6–36 controles inspeccionados PASS",
+    "One name per action across 11 navigable actions: open-start=\"Inicio\", open-project-list=\"Tus proyectos\", prepare-project=\"Preparar proyecto\", open-help=\"Ayuda\", privacy-scope=\"Privacidad y alcance\", recheck-project=\"Comprobar de nuevo\", read-files=\"Leer mis archivos\", review-stack=\"Revisar tecnología del proyecto\", open-workspace=\"Ver mi proyecto\", review-development=\"Revisar desarrollo\", resave-base=\"Revisar tus elecciones otra vez\" PASS",
+    "No renderer exceptions across the seven legacy variants in both motion modes; source markup rendered as text; original documents preserved."
+  ],
+  "wizard": {
+    "runs": 28,
+    "screensExpected": 168,
+    "screensVisited": 168,
+    "controlsMeasured": 1708,
+    "controlsReachable": 1708,
+    "copies": 56,
+    "copiesEqual": 56,
+    "problems": 0
+  },
+  "routeCoverage": {
+    "routes": 20,
+    "cells": 120,
+    "screens": 181,
+    "scope": "Real renderer, fixed service payloads; NOT engine/native installation evidence",
+    "negatives": [
+      {
+        "id": "foreign-profile-focus",
+        "detectedBy": [
+          "foreign-profile-focus"
+        ]
+      },
+      {
+        "id": "route-rail",
+        "detectedBy": [
+          "route-rail"
+        ]
+      },
+      {
+        "id": "route-nav",
+        "detectedBy": [
+          "route-nav"
+        ]
+      },
+      {
+        "id": "route-breadcrumb",
+        "detectedBy": [
+          "route-breadcrumb"
+        ]
+      },
+      {
+        "id": "decorative-control",
+        "detectedBy": [
+          "decorative-control"
+        ]
+      },
+      {
+        "id": "motion-duration",
+        "detectedBy": [
+          "motion-duration:H1"
+        ]
+      },
+      {
+        "id": "color-outside-tokens",
+        "detectedBy": [
+          "color-outside-tokens:color"
+        ]
+      },
+      {
+        "id": "motion-ease-in",
+        "detectedBy": [
+          "motion-ease-in:H1"
+        ]
+      },
+      {
+        "id": "unsafe-containing-block",
+        "detectedBy": [
+          "unsafe-containing-block:ASIDE.wizard-rail",
+          "unsafe-containing-block:BUTTON."
+        ]
+      },
+      {
+        "id": "end-occlusion",
+        "detectedBy": [
+          "end-occlusion:BUTTON.step-back",
+          "end-occlusion:BUTTON.term",
+          "end-occlusion:INPUT.",
+          "end-occlusion:BUTTON.secondary",
+          "end-occlusion:BUTTON.primary"
+        ]
+      },
+      {
+        "id": "dead-scroll",
+        "detectedBy": [
+          "dead-scroll:614"
+        ]
+      },
+      {
+        "id": "copy-bypasses-ipc",
+        "detectedBy": [
+          "copy-bypasses-ipc",
+          "page-clipboard-used"
+        ]
+      },
+      {
+        "id": "only-reduced-motion",
+        "detectedBy": [
+          "route:start|no-preference|1180x820",
+          "route:projects|no-preference|1180x820",
+          "route:help|no-preference|1180x820",
+          "route:setup|no-preference|1180x820",
+          "route:delimitation|no-preference|1180x820",
+          "route:vision|no-preference|1180x820",
+          "route:install|no-preference|1180x820",
+          "route:finished|no-preference|1180x820",
+          "route:base-review|no-preference|1180x820",
+          "route:stack-review|no-preference|1180x820",
+          "route:repair-review|no-preference|1180x820",
+          "route:environment-review|no-preference|1180x820",
+          "route:engineering-review|no-preference|1180x820",
+          "route:activation-review|no-preference|1180x820",
+          "route:context-review|no-preference|1180x820",
+          "route:sync-review|no-preference|1180x820",
+          "route:context-final|no-preference|1180x820",
+          "route:code-review|no-preference|1180x820",
+          "route:workspace|no-preference|1180x820",
+          "route:connection-error|no-preference|1180x820",
+          "route:start|no-preference|1024x700",
+          "route:projects|no-preference|1024x700",
+          "route:help|no-preference|1024x700",
+          "route:setup|no-preference|1024x700",
+          "route:delimitation|no-preference|1024x700",
+          "route:vision|no-preference|1024x700",
+          "route:install|no-preference|1024x700",
+          "route:finished|no-preference|1024x700",
+          "route:base-review|no-preference|1024x700",
+          "route:stack-review|no-preference|1024x700",
+          "route:repair-review|no-preference|1024x700",
+          "route:environment-review|no-preference|1024x700",
+          "route:engineering-review|no-preference|1024x700",
+          "route:activation-review|no-preference|1024x700",
+          "route:context-review|no-preference|1024x700",
+          "route:sync-review|no-preference|1024x700",
+          "route:context-final|no-preference|1024x700",
+          "route:code-review|no-preference|1024x700",
+          "route:workspace|no-preference|1024x700",
+          "route:connection-error|no-preference|1024x700",
+          "route:start|no-preference|480x540",
+          "route:projects|no-preference|480x540",
+          "route:help|no-preference|480x540",
+          "route:setup|no-preference|480x540",
+          "route:delimitation|no-preference|480x540",
+          "route:vision|no-preference|480x540",
+          "route:install|no-preference|480x540",
+          "route:finished|no-preference|480x540",
+          "route:base-review|no-preference|480x540",
+          "route:stack-review|no-preference|480x540",
+          "route:repair-review|no-preference|480x540",
+          "route:environment-review|no-preference|480x540",
+          "route:engineering-review|no-preference|480x540",
+          "route:activation-review|no-preference|480x540",
+          "route:context-review|no-preference|480x540",
+          "route:sync-review|no-preference|480x540",
+          "route:context-final|no-preference|480x540",
+          "route:code-review|no-preference|480x540",
+          "route:workspace|no-preference|480x540",
+          "route:connection-error|no-preference|480x540"
+        ]
+      },
+      {
+        "id": "missing-route",
+        "detectedBy": [
+          "route:help|no-preference|1180x820",
+          "route:help|no-preference|1024x700",
+          "route:help|no-preference|480x540",
+          "route:help|reduce|1180x820",
+          "route:help|reduce|1024x700",
+          "route:help|reduce|480x540"
+        ]
+      }
+    ],
+    "minControls": 6,
+    "minMotionNodes": 165,
+    "minStyleDeclarations": 3925,
+    "minPositioned": 1
+  },
+  "priorContract": {
+    "mutations": 46,
+    "detected": 46,
+    "constructionProbes": 1,
+    "constructionHeld": 1,
+    "findings": 0,
+    "screens": 11,
+    "screensCounted": [
+      "inicio",
+      "ayuda",
+      "asistente",
+      "tus proyectos",
+      "mi proyecto",
+      "tu IA",
+      "tecnología",
+      "diálogo de un término",
+      "ancho mínimo",
+      "lista vacía",
+      "lista con error"
+    ],
+    "wizard": {
+      "runs": 6,
+      "screensMeasured": 36,
+      "controlsMeasured": 372,
+      "controlsReachable": 372
+    },
+    "copies": {
+      "ok": 2,
+      "refused": 2,
+      "transport": 2,
+      "ok-then-refused": 2
+    },
+    "denominators": {
+      "inicio": {
+        "contrast": 36,
+        "vocabularyChars": 1843,
+        "controls": 9
+      },
+      "ayuda": {
+        "contrast": 88,
+        "vocabularyChars": 2023,
+        "controls": 7
+      },
+      "asistente": {
+        "contrast": 38,
+        "vocabularyChars": 1089,
+        "controls": 16
+      },
+      "tus proyectos": {
+        "contrast": 33,
+        "vocabularyChars": 1001,
+        "controls": 16
+      },
+      "mi proyecto": {
+        "contrast": 71,
+        "vocabularyChars": 2540,
+        "controls": 31
+      },
+      "tu IA": {
+        "contrast": 55,
+        "vocabularyChars": 2526,
+        "controls": 24
+      },
+      "tecnología": {
+        "contrast": 23,
+        "vocabularyChars": 1056,
+        "controls": 7
+      }
+    }
+  },
+  "mutationIds": [
+    {
+      "id": "the-provider-model-list-looks-chosen-before-the-choice-is-saved",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "a-ready-mark-on-a-project-that-is-not-ready",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "a-ready-row-that-stops-saying-what-it-did-not-check",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "the-qualifier-made-smaller-than-the-state-it-qualifies",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "a-row-that-stops-saying-when-it-was-checked",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "an-internal-name-where-a-stage-should-be-named",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "a-row-that-stops-naming-what-is-missing",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "the-only-way-to-open-a-project-moves-into-the-secondary-menu",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "the-code-map-control-offered-twice-on-one-screen",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "opening-a-project-offered-again-under-another-name",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "the-card-stops-being-the-control-that-opens-the-project",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "a-row-action-outside-the-declared-set",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "the-same-row-action-in-two-controls-of-one-card",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "a-guide-step-without-its-reason",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "a-guide-step-whose-text-cannot-be-copied",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "a-guide-that-drops-the-definitions-of-its-own-words",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "the-same-action-in-two-controls-of-one-screen",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "two-names-for-one-action-deeper-in-the-wizard",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "a-second-name-only-assistive-technology-hears",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "a-duplicate-action-inside-a-dialog",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "an-action-offered-under-an-undeclared-id",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "greeting-back-in-the-list-as-a-paragraph",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "greeting-back-in-the-list-as-a-div",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "greeting-back-in-the-list-as-a-details",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "numbered-steps-back-in-the-list",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "term-without-definition-on-inicio",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "forbidden-word-on-the-help-screen",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "term-as-prose-on-a-screen-with-no-control-for-it",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "term-as-prose-inside-a-placeholder",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "term-as-prose-inside-an-aria-label",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "action-removed-from-the-page",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "glossary-stops-listing-every-term",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "state-text-loses-its-contrast",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "contrast-broken-inside-the-definition-dialog",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "contrast-broken-on-the-persistent-navigation",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "navigation-entries-break-mid-word",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "a-term-stops-being-a-control",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "a-term-control-opens-another-concepts-definition",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "a-control-loses-its-accessible-name",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "the-boot-shell-loses-its-stated-cause",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "the-final-bar-fixed-again-inside-the-animated-content",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "a-wizard-button-becomes-a-decorative-span",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "install-route-drops-the-preparation-pill",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "a-refused-copy-is-swallowed-and-announced-anyway",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "a-new-copy-keeps-the-previous-confirmation",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    },
+    {
+      "id": "the-final-bar-no-longer-sticks",
+      "detected": true,
+      "by": "la propiedad que nombra"
+    }
+  ],
+  "native": {
+    "completed": true,
+    "scope": "Source application in real Electron with isolated userData/LOCALAPPDATA; native picker alone injected; no installer or downloaded managed toolchain",
+    "commit": "dfd92e33704a7b7cbe76fd725e6c32659f4c572a",
+    "dirty": true,
+    "sourceSha256": "0da31e1a06c8b5d898a1d0c420405768e784a375395863bbd64c7cb6deb45526",
+    "screens": 18,
+    "copies": 12,
+    "failures": []
+  },
+  "profileMatrix": {
+    "journeys": 72,
+    "additional": 8,
+    "screens": 534,
+    "errors": 0,
+    "cells": [
+      {
+        "profile": "software",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "1180x820",
+        "screens": 8,
+        "errors": 0
+      },
+      {
+        "profile": "software",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "1024x700",
+        "screens": 8,
+        "errors": 0
+      },
+      {
+        "profile": "software",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "480x540",
+        "screens": 8,
+        "errors": 0
+      },
+      {
+        "profile": "software",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "1180x820",
+        "screens": 8,
+        "errors": 0
+      },
+      {
+        "profile": "software",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "1024x700",
+        "screens": 8,
+        "errors": 0
+      },
+      {
+        "profile": "software",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "480x540",
+        "screens": 8,
+        "errors": 0
+      },
+      {
+        "profile": "software",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "1180x820",
+        "screens": 11,
+        "errors": 0
+      },
+      {
+        "profile": "software",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "1024x700",
+        "screens": 11,
+        "errors": 0
+      },
+      {
+        "profile": "software",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "480x540",
+        "screens": 11,
+        "errors": 0
+      },
+      {
+        "profile": "software",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "1180x820",
+        "screens": 11,
+        "errors": 0
+      },
+      {
+        "profile": "software",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "1024x700",
+        "screens": 11,
+        "errors": 0
+      },
+      {
+        "profile": "software",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "480x540",
+        "screens": 11,
+        "errors": 0
+      },
+      {
+        "profile": "research",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "research",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "research",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "research",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "research",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "research",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "research",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "research",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "research",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "research",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "research",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "research",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "studies",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "studies",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "studies",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "studies",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "studies",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "studies",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "studies",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "studies",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "studies",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "studies",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "studies",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "studies",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "content",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "content",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "content",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "content",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "content",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "content",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "content",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "content",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "content",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "content",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "content",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "content",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "business",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "business",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "business",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "business",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "business",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "business",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "business",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "business",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "business",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "business",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "business",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "business",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "personal",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "personal",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "personal",
+        "choice": "quick",
+        "motion": "no-preference",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "personal",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "personal",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "personal",
+        "choice": "quick",
+        "motion": "reduce",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "personal",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "personal",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "personal",
+        "choice": "ai",
+        "motion": "no-preference",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "personal",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "1180x820",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "personal",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "1024x700",
+        "screens": 7,
+        "errors": 0
+      },
+      {
+        "profile": "personal",
+        "choice": "ai",
+        "motion": "reduce",
+        "window": "480x540",
+        "screens": 7,
+        "errors": 0
+      }
+    ],
+    "additionalJourneys": [
+      {
+        "case": "restart",
+        "motion": "no-preference",
+        "answers": "preserved",
+        "projectWrites": 0
+      },
+      {
+        "case": "existing prepared / forget / unprepared",
+        "motion": "no-preference",
+        "window": "1180x820",
+        "preparedDestination": "workspace",
+        "unpreparedDestination": "setup",
+        "originals": "preserved"
+      },
+      {
+        "case": "existing prepared / forget / unprepared",
+        "motion": "no-preference",
+        "window": "1024x700",
+        "preparedDestination": "workspace",
+        "unpreparedDestination": "setup",
+        "originals": "preserved"
+      },
+      {
+        "case": "existing prepared / forget / unprepared",
+        "motion": "no-preference",
+        "window": "480x540",
+        "preparedDestination": "workspace",
+        "unpreparedDestination": "setup",
+        "originals": "preserved"
+      },
+      {
+        "case": "restart",
+        "motion": "reduce",
+        "answers": "preserved",
+        "projectWrites": 0
+      },
+      {
+        "case": "existing prepared / forget / unprepared",
+        "motion": "reduce",
+        "window": "1180x820",
+        "preparedDestination": "workspace",
+        "unpreparedDestination": "setup",
+        "originals": "preserved"
+      },
+      {
+        "case": "existing prepared / forget / unprepared",
+        "motion": "reduce",
+        "window": "1024x700",
+        "preparedDestination": "workspace",
+        "unpreparedDestination": "setup",
+        "originals": "preserved"
+      },
+      {
+        "case": "existing prepared / forget / unprepared",
+        "motion": "reduce",
+        "window": "480x540",
+        "preparedDestination": "workspace",
+        "unpreparedDestination": "setup",
+        "originals": "preserved"
+      }
+    ]
+  },
+  "alphaEquivalence": [
+    {
+      "file": "layout.css",
+      "rgbaDeclarations": 39,
+      "equivalent": true
+    },
+    {
+      "file": "components.css",
+      "rgbaDeclarations": 7,
+      "equivalent": true
+    },
+    {
+      "file": "pages.css",
+      "rgbaDeclarations": 16,
+      "equivalent": true
+    }
+  ]
+}

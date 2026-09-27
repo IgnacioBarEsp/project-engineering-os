@@ -17,4 +17,7 @@ test('motion declarations use finite shared tokens without idle pulse or persist
   }
   assert.ok(measured>=15);
   assert.match(await read('layout.css'),/button:disabled\{cursor:wait;opacity:1\}/);
+  const nav=(await read('pages.css')).match(/\.nav-button \{([^}]+)\}/)?.[1];
+  assert.ok(nav);assert.doesNotMatch(nav,/transition:\s*all/);
+  assert.match(nav,/transition: color var\(--dur-base\)/);
 });
