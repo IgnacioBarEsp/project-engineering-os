@@ -34,4 +34,4 @@ The renderer SHALL restrict title gradients to Inicio and the final screen, remo
 
 #### Scenario: Step one opened without reading Inicio
 - **WHEN** a person enters the first preparation step without having read Inicio
-- **THEN** the page explains that it prepares a project folder for use with their existing AI, asks for a name, a folder and a type of work, and says that file changes will be reviewed before approval
+- **THEN** a brief label identifies the tool as project preparation for their AI while the original concise guidance names the project, folder and type of work, without adding a longer explanation to the form

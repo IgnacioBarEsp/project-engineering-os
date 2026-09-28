@@ -218,12 +218,13 @@ async function walkWizard(width,height,motion,branch){
     await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
     if(!await reached('¿Qué vas a preparar?','inicio'))return;
     const setupCopy=await page.locator('#view .wizard-content .intro').innerText();
-    for(const phrase of ['Prepara tu carpeta para la IA que ya usas.',
-      'Nombra el proyecto, elige carpeta y tipo;',
-      'revisa antes de aprobar cambios.']){
+    if(await page.locator('#view .wizard-purpose').textContent()!=='Herramienta de preparación de proyectos para tu IA')
+      problems.push('setup: falta la breve descripción de la herramienta');
+    for(const phrase of ['Nombre, carpeta y tipo de trabajo.',
+      'Tus archivos pueden aportar']){
       if(!setupCopy.includes(phrase))problems.push(`setup: falta instrucción visible: ${phrase}`);
     }
-    if(await page.locator('#wizard-project-form legend').innerText()!=='Tipo de trabajo')problems.push('setup: el grupo de perfiles no explica qué se elige');
+    if(await page.locator('#wizard-project-form legend').innerText()!=='¿Qué vas a preparar?')problems.push('setup: el grupo de perfiles perdió su título original');
     await measure('setup');
     if(branch==='ai'){
       // Keyboard, on the longest screen: every stop Tab reaches has to stay at least partly visible, never wholly
