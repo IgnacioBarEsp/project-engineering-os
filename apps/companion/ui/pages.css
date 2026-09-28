@@ -105,6 +105,9 @@ main#content {
 .wizard-content:has(#wizard-project-form) h1 { margin-bottom: 8px; }
 .wizard-content:has(#wizard-project-form) .intro { max-width: 100%; margin-bottom: 10px; }
 .wizard-content:has(#wizard-project-form) .field { margin-bottom: 10px; }
+.wizard-content:has(#wizard-project-form) fieldset { margin-bottom: 16px; }
+.wizard-content:has(#wizard-project-form) .wizard-folder { margin-bottom: 12px; }
+#view:has(#wizard-project-form) .wizard-footer { margin-top: 8px; }
 .wizard-folder { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 14px; margin-bottom: 16px; border: 1px solid var(--line); border-radius: 10px; }
 .wizard-folder p { margin: 2px 0 0; font-size: .82rem; line-height: 1.35; }
 .wizard-folder .path { overflow-wrap: anywhere; }
