@@ -24,3 +24,17 @@ Los relojes controlados empiezan después de la transición real para no congela
 ## Gates no satisfechos
 
 Dos lectores ajenos y sus respuestas literales: pending en cold-reading.json. Recorrido/aceptación del mantenedor y revisión independiente: pending. No se archiva, fusiona o cierra #149. Automatización de accesibilidad no equivale a lector de pantalla humano. Rollback: revertir renderer/estilos, sin migraciones de datos.
+
+## 2026-09-27 · aclaración del paso 1 tras feedback parcial
+
+El mantenedor aportó tres capturas privadas de respuestas a una captura del paso 1 y confirmó que esas personas no vieron Inicio. Se transcribieron solo frases anónimas en `cold-reading.json`; no se publicaron imágenes, nombres ni datos de conversación. Las respuestas sugieren que, sin Inicio, el propósito se lee como IA o gestión de tareas en general. No indican de forma clara nombre, carpeta y tipo de trabajo ni una próxima acción; son feedback parcial, **no** la lectura en frío exigida por #149. La fecha de entrevista y el commit exacto de la captura no constan, y no se infieren.
+
+Se aclaró el texto del paso 1: propósito de preparar una carpeta para la IA que la persona ya usa, tres elecciones concretas y revisión previa a cualquier cambio. El grupo de perfiles ahora se llama «Tipo de trabajo». No cambian el formulario, el flujo, los datos ni las promesas del producto. En la primera ejecución de la prueba visual, la regla de glosario detectó que quitar «fuentes» del párrafo dejaba el término de las tarjetas sin definición alcanzable; se restauró su enlace y la repetición completa pasó. No se relajó la regla.
+
+- OpenSpec local 1.6.0 `validate companion-motion-loading-microcopy --strict`: PASS.
+- Companion `npm test`: 212/212 PASS. Raíz `npm run check`: 391/391 PASS, incluyendo paquete, neutralidad, docs, workflows, deuda y baseline doctor.
+- `verify-ui.mjs`: 20/20 recorridos, 120/120 pantallas, 1360/1360 controles alcanzables, 40/40 copias exactas; 48 pantallas adicionales de perfiles, cero hallazgos de contraste, glosario o teclado. Compatibilidad histórica y aislamiento del borrador completados sin fallas.
+- `verify-interface-contract.mjs`: 46/46 mutaciones detectadas, 1/1 control de construcción, 408/408 controles alcanzables en 36 pantallas; cero hallazgos. El recorrido exige el propósito, las tres elecciones y la revisión posterior en cada variante.
+- Inspección propia de la captura sintética 1180×820 del paso 1: texto, campos, tipos y barra de acciones caben y son legibles. A 582×377, el contenido largo requiere desplazamiento, cubierto por la prueba de teclado/alcanzabilidad. Esto no es aceptación visual del mantenedor ni prueba con personas nuevas.
+
+Los gates humanos permanecen abiertos. La siguiente lectura debe mostrar Inicio y después el paso 1 a dos personas nuevas que no conozcan la aplicación, con preguntas separadas y respuestas literales. Rollback: revertir este cambio de renderer y prueba; no hubo migraciones ni archivos del usuario modificados.

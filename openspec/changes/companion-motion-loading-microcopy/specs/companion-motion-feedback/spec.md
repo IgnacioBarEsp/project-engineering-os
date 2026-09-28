@@ -31,3 +31,7 @@ The renderer SHALL restrict title gradients to Inicio and the final screen, remo
 #### Scenario: Missing human observations
 - **WHEN** two literal human responses for Inicio and step one have not been collected
 - **THEN** the evidence remains pending and the issue is not marked complete regardless of automatic results
+
+#### Scenario: Step one opened without reading Inicio
+- **WHEN** a person enters the first preparation step without having read Inicio
+- **THEN** the page explains that it prepares a project folder for use with their existing AI, asks for a name, a folder and a type of work, and says that file changes will be reviewed before approval
