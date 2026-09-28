@@ -9,3 +9,7 @@ Autor: implementador, usando engineering:code-review y depuración estructurada.
 - Deuda: ninguna deficiencia técnica conocida pospuesta dentro de #149. La lectura humana y revisión independiente son gates pendientes explícitos, no evidencia de éxito ni deuda ocultada.
 
 Veredicto propio: implementación técnicamente lista para revisión, no autorizada para archivo por falta de gates reales.
+
+## 2026-09-27 · revisión propia del ajuste de lenguaje
+
+Se comparó el texto nuevo con el comportamiento real: la carpeta se elige en el paso 1, el plan se revisa antes de escribir, y la IA externa la aporta la persona. No se promete chat integrado ni que la IA haya leído la carpeta. Se inspeccionaron el primer paso a 1180×820 y la alcanzabilidad a 582×377. La prueba adversarial de vocabulario detectó la pérdida inicial del enlace «fuentes»; se corrigió y se repitieron el recorrido completo y las 46 mutaciones sin fallas. No hay dependencia, permiso, formato, escritura ni deuda técnica nuevos. Esta revisión es del implementador; no sustituye revisión independiente ni aceptación humana.

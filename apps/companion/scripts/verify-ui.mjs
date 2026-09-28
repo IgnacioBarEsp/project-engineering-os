@@ -227,6 +227,13 @@ async function walkWizard(width,height,motion,branch){
     await page.goto(url);await reached('Dale a tu IA un buen punto de partida.','inicio');
     await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
     if(!await reached('¿Qué vas a preparar?','inicio'))return;
+    const setupCopy=await page.locator('#view .wizard-content .intro').innerText();
+    for(const phrase of ['Prepara la carpeta de tu proyecto para trabajar con la IA que ya usas.',
+      'Ponle un nombre, elige o crea la carpeta y selecciona el tipo de trabajo.',
+      'Más adelante podrás revisar los archivos antes de aprobar cualquier cambio.']){
+      if(!setupCopy.includes(phrase))problems.push(`setup: falta instrucción visible: ${phrase}`);
+    }
+    if(await page.locator('#wizard-project-form legend').innerText()!=='Tipo de trabajo')problems.push('setup: el grupo de perfiles no explica qué se elige');
     await measure('setup');
     if(branch==='ai'){
       // Keyboard, on the longest screen: every stop Tab reaches has to stay at least partly visible, never wholly

@@ -3,5 +3,30 @@
   "application": "source worktree, Wave 3",
   "status": "pending",
   "readers": [],
-  "conclusion": "Sin verificar: faltan dos personas ajenas y respuestas literales sobre Inicio y paso 1. No se simularon lectores."
+  "partialFeedback": {
+    "receivedDate": "2026-09-27",
+    "source": "Tres capturas de conversaciones privadas facilitadas por el mantenedor; las imágenes no se publican.",
+    "screenShown": "Captura del paso 1; el mantenedor confirmó que no vieron Inicio.",
+    "applicationVersion": null,
+    "interviewDate": null,
+    "countsAsColdReading": false,
+    "responses": [
+      {
+        "anonymousId": "A",
+        "askedBeforeAnswering": "A qué más te refieres?",
+        "answerVerbatim": "Para hacer proyectos y organizar todo muy fácil"
+      },
+      {
+        "anonymousId": "B",
+        "answerVerbatim": "Agentes de IA, Gestor de tareas",
+        "additionalReplyVerbatim": "Y mi primera encarta :v"
+      },
+      {
+        "anonymousId": "C",
+        "answerVerbatim": "Pues lo veo como una especie de asistente con ia como ChatGPT",
+        "additionalReplyVerbatim": "No se me da vibras de pedirle una instruccion y me apoyaria con instrucciones"
+      }
+    ]
+  },
+  "conclusion": "Sin verificar: las tres capturas muestran solo el paso 1 y no dan dos respuestas claras sobre la acción siguiente. Faltan dos personas nuevas que vean Inicio y después el paso 1 sin explicación previa."
 }
