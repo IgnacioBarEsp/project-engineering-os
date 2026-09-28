@@ -66,8 +66,9 @@ No equivale a aceptación del mantenedor ni a lectores humanos.
 ## Deuda, CI y cierre pendiente
 
 Los checkpoints R1/R4 y R2/R3 permanecen inmutables; se añade un assessment de revalidación,
-sin cambiar el registro ni introducir dependencias. Los commits de evidencia posteriores
-no alteran el producto ensayado. CI debe comprobar cada head/base publicado; su resultado
+sin cambiar el registro ni introducir dependencias. El commit de evidencia e3ec518
+no alteró el producto ensayado; el ajuste de lenguaje posterior en #149 sí cambia el renderer
+y tiene validación separada abajo. CI debe comprobar cada head/base publicado; su resultado
 remoto y los enlaces de artefactos se registran en el comentario de cierre técnico de PR #202.
 Los intentos anteriores fallidos/cancelados se conservan: no se atribuyen a una reprueba verde.
 
@@ -81,3 +82,20 @@ Después de esas evidencias, integrar en orden #196–#202 contra main protegido
 base y archivar mediante OpenSpec oficial. Mientras tanto no archivar, fusionar ni cerrar issues.
 Detenerse antes de ola 4. Rollback de código: revertir los commits de corrección mediante PR;
 no se migraron recibos históricos ni se modificaron fuentes de proyectos reales.
+
+## 2026-09-27 · feedback parcial y texto del primer paso
+
+El mantenedor confirmó que tres personas vieron solo una captura del paso 1, no Inicio.
+Sus frases anónimas están en `companion-motion-loading-microcopy/evidence/cold-reading.json`,
+con `status: pending` y `readers: []`; ninguna imagen privada se versionó. El nuevo texto en
+#149 (cabcd0c) aclara que se prepara una carpeta para la IA que la persona ya usa, las tres
+elecciones de este paso y la revisión previa de cambios. Se propagó por merge normal.
+
+La validación observada del código de #149 fue OpenSpec strict PASS, Companion 212/212,
+raíz 391/391, UI 20 recorridos/120 pantallas/1360 controles/40 copias, contrato 46/46
+mutaciones y 408/408 controles; cero hallazgos finales. El primer intento de UI detectó
+una pérdida del enlace del glosario «fuentes» y se corrigió antes de ese pase final.
+Los informes R1–R4 anteriores siguen atribuibles a sus propios SHAs: el revisor independiente
+no ejecutó una revisión nueva del cambio de texto. CI de #202 debe revalidar el head nuevo.
+Siguen pendientes las dos lecturas completas con personas nuevas y la aceptación visual;
+no archivar, fusionar ni cerrar por este feedback parcial.
