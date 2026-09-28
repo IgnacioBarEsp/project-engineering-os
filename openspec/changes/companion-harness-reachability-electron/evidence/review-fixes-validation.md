@@ -107,3 +107,15 @@ Los informes R1–R4 anteriores siguen atribuibles a sus propios SHAs: el reviso
 no ejecutó una revisión nueva del cambio de texto. CI de #202 debe revalidar el head nuevo.
 Siguen pendientes las dos lecturas completas con personas nuevas y la aceptación visual;
 no archivar, fusionar ni cerrar por este feedback parcial.
+
+### 2026-09-27 · restauración de la copia breve solicitada
+
+El mantenedor vio la versión explicativa y pidió recuperar el párrafo original. El merge
+de #149 `d34b2b5` restaura esa copia y el título original del grupo de perfiles, con solo
+«Herramienta de preparación de proyectos para tu IA» como rótulo discreto sobre el título.
+La prueba de texto se actualizó sin aflojar los controles de glosario ni desplazamiento.
+En #149 pasaron localmente OpenSpec estricto, 212/212 pruebas Companion, 12+2 recorridos
+de flujo, 20 recorridos visuales/120 pantallas/1360 controles/40 copias y 46/46 mutaciones
+del contrato (408/408 controles). La captura 1180×820 se inspeccionó. #202 vuelve a
+requerir CI de su propio head, ya que sus runs previos no comprueban este texto. Las
+lecturas humanas completas y la aceptación visual continúan pendientes.
