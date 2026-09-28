@@ -105,9 +105,9 @@ function showProject(){
     if(!state.project)throw {message:'Falta elegir la carpeta.',action:'Usa Elegir carpeta para seleccionar o crear una.'};
     await goStep(1);
   });}},el('div',{class:'field'},el('label',{for:'wizard-name',text:'Nombre de tu proyecto'}),name),folder,
-    el('fieldset',{},el('legend',{text:'Tipo de trabajo'}),profileCards));
-  render([rail(),el('h1',{tabindex:'-1',text:'¿Qué vas a preparar?'}),
-    el('p',{class:'intro'},'Prepara tu carpeta para la IA que ya usas. Nombra el proyecto, elige carpeta y tipo; revisa antes de aprobar cambios. Tus archivos pueden ser ',term('fuente','fuentes'),'.'),form],null,
+    el('fieldset',{},el('legend',{text:'¿Qué vas a preparar?'}),profileCards));
+  render([rail(),el('p',{class:'eyebrow wizard-purpose',text:'Herramienta de preparación de proyectos para tu IA'}),el('h1',{tabindex:'-1',text:'¿Qué vas a preparar?'}),
+    el('p',{class:'intro'},'Nombre, carpeta y tipo de trabajo. Tus archivos pueden aportar ',term('fuente','fuentes'),'.'),form],null,
     wizardBar(doBtn('open-start'),el('button',{type:'submit',form:'wizard-project-form',class:'primary',text:'Continuar a Enfoque  →'})));
 }
 

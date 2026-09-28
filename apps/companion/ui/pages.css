@@ -102,6 +102,7 @@ main#content {
 .wizard-rail .step-back:hover { color: var(--violet-200); }
 .wizard-profiles .choice { padding: 7px 10px; min-height: 54px; }
 .wizard-profiles .choice small { margin-top: 2px; line-height: 1.35; }
+.wizard-content:has(#wizard-project-form) .wizard-purpose { margin-bottom: 4px; line-height: 1.3; }
 .wizard-content:has(#wizard-project-form) h1 { margin-bottom: 8px; }
 .wizard-content:has(#wizard-project-form) .intro { max-width: 100%; margin-bottom: 10px; }
 .wizard-content:has(#wizard-project-form) .field { margin-bottom: 10px; }

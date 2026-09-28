@@ -8,7 +8,7 @@
 - [x] 2.1 Controlador de transición con fallback/reduced y foco seguro.
 - [x] 2.2 Componentes de progreso, skeleton, estado vacío y avisos; copia confirmada por IPC.
 - [x] 2.3 Tokens/duraciones/curvas/títulos/halos y microcopia con definiciones intactas.
-- [x] 2.4 Aclarar propósito y próxima acción del paso 1 tras respuestas humanas parciales, sin contarlas como lectura en frío.
+- [x] 2.4 Identificar brevemente el propósito sobre el título del paso 1, conservando el texto original por preferencia del mantenedor; las respuestas parciales no cuentan como lectura en frío.
 
 ## 3. Verificación
 
