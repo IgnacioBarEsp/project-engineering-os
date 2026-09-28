@@ -107,7 +107,7 @@ function showProject(){
   });}},el('div',{class:'field'},el('label',{for:'wizard-name',text:'Nombre de tu proyecto'}),name),folder,
     el('fieldset',{},el('legend',{text:'Tipo de trabajo'}),profileCards));
   render([rail(),el('h1',{tabindex:'-1',text:'¿Qué vas a preparar?'}),
-    el('p',{class:'intro'},'Prepara la carpeta de tu proyecto para trabajar con la IA que ya usas. Ponle un nombre, elige o crea la carpeta y selecciona el tipo de trabajo. Más adelante podrás revisar los archivos antes de aprobar cualquier cambio. Tus archivos pueden aportar ',term('fuente','fuentes'),'.'),form],null,
+    el('p',{class:'intro'},'Prepara tu carpeta para la IA que ya usas. Nombra el proyecto, elige carpeta y tipo; revisa antes de aprobar cambios. Tus archivos pueden ser ',term('fuente','fuentes'),'.'),form],null,
     wizardBar(doBtn('open-start'),el('button',{type:'submit',form:'wizard-project-form',class:'primary',text:'Continuar a Enfoque  →'})));
 }
 
