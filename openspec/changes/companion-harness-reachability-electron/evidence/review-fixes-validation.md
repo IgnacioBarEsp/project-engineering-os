@@ -93,12 +93,16 @@ ya usa, las tres elecciones de este paso y la revisión previa de cambios. Se pr
 
 La validación local observada de #149 incluyó OpenSpec strict PASS, Companion 212/212,
 UI final 12+2 recorridos de flujo y 20 recorridos/120 pantallas/1360 controles/40 copias,
-cero hallazgos finales. El contrato final de #202 detectó 46/46 mutaciones y midió
-408/408 controles sin hallazgos. La raíz 391/391 pasó sobre el primer head; el ajuste
-final de texto/CSS requiere revalidación de CI.
+cero hallazgos finales. El contrato de #202 en 6c3f008 detectó 46/46 mutaciones y midió
+408/408 controles sin hallazgos. La raíz 391/391 pasó sobre el primer head; cada ajuste
+posterior de CSS requiere revalidación de CI.
 El primer intento de UI detectó la pérdida del enlace del glosario «fuentes» y se corrigió.
 El primer run de CI de cabcd0c detectó scroll a 1180×820 en Ubuntu pese al pase local Windows;
 6c3f008 compacta el texto y usa el ancho de su columna sin cambiar el umbral de no-scroll.
+El siguiente run de 6c3f008 pasó el estado vacío en Ubuntu, pero con carpeta seleccionada
+midió 777 px frente a 764 px disponibles. b909bf7 recupera 28 px con márgenes exclusivos
+del primer paso; `test:ui` local completo volvió a pasar sin ocultar controles. Los fallos
+de ambos runs se preservan y no cuentan como CI verde del head siguiente.
 Los informes R1–R4 anteriores siguen atribuibles a sus propios SHAs: el revisor independiente
 no ejecutó una revisión nueva del cambio de texto. CI de #202 debe revalidar el head nuevo.
 Siguen pendientes las dos lecturas completas con personas nuevas y la aceptación visual;
