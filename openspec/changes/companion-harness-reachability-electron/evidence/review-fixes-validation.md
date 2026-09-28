@@ -88,13 +88,17 @@ no se migraron recibos históricos ni se modificaron fuentes de proyectos reales
 El mantenedor confirmó que tres personas vieron solo una captura del paso 1, no Inicio.
 Sus frases anónimas están en `companion-motion-loading-microcopy/evidence/cold-reading.json`,
 con `status: pending` y `readers: []`; ninguna imagen privada se versionó. El nuevo texto en
-#149 (cabcd0c) aclara que se prepara una carpeta para la IA que la persona ya usa, las tres
-elecciones de este paso y la revisión previa de cambios. Se propagó por merge normal.
+#149 (cabcd0c, ajustado en 6c3f008) aclara que se prepara una carpeta para la IA que la persona
+ya usa, las tres elecciones de este paso y la revisión previa de cambios. Se propagó por merges normales.
 
-La validación observada del código de #149 fue OpenSpec strict PASS, Companion 212/212,
-raíz 391/391, UI 20 recorridos/120 pantallas/1360 controles/40 copias, contrato 46/46
-mutaciones y 408/408 controles; cero hallazgos finales. El primer intento de UI detectó
-una pérdida del enlace del glosario «fuentes» y se corrigió antes de ese pase final.
+La validación local observada de #149 incluyó OpenSpec strict PASS, Companion 212/212,
+UI final 12+2 recorridos de flujo y 20 recorridos/120 pantallas/1360 controles/40 copias,
+cero hallazgos finales. El contrato final de #202 detectó 46/46 mutaciones y midió
+408/408 controles sin hallazgos. La raíz 391/391 pasó sobre el primer head; el ajuste
+final de texto/CSS requiere revalidación de CI.
+El primer intento de UI detectó la pérdida del enlace del glosario «fuentes» y se corrigió.
+El primer run de CI de cabcd0c detectó scroll a 1180×820 en Ubuntu pese al pase local Windows;
+6c3f008 compacta el texto y usa el ancho de su columna sin cambiar el umbral de no-scroll.
 Los informes R1–R4 anteriores siguen atribuibles a sus propios SHAs: el revisor independiente
 no ejecutó una revisión nueva del cambio de texto. CI de #202 debe revalidar el head nuevo.
 Siguen pendientes las dos lecturas completas con personas nuevas y la aceptación visual;
