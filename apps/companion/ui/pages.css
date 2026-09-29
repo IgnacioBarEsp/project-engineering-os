@@ -67,7 +67,7 @@
 .vision-footer-status { display: flex; gap: 12px; align-items: center; }
 .finished-path-content { display: flex; gap: 10px; align-items: center; }
 .finished-next-title { margin-top: 18px; }
-.home-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 8px 0 34px; }
+.home-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 8px 0 0; }
 .home-actions .primary { min-width: 210px; }
 .privacy-icon { display: none; }
 
