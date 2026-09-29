@@ -119,3 +119,11 @@ de flujo, 20 recorridos visuales/120 pantallas/1360 controles/40 copias y 46/46 
 del contrato (408/408 controles). La captura 1180×820 se inspeccionó. #202 vuelve a
 requerir CI de su propio head, ya que sus runs previos no comprueban este texto. Las
 lecturas humanas completas y la aceptación visual continúan pendientes.
+
+### 2026-09-29 · copia breve final y pantalla mínima
+
+El merge de #149 incorporó el resultado negativo de la primera lectura en frío (dos personas nuevas vieron Inicio y luego el paso 1), el titular «Prepara tus proyectos con Project Engineering OS», la descripción terminada en «un método claro», la carpeta destacada y las explicaciones opcionales en el FAQ de Ayuda. El resultado humano sigue siendo **no cumple**; una nueva ronda necesita dos personas diferentes. No se atribuye una aprobación visual final a las capturas del implementador.
+
+El primer recorrido Electron de #150 sobre `01df8c7` encontró `dead-scroll:34` en Inicio a 480×540: solo 3 px de desplazamiento real dejaban 34 px vacíos al final, porque el margen inferior de las acciones seguía separando paneles que ya no existen. Se corrigió el margen en #149 (`f1d2d8c`) y se propagó mediante merge normal, sin cambiar el umbral. Sobre `1bc37f1`, el recorrido nativo terminó con código 0: 18 capturas, 12 copias verificadas con el portapapeles real, cero fallos y `scroll.max=0`, `blank=0` en ambas capturas de Inicio a 480×540. Fuente SHA-256 `a7b8e2d103bf05a3c141989aa49fe97a6da37af60abce575af64e51e19ca4133`; reporte de árbol limpio. La primera ejecución fallida se conserva y no se cuenta como pase.
+
+El combinado pasó localmente OpenSpec estricto, Companion 215/215, `test:ui` con 72 recorridos/534 pantallas de flujo y 28 recorridos/168 pantallas/1904 controles/56 copias visuales, 120 celdas de rutas y 14 controles negativos, y contrato adversarial 46/46 con 408/408 controles. La raíz 391/391 pasó en el head precedente de #149; la CI completa de #201 pasó en el head corregido `f1d2d8c`. La CI del nuevo head de #202 aún debe revalidar el combinado. Revisión humana nueva, aceptación visual final y archivo/fusión permanecen pendientes.
