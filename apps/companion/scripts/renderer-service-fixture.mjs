@@ -64,7 +64,7 @@ export async function rendererServiceFixture(output){
         window.companion=Object.fromEntries(methods.map(name=>[name,input=>window.regressionCall(name,input??{})]));
         window.companion.onProgress=()=>()=>{};
       },Object.keys(service));
-      await page.goto(url);await page.getByRole('heading',{name:'Dale a tu IA un buen punto de partida.',exact:true}).waitFor();
+      await page.goto(url);await page.getByRole('heading',{name:'Prepara tus proyectos con Project Engineering OS',exact:true}).waitFor();
       await settle(page);
       return {page,context,errors};
     },

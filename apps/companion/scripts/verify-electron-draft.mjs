@@ -17,7 +17,7 @@ try{
   application=await launch();
   await application.evaluate(({dialog},project)=>{dialog.showOpenDialog=async()=>({canceled:false,filePaths:[project]});},project);
   let page=await application.firstWindow(),errors=[];page.on('pageerror',error=>errors.push(error.message));
-  await page.getByRole('heading',{name:'Dale a tu IA un buen punto de partida.',exact:true}).waitFor();
+  await page.getByRole('heading',{name:'Prepara tus proyectos con Project Engineering OS',exact:true}).waitFor();
   await page.getByRole('button',{name:'Preparar proyecto',exact:true}).last().click();
   await page.getByRole('button',{name:'Elegir carpeta',exact:true}).click();
   await page.getByRole('button',{name:'Continuar a Enfoque →',exact:true}).click();

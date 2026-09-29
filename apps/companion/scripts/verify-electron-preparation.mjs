@@ -18,7 +18,7 @@ try{
   application=await _electron.launch({executablePath:executable,args:['.',`--user-data-dir=${userData}`],cwd:appRoot,env:{...process.env},timeout:60000});
   const page=await application.firstWindow(),errors=[];page.on('pageerror',error=>errors.push(error.message));
   page.setDefaultTimeout(120000);
-  await page.getByRole('heading',{name:'Dale a tu IA un buen punto de partida.',exact:true}).waitFor();
+  await page.getByRole('heading',{name:'Prepara tus proyectos con Project Engineering OS',exact:true}).waitFor();
   await page.evaluate(()=>{window.__progress=[];window.companion.onProgress(value=>{if(window.__progress.length<20000)window.__progress.push(value);});});
   for(const route of process.argv.includes('--cancel-only')?[]:['quick','ai']){
     const root=path.join(temp,`software-${route}`);await mkdir(root);

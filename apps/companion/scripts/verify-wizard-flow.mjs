@@ -59,7 +59,7 @@ async function journey(profile,focus,route,motion,width,height){
   };
   const heading=async name=>{await page.getByRole('heading',{name,exact:true}).waitFor();await measure();};
   try{
-    await page.goto(url);await heading('Dale a tu IA un buen punto de partida.');
+    await page.goto(url);await heading('Prepara tus proyectos con Project Engineering OS');
     await button('Preparar proyecto').last().click();await heading('¿Qué vas a preparar?');
     if(viewport.width===1180){const size=await page.locator('#content').evaluate(node=>({scroll:node.scrollHeight,client:node.clientHeight,
       parts:[...document.querySelectorAll('.wizard-content > *, .wizard-content form > *, .wizard-footer')].map(element=>[element.tagName,element.className,Math.round(element.getBoundingClientRect().height),Math.round(element.getBoundingClientRect().top)])}));
@@ -148,7 +148,7 @@ async function resumeJourney(motion){
   });
   await page.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>window.qaCall(name,input??{})]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
   try{
-    await page.goto(url);await page.getByRole('heading',{name:'Dale a tu IA un buen punto de partida.'}).waitFor();
+    await page.goto(url);await page.getByRole('heading',{name:'Prepara tus proyectos con Project Engineering OS'}).waitFor();
     await page.getByRole('button',{name:'Preparar proyecto',exact:true}).last().click();
     await page.getByRole('button',{name:'Elegir carpeta',exact:true}).click();
     await page.locator('#wizard-name').fill('Borrador reanudado');
@@ -185,7 +185,7 @@ async function existingFolderJourney(motion,width,height){
   });
   await page.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>window.qaCall(name,input??{})]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
   try{
-    await page.goto(url);await page.getByRole('heading',{name:'Dale a tu IA un buen punto de partida.'}).waitFor();
+    await page.goto(url);await page.getByRole('heading',{name:'Prepara tus proyectos con Project Engineering OS'}).waitFor();
     await page.getByRole('button',{name:'Abrir una carpeta existente',exact:true}).click();
     await page.getByRole('heading',{name:'Proyecto software',exact:true}).waitFor();
     assert.equal(await page.locator('#feedback').isVisible(),false);

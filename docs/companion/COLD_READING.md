@@ -5,8 +5,8 @@ cumplir ninguna comprobación automática, y tampoco un agente: piden que **algu
 aplicación** lea una pantalla y diga qué entendió. Ningún modelo puede ocupar ese lugar, porque lo que se
 está midiendo es justamente si el lenguaje funciona con una persona que no leyó este repositorio.
 
-Así que aquí no hay resultado. Hay el procedimiento para obtenerlo en unos minutos, y el formato exacto en
-el que se registra.
+Aquí se conserva el procedimiento y el formato de registro. La primera ronda de #149 dio un resultado
+negativo; una comprobación automática no puede convertirlo en positivo.
 
 **Úsalo si:** vas a cerrar uno de esos dos criterios, o quieres repetir la medición tras cambiar el lenguaje.
 
@@ -59,7 +59,7 @@ frío.
 
 Para #149 se necesitan **dos personas diferentes**, ajenas a la aplicación. La regla anterior de una
 persona corresponde al protocolo original de #97, no basta para cerrar #149. Con cada persona, sin
-explicación previa, mostrar Inicio y después el paso 1 «Tu proyecto»:
+explicación previa, mostrar Inicio y después el paso 1 «¿Qué vas a preparar?»:
 
 - Inicio: «¿qué hace esta aplicación?».
 - Paso 1: «¿qué te pide esta pantalla y qué harías ahora?».
@@ -69,14 +69,16 @@ preguntas previas. El paso 1 se entiende si la respuesta identifica elegir carpe
 y escoger su tipo, sin asistencia del evaluador. Conservar también la prueba del control de exportación.
 No registrar nombres, grabaciones ni datos personales sin consentimiento.
 
-El archivo del change de #149 comienza con `status: "pending"` y `readers: []`. No es evidencia positiva.
-Anotar versión/commit y fecha reales al recibir respuestas; si una respuesta revela una ambigüedad,
-corregir la interfaz y repetir con una persona nueva. Una prueba automática o un agente no sustituye
-ninguna de estas dos personas.
+El archivo del change de #149 conserva la primera ronda válida con `status: "failed"`: dos personas
+nuevas vieron Inicio y después el paso 1, pero confundieron el propósito o no reconocieron la carpeta
+como elección necesaria. No es evidencia positiva. El mantenedor confirmó el orden y que las respuestas
+son literales; la fecha exacta de entrevista no consta. Tras corregir la interfaz, se necesita otra
+ronda con dos personas nuevas. Anotar versión/commit y fecha reales; una prueba automática o un agente
+no sustituye ninguna de estas personas.
 
-Ambos criterios están **sin verificar** desde el 12 de septiembre de 2026, y su causa es esta: requieren una
-persona y nadie la ha hecho todavía. No se sustituyeron por una heurística, por un agente ni por el juicio
-de quien escribió el texto.
+El criterio de Inicio de #149 sigue **sin cumplir** tras esa primera ronda; el control de exportación también
+requiere su propia observación humana. Ninguno se sustituye por una heurística, por un agente ni por el
+juicio de quien escribió el texto.
 
 ## Relacionado
 

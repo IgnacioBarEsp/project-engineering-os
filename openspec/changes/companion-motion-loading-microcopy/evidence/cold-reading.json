@@ -1,8 +1,61 @@
 {
-  "date": "2026-09-26",
-  "application": "source worktree, Wave 3",
-  "status": "pending",
-  "readers": [],
+  "date": null,
+  "application": "source screenshots from Wave 3, #201 d34b2b5",
+  "status": "failed",
+  "readers": [
+    {
+      "anonymousId": "reader-1",
+      "knewTheApplication": false,
+      "hadSeenTheScreenshots": false,
+      "screenOrder": ["inicio", "paso-1"],
+      "responses": [
+        {
+          "screen": "inicio",
+          "question": "¿qué hace esta aplicación?",
+          "answerVerbatim": "Es una aplicacion para configurar tu IA, me pide que empiece a configurarla y lo que haria seria leer un poco mas porque hay mucha informacion, pero si ya tuviera una ia supongo que le daria al boton morado para ir rapido",
+          "hesitated": null,
+          "askedFirst": null
+        },
+        {
+          "screen": "paso-1",
+          "question": "¿qué te pide esta pantalla y qué harías ahora?",
+          "answerVerbatim": "Es una aplicacion que me ayuda a preparar un proyecto, Escribiria el nombre de mi proyecto y seleccionaria lo que quiero crear, lo de la carpeta me costo verlo o no creo que este bien integrado, tal vez con un icono o no se.",
+          "hesitated": null,
+          "askedFirst": null
+        }
+      ]
+    },
+    {
+      "anonymousId": "reader-2",
+      "knewTheApplication": false,
+      "hadSeenTheScreenshots": false,
+      "screenOrder": ["inicio", "paso-1"],
+      "responses": [
+        {
+          "screen": "inicio",
+          "question": "¿qué hace esta aplicación?",
+          "answerVerbatim": "Es una app para conocer sobre IA o usar una nuevas como tipo chatgpt,  la pantalla me invita a que pruebe las IA o que  me cree una cuenta o la instale en mi ordenador.",
+          "hesitated": null,
+          "askedFirst": null
+        },
+        {
+          "screen": "paso-1",
+          "question": "¿qué te pide esta pantalla y qué harías ahora?",
+          "answerVerbatim": "Es una aplicacion tipo chatgpt que me ayuda con las cosas que ocupe hacer, me pide decirle que quiero crear como si fuera un asistente y en vez de darle un prompt, me va guiando con estas opciones, lo que haria ahora seria darle la informacion que me esta pidiendo para poder crear mi proyecto.",
+          "hesitated": null,
+          "askedFirst": null
+        }
+      ]
+    }
+  ],
+  "observations": {
+    "receivedDate": "2026-09-29",
+    "interviewDate": null,
+    "source": "Respuestas literales facilitadas por el mantenedor en el chat; confirmó dos personas distintas, ajenas a la aplicación y a capturas previas, con Inicio seguido del primer paso de la versión enviada.",
+    "countsAsColdReading": true,
+    "result": "no cumple",
+    "reason": "Ninguna respuesta sobre Inicio identifica la preparación de una carpeta para una IA existente. En el primer paso, la carpeta no se reconoce claramente como elección necesaria; la primera persona incluso dice que le costó verla."
+  },
   "partialFeedback": {
     "receivedDate": "2026-09-27",
     "source": "Tres capturas de conversaciones privadas facilitadas por el mantenedor; las imágenes no se publican.",
@@ -28,5 +81,5 @@
       }
     ]
   },
-  "conclusion": "Sin verificar: las tres capturas muestran solo el paso 1 y no dan dos respuestas claras sobre la acción siguiente. Faltan dos personas nuevas que vean Inicio y después el paso 1 sin explicación previa."
+  "conclusion": "No cumple en esta ronda: dos personas nuevas vieron Inicio y después el paso 1, pero confundieron el propósito de Inicio y no identificaron claramente elegir carpeta como acción del paso 1. La evidencia anterior de tres capturas aisladas sigue siendo parcial. Tras corregir la interfaz se necesitan otras personas nuevas para una nueva lectura en frío."
 }

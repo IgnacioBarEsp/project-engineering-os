@@ -58,7 +58,7 @@ try{
     await writeFile(path.join(output,name+PROVENANCE_SUFFIX),JSON.stringify(record,null,2)+'\n');
     report.screens.push({file:name,motion,quality,controls:reach.controls.length,outer,viewport});
   };
-  await page.getByRole('heading',{name:'Dale a tu IA un buen punto de partida.',exact:true}).waitFor();
+  await page.getByRole('heading',{name:'Prepara tus proyectos con Project Engineering OS',exact:true}).waitFor();
   for(const [width,height] of [[1180,820],[1024,700],[480,540]])for(const motion of ['no-preference','reduce']){
     await application.evaluate(({BrowserWindow},size)=>BrowserWindow.getAllWindows()[0].setSize(...size),[width,height]);
     await page.emulateMedia({reducedMotion:motion});

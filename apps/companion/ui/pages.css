@@ -110,6 +110,10 @@ main#content {
 .wizard-content:has(#wizard-project-form) .wizard-folder { margin-bottom: 12px; }
 #view:has(#wizard-project-form) .wizard-footer { margin-top: 8px; }
 .wizard-folder { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 14px; margin-bottom: 16px; border: 1px solid var(--line); border-radius: 10px; }
+.wizard-folder.needs-choice { border-color: var(--violet-300); background: var(--surface-card-hover); }
+.wizard-folder.needs-choice button { border-color: var(--violet-300); color: var(--white); }
+.wizard-folder-label { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.wizard-folder-icon { width: 20px; height: 20px; flex: none; color: var(--violet-300); }
 .wizard-folder p { margin: 2px 0 0; font-size: .82rem; line-height: 1.35; }
 .wizard-folder .path { overflow-wrap: anywhere; }
 .wizard-folder button { flex: none; }

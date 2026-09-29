@@ -23,7 +23,7 @@ try{
   page.on('console',message=>{if(message.type()==='error')failures.push(message.text());});
   page.on('request',request=>{if(!request.url().startsWith('peos://app/'))failures.push(`Unexpected request: ${request.url()}`);});
   page.on('requestfailed',request=>failures.push(`Failed request: ${request.url()} · ${request.failure()?.errorText}`));
-  await page.getByRole('heading',{name:'Dale a tu IA un buen punto de partida.',exact:true}).waitFor({timeout:60000});
+  await page.getByRole('heading',{name:'Prepara tus proyectos con Project Engineering OS',exact:true}).waitFor({timeout:60000});
   await page.locator('.enter').evaluate(node=>Promise.all(node.getAnimations().map(animation=>animation.finished)));
   const shell=await page.evaluate(()=>{
     const brand=document.querySelector('.brand-icon svg'),content=document.getElementById('content');
@@ -54,11 +54,14 @@ try{
   assert.equal(help.breadcrumb,'AYUDA');
   assert.deepEqual(failures,[],'The local Electron renderer must load all assets without CSP or network errors');
   const report={date:new Date().toISOString(),source:'local worktree Electron 44 with isolated userData and LOCALAPPDATA',
-    boundaries:['no installer or native picker tested','no user project files touched'],
+    boundaries:['no installer or native picker tested','no user project files touched','normal window shutdown not tested'],
     shell,help,failures};
   await writeFile(path.join(output,'electron-shell.json'),JSON.stringify(report,null,2)+'\n');
   process.stdout.write(JSON.stringify(report,null,2)+'\n');
 }finally{
+  // This probe checks shell rendering, not the asynchronous draft-saving close guard. Exit only the
+  // isolated Electron process that this script launched; otherwise Playwright's app.quit waits on it.
+  await application?.evaluate(({app})=>{setImmediate(()=>app.exit(0));return true;}).catch(()=>{});
   await application?.close().catch(()=>{});
   assert(path.dirname(temp)===await realpath(os.tmpdir())&&path.basename(temp).startsWith('peos-electron-shell-'));
   await rm(temp,{recursive:true,force:true});
