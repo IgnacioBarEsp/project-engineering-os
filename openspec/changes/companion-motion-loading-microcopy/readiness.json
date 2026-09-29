@@ -31,7 +31,7 @@
       "id": "visual-check-when-configured",
       "status": "pending",
       "evidence": null,
-      "justification": "Faltan dos lectores ajenos con respuestas literales y aceptación visual del mantenedor.",
+      "justification": "La primera ronda literal con dos personas nuevas no cumplió. El mantenedor aprobó visualmente la versión anterior del paso 1, no esta corrección ni el recorrido completo; falta repetir la lectura con otras personas nuevas.",
       "profileCondition": null
     },
     {

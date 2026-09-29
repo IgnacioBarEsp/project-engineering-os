@@ -1,9 +1,8 @@
 import {profiles, isEngineeringProfile, agents, projectStates, stageList, onDate, state, el, p, btn, doBtn, rowBtn, heading, own, actions, panel, term, steps, notice, error, call, render, openDialog, GLOSSARY, byId} from '../lib/core.mjs';
 import {chooseFromHome, resumeDraft, startFromDuplicate, forget} from '../lib/bridge.mjs';
 function showStart(){state.page='start';render([
-  el('p',{class:'eyebrow',text:'Preparación local · Tú conservas el control'}),
-  el('h1',{class:'hero-title',tabindex:'-1'},'Dale a tu IA',el('br'),el('span',{class:'hero-gradient',text:'un buen punto de partida.'})),
-  p('Esta aplicación lee la carpeta de tu proyecto, ordena lo que hay dentro y deja un resumen que puedes darle a la IA que ya usas, con la ubicación exacta de cada frase para que puedas comprobarla.','intro'),
+  el('h1',{class:'hero-title',tabindex:'-1'},'Prepara tus proyectos',el('br'),el('span',{class:'hero-gradient',text:'con Project Engineering OS'})),
+  p('¿Cansado de repetirle a tu IA de qué trata tu proyecto? Prepara la carpeta donde trabajas con instrucciones y un método claro.','intro'),
   el('div',{class:'home-actions'},doBtn('prepare-project','primary'),
     btn('Abrir una carpeta existente',()=>chooseFromHome(),'secondary')),
   state.resumeDraft?panel(el('h2',{text:'Tienes una preparación sin terminar'}),
@@ -15,25 +14,6 @@ function showStart(){state.page='start';render([
       const result=await call('draftClear',{preserveInvalid:true});state.draftError=null;
       notice(result.preservedAs?'Se conservó una copia del borrador en los datos de la aplicación.':'No había borrador que conservar.');
       showStart();},'secondary'))):null,
-  // The four steps are h3, so they need their own h2 above them: a page that goes from h1 straight to h3
-  // reads, to anyone navigating by headings, as a level that was skipped. The previous home had the same
-  // jump; the contrast and heading probe found it.
-  el('h2',{class:'section-title',text:'Cómo trabaja'}),
-  el('div',{class:'feature-row'},[
-    ['01','Eliges tu carpeta','Los archivos que ya tienes, donde ya están. No se copian ni se mueven a otro lugar.'],
-    ['02','Ves qué se va a escribir','Antes de tocar nada aparece la lista completa de archivos que se añaden a la carpeta.'],
-    ['03','Se lee lo que hay dentro','Queda un resumen consultable, y cada respuesta puede decir de qué archivo y de qué línea salió.'],
-    ['04','Sigues en tu IA','Abres tu IA de escritorio con esta carpeta, o preparas un texto para pegar en un chat.'],
-  ].map(([num,title,body])=>el('div',{},el('b',{text:num}),el('h3',{text:title}),p(body)))),
-  panel(el('h2',{text:'Qué se descarga, y por qué'}),
-    p('Para investigación, contenido creativo o trabajo general: nada. Todo lo necesario viene dentro de la aplicación.'),
-    el('p',{},'Para software o un videojuego: Node, Git y npm, las herramientas con las que se programa, y ',
-      term('openspec'),' si lo pides. Se descargan revisadas, con su huella comprobada, a una carpeta propia de la aplicación; no se instala nada en el resto de tu sistema.'),
-    p('Nunca un modelo de IA ni el motor que lo ejecuta. Un modelo pesa entre 4 y 8 GB, necesita una tarjeta gráfica que quizá no tengas, y no hace falta para preparar tu proyecto: la IA la pones tú.')),
-  panel(el('h2',{text:'Qué se queda en este equipo'}),
-    p('Tus documentos se leen aquí y no se envían a ninguna IA durante la preparación. No hay cuenta, suscripción ni telemetría.'),
-    p('Compartir es una acción tuya y aparte: primero ves el texto, y después decides si lo copias.'),
-    actions(doBtn('privacy-scope','quiet'))),
 ],'INICIO');}
 // Duplicating reuses the answers and nothing else. The folder is chosen now, the answers arrive already
 // filled in and editable, and nothing is written until the plan is approved like any other preparation:
@@ -42,14 +22,21 @@ async function duplicate(project){await startFromDuplicate(project);}
 function showHelp(){state.page='help';render([
   el('h1',{tabindex:'-1',text:'Ayuda'}),
   p('Cómo trabaja esta aplicación, qué quiere decir que algo esté listo, y qué significa cada palabra que aparece en pantalla.','intro'),
-  panel(el('h2',{text:'Cómo trabaja, en orden'}),
-    el('ol',{class:'method'},[
-      ['Dices qué quieres lograr','Un objetivo en una frase y el tipo de trabajo. Eso ajusta la explicación y la ayuda, no lo que te deja hacer.'],
-      ['Eliges la carpeta','La eliges tú en el diálogo de Windows. La aplicación no puede elegirla por ti, y eso es a propósito.'],
-      ['Revisas y apruebas','Cada paso muestra primero la lista de archivos que se van a añadir, actualizar o conservar. Nada se escribe antes de que lo apruebes.'],
-      ['Se leen tus archivos','Queda un resumen consultable con la ubicación de cada frase. Tus originales no se modifican.'],
-      ['Sigues en tu IA','Abrir tu IA de escritorio con esta carpeta, o preparar un texto para pegar en un chat web.'],
-    ].map(([title,body])=>el('li',{},el('strong',{text:title}),' ',body)))),
+  panel(el('h2',{text:'Preguntas frecuentes'}),
+    el('div',{class:'help-faq'},
+      el('details',{},el('summary',{text:'¿Cómo funciona?'}),
+        el('ol',{class:'method'},[
+          ['Dices qué quieres lograr','Un objetivo en una frase y el tipo de trabajo. Eso ajusta la explicación y la ayuda, no lo que te deja hacer.'],
+          ['Eliges la carpeta','La eliges tú en el diálogo de Windows. La aplicación no puede elegirla por ti, y eso es a propósito.'],
+          ['Revisas y apruebas','Cada paso muestra primero la lista de archivos que se van a añadir, actualizar o conservar. Nada se escribe antes de que lo apruebes.'],
+          ['Se leen tus archivos','Queda un resumen consultable con la ubicación de cada frase. Tus originales no se modifican.'],
+          ['Sigues en tu IA','Abres tu IA de escritorio con esta carpeta o preparas un texto para pegar en un chat web.'],
+        ].map(([title,body])=>el('li',{},el('strong',{text:title}),' ',body)))),
+      el('details',{},el('summary',{text:'¿Qué se descarga?'}),
+        p('Para investigación, contenido o trabajo general, nada. Para software o videojuegos se ofrecen herramientas de desarrollo; verás cuáles y dónde irán antes de aprobar. Nunca se descarga un modelo de IA.')),
+      el('details',{},el('summary',{text:'¿Qué pasa con mis archivos?'}),
+        p('Se leen en este equipo y no se envían a ninguna IA durante la preparación. Tú decides qué copiar o compartir. No hay cuenta ni telemetría.'),
+        actions(doBtn('privacy-scope','quiet'))))),
   panel(el('h2',{text:'Qué quiere decir «listo»'}),
     p('Son tres cosas distintas, y se comprueban por separado. La aplicación nunca junta las tres en una sola palabra.'),
     el('ul',{},[

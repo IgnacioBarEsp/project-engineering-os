@@ -194,7 +194,7 @@ const MUTATIONS = [
     detect: report => listOf(report).purity.stray.length > 0 },
   { id: 'term-without-definition-on-inicio', file: 'app.mjs',
     reason: 'un término técnico vuelve a aparecer en Inicio como prosa',
-    from: "term('openspec'),' si lo pides.", to: "'OpenSpec',' si lo pides.",
+    from: "p('¿Cansado de repetirle a tu IA", to: "p('OpenSpec: ¿Cansado de repetirle a tu IA",
     detect: report => report.screens.inicio.vocabulary.missing.some(entry => entry.id === 'openspec') },
   { id: 'forbidden-word-on-the-help-screen', file: 'app.mjs',
     reason: 'una palabra de la jerga de este repositorio aparece en una pantalla que no es Inicio',

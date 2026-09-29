@@ -214,7 +214,13 @@ async function walkWizard(width,height,motion,branch){
     return false;
   };
   try{
-    await page.goto(url);await reached('Dale a tu IA un buen punto de partida.','inicio');
+    await page.goto(url);await reached('Prepara tus proyectos con Project Engineering OS','inicio');
+    const homeCopy=await page.locator('#view .intro').innerText();
+    for(const phrase of ['¿Cansado de repetirle a tu IA', 'Prepara la carpeta donde trabajas con instrucciones y un método claro.']){
+      if(!homeCopy.includes(phrase))problems.push(`inicio: falta instrucción visible: ${phrase}`);
+    }
+    if(await page.locator('#view .eyebrow, #view .feature-row, #view .panel').count())
+      problems.push('inicio: la portada vuelve a incluir bloques informativos ajenos a la acción principal');
     await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
     if(!await reached('¿Qué vas a preparar?','inicio'))return;
     const setupCopy=await page.locator('#view .wizard-content .intro').innerText();
@@ -225,6 +231,9 @@ async function walkWizard(width,height,motion,branch){
       if(!setupCopy.includes(phrase))problems.push(`setup: falta instrucción visible: ${phrase}`);
     }
     if(await page.locator('#wizard-project-form legend').innerText()!=='¿Qué vas a preparar?')problems.push('setup: el grupo de perfiles perdió su título original');
+    const folderChoice=page.getByRole('group',{name:'Elige la carpeta del proyecto'});
+    if(!await folderChoice.isVisible()||!await folderChoice.locator('svg').isVisible())
+      problems.push('setup: la elección obligatoria de carpeta no es visible con su icono');
     await measure('setup');
     if(branch==='ai'){
       // Keyboard, on the longest screen: every stop Tab reaches has to stay at least partly visible, never wholly
@@ -338,7 +347,7 @@ async function walkWizard(width,height,motion,branch){
     if(branch==='quick'&&(/aprovisionad/i.test(shown['Copiar instrucción'])||!shown['Copiar instrucción'].includes('Qué ya preparó Companion'))){
       problems.push('finished: el prompt de instalación rápida afirma dependencias que no se instalaron');
     }
-    await page.locator('#nav [data-action="open-start"]').click();await reached('Dale a tu IA un buen punto de partida.','finished');
+    await page.locator('#nav [data-action="open-start"]').click();await reached('Prepara tus proyectos con Project Engineering OS','finished');
     const outside=await page.locator('#nav [data-action="prepare-project"]').getAttribute('aria-pressed');
     if(outside!=='false')problems.push(`inicio: «Preparar proyecto» sigue con aria-pressed="${outside}" fuera del asistente`);
   }finally{
@@ -435,9 +444,19 @@ try {
       try{return {ok:true,value:await service[name](input)};}catch(e){return {ok:false,error:publicError(e)};}
     });
     await page.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>window.qaCall(name,input??{})]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
-    await page.goto(url);await heading(page,'Dale a tu IA un buen punto de partida.');
+    await page.goto(url);await heading(page,'Prepara tus proyectos con Project Engineering OS');
     await checkScreen(page,`${profile} inicio`);
     await click(page,'Ayuda');await heading(page,'Ayuda');
+    if(profile==='research')await capture(page,'help-faq-desktop');
+    const faq=page.locator('#view .help-faq');
+    assert.equal(await faq.locator('details').count(),3,'Help keeps the method, downloads and privacy in short disclosures');
+    for(const question of ['¿Cómo funciona?','¿Qué se descarga?','¿Qué pasa con mis archivos?']){
+      const disclosure=faq.locator('details').filter({has:page.getByText(question,{exact:true})});
+      assert.equal(await disclosure.count(),1,`Help has a unique answer to ${question}`);
+      await disclosure.locator('summary').click();
+      assert.equal(await disclosure.getAttribute('open'),'','FAQ opens by its native disclosure control');
+      await disclosure.locator('summary').click();
+    }
     assert.equal(await page.locator('#glosario dt').count(),GLOSSARY.length,'The glossary must list every defined term');
     // The property, not the spelling: whichever term control comes first, the dialog it opens is that
     // term's own definition. Pinning one label made the check depend on the order of the help screen.
@@ -447,7 +466,7 @@ try {
     assert((await page.evaluate(ACCESSIBLE_NAMES)).dialogNamed,'The dialog has to carry an accessible name');
     assert.equal(await page.locator('#dialog-title').innerText(),byId.get(firstTerm).term,'A term opens its own definition where it appears');
     await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.getElementById('dialog').open);
-    await click(page,'Inicio');await heading(page,'Dale a tu IA un buen punto de partida.');
+    await click(page,'Inicio');await heading(page,'Prepara tus proyectos con Project Engineering OS');
     assert.equal(await page.locator('.enter').evaluate(n=>getComputedStyle(n).animationName),'none');
     if(profile==='research')await capture(page,'home-desktop');
     await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();

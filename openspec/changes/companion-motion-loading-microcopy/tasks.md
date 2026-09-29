@@ -15,4 +15,4 @@
 - [x] 3.1 Probar límites con reloj controlado, progreso real, contraste de estados y mutaciones.
 - [x] 3.2 Ejecutar navegador en ambos modos, Electron nativo, Companion y raíz; revisión propia/deuda.
 - [x] 3.3 Actualizar DESIGN/protocolo y preparar PR borrador con gates abiertos.
-- [ ] 3.4 Recoger dos lectores ajenos con respuestas literales; no sustituir por modelos.
+- [ ] 3.4 Tras la primera ronda válida con resultado «no cumple», repetir Inicio y paso 1 con dos personas nuevas sobre la interfaz corregida; conservar respuestas literales y no sustituir por modelos.
