@@ -69,6 +69,57 @@
 .finished-next-title { margin-top: 18px; }
 .home-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 8px 0 0; }
 .home-actions .primary { min-width: 210px; }
+/* A single viewport-wide backdrop survives every route. Only its opacity layer loops; no layout
+   ancestor is animated/transformed and neither pseudo-element can receive a pointer event. */
+body { isolation: isolate; }
+body::before, body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1; }
+body::before { background: radial-gradient(ellipse at 12% 18%,var(--app-ambient-indigo),transparent 68%),radial-gradient(ellipse at 88% 90%,var(--app-ambient-cyan),transparent 70%); }
+body::after { background: radial-gradient(ellipse at 88% 24%,var(--app-shift-indigo),transparent 68%),radial-gradient(ellipse at 12% 80%,var(--app-shift-cyan),transparent 70%); opacity: .5; animation: app-ambient-flow var(--dur-ambient) linear infinite alternate; }
+@keyframes app-ambient-flow { from { opacity: 0; } to { opacity: 1; } }
+.shell, .app-header.sidebar { background: transparent; }
+.wizard-footer { background: var(--surface-chrome-overlay); }
+dialog, .more-actions { background: var(--surface-menu-overlay); }
+dialog::backdrop { background: var(--dialog-dimmer); }
+/* One finite illumination pass, independent of ordinary 120/200/280ms state transitions. */
+.hero-gradient { background-image: linear-gradient(110deg,transparent 45%,var(--brand-sheen) 50%,transparent 55%),linear-gradient(135deg,var(--violet-300),var(--cyan-300)); background-size: 300% 100%,100% 100%; background-position: 150% 0,0 0; background-repeat: no-repeat; animation: brand-illuminate var(--dur-sheen) linear; }
+@keyframes brand-illuminate { from { background-position: 150% 0,0 0; } to { background-position: -50% 0,0 0; } }
+button.primary { position: relative; isolation: isolate; overflow: hidden; }
+button.primary::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(110deg,transparent 25%,var(--action-sheen) 50%,transparent 75%); opacity: 0; transform: translateX(-120%); }
+button.primary:not(:disabled):not(.danger):is(:hover,:focus-visible)::after { animation: action-illuminate var(--dur-sheen) linear; }
+button.primary:disabled::after, button.primary.danger::after { content: none; animation: none; }
+@keyframes action-illuminate { 0% { opacity: 0; transform: translateX(-120%); } 20%,80% { opacity: 1; } 100% { opacity: 0; transform: translateX(120%); } }
+.home-overview { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0,1.15fr) minmax(0,1fr); align-items: center; gap: 48px; padding: clamp(20px,5vh,40px) 0 0; }
+main#content:has(.home-overview) { padding-bottom: 24px; }
+main#content:has(.home-overview) .notice:empty { margin: 0; min-height: 0; }
+.home-copy, .home-benefits { min-width: 0; }
+.home-copy .hero-title { font-size: clamp(2rem,3.8vw,2.9rem); line-height: 1.15; }
+.home-copy .intro { margin-bottom: 26px; color: var(--slate-300); }
+.home-benefits { padding: 30px; border: 1px solid var(--home-benefit-border); border-radius: 20px; background: var(--surface-panel-overlay); animation: home-benefits-enter var(--dur-slow) var(--ease-out); transition: border-color var(--dur-base) var(--ease-out); }
+.home-benefits:hover, .home-benefits:focus-within { border-color: var(--line-hover); }
+.home-benefits > .eyebrow { margin: 0 0 16px; color: var(--violet-200); font-size: .72rem; letter-spacing: .08em; }
+.home-benefits h2 { margin: 0 0 24px; font-size: 1.9rem; line-height: 1.15; letter-spacing: -.03em; }
+.home-benefit-list { list-style: none; margin: 0; padding: 0; }
+.home-benefit { display: flex; align-items: flex-start; gap: 16px; padding: 20px 0; border-top: 1px solid var(--home-benefit-divider); }
+.home-benefit:last-child { padding-bottom: 0; }
+.home-benefit-icon { box-sizing: content-box; width: 22px; height: 22px; padding: 10px; flex: none; border-radius: 12px; }
+.home-benefit-review .home-benefit-icon { color: var(--violet-200); background: var(--home-review-icon); }
+.home-benefit-tools .home-benefit-icon { color: var(--cyan-300); background: var(--home-benefit-cyan); }
+.home-benefit-recovery .home-benefit-icon { color: var(--violet-100); background: var(--home-method-icon); }
+.home-benefit h3 { margin: 0 0 6px; font-size: 1rem; line-height: 1.4; }
+.home-benefit p { margin: 0; color: var(--slate-300); font-size: .93rem; line-height: 1.6; }
+.home-benefit .term { color: var(--violet-200); }
+@keyframes home-benefits-enter { from { opacity: 0; } to { opacity: 1; } }
+@container workspace (max-width: 900px) {
+  .home-overview { grid-template-columns: minmax(0,1fr); gap: 28px; padding: 8px 0 0; }
+  .home-copy .hero-title { font-size: clamp(1.8rem,4.5vw,2.5rem); }
+  .home-benefits { padding: 24px; }
+  .home-benefits h2 { font-size: 1.65rem; }
+}
+@container workspace (max-width: 500px) {
+  .home-benefits { padding: 20px; }
+  .home-benefit { gap: 12px; }
+  .home-benefit-icon { width: 20px; height: 20px; padding: 8px; border-radius: 10px; }
+}
 .privacy-icon { display: none; }
 
 /* Renderer shell: only the content pane scrolls; the actions remain its final sibling. */

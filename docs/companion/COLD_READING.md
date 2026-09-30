@@ -72,13 +72,23 @@ No registrar nombres, grabaciones ni datos personales sin consentimiento.
 El archivo del change de #149 conserva la primera ronda válida con `status: "failed"`: dos personas
 nuevas vieron Inicio y después el paso 1, pero confundieron el propósito o no reconocieron la carpeta
 como elección necesaria. No es evidencia positiva. El mantenedor confirmó el orden y que las respuestas
-son literales; la fecha exacta de entrevista no consta. Tras corregir la interfaz, se necesita otra
-ronda con dos personas nuevas. Anotar versión/commit y fecha reales; una prueba automática o un agente
-no sustituye ninguna de estas personas.
+son literales; la fecha exacta de entrevista no consta.
 
-El criterio de Inicio de #149 sigue **sin cumplir** tras esa primera ronda; el control de exportación también
-requiere su propia observación humana. Ninguno se sustituye por una heurística, por un agente ni por el
-juicio de quien escribió el texto.
+Tras corregir el texto y destacar la carpeta, una **segunda ronda** con otras dos personas figura en
+`followUpRound` con `status: "passed"`. El mantenedor confirmó que no conocían la aplicación ni las capturas
+y que vieron Inicio y después el paso 1 sin explicación. Ambas respuestas de Inicio identifican preparar
+proyectos o carpetas para trabajar con IA; ambas del primer paso identifican nombre, carpeta y tipo. Las
+cuatro respuestas literales y el comentario de una persona sobre la distribución visual se conservaron.
+Se conoce la fecha de recepción y el commit de las capturas, no la fecha exacta de entrevista. El mantenedor
+pidió después revisar la composición, primero con un ejemplo y luego con beneficios concretos y fondos
+degradados. Después pidió revisar los beneficios y extender el fondo animado a toda la app. Las personas
+de esta ronda no vieron esas propuestas posteriores, todavía en revisión visual.
+La aprobación del mantenedor y la lectura
+de una versión cuyo lenguaje cambie se registrarán por separado.
+
+El criterio de comprensión de Inicio y paso 1 de #149 **cumple en esa segunda ronda**. El control de
+exportación todavía requiere su propia observación humana. Ninguno se sustituye por una heurística, por
+un agente ni por el juicio de quien escribió el texto.
 
 ## Relacionado
 

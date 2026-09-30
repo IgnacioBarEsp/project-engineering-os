@@ -48,7 +48,7 @@ export const PROFILES = deepFreeze({
         'No elijas framework ni arquitectura hasta conocer el objetivo y los archivos.',
         'Explora una ruta pequeña y registra las decisiones todavía abiertas.','Siguiente decisión explícita'),
     ], ['web-interface','typed-code','http-service']),
-  research: profile('Investigación y ciencia', 'Papers, tesis de posgrado y datos, con fuentes que se puedan comprobar.', false,
+  research: profile('Investigación y ciencia', 'Papers, tesis de posgrado y datos que se puedan comprobar.', false,
     ['Trabaja con documentos y datos locales; no instales herramientas para empezar.',
       'Un PDF sin texto seleccionable necesita reconocimiento óptico: no inventes su contenido.'],
     ['Anota archivo, página o párrafo por fuente.', 'Separa método, hallazgo y límites de la evidencia.'],

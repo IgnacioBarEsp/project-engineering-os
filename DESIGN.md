@@ -78,6 +78,13 @@ amber and red are reserved for actual status. Body text uses the system sans-ser
 with tabular paths and compact labels in a local monospace stack. On a dark surface, normal text and
 interactive labels must reach WCAG AA 4.5:1. Do not communicate state by color alone.
 
+The whole client viewport shares a local indigo/cyan background, including the header, wizard, menus
+and dialogs, as explicitly requested by the maintainer on 2026-09-29. It is not clipped to a content
+column or rebuilt per route. Benefit accents use indigo, cyan and violet, not success green. Benefits
+describe implemented capabilities, not unmeasured improvements in an AI's answer quality or efficiency.
+Keep the primary copy and actions first in reading order, with the benefits beside them on wide windows
+and below the actions on compact windows. Decorative surfaces never intercept pointer events.
+
 ## Layout and controls
 
 The window is a two-row grid: a 56 px header, then one scrollable main pane. At desktop widths the
@@ -95,7 +102,8 @@ focused controls. A modal restores focus to its opener. Personal content is rend
 ## Motion, feedback, and resources
 
 Movement should show a transition or processing state, never imply work completed before the service
-confirms it. Respect reduced motion. No idle pulse, fake window lights, glass blur, decorative environment
+confirms it. Respect reduced motion. The shared ambient background is visual identity, never activity or
+status. No status pulse, fake window lights, glass blur, decorative environment
 status, remote fonts, emoji icons, or network assets. Local SVG icons carry the Lucide ISC notice.
 Long operations report progress and can be cancelled at safe boundaries. Errors explain what was not
 changed and what the person can do next.
@@ -104,9 +112,27 @@ changed and what the person can do next.
 
 The source tokens are `--dur-fast:120ms`, `--dur-base:200ms`, `--dur-slow:280ms` and
 `--ease-out:cubic-bezier(0.23,1,0.32,1)`. No ease-in, duration above 300 ms, persistent transformed
-screen container or idle pulse. Press uses scale(.97); the first eight project rows enter with 40 ms
+screen container or status pulse. Decorative ambient/illumination exceptions are defined separately below;
+they do not change interaction-state or navigation timing.
+Press uses scale(.97); the first eight project rows enter with 40 ms
 stagger (0–280 ms delay, 200 ms duration). Indigo-to-cyan text belongs only to Inicio and the final title.
 Disabled controls retain readable colors, with opacity 1.
+
+The shared background uses viewport-fixed body pseudo-elements, with no descendants and no transform on
+a layout ancestor. Its only continuous animation is `app-ambient-flow`, a twenty-second linear alternate
+opacity crossfade on `body::after`. The base gradient remains present, so it never blinks. No other loop
+is permitted. Reduced motion leaves both fields static, with no active
+animation or transition. Menu/dialog surfaces remain legible; the same backdrop continues behind them.
+The Inicio benefit list keeps its finite 280 ms opacity entrance. Text never moves continuously.
+
+The maintainer approved the continuous-background composition and then requested finite illumination.
+`--dur-sheen:900ms` is reserved for one left-to-right pass on `.hero-gradient` at entry and on an enabled
+`button.primary::after` at hover or keyboard-visible focus. Inicio accents only Project Engineering OS,
+not its preceding word con. The existing final title uses the same restrained accent; other headings,
+terms, secondary actions, warnings and destructive controls do not. The button overlay has no pointer
+events, never changes its box/text/focus ring, and is absent while disabled. Reduced motion removes both
+passes, retaining their normal readable colors. This narrow finite exception does not permit long
+button-state transitions, arbitrary animations or new repeating effects.
 
 Destination and project-segment changes use same-document View Transitions where available, with the
 rail's own stable transition identity. Commit precedes animation completion; controls become interactive

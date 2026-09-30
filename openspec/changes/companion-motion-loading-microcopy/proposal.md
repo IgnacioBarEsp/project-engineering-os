@@ -7,7 +7,7 @@ Issue #149: https://github.com/IgnacioBarEsp/project-engineering-os/issues/149. 
 - Tokens 120/200/280 ms, curva de salida, transiciones same-document con fallback y reduced-motion instantáneo.
 - Progreso real en barra de acciones, cancelación y etapa larga; skeleton/estado vacío compartidos.
 - Avisos accesibles 4 s, máximo dos; copia confirmada 2 s solo tras IPC exitoso. Errores siguen en panel.
-- Gradiente limitado a títulos Inicio/final; quitar pulsos decorativos y halos en reposo.
+- Gradiente de texto limitado a títulos Inicio/final. Por ajuste explícito posterior del mantenedor, toda la ventana comparte un fondo degradado local continuo con un ciclo ambiental de opacidad de 20 s; es la única excepción a movimiento finito, no un indicador de actividad. Reduced motion conserva el fondo estático. Inicio muestra beneficios concretos sin promesas de resultados de IA.
 - Documentación y evidencia automática/nativa, protocolo ampliado de lectura en frío para dos personas (no simuladas).
 
 ## Capabilities
