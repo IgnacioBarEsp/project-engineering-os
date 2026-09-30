@@ -29,3 +29,18 @@ It checked retained tokens, motion exceptions, finite waits and exact negative c
 This is an agent fallback, not external Bugbot or human acceptance. Earlier independent
 reports retain their original scope and identities. Human final cold reading, export
 observation, visual acceptance, archive and protected merge remain open. No Wave 4 work.
+
+## Completed UI run and new CI blocker
+
+The full UI command subsequently completed with exit 0: 28 wizard journeys, 168/168
+screens, 1876/1876 reachable controls, 56/56 exact copies, zero wizard problems; the
+20-route/120-cell/16-negative matrix, profile compatibility and wizard isolation also
+completed. Artifacts: `peos-wave3-harness-final-ui` in Windows Temp. The earlier
+in-progress statement records the order of observations, not the final result.
+
+Protected CI on the published refinement fails production audit, not the UI tests:
+three vulnerabilities in npm's bundled brace-expansion, ip-address and undici.
+Tracked separately at #204. Disposable probes of npm 11.20.0, 12.1.0 and scoped
+overrides did not remedy them; repository pins and production distribution unchanged.
+No audit exception, downgraded gate or successful aggregate is claimed. Closing the
+wave requires resolving #204 and actual human observations, not just this UI PASS.
