@@ -37,3 +37,14 @@ colors outside tokens.css. All 62 existing rgba declarations now reference 34 al
 same exact channel/alpha values (39 layout, 7 components, 16 pages). No palette or contrast change.
 
 Full cross-product costs CI time: bounded fixtures and explicit timeout, no silent sampling. Motion readiness must precede hit-testing; virtual clocks must not freeze compositor transitions. Route coverage cannot be manufactured by merely assigning a route string; evidence identifies live versus stubbed paths. A historical defect unrelated to this scope remains reported rather than hidden.
+
+## Integration refinement — 2026-09-30
+
+The maintainer requested the #149 full-window ambient background and finite title/primary illumination.
+Integrate that parent without weakening the interaction limit: only the exact body pseudo-element may
+repeat (20 seconds, linear, alternate, opacity), and only the scoped one-pass title/primary sheen may
+last 900 ms. Reduced motion remains fully static. Import the parent's renderer probe and preserve all
+existing duration, route, containment, contrast and reachability negatives; add wrong-origin and
+repeating-sheen negatives. Journey settling waits for finite animations only, never for the ambient
+cycle; the property probe must reject other loops rather than accepting them by timeout.
+The earlier CI/native results do not cover this refinement. Repeat evidence on the integrated tree.
