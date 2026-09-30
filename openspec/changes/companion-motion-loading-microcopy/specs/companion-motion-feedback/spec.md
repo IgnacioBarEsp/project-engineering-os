@@ -64,3 +64,9 @@ The renderer SHALL restrict text gradients to Inicio and the final title, use on
 #### Scenario: Required folder choice in step one
 - **WHEN** no project folder has been selected
 - **THEN** the folder choice is visually distinguished, labeled as an action and paired with a local folder icon, with no redundant subtitle between the heading and form
+
+#### Scenario: Distinct search and AI-text tasks
+- **WHEN** a person opens the project Files tab at a wide or compact size
+- **THEN** separately titled search and AI-text sections distinguish finding excerpts in read files from preparing reviewable text to paste into an external chat; wide screens show them side by side and compact screens put search first, with search results below the task row
+- **AND** the existing export button remains named Preparar un texto para pegar en tu chat, is unavailable for an empty query and becomes available after writing a nonempty query without requiring a prior Search click; preview, explicit copy, local glossary access and no-automatic-send boundaries remain intact
+- **AND** empty-query unavailability survives rendering, navigation re-entry and completion of an operation; a busy operation still disables the action regardless of query content

@@ -13,6 +13,8 @@
 
 - [x] 2.6 Retirar subtítulo redundante del paso 1, acentuar solo el nombre y compartir iluminación finita de 900 ms en títulos destacados y primary hover/foco; preservar disabled/reduced, contraste y geometría.
 
+- [x] 2.7 Separar búsqueda y preparación de texto en Archivos tras la ronda final; conservar revisión/copia explícita y consulta no vacía incluso tras renderizar o liberar busy. Lectura humana y aceptación visual de esta variante pendientes.
+
 ## 3. Verificación
 
 - [x] 3.1 Probar límites con reloj controlado, progreso real, contraste de estados y mutaciones.
@@ -20,3 +22,4 @@
 - [x] 3.3 Actualizar DESIGN/protocolo y preparar PR borrador con gates abiertos.
 - [x] 3.4 Tras la primera ronda válida con resultado «no cumple», repetir Inicio y paso 1 con dos personas nuevas sobre la interfaz corregida; conservar respuestas literales y no sustituir por modelos. La segunda ronda cumple; la aceptación visual del ajuste posterior de distribución sigue separada.
 - [ ] 3.5 Obtener aceptación visual del Inicio con beneficios y lectura en frío de su copia final con dos personas nuevas; conservar por separado las rondas previas y la observación del control de exportación.
+- [ ] 3.6 Verificar interacción y responsive de las dos tareas de Archivos e integrar hacia #150; registrar la nueva observación humana del control señalado, sin duplicar las seis respuestas recibidas.

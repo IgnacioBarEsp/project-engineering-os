@@ -31,7 +31,7 @@
       "id": "visual-check-when-configured",
       "status": "pending",
       "evidence": null,
-      "justification": "La segunda ronda cumple la copia breve, no los beneficios posteriores. El mantenedor aprobó la composición de fondo global y beneficios y pidió retirar el subtítulo, dejar con sin degradado y añadir iluminación. La aprobación de la base se conserva; falta evaluar el refinamiento de iluminación, leer en frío la copia final y observar exportación.",
+      "justification": "La segunda ronda cumple la copia breve. final-reading-round.json conserva seis nuevas respuestas una sola vez: campos del paso 1 reconocidos; exportación no demostrada y protocolo pendiente de confirmar. La base visual aprobada se conserva; la distinción nueva entre buscar y preparar texto necesita aceptación visual y nueva observación humana. No se simula un PASS.",
       "profileCondition": null
     },
     {

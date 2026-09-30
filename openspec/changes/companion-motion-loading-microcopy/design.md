@@ -90,3 +90,29 @@ El contraste se acota incluyendo el máximo de brillo sobre cada fondo primario,
 El harness comprueba nombre, origen, duración y una sola iteración, puntero, disabled/reduced,
 hit-testing y pasos reales, sin esperar el infinito ambiental. Las capturas corresponden al renderer
 real; las muestras de fases de iluminación se identifican como tiempo controlado de la prueba.
+
+## 2026-09-30 · distinguir búsqueda y texto para la IA
+
+La ronda final reportada identifica los campos del paso 1, pero una persona pregunta qué control
+debe evaluar en Archivos y otra interpreta la pantalla como búsqueda de archivo. El protocolo
+de lector nuevo y señalamiento del botón todavía debe confirmarse. No convertir estas respuestas
+en aprobación del control de exportación; la interrupción duplicó el mensaje, no los lectores.
+
+Dentro de la delegación de ola 3 y la microcopia de #149, separar dos tareas con encabezados y
+superficies: Buscar en tus archivos y Preparar texto para tu IA. En escritorio compartirán una
+fila; en pantallas compactas quedarán en secuencia, búsqueda primero. Los resultados quedan
+debajo, no dentro de la acción para IA. Conservar las definiciones locales, nombre del botón,
+IPC de exportPreview/copyExport, revisión y aviso de no envío. Explicar en una frase que se
+prepara texto con coincidencias de la búsqueda para revisar y pegar en el chat. Una consulta
+vacía no puede exportarse: deshabilitar esa acción hasta escribirla, sin sustituir la validación
+del servicio ni exigir que se haya pulsado Buscar. No es una integración automática con IA.
+
+Riesgos: paneles apilados demasiado largos, acción fuera de alcance, pérdida de definiciones o
+query desincronizada. Verificar tamaños/movimientos, contraste/oclusión, consulta vacía → escrita
+→ vacía, vista previa y copia explícita real. Rollback: revertir renderer y tests, sin migraciones.
+Lectura humana del control revisado y aceptación visual siguen pendientes.
+
+El controlador común de actividad vuelve a habilitar controles al terminar. Para no perder la
+condición de consulta vacía al renderizar o buscar, la acción declara `data-disabled-idle` y el
+controlador conserva esa condición además de busy. El atributo no autoriza una exportación ni
+reemplaza la validación del servicio. Probar reentrada y liberación de actividad, no solo input.

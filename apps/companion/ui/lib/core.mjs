@@ -105,7 +105,7 @@ function steps(options){return stepRail(state.page,state.tab,options);}
 const notice=createToasts($('notice'));
 const transition=createTransitions({document,reduced:()=>matchMedia('(prefers-reduced-motion: reduce)').matches});
 function error(value){if($('dialog').open)closeDialog();$('feedback').replaceChildren(el('strong',{text:value.message??'No se pudo completar la acción.'}),p(value.action??'Vuelve a intentarlo.'),el('small',{text:value.code??''}));$('feedback').hidden=false;$('feedback').scrollIntoView({block:'nearest'});}
-function setBusy(value){state.busy=value;document.querySelectorAll('button,input,textarea,select').forEach(n=>{if(!['cancel','close-dialog'].includes(n.id))n.disabled=value;});$('content').setAttribute('aria-busy',String(value));}
+function setBusy(value){state.busy=value;document.querySelectorAll('button,input,textarea,select').forEach(n=>{if(!['cancel','close-dialog'].includes(n.id))n.disabled=value||n.dataset.disabledIdle==='true';});$('content').setAttribute('aria-busy',String(value));}
 // A transport that fails says so in words a person can act on. Its own message names an internal channel.
 const TRANSPORT_FAILED={code:'TRANSPORT_FAILED',message:'La ventana no pudo comunicarse con la aplicación.',
   action:'Vuelve a intentarlo. Si sigue igual, cierra la aplicación y ábrela de nuevo; tus proyectos se conservan.'};
