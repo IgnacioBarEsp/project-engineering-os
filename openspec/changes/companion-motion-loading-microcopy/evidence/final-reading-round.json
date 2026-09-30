@@ -8,7 +8,7 @@
     "noPriorExposureConfirmed": null,
     "screenOrderWithoutExplanationConfirmed": null,
     "exportButtonSpecificallyIndicatedConfirmed": null,
-    "note": "Asked the maintainer to confirm. The user submitted the same six answers twice around an intentional interruption; recorded once, not as four readers."
+    "note": "Asked the maintainer to confirm. Question strings below are the protocol prompts; the actual wording used is not independently confirmed. The user submitted the same six answers twice around an intentional interruption; recorded once, not as four readers."
   },
   "readers": [
     {
