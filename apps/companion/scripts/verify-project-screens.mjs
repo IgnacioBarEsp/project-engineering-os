@@ -21,6 +21,8 @@ const browser=await chromium.launch({...(process.platform==='win32'?{channel:'ms
 let chosen;
 const service=await createDesktopService({dataRoot:path.join(temp,'data'),core,chooseFolder:async()=>chosen,copyText:async()=>{},openExternal:async()=>{}});
 const entries=[],results=[];
+const captureOutput=process.argv[2];
+if(captureOutput)await mkdir(captureOutput,{recursive:true});
 try{
   for(let i=0;i<5;i++){
     chosen=path.join(temp,`project-${i}`);await mkdir(chosen);await writeFile(path.join(chosen,'source.txt'),'Evidencia original.');
@@ -41,13 +43,23 @@ try{
     await page.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>{if(name==='listProjects')window.__listAt=Date.now();return window.qaCall(name,input??{});} ]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
     const listAge=async age=>{
       for(let count=0;count<100&&await page.evaluate(()=>window.__listAt==null);count++)await page.clock.runFor(20);
-      const elapsed=await page.evaluate(()=>window.__listAt==null?null:Date.now()-window.__listAt);
-      assert.notEqual(elapsed,null,'List transport was not called after rendering');
+      const elapsed=await page.evaluate(()=>window.__slowAt==null?null:Date.now()-window.__slowAt);
+      assert.notEqual(elapsed,null,'List skeleton timer was not registered after rendering');
       assert.ok(elapsed<=age,'Test clock has already passed the requested boundary');
       await page.clock.runFor(age-elapsed);
     };
     await page.clock.install({time:new Date('2026-09-26T00:00:00Z')});
     await page.goto(`http://127.0.0.1:${server.address().port}`);await page.locator('#nav [data-action="open-project-list"]').waitFor();
+    // Install after Playwright's clock, which replaces the native scheduling functions.
+    // Anchor observations to registration rather than the later IPC microtask.
+    await page.evaluate(()=>{
+      const schedule=window.setTimeout;
+      window.setTimeout=function(callback,delay,...args){
+        if(delay===300)window.__slowAt=Date.now();
+        if(delay===10000)window.__limitAt=Date.now();
+        return schedule.call(this,callback,delay,...args);
+      };
+    });
     // Virtual renderer clock isolates the precise threshold from disk/IPC timing. Hold IPC until observed.
     hold=true;
     await page.locator('#nav [data-action="open-project-list"]').click();
@@ -86,6 +98,8 @@ try{
         assert.deepEqual(a11y.contrast,[]);assert.deepEqual(a11y.headingOrder,[]);assert.deepEqual(a11y.brokenWords,[]);
         assert.ok(await page.locator('#content').evaluate(node=>node.scrollWidth<=node.clientWidth+1),`${tab}/${width}: overflow`);
         results.push({motion,width,tab});
+        if(captureOutput&&motion==='no-preference'&&width===1180&&tab==='search')
+          await page.screenshot({path:path.join(captureOutput,'export-control-browser.png')});
       }
     }
     const before=calls.length;
@@ -99,7 +113,11 @@ try{
     await page.waitForFunction(()=>window.__listAt!=null);
     await page.clock.pauseAt(await page.evaluate(()=>Date.now()));await listAge(300);
     assert.equal(await page.locator('.project-loading').count(),5);assert.equal(await page.locator('.state-mark').count(),0);
-    await page.clock.runFor(9700);await page.getByRole('heading',{name:'La lista tardó demasiado en responder.'}).waitFor();
+    const limitAge=await page.evaluate(()=>Date.now()-window.__limitAt);
+    assert.ok(limitAge<=9999);await page.clock.runFor(9999-limitAge);
+    assert.equal(await page.getByRole('heading',{name:'La lista tardó demasiado en responder.'}).count(),0);
+    await page.clock.runFor(1);
+    await page.getByRole('heading',{name:'La lista tardó demasiado en responder.'}).waitFor();
     assert.equal(await page.locator('.project-loading').count(),0);assert.equal(await page.locator('#content').getAttribute('aria-busy'),'false');
     assert.deepEqual(errors,[]);await context.close();hang=false;
   }

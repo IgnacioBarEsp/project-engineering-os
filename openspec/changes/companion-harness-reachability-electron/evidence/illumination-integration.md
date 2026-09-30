@@ -44,3 +44,30 @@ Tracked separately at #204. Disposable probes of npm 11.20.0, 12.1.0 and scoped
 overrides did not remedy them; repository pins and production distribution unchanged.
 No audit exception, downgraded gate or successful aggregate is claimed. Closing the
 wave requires resolving #204 and actual human observations, not just this UI PASS.
+
+## Official npm decision and human-reading material
+
+On 2026-09-30 the maintainer explicitly chose an official corrected npm release, not
+a reconstructed distribution. Current registry candidates remain 11.20.0 and 12.1.0;
+their prior clean-install audits fail. #204 records the decision. A six-hour thread
+follow-up checks for a changed candidate before performing any new installation.
+No package pins, catalog hashes, audit thresholds or protected rules changed.
+
+Preparing an export-control capture exposed a timing defect in verify-project-screens:
+the 299 ms observation was anchored to IPC invocation, after the skeleton timer had
+already been registered. The first run failed 3 versus 0 skeletons. Instrumenting
+setTimeout before clock installation did not work because Playwright replaces it;
+the second failure (missing registration) is retained here. Instrumentation now runs
+after clock installation and captures timer-registration times without changing
+deadlines or callbacks. Exact checks remain no skeleton at 299 ms, skeleton at 300 ms,
+no timeout error at 9999 ms and error at 10000 ms. No shipping code changed.
+
+Two final runs completed exit 0, 32 project-tab/motion/size cells, five original files
+preserved, zero renderer errors. The optional output argument saves a real browser
+renderer/service screenshot of the export control, using disposable project data
+and injected native transport, not an installer/native-session claim. Capture at
+Temp/peos-final-human-reading/export-control-browser.png; do not publish user paths.
+Own adversarial assessment: wrapper delegates all callbacks, delays and arguments
+unchanged; clock-boundary assertions were strengthened, not widened; screenshots
+do not count as human answers or independent acceptance. Separate review remains
+required for this new harness refinement before archive. Human gates stay open.
