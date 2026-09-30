@@ -33,8 +33,17 @@ export const QUALITY = expected => {
     }
     for(const pseudo of [null,'::before','::after']){
       const s=pseudo?getComputedStyle(node,pseudo):style;motionMeasured++;
+      const ambient=!reduced&&node===document.body&&pseudo==='::after'
+        &&s.animationName==='app-ambient-flow'&&s.animationDuration==='20s'
+        &&s.animationIterationCount==='infinite'&&s.animationDirection==='alternate'
+        &&s.animationTimingFunction==='linear'&&s.pointerEvents==='none';
+      const sheen=!reduced&&s.animationDuration==='0.9s'&&s.animationIterationCount==='1'
+        &&s.animationTimingFunction==='linear'&&((pseudo===null&&node.matches('.hero-gradient')&&s.animationName==='brand-illuminate')
+        ||(pseudo==='::after'&&node.matches('button.primary:not(:disabled):not(.danger)')&&s.animationName==='action-illuminate'&&s.pointerEvents==='none'));
       const durations=[s.animationDuration,s.transitionDuration].flatMap(value=>value.split(',').map(item=>parseFloat(item)*1000));
-      if(durations.some(ms=>ms>300))issues.push('motion-duration:'+node.tagName);
+      if(s.transitionDuration.split(',').some(item=>parseFloat(item)*1000>300)
+        ||(!ambient&&!sheen&&s.animationDuration.split(',').some(item=>parseFloat(item)*1000>300)))issues.push('motion-duration:'+node.tagName);
+      if(!ambient&&s.animationName!=='none'&&s.animationIterationCount.split(',').some(item=>Number(item)>1||item.trim()==='infinite'))issues.push('motion-repeat:'+node.tagName);
       if(reduced&&durations.some(ms=>ms>0))issues.push('reduced-motion:'+node.tagName);
       if(durations.some(ms=>ms>0)&&[s.animationTimingFunction,s.transitionTimingFunction].some(value=>value.includes('ease-in')))issues.push('motion-ease-in:'+node.tagName);
     }

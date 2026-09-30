@@ -8,6 +8,7 @@ import {ASSETS,CSP} from '../desktop/assets.mjs';
 import {ROUTES,routeFor} from '../ui/lib/router.mjs';
 import {stub,STATUS,PROFILE_CATALOG} from './renderer-fixtures.mjs';
 import {QUALITY,assertCoverage} from './quality-probes.mjs';
+import {AMBIENT} from './ambient-contract.mjs';
 import {REACH,INTERACTIVE,reachProblems,ACCESSIBILITY} from './interface-contract.mjs';
 import {finishPreparation} from './wizard-journey.mjs';
 
@@ -54,11 +55,12 @@ export async function verifyRouteCoverage(output){
       });
       const measure=async()=>{
         await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
-        await page.evaluate(()=>Promise.all(document.getAnimations().map(a=>a.finished.catch(()=>{}))));
+        await page.evaluate(()=>Promise.all(document.getAnimations().filter(a=>Number.isFinite(a.effect.getComputedTiming().iterations)).map(a=>a.finished.catch(()=>{}))));
         const current=await page.evaluate(async()=>{const {state}=await import('/lib/core.mjs');return {page:state.page,tab:state.tab,profile:state.selection.profile};});
         const expected=routeFor(current.page,current);
         if(current.page==='delimitation')expected.focuses=PROFILE_CATALOG.profiles.find(item=>item.id===current.profile).focuses.map(item=>item.id);
         const quality=await page.evaluate(QUALITY,expected),a11y=await page.evaluate(ACCESSIBILITY);
+        const ambient=await page.evaluate(AMBIENT);assert.deepEqual(ambient.problems,[]);quality.ambient=ambient;
         assert.deepEqual(quality.issues,[],JSON.stringify({current,motion,width,quality}));
         assert.ok(a11y.measured>0);assert.deepEqual(a11y.contrast,[]);
         const reach=await page.evaluate(REACH,INTERACTIVE);
@@ -82,6 +84,8 @@ export async function verifyRouteCoverage(output){
           ['route-breadcrumb',()=>{document.getElementById('breadcrumb').textContent='OTRO LUGAR';},()=>{document.getElementById('breadcrumb').textContent='PREPARAR PROYECTO / ENFOQUE';}],
           ['decorative-control',()=>{const n=document.createElement('span');n.id='qa-decoration';n.className='primary';n.textContent='Acción sin botón';document.querySelector('#view .enter').append(n);},()=>document.getElementById('qa-decoration').remove()],
           ['motion-duration',()=>{document.querySelector('#view h1').style.transitionDuration='600ms';},()=>{document.querySelector('#view h1').style.transitionDuration='';}],
+          ['motion-duration',()=>{document.querySelector('#view h1').style.animation='brand-illuminate 900ms linear';},()=>{document.querySelector('#view h1').style.animation='';}],
+          ['motion-repeat',()=>{document.querySelector('#view h1').style.animation='action-illuminate 900ms linear infinite';},()=>{document.querySelector('#view h1').style.animation='';}],
           ['color-outside-tokens',()=>{document.querySelector('#view h1').style.color='rgba(255,0,0,0.5)';},()=>{document.querySelector('#view h1').style.color='';}],
           ['motion-ease-in',()=>{document.querySelector('#view h1').style.transition='opacity 200ms ease-in';},()=>{document.querySelector('#view h1').style.transition='';}],
           ['unsafe-containing-block',()=>{document.querySelector('#view .enter').style.transform='translateX(0)';const n=document.createElement('button');n.id='qa-fixed';n.style.position='fixed';n.textContent='Acción';document.querySelector('#view .enter').append(n);},()=>{document.getElementById('qa-fixed').remove();document.querySelector('#view .enter').style.transform='';}],

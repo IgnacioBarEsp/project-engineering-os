@@ -110,7 +110,7 @@ function showProject(){
   });}},el('div',{class:'field'},el('label',{for:'wizard-name',text:'Nombre de tu proyecto'}),name),folder,
     el('fieldset',{},el('legend',{text:'¿Qué vas a preparar?'}),profileCards));
   render([rail(),el('p',{class:'eyebrow wizard-purpose',text:'Herramienta de preparación de proyectos para tu IA'}),el('h1',{tabindex:'-1',text:'¿Qué vas a preparar?'}),
-    el('p',{class:'intro'},'Nombre, carpeta y tipo de trabajo. Tus archivos pueden aportar ',term('fuente','fuentes'),'.'),form],null,
+    form],null,
     wizardBar(doBtn('open-start'),el('button',{type:'submit',form:'wizard-project-form',class:'primary',text:'Continuar a Enfoque  →'})));
 }
 

@@ -1,10 +1,23 @@
 import {profiles, isEngineeringProfile, agents, projectStates, stageList, onDate, state, el, p, btn, doBtn, rowBtn, heading, own, actions, panel, term, steps, notice, error, call, render, openDialog, GLOSSARY, byId} from '../lib/core.mjs';
 import {chooseFromHome, resumeDraft, startFromDuplicate, forget} from '../lib/bridge.mjs';
+import {icon} from '../lib/dom.mjs';
 function showStart(){state.page='start';render([
-  el('h1',{class:'hero-title',tabindex:'-1'},'Prepara tus proyectos',el('br'),el('span',{class:'hero-gradient',text:'con Project Engineering OS'})),
-  p('¿Cansado de repetirle a tu IA de qué trata tu proyecto? Prepara la carpeta donde trabajas con instrucciones y un método claro.','intro'),
-  el('div',{class:'home-actions'},doBtn('prepare-project','primary'),
-    btn('Abrir una carpeta existente',()=>chooseFromHome(),'secondary')),
+  el('section',{class:'home-overview'},
+    el('div',{class:'home-copy'},
+      el('h1',{class:'hero-title',tabindex:'-1'},'Prepara tus proyectos',el('br'),'con ',el('span',{class:'hero-gradient',text:'Project Engineering OS'})),
+      p('¿Cansado de repetirle a tu IA de qué trata tu proyecto? Prepara la carpeta donde trabajas con instrucciones y un método claro.','intro'),
+      el('div',{class:'home-actions'},doBtn('prepare-project','primary'),
+        btn('Abrir una carpeta existente',()=>chooseFromHome(),'secondary'))),
+    el('aside',{class:'home-benefits','aria-labelledby':'home-benefits-title'},
+      p('Lo que aporta a tu proyecto','eyebrow'),
+      el('h2',{id:'home-benefits-title',text:'Así cambia tu forma de trabajar'}),
+      el('ul',{class:'home-benefit-list'},
+        el('li',{class:'home-benefit home-benefit-review'},icon('review','home-benefit-icon'),el('div',{},
+          el('h3',{text:'Cambios definidos y revisables'}),el('p',{},'Ahora, cuando trabajes con tu IA en software, podrás revisar los cambios que documente con ',term('openspec'),'.'))),
+        el('li',{class:'home-benefit home-benefit-tools'},icon('folder-open','home-benefit-icon'),el('div',{},
+          el('h3',{text:'Empieza sin usar la terminal'}),p('Prepara tu carpeta desde la app. Si necesitas herramientas, verás cuáles se descargarán antes de aprobar.'))),
+        el('li',{class:'home-benefit home-benefit-recovery'},icon('layers','home-benefit-icon'),el('div',{},
+          el('h3',{text:'Retoma o deshaz una preparación'}),p('Retoma una preparación interrumpida o revisa cómo deshacerla. La app comprueba tus ediciones antes.')))))),
   state.resumeDraft?panel(el('h2',{text:'Tienes una preparación sin terminar'}),
     p('Tus respuestas se conservaron en esta aplicación; la carpeta del proyecto no cambió por guardar el borrador.'),
     actions(btn('Continuar borrador',()=>resumeDraft(),'primary'))):null,

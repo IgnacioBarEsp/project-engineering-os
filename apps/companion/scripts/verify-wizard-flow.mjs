@@ -48,7 +48,7 @@ async function journey(profile,focus,route,motion,width,height){
   const screens=[];
   const measure=async()=>{
     await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
-    await page.evaluate(()=>Promise.all(document.getAnimations().map(a=>a.finished.catch(()=>{}))));
+    await page.evaluate(()=>Promise.all(document.getAnimations().filter(a=>Number.isFinite(a.effect.getComputedTiming().iterations)).map(a=>a.finished.catch(()=>{}))));
     const current=await page.evaluate(async()=>{const {state}=await import('/lib/core.mjs');return {page:state.page,tab:state.tab};});
     const expected=routeFor(current.page,current);
     if(current.page==='delimitation')expected.focuses=PROFILES[profile].focuses.map(item=>item.id);
@@ -100,7 +100,7 @@ async function journey(profile,focus,route,motion,width,height){
     // Agent changes persist and asynchronously rebuild the plan. Measure the new screen,
     // not the old scrolled form while its save is still in flight.
     await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
-    await page.evaluate(()=>Promise.all(document.getAnimations().map(a=>a.finished.catch(()=>{}))));
+    await page.evaluate(()=>Promise.all(document.getAnimations().filter(a=>Number.isFinite(a.effect.getComputedTiming().iterations)).map(a=>a.finished.catch(()=>{}))));
     const count=await page.locator('.wizard-file-plan li').count();assert.ok(count>0);
     const primary=await button('Guardar la preparación revisada  →').boundingBox();
     assert.ok(primary&&primary.y>=0&&primary.y+primary.height<=viewport.height,`Preparar oculta el botón principal a ${viewport.width}×${viewport.height}: ${JSON.stringify(primary)}`);
@@ -175,7 +175,7 @@ async function existingFolderJourney(motion,width,height){
   const context=await browser.newContext({viewport:{width,height},reducedMotion:motion}),page=await context.newPage(),screens=[];
   const measure=async()=>{
     await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
-    await page.evaluate(()=>Promise.all(document.getAnimations().map(a=>a.finished.catch(()=>{}))));
+    await page.evaluate(()=>Promise.all(document.getAnimations().filter(a=>Number.isFinite(a.effect.getComputedTiming().iterations)).map(a=>a.finished.catch(()=>{}))));
     const current=await page.evaluate(async()=>{const {state}=await import('/lib/core.mjs');return {page:state.page,tab:state.tab};});
     const quality=await page.evaluate(QUALITY,routeFor(current.page,current));assert.deepEqual(quality.issues,[]);
     assert.deepEqual(reachProblems(await page.evaluate(REACH,INTERACTIVE)),[]);screens.push({page:current.page,quality});

@@ -2,6 +2,7 @@
   "date": null,
   "application": "source screenshots from Wave 3, #201 d34b2b5",
   "status": "failed",
+  "latestRoundStatus": "passed",
   "readers": [
     {
       "anonymousId": "reader-1",
@@ -56,6 +57,64 @@
     "result": "no cumple",
     "reason": "Ninguna respuesta sobre Inicio identifica la preparación de una carpeta para una IA existente. En el primer paso, la carpeta no se reconoce claramente como elección necesaria; la primera persona incluso dice que le costó verla."
   },
+  "followUpRound": {
+    "date": null,
+    "application": "0.3.6 source screenshots from #202 CI run 36588084388, after #201 f1d2d8c",
+    "status": "passed",
+    "readers": [
+      {
+        "anonymousId": "reader-3",
+        "knewTheApplication": false,
+        "hadSeenTheScreenshots": false,
+        "screenOrder": ["inicio", "paso-1"],
+        "responses": [
+          {
+            "screen": "inicio",
+            "question": "¿qué hace esta aplicación?",
+            "answerVerbatim": "Es una aplicacion que sirve para preparar tus proyectos y que la IA los entienda mejor, solo que esta algo vacia para el tamaño de la pestaña, tal vez deberia redistribuirse mejor el contenido o poner ejemplos de como mejora tus proyectos",
+            "hesitated": null,
+            "askedFirst": null
+          },
+          {
+            "screen": "paso-1",
+            "question": "¿qué te pide esta pantalla y qué harías ahora?",
+            "answerVerbatim": "La pantalla me pide que ponga el nombre de mi proyecto, escoja la carpeta donde va a estar y el tipo de proyecto que es, lo que haria ahora seria rellenar esos campos y escoger que tipo de proyecto es",
+            "hesitated": null,
+            "askedFirst": null
+          }
+        ]
+      },
+      {
+        "anonymousId": "reader-4",
+        "knewTheApplication": false,
+        "hadSeenTheScreenshots": false,
+        "screenOrder": ["inicio", "paso-1"],
+        "responses": [
+          {
+            "screen": "inicio",
+            "question": "¿qué hace esta aplicación?",
+            "answerVerbatim": "Es una herramienta que sirve para dejar preparadas tus carpetas en las que vas a trabajar con Inteligencia artificial",
+            "hesitated": null,
+            "askedFirst": null
+          },
+          {
+            "screen": "paso-1",
+            "question": "¿qué te pide esta pantalla y qué harías ahora?",
+            "answerVerbatim": "Pide que escriba el nombre del proyecto, elija la carpeta y lo que haria acontinuacion seria escoger que tipo de proyecto es",
+            "hesitated": null,
+            "askedFirst": null
+          }
+        ]
+      }
+    ],
+    "observations": {
+      "receivedDate": "2026-09-29",
+      "interviewDate": null,
+      "source": "Respuestas literales facilitadas por el mantenedor tras recibir las capturas de Inicio y del primer paso de la CI de #202. Confirmó que son dos personas distintas de las de la primera ronda, sin exposición previa a la app ni a las capturas, y que vieron Inicio y después el primer paso sin explicación.",
+      "countsAsColdReading": true,
+      "contentResult": "Cumple: las dos respuestas de Inicio identifican preparar proyectos o carpetas para IA; las dos del primer paso identifican nombre, carpeta y tipo de proyecto. La observación estética de la primera persona se conserva literalmente y requiere decisión visual del mantenedor."
+    }
+  },
   "partialFeedback": {
     "receivedDate": "2026-09-27",
     "source": "Tres capturas de conversaciones privadas facilitadas por el mantenedor; las imágenes no se publican.",
@@ -81,5 +140,5 @@
       }
     ]
   },
-  "conclusion": "No cumple en esta ronda: dos personas nuevas vieron Inicio y después el paso 1, pero confundieron el propósito de Inicio y no identificaron claramente elegir carpeta como acción del paso 1. La evidencia anterior de tres capturas aisladas sigue siendo parcial. Tras corregir la interfaz se necesitan otras personas nuevas para una nueva lectura en frío."
+  "conclusion": "La primera ronda se conserva con resultado no cumple. La segunda, registrada en followUpRound con dos personas diferentes y protocolo confirmado por el mantenedor, cumple la comprensión de Inicio y de nombre, carpeta y tipo en el primer paso de la copia breve. La observación estética motivó propuestas posteriores de redistribución, un ejemplo y beneficios; después se refinaron las frases y el fondo pasó a ser global y animado por petición del mantenedor. Esas personas no vieron las variantes posteriores. La propuesta con beneficios añade lenguaje y requiere su propia lectura en frío, además de la aceptación visual final. La aprobación del carácter del degradado no se convierte en aceptación de la variante completa. La observación del control de exportación sigue pendiente."
 }

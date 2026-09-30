@@ -31,7 +31,7 @@
       "id": "visual-check-when-configured",
       "status": "pending",
       "evidence": null,
-      "justification": "La primera ronda literal con dos personas nuevas no cumplió. El mantenedor aprobó visualmente la versión anterior del paso 1, no esta corrección ni el recorrido completo; falta repetir la lectura con otras personas nuevas.",
+      "justification": "La segunda ronda cumple la copia breve, no los beneficios posteriores. El mantenedor aprobó la composición de fondo global y beneficios y pidió retirar el subtítulo, dejar con sin degradado y añadir iluminación. La aprobación de la base se conserva; falta evaluar el refinamiento de iluminación, leer en frío la copia final y observar exportación.",
       "profileCondition": null
     },
     {

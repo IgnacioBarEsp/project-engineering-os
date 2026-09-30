@@ -2,6 +2,8 @@
   --dur-fast: 120ms;
   --dur-base: 200ms;
   --dur-slow: 280ms;
+  --dur-ambient: 20000ms;
+  --dur-sheen: 900ms;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --surface-card: #121826;
   --surface-card-hover: #182236;
@@ -66,4 +68,19 @@
   --alpha-white-6: rgba(255,255,255,0.06);
   --alpha-white-8: rgba(255,255,255,0.08);
   --alpha-white-9: rgba(255,255,255,0.09);
+  --app-ambient-indigo: rgba(99,102,241,.1);
+  --app-ambient-cyan: rgba(6,182,212,.07);
+  --app-shift-indigo: rgba(99,102,241,.07);
+  --app-shift-cyan: rgba(6,182,212,.05);
+  --surface-panel-overlay: rgba(15,19,29,.78);
+  --surface-chrome-overlay: rgba(11,15,25,.94);
+  --surface-menu-overlay: rgba(18,24,38,.9);
+  --dialog-dimmer: rgba(5,8,14,.55);
+  --brand-sheen: rgba(248,250,252,.5);
+  --action-sheen: rgba(255,255,255,.08);
+  --home-benefit-cyan: rgba(6,182,212,.12);
+  --home-benefit-border: rgba(129,140,248,.22);
+  --home-benefit-divider: rgba(255,255,255,.1);
+  --home-review-icon: rgba(99,102,241,.18);
+  --home-method-icon: rgba(165,180,252,.12);
 }

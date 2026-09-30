@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "kind": "feature",
   "result": "clean",
   "candidates": [],
-  "notes": "Renderer y harness de #149: transiciones con fallback/generaciones, espera finita, copia nativa y progreso real. Corregidas interactividad prematura, falso spill y copia confusa tras lectura humana fallida. Companion 212/212, raíz 391/391, UI 20 recorridos y contrato 46/46 verdes. Inicio breve; información opcional en FAQ nativa. El probe visual Electron no verifica cierre normal y termina su proceso aislado tras capturas; no se afirma un defecto del producto. Sin dependencias/servicio/formatos nuevos. Gates humanos/independiente pendientes; no archivo.",
+  "notes": "Aprobación real del mantenedor sobre la base de fondo global/beneficios conservada. Nuevo refinamiento: subtítulo retirado, con sin degradado y pasada finita 900 ms en marca/título final y primary hover/foco. Sin nuevos handlers, dependencias o bucles; disabled/danger/reduced sin brillo. Nativo con seis mutaciones detectadas, fases/ratón/teclado/geometría/outline y contraste AA. Companion 217/217 código 0; UI persistida 20/120/1340/40, compatibilidad y aislamiento completed. Raíz 390/391: hash cambió al editar evidencia durante export; repetición inmóvil del test de export 2/2 código 0, sin relajar comparación. No se afirma otra ejecución completa verde. Assessment inmutable anterior intacto; este input no acredita revisión independiente ni cierre. El shell no prueba instalador, selector nativo o cierre normal. Integración de #150, evaluación del brillo, lectura final, exportación y revisión independiente pendientes. Sin deficiencia técnica conocida pospuesta ni archivo, merge, cierre u ola 4.",
   "flow": "companion-motion-loading-microcopy"
 }

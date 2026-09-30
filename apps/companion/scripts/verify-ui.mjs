@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {finishPreparation} from './wizard-journey.mjs';
+import {AMBIENT} from './ambient-contract.mjs';
 import { createServer } from 'node:http';
 import { mkdir, mkdtemp, readFile, writeFile, realpath, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -95,7 +96,7 @@ async function collectActions(page,where){
 // fails instead of stopping at the first.
 const a11y=new Set(),screensSeen=new Set(),screenDenominators=[],listStates=[],guideSignatures=[];
 async function checkScreen(page,where){
-  await page.evaluate(()=>Promise.all(document.getAnimations().map(a=>a.finished.catch(()=>{}))));
+  await page.evaluate(()=>Promise.all(document.getAnimations().filter(a=>Number.isFinite(a.effect.getComputedTiming().iterations)).map(a=>a.finished.catch(()=>{}))));
   const modal=await page.locator('dialog[open]').count();
   if(!modal){
     const current=await page.evaluate(async()=>{const {state}=await import('/lib/core.mjs');return {page:state.page,tab:state.tab};});
@@ -125,8 +126,10 @@ async function checkScreen(page,where){
   const fixed=await page.evaluate(FIXED_CONTAINMENT);
   if(!fixed.measured)a11y.add(`${where}: no se midió ningún elemento fixed`);
   for(const item of fixed.unsafe)a11y.add(`${where}: fixed bajo transform/filter/perspective: ${item}`);
+  const ambient=await page.evaluate(AMBIENT);
+  for(const problem of ambient.problems)a11y.add(`${where}: ${problem}`);
   screenDenominators.push({screen:where,contrastMeasured:result.measured,vocabularyChars:vocabulary.examinedChars,
-    attributes:vocabulary.attributes,controls:names.controls,focusable:result.focusable,terms:result.terms});
+    attributes:vocabulary.attributes,controls:names.controls,focusable:result.focusable,terms:result.terms,ambient});
   return result;
 }
 const checkAccessibility=checkScreen;
@@ -177,6 +180,8 @@ async function walkWizard(width,height,motion,branch){
       header:{brokenWords:a11y.brokenWords}};
     for(const problem of reachProblems(report,{primary:PRIMARY[screen],bar:WITH_BAR.has(screen)}))problems.push(`${screen}: ${problem}`);
     const fixed=await page.evaluate(FIXED_CONTAINMENT);
+    const ambient=await page.evaluate(AMBIENT);screens[screen].ambient=ambient;
+    for(const problem of ambient.problems)problems.push(`${screen}: ${problem}`);
     if(!fixed.measured)problems.push(`${screen}: no se midió ningún elemento fixed`);
     for(const item of fixed.unsafe)problems.push(`${screen}: fixed bajo transform/filter/perspective: ${item}`);
     for(const entry of a11y.contrast)problems.push(`${screen}: contraste ${entry.ratio}:1 (requerido ${entry.required}:1) en ${entry.tag}.${entry.class} "${entry.text}"`);
@@ -229,17 +234,17 @@ async function walkWizard(width,height,motion,branch){
     for(const phrase of ['¿Cansado de repetirle a tu IA', 'Prepara la carpeta donde trabajas con instrucciones y un método claro.']){
       if(!homeCopy.includes(phrase))problems.push(`inicio: falta instrucción visible: ${phrase}`);
     }
-    if(await page.locator('#view .eyebrow, #view .feature-row, #view .panel').count())
+    if(await page.locator('#view .home-copy > .eyebrow, #view > .enter > .eyebrow, #view .feature-row, #view .panel').count())
       problems.push('inicio: la portada vuelve a incluir bloques informativos ajenos a la acción principal');
+    if(await page.locator('.home-benefits[aria-labelledby="home-benefits-title"]').count()!==1)
+      problems.push('inicio: faltan los beneficios de preparación claramente identificados');
     await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
     if(!await reached('¿Qué vas a preparar?','inicio'))return;
-    const setupCopy=await page.locator('#view .wizard-content .intro').innerText();
     if(await page.locator('#view .wizard-purpose').textContent()!=='Herramienta de preparación de proyectos para tu IA')
       problems.push('setup: falta la breve descripción de la herramienta');
-    for(const phrase of ['Nombre, carpeta y tipo de trabajo.',
-      'Tus archivos pueden aportar']){
-      if(!setupCopy.includes(phrase))problems.push(`setup: falta instrucción visible: ${phrase}`);
-    }
+    if(await page.locator('#view .wizard-content > .intro').count())problems.push('setup: volvió el subtítulo redundante retirado por el mantenedor');
+    if(await page.getByLabel('Nombre de tu proyecto',{exact:true}).count()!==1||await page.locator('#wizard-project-form input[name="profile"]').count()!==6)
+      problems.push('setup: el formulario perdió el nombre o los seis tipos de trabajo');
     if(await page.locator('#wizard-project-form legend').innerText()!=='¿Qué vas a preparar?')problems.push('setup: el grupo de perfiles perdió su título original');
     const folderChoice=page.getByRole('group',{name:'Elige la carpeta del proyecto'});
     if(!await folderChoice.isVisible()||!await folderChoice.locator('svg').isVisible())
@@ -456,6 +461,8 @@ try {
     await page.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>window.qaCall(name,input??{})]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
     await page.goto(url);await heading(page,'Prepara tus proyectos con Project Engineering OS');
     await checkScreen(page,`${profile} inicio`);
+    assert.equal(await page.locator('.home-benefits .home-benefit-list > li').count(),3,
+      'Home labels three concrete preparation benefits without performance promises');
     await click(page,'Ayuda');await heading(page,'Ayuda');
     if(profile==='research')await capture(page,'help-faq-desktop');
     const faq=page.locator('#view .help-faq');

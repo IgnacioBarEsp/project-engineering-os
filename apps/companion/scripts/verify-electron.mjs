@@ -37,7 +37,7 @@ try{
   page.on('requestfailed',request=>report.failures.push('Failed renderer request: '+request.url()));
   const engine='Electron '+await application.evaluate(()=>process.versions.electron);
   const settle=async()=>{await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
-    await page.evaluate(()=>Promise.all(document.getAnimations().map(a=>a.finished.catch(()=>{}))));};
+    await page.evaluate(()=>Promise.all(document.getAnimations().filter(a=>Number.isFinite(a.effect.getComputedTiming().iterations)).map(a=>a.finished.catch(()=>{}))));};
   const capture=async(id,width,height,motion)=>{
     await settle();
     const current=await page.evaluate(async()=>{const {state}=await import('./lib/core.mjs');return {page:state.page,tab:state.tab};});

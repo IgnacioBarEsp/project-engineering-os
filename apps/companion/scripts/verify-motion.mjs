@@ -9,6 +9,7 @@ import * as core from 'create-project-engineering-os';
 import {createDesktopService,publicError} from '../desktop/service.mjs';
 import {ASSETS,CSP} from '../desktop/assets.mjs';
 import {ACCESSIBILITY} from './interface-contract.mjs';
+import {AMBIENT} from './ambient-contract.mjs';
 
 const native=process.argv.includes('--native');
 const appRoot=fileURLToPath(new URL('../',import.meta.url)),temp=await realpath(await mkdtemp(path.join(tmpdir(),'peos-motion-')));
@@ -96,7 +97,9 @@ try{
       if(mode==='disabled')assert.equal(await control.evaluate(node=>getComputedStyle(node).opacity),'1');
       if(mode==='pressed'){await control.evaluate(node=>{node.disabled=false;});await control.hover();await page.mouse.down();}
       // Finish finite animations so contrast is not sampled halfway between two valid states.
-      await page.evaluate(()=>Promise.all(document.getAnimations().map(animation=>animation.finished.catch(()=>{}))));
+      await page.evaluate(()=>Promise.all(document.getAnimations()
+        .filter(animation=>animation.effect?.getComputedTiming().iterations!==Infinity)
+        .map(animation=>animation.finished.catch(()=>{}))));
       const result=await page.evaluate(mode=>{
         const nodes=[...document.querySelectorAll('#view *')],issues=[];let animated=0;
         for(const node of nodes){
@@ -117,7 +120,8 @@ try{
       if(mode==='pressed')await page.mouse.up();
     }
     assert.deepEqual(errors,[]);
-    results.push({motion,transitions,clipboard:native?'native exact bytes + native failure':'injected transport success/failure',toasts:'max 2, 3999/4000 ms',copy:'1999/2000 ms',progress:'999/1000 ms, 2/7 real inputs, 10s stage + cancel, footer',styles});
+    const ambient=await page.evaluate(AMBIENT);assert.deepEqual(ambient.problems,[]);
+    results.push({motion,transitions,clipboard:native?'native exact bytes + native failure':'injected transport success/failure',toasts:'max 2, 3999/4000 ms',copy:'1999/2000 ms',progress:'999/1000 ms, 2/7 real inputs, 10s stage + cancel, footer',styles,ambient});
     if(!native)await page.close();
   }
   console.log(JSON.stringify({scope:native?'Electron Windows source app, actual clipboard; progress events controlled':'Browser components with real local service; native surfaces injected',results},null,2));
