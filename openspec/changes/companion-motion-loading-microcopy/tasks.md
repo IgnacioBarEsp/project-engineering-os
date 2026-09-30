@@ -22,4 +22,5 @@
 - [x] 3.3 Actualizar DESIGN/protocolo y preparar PR borrador con gates abiertos.
 - [x] 3.4 Tras la primera ronda válida con resultado «no cumple», repetir Inicio y paso 1 con dos personas nuevas sobre la interfaz corregida; conservar respuestas literales y no sustituir por modelos. La segunda ronda cumple; la aceptación visual del ajuste posterior de distribución sigue separada.
 - [ ] 3.5 Obtener aceptación visual del Inicio con beneficios y lectura en frío de su copia final con dos personas nuevas; conservar por separado las rondas previas y la observación del control de exportación.
-- [ ] 3.6 Verificar interacción y responsive de las dos tareas de Archivos e integrar hacia #150; registrar la nueva observación humana del control señalado, sin duplicar las seis respuestas recibidas.
+- [x] 3.6 Verificar interacción y responsive de las dos tareas de Archivos e integrar hacia #150; ocho celdas con revisión/cancelación/copia exacta, sin duplicar las seis respuestas recibidas.
+- [ ] 3.7 Registrar nueva observación humana del control de exportación específicamente señalado y aceptación visual de las dos tareas; confirmar por separado el protocolo de la ronda final recibida.
