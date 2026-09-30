@@ -245,3 +245,14 @@ incluidos en el árbol exportable. No se cuenta como pase. Con el árbol inmóvi
 `node --test test/export.test.mjs` terminó **2/2, código 0**, conservando la comparación exacta de hash
 y el caso negativo de README alterado. No se cambió el exportador ni sus pruebas. Se distingue ese
 pase focal de una nueva ejecución completa de npm run check, que no se afirma.
+
+## 2026-09-30 · separación del primer campo
+
+El mantenedor pidió más espacio entre «¿Qué vas a preparar?» y «Nombre de tu proyecto».
+El formulario del paso 1 recibe margin-top de 16 px, sin subtítulo ni texto nuevo y
+sin modificar los otros pasos. Regresión focal 3/3, exit 0; Electron real con ocho
+celdas responsive/movimiento, controles alcanzables, brillo y seis negativos: exit 0,
+failures vacío. Evidencia fuente en Temp/peos-step1-spacing; no installer/release.
+
+La raíz completa se repitió anteriormente sobre el árbol inmóvil: 391/391, exit 0;
+véase independent-refinement-review.md. Ese pase no se atribuye a este nuevo CSS.

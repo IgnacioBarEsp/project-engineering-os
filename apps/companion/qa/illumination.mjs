@@ -15,6 +15,7 @@ test('Approved minimal copy refinement removes the subtitle and accents the bran
   assert.match(wizard,/text:'¿Qué vas a preparar\?'\}\),\s*form\]/);
   assert.match(wizard,/for:'wizard-name',text:'Nombre de tu proyecto'/);
   assert.match(wizard,/role:'group','aria-labelledby':'wizard-folder-label'/);
+  assert.match(await read('pages.css'),/#wizard-project-form \{ margin-top: 16px; \}/);
 });
 
 test('Finite illumination is limited to title entry and enabled primary hover/keyboard focus',async()=>{

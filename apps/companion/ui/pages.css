@@ -143,6 +143,7 @@ main#content {
   overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; container: workspace / inline-size;
   scroll-padding-bottom: calc(var(--wizard-footer-height, 0px) + 16px);
 }
+#wizard-project-form { margin-top: 16px; }
 .wizard-layout { display: grid; grid-template-columns: 168px minmax(0,1fr); gap: 32px; align-items: start; }
 .wizard-rail, .wizard-content { min-width: 0; }
 .wizard-rail { position: sticky; top: 16px; align-self: start; }
