@@ -47,3 +47,8 @@ apilan las tareas y permiten llegar al texto mediante scroll. Es inspección pro
 no aceptación visual humana ni nueva prueba nativa. Evidencia y assessment acotado del refinamiento
 se conservan en el change de #150, sin reemplazar el assessment inmutable anterior de #149.
 La matriz UI general de #150 aún termina sus fases posteriores; no se acredita su exit final aquí.
+
+Después terminó `verify-ui.mjs` en #150, exit 0: 28 recorridos/168 pantallas,
+1876/1876 controles alcanzables y 56/56 copias exactas. Rutas 20/120 y 16 negativos,
+compatibilidad e aislamiento completados. Artefactos en Temp/peos-files-clarity-ui-final-v1.
+Este pase corresponde al renderer integrado de #150, no a Electron o una release publicada.
