@@ -1,0 +1,73 @@
+{
+  "receivedDate": "2026-09-30",
+  "interviewDate": null,
+  "application": "Source screenshots: Inicio/paso 1 after #201 7717195; export control from #202 b9532e9 browser renderer/service",
+  "status": "pending-protocol-confirmation",
+  "protocol": {
+    "differentUnfamiliarReadersConfirmed": null,
+    "noPriorExposureConfirmed": null,
+    "screenOrderWithoutExplanationConfirmed": null,
+    "exportButtonSpecificallyIndicatedConfirmed": null,
+    "note": "Asked the maintainer to confirm. The user submitted the same six answers twice around an intentional interruption; recorded once, not as four readers."
+  },
+  "readers": [
+    {
+      "anonymousId": "reader-5",
+      "responses": [
+        {
+          "screen": "inicio",
+          "question": "¿Qué hace esta aplicación?",
+          "answerVerbatim": "Es una aplicacion que te ayuda a preparar una carpeta con inteligencia artificial para que responda mejor y tenga mayor orden",
+          "hesitated": null,
+          "askedFirst": null
+        },
+        {
+          "screen": "paso-1",
+          "question": "¿Qué te pide esta pantalla y qué harías ahora?",
+          "answerVerbatim": "Esta pantalla me pide el nombre de mi proyecto, que elija la carpeta y que le diga que voy a crear, lo que haria seria pensar en que quiero hacer e irlo llenando.",
+          "hesitated": null,
+          "askedFirst": null
+        },
+        {
+          "screen": "exportacion",
+          "question": "¿Qué crees que hace este botón?",
+          "answerVerbatim": "No entiendo mucho que hace esta pantalla y a cual boton te refieres? al de comprobar de nuevo, el de archivos que esta seleccionado, el de buscar o el de preparar un texto para pegar en tu chat? Siento que es muy abrumador y no sabria que hacer ni para que es esto.",
+          "hesitated": null,
+          "askedFirst": null
+        }
+      ]
+    },
+    {
+      "anonymousId": "reader-6",
+      "responses": [
+        {
+          "screen": "inicio",
+          "question": "¿Qué hace esta aplicación?",
+          "answerVerbatim": "Es una aplicacion que le dice a la IA de que tratan tus proyectos par que los entienda mejor.",
+          "hesitated": null,
+          "askedFirst": null
+        },
+        {
+          "screen": "paso-1",
+          "question": "¿Qué te pide esta pantalla y qué harías ahora?",
+          "answerVerbatim": "Que le digas a la IA que es lo que quieres hacer y esta entienda mejor tu proyecto y lo que haria seria darle los datos que me pide como el nombre de mi proyecto, la carpeta y de que se va a tratar",
+          "hesitated": null,
+          "askedFirst": null
+        },
+        {
+          "screen": "exportacion",
+          "question": "¿Qué crees que hace este botón?",
+          "answerVerbatim": "Supongo que es para buscar un archivo dentro del proyecto?",
+          "hesitated": null,
+          "askedFirst": null
+        }
+      ]
+    }
+  ],
+  "assessment": {
+    "stepOne": "Both responses identify name, folder and intended work; favorable content evidence, subject to protocol confirmation.",
+    "home": "Responses relate project/folder preparation to AI. Reader 1 still says with AI and better responses; reader 2 does not mention a folder. Do not infer understanding of existing external AI, or measured improved answer quality. These are reader interpretations, not new product claims.",
+    "export": "Not demonstrated: reader 1 cannot identify the target action and describes overload; reader 2 infers finding a file, not reviewable text to paste elsewhere. Specific-control protocol still unconfirmed, so this is not a proven failure of the button name alone.",
+    "conclusion": "No complete PASS or issue closure. Preserve earlier passing round with its earlier UI scope; the revised Files screen requires fresh human observation and visual acceptance."
+  }
+}

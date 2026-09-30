@@ -229,6 +229,11 @@ main#content {
 #project-panel {min-width:0;overflow-wrap:anywhere;}
 #project-panel pre.prompt {white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%;}
 #project-panel .search-line .field {min-width:0;}
+.files-tasks {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:20px;}
+.files-tasks .files-task {min-width:0;margin:0;display:flex;flex-direction:column;gap:14px;}
+.files-task h2,.files-task p {margin:0;}
+.files-task .actions {margin-top:auto;}
+@media(max-width:900px){.files-tasks {grid-template-columns:minmax(0,1fr);}}
 @media(max-width:480px){.project-segments button {font-size:.82rem;padding:8px 3px;}}
 /* Transitions are destination-only; no transformed containing block persists. */
 :root {view-transition-name:none;}
