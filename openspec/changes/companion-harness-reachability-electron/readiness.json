@@ -97,9 +97,9 @@
     {
       "id": "adversarial-review",
       "kind": "manual",
-      "status": "verified",
+      "status": "pending",
       "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-recheck.md",
-      "justification": null,
+      "justification": "El informe independiente previo conserva su alcance. El refinamiento nuevo de Archivos y su harness requiere revisión independiente; files-clarity-integration.md es revisión propia.",
       "profileCondition": null
     },
     {
@@ -150,7 +150,7 @@
     "justification": null
   },
   "adversarialReview": {
-    "status": "passed",
+    "status": "pending",
     "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-recheck.md",
     "blockers": 0,
     "majors": 0

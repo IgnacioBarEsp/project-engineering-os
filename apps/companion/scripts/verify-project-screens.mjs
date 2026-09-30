@@ -19,7 +19,8 @@ const server=createServer(async(req,res)=>{const relative=req.url==='/'?'/index.
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const browser=await chromium.launch({...(process.platform==='win32'?{channel:'msedge'}:{}),headless:true});
 let chosen;
-const service=await createDesktopService({dataRoot:path.join(temp,'data'),core,chooseFolder:async()=>chosen,copyText:async()=>{},openExternal:async()=>{}});
+const copied=[],opened=[];
+const service=await createDesktopService({dataRoot:path.join(temp,'data'),core,chooseFolder:async()=>chosen,copyText:async text=>copied.push(text),openExternal:async url=>opened.push(url)});
 const entries=[],results=[];
 const captureOutput=process.argv[2];
 if(captureOutput)await mkdir(captureOutput,{recursive:true});
@@ -35,9 +36,10 @@ try{
   await writeFile(path.join(entries[4].root,'.project-os','companion','receipt.json'),'{');
   for(const motion of ['reduce','no-preference']){
     const context=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:motion});const page=await context.newPage(),errors=[];
-    page.on('pageerror',error=>errors.push(error.message));let hold=false,hang=false,releaseList;const calls=[];
+    page.on('pageerror',error=>errors.push(error.message));let hold=false,hang=false,releaseList,holdPreview=false,releasePreview;const calls=[];
     await page.exposeFunction('qaCall',async(name,input)=>{calls.push(name);try{
       if(name==='listProjects'){if(hang)return await new Promise(()=>{});if(hold)await new Promise(resolve=>releaseList=resolve);}
+      if(name==='exportPreview'&&holdPreview)await new Promise(resolve=>releasePreview=resolve);
       return {ok:true,value:await service[name](input)};
     }catch(error){return {ok:false,error:publicError(error)};}});
     await page.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>{if(name==='listProjects')window.__listAt=Date.now();return window.qaCall(name,input??{});} ]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
@@ -94,12 +96,58 @@ try{
         assert.equal(await page.locator('#query').count(),tab==='search'?1:0);
         assert.equal(await page.locator('.recipe').count()>0,tab==='recipes');
         assert.equal(await page.getByRole('heading',{name:'Quién escribe estas instrucciones',exact:true}).count(),tab==='handoff'?1:0);
+        if(tab==='search'){
+          const searchTask=page.getByRole('region',{name:'Buscar en tus archivos',exact:true});
+          const exportTask=page.getByRole('region',{name:'Preparar texto para tu IA',exact:true});
+          const exportAction=exportTask.getByRole('button',{name:'Preparar un texto para pegar en tu chat',exact:true});
+          assert.equal(await searchTask.count(),1);assert.equal(await exportTask.count(),1);
+          assert.equal(await exportAction.isDisabled(),true,'Empty-query action must remain disabled after rendering/re-entry');
+          const boxes=await page.locator('.files-task').evaluateAll(nodes=>nodes.map(n=>{const r=n.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,bottom:r.bottom};}));
+          assert.equal(boxes.length,2);
+          if(width>900){assert.ok(Math.abs(boxes[0].y-boxes[1].y)<=1);assert.ok(boxes[1].x>=boxes[0].x+boxes[0].width+15);}
+          else{assert.ok(Math.abs(boxes[0].x-boxes[1].x)<=1);assert.ok(boxes[1].y>=boxes[0].bottom+15);}
+          const searchCalls=calls.filter(n=>n==='search').length;
+          await page.locator('#query').fill('Evidencia');assert.equal(await exportAction.isEnabled(),true);
+          assert.equal(calls.filter(n=>n==='search').length,searchCalls,'Preparing text must not require submitting search first');
+          if(captureOutput&&motion==='no-preference'&&[1180,480].includes(width)){
+            await page.screenshot({path:path.join(captureOutput,`files-tasks-browser-${width}.png`)});
+          }
+          const copiesBefore=copied.length;
+          holdPreview=true;await exportAction.click();
+          await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='true');
+          assert.equal(await exportAction.isDisabled(),true);assert.equal(await page.locator('#query').isDisabled(),true);
+          assert.equal(typeof releasePreview,'function');releasePreview();holdPreview=false;
+          await page.getByRole('dialog').waitFor();
+          assert.equal(copied.length,copiesBefore,'Opening review must not copy');
+          const preview=await page.getByLabel('Texto que se copiará',{exact:true}).innerText();
+          assert.ok(preview.includes('source.txt'));assert.ok(preview.includes('Evidencia original.'));
+          await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.getElementById('dialog').open);
+          assert.equal(copied.length,copiesBefore,'Cancelling review must not copy');
+          assert.equal(await exportAction.evaluate(n=>n===document.activeElement),true,'Review returns focus to its own action');
+          await exportAction.click();await page.getByRole('dialog').waitFor();
+          const reviewed=await page.getByLabel('Texto que se copiará',{exact:true}).innerText();
+          await page.getByRole('button',{name:'Copiar este texto',exact:true}).click();
+          await page.waitForFunction(()=>!document.getElementById('dialog').open);
+          assert.equal(copied.length,copiesBefore+1);assert.equal(copied.at(-1),reviewed);
+          assert.equal(opened.length,0,'No external AI or navigation is opened');
+          await page.getByText('Texto copiado. Todavía no se ha enviado a ninguna IA.',{exact:true}).waitFor();
+          await searchTask.getByRole('button',{name:'Buscar',exact:true}).click();
+          await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
+          assert.ok(await page.locator('#search-results article.result').count()>0);
+          assert.equal(await exportAction.isEnabled(),true,'Nonempty query remains available after search');
+          const below=await page.locator('#search-results').evaluate(n=>n.getBoundingClientRect().top>=document.querySelector('.files-tasks').getBoundingClientRect().bottom);
+          assert.equal(below,true,'Results must follow both tasks');
+          await page.locator('#query').fill('   ');assert.equal(await exportAction.isDisabled(),true);
+          await searchTask.getByRole('button',{name:'Buscar',exact:true}).click();
+          await page.locator('#feedback:not([hidden])').waitFor();
+          await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
+          assert.equal(await exportAction.isDisabled(),true,'Error recovery must not enable an empty query');
+          await page.locator('#query').fill('');assert.equal(await exportAction.isDisabled(),true);
+        }
         const a11y=await page.evaluate(ACCESSIBILITY);assert.ok(a11y.measured>0);
         assert.deepEqual(a11y.contrast,[]);assert.deepEqual(a11y.headingOrder,[]);assert.deepEqual(a11y.brokenWords,[]);
         assert.ok(await page.locator('#content').evaluate(node=>node.scrollWidth<=node.clientWidth+1),`${tab}/${width}: overflow`);
         results.push({motion,width,tab});
-        if(captureOutput&&motion==='no-preference'&&width===1180&&tab==='search')
-          await page.screenshot({path:path.join(captureOutput,'export-control-browser.png')});
       }
     }
     const before=calls.length;
@@ -122,5 +170,5 @@ try{
     assert.deepEqual(errors,[]);await context.close();hang=false;
   }
   for(const entry of entries)assert.equal(await readFile(path.join(entry.root,'source.txt'),'utf8'),'Evidencia original.');
-  console.log(JSON.stringify({scope:'Real browser renderer/service; native surfaces injected',screens:results.length,results,loading:'299 ms none / 300 ms shown / 10 s error',rows:'four verified, one unreadable',originals:5,errors:0},null,2));
+  console.log(JSON.stringify({scope:'Real browser renderer/service; native surfaces injected',screens:results.length,results,filesTasks:'8 responsive/motion cells: named regions, query availability, busy/re-entry/error, preview/cancel/explicit copy, results below',exactCopies:copied.length,externalOpens:opened.length,loading:'299 ms none / 300 ms shown / 10 s error',rows:'four verified, one unreadable',originals:5,errors:0},null,2));
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve));await rm(temp,{recursive:true,force:true});}
