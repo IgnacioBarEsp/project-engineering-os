@@ -583,6 +583,7 @@ async function inspect(page) {
     // stub answered `stackCatalog` but not `previewStack`, so this screen never rendered here and stayed out of
     // the names-and-counts table even though the journey harness walked it.
     const toStack = page.locator('#view [data-action="review-stack"]').first();
+    await revealDetails(toStack);
     const reachedStack = await toStack.count()
       ? await toStack.click({ timeout: 4000 }).then(() => true, () => false)
       : false;
