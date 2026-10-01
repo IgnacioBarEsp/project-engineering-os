@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
 import { createServer } from 'node:http';
 import { cp, mkdir, mkdtemp, readFile, writeFile, realpath, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -6,6 +8,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { portable } from './portable-path.mjs';
 import {ASSETS, CSP} from '../desktop/assets.mjs';
+import {routeTraversal} from './route-traversal.mjs';
 import { ACTION_PAIRS, UNDEFINED_VOCABULARY, TERM_LABELS, LIST_PURITY, ACCESSIBILITY, ACCESSIBLE_NAMES,
   EXPECTED_ACTIONS, collectActionPairs, duplicateActionNames, undeclaredActions, vacuous,
   ROW_ACTION_PAIRS, ROW_MENUS, READY_CLAIMS, GUIDE, ACTION_COUNTS, EXPECTED_ROW_ACTIONS,
@@ -60,6 +63,13 @@ const CONSTRUCTION_PROBES = [
 ];
 
 const MUTATIONS = [
+  { id: 'a-declared-route-never-rendered-by-the-journey', file: 'lib/router.mjs',
+    reason: 'una ruta nueva declarada pero sin pantalla ni recorrido no puede pasar por un denominador parcial',
+    from: "  start: {breadcrumb: 'INICIO', nav: 'open-start', step: null},",
+    to: "  'reviewer-unvisited-route': {breadcrumb: 'SIN RECORRIDO', nav: 'open-start', step: null},\n  start: {breadcrumb: 'INICIO', nav: 'open-start', step: null},",
+    routes: true,
+    detect: report => report.routeTraversal?.missing.includes('reviewer-unvisited-route')
+      && report.routeTraversal.runs.every(run => !run.problems.length) },
   { id: 'the-provider-model-list-looks-chosen-before-the-choice-is-saved', file: 'app.mjs',
     reason: 'la lista muestra el primer modelo como elegido aunque el servicio conserva otro valor, y elegir ese primer elemento no dispara ningún cambio',
     from: "Object.fromEntries([['','Elige un modelo'],...state.providerModels.models.map(id=>[id,id])])",
@@ -331,7 +341,14 @@ const pw = await import(process.env.PROJECT_OS_PLAYWRIGHT_MODULE
   ? pathToFileURL(process.env.PROJECT_OS_PLAYWRIGHT_MODULE).href : 'playwright');
 const { chromium } = pw.default ?? pw;
 
+const gitRead = args => execFileSync('git', ['-C', source, ...args], {encoding:'utf8',windowsHide:true}).trim();
+const sha256 = text => createHash('sha256').update(text).digest('hex');
+
 const record = { date: new Date().toISOString(), source: portable(source),
+  provenance: {commit:gitRead(['rev-parse','HEAD']),dirty:!!gitRead(['status','--porcelain']),
+    rendererHashes:Object.fromEntries([...pristine].map(([file,text])=>[file,sha256(text)])),
+    harnessSha256:sha256(await readFile(fileURLToPath(import.meta.url))),
+    routeGateSha256:sha256(await readFile(new URL('./route-traversal.mjs',import.meta.url)))},
   scope: 'El renderer real servido desde una copia, con el servicio nativo reemplazado por respuestas fijas. Cubre Inicio, Ayuda, la lista, el asistente, un proyecto, su panel de IA, la revisión de tecnología, el diálogo de un término, el ancho mínimo, la lista vacía, un error del servicio y la ventana con su módulo roto. Recorre además el asistente vigente hasta la pantalla final en tres ventanas, con movimiento normal y reducido, y los dos controles de copia ante un éxito, un rechazo y un fallo del transporte. No demuestra el motor, Electron ni la aplicación instalada.',
   glossaryTerms: GLOSSARY.length, baseline: null, mutations: [], findings: [] };
 
@@ -414,6 +431,28 @@ const stub = (mode, copy = 'ok') => `${PAGE_CLIPBOARD_SPY}window.companion={
   providerModels:async()=>({ok:true,value:{provider:'groq',models:['llama-3.3-70b','qwen-3-32b'],reason:null,elapsedMs:12}}),
   setInference:async input=>({ok:true,value:{...input,hasKey:true,keySaved:false}}),
   onProgress:()=>()=>{}};`;
+
+// Maintenance screens use fixed service envelopes too. No downloaded tool, package manager,
+// engine operation, project write or installed runtime is exercised or certified by this fixture.
+const ROUTE_SERVICE = `${stub('filled')}
+{const s=${STATUS};s.environment.status='not-prepared';
+ const ok=value=>({ok:true,value});const result=async()=>ok({status:s});
+ Object.assign(window.companion,{
+  openProject:async()=>ok(s),status:async()=>ok(s),applyBase:result,declineStack:result,
+  previewEnvironment:async()=>ok({id:'environment-fixture',status:'planned',tools:[],downloadBytes:0,
+    engineering:{openspec:'1.6.0',core:'0.5.0',downloadBytes:0},git:'existing',files:[]}),
+  applyEnvironment:async()=>{s.environment.status='prepared';return ok({status:s});},
+  previewEngineering:async()=>ok({id:'engineering-fixture',status:'planned',plan:{operations:[]}}),
+  applyEngineering:result,
+  previewActivation:async()=>ok({id:'activation-fixture',status:'planned',files:[]}),applyActivation:result,
+  previewContext:async()=>ok({id:'context-fixture',files:[],exclude:[],agentStatus:'canonical-planned-sync-required',
+    coverage:{sources:[{path:'notas.txt'}],chunks:1,textBytes:40,excluded:0,limitations:[],complete:true}}),
+  applyContext:async()=>{s.context.context='current';return ok({status:s});},
+  previewSync:async()=>ok({id:'sync-fixture',status:'planned',plan:{operations:[]}}),
+  previewRepair:async()=>ok({id:null,items:[],blocked:[],message:'No hay herramientas que reemplazar.'}),
+  previewCode:async()=>ok({status:'unavailable',message:'Mapa no disponible en esta prueba de renderer.',action:'Volver al proyecto.'})
+ });}
+`;
 
 let browser;
 async function probe(page) {
@@ -591,6 +630,70 @@ async function walkToFinished(page, run) {
   await settled(page);
   return true;
 }
+
+async function inspectRouteTraversal() {
+  const declarations = [], rendered = [], runs = [];
+  // Read the declared table FROM the served renderer, not a second hand-maintained route list.
+  // A visit is counted only after the real view, breadcrumb and active destination agree with it.
+  const observe = async (page, run, expected) => {
+    await settled(page);
+    const value = await page.evaluate(async () => {
+      const {state, screenState} = await import('/lib/core.mjs');
+      const {routeIds, routeFor} = await import('/lib/router.mjs');
+      const route = routeFor(state.page, {tab:state.tab});
+      return {declared:routeIds(), id:state.page, visited:screenState.get(state.page)?.visited === true,
+        heading:document.querySelector('#view h1')?.textContent.trim(),
+        busy:document.getElementById('content').getAttribute('aria-busy'),
+        breadcrumb:document.getElementById('breadcrumb').textContent,
+        expectedBreadcrumb:route.breadcrumb, expectedNav:route.nav,
+        active:[...document.querySelectorAll('#nav [aria-pressed="true"]')].map(node=>node.dataset.action)};
+    });
+    assert.deepEqual(value.active, [value.expectedNav], `Destino activo de ${value.id}`);
+    assert.equal(value.breadcrumb, value.expectedBreadcrumb, `Breadcrumb de ${value.id}`);
+    assert.ok(value.heading && value.visited && value.busy !== 'true', `Vista no renderizada: ${value.id}`);
+    assert.equal(value.id, expected, `No se alcanzó ${expected}`);
+    if (declarations.length) assert.deepEqual(value.declared, declarations, 'Las ventanas declaran rutas distintas');
+    else declarations.push(...value.declared);
+    rendered.push(value.id);run.observations.push(value);
+  };
+  const context = await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'});
+  const run = {kind:'fixed-service',observations:[],problems:[]};runs.push(run);
+  try {
+    const page = await context.newPage();
+    await page.addInitScript(ROUTE_SERVICE);
+    await page.goto(url, {waitUntil:'networkidle'});
+    await observe(page, run, 'start');
+    const wizard = {problems:[],measure:step=>observe(page,run,step.screen)};
+    assert.ok(await walkToFinished(page, wizard), wizard.problems.join('; '));
+    await observe(page,run,'finished');
+    for (const [action, id] of [['open-help','help'],['open-project-list','projects']]) {
+      await page.locator(`#nav [data-action="${action}"]`).click();await observe(page,run,id);
+    }
+    await page.locator('article.project .card-open').first().click();await observe(page,run,'workspace');
+    for (const [name, id] of [
+      ['Revisar tus elecciones otra vez','base-review'],['Guardar esta preparación →','stack-review'],
+      ['No instalar nada de esto','environment-review'],['Preparar herramientas y continuar →','engineering-review'],
+      ['Guardar estas instrucciones →','activation-review'],['Activar y continuar →','context-review'],
+      ['Guardar y continuar →','sync-review'],['Actualizar las instrucciones','context-final'],
+      ['Guardar y ver mi proyecto','workspace'],['Revisar reparación de herramientas','repair-review'],
+      ['Ver mi proyecto','workspace'],['Revisar mapa de código','code-review'],['Ver mi proyecto','workspace']
+    ]) {
+      assert.ok(await pressed(page,name), `Clic normal no pudo pulsar «${name}»`);
+      await observe(page,run,id);
+    }
+  } catch (error) {run.problems.push(String(error.message).split('\n')[0]);}
+  finally {await context.close();}
+  // Missing native API is a real renderer state, not the separate static broken-module fallback.
+  const disconnected = await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'});
+  const failed = {kind:'missing-native-api',observations:[],problems:[]};runs.push(failed);
+  try {
+    const page = await disconnected.newPage();await page.goto(url,{waitUntil:'networkidle'});
+    await observe(page,failed,'connection-error');
+  } catch (error) {failed.problems.push(String(error.message).split('\n')[0]);}
+  finally {await disconnected.close();}
+  const coverage = routeTraversal(declarations,rendered);
+  return {...coverage,runs};
+}
 async function inspectWizard() {
   const runs = [];
   for (const [width, height] of WIZARD_WINDOWS) for (const motion of ['no-preference', 'reduce']) {
@@ -702,8 +805,11 @@ try {
   baseline.brokenModule = await readBrokenModule();
   baseline.wizard = await inspectWizard();
   baseline.copies = await inspectCopies();
+  baseline.routeTraversal = await inspectRouteTraversal();
   record.baseline = baseline;
   const complain = value => record.findings.push(value);
+  for (const problem of baseline.routeTraversal.problems) complain(problem);
+  for (const run of baseline.routeTraversal.runs) for (const problem of run.problems) complain(`Recorrido ${run.kind}: ${problem}`);
   const everyScreen = { ...baseline.screens, 'diálogo de un término': baseline.dialog, 'ancho mínimo': baseline.narrow };
   for (const [where, screen] of Object.entries(everyScreen)) {
     if (!screen || screen.opened === false) { complain(`No se pudo inspeccionar ${where}`); continue; }
@@ -833,6 +939,7 @@ try {
       report.brokenModule = mutation.id.includes('boot-shell') ? await readBrokenModule() : { bootText: 'x'.repeat(80) };
       if (mutation.wizard) report.wizard = await inspectWizard();
       if (mutation.copies) report.copies = await inspectCopies();
+      if (mutation.routes) report.routeTraversal = await inspectRouteTraversal();
       detected = !!mutation.detect(report);
       by = detected ? 'la propiedad que nombra' : null;
       observed = { duplicated: report.duplicated, undeclared: report.undeclared,
@@ -861,6 +968,7 @@ try {
           measured: run.measured, reachable: run.reachable,
           intercepted: run.problems.filter(problem => problem.includes('no se puede pulsar')).length, problems: run.problems })),
         copies: report.copies ? copyProblems(report.copies) : undefined };
+      if (mutation.routes) observed.routeTraversal = report.routeTraversal;
     } catch (error) {
       // An exception is NOT a detection. A previous version credited three mutations to a thirty-second
       // harness timeout, and a regression in those three probes would have read "detected" just the same.
@@ -885,6 +993,8 @@ record.summary = { mutations: record.mutations.length,
   findings: record.findings.length,
   screens: record.screensCounted.length,
   screensCounted: record.screensCounted,
+  routes: {declared:record.baseline.routeTraversal.declared.length, rendered:record.baseline.routeTraversal.rendered.length,
+    missing:record.baseline.routeTraversal.missing, problems:record.baseline.routeTraversal.runs.flatMap(run=>run.problems)},
   wizard: { runs: record.baseline.wizard.length, screensMeasured: record.baseline.wizard.reduce((sum, run) => sum + run.visited.length, 0),
     controlsMeasured: record.baseline.wizard.reduce((sum, run) => sum + run.measured, 0),
     controlsReachable: record.baseline.wizard.reduce((sum, run) => sum + run.reachable, 0) },
