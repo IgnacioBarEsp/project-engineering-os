@@ -95,7 +95,7 @@ try{
       assert.deepEqual(managementAccessibility.headingOrder,[]);
       assert.deepEqual(managementAccessibility.brokenWords,[]);
       if(captureOutput&&motion==='no-preference'&&[1180,480].includes(width)){
-        await page.screenshot({path:path.join(captureOutput,`project-management-browser-${width}.png`),mask:[page.locator('.path')]});
+        await page.screenshot({path:path.join(captureOutput,`project-management-browser-${width}.png`),mask:[page.locator('.path')],maskColor:'#232735'});
       }
       const expected=await service.guide({id:identity});
       const actual=await page.evaluate(GUIDE);
