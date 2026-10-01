@@ -196,6 +196,58 @@ try{
     assert.equal(await page.locator('.project-loading').count(),0);assert.equal(await page.locator('#content').getAttribute('aria-busy'),'false');
     assert.deepEqual(errors,[]);await context.close();hang=false;
   }
+  // Exercise the management controls themselves, not only the unchanged list menu. A non-default
+  // profile/focus catches losing the detail's normalized metadata when reusing a preparation.
+  chosen=path.join(temp,'personal-management');await mkdir(chosen);
+  const personalRoot=chosen;await writeFile(path.join(personalRoot,'original.txt'),'Conservar este original.');
+  const personal=await service.chooseFolder();
+  const personalPlan=await service.previewBase({id:personal.id,selection:{name:'Gestión personal',profile:'personal',focus:'organization',goal:'Organizar mis gastos',agents:['web'],installMode:'ai'}});
+  await service.applyBase({plan:personalPlan.id});
+  const receipt=await readFile(path.join(personalRoot,'.project-os/companion/receipt.json'));
+  const managementContext=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'});
+  const managementPage=await managementContext.newPage(),managementCalls=[],managementErrors=[];
+  managementPage.on('pageerror',error=>managementErrors.push(error.message));
+  await managementPage.exposeFunction('qaCall',async(name,input)=>{managementCalls.push({name,input});try{return {ok:true,value:await service[name](input)};}catch(error){return {ok:false,error:publicError(error)};}});
+  await managementPage.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>window.qaCall(name,input??{})]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
+  const settled=()=>managementPage.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
+  const openPersonal=async()=>{
+    await managementPage.locator('#nav [data-action="open-project-list"]').click();
+    await managementPage.locator('.project-list[aria-busy="false"]').waitFor();
+    await managementPage.locator('article.project').filter({has:managementPage.getByRole('heading',{name:'Gestión personal',exact:true})}).locator('.card-open').click();
+    await managementPage.locator('#project-panel[data-project-tab="overview"]').waitFor();await settled();
+  };
+  await managementPage.goto(`http://127.0.0.1:${server.address().port}`);await openPersonal();
+  assert.match(await managementPage.locator('.preparation-choices').innerText(),/Personal y laboratorio/);
+  assert.match(await managementPage.locator('.preparation-choices').innerText(),/Organización y finanzas/);
+  await managementPage.getByRole('button',{name:'Revisar tus elecciones otra vez',exact:true}).click();await settled();
+  await managementPage.getByRole('heading',{name:'Esto es lo que se va a escribir.',exact:true}).waitFor();
+  const reviewed=managementCalls.filter(entry=>entry.name==='previewBase').at(-1).input.selection;
+  assert.equal(reviewed.profile,'personal');assert.equal(reviewed.focus,'organization');assert.equal(reviewed.goal,'Organizar mis gastos');
+  await managementPage.getByRole('button',{name:'Ver mi proyecto',exact:true}).click();await settled();
+  chosen=null;await managementPage.locator('#project-panel [data-row-action="duplicate-project"]').click();await settled();
+  assert.equal(await managementPage.locator('#project-panel[data-project-tab="overview"]').count(),1,'Cancelling the picker leaves the preparation open');
+  const destination=path.join(temp,'reuse-management');await mkdir(destination);await writeFile(path.join(destination,'target.txt'),'Destino independiente.');chosen=destination;
+  await managementPage.locator('#project-panel [data-row-action="duplicate-project"]').click();await settled();
+  await managementPage.getByRole('heading',{name:'¿Qué vas a preparar?',exact:true}).waitFor();
+  assert.equal(await managementPage.getByLabel('Nombre de tu proyecto').inputValue(),'Gestión personal');
+  assert.equal(await managementPage.locator('input[name="profile"][value="personal"]').isChecked(),true);
+  await managementPage.getByRole('button',{name:'Continuar a Enfoque →',exact:true}).click();await settled();
+  assert.equal(await managementPage.locator('input[name="focus"][value="organization"]').isChecked(),true);
+  await managementPage.getByRole('button',{name:'Continuar a Visión →',exact:true}).click();await settled();
+  assert.equal(await managementPage.getByLabel('¿Qué quieres lograr?').inputValue(),'Organizar mis gastos');
+  await assert.rejects(readFile(path.join(destination,'.project-os/companion/receipt.json')),{code:'ENOENT'},'Reusing answers does not apply the preparation');
+  assert.equal(await readFile(path.join(destination,'target.txt'),'utf8'),'Destino independiente.');
+  await openPersonal();
+  await managementPage.locator('#project-panel [data-row-action="forget-project"]').click();await managementPage.getByRole('dialog').waitFor();
+  await managementPage.getByRole('button',{name:'Conservar',exact:true}).click();await settled();
+  assert.ok((await service.listProjects()).some(entry=>entry.id===personal.id),'Cancelling history removal keeps the entry');
+  await managementPage.locator('#project-panel [data-row-action="forget-project"]').click();await managementPage.getByRole('dialog').waitFor();
+  await managementPage.getByRole('dialog').getByRole('button',{name:'Quitar de la lista',exact:true}).click();await settled();
+  await managementPage.locator('.project-list[aria-busy="false"]').waitFor();
+  assert.equal((await service.listProjects()).some(entry=>entry.id===personal.id),false);
+  assert.deepEqual(await readFile(path.join(personalRoot,'.project-os/companion/receipt.json')),receipt,'History removal preserves the owned preparation');
+  assert.equal(await readFile(path.join(personalRoot,'original.txt'),'utf8'),'Conservar este original.');
+  assert.deepEqual(managementErrors,[]);await managementContext.close();
   for(const entry of entries)assert.equal(await readFile(path.join(entry.root,'source.txt'),'utf8'),'Evidencia original.');
-  console.log(JSON.stringify({scope:'Real browser renderer/service; native surfaces injected',screens:results.length,results,filesTasks:'8 responsive/motion cells: named regions, query availability, busy/re-entry/error, preview/cancel/explicit copy, results below',exactCopies:copied.length,externalOpens:opened.length,loading:'299 ms none / 300 ms shown / 10 s error',rows:'four verified, one unreadable',originals:5,errors:0},null,2));
+  console.log(JSON.stringify({scope:'Real browser renderer/service; native surfaces injected',screens:results.length,results,managementActions:'Detail review preserves personal/organization/goal; picker cancellation stays in preparation; reuse preserves answers and writes no preparation; history cancellation/removal preserves receipt and originals',filesTasks:'8 responsive/motion cells: named regions, query availability, busy/re-entry/error, preview/cancel/explicit copy, results below',exactCopies:copied.length,externalOpens:opened.length,loading:'299 ms none / 300 ms shown / 10 s error',rows:'four verified, one unreadable',originals:5,errors:0},null,2));
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve));await rm(temp,{recursive:true,force:true});}
