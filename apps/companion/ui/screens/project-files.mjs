@@ -1,6 +1,6 @@
 import {state,el,p,btn,actions,panel,term,field,input,notice,call,run,openDialog,closeDialog} from '../lib/core.mjs';
 function searchView(){const results=el('div',{id:'search-results','aria-live':'polite'});
-  const exportAction=btn('Preparar un texto para pegar en tu chat',()=>previewExport(),'primary');
+  const exportAction=btn('Revisar texto de mis archivos para mi IA',()=>previewExport(),'primary');
   const availability=query=>{const empty=!query.trim();exportAction.dataset.disabledIdle=String(empty);exportAction.disabled=state.busy||empty;};
   availability(state.query);exportAction.setAttribute('aria-describedby','file-export-description');
   const search=input('query',state.query,500,v=>{state.query=v;availability(v);});
@@ -11,8 +11,8 @@ function searchView(){const results=el('div',{id:'search-results','aria-live':'p
       el('h2',{id:'file-search-title',text:'Buscar en tus archivos'}),
       el('p',{class:'subtle'},'Encuentra fragmentos en los archivos que se leyeron, con su ',term('cita'),' y ',term('fuente'),'.'),form),
     el('section',{class:'panel files-task','aria-labelledby':'file-export-title'},
-      el('h2',{id:'file-export-title',text:'Preparar texto para tu IA'}),
-      el('p',{id:'file-export-description',class:'subtle',text:'Escribe qué buscas para reunir fragmentos en un texto. Podrás revisarlo antes de copiarlo a tu chat.'}),
+      el('h2',{id:'file-export-title',text:'Dale información de tus archivos a tu IA'}),
+      el('p',{id:'file-export-description',class:'subtle',text:'Reúne fragmentos de tu búsqueda para que tu IA tenga esa información. Revisa el texto antes de copiarlo a tu chat.'}),
       actions(exportAction))),results);
 }
 async function previewExport(){const e=await call('exportPreview',{id:state.project.id,query:state.query,maxBytes:12000});openDialog('Revisa antes de copiar',[

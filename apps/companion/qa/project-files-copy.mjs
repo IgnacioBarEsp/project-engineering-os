@@ -5,8 +5,10 @@ import {readFile} from 'node:fs/promises';
 test('Files names two tasks without claiming automatic AI transfer',async()=>{
   const source=await readFile(new URL('../ui/screens/project-files.mjs',import.meta.url),'utf8');
   assert.match(source,/text:'Buscar en tus archivos'/);
-  assert.match(source,/text:'Preparar texto para tu IA'/);
-  assert.match(source,/Preparar un texto para pegar en tu chat/);
+  assert.match(source,/text:'Dale información de tus archivos a tu IA'/);
+  assert.match(source,/Revisar texto de mis archivos para mi IA/);
+  assert.match(source,/Reúne fragmentos de tu búsqueda para que tu IA tenga esa información/);
+  assert.match(source,/Revisa el texto antes de copiarlo a tu chat/);
   assert.match(source,/aria-labelledby':'file-search-title'/);
   assert.match(source,/aria-labelledby':'file-export-title'/);
   assert.match(source,/term\('cita'\)/);assert.match(source,/term\('fuente'\)/);

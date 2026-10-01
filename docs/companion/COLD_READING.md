@@ -14,7 +14,7 @@ negativo; una comprobación automática no puede convertirlo en positivo.
 
 | Criterio | Pregunta exacta | Se cumple si |
 | --- | --- | --- |
-| El nombre del control de exportación se entiende sin abrirlo | Señalar el botón **«Preparar un texto para pegar en tu chat»** sin pulsarlo y preguntar: «¿qué crees que hace este botón?» | La respuesta menciona obtener o copiar texto para llevarlo a otra parte, sin que haya que explicárselo. |
+| El nombre del control de exportación se entiende sin abrirlo | Señalar el botón **«Revisar texto de mis archivos para mi IA»** sin pulsarlo y preguntar: «¿qué crees que hace este botón?» | La respuesta menciona obtener o copiar texto para llevarlo a otra parte, sin que haya que explicárselo. |
 | Inicio explica qué hace la aplicación | Abrir **Inicio**, dar hasta un minuto de lectura y preguntar: «¿qué hace esta aplicación?» | La respuesta describe preparar u ordenar una carpeta para usarla con una IA, en sus propias palabras. |
 
 ## Cómo se hace
@@ -90,6 +90,18 @@ El criterio de comprensión de Inicio y paso 1 de #149 **cumple en esa segunda r
 exportación todavía requiere su propia observación humana. Ninguno se sustituye por una heurística, por
 un agente ni por el juicio de quien escribió el texto.
 
+### Observación del control de exportación
+
+El nombre de la tabla corresponde al refinamiento actual. Las rondas históricas registran el nombre
+que cada persona vio, incluido «Preparar un texto para pegar en tu chat»; no se reescriben para
+atribuirlas al nuevo nombre. El mínimo del control sigue siendo reconocer texto para llevar a otra
+parte: preguntar con qué finalidad no añade un criterio obligatorio. La ronda de exportación recibida
+el 30 de septiembre es mixta, con procedimiento confirmado: una persona lo confunde con búsqueda
+y otra reconoce texto para pegar en la IA. Está en
+[export-reading-followup.json](../../openspec/changes/companion-motion-loading-microcopy/evidence/export-reading-followup.json).
+La condición de dos personas para Inicio/paso 1 no convierte la prueba del control en unanimidad
+obligatoria ni sustituye la aprobación visual. Una nueva observación del nombre refinado debe usar
+una persona sin exposición previa; no hace falta repetir Inicio y paso 1 por cambiar solo ese control.
 ## Relacionado
 
 - [Experiencia de Companion](EXPERIENCE.md): los cuatro destinos y la regla de lenguaje.

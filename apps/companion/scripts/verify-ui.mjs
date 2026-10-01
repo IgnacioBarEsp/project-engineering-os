@@ -545,9 +545,9 @@ try {
     await click(page,'Archivos');await page.getByLabel('¿Qué necesitas encontrar?').fill('tokens');await click(page,'Buscar');
     await page.locator('.result').first().waitFor();const resultText=await page.locator('#search-results').innerText();assert(resultText.includes('notes.txt'));assert(!resultText.includes('private-notes.txt'));
     if(profile==='research'){assert(resultText.includes('paper.pdf · página 1'));assert(resultText.includes('protocol.docx · párrafo 1'));await capture(page,'research-sources');}
-    await click(page,'Preparar un texto para pegar en tu chat');await page.getByRole('dialog').waitFor();assert.equal(copied.length,0);await page.keyboard.press('Escape');
-    await page.waitForFunction(()=>document.activeElement.textContent==='Preparar un texto para pegar en tu chat');
-    await click(page,'Preparar un texto para pegar en tu chat');await click(page,'Copiar este texto');assert.equal(copied.length,1);assert(copied[0].includes('notes.txt'));assert.equal(opened.length,0);
+    await click(page,'Revisar texto de mis archivos para mi IA');await page.getByRole('dialog').waitFor();assert.equal(copied.length,0);await page.keyboard.press('Escape');
+    await page.waitForFunction(()=>document.activeElement.textContent==='Revisar texto de mis archivos para mi IA');
+    await click(page,'Revisar texto de mis archivos para mi IA');await click(page,'Copiar este texto');assert.equal(copied.length,1);assert(copied[0].includes('notes.txt'));assert.equal(opened.length,0);
     await click(page,'Recetas');await page.locator('.recipe').first().waitFor();
     assert.equal(await page.locator('.recipe').count(),(await service.workspace({id:(await service.listProjects())[0].id})).recipes.length);
     await click(page,'Tu IA');await click(page,'Abrir en ChatGPT u otro chat web');await page.getByRole('dialog').waitFor();
