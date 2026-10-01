@@ -11,6 +11,7 @@ import {QUALITY,assertCoverage} from './quality-probes.mjs';
 import {AMBIENT} from './ambient-contract.mjs';
 import {REACH,INTERACTIVE,reachProblems,ACCESSIBILITY} from './interface-contract.mjs';
 import {finishPreparation} from './wizard-journey.mjs';
+import {revealDetails} from './project-disclosures.mjs';
 
 const WINDOWS=[[1180,820],[1024,700],[480,540]],MOTIONS=['no-preference','reduce'];
 const extended=stub('normal')+[
@@ -69,7 +70,7 @@ export async function verifyRouteCoverage(output){
         screens.push({page:current.page,tab:current.tab,motion,window:width+'x'+height,quality,contrastMeasured:a11y.measured});
         return expected;
       };
-      const press=async label=>{await page.getByRole('button',{name:label,exact:true}).last().click();return measure();};
+      const press=async label=>{const node=page.getByRole('button',{name:label,exact:true,includeHidden:true}).last();await revealDetails(node);await node.click();return measure();};
       const go=async action=>{await page.locator('#nav [data-action="'+action+'"]').click();return measure();};
       await page.goto(url);await page.locator('#nav [data-action]').first().waitFor();await measure();
       await go('open-help');await go('prepare-project');await press('Elegir carpeta');
@@ -131,7 +132,7 @@ export async function verifyRouteCoverage(output){
       await press('Guardar y continuar →');await press('Actualizar las instrucciones');await press('Guardar y ver mi proyecto');
       await press('Revisar reparación de herramientas');await press('Ver mi proyecto');
       await press('Revisar mapa de código');await press('Ver mi proyecto');
-      for(const label of ['Archivos','Recetas','Tu IA','Estado'])await press(label);
+      for(const label of ['Archivos','Recetas','Tu IA','Preparación'])await press(label);
       assert.deepEqual(errors,[]);
       if(output){await mkdir(output,{recursive:true});await page.screenshot({path:path.join(output,'routes-'+width+'-'+motion+'.png')});}
       await context.close();

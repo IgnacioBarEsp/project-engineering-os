@@ -23,12 +23,12 @@ export const ROUTES = Object.freeze({
   'sync-review': project('TU PROYECTO / INSTRUCCIONES'),
   'context-final': project('TU PROYECTO / ÚLTIMA PASADA'),
   'code-review': project('TU PROYECTO / MAPA DE CÓDIGO'),
-  workspace: project('TU PROYECTO / ESTADO'),
+  workspace: project('TU PROYECTO / PREPARACIÓN'),
   'connection-error': {breadcrumb: 'INICIO', nav: 'open-start', step: null}
 });
 
 const WORKSPACE_TABS = Object.freeze({
-  overview: 'ESTADO', search: 'ARCHIVOS', recipes: 'RECETAS', handoff: 'TU IA'
+  overview: 'PREPARACIÓN', search: 'ARCHIVOS', recipes: 'RECETAS', handoff: 'TU IA'
 });
 
 export function routeFor(page, {tab = 'overview'} = {}) {

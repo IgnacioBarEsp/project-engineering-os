@@ -27,19 +27,26 @@ export async function showWorkspace(refresh=true,{focusTab=false}={}){
   else if(state.tab==='recipes')content=await recipesView();
   else content=[await handoffView(s)];
   const change=async id=>{state.tab=id;await showWorkspace(false,{focusTab:true});};
+  const tools=el('details',{id:'project-tools',class:'project-tools',open:state.tab!=='overview',onToggle:event=>{
+    if(!event.target.isConnected||event.target.open||state.tab==='overview')return;
+    if(state.busy){event.target.open=true;return;}
+    void run(()=>change('overview'));
+  }},el('summary',{text:'Herramientas opcionales'}),
+    p('Busca información en tus archivos o usa guías para tu IA solo cuando lo necesites.','subtle'),
+    projectSegments(state.tab,change));
+  const destination=el('section',{id:'project-panel','data-project-tab':state.tab,
+    'aria-labelledby':state.tab==='overview'?'project-preparation-title':`project-tab-${state.tab}`},content);
   const normalized=canonicalProfile(s.base.selection??s.project.selection??{});
   const profile=state.profileCatalog?.profiles.find(item=>item.id===normalized.profile);
   const focus=profile?.focuses?.find(item=>item.id===normalized.focus);
-  render([
+  await render([
     el('header',{class:'project-header'},
       el('p',{class:'eyebrow',text:[profile?.label??profiles[s.base.selection?.profile]?.[0],focus?.label].filter(Boolean).join(' · ')}),
       ...ownHeading(s.project.name,s.project.selection?.goal??'Comprueba cómo está y elige tu siguiente paso.',!!s.project.selection?.goal),
       own(s.project.root,'p',{class:'path'}),currentVerdict(s),actions(doBtn('recheck-project'))),
-    projectSegments(state.tab,change),
-    el('p',{class:'subtle tab-note'},'Cada ',term('receta'),' es un recorrido corto para pedir un resultado concreto y comprobarlo.'),
-    el('section',{id:'project-panel','data-project-tab':state.tab,'aria-labelledby':`project-tab-${state.tab}`},content),
+    ...(state.tab==='overview'?[destination,tools]:[tools,destination]),
   ]);
-  if(focusTab)state.focusAfterAction=()=>document.getElementById(`project-tab-${state.tab}`);
+  if(focusTab)state.focusAfterAction=()=>state.tab==='overview'?document.querySelector('#project-tools > summary'):document.getElementById(`project-tab-${state.tab}`);
 }
 window.addEventListener('hashchange',()=>{
   if(state.page!=='workspace'||state.busy)return;

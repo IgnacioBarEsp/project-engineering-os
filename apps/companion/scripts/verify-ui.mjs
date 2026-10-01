@@ -8,6 +8,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import {ASSETS, CSP} from '../desktop/assets.mjs';
+import {revealDetails,expandProjectDetails} from './project-disclosures.mjs';
 import {routeFor} from '../ui/lib/router.mjs';
 import {QUALITY} from './interface-contract.mjs';
 import {verifyRouteCoverage} from './verify-route-coverage.mjs';
@@ -65,10 +66,10 @@ const FIXED_CONTAINMENT=()=>{
 };
 let browser;
 function pdf(){const stream='BT /F1 12 Tf 40 700 Td (Evidence: tokens must be measured with the same model.) Tj ET';const objects=['<< /Type /Catalog /Pages 2 0 R >>','<< /Type /Pages /Kids [4 0 R] /Count 1 >>','<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>','<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>',`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`];let out='%PDF-1.4\n',offsets=[];objects.forEach((v,i)=>{offsets.push(Buffer.byteLength(out));out+=`${i+1} 0 obj\n${v}\nendobj\n`;});const start=Buffer.byteLength(out);out+=`xref\n0 6\n0000000000 65535 f \n${offsets.map(n=>`${String(n).padStart(10,'0')} 00000 n \n`).join('')}trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${start}\n%%EOF`;return out;}
-const heading=async(page,name)=>page.getByRole('heading',{name,exact:true}).waitFor();
+const heading=async(page,name)=>{const node=page.getByRole('heading',{name,exact:true,includeHidden:true});await revealDetails(node);await node.waitFor();};
 // Every click probes the screen it lands on, so coverage is not a list of screens someone remembered to
 // check. The label is the screen's own h1, which is also what a person would call it.
-const click=async(page,name)=>{await page.getByRole('button',{name,exact:true}).click();await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')!=='true');await checkAccessibility(page,await page.locator('#view h1').first().innerText().catch(()=>'(pantalla sin encabezado)'));};
+const click=async(page,name)=>{const node=page.getByRole('button',{name,exact:true,includeHidden:true});await revealDetails(node);await node.click();await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')!=='true');await checkAccessibility(page,await page.locator('#view h1').first().innerText().catch(()=>'(pantalla sin encabezado)'));};
 async function capture(page,name){const motion=await page.evaluate(()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'reduce':'no-preference');const file=name+'-'+motion+'.png',target=path.join(output,file);await page.screenshot({path:target,fullPage:true,mask:[page.locator('.path')],maskColor:'#e7eee4'});evidence.screenshots.push(file);}
 async function noOverflow(page,label){
   const size=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,
@@ -579,6 +580,8 @@ try {
     await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')!=='true');
     await heading(page,name);
     await checkScreen(page,`${profile} mi proyecto`);
+    assert.equal(await page.locator('#project-tools').evaluate(node=>node.open),false,'Management opens without compulsory tools');
+    await expandProjectDetails(page);await checkScreen(page,`${profile} opciones del proyecto abiertas`);
     // The guidance for THIS project: no step without a reason, no step without either text for an AI or a
     // control that does the work here, and no internal token.
     const guide=await page.evaluate(GUIDE);
@@ -599,7 +602,7 @@ try {
       // Last in the journey: touching a source deliberately invalidates the document context too.
       await page.setViewportSize({width:1180,height:820});
       const source=path.join(root,profile==='unity'?'Game.cs':'budget.js'),prior=await readFile(source);
-      await writeFile(source,Buffer.concat([prior,Buffer.from('\n// changed source')]));await click(page,'Estado');await click(page,'Comprobar de nuevo');await heading(page,'Mapa de código · Desactualizado');
+      await writeFile(source,Buffer.concat([prior,Buffer.from('\n// changed source')]));await click(page,'Preparación');await click(page,'Comprobar de nuevo');await heading(page,'Mapa de código · Desactualizado');
       await writeFile(source,prior);await click(page,'Comprobar de nuevo');await heading(page,'Mapa de código · Verificado');
       const index=path.join(root,'.project-os/companion/code/index.json'),saved=await readFile(index);
       await writeFile(index,'corrupt');await click(page,'Comprobar de nuevo');await heading(page,'Mapa de código · Corrupto');
@@ -612,14 +615,14 @@ try {
     // the negative readiness/guide checks separately, still through the real interface.
     if(profile==='general'){
       await page.setViewportSize({width:1180,height:820});
-      await click(page,'Estado');
+      await click(page,'Preparación');
       await page.getByText('Continuar o deshacer una operación',{exact:true}).click();
       await click(page,'Deshacer la lectura de archivos');
       await page.getByRole('dialog').waitFor();
       assert(/deshace la última operación registrada/.test(await page.getByRole('dialog').innerText()),
         'The dialog has to say what undoing this stage does before it is done');
       await click(page,'Deshacer etapa');
-      await page.getByRole('heading',{name:'Archivos leídos · Preparado',exact:true}).waitFor();
+      await heading(page,'Archivos leídos · Preparado');
       for(const [file,content] of originals)assert.deepEqual(await readFile(path.join(root,file)),content,
         `Recovery must not touch ${file}`);
       const notes=path.join(root,'notes.txt');await writeFile(notes,Buffer.concat([await readFile(notes),Buffer.from('\nCambio deliberado de la fuente de prueba.')]));
@@ -661,7 +664,7 @@ try {
       await heading(page,name);
       await click(page,'Leer mis archivos');await heading(page,'Tus archivos, leídos y ubicables.');
       await click(page,'Guardar y continuar →');await heading(page,name);
-      await page.getByRole('heading',{name:'Archivos leídos · Preparado',exact:true}).waitFor();
+      await heading(page,'Archivos leídos · Preparado');
       evidence.checks.push('general: recovery rehearsal for one transaction — the file reading was undone from the interface, the application then refused to claim it, the original documents were byte-identical, and reading again restored the state PASS');
     }
     for(const [file,content] of originals)assert.deepEqual(await readFile(path.join(root,file)),content);

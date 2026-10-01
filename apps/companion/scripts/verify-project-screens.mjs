@@ -7,6 +7,7 @@ import {fileURLToPath} from 'node:url';
 import * as core from 'create-project-engineering-os';
 import {chromium} from 'playwright';
 import {ASSETS,CSP} from '../desktop/assets.mjs';
+import {expandProjectDetails} from './project-disclosures.mjs';
 import {createDesktopService,publicError} from '../desktop/service.mjs';
 import {ACCESSIBILITY,READY_CLAIMS,readyProblems,GUIDE,guideProblems,ACTION_COUNTS,repeatedActions} from './interface-contract.mjs';
 
@@ -80,17 +81,36 @@ try{
     await page.locator('#project-panel[data-project-tab="overview"]').waitFor();
     await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
     assert.deepEqual(guideProblems(await page.evaluate(GUIDE)),[]);
-    assert.equal(await page.locator('#project-panel h2').first().innerText(),'Qué hacer ahora');
+    assert.equal(await page.locator('#project-panel h2').first().innerText(),'Preparación de Companion');
+    assert.equal(await page.locator('#project-tools').evaluate(node=>node.open),false);
     assert.deepEqual(repeatedActions(await page.evaluate(ACTION_COUNTS)),[]);
     const identity=(await page.url()).split('/project/')[1].split('/')[0];
     for(const width of [1180,1024,768,480]){
       await page.setViewportSize({width,height:820});
+      assert.equal(await page.locator('.project-management').count(),1);
+      assert.equal(await page.locator('pre.prompt').first().isVisible(),false);
+      const managementAccessibility=await page.evaluate(ACCESSIBILITY);
+      assert.ok(managementAccessibility.measured>0);
+      assert.deepEqual(managementAccessibility.contrast,[]);
+      assert.deepEqual(managementAccessibility.headingOrder,[]);
+      assert.deepEqual(managementAccessibility.brokenWords,[]);
+      if(captureOutput&&motion==='no-preference'&&[1180,480].includes(width)){
+        await page.screenshot({path:path.join(captureOutput,`project-management-browser-${width}.png`),mask:[page.locator('.path')]});
+      }
+      const expected=await service.guide({id:identity});
+      const actual=await page.evaluate(GUIDE);
+      assert.equal(actual.steps.length,expected.steps.length,'Every local and optional guide step remains represented');
+      assert.deepEqual(actual.steps.map(step=>[step.title,step.why]),expected.steps.map(step=>[step.title,step.why]));
+      await expandProjectDetails(page);assert.deepEqual(repeatedActions(await page.evaluate(ACTION_COUNTS)),[]);
+      await page.locator('#project-tools > summary').click();
       for(const [tab,key] of [['search','ArrowRight'],['recipes','ArrowRight'],['handoff','End'],['overview','Home']]){
         await page.locator('.project-segments [aria-pressed="true"]').focus();await page.keyboard.press(key);await page.keyboard.press('Enter');
         await page.locator(`#project-panel[data-project-tab="${tab}"]`).waitFor();
         await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
         assert.equal(await page.locator('.project-segments [aria-pressed="true"]').count(),1);
-        assert.equal(await page.locator('#project-panel').count(),1);assert.equal(await page.evaluate(()=>document.activeElement.dataset.projectSegment),tab);
+        assert.equal(await page.locator('#project-panel').count(),1);
+        if(tab==='overview')assert.equal(await page.evaluate(()=>document.activeElement===document.querySelector('#project-tools > summary')),true);
+        else assert.equal(await page.evaluate(()=>document.activeElement.dataset.projectSegment),tab);
         assert.ok(page.url().endsWith(`/project/${identity}/${tab}`));
         assert.equal(await page.locator('.guide').count(),tab==='overview'?1:0);
         assert.equal(await page.locator('#query').count(),tab==='search'?1:0);
@@ -154,6 +174,13 @@ try{
     await page.evaluate(()=>{location.hash='#/project/foreign/search';});await page.clock.runFor(50);
     assert.equal(calls.length,before);assert.equal(await page.locator('#project-panel').getAttribute('data-project-tab'),'overview');
     await page.evaluate(id=>{location.hash=`#/project/${id}/search`;},identity);await page.locator('#project-panel[data-project-tab="search"]').waitFor();
+    assert.equal(await page.locator('#project-tools').evaluate(node=>node.open),true,'Direct optional route opens its navigation');
+    await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
+    await page.locator('#project-tools > summary').click();
+    await page.locator('#project-panel[data-project-tab="overview"]').waitFor();
+    await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
+    assert.equal(await page.locator('#project-tools').evaluate(node=>node.open),false,'Closing optional tools returns to management');
+    assert.ok(page.url().endsWith(`/project/${identity}/overview`));
     // Re-entry uses known identities but never stale verdicts. Timeout leaves no endless skeleton.
     await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
     hang=true;await page.evaluate(()=>{window.__listAt=null;});

@@ -6,6 +6,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { portable } from './portable-path.mjs';
 import {ASSETS, CSP} from '../desktop/assets.mjs';
+import {revealDetails,expandProjectDetails} from './project-disclosures.mjs';
 import { ACTION_PAIRS, UNDEFINED_VOCABULARY, TERM_LABELS, LIST_PURITY, ACCESSIBILITY, ACCESSIBLE_NAMES,
   EXPECTED_ACTIONS, collectActionPairs, duplicateActionNames, undeclaredActions, vacuous,
   ROW_ACTION_PAIRS, ROW_MENUS, READY_CLAIMS, GUIDE, ACTION_COUNTS, EXPECTED_ROW_ACTIONS,
@@ -143,8 +144,8 @@ const MUTATIONS = [
     detect: report => guideProblems(report.screens['mi proyecto']?.guide).some(entry => entry.includes('texto sin forma de copiarlo')) },
   { id: 'a-guide-that-drops-the-definitions-of-its-own-words', file: 'app.mjs',
     reason: 'la guía usa palabras del glosario y deja de ofrecer sus definiciones en esa pantalla',
-    from: "    guide.terms.length?el('p',{class:'subtle'},'Qué significan estas palabras: '",
-    to: "    false?el('p',{class:'subtle'},'Qué significan estas palabras: '",
+    from: "  const definitions=()=>guide.terms.length?el('p',{class:'subtle'},'Qué significan estas palabras: '",
+    to: "  const definitions=()=>false?el('p',{class:'subtle'},'Qué significan estas palabras: '",
     detect: report => (report.screens['mi proyecto']?.vocabulary.missing ?? []).length > 0 },
   { id: 'the-same-action-in-two-controls-of-one-screen', file: 'app.mjs',
     reason: 'la guía ofrece un paso pendiente y otro panel ofrece la misma acción otra vez en la misma pantalla',
@@ -422,9 +423,11 @@ async function inspect(page) {
     : false;
   if (opened) {
     await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true').catch(() => {});
+    await expandProjectDetails(page);
     if (await page.locator('.guide').count()) { await collect('mi proyecto'); screens['mi proyecto'] = await probe(page); }
     else unreachable.push('mi proyecto');
-    const toHandoff = page.getByRole('button', { name: 'Tu IA', exact: true });
+    const toHandoff = page.getByRole('button', { name: 'Tu IA', exact: true, includeHidden: true });
+    await revealDetails(toHandoff);
     const reachedHandoff = await toHandoff.count()
       ? await toHandoff.click({ timeout: 4000 }).then(() => true, () => false)
       : false;
@@ -445,7 +448,7 @@ async function inspect(page) {
           screens['tu IA'] = await probe(page);
         }
       }
-      await page.getByRole('button', { name: 'Estado', exact: true }).click().catch(() => {});
+      await pressed(page,'Preparación');
       await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true').catch(() => {});
     } else unreachable.push('tu IA');
     // The technology review, reached the way a person reaches it. An independent review pointed out that the
@@ -504,7 +507,7 @@ const settled = page => page.waitForFunction(() => document.getElementById('cont
   && !(document.querySelector('#view .enter')?.getAnimations() ?? []).some(animation => animation.playState === 'running'),
 null, { timeout: 4000 }).catch(() => {});
 const arrived = (page, name) => page.getByRole('heading', { name, exact: true }).waitFor({ timeout: 4000 }).then(() => true, () => false);
-const pressed = (page, name) => page.getByRole('button', { name, exact: true }).click({ timeout: 4000 }).then(() => true, () => false);
+const pressed = async(page, name) => {const node=page.getByRole('button',{name,exact:true,includeHidden:true});await revealDetails(node);return node.click({timeout:4000}).then(()=>true,()=>false);};
 async function walkToFinished(page, run) {
   await page.locator('#nav [data-action="prepare-project"]').click({ timeout: 4000 }).catch(() => {});
   for (const step of WIZARD_STEPS) {
