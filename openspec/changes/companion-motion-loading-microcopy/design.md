@@ -116,3 +116,26 @@ El controlador común de actividad vuelve a habilitar controles al terminar. Par
 condición de consulta vacía al renderizar o buscar, la acción declara `data-disabled-idle` y el
 controlador conserva esa condición además de busy. El atributo no autoriza una exportación ni
 reemplaza la validación del servicio. Probar reentrada y liberación de actividad, no solo input.
+
+## 2026-09-30 · origen y finalidad del texto exportado
+
+La siguiente observación se conserva en `evidence/export-reading-followup.json`: una persona
+interpreta el control como búsqueda de archivos y otra reconoce texto para llevar a la IA,
+aunque pregunta con qué motivo. La segunda reconoce la acción mínima que pide el protocolo;
+su duda sobre la finalidad no añade un criterio de rechazo nuevo. El resultado conjunto es
+mixto. El mantenedor confirmó después lectores nuevos, captura actual y control señalado sin
+abrirlo ni explicar; no se infiere fecha de entrevista o momento de dudas. No exigir unanimidad
+como si el protocolo la hubiera establecido.
+
+Refinamiento acotado dentro de la delegación de ola 3/#149: sustituir el nombre genérico por
+«Revisar texto de mis archivos para mi IA», nombrando origen y siguiente acción real. El título
+será «Dale información de tus archivos a tu IA» y la descripción explicará que reúne fragmentos
+de la búsqueda para darle esa información, con revisión antes de copiar. No escribe respuestas
+con un modelo, no promete mejoras de calidad y no envía contenido. Esta actualización sustituye
+la conservación del nombre anterior en la decisión de arriba; las evidencias viejas conservan
+el nombre observado entonces. Actualizar el protocolo actual, no sus criterios de comprensión.
+
+Sin cambiar consultas, handlers, IPC, revisión/copia explícita, límites o disponibilidad. Inicio
+y paso 1 permanecen intactos. Riesgo: el nombre más largo debe envolver sin overflow/oclusión
+en cuatro anchos y ambos movimientos. Probar revisión, Escape/foco, copia exacta y avisos;
+revertir solo microcopia/tests si falla. Aceptación visual y observación humana no se simulan.

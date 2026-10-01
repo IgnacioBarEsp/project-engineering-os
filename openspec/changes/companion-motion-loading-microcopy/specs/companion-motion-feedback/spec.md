@@ -68,5 +68,10 @@ The renderer SHALL restrict text gradients to Inicio and the final title, use on
 #### Scenario: Distinct search and AI-text tasks
 - **WHEN** a person opens the project Files tab at a wide or compact size
 - **THEN** separately titled search and AI-text sections distinguish finding excerpts in read files from preparing reviewable text to paste into an external chat; wide screens show them side by side and compact screens put search first, with search results below the task row
-- **AND** the existing export button remains named Preparar un texto para pegar en tu chat, is unavailable for an empty query and becomes available after writing a nonempty query without requiring a prior Search click; preview, explicit copy, local glossary access and no-automatic-send boundaries remain intact
+- **AND** the export button is named Revisar texto de mis archivos para mi IA to identify its source and actual next action, is unavailable for an empty query and becomes available after writing a nonempty query without requiring a prior Search click; preview, explicit copy, local glossary access and no-automatic-send boundaries remain intact
 - **AND** empty-query unavailability survives rendering, navigation re-entry and completion of an operation; a busy operation still disables the action regardless of query content
+
+#### Scenario: Source and purpose of AI text
+- **WHEN** a person reads the AI-text section without opening its control
+- **THEN** the heading identifies giving the person's AI information from their files, and concise copy says it gathers search excerpts to review before copying to their chat, without claiming model-generated answers, automatic sending or better answer quality
+- **AND** literal human responses and protocol confirmation are preserved separately; recognition of obtaining text to take elsewhere satisfies the original control-name criterion even if a reader asks why, and automatic tests or implementer judgment cannot replace human observation
