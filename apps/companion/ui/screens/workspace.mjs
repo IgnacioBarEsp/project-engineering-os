@@ -32,7 +32,7 @@ export async function showWorkspace(refresh=true,{focusTab=false}={}){
     if(state.busy){event.target.open=true;return;}
     void run(()=>change('overview'));
   }},el('summary',{text:'Herramientas opcionales'}),
-    p('Busca información en tus archivos o usa guías para tu IA solo cuando lo necesites.','subtle'),
+    el('p',{class:'subtle'},'Busca información en tus archivos o consulta ',term('receta','recetas'),' y guías para tu IA cuando lo necesites.'),
     projectSegments(state.tab,change));
   const destination=el('section',{id:'project-panel','data-project-tab':state.tab,
     'aria-labelledby':state.tab==='overview'?'project-preparation-title':`project-tab-${state.tab}`},content);
