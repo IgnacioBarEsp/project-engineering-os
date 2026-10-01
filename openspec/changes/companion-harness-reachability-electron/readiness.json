@@ -74,7 +74,7 @@
       "id": "visual-check-when-configured",
       "status": "pending",
       "evidence": null,
-      "justification": "El mantenedor rechazó la dirección de la pantalla de proyecto tras ver la captura de Archivos; la respuesta literal está en maintainer-project-management-feedback.json del change de #149. Falta decisión de organización de #148 y aceptación final; las pruebas/capturas propias no la sustituyen.",
+      "justification": "El rechazo histórico de Archivos se conserva sin reescribir su respuesta literal. El mantenedor aprobó después la reorganización de #148 y la captura principal de preparación: management-visual-acceptance.md documenta el alcance. No equivale a aceptación global de otras pantallas, lecturas de un botón renombrado, aplicación instalada ni cierre de ola 3; conservar los demás gates humanos de #149.",
       "profileCondition": null
     },
     {
@@ -99,7 +99,7 @@
       "kind": "manual",
       "status": "pending",
       "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-recheck.md",
-      "justification": "El informe independiente previo conserva su alcance. Los refinamientos de tareas y finalidad de Archivos requieren revisión independiente; files-clarity-integration.md y files-purpose-integration.md son revisión propia, no aceptación del diseño.",
+      "justification": "El informe independiente previo conserva su alcance. Los refinamientos de Archivos y la reorganización de gestión de #148 requieren revisión independiente del delta. Los informes de integración son revisión propia; no se atribuye el pase anterior a estos cambios.",
       "profileCondition": null
     },
     {
