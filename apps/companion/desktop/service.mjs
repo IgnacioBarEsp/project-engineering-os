@@ -3,12 +3,12 @@ import { lstat, mkdir, rename } from 'node:fs/promises';
 import path from 'node:path';
 import { assertPath, canonicalFolder, hash, snapshot, writeChecked, withLock, fail, json } from '../engine/files.mjs';
 import { glossaryIdsIn } from '../ui/glossary.mjs';
-import { createPreparationEngine, normalizeSelection, renderProjectVision, AGENT_IDS, WEB_AGENT } from '../engine/preparation.mjs';
+import { createPreparationEngine, normalizeSelection, renderProjectVision, AGENT_IDS, MANUAL_AGENTS, WEB_AGENT } from '../engine/preparation.mjs';
 import {PROFILES, PROFILE_IDS, LEGACY_PROFILE_MAP, READABLE_PROFILE_IDS, requiredStages, isEngineering, profileLabel, focusLabel, resolveProfile, offeredStacks} from '../engine/profiles.mjs';
 import { createContextEngine } from '../context/engine.mjs';
 import { createConstructorAdapter } from '../engine/constructor-adapter.mjs';
 import { recipesFor } from '../context/recipes.mjs';
-import { aggregate, investigationPrompt, projectPromptFor } from '../context/prompts.mjs';
+import { aggregate, activationPrompt, investigationPrompt, projectPromptFor } from '../context/prompts.mjs';
 import { createInferenceClient, clearsTheFloor, withLocalRules, LEVELS, LEVEL_LABELS, PROVIDERS } from '../runtime/inference.mjs';
 import { graphOptions } from '../context/graph-tools.mjs';
 import { createActivationEngine } from '../runtime/activation.mjs';
@@ -62,6 +62,7 @@ export const DESTINATIONS = Object.freeze({ web: 'https://chatgpt.com/' });
 export const MANUAL_CAUSES = Object.freeze({
   'not-installed': 'No se encontró en este equipo. Si la tienes en otra ubicación, ábrela tú.',
   'not-measured': 'No se pudo comprobar en este equipo si está instalada, así que no se abre desde aquí.',
+  'route-only': 'Se preparan instrucciones para esta IA, pero no hay una apertura local verificada. Ábrela tú y pega el texto.',
   signature: 'Está instalada, pero no se pudo comprobar su firma o quién la publica, así que no se abre desde aquí.',
   'no-desktop-app': 'Su herramienta de línea de comandos está instalada y verificada, pero no se encontró su aplicación de escritorio, que es la que recibiría la carpeta.',
   'no-help-contract': 'Está instalada y su editor sí se pudo comprobar, pero esta versión no confirma que acepte una ruta, así que no se abre desde aquí.',
@@ -97,7 +98,7 @@ const reason = (...values) => values.find(value => typeof value === 'string' && 
 export function stageReport(status) {
   const profile = status.base?.selection?.profile ?? status.project?.selection?.profile ?? null;
   const required = profile?requiredStages(profile):['base', 'context'];
-  const stages = [{ id: 'base', state: status.base?.base === 'prepared' && status.base?.inventory === 'current' ? 'ready'
+  const stages = [{ id: 'base', state: status.base?.vision==='missing'?'vision-missing':status.base?.base === 'prepared' && status.base?.inventory === 'current' ? 'ready'
       : status.base?.base === 'prepared' ? 'inventory-stale' : reason(status.base?.base, status.base?.status) },
     { id: 'context', state: status.context?.context === 'current' ? 'ready' : reason(status.context?.context, status.context?.status) }];
   if (required.includes('environment')) stages.push({ id: 'environment',
@@ -142,6 +143,7 @@ const STAGE_GUIDE = Object.freeze({
   base: { title: 'Falta guardar tus elecciones en esta carpeta', action: 'prepare-project',
     titles: { 'inventory-stale': 'Tu carpeta cambió desde que se miró por última vez' },
     causes: { 'not-prepared': 'Todavía no se ha escrito nada aquí.',
+      'vision-missing': 'Falta el archivo con la visión del proyecto. Revisa tus elecciones para crearlo sin sustituir archivos existentes.',
       interrupted: 'Una operación quedó a medias y hay que continuarla o deshacerla.',
       'inventory-stale': 'Lo que se guardó ya no describe lo que hay dentro. Volver a mirarla es un paso.' },
     fallback: 'Hay que revisar esta preparación de nuevo.' },
@@ -397,6 +399,23 @@ export async function createDesktopService({ dataRoot, core, environment = null,
   // An independent review found the screen calling the model and the handover calling it again, with two
   // different answers, under a sentence that says "primero ves el texto, y después decides si lo copias".
   const composed = new Map();
+  async function preparationResult(p,controls={}) {
+    const checked=await status(p,controls),report=stageReport(checked),chosen=checked.base.selection??p.selection;
+    if(!chosen)fail('BASE_REQUIRED','Primero guarda las elecciones de este proyecto.');
+    const stages=[...report.stages];
+    if(isEngineering(chosen))stages.push({id:'activation',state:checked.engineering.workflows==='verified'?'ready':checked.engineering.workflows??'not-verified'});
+    if(chosen.stack?.decision==='chosen'&&chosen.stack.requested.length) {
+      const items=[];
+      for(const id of chosen.stack.requested)items.push({id,...await stacks.inspect(p.root,id,controls)});
+      stages.push({id:'stack',state:chosen.stack.requested.every(id=>items.some(item=>item.id===id&&item.status==='verified'))?'ready':'not-verified'});
+    }
+    const done=stages.filter(item=>item.state==='ready').map(item=>item.id),pending=stages.filter(item=>item.state!=='ready').map(item=>item.id);
+    const inventory=await base.inspect(p.root);
+    const prompt=activationPrompt({profile:chosen.profile,focus:chosen.focus,
+      vision:[chosen.goal,chosen.vision].filter(Boolean).join('\n\n'),agents:chosen.agents,done,pending,
+      route:chosen.installMode??'ai',aggregate:aggregate(inventory)});
+    return {status:checked,report:{...report,stages},prompt,done,pending};
+  }
   async function composeForProject(p, selection, controls = {}) {
     const inventory = await base.inspect(p.root).catch(() => ({ files: [], limitations: [], excluded: 0 }));
     const { items } = await readVerdicts();
@@ -551,7 +570,8 @@ export async function createDesktopService({ dataRoot, core, environment = null,
       await remember(p);const result=await base.apply(plan.engineId,controls);await remember(p,plan.selection);return {result,status:await status(p,controls)};
     });},
     async previewEnvironment(input) {exact(input,['id']);noJob();const p=await project(input.id);
-      if(!environment||!p.selection||!isEngineering(p.selection))fail('ENVIRONMENT_UNAVAILABLE','Este proyecto no necesita estas herramientas de desarrollo.');
+      if(!environment)fail('ENVIRONMENT_UNAVAILABLE','Las herramientas no están disponibles en este equipo.','Puedes continuar con tu IA o revisar la instalación de Companion.');
+      if(!p.selection||!isEngineering(p.selection))fail('ENVIRONMENT_UNAVAILABLE','Este proyecto no necesita estas herramientas de desarrollo.');
       return operation('Revisar herramientas',async controls=>{const plan=await environment.plan(p.root,controls);return {...plan,id:plan.id?keepPlan(p,'environment',plan):null};});},
     async applyEnvironment(input) {exact(input,['plan']);const {p,plan}=await usePlan(input.plan,'environment');
       if(!environment)fail('ENVIRONMENT_UNAVAILABLE','La preparación de herramientas no está disponible.');
@@ -623,11 +643,14 @@ export async function createDesktopService({ dataRoot, core, environment = null,
         if(current.incompleteTransaction!==plan.incompleteTransaction)fail('PLAN_STALE','La operación de ingeniería cambió; vuelve a revisarla.');
         const result=await engineering.rollback(p.root,plan.incompleteTransaction,controls);return {result,status:await status(p,controls)};
       });},
-    async previewContext(input) {exact(input,['id','exclude']);noJob();const p=await project(input.id);
+    async previewContext(input) {exact(input,['id','exclude','prepareEngineering']);noJob();const p=await project(input.id);
+      if(input.prepareEngineering!==undefined&&(typeof input.prepareEngineering!=='boolean'
+          ||(input.prepareEngineering&&(!p.selection||!isEngineering(p.selection)||p.selection.installMode!=='quick'))))
+        fail('CONTEXT_OPTIONS','Revisa la vía de preparación antes de preparar sus instrucciones.');
       return operation('Leer fuentes locales',async controls=>{
         const config=await context.configuration(p.root);
         if(input.exclude!==undefined)config.exclude=input.exclude;
-        const plan=await context.plan(p.root,config,controls);
+        const plan=await context.plan(p.root,config,controls,{prepareEngineering:input.prepareEngineering===true});
         return {id:keepPlan(p,'context',plan),files:fileList(plan),coverage:plan.coverage,exclude:config.exclude,agentStatus:plan.agentStatus};});},
     async applyContext(input) {exact(input,['plan']);const {p,plan}=await usePlan(input.plan,'context');return operation('Preparar contexto',async controls=>{
       const result=await context.apply(plan.engineId,controls);return {result,status:await status(p,controls)};
@@ -644,6 +667,8 @@ export async function createDesktopService({ dataRoot, core, environment = null,
       return operation('Buscar símbolos',async controls=>codeGraph.search(p.root,input.query,await context.configuration(p.root),controls));},
     async previewSync(input) {exact(input,['id']);noJob();const p=await project(input.id);return operation('Revisar instrucciones',async controls=>{const plan=await engineering.planSync(p.root,controls);return {...plan,id:plan.id?keepPlan(p,'engineering',plan,{incompleteTransaction:plan.incompleteTransaction}):null};});},
     async status(input) {exact(input,['id']);noJob();const p=await project(input.id);return operation('Comprobar estado',controls=>status(p,controls));},
+    async preparationResult(input) {exact(input,['id']);noJob();const p=await project(input.id);
+      return operation('Comprobar la preparación',controls=>preparationResult(p,controls));},
     async recover(input) {exact(input,['id','stage','action']);noJob();const p=await project(input.id);
       if(!['base','context','activation'].includes(input.stage)||!['resume','rollback'].includes(input.action)||(input.stage==='activation'&&!activation))fail('RECOVERY_INVALID','Elige una recuperación reconocida.');
       return operation('Recuperar operación',async controls=>{const engine=input.stage==='base'?base:input.stage==='activation'?activation:context;const result=await engine[input.action](p.root,controls);
@@ -754,9 +779,11 @@ export async function createDesktopService({ dataRoot, core, environment = null,
     async handoff(input) {exact(input,['preview','copy']);noJob();const preview=handoffs.get(input.preview);
       if(!preview||typeof input.copy!=='boolean')fail('HANDOFF_INVALID','Revisa la instrucción antes de abrir tu IA.');
       const p=await project(preview.project);
-      return operation('Continuar con tu IA',async()=>{const b=await base.verify(p.root);
+      return operation('Continuar con tu IA',async controls=>{const b=await base.verify(p.root);
         if(json(b.selection)!==preview.selection||preview.receiptHash!==(await snapshot(p.root,'.project-os/companion/context/receipt.json')).hash)fail('PLAN_STALE','El proyecto cambió; revisa la instrucción inicial de nuevo.');
         const c=await context.verify(p.root);if(c.context!=='current')fail('CONTEXT_STALE','Prepara o actualiza el contexto antes de continuar.');
+        if(preview.activationReport&&json((await preparationResult(p,controls)).report)!==preview.activationReport)
+          fail('PLAN_STALE','Cambió el resultado de la preparación.','Revisa la instrucción de nuevo antes de abrir tu IA.');
         const prompt=preview.prompt;
         let opened;
         // The mode was decided by the person's choice when the preview was built, and it is the only thing read
@@ -766,21 +793,24 @@ export async function createDesktopService({ dataRoot, core, environment = null,
         else opened={opened:'nothing',cause:preview.cause,projectAttached:false,agentActivated:false,agentReadProject:false};
         if(input.copy)await copyText(prompt);handoffs.delete(input.preview);return {...opened,copied:input.copy,prompt};
       });},
-    async handoffPreview(input) {exact(input,['id','agent']);noJob();const p=await project(input.id);return operation('Revisar instrucción inicial',async controls=>{
+    async handoffPreview(input) {exact(input,['id','agent','purpose']);noJob();
+      if(input.purpose!==undefined&&input.purpose!=='activation')fail('HANDOFF_INVALID','Elige un tipo de instrucción reconocido.');
+      const p=await project(input.id);return operation('Revisar instrucción inicial',async controls=>{
       const b=await base.verify(p.root);if(!AGENT_IDS.includes(input.agent)||!b.selection?.agents.includes(input.agent))fail('HANDOFF_INVALID','Elige una IA del proyecto.');
-      const id=randomUUID(),prompt=(await composeForProject(p,b.selection,controls)).text;
+      const id=randomUUID(),activation=input.purpose==='activation'?await preparationResult(p,controls):null;
+      const prompt=activation?.prompt??(await composeForProject(p,b.selection,controls)).text;
       // The person chose a desktop application or a web chat, and that choice decides where this goes. What is
       // installed can only take a desktop choice from "it opens" to "open it yourself"; it can never turn it
       // into a browser. `detect` is not even called for a web chat, and a missing launcher is recorded as not
       // measured rather than reported as not installed.
-      const web=input.agent===WEB_AGENT, detected=web||!localApps?null:await localApps.detect(input.agent);
+      const web=input.agent===WEB_AGENT,routeOnly=MANUAL_AGENTS.includes(input.agent),detected=web||routeOnly||!localApps?null:await localApps.detect(input.agent);
       // An application found but not verifiable is never launched; the person is told why.
       const local=detected?.unverified?null:detected, unverified=detected?.unverified?{label:detected.label,code:detected.code,reason:detected.reason??null,message:detected.message,publisher:detected.publisher??null,publisherVerified:!!detected.publisherVerified}:null;
       const mode=web?'web':local?'local':'manual';
       // The cause is the one the launcher named, never one deduced from what came attached to the refusal.
-      const cause=mode!=='manual'?null:!localApps?'not-measured':!detected?'not-installed'
+      const cause=mode!=='manual'?null:routeOnly?'route-only':!localApps?'not-measured':!detected?'not-installed'
         :Object.hasOwn(MANUAL_CAUSES,unverified.reason??'')?unverified.reason:'signature';
-      handoffs.set(id,{project:p.id,agent:input.agent,prompt,local,mode,cause,selection:json(b.selection),receiptHash:(await snapshot(p.root,'.project-os/companion/context/receipt.json')).hash});
+      handoffs.set(id,{project:p.id,agent:input.agent,prompt,local,mode,cause,activationReport:activation?json(activation.report):null,selection:json(b.selection),receiptHash:(await snapshot(p.root,'.project-os/companion/context/receipt.json')).hash});
       if(handoffs.size>10)handoffs.delete(handoffs.keys().next().value);
       return {id,prompt,destination:mode==='local'?local.label:mode==='web'?DESTINATIONS.web:null,mode,cause,
         causeMessage:cause?MANUAL_CAUSES[cause]:null,projectAttached:false,folderWillBeRequested:mode==='local',unverified};

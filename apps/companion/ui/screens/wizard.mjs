@@ -1,6 +1,8 @@
 import {profiles,profileInfo,loadProfiles,agents,techDecisions,state,el,p,btn,doBtn,heading,own,actions,wizardBar,panel,term,steps,notice,error,call,run,render} from '../lib/core.mjs';
 import {openProject} from '../lib/bridge.mjs';
 import {emptyAnswers,selectionForPreparation,visionFromAnswers,wordCount,WIZARD_PAGES} from '../lib/wizard-model.mjs';
+import {startPreparation,preparationIsRunning,preparationPlan} from './wizard-prepare.mjs';
+import {showFinished} from './wizard-done.mjs';
 
 let saveTimer=null,saveQueue=Promise.resolve();
 const draft=()=>({step:state.wizardStep,selection:structuredClone(state.selection),projectId:state.project?.id??null});
@@ -20,6 +22,7 @@ async function suspendWizard(){
   state.wizardActive=false;
 }
 async function beforeClose(){
+  if(state.busy||preparationIsRunning())return false;
   try{await flushPersist();return true;}catch(failure){error(failure);return false;}
 }
 function resetWizard(){state.wizardActive=true;state.wizardStep=0;state.resumeDraft=null;state.project=null;state.plan=null;state.selection=emptyAnswers();}
@@ -188,8 +191,8 @@ async function showPrepare(){
   state.plan=plan;state.page='install';
   const route=el('fieldset',{},el('legend',{text:'¿Cómo quieres continuar?'}),
     el('div',{class:'choices'},[
-      ['quick','Preparar en este equipo','Se guardan los archivos base revisados. Las herramientas y lecturas pendientes se muestran después.'],
-      ['ai','Continuar con mi IA','Se guardan los mismos archivos base y se prepara una instrucción para tu IA. No se le envía nada automáticamente.'],
+      ['quick','Prepararlo ahora','Se guardan tus elecciones y se leen los archivos. En Software también se preparan herramientas, método y tecnología elegida, con cada plan revisado.'],
+      ['ai','Que mi IA se encargue','Se guardan tus elecciones y se leen los archivos. Herramientas y método quedan para tu IA, con instrucciones y comprobaciones. No se le envía nada automáticamente.'],
     ].map(([id,label,description])=>el('label',{class:'choice'},
       el('input',{type:'radio',name:'install-mode',value:id,checked:s.installMode===id,onChange:()=>void run(async()=>{
         s.installMode=id;await flushPersist();await showPrepare();})}),
@@ -200,41 +203,18 @@ async function showPrepare(){
         s.agents=event.target.checked?[...s.agents,id]:s.agents.filter(item=>item!==id);
         if(!s.agents.length){s.agents=[id];event.target.checked=true;throw {message:'Elige al menos una IA.',action:'Puedes marcar varias, pero no dejar la lista vacía.'};}
         await flushPersist();await showPrepare();})}),el('span',{},el('strong',{text:label}))))));
-  const filePlan=el('details',{class:'wizard-file-plan'},el('summary',{text:`Qué se va a escribir (${plan.files.length} archivos)`}),
-    el('ul',{class:'file-list'},plan.files.map(file=>el('li',{text:`${file.action==='create'?'Añadir':file.action==='update'?'Actualizar':'Conservar'} · ${file.path}`}))));
+  const filePlan=preparationPlan(plan);
   render([rail(),...heading('Cómo quieres continuar','Revisa el plan real antes de guardar. Elegir una vía no instala nada por sí solo.'),
-    route,ai,filePlan,p('Tus originales se conservan y no se envían a ninguna IA durante la preparación. Leer los archivos, preparar herramientas y comprobar tu IA son pasos separados que todavía no se declaran terminados.','subtle')],null,
+    route,ai,filePlan,p('Este primer plan guarda tus elecciones. Los siguientes se calculan y revisan aquí después de cada etapa. Tus originales se conservan y no se envían a ninguna IA durante la preparación.','subtle')],null,
     wizardBar(btn('Volver',()=>goStep(2)),btn('Guardar la preparación revisada  →',executePreparation,'primary')));
 }
 async function executePreparation(){
-  const result=await call('applyBase',{plan:state.plan.id});
-  state.status=result.status;state.project={...state.project,...result.status.project};state.wizardActive=false;
-  try{await call('draftClear');}catch(failure){notice(`La base quedó guardada, pero el borrador no se pudo limpiar: ${failure.message}`);}
-  showFinished();
-}
-function masterPrompt(){const s=state.selection;return `Abre la carpeta de este proyecto y lee PROJECT_VISION.md.\n\nObjetivo: ${s.goal.trim()}\n\nLa aplicación guardó la preparación base. Todavía no ha leído todos los archivos ni ha comprobado herramientas o activado tu IA. Antes de cambiar o instalar algo, revisa la carpeta, explícame el plan y pídeme aprobación. Conserva mis originales y verifica cada resultado.`;}
-// A retry clears the previous confirmation before the native clipboard can refuse it.
-function copyButton(label,done,announce,text){
-  let revert=null;
-  const node=btn(label,async()=>{
-      clearTimeout(revert);
-      node.textContent = label;
-      await call('copyText', { text });
-      notice(announce);
-      node.textContent=done;
-      revert=setTimeout(()=>{node.textContent=label;},2000);
-  });
-  return node;
-}
-function showFinished(){
-  state.page='finished';const root=state.project.root,prompt=masterPrompt();
-  render([steps(),...heading('Preparación base guardada','Tu carpeta conserva sus archivos originales. Ya puedes revisar qué falta desde tu proyecto.'),
-    panel(el('h2',{text:'Qué se hizo'}),p('Se guardaron tus elecciones, la primera lista de archivos y PROJECT_VISION.md.'),
-      p('Todavía faltan la lectura completa de archivos, las herramientas que correspondan y la comprobación de tu IA. Esta pantalla no los marca como listos.','subtle')),
-    panel(el('h2',{text:'Tu carpeta'}),own(root,'p',{class:'path'}),actions(copyButton('Copiar ruta','¡Ruta copiada!','Ruta copiada. Todavía no se envió a ninguna aplicación.',root))),
-    panel(el('h2',{text:'Instrucción inicial para tu IA'}),el('pre',{class:'prompt',text:prompt}),
-      actions(copyButton('Copiar instrucción','¡Instrucción copiada!','Instrucción copiada; decide tú dónde pegarla.',prompt))),
-    actions(doBtn('open-workspace','primary'),doBtn('open-project-list'))],null);
+  await flushPersist();
+  await startPreparation(state.plan,selectionForPreparation(state.selection),{onFinished:async result=>{
+    state.status=result.status;state.project={...state.project,...result.status.project};state.wizardActive=false;
+    try{await call('draftClear');}catch(failure){notice(`La preparación se conserva, pero el borrador no se pudo limpiar: ${failure.message}`);}
+    showFinished(result);
+  }});
 }
 
 export {startSetup,resumeDraft,suspendWizard,chooseFromHome,startFromDuplicate,showWizard,showProject,showFocus,showVision,showPrepare,showFinished,beforeClose};

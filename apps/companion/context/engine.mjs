@@ -4,11 +4,12 @@ import { createPreparationEngine, normalizeSelection } from '../engine/preparati
 import { collectSources, buildIndex, normalizeContextOptions } from './sources.mjs';
 import { retrieve, formatExport, validateQuery } from './retrieval.mjs';
 import { renderRecipes } from './recipes.mjs';
-import { AGENT_PATHS, ROUTE_PATHS, CANONICAL_ROUTE, ROUTE_TEXT, routeBlock, renderRoute, renderMap } from './routes.mjs';
+import { AGENT_PATHS, ROUTE_PATHS, LEGACY_AGENT_PATHS, LEGACY_ROUTE_PATHS, CANONICAL_ROUTE, routeText, routeBlock, renderRoute, renderMap } from './routes.mjs';
 
 const DIR = `${NAMESPACE}/context`, INDEX = `${DIR}/index.json`, RECEIPT = `${DIR}/receipt.json`, JOURNAL = `${DIR}/transaction.json`;
 const OWNED = [INDEX, `${DIR}/MAP.md`, `${DIR}/RECIPES.md`];
 const ALLOWED = [...OWNED, ...ROUTE_PATHS, RECEIPT];
+const legacyAllowed = [...OWNED, ...LEGACY_ROUTE_PATHS, RECEIPT];
 const MAX_FILE = 8 * 1024 * 1024, MAX_JOURNAL = 40 * 1024 * 1024;
 const object = value => value && typeof value === 'object' && !Array.isArray(value);
 const digest = value => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value);
@@ -16,20 +17,24 @@ const aborted = signal => { if (signal?.aborted) fail('CANCELLED', 'La operació
 function parse(content) { try { return JSON.parse(content); } catch { fail('CONTEXT_STATE', 'No se puede leer el estado de contexto.'); } }
 const read = (root, relative) => snapshot(root, relative, MAX_FILE);
 function receipt(value) {
-  if (!object(value) || value.version !== 1 || !object(value.files) || !digest(value.fingerprint)
+  if (!object(value) || ![1,2].includes(value.version) || !object(value.files) || !digest(value.fingerprint)
     || Object.keys(value.files).sort().join() !== [...OWNED].sort().join() || Object.values(value.files).some(v=>!digest(v))
-    || !Array.isArray(value.routes) || new Set(value.routes).size !== value.routes.length || value.routes.some(p=>!ROUTE_PATHS.includes(p))) {
+    || !Array.isArray(value.routes) || new Set(value.routes).size !== value.routes.length || value.routes.some(p=>!(value.version===1?LEGACY_ROUTE_PATHS:ROUTE_PATHS).includes(p))) {
     fail('CONTEXT_STATE', 'El recibo de contexto no tiene un formato reconocido.');
   }
-  normalizeSelection(value.selection); normalizeContextOptions(value.config);
+  normalizeSelection(value.selection,{legacyRead:true}); normalizeContextOptions(value.config);
   if (typeof value.canonicalRouting !== 'boolean') fail('CONTEXT_STATE', 'Falta la estrategia de instrucciones.');
-  const routes = selectedRoutes(value.selection, value.canonicalRouting);
+  if(value.version===2&&(typeof value.corePresent!=='boolean'||(value.corePresent&&!value.canonicalRouting)))
+    fail('CONTEXT_STATE','Falta el estado de propiedad de las instrucciones.');
+  const routes = selectedRoutes(value.selection, value.canonicalRouting,value.version);
   if (routes.sort().join() !== [...value.routes].sort().join()) fail('CONTEXT_STATE', 'Las rutas no corresponden a las IA elegidas.');
   return value;
 }
-function selectedRoutes(selection, canonical) {
-  return [...new Set(selection.agents.flatMap(a=>AGENT_PATHS[a]
-    ? [canonical && a !== 'cursor' ? CANONICAL_ROUTE : AGENT_PATHS[a]] : []))].sort();
+function selectedRoutes(selection, canonical,version=2) {
+  const paths=version===1?LEGACY_AGENT_PATHS:AGENT_PATHS;
+  return [...new Set(selection.agents.flatMap(a=>paths[a]
+    ? canonical&&Object.hasOwn(LEGACY_AGENT_PATHS,a)&&a!=='cursor' ? [CANONICAL_ROUTE]
+      : version===2&&a==='claude-code'?['AGENTS.md','CLAUDE.md']:[paths[a]] : []))].sort();
 }
 async function canonicalRouting(root) {
   const state = await snapshot(root,'.project-constructor/state.json',4*1024*1024);
@@ -60,10 +65,11 @@ async function readReceipt(root) {
   return { state, value: state.content ? receipt(parse(state.content)) : null };
 }
 function validateJournal(value) {
-  if (!object(value) || value.version !== 1 || !/^[a-f0-9-]{36}$/.test(value.id ?? '') || !digest(value.rootHash)
+  const allowed=value?.version===1?legacyAllowed:ALLOWED;
+  if (!object(value) || ![1,2].includes(value.version) || !/^[a-f0-9-]{36}$/.test(value.id ?? '') || !digest(value.rootHash)
       || !['applying','interrupted','committed','rolled-back'].includes(value.status)
-      || !Array.isArray(value.operations) || value.operations.length !== ALLOWED.length
-      || value.operations.some(op=>!object(op)) || value.operations.map(o=>o.path).sort().join() !== [...ALLOWED].sort().join()) {
+      || !Array.isArray(value.operations) || value.operations.length !== allowed.length
+      || value.operations.some(op=>!object(op)) || value.operations.map(o=>o.path).sort().join() !== [...allowed].sort().join()) {
     fail('CONTEXT_JOURNAL', 'El registro de recuperación de contexto no es válido.');
   }
   for (const op of value.operations) {
@@ -74,12 +80,13 @@ function validateJournal(value) {
     }
   }
   const next = receipt(parse(value.operations.find(op=>op.path===RECEIPT).after));
+  if(next.version!==value.version)fail('CONTEXT_JOURNAL','La versión del recibo no coincide con la operación.');
   if (OWNED.some(p=>next.files[p] !== value.operations.find(op=>op.path===p).afterHash)) fail('CONTEXT_JOURNAL', 'El recibo no coincide con los archivos de contexto.');
   const index = parse(value.operations.find(op=>op.path===INDEX).after);
   if (index?.fingerprint !== next.fingerprint || json(index.config) !== json(next.config)) fail('CONTEXT_JOURNAL', 'La fuente del índice no coincide con el recibo.');
   for (const relative of next.routes) {
     const content = value.operations.find(op=>op.path===relative).after;
-    if (typeof content !== 'string' || routeBlock(content)?.text !== ROUTE_TEXT) fail('CONTEXT_JOURNAL', 'Las rutas de la IA no coinciden con la preparación.');
+    if (typeof content !== 'string' || routeBlock(content)?.text !== routeText(relative,next.version)) fail('CONTEXT_JOURNAL', 'Las rutas de la IA no coinciden con la preparación.');
   }
   return { value, next };
 }
@@ -95,7 +102,7 @@ async function validateOwned(root, previous) {
       if (previous ? states[relative].hash !== previous.files[relative] : states[relative].hash !== null) {
         fail('CONTEXT_CONFLICT', 'Ya existe contexto modificado o sin un recibo válido.', 'Conserva esos archivos y revisa el conflicto antes de actualizar.');
       }
-    } else if (previous?.routes.includes(relative) && routeBlock(states[relative].content?.toString('utf8') ?? '')?.text !== ROUTE_TEXT) {
+    } else if (previous?.routes.includes(relative) && routeBlock(states[relative].content?.toString('utf8') ?? '')?.text !== routeText(relative,previous.version)) {
       fail('ROUTE_CONFLICT', 'Las instrucciones de una IA se modificaron o retiraron.');
     }
   }
@@ -107,7 +114,7 @@ async function baseSelection(root) {
   return state.selection;
 }
 async function ensureInputs(root, next) {
-  if (await canonicalRouting(root) !== next.canonicalRouting) fail('CONTEXT_STALE', 'Cambió el entorno de ingeniería; revisa sus instrucciones.');
+  if (await canonicalRouting(root) !== (next.version===1?next.canonicalRouting:next.corePresent)) fail('CONTEXT_STALE', 'Cambió el entorno de ingeniería; revisa sus instrucciones.');
   if (json(await baseSelection(root)) !== json(next.selection)) fail('CONTEXT_STALE', 'La selección del proyecto cambió.', 'Vuelve a preparar el contexto con la selección actual.');
   const corpus = await collectSources(root, next.config);
   if (corpus.fingerprint !== next.fingerprint) fail('CONTEXT_STALE', 'Los archivos cambiaron desde que se leyó el contexto.', 'Actualiza el contexto antes de buscar, exportar o continuar.');
@@ -160,7 +167,7 @@ export function createContextEngine() {
       const root = await canonicalFolder(target), previous = await readReceipt(root);
       return structuredClone(previous.value?.config ?? normalizeContextOptions());
     },
-    async plan(target, options = {}, controls = {}) {
+    async plan(target, options = {}, controls = {}, {prepareEngineering=false}={}) {
       aborted(controls.signal);
       const root = await canonicalFolder(target), selection = await baseSelection(root), previous = await readReceipt(root), prior = await readJournal(root);
       if (['applying','interrupted'].includes(prior.value?.status)) fail('CONTEXT_INTERRUPTED', 'Continúa o deshaz la operación interrumpida primero.');
@@ -172,23 +179,29 @@ export function createContextEngine() {
         }
       }
       const corpus = await collectSources(root, options), index = await buildIndex(corpus, controls);
-      const canonical = await canonicalRouting(root), routes = selectedRoutes(selection, canonical);
-      if (previous.value && previous.value.canonicalRouting !== canonical) fail('ROUTE_STRATEGY_CHANGED', 'La preparación de ingeniería cambió la propiedad de las instrucciones.', 'Deshaz las rutas anteriores antes de adoptar el entorno de ingeniería.');
+      // Reserve the project-owned canonical source before a requested bootstrap, so context does
+      // not first create root mirrors which the constructor would correctly refuse to overwrite.
+      // This does NOT claim the core is installed: corePresent remains false until measured.
+      const corePresent=await canonicalRouting(root);
+      const canonical = corePresent||prepareEngineering||previous.value?.canonicalRouting===true;
+      const routes = selectedRoutes(selection, canonical);
+      if ((previous.value?.version===1?previous.value.canonicalRouting:previous.value?.corePresent) && !corePresent)
+        fail('ROUTE_STRATEGY_CHANGED', 'Se retiró la preparación de ingeniería.', 'Recupera sus instrucciones antes de preparar el contexto.');
       const localTools = await activatedLocalTools(root);
       const contents = { [INDEX]: json(index), [`${DIR}/MAP.md`]: renderMap(index, selection, localTools), [`${DIR}/RECIPES.md`]: renderRecipes(selection) };
       for (const relative of ROUTE_PATHS) {
         const existing = states[relative].content?.toString('utf8') ?? null;
         // Mirrored blocks belong to the constructor, including a block copied by its last sync.
         contents[relative] = canonical && ['AGENTS.md','CLAUDE.md','.github/copilot-instructions.md'].includes(relative)
-          ? existing : renderRoute(relative, existing, routes.includes(relative), previous.value?.routes.includes(relative));
+          ? existing : renderRoute(relative, existing, routes.includes(relative), previous.value?.routes.includes(relative),previous.value?.version);
       }
-      const next = { version: 1, selection, fingerprint: corpus.fingerprint, config: corpus.config, routes, canonicalRouting: canonical,
+      const next = { version: 2, selection, fingerprint: corpus.fingerprint, config: corpus.config, routes, canonicalRouting: canonical,corePresent,
         files: Object.fromEntries(OWNED.map(p=>[p,hash(contents[p])])) };
       contents[RECEIPT] = json(next); states[RECEIPT] = previous.state;
       const operations = ALLOWED.map(p=>({ path: p, before: states[p].content?.toString('utf8') ?? null, beforeHash: states[p].hash,
         after: contents[p], afterHash: contents[p] === null ? null : hash(contents[p]) }));
       if (operations.some(op=>op.after !== null && Buffer.byteLength(op.after) > MAX_FILE)) fail('CONTEXT_LIMIT', 'El contexto es demasiado grande; reduce la carpeta o excluye fuentes.');
-      const id = randomUUID(), journal = { version: 1, id, status: 'applying', rootHash: hash(root), operations };
+      const id = randomUUID(), journal = { version: 2, id, status: 'applying', rootHash: hash(root), operations };
       if (Buffer.byteLength(json(journal)) > MAX_JOURNAL) fail('CONTEXT_LIMIT', 'La recuperación supera el límite; elige un conjunto de documentos más pequeño.');
       plans.set(id, { root, journal, next, journalHash: prior.state.hash });
       if (plans.size > 10) plans.delete(plans.keys().next().value);

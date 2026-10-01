@@ -8,6 +8,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const uiPath = path.join(root, 'apps', 'companion', 'ui');
 const glossaryPath = path.join(root, 'apps', 'companion', 'ui', 'glossary.mjs');
 const ui = (await Promise.all(['lib/core.mjs', 'screens/home.mjs', 'screens/wizard.mjs',
+  'screens/wizard-prepare.mjs', 'screens/wizard-done.mjs',
   'screens/reviews.mjs', 'screens/workspace.mjs', 'app.mjs'].map(file => readFile(path.join(uiPath, file), 'utf8')))).join('\n');
 const glossarySource = await readFile(glossaryPath, 'utf8');
 const { GLOSSARY, labelMatchesTerm, makeTerm } = await import(pathToFileURL(glossaryPath).href);

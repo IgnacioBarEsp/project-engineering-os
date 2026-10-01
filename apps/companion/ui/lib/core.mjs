@@ -8,7 +8,7 @@ import {steps as stepRail} from '../components/step-rail.mjs';
 const api=window.companion;
 const $=id=>document.getElementById(id);
 const profiles={};
-const agents={codex:'Codex','claude-code':'Claude',cursor:'Cursor','github-copilot':'GitHub Copilot',opencode:'OpenCode',antigravity:'Antigravity',web:'ChatGPT u otro chat web'};
+const agents={codex:'Codex','claude-code':'Claude',cursor:'Cursor','github-copilot':'GitHub Copilot',opencode:'OpenCode',antigravity:'Antigravity',gemini:'Gemini',kiro:'Kiro',windsurf:'Windsurf',web:'ChatGPT u otro chat web'};
 const techDecisions={chosen:['Sí, ya sé cuál quiero','Se te ofrece instalarla, con su licencia, su tamaño y su destino a la vista.'],
   unsure:['No sé todavía, o empiezo ahora','Se te recomienda una a partir de tu tipo de proyecto y de lo que hay en tu carpeta, y puedes decir que no.'],
   'too-early':['Es pronto para decidirlo','No se instala ninguna tecnología, y el proyecto te dice por qué eso está bien.']};
