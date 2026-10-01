@@ -152,7 +152,7 @@
     "justification": null
   },
   "adversarialReview": {
-    "status": "verified",
+    "status": "passed",
     "ref": "openspec/changes/companion-renderer-foundation/evidence/review-correction-20260930.md",
     "blockers": 0,
     "majors": 0
