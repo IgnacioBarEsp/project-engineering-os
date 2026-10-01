@@ -5,8 +5,10 @@ Issue #148: https://github.com/IgnacioBarEsp/project-engineering-os/issues/148. 
 ## What Changes
 
 - Lista modular con filas, orden por comprobación, carga diferida 300 ms y estados vacíos/error explícitos.
-- Cabecera de proyecto y cuatro segmentos Estado, Archivos, Recetas y Tu IA, con URL interna y teclado.
-- Guía primero, acciones una vez y contenido exclusivo por pestaña.
+- Cabecera de proyecto, preparación como entrada principal y navegación opcional a Archivos,
+  Recetas y Tu IA, con URL interna y teclado.
+- Gestión primero, tareas locales visibles, guías IA/detalles opcionales, acciones una vez y
+  contenido exclusivo por destino.
 - Pruebas de demoras, teclado, rutas y contratos existentes sin reducir sus denominadores.
 
 Ampliación de dirección aprobada el 30 de septiembre: gestión de la preparación primero,
