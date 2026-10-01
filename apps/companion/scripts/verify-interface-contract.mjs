@@ -8,6 +8,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { portable } from './portable-path.mjs';
 import {ASSETS, CSP} from '../desktop/assets.mjs';
+import {revealDetails,expandProjectDetails} from './project-disclosures.mjs';
 import {PROFILES, PROFILE_IDS, LEGACY_PROFILE_MAP, resolveProfile, offeredStacks} from '../engine/profiles.mjs';
 import {routeTraversal} from './route-traversal.mjs';
 import { ACTION_PAIRS, UNDEFINED_VOCABULARY, TERM_LABELS, LIST_PURITY, ACCESSIBILITY, ACCESSIBLE_NAMES,
@@ -154,13 +155,13 @@ const MUTATIONS = [
     detect: report => guideProblems(report.screens['mi proyecto']?.guide).some(entry => entry.includes('texto sin forma de copiarlo')) },
   { id: 'a-guide-that-drops-the-definitions-of-its-own-words', file: 'app.mjs',
     reason: 'la guía usa palabras del glosario y deja de ofrecer sus definiciones en esa pantalla',
-    from: "    guide.terms.length?el('p',{class:'subtle'},'Qué significan estas palabras: '",
-    to: "    false?el('p',{class:'subtle'},'Qué significan estas palabras: '",
+    from: "  const definitions=()=>guide.terms.length?el('p',{class:'subtle'},'Qué significan estas palabras: '",
+    to: "  const definitions=()=>false?el('p',{class:'subtle'},'Qué significan estas palabras: '",
     detect: report => (report.screens['mi proyecto']?.vocabulary.missing ?? []).length > 0 },
   { id: 'the-same-action-in-two-controls-of-one-screen', file: 'app.mjs',
     reason: 'la guía ofrece un paso pendiente y otro panel ofrece la misma acción otra vez en la misma pantalla',
-    from: "actions(once('read-files','primary'),doBtn('recheck-project')",
-    to: "actions(doBtn('read-files','primary'),doBtn('recheck-project')",
+    from: "actions(once('read-files','primary'),isEngineeringProfile",
+    to: "actions(doBtn('read-files','primary'),isEngineeringProfile",
     detect: report => (report.screens['mi proyecto']?.repeated ?? []).some(entry => entry.startsWith('read-files')) },
   { id: 'two-names-for-one-action-deeper-in-the-wizard', file: 'app.mjs',
     reason: 'una acción declarada se ofrece con otro nombre en una pantalla del asistente',
@@ -507,6 +508,7 @@ async function inspect(page) {
   };
   const visit = async (where, action, heading) => {
     if (action && !await go(action, heading)) { unreachable.push(where); return; }
+    if(action==='open-project-list')await page.locator('.project-list[aria-busy="false"]').waitFor();
     await collect(where);
     screens[where] = await probe(page);
   };
@@ -549,9 +551,11 @@ async function inspect(page) {
     : false;
   if (opened) {
     await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true').catch(() => {});
+    await expandProjectDetails(page);
     if (await page.locator('.guide').count()) { await collect('mi proyecto'); screens['mi proyecto'] = await probe(page); }
     else unreachable.push('mi proyecto');
-    const toHandoff = page.getByRole('button', { name: 'Continuar con mi IA', exact: true });
+    const toHandoff = page.getByRole('button', { name: 'Tu IA', exact: true, includeHidden: true });
+    await revealDetails(toHandoff);
     const reachedHandoff = await toHandoff.count()
       ? await toHandoff.click({ timeout: 4000 }).then(() => true, () => false)
       : false;
@@ -572,13 +576,14 @@ async function inspect(page) {
           screens['tu IA'] = await probe(page);
         }
       }
-      await page.getByRole('button', { name: 'Estado', exact: true }).click().catch(() => {});
+      await pressed(page,'Preparación');
       await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true').catch(() => {});
     } else unreachable.push('tu IA');
     // The technology review, reached the way a person reaches it. An independent review pointed out that the
     // stub answered `stackCatalog` but not `previewStack`, so this screen never rendered here and stayed out of
     // the names-and-counts table even though the journey harness walked it.
     const toStack = page.locator('#view [data-action="review-stack"]').first();
+    await revealDetails(toStack);
     const reachedStack = await toStack.count()
       ? await toStack.click({ timeout: 4000 }).then(() => true, () => false)
       : false;
@@ -631,7 +636,7 @@ const settled = page => page.waitForFunction(() => document.getElementById('cont
   && !(document.querySelector('#view .enter')?.getAnimations() ?? []).some(animation => animation.playState === 'running'),
 null, { timeout: 4000 }).catch(() => {});
 const arrived = (page, name) => page.getByRole('heading', { name, exact: true }).waitFor({ timeout: 4000 }).then(() => true, () => false);
-const pressed = (page, name) => page.getByRole('button', { name, exact: true }).click({ timeout: 4000 }).then(() => true, () => false);
+const pressed = async(page, name) => {const node=page.getByRole('button',{name,exact:true,includeHidden:true});await revealDetails(node);return node.click({timeout:4000}).then(()=>true,()=>false);};
 async function walkToFinished(page, run) {
   await page.locator('#nav [data-action="prepare-project"]').click({ timeout: 4000 }).catch(() => {});
   for (const step of WIZARD_STEPS) {
@@ -909,7 +914,7 @@ try {
     await otherPage.locator('#nav [data-action="open-project-list"]').click();
     await otherPage.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true');
     states[mode] = { text: (await otherPage.locator('body').innerText()).replace(/\s+/g, ' ').slice(0, 400),
-      feedbackVisible: await otherPage.locator('#feedback').isVisible(),
+      feedbackVisible: await otherPage.locator('#view .list-error[role="alert"]').isVisible(),
       offersTheAction: await otherPage.locator('#view [data-action="prepare-project"]').count() > 0,
       accessibility: (await probe(otherPage)).accessibility, rendererErrors: otherErrors };
     await other.close();

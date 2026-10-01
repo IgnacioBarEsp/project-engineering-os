@@ -536,7 +536,7 @@ try {
     } else finding(id, 'context', `la interfaz no ofreció preparar el contexto. Botones visibles: ${(await page.locator('button:visible').allTextContents()).join(' | ')}`);
 
     // Context and a search whose answer is known in advance.
-    const sources = page.getByRole('button', { name: /Buscar en mis archivos/ });
+    const sources = page.getByRole('button', { name: 'Archivos', exact: true });
     await sources.first().waitFor({ timeout: 180000 }).catch(() => {});
     if (await sources.count()) {
       if (!await notBusy()) finding(id, 'search', 'la aplicación siguió ocupada al ir a buscar en los archivos');
@@ -689,7 +689,7 @@ try {
     await reopened.locator('.card-open').click();
     await page.locator('article.project').first().waitFor({ state: 'detached', timeout: 120000 });
     await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 180000 }).catch(() => {});
-    const afterReopen = page.getByRole('button', { name: /Buscar en mis archivos/ });
+    const afterReopen = page.getByRole('button', { name: 'Archivos', exact: true });
     await afterReopen.first().waitFor({ timeout: 180000 }).catch(() => {});
     let survived = null;
     if (await afterReopen.count()) {
@@ -802,7 +802,7 @@ try {
     await page.getByRole('button', { name: 'Tus proyectos', exact: true }).click();
     await page.locator('article.project .card-open').first().click();
     await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 180000 }).catch(() => {});
-    await page.getByRole('button', { name: 'Continuar con mi IA', exact: true }).click();
+    await page.getByRole('button', { name: 'Tu IA', exact: true }).click();
     await page.getByRole('heading', { name: 'Quién escribe estas instrucciones', exact: true })
       .waitFor({ timeout: 60000 }).catch(() => finding('general', 'captura', 'no se alcanzó la pantalla de tu IA'));
   });

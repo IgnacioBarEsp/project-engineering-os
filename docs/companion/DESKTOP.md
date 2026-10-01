@@ -30,6 +30,14 @@ Consulta [contexto](CONTEXT.md), [entorno](ENVIRONMENT.md) y [experiencia](EXPER
 
 ### Preparación por etapas de la ola 3 (código en revisión, no una release)
 
+El rediseño de proyecto de #148, todavía en PR apilado, separa Estado, Archivos, Recetas y Tu IA.
+Estado comienza por «Qué hacer ahora». Cada pestaña tiene un segmento operable con teclado y URL interna;
+el hash no contiene rutas de disco y no permite abrir otro proyecto. La lista ordena por última comprobación,
+no muestra resultados antiguos mientras carga y conserva la causa de una fila ilegible sin ocultar las demás.
+El esqueleto aparece desde 300 ms; una espera sin respuesta se convierte en error a los 10 s.
+`npm --prefix apps/companion run evidence:project` verifica ese comportamiento en navegador con servicio real.
+No sustituye aceptación visual humana ni la evidencia de distribución.
+
 El [cambio #147](https://github.com/IgnacioBarEsp/project-engineering-os/issues/147) distingue dos vías en
 el cuarto paso del asistente. **Prepararlo ahora** guarda elecciones y visión, lee los archivos y, solo
 para Software, prepara herramientas, instrucciones, método y tecnología elegida. **Que mi IA se encargue**

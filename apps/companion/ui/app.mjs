@@ -1,5 +1,6 @@
 import {registerFunctions} from './lib/bridge.mjs';
 import * as home from './screens/home.mjs';
+import * as projects from './screens/projects.mjs';
 import * as reviews from './screens/reviews.mjs';
 import * as workspace from './screens/workspace.mjs';
 import * as wizard from './screens/wizard.mjs';
@@ -8,7 +9,7 @@ import {api, $, state, el, p, doBtn, panel, error, call, loadProfiles, run, rend
 import {NAV_IDS} from './lib/router.mjs';
 import {icon} from './lib/dom.mjs';
 import {showStart} from './lib/bridge.mjs';
-registerFunctions({...home, ...reviews, ...workspace, ...wizard});
+registerFunctions({...home, ...projects, ...reviews, ...workspace, ...wizard});
 // The main process waits for this narrow, fixed hook before closing the local window.
 Object.defineProperty(globalThis,'companionBeforeClose',{value:wizard.beforeClose,writable:false,configurable:false});
 $('dialog').addEventListener('close',()=>{if(dialogReturn?.isConnected)dialogReturn.focus();});

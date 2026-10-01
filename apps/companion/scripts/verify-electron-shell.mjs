@@ -34,7 +34,7 @@ try{
       active:nav.filter(button=>button.getAttribute('aria-pressed')==='true').map(button=>button.dataset.action),
       breadcrumb:document.getElementById('breadcrumb').textContent};
   });
-  assert.equal(shell.url,'peos://app/index.html');
+  assert.equal(shell.url,'peos://app/index.html#/start');
   assert.equal(shell.headerHeight,56);
   assert.equal(shell.mainScroll,'auto');
   await page.screenshot({path:path.join(output,'home-electron.png')});

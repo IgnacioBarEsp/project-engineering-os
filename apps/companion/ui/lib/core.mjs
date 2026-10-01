@@ -2,6 +2,7 @@ import {showStart, showProjects, duplicate, showHelp, showTerm, showPrivacy, sta
 import { GLOSSARY, byId } from '../glossary.mjs';
 import {el, own, term as createTerm} from './dom.mjs';
 import {routeFor} from './router.mjs';
+import {projectHash} from './project-route.mjs';
 import {createScreenState} from './state.mjs';
 import {actions, wizardBar} from '../components/actions-bar.mjs';
 import {steps as stepRail} from '../components/step-rail.mjs';
@@ -121,11 +122,12 @@ const canonicalProfile=value=>{
 };
 const isEngineeringProfile=id=>profileInfo(id)?.engineering??false;
 let actionOrigin=null;
-async function run(fn){if(state.busy)return;actionOrigin=document.activeElement;$('feedback').hidden=true;notice('');setBusy(true);try{await fn();}catch(e){error(e);}finally{setBusy(false);}}
+async function run(fn){if(state.busy)return;actionOrigin=document.activeElement;$('feedback').hidden=true;notice('');setBusy(true);try{await fn();}catch(e){error(e);}finally{setBusy(false);if(state.focusAfterAction?.isConnected)state.focusAfterAction.focus();state.focusAfterAction=null;}}
 // The bar covers the bottom of the window while it sticks there, so the browser is told how much: scroll padding
 // keeps keyboard focus and scrolling from stopping underneath it.
 const barHeight=new ResizeObserver(([entry])=>document.documentElement.style.setProperty('--wizard-footer-height',`${Math.ceil(entry.target.getBoundingClientRect().height)}px`));
 function render(content,_breadcrumb,bar=null){const route=routeFor(state.page,{tab:state.tab});screenState.update(state.page,{visited:true,tab:state.tab});
+  history.replaceState(null,'',state.page==='workspace'?projectHash(state.project.id,state.tab):`#/${state.page}`);
   const body=el('div',{class:'enter'},content);
   const rail=body.querySelector(':scope > .steps');
   if(rail){const rest=[...body.childNodes].filter(node=>node!==rail);body.replaceChildren(el('div',{class:'wizard-layout'},el('aside',{class:'wizard-rail','aria-label':'Pasos de preparación'},rail),el('div',{class:'wizard-content'},rest)));}
