@@ -213,7 +213,7 @@ try{
   const openPersonal=async()=>{
     await managementPage.locator('#nav [data-action="open-project-list"]').click();
     await managementPage.locator('.project-list[aria-busy="false"]').waitFor();
-    await managementPage.locator('article.project').filter({has:managementPage.getByRole('heading',{name:'Gestión personal',exact:true})}).locator('.card-open').click();
+    await managementPage.locator('article.project').filter({has:managementPage.locator('.card-name').filter({hasText:/^Gestión personal$/})}).locator('.card-open').click();
     await managementPage.locator('#project-panel[data-project-tab="overview"]').waitFor();await settled();
   };
   await managementPage.goto(`http://127.0.0.1:${server.address().port}`);await openPersonal();
