@@ -1,4 +1,4 @@
-import {profiles, agents, projectStates, stageList, onDate, state, el, p, btn, doBtn, rowBtn, heading, own, actions, panel, term, steps, notice, error, call, render, openDialog, GLOSSARY, byId} from '../lib/core.mjs';
+import {profiles, isEngineeringProfile, agents, projectStates, stageList, onDate, state, el, p, btn, doBtn, rowBtn, heading, own, actions, panel, term, steps, notice, error, call, render, openDialog, GLOSSARY, byId} from '../lib/core.mjs';
 import {showFolder, forget} from '../lib/bridge.mjs';
 function showStart(){state.page='start';render([
   el('p',{class:'eyebrow',text:'Preparación local · Tú conservas el control'}),
@@ -50,11 +50,11 @@ async function showProjects(){state.page='projects';state.projects=await call('l
           // live outside this folder: nothing the list can read would notice if they were removed, so a
           // check from two weeks ago is all this row knows about them.
           ?[`Comprobado el ${when} contra esta carpeta. No vuelve a leer tus archivos, ni comprueba el `,term('mapa-de-codigo'),
-            ...(['software','unity'].includes(project.profile)?[', las herramientas de desarrollo']:[]),' ni tu IA: ábrelo para eso.']
+            ...(isEngineeringProfile(project.profile)?[', las herramientas de desarrollo']:[]),' ni tu IA: ábrelo para eso.']
           :project.state==='changed'&&when?[`Se había comprobado el ${when}. Ábrelo para comprobarlo otra vez.`]
           :project.state==='incomplete'&&when?[`Comprobado el ${when}. Ábrelo para continuar donde quedó.`]
           :['Este estado sale de los registros de la carpeta, no de una comprobación. Ábrelo para comprobarlo.'])),
-      project.profile?el('span',{class:'tag',text:profiles[project.profile]?.[0]??project.profile}):null,
+      project.profile?el('span',{class:'tag',text:[project.profileLabel,project.focusLabel].filter(Boolean).join(' · ')}):null,
       // Secondary and destructive only. Opening stays outside, which is what the check reads off the page.
       el('details',{class:'more'},
         el('summary',{},el('span',{'aria-hidden':true,text:'⋯'}),el('span',{class:'sr-only',text:'Más acciones'}),
@@ -68,8 +68,8 @@ async function showProjects(){state.page='projects';state.projects=await call('l
 async function duplicate(project){const chosen=await call('chooseFolder');if(!chosen)return;
   const answers=project.selection??{};
   state.project=chosen;
-  state.selection={name:answers.name??project.name,goal:answers.goal??'',role:answers.role??'general',
-    profile:answers.profile??project.profile??'research',experience:answers.experience??'guided',
+  state.selection={name:answers.name??project.name,goal:answers.goal??'',
+    profile:project.mappedProfile??'research',focus:project.mappedFocus,experience:answers.experience??'guided',
     agents:answers.agents?.length?[...answers.agents]:['web'],
     stack:answers.stack?{decision:answers.stack.decision,requested:[...(answers.stack.requested??[])]}:{decision:'too-early',requested:[]}};
   state.stacks=state.stacks??await call('stackCatalog');showFolder();}

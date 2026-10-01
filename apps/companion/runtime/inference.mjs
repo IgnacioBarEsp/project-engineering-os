@@ -1,3 +1,5 @@
+import {READABLE_PROFILE_IDS, identityWords} from '../engine/profiles.mjs';
+
 // The only thing in this application that talks to a model, and the first thing in it that makes an outbound
 // request at all outside the toolchain download.
 //
@@ -254,11 +256,7 @@ export const REFUSED_CLAIMS = [
 //
 // The word a text has to carry to be about this project. Taking the first word of the label gave "un" for
 // Unity, which every sentence in Spanish contains — an independent review passed a cake recipe through it.
-const PROFILE_WORDS = Object.freeze({ research: ['investigación', 'investigacion', 'documento'],
-  software: ['software', 'código', 'codigo', 'aplicación', 'aplicacion'],
-  unity: ['unity', 'juego', 'escena'], media: ['contenido', 'imagen', 'video', 'audio'],
-  general: ['trabajo', 'entrega', 'material'] });
-export function clearsTheFloor(alternative, draft, { profile = '', profileLabel = '', goal = '' } = {}) {
+export function clearsTheFloor(alternative, draft, { profile = '', focus = '', profileLabel = '', goal = '' } = {}) {
   const problems = [];
   if (typeof alternative !== 'string' || !alternative.trim()) problems.push('no devolvió texto');
   else {
@@ -269,7 +267,8 @@ export function clearsTheFloor(alternative, draft, { profile = '', profileLabel 
     const covered = [/prepar|instal|configur/, /trabaj|paso|method|revis/, /regla|no supongas|no inventes|comprueb/]
       .filter(pattern => pattern.test(value)).length;
     if (covered < 3) problems.push('no cubre qué preparar, cómo trabajar y qué reglas seguir');
-    const words = PROFILE_WORDS[profile] ?? (profileLabel ? [profileLabel.toLowerCase()] : []);
+    const words = READABLE_PROFILE_IDS.includes(profile)
+      ? identityWords({profile,...(focus?{focus}:{})}) : (profileLabel ? [profileLabel.toLowerCase()] : []);
     if (words.length && !words.some(word => value.includes(word.normalize('NFC').toLowerCase()))) {
       problems.push('no habla de este tipo de proyecto');
     }

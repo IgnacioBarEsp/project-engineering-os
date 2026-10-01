@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-25",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Sin dependencias, servicios ni cambios en el núcleo neutral. Los recibos 0.3.x se leen sin mutar. El flujo paralelo de pantallas ya estaba registrado en #146 y no se presenta como deuda introducida por #145. La revisión humana e independiente son gates abiertos separados, no evidencia de pase.",
+  "flow": "companion-profile-taxonomy"
+}

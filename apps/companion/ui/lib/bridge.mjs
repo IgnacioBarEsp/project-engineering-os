@@ -9,7 +9,6 @@ export const showPrivacy = (...args) => { if (!registered.showPrivacy) throw Err
 export const startSetup = (...args) => { if (!registered.startSetup) throw Error('Renderer not registered: startSetup'); return registered.startSetup(...args); };
 export const showSetup = (...args) => { if (!registered.showSetup) throw Error('Renderer not registered: showSetup'); return registered.showSetup(...args); };
 export const showFolder = (...args) => { if (!registered.showFolder) throw Error('Renderer not registered: showFolder'); return registered.showFolder(...args); };
-export const DELIMITATIONS = (...args) => { if (!registered.DELIMITATIONS) throw Error('Renderer not registered: DELIMITATIONS'); return registered.DELIMITATIONS(...args); };
 export const INSPIRATION_CHIPS = (...args) => { if (!registered.INSPIRATION_CHIPS) throw Error('Renderer not registered: INSPIRATION_CHIPS'); return registered.INSPIRATION_CHIPS(...args); };
 export const masterActivationPrompt = (...args) => { if (!registered.masterActivationPrompt) throw Error('Renderer not registered: masterActivationPrompt'); return registered.masterActivationPrompt(...args); };
 export const showDelimitation = (...args) => { if (!registered.showDelimitation) throw Error('Renderer not registered: showDelimitation'); return registered.showDelimitation(...args); };

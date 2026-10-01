@@ -1,16 +1,16 @@
-import {profiles, agents, state, el, p, btn, doBtn, heading, own, actions, wizardBar, panel, term, field, steps, notice, error, call, render, openDialog, closeDialog} from '../lib/core.mjs';
+import {profiles, profileInfo, canonicalProfile, isEngineeringProfile, agents, state, el, p, btn, doBtn, heading, own, actions, wizardBar, panel, term, field, steps, notice, error, call, render, openDialog, closeDialog} from '../lib/core.mjs';
 import {showFolder, showWorkspace} from '../lib/bridge.mjs';
 function changes(files){return el('details',{},el('summary',{text:`Ver archivos previstos (${files.length})`}),el('ul',{class:'file-list'},files.map(f=>el('li',{text:`${{create:'Añadir',update:'Actualizar',remove:'Retirar',unchanged:'Conservar',adopt:'Conservar original',preserve:'Conservar',noop:'Sin cambios'}[f.action]??f.action} · ${f.path}`}))));}
 function showBaseReview(){state.page='base-review';const s=state.selection;
   render([steps(2),...heading('Esto es lo que se va a escribir.','Primero se guardan tus elecciones y la lista de lo que hay en la carpeta. Después revisas qué archivos se leen y qué instrucciones recibe tu IA.'),
-    panel(el('dl',{class:'review-grid'},[['Proyecto',s.name,true],['Tipo de trabajo',profiles[s.profile][0],false],['Tu objetivo',s.goal,true],['Tu IA',s.agents.map(a=>agents[a]).join(', '),false]].flatMap(([k,v,fromPerson])=>[el('div',{},el('dt',{text:k}),fromPerson?own(v,'dd'):el('dd',{text:v}))])),own(state.project.root,'p',{class:'path'}),changes(state.plan.files)),
+    panel(el('dl',{class:'review-grid'},[['Proyecto',s.name,true],['Tipo de trabajo',profileInfo(s.profile)?.label??'Tipo de trabajo sin reconocer',false],['Tu objetivo',s.goal,true],['Tu IA',s.agents.map(a=>agents[a]).join(', '),false]].flatMap(([k,v,fromPerson])=>[el('div',{},el('dt',{text:k}),fromPerson?own(v,'dd'):el('dd',{text:v}))])),own(state.project.root,'p',{class:'path'}),changes(state.plan.files)),
     el('p',{class:'subtle'},'Uno de esos archivos es el ',term('inventario'),': la lista de lo que se encontró, con su tipo y su tamaño, y los archivos que no se pudieron leer con su motivo. No guarda el contenido completo.'),
     p('Tus archivos originales no se modifican. Se guarda un registro para poder comprobar cambios y deshacer una operación que quede a medias.','subtle'),
   ],'PREPARAR PROYECTO / REVISIÓN',wizardBar(btn('Volver',()=>showFolder()),btn('Guardar esta preparación  →',async()=>{const r=await call('applyBase',{plan:state.plan.id});state.status=r.status;state.project={...state.project,...r.status.project};
       // What the person answered about technology is asked here, once the selection is recorded and the folder
       // has been looked at, because a recommendation is only honest after both. With nothing to offer this step
       // does not exist, and the project screen is where the reason is said instead.
-      const after=async()=>{if(['software','unity'].includes(s.profile))await reviewEngineering();else await prepareContext();};
+      const after=async()=>{if(isEngineeringProfile(s.profile))await reviewEngineering();else await prepareContext();};
       await reviewStack(after);},'primary')));}
 // Technology, in the three ways the person could have answered. `items` empty is not an error and not a gap: it
 // is the third answer, and it comes with the sentence that says why installing nothing is right. Nothing here
@@ -147,8 +147,8 @@ function showCodeReview(){state.page='code-review';const plan=state.plan,allowed
 // starting it would leave the project and clear the answers, which is what an independent review found when
 // it followed the guidance's own first step.
 async function resaveBase(){const s=state.selection;
-  state.plan=await call('previewBase',{id:state.project.id,selection:{name:s.name,goal:s.goal,role:s.role,
-    profile:s.profile,experience:s.experience,agents:s.agents,stack:s.stack}});
+  state.plan=await call('previewBase',{id:state.project.id,selection:{name:s.name,goal:s.goal,
+    ...canonicalProfile(s),experience:s.experience,agents:s.agents,stack:s.stack}});
   showBaseReview();}
 
 export {changes, showBaseReview, reviewStack, showStackReview, notOfferedPanel, stackPanel, stackName, reviewEngineering, downloadSize, reviewRepair, showEnvironmentReview, showEngineeringReview, showActivationReview, prepareContext, showContextReview, showSyncReview, showFinalContext, reviewCode, showCodeReview, resaveBase};
