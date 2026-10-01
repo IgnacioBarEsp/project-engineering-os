@@ -16,14 +16,14 @@
     {
       "id": "component-or-interaction-tests",
       "status": "passed",
-      "evidence": "openspec/changes/companion-project-screen-redesign/evidence/validation.md",
+      "evidence": "openspec/changes/companion-project-screen-redesign/evidence/management-validation.md",
       "justification": null,
       "profileCondition": null
     },
     {
       "id": "accessibility-check",
       "status": "passed",
-      "evidence": "openspec/changes/companion-project-screen-redesign/evidence/validation.md",
+      "evidence": "openspec/changes/companion-project-screen-redesign/evidence/management-validation.md",
       "justification": null,
       "profileCondition": null
     },
@@ -37,7 +37,7 @@
     {
       "id": "responsive-check-when-configured",
       "status": "passed",
-      "evidence": "openspec/changes/companion-project-screen-redesign/evidence/validation.md",
+      "evidence": "openspec/changes/companion-project-screen-redesign/evidence/management-validation.md",
       "justification": null,
       "profileCondition": null
     }
