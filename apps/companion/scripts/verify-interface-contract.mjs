@@ -1,10 +1,14 @@
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
 import { createServer } from 'node:http';
 import { cp, mkdir, mkdtemp, readFile, writeFile, realpath, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { portable } from './portable-path.mjs';
+import {ASSETS, CSP} from '../desktop/assets.mjs';
+import {routeTraversal} from './route-traversal.mjs';
 import { ACTION_PAIRS, UNDEFINED_VOCABULARY, TERM_LABELS, LIST_PURITY, ACCESSIBILITY, ACCESSIBLE_NAMES,
   EXPECTED_ACTIONS, collectActionPairs, duplicateActionNames, undeclaredActions, vacuous,
   ROW_ACTION_PAIRS, ROW_MENUS, READY_CLAIMS, GUIDE, ACTION_COUNTS, EXPECTED_ROW_ACTIONS,
@@ -35,9 +39,14 @@ const source = fileURLToPath(new URL('../ui/', import.meta.url));
 const temp = await realpath(await mkdtemp(path.join(tmpdir(), 'peos-contract-')));
 const ui = path.join(temp, 'ui');
 await cp(source, ui, { recursive: true });
-const FILES = ['index.html', 'app.mjs', 'glossary.mjs', 'app.css'];
+const FILES = [...ASSETS.keys()].map(file => file.slice(1));
 const pristine = new Map();
 for (const file of FILES) pristine.set(file, await readFile(path.join(ui, file), 'utf8'));
+function resolvePatch(patch) {
+  const matches = [...pristine].filter(([, source]) => source.includes(patch.from)).map(([file]) => file);
+  assert.equal(matches.length, 1, `La mutación ${patch.from.slice(0, 60)} debe tener un solo sitio de inserción; halló ${matches.join(', ') || 'ninguno'}.`);
+  return {...patch, file: matches[0]};
+}
 
 const listOf = report => report.screens['tus proyectos'];
 const anyScreen = (report, predicate) => Object.entries(report.screens).filter(([, screen]) => predicate(screen));
@@ -54,6 +63,13 @@ const CONSTRUCTION_PROBES = [
 ];
 
 const MUTATIONS = [
+  { id: 'a-declared-route-never-rendered-by-the-journey', file: 'lib/router.mjs',
+    reason: 'una ruta nueva declarada pero sin pantalla ni recorrido no puede pasar por un denominador parcial',
+    from: "  start: {breadcrumb: 'INICIO', nav: 'open-start', step: null},",
+    to: "  'reviewer-unvisited-route': {breadcrumb: 'SIN RECORRIDO', nav: 'open-start', step: null},\n  start: {breadcrumb: 'INICIO', nav: 'open-start', step: null},",
+    routes: true,
+    detect: report => report.routeTraversal?.missing.includes('reviewer-unvisited-route')
+      && report.routeTraversal.runs.every(run => !run.problems.length) },
   { id: 'the-provider-model-list-looks-chosen-before-the-choice-is-saved', file: 'app.mjs',
     reason: 'la lista muestra el primer modelo como elegido aunque el servicio conserva otro valor, y elegir ese primer elemento no dispara ningún cambio',
     from: "Object.fromEntries([['','Elige un modelo'],...state.providerModels.models.map(id=>[id,id])])",
@@ -152,8 +168,8 @@ const MUTATIONS = [
     detect: report => report.duplicated.some(entry => entry.startsWith('prepare-project')) },
   { id: 'a-second-name-only-assistive-technology-hears', file: 'app.mjs',
     reason: 'una acción declarada lleva un aria-label distinto de su texto visible, que es el nombre que dice un lector de pantalla',
-    from: "$('topbar-actions').replaceChildren(doBtn('privacy-scope','quiet'));",
-    to: "$('topbar-actions').replaceChildren(Object.assign(doBtn('privacy-scope','quiet'),{}));$('topbar-actions').firstChild.setAttribute('aria-label','Alcance y datos que salen de aquí');",
+    from: "$('topbar-actions').replaceChildren(privacy);",
+    to: "privacy.setAttribute('aria-label','Alcance y datos que salen de aquí');$('topbar-actions').replaceChildren(privacy);",
     detect: report => report.duplicated.some(entry => entry.startsWith('privacy-scope') && entry.includes('hablado')) },
   { id: 'a-duplicate-action-inside-a-dialog', file: 'app.mjs',
     reason: 'una acción declarada se ofrece con otro nombre dentro de un diálogo, que es donde la recogida anterior nunca miraba',
@@ -162,8 +178,8 @@ const MUTATIONS = [
     detect: report => report.duplicated.some(entry => entry.startsWith('open-project-list') && entry.includes('diálogo')) },
   { id: 'an-action-offered-under-an-undeclared-id', file: 'app.mjs',
     reason: 'un control declara una acción que no está en el conjunto cerrado',
-    from: "actions(doBtn('prepare-project','primary')),",
-    to: "actions(doBtn('prepare-project','primary'),el('button',{type:'button','data-action':'go-somewhere',text:'Volver al estado'})),",
+    from: "el('div',{class:'home-actions'},doBtn('prepare-project','primary'),",
+    to: "el('div',{class:'home-actions'},doBtn('prepare-project','primary'),el('button',{type:'button','data-action':'go-somewhere',text:'Volver al estado'}),",
     detect: report => report.undeclared.includes('go-somewhere') },
   { id: 'greeting-back-in-the-list-as-a-paragraph', file: 'app.mjs',
     reason: 'la lista de proyectos recupera un saludo explicativo',
@@ -210,17 +226,17 @@ const MUTATIONS = [
     detect: report => anyScreen(report, screen => screen.vocabulary.missing.some(entry => entry.id === 'inventario')).length > 0 },
   { id: 'action-removed-from-the-page', file: 'app.mjs',
     reason: 'se retira la declaración de una acción, que es la forma de satisfacer la comprobación por omisión',
-    from: "['open-start','open-project-list','prepare-project','open-help']",
-    to: "['open-start','open-project-list','prepare-project']",
+    from: "['open-start', 'open-project-list', 'prepare-project', 'open-help']",
+    to: "['open-start', 'open-project-list', 'prepare-project']",
     detect: report => !report.actions.some(([id]) => id === 'open-help') },
   { id: 'glossary-stops-listing-every-term', file: 'app.mjs',
     reason: 'la ayuda deja de reunir todas las definiciones',
     from: 'GLOSSARY.flatMap(', to: 'GLOSSARY.slice(0,5).flatMap(',
     detect: report => report.glossaryEntries !== report.glossaryTerms },
-  { id: 'state-text-loses-its-contrast', file: 'app.mjs',
+  { id: 'state-text-loses-its-contrast', file: 'app.css',
     reason: 'el estado de cada proyecto se vuelve ilegible sobre su fondo',
-    from: "el('p',{class:`project-state state-${project.state}`}",
-    to: "el('p',{class:`project-state state-${project.state}`,style:'color:#1a2030'}",
+    from: '.project-state{font-size:.86rem;color:var(--muted);',
+    to: '.project-state{font-size:.86rem;color:#1a2030;',
     detect: report => listOf(report).accessibility.contrast.some(entry => entry.class?.includes('project-state')) },
   { id: 'contrast-broken-inside-the-definition-dialog', file: 'app.css',
     reason: 'el texto del diálogo que define un término se vuelve ilegible',
@@ -229,12 +245,12 @@ const MUTATIONS = [
     detect: report => report.dialog.accessibility.contrast.length > 0 },
   { id: 'contrast-broken-on-the-persistent-navigation', file: 'app.css',
     reason: 'la navegación, que está en todas las pantallas, se vuelve ilegible',
-    from: '.nav-button:hover{color:#b9e0c2}', to: '.nav-button{color:#2a3a2e}.nav-button:hover{color:#b9e0c2}',
+    from: '.nav-button:hover{color:var(--green-200)}', to: '.nav-button{color:#2a3a2e}.nav-button:hover{color:var(--green-200)}',
     detect: report => anyScreen(report, screen => screen.accessibility.contrast.some(entry => entry.class?.includes('nav-button'))).length > 0 },
   { id: 'navigation-entries-break-mid-word', file: 'app.css',
     reason: 'las entradas de navegación vuelven a partirse por la mitad de una palabra en el ancho mínimo',
-    from: '@media(max-width:650px){.sidebar nav{flex-wrap:wrap;gap:10px 18px}.nav-button{overflow-wrap:normal;word-break:keep-all;white-space:nowrap}}',
-    to: '@media(max-width:650px){.sidebar nav{gap:20px}.nav-button{overflow-wrap:anywhere}}',
+    from: '.nav-button { white-space: nowrap; word-break: keep-all; flex: none; }',
+    to: '.nav-button { white-space: normal; word-break: break-all; flex: none; width: 34px; }',
     detect: report => report.narrow.accessibility.brokenWords.length > 0 },
   { id: 'a-term-stops-being-a-control', file: 'glossary.mjs',
     reason: 'un término deja de poder activarse con el teclado y pasa a ser texto',
@@ -249,8 +265,8 @@ const MUTATIONS = [
       || report.rendererErrors.some(message => /no nombra el término/.test(message)) },
   { id: 'a-control-loses-its-accessible-name', file: 'app.mjs',
     reason: 'un control queda sin nombre accesible, así que con un lector de pantalla es inservible',
-    from: "$('topbar-actions').replaceChildren(doBtn('privacy-scope','quiet'));",
-    to: "$('topbar-actions').replaceChildren(el('button',{type:'button',class:'quiet','data-action':'privacy-scope'}));",
+    from: "$('topbar-actions').replaceChildren(privacy);",
+    to: "privacy.removeAttribute('aria-label');privacy.replaceChildren();$('topbar-actions').replaceChildren(privacy);",
     detect: report => anyScreen(report, screen => screen.names.unnamed.length > 0).length > 0 },
   { id: 'the-boot-shell-loses-its-stated-cause', file: 'index.html',
     reason: 'si el módulo no carga, la ventana vuelve a quedar en blanco sin decir por qué',
@@ -263,17 +279,17 @@ const MUTATIONS = [
   { id: 'the-final-bar-fixed-again-inside-the-animated-content', wizard: true,
     reason: 'la barra final vuelve a estar dentro de .enter con position:fixed, y la animación con transform la ancla al contenido',
     patches: [
-      { file: 'app.mjs', from: "[el('div',{class:'enter'},content),bar].filter(Boolean)", to: "[el('div',{class:'enter'},content,bar)].filter(Boolean)" },
-      { file: 'app.css',
-        from: '.wizard-footer{position:sticky;bottom:0;z-index:10;margin-top:28px;padding:18px 0;background:rgba(11,15,25,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(0,0,0,0.5)}main#content:has(>#view>.wizard-footer){padding-bottom:0}main#content:has(>#view>.wizard-footer) .notice:empty{margin:0;min-height:0}html{scroll-padding-bottom:var(--wizard-footer-height,0px)}',
-        to: 'main:has(.steps){padding-bottom:145px}main:has(.steps) #view .enter>.actions,main:has(.steps) #view form>.actions{position:fixed;bottom:0;left:0;right:0;margin:0;padding:18px clamp(24px,4.4vw,70px);background:rgba(11,15,25,0.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(0,0,0,0.5);z-index:10}' }],
+      { file: 'lib/core.mjs', from: "$('view').replaceChildren(...[body,bar].filter(Boolean));", to: "if(bar)body.append(bar);$('view').replaceChildren(body);" },
+      { file: 'pages.css',
+        from: '.wizard-footer { position: sticky; bottom: 0; margin-top: 24px; padding: 14px 0; }',
+        to: '.wizard-footer { position: fixed; bottom: 0; left: 0; right: 0; margin: 0; padding: 18px; background: var(--surface-root); z-index: 10; }' }],
     detect: report => (report.wizard ?? []).some(run => run.motion === 'no-preference' && run.visited.includes('install')
       && run.problems.some(problem => problem.startsWith('install: «') && problem.includes('no se puede pulsar')
         && /Instalar stack base|Preparar carpeta y generar/.test(problem))) },
-  { id: 'install-and-finished-drop-the-preparation-pill', file: 'app.mjs', wizard: true,
-    reason: 'la navegación deja de marcar «Preparar proyecto» en instalación y en la pantalla final',
-    from: "const WIZARD_PAGES=['setup','folder','delimitation','vision','install','finished','stack-choice','ready'];",
-    to: "const WIZARD_PAGES=['setup','folder','delimitation','vision','stack-choice','ready'];",
+  { id: 'install-route-drops-the-preparation-pill', file: 'lib/router.mjs', wizard: true,
+    reason: 'la navegación deja de marcar «Preparar proyecto» en instalación',
+    from: "install: wizard('PREPARAR PROYECTO / PREPARAR', 3),",
+    to: "install: {breadcrumb: 'PREPARAR PROYECTO / PREPARAR', nav: 'open-start', step: 3},",
     detect: report => (report.wizard ?? []).some(run => run.visited.includes('install')
       && run.problems.some(problem => problem.startsWith('install:') && problem.includes('«prepare-project» declara aria-pressed="false"'))) },
   // Only the observed consequence of the mutation counts. Copies that were never observed are a failure of the
@@ -292,24 +308,28 @@ const MUTATIONS = [
   // on a long screen the actions only appear at its end.
   { id: 'the-final-bar-no-longer-sticks', file: 'app.css', wizard: true,
     reason: 'la barra final deja de ser sticky y, en una pantalla larga, sus acciones solo aparecen al final',
-    from: '.wizard-footer{position:sticky;', to: '.wizard-footer{position:static;',
+    from: '.wizard-footer { position: sticky; bottom: 0; margin-top: 24px; padding: 14px 0; }',
+    to: '.wizard-footer { position: static; bottom: 0; margin-top: 24px; padding: 14px 0; }',
     detect: report => (report.wizard ?? []).some(run => run.problems.some(problem => problem.includes('la barra final no es sticky (static)'))) },
 ];
 const COPY_CONSEQUENCE = /: «[^»]+» (anunció «.*» sin haber copiado|no mostró la causa del fallo|cambió su etiqueta a «.*» sin haber copiado)$/;
+const stalePatches = [...CONSTRUCTION_PROBES, ...MUTATIONS.flatMap(mutation => mutation.patches ?? [mutation])]
+  .filter(patch => [...pristine.values()].filter(source => source.includes(patch.from)).length !== 1)
+  .map(patch => `${patch.id ?? patch.from.slice(0, 75)}: ${patch.from.slice(0, 75)}`);
+assert.deepEqual(stalePatches, [], 'Cada mutación debe apuntar a una sola fuente real antes de abrir el navegador.');
 
-const types = { '.html': 'text/html', '.css': 'text/css', '.mjs': 'text/javascript' };
 let breakModule = false;
 const server = createServer(async (request, response) => {
-  const name = request.url === '/' ? 'index.html' : request.url.slice(1);
-  if (request.method !== 'GET' || !/^[a-z.]+$/.test(name) || !Object.hasOwn(types, path.extname(name))) {
+  const name = request.url === '/' ? '/index.html' : request.url;
+  if (request.method !== 'GET' || !ASSETS.has(name)) {
     response.writeHead(404); response.end(); return;
   }
   // The one thing a static server has to be able to do here: refuse a module, so the shell a person is left
   // with when the application cannot load itself can be read.
-  if (breakModule && name === 'glossary.mjs') { response.writeHead(404); response.end(); return; }
-  const body = await readFile(path.join(ui, name)).catch(() => null);
+  if (breakModule && name === '/glossary.mjs') { response.writeHead(404); response.end(); return; }
+  const body = await readFile(path.join(ui, name.slice(1))).catch(() => null);
   if (!body) { response.writeHead(404); response.end(); return; }
-  response.setHeader('Content-Type', types[path.extname(name)]); response.end(body);
+  response.setHeader('Content-Type', ASSETS.get(name)); response.setHeader('Content-Security-Policy', CSP); response.end(body);
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const url = `http://127.0.0.1:${server.address().port}`;
@@ -321,7 +341,14 @@ const pw = await import(process.env.PROJECT_OS_PLAYWRIGHT_MODULE
   ? pathToFileURL(process.env.PROJECT_OS_PLAYWRIGHT_MODULE).href : 'playwright');
 const { chromium } = pw.default ?? pw;
 
+const gitRead = args => execFileSync('git', ['-C', source, ...args], {encoding:'utf8',windowsHide:true}).trim();
+const sha256 = text => createHash('sha256').update(text).digest('hex');
+
 const record = { date: new Date().toISOString(), source: portable(source),
+  provenance: {commit:gitRead(['rev-parse','HEAD']),dirty:!!gitRead(['status','--porcelain']),
+    rendererHashes:Object.fromEntries([...pristine].map(([file,text])=>[file,sha256(text)])),
+    harnessSha256:sha256(await readFile(fileURLToPath(import.meta.url))),
+    routeGateSha256:sha256(await readFile(new URL('./route-traversal.mjs',import.meta.url)))},
   scope: 'El renderer real servido desde una copia, con el servicio nativo reemplazado por respuestas fijas. Cubre Inicio, Ayuda, la lista, el asistente, un proyecto, su panel de IA, la revisión de tecnología, el diálogo de un término, el ancho mínimo, la lista vacía, un error del servicio y la ventana con su módulo roto. Recorre además el asistente vigente hasta la pantalla final en tres ventanas, con movimiento normal y reducido, y los dos controles de copia ante un éxito, un rechazo y un fallo del transporte. No demuestra el motor, Electron ni la aplicación instalada.',
   glossaryTerms: GLOSSARY.length, baseline: null, mutations: [], findings: [] };
 
@@ -404,6 +431,28 @@ const stub = (mode, copy = 'ok') => `${PAGE_CLIPBOARD_SPY}window.companion={
   providerModels:async()=>({ok:true,value:{provider:'groq',models:['llama-3.3-70b','qwen-3-32b'],reason:null,elapsedMs:12}}),
   setInference:async input=>({ok:true,value:{...input,hasKey:true,keySaved:false}}),
   onProgress:()=>()=>{}};`;
+
+// Maintenance screens use fixed service envelopes too. No downloaded tool, package manager,
+// engine operation, project write or installed runtime is exercised or certified by this fixture.
+const ROUTE_SERVICE = `${stub('filled')}
+{const s=${STATUS};s.environment.status='not-prepared';
+ const ok=value=>({ok:true,value});const result=async()=>ok({status:s});
+ Object.assign(window.companion,{
+  openProject:async()=>ok(s),status:async()=>ok(s),applyBase:result,declineStack:result,
+  previewEnvironment:async()=>ok({id:'environment-fixture',status:'planned',tools:[],downloadBytes:0,
+    engineering:{openspec:'1.6.0',core:'0.5.0',downloadBytes:0},git:'existing',files:[]}),
+  applyEnvironment:async()=>{s.environment.status='prepared';return ok({status:s});},
+  previewEngineering:async()=>ok({id:'engineering-fixture',status:'planned',plan:{operations:[]}}),
+  applyEngineering:result,
+  previewActivation:async()=>ok({id:'activation-fixture',status:'planned',files:[]}),applyActivation:result,
+  previewContext:async()=>ok({id:'context-fixture',files:[],exclude:[],agentStatus:'canonical-planned-sync-required',
+    coverage:{sources:[{path:'notas.txt'}],chunks:1,textBytes:40,excluded:0,limitations:[],complete:true}}),
+  applyContext:async()=>{s.context.context='current';return ok({status:s});},
+  previewSync:async()=>ok({id:'sync-fixture',status:'planned',plan:{operations:[]}}),
+  previewRepair:async()=>ok({id:null,items:[],blocked:[],message:'No hay herramientas que reemplazar.'}),
+  previewCode:async()=>ok({status:'unavailable',message:'Mapa no disponible en esta prueba de renderer.',action:'Volver al proyecto.'})
+ });}
+`;
 
 let browser;
 async function probe(page) {
@@ -581,6 +630,70 @@ async function walkToFinished(page, run) {
   await settled(page);
   return true;
 }
+
+async function inspectRouteTraversal() {
+  const declarations = [], rendered = [], runs = [];
+  // Read the declared table FROM the served renderer, not a second hand-maintained route list.
+  // A visit is counted only after the real view, breadcrumb and active destination agree with it.
+  const observe = async (page, run, expected) => {
+    await settled(page);
+    const value = await page.evaluate(async () => {
+      const {state, screenState} = await import('/lib/core.mjs');
+      const {routeIds, routeFor} = await import('/lib/router.mjs');
+      const route = routeFor(state.page, {tab:state.tab});
+      return {declared:routeIds(), id:state.page, visited:screenState.get(state.page)?.visited === true,
+        heading:document.querySelector('#view h1')?.textContent.trim(),
+        busy:document.getElementById('content').getAttribute('aria-busy'),
+        breadcrumb:document.getElementById('breadcrumb').textContent,
+        expectedBreadcrumb:route.breadcrumb, expectedNav:route.nav,
+        active:[...document.querySelectorAll('#nav [aria-pressed="true"]')].map(node=>node.dataset.action)};
+    });
+    assert.deepEqual(value.active, [value.expectedNav], `Destino activo de ${value.id}`);
+    assert.equal(value.breadcrumb, value.expectedBreadcrumb, `Breadcrumb de ${value.id}`);
+    assert.ok(value.heading && value.visited && value.busy !== 'true', `Vista no renderizada: ${value.id}`);
+    assert.equal(value.id, expected, `No se alcanzó ${expected}`);
+    if (declarations.length) assert.deepEqual(value.declared, declarations, 'Las ventanas declaran rutas distintas');
+    else declarations.push(...value.declared);
+    rendered.push(value.id);run.observations.push(value);
+  };
+  const context = await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'});
+  const run = {kind:'fixed-service',observations:[],problems:[]};runs.push(run);
+  try {
+    const page = await context.newPage();
+    await page.addInitScript(ROUTE_SERVICE);
+    await page.goto(url, {waitUntil:'networkidle'});
+    await observe(page, run, 'start');
+    const wizard = {problems:[],measure:step=>observe(page,run,step.screen)};
+    assert.ok(await walkToFinished(page, wizard), wizard.problems.join('; '));
+    await observe(page,run,'finished');
+    for (const [action, id] of [['open-help','help'],['open-project-list','projects']]) {
+      await page.locator(`#nav [data-action="${action}"]`).click();await observe(page,run,id);
+    }
+    await page.locator('article.project .card-open').first().click();await observe(page,run,'workspace');
+    for (const [name, id] of [
+      ['Revisar tus elecciones otra vez','base-review'],['Guardar esta preparación →','stack-review'],
+      ['No instalar nada de esto','environment-review'],['Preparar herramientas y continuar →','engineering-review'],
+      ['Guardar estas instrucciones →','activation-review'],['Activar y continuar →','context-review'],
+      ['Guardar y continuar →','sync-review'],['Actualizar las instrucciones','context-final'],
+      ['Guardar y ver mi proyecto','workspace'],['Revisar reparación de herramientas','repair-review'],
+      ['Ver mi proyecto','workspace'],['Revisar mapa de código','code-review'],['Ver mi proyecto','workspace']
+    ]) {
+      assert.ok(await pressed(page,name), `Clic normal no pudo pulsar «${name}»`);
+      await observe(page,run,id);
+    }
+  } catch (error) {run.problems.push(String(error.message).split('\n')[0]);}
+  finally {await context.close();}
+  // Missing native API is a real renderer state, not the separate static broken-module fallback.
+  const disconnected = await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'});
+  const failed = {kind:'missing-native-api',observations:[],problems:[]};runs.push(failed);
+  try {
+    const page = await disconnected.newPage();await page.goto(url,{waitUntil:'networkidle'});
+    await observe(page,failed,'connection-error');
+  } catch (error) {failed.problems.push(String(error.message).split('\n')[0]);}
+  finally {await disconnected.close();}
+  const coverage = routeTraversal(declarations,rendered);
+  return {...coverage,runs};
+}
 async function inspectWizard() {
   const runs = [];
   for (const [width, height] of WIZARD_WINDOWS) for (const motion of ['no-preference', 'reduce']) {
@@ -692,8 +805,11 @@ try {
   baseline.brokenModule = await readBrokenModule();
   baseline.wizard = await inspectWizard();
   baseline.copies = await inspectCopies();
+  baseline.routeTraversal = await inspectRouteTraversal();
   record.baseline = baseline;
   const complain = value => record.findings.push(value);
+  for (const problem of baseline.routeTraversal.problems) complain(problem);
+  for (const run of baseline.routeTraversal.runs) for (const problem of run.problems) complain(`Recorrido ${run.kind}: ${problem}`);
   const everyScreen = { ...baseline.screens, 'diálogo de un término': baseline.dialog, 'ancho mínimo': baseline.narrow };
   for (const [where, screen] of Object.entries(everyScreen)) {
     if (!screen || screen.opened === false) { complain(`No se pudo inspeccionar ${where}`); continue; }
@@ -796,8 +912,7 @@ try {
 
   record.constructionProbes = [];
   for (const probe of CONSTRUCTION_PROBES) {
-    const target = path.join(ui, probe.file), original = pristine.get(probe.file);
-    assert.ok(original.includes(probe.from), `La sonda ${probe.id} no encontró su punto de inserción.`);
+    const patch = resolvePatch(probe), target = path.join(ui, patch.file), original = pristine.get(patch.file);
     await writeFile(target, original.replace(probe.from, probe.to));
     let holds = false, by = null;
     try { holds = !!probe.holds(flat(await inspect(page))); }
@@ -809,7 +924,7 @@ try {
 
   for (const mutation of MUTATIONS) {
     // A defect can live in more than one file: the bar of 0.3.1 needs both its place in the markup and its rule.
-    const patches = mutation.patches ?? [{ file: mutation.file, from: mutation.from, to: mutation.to }];
+    const patches = (mutation.patches ?? [{ file: mutation.file, from: mutation.from, to: mutation.to }]).map(resolvePatch);
     const mutated = new Map(patches.map(patch => [patch.file, pristine.get(patch.file)]));
     for (const patch of patches) {
       assert.ok(mutated.get(patch.file).includes(patch.from), `La mutación ${mutation.id} no encontró su punto de inserción en ${patch.file}.`);
@@ -824,6 +939,7 @@ try {
       report.brokenModule = mutation.id.includes('boot-shell') ? await readBrokenModule() : { bootText: 'x'.repeat(80) };
       if (mutation.wizard) report.wizard = await inspectWizard();
       if (mutation.copies) report.copies = await inspectCopies();
+      if (mutation.routes) report.routeTraversal = await inspectRouteTraversal();
       detected = !!mutation.detect(report);
       by = detected ? 'la propiedad que nombra' : null;
       observed = { duplicated: report.duplicated, undeclared: report.undeclared,
@@ -852,6 +968,7 @@ try {
           measured: run.measured, reachable: run.reachable,
           intercepted: run.problems.filter(problem => problem.includes('no se puede pulsar')).length, problems: run.problems })),
         copies: report.copies ? copyProblems(report.copies) : undefined };
+      if (mutation.routes) observed.routeTraversal = report.routeTraversal;
     } catch (error) {
       // An exception is NOT a detection. A previous version credited three mutations to a thirty-second
       // harness timeout, and a regression in those three probes would have read "detected" just the same.
@@ -876,6 +993,8 @@ record.summary = { mutations: record.mutations.length,
   findings: record.findings.length,
   screens: record.screensCounted.length,
   screensCounted: record.screensCounted,
+  routes: {declared:record.baseline.routeTraversal.declared.length, rendered:record.baseline.routeTraversal.rendered.length,
+    missing:record.baseline.routeTraversal.missing, problems:record.baseline.routeTraversal.runs.flatMap(run=>run.problems)},
   wizard: { runs: record.baseline.wizard.length, screensMeasured: record.baseline.wizard.reduce((sum, run) => sum + run.visited.length, 0),
     controlsMeasured: record.baseline.wizard.reduce((sum, run) => sum + run.measured, 0),
     controlsReachable: record.baseline.wizard.reduce((sum, run) => sum + run.reachable, 0) },

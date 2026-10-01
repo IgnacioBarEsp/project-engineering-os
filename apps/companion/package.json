@@ -31,6 +31,7 @@
     "evidence:real-repositories-review": "node scripts/review-real-repository-benchmark.mjs",
     "evidence:landing": "node scripts/verify-landing.mjs",
     "evidence:contract": "node scripts/verify-interface-contract.mjs",
+    "evidence:renderer-electron": "node scripts/verify-electron-shell.mjs",
     "evidence:mutations": "node scripts/verify-service-mutations.mjs",
     "evidence:prompts": "node scripts/verify-prompts.mjs",
     "evidence:stack": "node scripts/verify-stack-install.mjs",

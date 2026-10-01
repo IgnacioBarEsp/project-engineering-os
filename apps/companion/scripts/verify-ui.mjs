@@ -5,6 +5,8 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { execFileSync } from 'node:child_process';
+import {ASSETS, CSP} from '../desktop/assets.mjs';
+import {routeFor} from '../ui/lib/router.mjs';
 import { zipSync, strToU8 } from 'fflate';
 import * as core from 'create-project-engineering-os';
 import { createDesktopService, publicError } from '../desktop/service.mjs';
@@ -26,13 +28,35 @@ const runtimeRoot=process.argv[3];
 const manager=runtimeRoot?await createRuntimeManager({root:runtimeRoot}):null;
 if(manager)for(const id of ['node','npm','git','codegraph'])assert.equal((await manager.inspect(id)).status,'verified','Real browser runtime cache must be preverified; no downloads during this probe.');
 const temp=await realpath(await mkdtemp(path.join(tmpdir(),'peos-desktop-ui-'))),ui=fileURLToPath(new URL('../ui/',import.meta.url));
-const files={'/':'index.html','/app.css':'app.css','/app.mjs':'app.mjs','/glossary.mjs':'glossary.mjs'};
+const files=new Map([['/',ASSETS.get('/index.html')],...ASSETS]);
 const server=createServer(async(req,res)=>{
-  if(req.method!=='GET'||!Object.hasOwn(files,req.url)){res.writeHead(404);res.end();return;}
-  const f=files[req.url];res.setHeader('Content-Type',f.endsWith('.mjs')?'text/javascript':f.endsWith('.css')?'text/css':'text/html');res.end(await readFile(path.join(ui,f)));
+  if(req.method!=='GET'||!files.has(req.url)){res.writeHead(404);res.end();return;}
+  const file=req.url==='/'?'/index.html':req.url;
+  res.setHeader('Content-Type',files.get(req.url));res.setHeader('Content-Security-Policy',CSP);
+  res.end(await readFile(path.join(ui,file.slice(1))));
 });
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const url=`http://127.0.0.1:${server.address().port}`;
+function watchRenderer(page,errors){
+  page.on('pageerror',error=>errors.push(error.message));
+  page.on('console',message=>{
+    if(message.type()==='error'&&/Content Security Policy|Refused to|Failed to load resource|Loading module/.test(message.text()))
+      errors.push(message.text());
+  });
+  page.on('request',request=>{if(!request.url().startsWith(url+'/'))errors.push(`Unexpected network request: ${request.url()}`);});
+  page.on('response',response=>{if(response.status()>=400)errors.push(`Asset response ${response.status()}: ${response.url()}`);});
+}
 const evidence={date:new Date().toISOString(),scope:'Real renderer and engines in browser; native transport/picker/clipboard/provider injected',checks:[],screenshots:[]};
+const FIXED_CONTAINMENT=()=>{
+  const fixed=[...document.querySelectorAll('*')].filter(node=>getComputedStyle(node).position==='fixed');
+  const unsafe=[];
+  for(const node of fixed)for(let ancestor=node.parentElement;ancestor;ancestor=ancestor.parentElement){
+    const style=getComputedStyle(ancestor);
+    if(style.transform!=='none'||style.filter!=='none'||style.perspective!=='none'){
+      unsafe.push(`${node.tagName.toLowerCase()}.${node.className} under ${ancestor.tagName.toLowerCase()}.${ancestor.className}`);break;
+    }
+  }
+  return {measured:fixed.length,unsafe};
+};
 let browser;
 function pdf(){const stream='BT /F1 12 Tf 40 700 Td (Evidence: tokens must be measured with the same model.) Tj ET';const objects=['<< /Type /Catalog /Pages 2 0 R >>','<< /Type /Pages /Kids [4 0 R] /Count 1 >>','<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>','<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>',`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`];let out='%PDF-1.4\n',offsets=[];objects.forEach((v,i)=>{offsets.push(Buffer.byteLength(out));out+=`${i+1} 0 obj\n${v}\nendobj\n`;});const start=Buffer.byteLength(out);out+=`xref\n0 6\n0000000000 65535 f \n${offsets.map(n=>`${String(n).padStart(10,'0')} 00000 n \n`).join('')}trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${start}\n%%EOF`;return out;}
 const heading=async(page,name)=>page.getByRole('heading',{name,exact:true}).waitFor();
@@ -40,7 +64,12 @@ const heading=async(page,name)=>page.getByRole('heading',{name,exact:true}).wait
 // check. The label is the screen's own h1, which is also what a person would call it.
 const click=async(page,name)=>{await page.getByRole('button',{name,exact:true}).click();await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')!=='true');await checkAccessibility(page,await page.locator('#view h1').first().innerText().catch(()=>'(pantalla sin encabezado)'));};
 async function capture(page,name){const target=path.join(output,name+'.png');await page.screenshot({path:target,fullPage:true,mask:[page.locator('.path')],maskColor:'#e7eee4'});evidence.screenshots.push(name+'.png');}
-async function noOverflow(page,label){const size=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth}));assert(size.scroll<=size.width+1,`${label}: ${JSON.stringify(size)}`);}
+async function noOverflow(page,label){
+  const size=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,
+    navClient:document.getElementById('nav').clientWidth,navScroll:document.getElementById('nav').scrollWidth}));
+  assert(size.scroll<=size.width+1,`${label}: ${JSON.stringify(size)}`);
+  if(size.width===480)assert(size.navScroll<=size.navClient+1,`${label}: the four destinations must remain visible: ${JSON.stringify(size)}`);
+}
 // Every structural property, on every screen a click lands on. The probes live in `interface-contract.mjs`
 // so the mutation harness exercises this same code.
 //
@@ -80,6 +109,9 @@ async function checkScreen(page,where){
   if(!names.navigationLabelled)a11y.add(`${where}: la navegación no tiene nombre accesible`);
   if(!names.liveRegions)a11y.add(`${where}: no hay región en vivo para anunciar progreso o errores`);
   if(!names.pressedTabs)a11y.add(`${where}: una pestaña no declara si está activa`);
+  const fixed=await page.evaluate(FIXED_CONTAINMENT);
+  if(!fixed.measured)a11y.add(`${where}: no se midió ningún elemento fixed`);
+  for(const item of fixed.unsafe)a11y.add(`${where}: fixed bajo transform/filter/perspective: ${item}`);
   screenDenominators.push({screen:where,contrastMeasured:result.measured,vocabularyChars:vocabulary.examinedChars,
     attributes:vocabulary.attributes,controls:names.controls,focusable:result.focusable,terms:result.terms});
   return result;
@@ -114,7 +146,7 @@ async function walkWizard(width,height,motion,branch){
   const copied=[],errors=[],visited=[],problems=[],screens={};
   const service=await createDesktopService({dataRoot:root+'-history',core,environment:null,chooseFolder:async()=>root,copyText:v=>copied.push(v),openExternal:()=>{}});
   const context=await browser.newContext({viewport:{width,height},reducedMotion:motion}),page=await context.newPage();
-  page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(30000);
+  watchRenderer(page,errors);page.setDefaultTimeout(30000);
   await page.exposeFunction('qaCall',async(name,input)=>{
     if(!Object.hasOwn(service,name))return {ok:false,error:{message:'Unknown method'}};
     try{return {ok:true,value:await service[name](input)};}catch(e){return {ok:false,error:publicError(e)};}
@@ -132,6 +164,9 @@ async function walkWizard(width,height,motion,branch){
       accessibility:{contrastMeasured:a11y.measured,contrast:a11y.contrast,headingOrder:a11y.headingOrder,focusable:a11y.focusable,unnamed:names.unnamed},
       header:{brokenWords:a11y.brokenWords}};
     for(const problem of reachProblems(report,{primary:PRIMARY[screen],bar:WITH_BAR.has(screen)}))problems.push(`${screen}: ${problem}`);
+    const fixed=await page.evaluate(FIXED_CONTAINMENT);
+    if(!fixed.measured)problems.push(`${screen}: no se midió ningún elemento fixed`);
+    for(const item of fixed.unsafe)problems.push(`${screen}: fixed bajo transform/filter/perspective: ${item}`);
     for(const entry of a11y.contrast)problems.push(`${screen}: contraste ${entry.ratio}:1 (requerido ${entry.required}:1) en ${entry.tag}.${entry.class} "${entry.text}"`);
     for(const entry of a11y.headingOrder)problems.push(`${screen}: encabezados ${entry}`);
     for(const control of names.unnamed)problems.push(`${screen}: control sin nombre accesible ${control}`);
@@ -143,6 +178,20 @@ async function walkWizard(width,height,motion,branch){
     for(const [action,value] of Object.entries(report.nav)){
       if(value!==String(action==='prepare-project'))problems.push(`${screen}: la navegación «${action}» declara aria-pressed="${value}"`);
     }
+    const route=routeFor(screen==='folder-empty'?'folder':screen);
+    const routeView=await page.evaluate(()=>{
+      const main=document.getElementById('content'),rail=document.querySelector('.wizard-rail'),steps=rail?.querySelector('.steps');
+      const previous=main.scrollTop;main.scrollTop=main.scrollHeight;
+      const mainBox=main.getBoundingClientRect(),railBox=rail?.getBoundingClientRect();
+      const result={breadcrumb:document.getElementById('breadcrumb').textContent,
+        step:steps?[...steps.children].findIndex(item=>item.getAttribute('aria-current')==='step'):null,
+        sticky:getComputedStyle(rail).position==='sticky',
+        railVisible:!!railBox&&railBox.top>=mainBox.top-1&&railBox.bottom<=mainBox.bottom+1};
+      main.scrollTop=previous;return result;
+    });
+    if(routeView.breadcrumb!==route.breadcrumb)problems.push(`${screen}: breadcrumb no coincide con la ruta declarada`);
+    if(routeView.step!==route.step)problems.push(`${screen}: riel no coincide con el paso ${route.step} de la ruta`);
+    if(routeView.sticky&&!routeView.railVisible)problems.push(`${screen}: el riel desaparece al desplazarse hasta el final`);
     if(motion==='no-preference'&&branch==='ai'&&['setup','install'].includes(screen)){
       await page.screenshot({path:path.join(output,`wizard-${width}x${height}-${screen}-final.png`),mask:[page.locator('.path')],maskColor:'#e7eee4'});
       evidence.screenshots.push(`wizard-${width}x${height}-${screen}-final.png`);
@@ -301,7 +350,7 @@ async function walkVisionWithoutText(tag,drafts){
   const service=await createDesktopService({dataRoot:root+'-history',core,environment:null,chooseFolder:async()=>root,copyText:()=>{},openExternal:()=>{}});
   const context=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'}),page=await context.newPage();
   const problems=[],errors=[],goal='Un objetivo elegido en el primer paso';
-  page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(30000);
+  watchRenderer(page,errors);page.setDefaultTimeout(30000);
   await page.exposeFunction('qaCall',async(name,input)=>{
     if(!Object.hasOwn(service,name))return {ok:false,error:{message:'Unknown method'}};
     try{return {ok:true,value:await service[name](input)};}catch(e){return {ok:false,error:publicError(e)};}
@@ -368,7 +417,7 @@ try {
     const originals=new Map();for(const file of ['notes.txt','private-notes.txt'])originals.set(file,await readFile(path.join(root,file)));
     let pickFolder=root;
     const context=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'}),page=await context.newPage(),errors=[],opened=[],copied=[];
-    page.on('pageerror',e=>errors.push(e.message));
+    watchRenderer(page,errors);
     const service=await createDesktopService({dataRoot:path.join(temp,profile+'-history'),core,environment:manager&&engineeringProfile?createEnvironmentEngine(manager):null,chooseFolder:async()=>pickFolder,copyText:v=>copied.push(v),openExternal:v=>opened.push(v)});
     page.setDefaultTimeout(manager?240000:30000);
     await page.exposeFunction('qaCall',async(name,input)=>{
@@ -488,7 +537,7 @@ try {
       assert.equal(copied.length,before+1,'Copying a step has to put that step on the clipboard');
       assert.equal(copied.at(-1).includes(root),false,'The text handed to an AI names no absolute path');
     }
-    for(const width of [1180,768,480,240]){await page.setViewportSize({width,height:width===240?410:820});await noOverflow(page,`${profile} ${width}px`);}
+    for(const width of [1180,1024,768,480,240]){await page.setViewportSize({width,height:width===240?410:820});await noOverflow(page,`${profile} ${width}px`);}
     if(profile==='general')await capture(page,'minimum-equivalent-200-percent');
     await page.setViewportSize({width:480,height:820});await click(page,'Privacidad y alcance');await page.keyboard.press('Escape');await page.waitForFunction(()=>document.activeElement.dataset?.action==='privacy-scope');
     if(manager&&engineeringProfile){
@@ -561,7 +610,7 @@ try {
       evidence.checks.push('general: recovery rehearsal for one transaction — the file reading was undone from the interface, the application then refused to claim it, the original documents were byte-identical, and reading again restored the state PASS');
     }
     for(const [file,content] of originals)assert.deepEqual(await readFile(path.join(root,file)),content);
-    assert.deepEqual(errors,[]);evidence.checks.push(`${profile}: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected`);
+    assert.deepEqual(errors,[]);evidence.checks.push(`${profile}: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected`);
     await context.close();
   }
   assert.deepEqual([...a11y],[],'Contrast, heading order, keyboard reach, accessible names and the vocabulary rule must hold on every screen walked');

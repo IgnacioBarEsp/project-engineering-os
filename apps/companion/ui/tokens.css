@@ -1,0 +1,31 @@
+:root {
+  --surface-card: #121826;
+  --surface-card-hover: #182236;
+  --cyan-500: #06b6d4;
+  --surface-inset: #070a10;
+  --surface-root: #0b0f19;
+  --surface-low: #0f131d;
+  --green-500: #10b981;
+  --surface-high: #1c2436;
+  --surface-higher: #262f44;
+  --legacy-green-dot: #27c93f;
+  --cyan-300: #38bdf8;
+  --violet-700: #4338ca;
+  --green-300: #4edea3;
+  --violet-600: #4f46e5;
+  --violet-500: #6366f1;
+  --violet-300: #818cf8;
+  --slate-400: #94a3b8;
+  --violet-200: #a5b4fc;
+  --green-200: #b9e0c2;
+  --violet-100: #c0c1ff;
+  --slate-300: #cbd5e1;
+  --slate-200: #e2e8f0;
+  --red-400: #f87171;
+  --slate-50: #f8fafc;
+  --red-300: #fca5a5;
+  --amber-300: #fcd34d;
+  --legacy-red-dot: #ff5f56;
+  --legacy-yellow-dot: #ffbd2e;
+  --pure-white: #ffffff;
+}

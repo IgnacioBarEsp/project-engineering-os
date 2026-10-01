@@ -7,13 +7,12 @@ import { createDesktopService, publicError } from './service.mjs';
 import { createRuntimeManager } from '../runtime/manager.mjs';
 import { createEnvironmentEngine } from '../runtime/environment.mjs';
 import { createLocalAppLauncher } from './local-apps.mjs';
+import { CSP, localAsset } from './assets.mjs';
 
 const APP_URL = 'peos://app/index.html';
 // An exact allowlist, extended one path at a time on purpose: a prefix or a glob here would serve whatever
 // happens to sit in the interface directory.
-const assets=new Map([['/index.html','text/html; charset=utf-8'],['/app.css','text/css; charset=utf-8'],['/app.mjs','text/javascript; charset=utf-8'],['/glossary.mjs','text/javascript; charset=utf-8']]);
 const staticRoot=fileURLToPath(new URL('../ui/',import.meta.url));
-const CSP="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'";
 protocol.registerSchemesAsPrivileged([{scheme:'peos',privileges:{standard:true,secure:true,supportFetchAPI:true}}]);
 app.setName('Project Engineering OS');
 if (!app.requestSingleInstanceLock()) app.quit();
@@ -24,13 +23,12 @@ else void app.whenReady().then(async () => {
   ses.setPermissionRequestHandler((_contents,_permission,callback)=>callback(false));
   ses.setPermissionCheckHandler(()=>false);
   ses.webRequest.onBeforeRequest((details,callback)=>{
-    let valid=false;try{const u=new URL(details.url);valid=u.protocol==='peos:'&&u.host==='app'&&assets.has(u.pathname)&&!u.search&&!u.hash;}catch{}
-    callback({cancel:!valid});
+    callback({cancel:!localAsset(details.url,details.method)});
   });
   await ses.protocol.handle('peos',async request=>{
-    const u=new URL(request.url),type=assets.get(u.pathname);
-    if(request.method!=='GET'||u.host!=='app'||!type||u.search||u.hash)return new Response('Not found',{status:404});
-    return new Response(await readFile(path.join(staticRoot,u.pathname.slice(1))),{headers:{'Content-Type':type,'Content-Security-Policy':CSP,'X-Content-Type-Options':'nosniff'}});
+    const asset=localAsset(request.url,request.method);
+    if(!asset)return new Response('Not found',{status:404});
+    return new Response(await readFile(path.join(staticRoot,asset.pathname.slice(1))),{headers:{'Content-Type':asset.type,'Content-Security-Policy':CSP,'X-Content-Type-Options':'nosniff'}});
   });
   window=new BrowserWindow({width:1180,height:820,minWidth:480,minHeight:540,show:false,backgroundColor:'#0b0f19',title:'Project Engineering OS',
     webPreferences:{preload:fileURLToPath(new URL('./preload.cjs',import.meta.url)),partition:'companion-local',sandbox:true,contextIsolation:true,nodeIntegration:false,webSecurity:true,webviewTag:false,spellcheck:false}});
