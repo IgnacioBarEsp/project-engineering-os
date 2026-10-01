@@ -29,9 +29,9 @@
     },
     {
       "id": "visual-check-when-configured",
-      "status": "pending",
-      "evidence": null,
-      "justification": "El mantenedor aprobó la reorganización de gestión primero en management-direction.md; esa decisión no es aceptación de una captura final. Recorrido visual del renderer reorganizado pendiente, sin atribuir lectores de otras variantes.",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-project-screen-redesign/evidence/management-visual-acceptance.md",
+      "justification": "El mantenedor aprobó la captura real de la vista principal de preparación. No acredita otras pantallas, revisión independiente, lecturas en frío ni un instalador; véase el alcance exacto de la evidencia.",
       "profileCondition": null
     },
     {
