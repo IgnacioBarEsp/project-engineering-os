@@ -9,6 +9,11 @@ Issue #148: https://github.com/IgnacioBarEsp/project-engineering-os/issues/148. 
 - Guía primero, acciones una vez y contenido exclusivo por pestaña.
 - Pruebas de demoras, teclado, rutas y contratos existentes sin reducir sus denominadores.
 
+Ampliación de dirección aprobada el 30 de septiembre: gestión de la preparación primero,
+con tareas locales pendientes visibles y guía para IA/detalles/herramientas como opciones
+secundarias. Sustituye la prioridad anterior de guía/segmentos siempre visibles, no sus
+capacidades o garantías. Sin acciones nuevas de renombrado, copia o eliminación de carpetas.
+
 ## Capabilities
 
 ### New Capabilities

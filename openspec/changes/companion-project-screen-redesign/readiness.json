@@ -31,7 +31,7 @@
       "id": "visual-check-when-configured",
       "status": "pending",
       "evidence": null,
-      "justification": "El recorrido del mantenedor y la lectura en frío por una persona ajena siguen pendientes.",
+      "justification": "El mantenedor aprobó la reorganización de gestión primero en management-direction.md; esa decisión no es aceptación de una captura final. Recorrido visual del renderer reorganizado pendiente, sin atribuir lectores de otras variantes.",
       "profileCondition": null
     },
     {
