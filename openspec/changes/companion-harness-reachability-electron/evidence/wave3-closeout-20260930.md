@@ -48,6 +48,8 @@ La revisión técnica acotada de la corrección está recibida. La aceptación i
 
 ## Gates que no se simulan
 
+La [reprueba de los siete gates de archive](archive-gate-recheck-20260930.json) mantiene FAIL de forma deliberada: #144 solo por aceptación visual pendiente; #145/#146 por tarea, visual y revisión integral pendientes; #147 por visual y revisión integral; #148 por integración/tarea y revisión integral; #149 por revisión integral; #150 por integración/tarea y revisión integral. Contratos de readiness, deuda y demás validaciones pasan. El [primer gate](archive-gates-20260930.json) conserva además el estado inválido `verified` de `adversarialReview` de #144; la corrección usa `passed` como exige el esquema, mientras su evidencia usa `verified`. No se elimina el FAIL histórico ni se marca archive apto.
+
 Las dos lecturas confirmadas de Inicio/paso1, la observación del control renombrado, la aceptación de Inicio y la aceptación condicionada de Archivos mantienen el alcance literal de #149. No hacen falta otros dos lectores ni otra prueba del botón para reemplazar esas respuestas. La preparación principal de #148 ya está aprobada.
 
 Siguen separados: #144 aprobación visual del mantenedor de su capa; #145 lectura de nombres/descripciones; #146 recorrido real del mantenedor y capturas del commit; #147 Software A/B con prompt en su propia IA y resultados reales de las comprobaciones. No se infieren de capturas de otra versión ni se reemplazan por agentes. La sesión A/B debe usar una build identificada y apta, no el instalador publicado antiguo ni un runtime que evade #204.
