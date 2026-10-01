@@ -72,9 +72,9 @@
     },
     {
       "id": "visual-check-when-configured",
-      "status": "pending",
-      "evidence": null,
-      "justification": "El rechazo histórico de Archivos se conserva sin reescribir su respuesta literal. El mantenedor aprobó después la reorganización de #148 y la captura principal de preparación: management-visual-acceptance.md documenta el alcance. No equivale a aceptación global de otras pantallas, lecturas de un botón renombrado, aplicación instalada ni cierre de ola 3; conservar los demás gates humanos de #149.",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/ci-management-20260930.md",
+      "justification": "Se conserva el rechazo histórico. El mantenedor aprobó después la reorganización y captura principal de #148, aceptó Inicio explícitamente y condicionó Archivos a gestión primero ya implementada. Confirmó la ronda final de dos lectores de Inicio/paso 1 y facilitó una respuesta propia al botón renombrado; los registros de #149 conservan palabras, condiciones y límites. Esta aceptación acotada de las pantallas refinadas y observaciones reales no certifica otros gates de los PRs padres, instalación o cierre de ola 3.",
       "profileCondition": null
     },
     {

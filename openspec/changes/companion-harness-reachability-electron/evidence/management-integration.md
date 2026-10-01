@@ -52,4 +52,11 @@ acotado sin defecto nuevo diferido, no una ola limpia ni aceptación de cada var
 El gate archive de #148 continúa FAIL read-only por tarea de integración/revisión y revisión
 independiente pendiente. PR #202 sigue borrador apilado; #204 y CI protegida no se evaden.
 Los dist-tags oficiales siguen npm 11.21.0/12.2.0: no se reinstalan candidatos que no cambiaron.
+
+Seguimiento posterior: [CI y decisiones humanas actuales](ci-management-20260930.md)
+registra el run terminado 36809073279, sus denominadores/commit exactos y las tres
+respuestas nuevas del mantenedor. Inicio/paso 1 ya tienen protocolo confirmado;
+Inicio fue aceptado, Archivos condicionado a gestión primero comprobada y el botón
+renombrado tiene observación propia. No repetir las lecturas de #149 ni confundirlas
+con otros gates de los PRs padres. Revisión independiente del delta y #204 siguen abiertos.
 No se archiva, fusiona o cierra la ola 3; no se inicia ola 4.
