@@ -17,4 +17,5 @@ test('optional navigation preserves route identity, busy and focus boundaries',a
   assert.match(source,/if\(state\.busy\)\{event\.target\.open=true;return;\}/);
   assert.match(source,/run\(\(\)=>change\('overview'\)\)/);assert.match(source,/await render\(/);
   assert.match(source,/route\?\.id!==state\.project\?\.id/);assert.match(source,/#project-tools > summary/);
+  assert.match(source,/term\('receta','recetas'\)/,'The optional navigation defines the vocabulary it introduces');
 });
