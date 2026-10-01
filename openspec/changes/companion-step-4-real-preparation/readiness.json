@@ -31,7 +31,7 @@
       "id": "visual-check-when-configured",
       "status": "pending",
       "evidence": null,
-      "justification": "El recorrido del mantenedor y la lectura en frío por una persona ajena siguen pendientes.",
+      "justification": "Falta la sesión real del mantenedor con dos carpetas Software A/B, el prompt pegado en su IA y las comprobaciones observadas. Las lecturas finales de Inicio/paso1 están registradas en #149; #147 no exige repetirlas ni un lector nuevo adicional. Este gate no se sustituye por pruebas de agente o fixtures.",
       "profileCondition": null
     },
     {
