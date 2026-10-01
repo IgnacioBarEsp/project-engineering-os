@@ -101,9 +101,10 @@ No hace falta otra ronda de Inicio/paso 1 por la reorganización exclusiva del
 detalle del proyecto. La respuesta al nombre nuevo de exportación se registra por
 separado, con los límites indicados abajo.
 
-El criterio de comprensión de Inicio y paso 1 de #149 **cumple en esa segunda ronda**. El control de
-exportación todavía requiere su propia observación humana. Ninguno se sustituye por una heurística, por
-un agente ni por el juicio de quien escribió el texto.
+El criterio de comprensión de Inicio y paso 1 de #149 **cumple en esa segunda ronda**. La observación
+humana del control de exportación también se recibió y se conserva por separado abajo, con su
+alcance limitado. Ninguno se sustituye por una heurística, por un agente ni por el juicio de quien
+escribió el texto.
 
 ### Observación del control de exportación
 
