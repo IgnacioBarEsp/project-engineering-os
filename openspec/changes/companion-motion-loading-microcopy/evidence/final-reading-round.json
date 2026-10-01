@@ -1,0 +1,77 @@
+{
+  "receivedDate": "2026-09-30",
+  "interviewDate": null,
+  "application": "Source screenshots: Inicio/paso 1 after #201 7717195; export control from #202 b9532e9 browser renderer/service",
+  "status": "home-and-step-one-protocol-confirmed-export-scope-unconfirmed",
+  "protocol": {
+    "differentUnfamiliarReadersConfirmed": true,
+    "noPriorExposureConfirmed": true,
+    "screenOrderWithoutExplanationConfirmed": true,
+    "answersVerbatimConfirmed": true,
+    "exportButtonSpecificallyIndicatedConfirmed": null,
+    "confirmationReceivedDate": "2026-09-30",
+    "confirmationQuestionVerbatim": "Sobre la última ronda de Inicio y paso 1 (Persona 1: «Es una aplicacion que te ayuda a preparar una carpeta…» y Persona 2: «Es una aplicacion que le dice a la IA…»): ¿confirmas que eran dos personas nuevas, sin exposición previa, que vieron Inicio y después el paso 1 sin explicación, y que registraste sus palabras literales?",
+    "confirmationAnswerVerbatim": "Sí, confirmo todo",
+    "note": "The maintainer confirmed the procedure and literal answers for Inicio and paso 1, not the specific-control procedure of the old export screen. Question strings below remain protocol prompts; exact question wording, interview date and timing of doubts were not separately confirmed. The same six answers were submitted twice; recorded once, not as four readers. No additional two-person Home/step-one round is requested for the management-only changes."
+  },
+  "readers": [
+    {
+      "anonymousId": "reader-5",
+      "responses": [
+        {
+          "screen": "inicio",
+          "question": "¿Qué hace esta aplicación?",
+          "answerVerbatim": "Es una aplicacion que te ayuda a preparar una carpeta con inteligencia artificial para que responda mejor y tenga mayor orden",
+          "hesitated": null,
+          "askedFirst": null
+        },
+        {
+          "screen": "paso-1",
+          "question": "¿Qué te pide esta pantalla y qué harías ahora?",
+          "answerVerbatim": "Esta pantalla me pide el nombre de mi proyecto, que elija la carpeta y que le diga que voy a crear, lo que haria seria pensar en que quiero hacer e irlo llenando.",
+          "hesitated": null,
+          "askedFirst": null
+        },
+        {
+          "screen": "exportacion",
+          "question": "¿Qué crees que hace este botón?",
+          "answerVerbatim": "No entiendo mucho que hace esta pantalla y a cual boton te refieres? al de comprobar de nuevo, el de archivos que esta seleccionado, el de buscar o el de preparar un texto para pegar en tu chat? Siento que es muy abrumador y no sabria que hacer ni para que es esto.",
+          "hesitated": null,
+          "askedFirst": null
+        }
+      ]
+    },
+    {
+      "anonymousId": "reader-6",
+      "responses": [
+        {
+          "screen": "inicio",
+          "question": "¿Qué hace esta aplicación?",
+          "answerVerbatim": "Es una aplicacion que le dice a la IA de que tratan tus proyectos par que los entienda mejor.",
+          "hesitated": null,
+          "askedFirst": null
+        },
+        {
+          "screen": "paso-1",
+          "question": "¿Qué te pide esta pantalla y qué harías ahora?",
+          "answerVerbatim": "Que le digas a la IA que es lo que quieres hacer y esta entienda mejor tu proyecto y lo que haria seria darle los datos que me pide como el nombre de mi proyecto, la carpeta y de que se va a tratar",
+          "hesitated": null,
+          "askedFirst": null
+        },
+        {
+          "screen": "exportacion",
+          "question": "¿Qué crees que hace este botón?",
+          "answerVerbatim": "Supongo que es para buscar un archivo dentro del proyecto?",
+          "hesitated": null,
+          "askedFirst": null
+        }
+      ]
+    }
+  ],
+  "assessment": {
+    "stepOne": "Both responses identify name, folder and intended work; favorable content evidence with procedure and literal answers now confirmed.",
+    "home": "Responses relate project/folder preparation to AI. Reader 1 still says with AI and better responses; reader 2 does not mention a folder. Do not infer understanding of existing external AI, or measured improved answer quality. These are reader interpretations, not new product claims.",
+    "export": "Not demonstrated: reader 1 cannot identify the target action and describes overload; reader 2 infers finding a file, not reviewable text to paste elsewhere. Specific-control protocol still unconfirmed, so this is not a proven failure of the button name alone.",
+    "conclusion": "The two-reader Home/step-one observation is now real, protocol-confirmed evidence for the final copy, not a simulated session. Preserve the favorable step-one content and the precise limits of the Home interpretations, without claiming unanimous detailed comprehension or measured AI quality. Home and wizard source/catalog blobs are unchanged since 7717195. The earlier passing round retains its original scope. These old export responses do not certify the renamed control; its own subsequently received one-person answer is in renamed-export-reading.json, with its original scope and limits. No issue or Wave 3 closure."
+  }
+}

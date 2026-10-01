@@ -38,8 +38,7 @@ export async function startPreparation(initialPlan,selection,{onFinished}) {
   function updateProgress(snapshot){
     const item=snapshot.stages[snapshot.index],node=document.getElementById('preparation-progress');if(!node||!item)return;
     const value=item.progress,determinate=Number.isFinite(value?.completed)&&Number.isFinite(value?.total)&&value.total>0;
-    node.replaceChildren(p(determinate?`${value.completed} de ${value.total}`:value?.label??'Comprobando la etapa…'),
-      el('progress',determinate?{max:value.total,value:Math.min(value.completed,value.total),'aria-label':'Progreso de esta etapa'}:{'aria-label':'Progreso de esta etapa'}));
+    node.replaceChildren(p(determinate?`${value.completed} de ${value.total}`:value?.label??'Comprobando la etapa…'));
   }
   function show(snapshot){
     state.page='install';const item=snapshot.stages[snapshot.index];

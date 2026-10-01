@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {finishPreparation} from './wizard-journey.mjs';
+import {AMBIENT} from './ambient-contract.mjs';
 import { createServer } from 'node:http';
 import { mkdir, mkdtemp, readFile, writeFile, realpath, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -116,8 +117,10 @@ async function checkScreen(page,where){
   const fixed=await page.evaluate(FIXED_CONTAINMENT);
   if(!fixed.measured)a11y.add(`${where}: no se midió ningún elemento fixed`);
   for(const item of fixed.unsafe)a11y.add(`${where}: fixed bajo transform/filter/perspective: ${item}`);
+  const ambient=await page.evaluate(AMBIENT);
+  for(const problem of ambient.problems)a11y.add(`${where}: ${problem}`);
   screenDenominators.push({screen:where,contrastMeasured:result.measured,vocabularyChars:vocabulary.examinedChars,
-    attributes:vocabulary.attributes,controls:names.controls,focusable:result.focusable,terms:result.terms});
+    attributes:vocabulary.attributes,controls:names.controls,focusable:result.focusable,terms:result.terms,ambient});
   return result;
 }
 const checkAccessibility=checkScreen;
@@ -168,6 +171,8 @@ async function walkWizard(width,height,motion,branch){
       header:{brokenWords:a11y.brokenWords}};
     for(const problem of reachProblems(report,{primary:PRIMARY[screen],bar:WITH_BAR.has(screen)}))problems.push(`${screen}: ${problem}`);
     const fixed=await page.evaluate(FIXED_CONTAINMENT);
+    const ambient=await page.evaluate(AMBIENT);screens[screen].ambient=ambient;
+    for(const problem of ambient.problems)problems.push(`${screen}: ${problem}`);
     if(!fixed.measured)problems.push(`${screen}: no se midió ningún elemento fixed`);
     for(const item of fixed.unsafe)problems.push(`${screen}: fixed bajo transform/filter/perspective: ${item}`);
     for(const entry of a11y.contrast)problems.push(`${screen}: contraste ${entry.ratio}:1 (requerido ${entry.required}:1) en ${entry.tag}.${entry.class} "${entry.text}"`);
@@ -215,9 +220,26 @@ async function walkWizard(width,height,motion,branch){
     return false;
   };
   try{
-    await page.goto(url);await reached('Dale a tu IA un buen punto de partida.','inicio');
+    await page.goto(url);await reached('Prepara tus proyectos con Project Engineering OS','inicio');
+    const homeCopy=await page.locator('#view .intro').innerText();
+    for(const phrase of ['¿Cansado de repetirle a tu IA', 'Prepara la carpeta donde trabajas con instrucciones y un método claro.']){
+      if(!homeCopy.includes(phrase))problems.push(`inicio: falta instrucción visible: ${phrase}`);
+    }
+    if(await page.locator('#view .home-copy > .eyebrow, #view > .enter > .eyebrow, #view .feature-row, #view .panel').count())
+      problems.push('inicio: la portada vuelve a incluir bloques informativos ajenos a la acción principal');
+    if(await page.locator('.home-benefits[aria-labelledby="home-benefits-title"]').count()!==1)
+      problems.push('inicio: faltan los beneficios de preparación claramente identificados');
     await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
     if(!await reached('¿Qué vas a preparar?','inicio'))return;
+    if(await page.locator('#view .wizard-purpose').textContent()!=='Herramienta de preparación de proyectos para tu IA')
+      problems.push('setup: falta la breve descripción de la herramienta');
+    if(await page.locator('#view .wizard-content > .intro').count())problems.push('setup: volvió el subtítulo redundante retirado por el mantenedor');
+    if(await page.getByLabel('Nombre de tu proyecto',{exact:true}).count()!==1||await page.locator('#wizard-project-form input[name="profile"]').count()!==6)
+      problems.push('setup: el formulario perdió el nombre o los seis tipos de trabajo');
+    if(await page.locator('#wizard-project-form legend').innerText()!=='¿Qué vas a preparar?')problems.push('setup: el grupo de perfiles perdió su título original');
+    const folderChoice=page.getByRole('group',{name:'Elige la carpeta del proyecto'});
+    if(!await folderChoice.isVisible()||!await folderChoice.locator('svg').isVisible())
+      problems.push('setup: la elección obligatoria de carpeta no es visible con su icono');
     await measure('setup');
     if(branch==='ai'){
       // Keyboard, on the longest screen: every stop Tab reaches has to stay at least partly visible, never wholly
@@ -331,7 +353,7 @@ async function walkWizard(width,height,motion,branch){
     if(branch==='quick'&&(/aprovisionad/i.test(shown['Copiar instrucción'])||!shown['Copiar instrucción'].includes('Qué ya preparó Companion'))){
       problems.push('finished: el prompt de instalación rápida afirma dependencias que no se instalaron');
     }
-    await page.locator('#nav [data-action="open-start"]').click();await reached('Dale a tu IA un buen punto de partida.','finished');
+    await page.locator('#nav [data-action="open-start"]').click();await reached('Prepara tus proyectos con Project Engineering OS','finished');
     const outside=await page.locator('#nav [data-action="prepare-project"]').getAttribute('aria-pressed');
     if(outside!=='false')problems.push(`inicio: «Preparar proyecto» sigue con aria-pressed="${outside}" fuera del asistente`);
   }finally{
@@ -428,9 +450,21 @@ try {
       try{return {ok:true,value:await service[name](input)};}catch(e){return {ok:false,error:publicError(e)};}
     });
     await page.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>window.qaCall(name,input??{})]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
-    await page.goto(url);await heading(page,'Dale a tu IA un buen punto de partida.');
+    await page.goto(url);await heading(page,'Prepara tus proyectos con Project Engineering OS');
     await checkScreen(page,`${profile} inicio`);
+    assert.equal(await page.locator('.home-benefits .home-benefit-list > li').count(),3,
+      'Home labels three concrete preparation benefits without performance promises');
     await click(page,'Ayuda');await heading(page,'Ayuda');
+    if(profile==='research')await capture(page,'help-faq-desktop');
+    const faq=page.locator('#view .help-faq');
+    assert.equal(await faq.locator('details').count(),3,'Help keeps the method, downloads and privacy in short disclosures');
+    for(const question of ['¿Cómo funciona?','¿Qué se descarga?','¿Qué pasa con mis archivos?']){
+      const disclosure=faq.locator('details').filter({has:page.getByText(question,{exact:true})});
+      assert.equal(await disclosure.count(),1,`Help has a unique answer to ${question}`);
+      await disclosure.locator('summary').click();
+      assert.equal(await disclosure.getAttribute('open'),'','FAQ opens by its native disclosure control');
+      await disclosure.locator('summary').click();
+    }
     assert.equal(await page.locator('#glosario dt').count(),GLOSSARY.length,'The glossary must list every defined term');
     // The property, not the spelling: whichever term control comes first, the dialog it opens is that
     // term's own definition. Pinning one label made the check depend on the order of the help screen.
@@ -440,7 +474,7 @@ try {
     assert((await page.evaluate(ACCESSIBLE_NAMES)).dialogNamed,'The dialog has to carry an accessible name');
     assert.equal(await page.locator('#dialog-title').innerText(),byId.get(firstTerm).term,'A term opens its own definition where it appears');
     await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.getElementById('dialog').open);
-    await click(page,'Inicio');await heading(page,'Dale a tu IA un buen punto de partida.');
+    await click(page,'Inicio');await heading(page,'Prepara tus proyectos con Project Engineering OS');
     assert.equal(await page.locator('.enter').evaluate(n=>getComputedStyle(n).animationName),'none');
     if(profile==='research')await capture(page,'home-desktop');
     await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
@@ -502,9 +536,9 @@ try {
     await click(page,'Archivos');await page.getByLabel('¿Qué necesitas encontrar?').fill('tokens');await click(page,'Buscar');
     await page.locator('.result').first().waitFor();const resultText=await page.locator('#search-results').innerText();assert(resultText.includes('notes.txt'));assert(!resultText.includes('private-notes.txt'));
     if(profile==='research'){assert(resultText.includes('paper.pdf · página 1'));assert(resultText.includes('protocol.docx · párrafo 1'));await capture(page,'research-sources');}
-    await click(page,'Preparar un texto para pegar en tu chat');await page.getByRole('dialog').waitFor();assert.equal(copied.length,0);await page.keyboard.press('Escape');
-    await page.waitForFunction(()=>document.activeElement.textContent==='Preparar un texto para pegar en tu chat');
-    await click(page,'Preparar un texto para pegar en tu chat');await click(page,'Copiar este texto');assert.equal(copied.length,1);assert(copied[0].includes('notes.txt'));assert.equal(opened.length,0);
+    await click(page,'Revisar texto de mis archivos para mi IA');await page.getByRole('dialog').waitFor();assert.equal(copied.length,0);await page.keyboard.press('Escape');
+    await page.waitForFunction(()=>document.activeElement.textContent==='Revisar texto de mis archivos para mi IA');
+    await click(page,'Revisar texto de mis archivos para mi IA');await click(page,'Copiar este texto');assert.equal(copied.length,1);assert(copied[0].includes('notes.txt'));assert.equal(opened.length,0);
     await click(page,'Recetas');await page.locator('.recipe').first().waitFor();
     assert.equal(await page.locator('.recipe').count(),(await service.workspace({id:(await service.listProjects())[0].id})).recipes.length);
     await click(page,'Tu IA');await click(page,'Abrir en ChatGPT u otro chat web');await page.getByRole('dialog').waitFor();

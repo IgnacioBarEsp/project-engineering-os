@@ -505,7 +505,8 @@ export const REACH = interactive => {
     bar: bar ? { element: describe(bar), position: barStyle.position, top: barBox.top, bottom: barBox.bottom,
       height: barBox.height, width: barBox.width, marginTop: parseFloat(barStyle.marginTop),
       inFlow: !['fixed', 'absolute'].includes(barStyle.position),
-      spill: Math.max(0, ...[...bar.querySelectorAll('*')].map(node => {
+      // Hidden progress has no painted box; retain every visible child in the denominator.
+      spill: Math.max(0, ...[...bar.querySelectorAll('*')].filter(node=>node.getClientRects().length&&!folded(node)&&getComputedStyle(node).visibility!=='hidden').map(node => {
         const box = node.getBoundingClientRect();
         return Math.max(box.bottom - barBox.bottom, barBox.top - box.top, box.right - barBox.right, barBox.left - box.left);
       })) } : null,

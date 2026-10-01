@@ -9,6 +9,12 @@ export const ASSETS = Object.freeze(new Map([
   ['/icons.svg', 'image/svg+xml'],
   ['/favicon.svg', 'image/svg+xml'],
   ['/app.mjs', 'text/javascript; charset=utf-8'],
+  ['/lib/transition.mjs', 'text/javascript; charset=utf-8'],
+  ['/components/progress.mjs', 'text/javascript; charset=utf-8'],
+  ['/components/toast.mjs', 'text/javascript; charset=utf-8'],
+  ['/components/skeleton.mjs', 'text/javascript; charset=utf-8'],
+  ['/components/empty-state.mjs', 'text/javascript; charset=utf-8'],
+  ['/components/copy-button.mjs', 'text/javascript; charset=utf-8'],
   ['/glossary.mjs', 'text/javascript; charset=utf-8'],
   ['/lib/bridge.mjs', 'text/javascript; charset=utf-8'],
   ['/lib/core.mjs', 'text/javascript; charset=utf-8'],
@@ -39,7 +45,7 @@ export const ASSETS = Object.freeze(new Map([
 
 export const CSP = "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'";
 
-export const ICON_FRAGMENTS=Object.freeze(['#icon-terminal','#icon-folder','#icon-folder-open','#icon-info']);
+export const ICON_FRAGMENTS=Object.freeze(['#icon-terminal','#icon-folder','#icon-folder-open','#icon-info','#icon-review','#icon-search','#icon-layers']);
 export function localAsset(url,method='GET'){
   try{
     const parsed=new URL(url);

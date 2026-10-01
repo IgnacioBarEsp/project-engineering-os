@@ -46,7 +46,7 @@ export async function showWorkspace(refresh=true,{focusTab=false}={}){
       own(s.project.root,'p',{class:'path'}),currentVerdict(s),actions(doBtn('recheck-project'))),
     ...(state.tab==='overview'?[destination,tools]:[tools,destination]),
   ]);
-  if(focusTab)state.focusAfterAction=state.tab==='overview'?document.querySelector('#project-tools > summary'):document.getElementById(`project-tab-${state.tab}`);
+  if(focusTab)state.focusAfterAction=()=>state.tab==='overview'?document.querySelector('#project-tools > summary'):document.getElementById(`project-tab-${state.tab}`);
 }
 window.addEventListener('hashchange',()=>{
   if(state.page!=='workspace'||state.busy)return;

@@ -11,6 +11,7 @@ const ui = (await Promise.all(['lib/core.mjs', 'screens/home.mjs', 'screens/wiza
   'screens/wizard-prepare.mjs', 'screens/wizard-done.mjs',
   'screens/reviews.mjs', 'screens/workspace.mjs', 'screens/projects.mjs', 'screens/project-overview.mjs',
   'screens/project-files.mjs', 'screens/project-recipes.mjs', 'screens/project-ai.mjs',
+  'components/copy-button.mjs', 'components/progress.mjs', 'components/toast.mjs', 'components/empty-state.mjs', 'components/skeleton.mjs',
   'components/project-row.mjs', 'components/project-verdict.mjs', 'components/project-segments.mjs', 'app.mjs'].map(file => readFile(path.join(uiPath, file), 'utf8')))).join('\n');
 const glossarySource = await readFile(glossaryPath, 'utf8');
 const { GLOSSARY, labelMatchesTerm, makeTerm } = await import(pathToFileURL(glossaryPath).href);
@@ -41,18 +42,14 @@ function interfaceText(source) {
   return source.split(/\r?\n/).filter(line => !/^\s*\/\//.test(line)).join('\n');
 }
 
-// The one sentence a cold reader is asked to paraphrase, pinned exactly. A pattern list can only refuse the
-// claims someone thought of: an independent review passed "para que tu IA trabaje mejor con tu proyecto",
-// "para que acierte más" and "para que no se pierda entre tus archivos" through the nine regexes below.
-// A golden text cannot be evaded — it can only be changed on purpose, which is the point.
-const INICIO_SENTENCE = 'Esta aplicación lee la carpeta de tu proyecto, ordena lo que hay dentro y deja un '
-  + 'resumen que puedes darle a la IA que ya usas, con la ubicación exacta de cada frase para que puedas '
-  + 'comprobarla.';
+// Pin the current Home sentence because it is what a new reader is asked to paraphrase. The maintainer
+// approved this shorter copy after the first reading failed; changing this golden text is deliberate,
+// not a way to turn the failed human observation into a pass.
+const INICIO_SENTENCE = '¿Cansado de repetirle a tu IA de qué trata tu proyecto? Prepara la carpeta donde trabajas con instrucciones y un método claro.';
 
 test('the sentence a cold reader is asked to paraphrase is exactly the reviewed one', () => {
   assert.ok(ui.includes(`p('${INICIO_SENTENCE}','intro')`),
-    'La frase de Inicio cambió. Cualquier cambio en ella es deliberado y necesita revisión: es la que '
-    + 'afirmaba un resultado que este proyecto midió como empate, y la que una lectura en frío parafrasea.');
+    'La frase de Inicio cambió. Cualquier cambio en ella es deliberado y necesita revisión y otra lectura en frío.');
   // And it still has to survive the pattern list, so the golden text cannot be updated to a claim.
   for (const [pattern, name] of UNDEMONSTRATED) {
     assert.doesNotMatch(INICIO_SENTENCE, pattern, `La frase de Inicio afirma ${name}`);
@@ -84,7 +81,7 @@ test('every sentence that states a limit of the result is still there, in the in
     'no demuestra que la herramienta funcione',
     'Todavía no se ha enviado a ninguna IA',
     'no se envían a ninguna IA durante la preparación',
-    'Nunca un modelo de IA',
+    'Nunca se descarga un modelo de IA',
     'tus documentos no se envían solos',
     // A listed project's state used to carry one sentence for every state: "Estado guardado la última vez;
     // se comprueba al abrirlo". It was replaced by a sentence per state, because the states now differ in

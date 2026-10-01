@@ -11,12 +11,19 @@
 .method{padding-left:22px;margin:0}
 .method li{line-height:1.6;font-size:.93rem;margin-bottom:12px}
 .method strong{display:block;font-weight:600;margin-bottom:2px}
+.help-faq details{margin:0;border-top:1px solid var(--line)}
+.help-faq details:last-child{border-bottom:1px solid var(--line)}
+.help-faq summary{position:relative;min-height:48px;display:flex;align-items:center;padding:12px 32px 12px 0;list-style:none;color:var(--slate-50)}
+.help-faq summary::-webkit-details-marker{display:none}
+.help-faq summary:hover,.help-faq details[open]>summary{color:var(--violet-200)}
+.help-faq summary::after{content:'+';position:absolute;right:4px;color:var(--violet-300);font-size:1.3rem;font-weight:400}
+.help-faq details[open] summary::after{content:'−'}
+.help-faq details>p,.help-faq details>.method{margin:0 0 16px}
+.help-faq details>.actions{margin:0 0 16px}
 .glossary{margin:14px 0 0}
 .glossary dt{font-weight:650;font-size:.95rem;margin-top:18px;color:var(--slate-50)}
 .glossary dd{margin:5px 0 0;font-size:.88rem;line-height:1.6;color:var(--muted)}
 .glossary dd b{color:var(--slate-50);font-weight:500}
-.section-title{margin:44px 0 0}
-.section-title+.feature-row{margin-top:18px;border-top:0;padding-top:0}
 .status-card h2,.folder-card h2{font-size:1.05rem;font-weight:600}
 .folder-card h2{font-size:1.2rem}
 .project-state .recorded{display:block;margin-top:3px;font-size:inherit}

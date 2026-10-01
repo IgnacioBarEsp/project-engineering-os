@@ -18,7 +18,7 @@ try{
   application=await _electron.launch({executablePath:executable,args:['.',`--user-data-dir=${userData}`],cwd:appRoot,env:{...process.env},timeout:60000});
   const page=await application.firstWindow(),errors=[];page.on('pageerror',error=>errors.push(error.message));
   page.setDefaultTimeout(120000);
-  await page.getByRole('heading',{name:'Dale a tu IA un buen punto de partida.',exact:true}).waitFor();
+  await page.getByRole('heading',{name:'Prepara tus proyectos con Project Engineering OS',exact:true}).waitFor();
   await page.evaluate(()=>{window.__progress=[];window.companion.onProgress(value=>{if(window.__progress.length<20000)window.__progress.push(value);});});
   for(const route of process.argv.includes('--cancel-only')?[]:['quick','ai']){
     const root=path.join(temp,`software-${route}`);await mkdir(root);
@@ -79,7 +79,7 @@ try{
   await page.evaluate(()=>{window.__cancelProgressStart=window.__progress.length;});
   await page.getByRole('button',{name:'Guardar la preparación revisada →',exact:true}).click();
   await page.waitForFunction(()=>window.__progress.slice(window.__cancelProgressStart).some(value=>value.stage==='context'&&value.completed>0));
-  const measured=await page.evaluate(()=>{const value=window.__progress.filter(value=>value.stage==='context').at(-1),bar=document.querySelector('#preparation-progress progress');
+  const measured=await page.evaluate(()=>{const value=window.__progress.filter(value=>value.stage==='context').at(-1),bar=document.querySelector('#activity progress');
     return {completed:value.completed,total:value.total,shown:bar?.value,max:bar?.max};});
   assert.equal(measured.shown,measured.completed);assert.equal(measured.max,measured.total);
   await page.locator('#cancel').click();

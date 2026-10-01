@@ -3,6 +3,7 @@ import {openProject} from '../lib/bridge.mjs';
 import {emptyAnswers,selectionForPreparation,visionFromAnswers,wordCount,WIZARD_PAGES} from '../lib/wizard-model.mjs';
 import {startPreparation,preparationIsRunning,preparationPlan} from './wizard-prepare.mjs';
 import {showFinished} from './wizard-done.mjs';
+import {icon} from '../lib/dom.mjs';
 
 let saveTimer=null,saveQueue=Promise.resolve();
 const draft=()=>({step:state.wizardStep,selection:structuredClone(state.selection),projectId:state.project?.id??null});
@@ -92,9 +93,11 @@ function showProject(){
     const radio=el('input',{type:'radio',name:'profile',value:id,checked:s.profile===id,onChange:()=>{
       s.profile=id;s.focus=profileInfo(id).defaultFocus;s.stack={decision:'too-early',requested:[]};schedulePersist();}});
     return el('label',{class:'choice'},radio,el('span',{},el('strong',{text:label}),el('small',{text:description})));}));
-  const folder=el('div',{class:'wizard-folder'},el('div',{},el('strong',{text:'Carpeta del proyecto'}),chosen
-    ?[own(chosen.root,'p',{class:'path'}),p(`Primera mirada: ${chosen.inspection?.files?.length??0} archivos; parece ${profiles[chosen.inspection?.recommendation]?.[0]??'un tipo por confirmar'}.`,'subtle')]
-    :p('Elígela o crea una nueva en el diálogo del sistema.','subtle')),
+  const folder=el('div',{class:chosen?'wizard-folder':'wizard-folder needs-choice',role:'group','aria-labelledby':'wizard-folder-label'},
+    el('div',{class:'wizard-folder-label'},icon('folder','wizard-folder-icon'),el('div',{},
+      el('strong',{id:'wizard-folder-label',text:chosen?'Carpeta del proyecto':'Elige la carpeta del proyecto'}),chosen
+        ?[own(chosen.root,'p',{class:'path'}),p(`Primera mirada: ${chosen.inspection?.files?.length??0} archivos; parece ${profiles[chosen.inspection?.recommendation]?.[0]??'un tipo por confirmar'}.`,'subtle')]
+        :p('Aquí están o estarán tus archivos.','subtle'))),
     btn(chosen?'Cambiar carpeta':'Elegir carpeta',async()=>{
       const result=await call('chooseFolder');if(!result)return;state.project=result;
       if(!s.name.trim())s.name=result.name.slice(0,100);
@@ -106,8 +109,8 @@ function showProject(){
     await goStep(1);
   });}},el('div',{class:'field'},el('label',{for:'wizard-name',text:'Nombre de tu proyecto'}),name),folder,
     el('fieldset',{},el('legend',{text:'¿Qué vas a preparar?'}),profileCards));
-  render([rail(),el('h1',{tabindex:'-1',text:'¿Qué vas a preparar?'}),
-    el('p',{class:'intro'},'Nombre, carpeta y tipo de trabajo. Tus archivos pueden aportar ',term('fuente','fuentes'),'.'),form],null,
+  render([rail(),el('p',{class:'eyebrow wizard-purpose',text:'Herramienta de preparación de proyectos para tu IA'}),el('h1',{tabindex:'-1',text:'¿Qué vas a preparar?'}),
+    form],null,
     wizardBar(doBtn('open-start'),el('button',{type:'submit',form:'wizard-project-form',class:'primary',text:'Continuar a Enfoque  →'})));
 }
 

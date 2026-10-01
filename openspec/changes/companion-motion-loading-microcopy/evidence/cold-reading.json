@@ -1,0 +1,144 @@
+{
+  "date": null,
+  "application": "source screenshots from Wave 3, #201 d34b2b5",
+  "status": "failed",
+  "latestRoundStatus": "passed",
+  "readers": [
+    {
+      "anonymousId": "reader-1",
+      "knewTheApplication": false,
+      "hadSeenTheScreenshots": false,
+      "screenOrder": ["inicio", "paso-1"],
+      "responses": [
+        {
+          "screen": "inicio",
+          "question": "¿qué hace esta aplicación?",
+          "answerVerbatim": "Es una aplicacion para configurar tu IA, me pide que empiece a configurarla y lo que haria seria leer un poco mas porque hay mucha informacion, pero si ya tuviera una ia supongo que le daria al boton morado para ir rapido",
+          "hesitated": null,
+          "askedFirst": null
+        },
+        {
+          "screen": "paso-1",
+          "question": "¿qué te pide esta pantalla y qué harías ahora?",
+          "answerVerbatim": "Es una aplicacion que me ayuda a preparar un proyecto, Escribiria el nombre de mi proyecto y seleccionaria lo que quiero crear, lo de la carpeta me costo verlo o no creo que este bien integrado, tal vez con un icono o no se.",
+          "hesitated": null,
+          "askedFirst": null
+        }
+      ]
+    },
+    {
+      "anonymousId": "reader-2",
+      "knewTheApplication": false,
+      "hadSeenTheScreenshots": false,
+      "screenOrder": ["inicio", "paso-1"],
+      "responses": [
+        {
+          "screen": "inicio",
+          "question": "¿qué hace esta aplicación?",
+          "answerVerbatim": "Es una app para conocer sobre IA o usar una nuevas como tipo chatgpt,  la pantalla me invita a que pruebe las IA o que  me cree una cuenta o la instale en mi ordenador.",
+          "hesitated": null,
+          "askedFirst": null
+        },
+        {
+          "screen": "paso-1",
+          "question": "¿qué te pide esta pantalla y qué harías ahora?",
+          "answerVerbatim": "Es una aplicacion tipo chatgpt que me ayuda con las cosas que ocupe hacer, me pide decirle que quiero crear como si fuera un asistente y en vez de darle un prompt, me va guiando con estas opciones, lo que haria ahora seria darle la informacion que me esta pidiendo para poder crear mi proyecto.",
+          "hesitated": null,
+          "askedFirst": null
+        }
+      ]
+    }
+  ],
+  "observations": {
+    "receivedDate": "2026-09-29",
+    "interviewDate": null,
+    "source": "Respuestas literales facilitadas por el mantenedor en el chat; confirmó dos personas distintas, ajenas a la aplicación y a capturas previas, con Inicio seguido del primer paso de la versión enviada.",
+    "countsAsColdReading": true,
+    "result": "no cumple",
+    "reason": "Ninguna respuesta sobre Inicio identifica la preparación de una carpeta para una IA existente. En el primer paso, la carpeta no se reconoce claramente como elección necesaria; la primera persona incluso dice que le costó verla."
+  },
+  "followUpRound": {
+    "date": null,
+    "application": "0.3.6 source screenshots from #202 CI run 36588084388, after #201 f1d2d8c",
+    "status": "passed",
+    "readers": [
+      {
+        "anonymousId": "reader-3",
+        "knewTheApplication": false,
+        "hadSeenTheScreenshots": false,
+        "screenOrder": ["inicio", "paso-1"],
+        "responses": [
+          {
+            "screen": "inicio",
+            "question": "¿qué hace esta aplicación?",
+            "answerVerbatim": "Es una aplicacion que sirve para preparar tus proyectos y que la IA los entienda mejor, solo que esta algo vacia para el tamaño de la pestaña, tal vez deberia redistribuirse mejor el contenido o poner ejemplos de como mejora tus proyectos",
+            "hesitated": null,
+            "askedFirst": null
+          },
+          {
+            "screen": "paso-1",
+            "question": "¿qué te pide esta pantalla y qué harías ahora?",
+            "answerVerbatim": "La pantalla me pide que ponga el nombre de mi proyecto, escoja la carpeta donde va a estar y el tipo de proyecto que es, lo que haria ahora seria rellenar esos campos y escoger que tipo de proyecto es",
+            "hesitated": null,
+            "askedFirst": null
+          }
+        ]
+      },
+      {
+        "anonymousId": "reader-4",
+        "knewTheApplication": false,
+        "hadSeenTheScreenshots": false,
+        "screenOrder": ["inicio", "paso-1"],
+        "responses": [
+          {
+            "screen": "inicio",
+            "question": "¿qué hace esta aplicación?",
+            "answerVerbatim": "Es una herramienta que sirve para dejar preparadas tus carpetas en las que vas a trabajar con Inteligencia artificial",
+            "hesitated": null,
+            "askedFirst": null
+          },
+          {
+            "screen": "paso-1",
+            "question": "¿qué te pide esta pantalla y qué harías ahora?",
+            "answerVerbatim": "Pide que escriba el nombre del proyecto, elija la carpeta y lo que haria acontinuacion seria escoger que tipo de proyecto es",
+            "hesitated": null,
+            "askedFirst": null
+          }
+        ]
+      }
+    ],
+    "observations": {
+      "receivedDate": "2026-09-29",
+      "interviewDate": null,
+      "source": "Respuestas literales facilitadas por el mantenedor tras recibir las capturas de Inicio y del primer paso de la CI de #202. Confirmó que son dos personas distintas de las de la primera ronda, sin exposición previa a la app ni a las capturas, y que vieron Inicio y después el primer paso sin explicación.",
+      "countsAsColdReading": true,
+      "contentResult": "Cumple: las dos respuestas de Inicio identifican preparar proyectos o carpetas para IA; las dos del primer paso identifican nombre, carpeta y tipo de proyecto. La observación estética de la primera persona se conserva literalmente y requiere decisión visual del mantenedor."
+    }
+  },
+  "partialFeedback": {
+    "receivedDate": "2026-09-27",
+    "source": "Tres capturas de conversaciones privadas facilitadas por el mantenedor; las imágenes no se publican.",
+    "screenShown": "Captura del paso 1; el mantenedor confirmó que no vieron Inicio.",
+    "applicationVersion": null,
+    "interviewDate": null,
+    "countsAsColdReading": false,
+    "responses": [
+      {
+        "anonymousId": "A",
+        "askedBeforeAnswering": "A qué más te refieres?",
+        "answerVerbatim": "Para hacer proyectos y organizar todo muy fácil"
+      },
+      {
+        "anonymousId": "B",
+        "answerVerbatim": "Agentes de IA, Gestor de tareas",
+        "additionalReplyVerbatim": "Y mi primera encarta :v"
+      },
+      {
+        "anonymousId": "C",
+        "answerVerbatim": "Pues lo veo como una especie de asistente con ia como ChatGPT",
+        "additionalReplyVerbatim": "No se me da vibras de pedirle una instruccion y me apoyaria con instrucciones"
+      }
+    ]
+  },
+  "conclusion": "La primera ronda se conserva con resultado no cumple. La segunda, registrada en followUpRound con dos personas diferentes y protocolo confirmado por el mantenedor, cumple la comprensión de Inicio y de nombre, carpeta y tipo en el primer paso de la copia breve. Esas personas no vieron la composición posterior con beneficios. La observación de esa copia final está en final-reading-round.json: el 30 de septiembre el mantenedor confirmó dos personas nuevas, sin exposición previa, Inicio seguido de paso 1 sin explicación y respuestas literales. Se conservan sus interpretaciones y límites, sin atribuirles unanimidad detallada ni calidad de IA medida. La aceptación de Inicio y la aceptación condicionada de la herramienta opcional Archivos se registran separadamente en maintainer-visual-closeout.md; no se infieren de una mera aprobación del degradado. La respuesta propia del control renombrado está en renamed-export-reading.json, con una persona y su reconocimiento mínimo de recopilar información de archivos para IA, sin atribuir comprensión completa de revisión/copia. No hace falta repetir Inicio/paso 1 por el cambio exclusivo de gestión."
+}
