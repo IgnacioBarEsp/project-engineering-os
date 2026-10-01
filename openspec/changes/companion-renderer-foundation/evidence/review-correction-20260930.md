@@ -29,3 +29,11 @@ Node usado: `C:/Program Files/nodejs/node.exe`, 24.18.0; cwd: worktree `wave3-co
 - `node bin/project-os.mjs debt check --target . --json`: PASS; deuda previa 4/5 unidades, no cero deuda global.
 
 Los assessments anteriores permanecen inmutables; el assessment de esta corrección tiene alcance propio. Falta registrar la reprueba independiente del SHA corregido y propagarla por la pila; no se archiva ni integra con esos gates pendientes o con la auditoría #204 fallando. No se inicia ola4.
+
+## Actualización: repruebas independientes recibidas
+
+El revisor separado `/root/wave3_closeout_review` ejecutó por sí mismo el contrato en **fb98d62001e3ec57935b477724c34f2dc173742b limpio**: ambos P2 resueltos, 46/46 negativos, 21/21 rutas y tres tests focalizados. Su [addendum íntegro](../../../../docs/companion/reviews/FOUNDATION_RETEST_20260930.md) conserva identidad, comandos, procedencia y límites; no se atribuye a él el pase propio de 151 tests.
+
+El mismo revisor realizó después la [revisión independiente de layout](../../../../docs/companion/reviews/FOUNDATION_LAYOUT_REVIEW_20260930.md) de Inicio/Ayuda en fb98: 1180×820, 1024×700, 768×700 y 480×540, normal/reducido, 16 celdas, 128/128 controles y 32 originales abiertos individualmente. Conserva su intento fallido de probe SVG y la repetición exitosa. No encontró defectos en ese alcance; no equivale a aceptación visual del mantenedor, Electron o instalador.
+
+Esto permite registrar la revisión técnica de #144 como verified, **manteniendo visual-check pending**. Se conservan el informe original y los intentos fallidos. La corrección se llevó mediante merges locales DCO en orden #145→#150; esos merges de ramas no son integración por PR protegido. Cada cabeza conserva sus propios resultados; los informes de fb98 no se reetiquetan como revisión de una cabeza distinta. El [delta integrado b4](../../../../docs/companion/reviews/WAVE3_HARNESS_DELTA_REVIEW_20260930.md) tiene además inspección estática propia con límites explícitos.
