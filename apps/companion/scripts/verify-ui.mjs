@@ -463,7 +463,7 @@ try {
     await click(page,INSTALL.ai);await finishPreparation(page);await heading(page,'Resultado de la preparación');
     await click(page,'Ver mi proyecto');await heading(page,name);
     // The old review route is now project maintenance, not a second onboarding path.
-    if(profile==='software')await page.locator('[data-action="review-stack"]').click();
+    if(profile==='software')await click(page,'Revisar tecnología del proyecto');
     if(profile==='software'){
       await heading(page,'Esto es lo que pediste instalar.');
       const shown=await page.locator('#view').innerText();
