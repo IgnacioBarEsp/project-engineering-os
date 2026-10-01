@@ -75,9 +75,9 @@
     {
       "id": "adversarial-review",
       "kind": "manual",
-      "status": "pending",
-      "ref": "docs/companion/reviews/WAVE3_CLOSEOUT_20260930.md",
-      "justification": "La revisión independiente confirmó dos P2 en49378d7. Las correcciones requieren reprueba; el informe no acredita el recorrido nativo ni la aprobación humana de esta capa.",
+      "status": "verified",
+      "ref": "openspec/changes/companion-renderer-foundation/evidence/review-correction-20260930.md",
+      "justification": "Reprueba independiente limpia fb98: ambos P2 resueltos, 46/46 negativos y 21/21 rutas. Revisión independiente adicional de Inicio/Ayuda en cuatro tamaños y dos movimientos: 16 celdas, 128/128 controles, 32 originales inspeccionados. Es revisión técnica, no aceptación del mantenedor, instalación ni cierre de ola3.",
       "profileCondition": null
     },
     {
@@ -152,8 +152,8 @@
     "justification": null
   },
   "adversarialReview": {
-    "status": "pending",
-    "ref": "docs/companion/reviews/WAVE3_CLOSEOUT_20260930.md",
+    "status": "verified",
+    "ref": "openspec/changes/companion-renderer-foundation/evidence/review-correction-20260930.md",
     "blockers": 0,
     "majors": 0
   },
