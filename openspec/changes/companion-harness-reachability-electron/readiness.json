@@ -74,7 +74,7 @@
       "id": "visual-check-when-configured",
       "status": "pending",
       "evidence": null,
-      "justification": "Falta aceptación visual del mantenedor; las capturas son inspección propia.",
+      "justification": "El mantenedor rechazó la dirección de la pantalla de proyecto tras ver la captura de Archivos; la respuesta literal está en maintainer-project-management-feedback.json del change de #149. Falta decisión de organización de #148 y aceptación final; las pruebas/capturas propias no la sustituyen.",
       "profileCondition": null
     },
     {
@@ -99,7 +99,7 @@
       "kind": "manual",
       "status": "pending",
       "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-recheck.md",
-      "justification": "El informe independiente previo conserva su alcance. El refinamiento nuevo de Archivos y su harness requiere revisión independiente; files-clarity-integration.md es revisión propia.",
+      "justification": "El informe independiente previo conserva su alcance. Los refinamientos de tareas y finalidad de Archivos requieren revisión independiente; files-clarity-integration.md y files-purpose-integration.md son revisión propia, no aceptación del diseño.",
       "profileCondition": null
     },
     {

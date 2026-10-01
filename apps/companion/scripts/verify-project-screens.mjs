@@ -98,8 +98,8 @@ try{
         assert.equal(await page.getByRole('heading',{name:'Quién escribe estas instrucciones',exact:true}).count(),tab==='handoff'?1:0);
         if(tab==='search'){
           const searchTask=page.getByRole('region',{name:'Buscar en tus archivos',exact:true});
-          const exportTask=page.getByRole('region',{name:'Preparar texto para tu IA',exact:true});
-          const exportAction=exportTask.getByRole('button',{name:'Preparar un texto para pegar en tu chat',exact:true});
+          const exportTask=page.getByRole('region',{name:'Dale información de tus archivos a tu IA',exact:true});
+          const exportAction=exportTask.getByRole('button',{name:'Revisar texto de mis archivos para mi IA',exact:true});
           assert.equal(await searchTask.count(),1);assert.equal(await exportTask.count(),1);
           assert.equal(await exportAction.isDisabled(),true,'Empty-query action must remain disabled after rendering/re-entry');
           const boxes=await page.locator('.files-task').evaluateAll(nodes=>nodes.map(n=>{const r=n.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,bottom:r.bottom};}));
