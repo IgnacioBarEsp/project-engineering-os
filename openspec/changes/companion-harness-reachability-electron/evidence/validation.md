@@ -61,3 +61,7 @@ Estado inicial: revisión independiente y aceptación humana pendientes. La revi
 posterior está enlazada arriba; la aceptación humana sigue pendiente. No archivar, fusionar ni cerrar #150 sin ella.
 #149 también conserva dos lectores humanos pendientes. La ola 4 no se ha iniciado.
 Rollback: revertir este PR; las correcciones son de CSS y pruebas/CI, sin migración de datos.
+
+## Actualización de cierre — 2026-09-30
+
+El estado inicial anterior no describe los registros humanos ya recibidos: Inicio/paso1 tienen dos lectores confirmados, el botón renombrado tiene su observación propia, y las decisiones visuales conservan su alcance de #148/#149. No se solicitan de nuevo esas lecturas. La revisión de799, reprueba/layoutfb98 y delta estáticob4, contratos de cada cabeza, 391 tests core y225 Companion y gates restantes están en [cierre técnico parcial](wave3-closeout-20260930.md). No se presentan como instalación, CI verde ni aprobación humana de los PRs padres. #204 sigue bloqueando; no hay archive, integración o inicio de ola4.
