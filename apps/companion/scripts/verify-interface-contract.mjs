@@ -583,6 +583,7 @@ async function inspect(page) {
     // stub answered `stackCatalog` but not `previewStack`, so this screen never rendered here and stayed out of
     // the names-and-counts table even though the journey harness walked it.
     const toStack = page.locator('#view [data-action="review-stack"]').first();
+    await revealDetails(toStack);
     const reachedStack = await toStack.count()
       ? await toStack.click({ timeout: 4000 }).then(() => true, () => false)
       : false;
@@ -675,7 +676,7 @@ async function inspectRouteTraversal() {
     assert.deepEqual(value.active, [value.expectedNav], `Destino activo de ${value.id}`);
     assert.equal(value.breadcrumb, value.expectedBreadcrumb, `Breadcrumb de ${value.id}`);
     assert.ok(value.heading && value.visited && value.busy !== 'true', `Vista no renderizada: ${value.id}`);
-    assert.equal(value.id, expected, `No se alcanzó ${expected}`);
+    if (expected !== undefined) assert.equal(value.id, expected, `No se alcanzó ${expected}`);
     if (declarations.length) assert.deepEqual(value.declared, declarations, 'Las ventanas declaran rutas distintas');
     else declarations.push(...value.declared);
     rendered.push(value.id);run.observations.push(value);
@@ -687,7 +688,9 @@ async function inspectRouteTraversal() {
     await page.addInitScript(ROUTE_SERVICE);
     await page.goto(url, {waitUntil:'networkidle'});
     await observe(page, run, 'start');
-    const wizard = {problems:[],measure:step=>observe(page,run,step.screen)};
+    // Wizard descriptors name phases (e.g. context within install), not necessarily route IDs.
+    // walkToFinished verifies the phase heading; count only the actual rendered state.page.
+    const wizard = {problems:[],measure:()=>observe(page,run)};
     assert.ok(await walkToFinished(page, wizard), wizard.problems.join('; '));
     await observe(page,run,'finished');
     for (const [action, id] of [['open-help','help'],['open-project-list','projects']]) {
