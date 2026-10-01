@@ -29,4 +29,4 @@ Después de estas tareas: ejecutar el gate de archive. Si pasa, archivar mediant
 
 - [x] 5.1 Derivar las rutas declaradas y compararlas con las realmente renderizadas por los recorridos; comprobar los nombres ausentes y negativos no vacuos. Primer pase 23/21 FAIL; repetición 21/21 PASS y ruta añadida detectada por su nombre.
 - [x] 5.2 Corregir visual-check a pending conforme a su evidencia, sin atribuir aprobación humana de otra versión.
-- [ ] 5.3 Registrar pruebas, deuda y reprueba independiente del SHA corregido; propagar en orden sin archivar, fusionar o iniciar ola4 mientras falten gates.
+- [x] 5.3 Registrar pruebas, deuda y reprueba independiente del SHA corregido; propagar en orden sin archivar, integrar por PR o iniciar ola4 mientras falten gates. Reprueba técnica limpia fb98 y layout independiente de cuatro tamaños registrados; corrección llevada en orden a #145–#150.
