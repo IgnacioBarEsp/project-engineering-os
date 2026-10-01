@@ -86,6 +86,21 @@ de esta ronda no vieron esas propuestas posteriores, todavía en revisión visua
 La aprobación del mantenedor y la lectura
 de una versión cuyo lenguaje cambie se registrarán por separado.
 
+La copia posterior con beneficios ya cuenta con una observación propia de dos
+personas nuevas en
+[final-reading-round.json](../../openspec/changes/companion-motion-loading-microcopy/evidence/final-reading-round.json).
+El 30 de septiembre el mantenedor confirmó ausencia de exposición previa, Inicio
+seguido del paso 1 sin explicación y respuestas literales. Se conserva que una
+respuesta describe preparar una carpeta y la otra explicar el proyecto a la IA;
+no se presenta esto como unanimidad de comprensión detallada ni como medición de
+calidad de la IA. Ambas respuestas del paso 1 identifican nombre, carpeta y tipo.
+La aceptación visual de Inicio y la aceptación condicionada de Archivos son otra
+decisión, en
+[maintainer-visual-closeout.md](../../openspec/changes/companion-motion-loading-microcopy/evidence/maintainer-visual-closeout.md).
+No hace falta otra ronda de Inicio/paso 1 por la reorganización exclusiva del
+detalle del proyecto. La respuesta al nombre nuevo de exportación se registra por
+separado, con los límites indicados abajo.
+
 El criterio de comprensión de Inicio y paso 1 de #149 **cumple en esa segunda ronda**. El control de
 exportación todavía requiere su propia observación humana. Ninguno se sustituye por una heurística, por
 un agente ni por el juicio de quien escribió el texto.
@@ -100,8 +115,16 @@ el 30 de septiembre es mixta, con procedimiento confirmado: una persona lo confu
 y otra reconoce texto para pegar en la IA. Está en
 [export-reading-followup.json](../../openspec/changes/companion-motion-loading-microcopy/evidence/export-reading-followup.json).
 La condición de dos personas para Inicio/paso 1 no convierte la prueba del control en unanimidad
-obligatoria ni sustituye la aprobación visual. Una nueva observación del nombre refinado debe usar
-una persona sin exposición previa; no hace falta repetir Inicio y paso 1 por cambiar solo ese control.
+obligatoria ni sustituye la aprobación visual. La respuesta propia al nombre refinado
+está en
+[renamed-export-reading.json](../../openspec/changes/companion-motion-loading-microcopy/evidence/renamed-export-reading.json).
+El mantenedor la facilitó al solicitarle una persona sin exposición previa, señalando
+el botón sin abrirlo ni explicarlo: reconoce recopilar información de archivos para
+una IA. Es reconocimiento de la obtención y destino en sus propias palabras, no
+prueba de que entienda revisión, transferencia manual, el formato del texto o que
+la IA no recibe acceso automático a la carpeta. No se exigen las palabras literales
+«texto» o «copiar», un segundo lector ni unanimidad añadidos al criterio original.
+No hace falta repetir Inicio y paso 1 por cambiar solo ese control.
 ## Relacionado
 
 - [Experiencia de Companion](EXPERIENCE.md): los cuatro destinos y la regla de lenguaje.

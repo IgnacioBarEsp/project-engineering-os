@@ -2,13 +2,17 @@
   "receivedDate": "2026-09-30",
   "interviewDate": null,
   "application": "Source screenshots: Inicio/paso 1 after #201 7717195; export control from #202 b9532e9 browser renderer/service",
-  "status": "pending-protocol-confirmation",
+  "status": "home-and-step-one-protocol-confirmed-export-scope-unconfirmed",
   "protocol": {
-    "differentUnfamiliarReadersConfirmed": null,
-    "noPriorExposureConfirmed": null,
-    "screenOrderWithoutExplanationConfirmed": null,
+    "differentUnfamiliarReadersConfirmed": true,
+    "noPriorExposureConfirmed": true,
+    "screenOrderWithoutExplanationConfirmed": true,
+    "answersVerbatimConfirmed": true,
     "exportButtonSpecificallyIndicatedConfirmed": null,
-    "note": "Asked the maintainer to confirm. Question strings below are the protocol prompts; the actual wording used is not independently confirmed. The user submitted the same six answers twice around an intentional interruption; recorded once, not as four readers."
+    "confirmationReceivedDate": "2026-09-30",
+    "confirmationQuestionVerbatim": "Sobre la última ronda de Inicio y paso 1 (Persona 1: «Es una aplicacion que te ayuda a preparar una carpeta…» y Persona 2: «Es una aplicacion que le dice a la IA…»): ¿confirmas que eran dos personas nuevas, sin exposición previa, que vieron Inicio y después el paso 1 sin explicación, y que registraste sus palabras literales?",
+    "confirmationAnswerVerbatim": "Sí, confirmo todo",
+    "note": "The maintainer confirmed the procedure and literal answers for Inicio and paso 1, not the specific-control procedure of the old export screen. Question strings below remain protocol prompts; exact question wording, interview date and timing of doubts were not separately confirmed. The same six answers were submitted twice; recorded once, not as four readers. No additional two-person Home/step-one round is requested for the management-only changes."
   },
   "readers": [
     {
@@ -65,9 +69,9 @@
     }
   ],
   "assessment": {
-    "stepOne": "Both responses identify name, folder and intended work; favorable content evidence, subject to protocol confirmation.",
+    "stepOne": "Both responses identify name, folder and intended work; favorable content evidence with procedure and literal answers now confirmed.",
     "home": "Responses relate project/folder preparation to AI. Reader 1 still says with AI and better responses; reader 2 does not mention a folder. Do not infer understanding of existing external AI, or measured improved answer quality. These are reader interpretations, not new product claims.",
     "export": "Not demonstrated: reader 1 cannot identify the target action and describes overload; reader 2 infers finding a file, not reviewable text to paste elsewhere. Specific-control protocol still unconfirmed, so this is not a proven failure of the button name alone.",
-    "conclusion": "No complete PASS or issue closure. Preserve earlier passing round with its earlier UI scope; the revised Files screen requires fresh human observation and visual acceptance."
+    "conclusion": "The two-reader Home/step-one observation is now real, protocol-confirmed evidence for the final copy, not a simulated session. Preserve the favorable step-one content and the precise limits of the Home interpretations, without claiming unanimous detailed comprehension or measured AI quality. Home and wizard source/catalog blobs are unchanged since 7717195. The earlier passing round retains its original scope. These old export responses do not certify the renamed control; its own subsequently received one-person answer is in renamed-export-reading.json, with its original scope and limits. No issue or Wave 3 closure."
   }
 }

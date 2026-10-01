@@ -29,9 +29,9 @@
     },
     {
       "id": "visual-check-when-configured",
-      "status": "pending",
-      "evidence": null,
-      "justification": "La segunda ronda cumple la copia breve. Las seis respuestas anteriores y export-reading-followup.json permanecen con su alcance original; este último resultado es mixto, con un lector que reconoce el mínimo de texto para pegar en IA. No exigir unanimidad o propósito como criterio añadido. El rechazo histórico de la dirección de Archivos se conserva; el mantenedor aprobó después la reorganización de #148 y su captura principal, registradas en management-visual-acceptance.md. Esa aceptación no se atribuye al nombre refinado de exportación ni a las demás pantallas. La base y las respuestas anteriores permanecen intactas; revisar solo los gates humanos que realmente falten.",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-motion-loading-microcopy/evidence/maintainer-visual-closeout.md",
+      "justification": "Inicio cuenta con aceptación visual explícita y la observación final de dos personas nuevas tiene protocolo confirmado en final-reading-round.json. Archivos cuenta con aceptación condicionada a gestión primero, implementada y verificada en #148; se conserva la condición literal. La respuesta humana propia del nombre renombrado está en renamed-export-reading.json: reconoce reunir información de archivos para IA, sin acreditar comprensión detallada de copia manual o análisis. No es aceptación global del asistente o instalador. Las rondas y respuestas previas conservan su alcance; no imponer unanimidad o palabras literales añadidas al mínimo original de exportación.",
       "profileCondition": null
     },
     {

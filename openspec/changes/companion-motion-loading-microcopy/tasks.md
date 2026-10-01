@@ -23,8 +23,8 @@
 - [x] 3.2 Ejecutar navegador en ambos modos, Electron nativo, Companion y raíz; revisión propia/deuda.
 - [x] 3.3 Actualizar DESIGN/protocolo y preparar PR borrador con gates abiertos.
 - [x] 3.4 Tras la primera ronda válida con resultado «no cumple», repetir Inicio y paso 1 con dos personas nuevas sobre la interfaz corregida; conservar respuestas literales y no sustituir por modelos. La segunda ronda cumple; la aceptación visual del ajuste posterior de distribución sigue separada.
-- [ ] 3.5 Obtener aceptación visual del Inicio con beneficios y lectura en frío de su copia final con dos personas nuevas; conservar por separado las rondas previas y la observación del control de exportación.
+- [x] 3.5 Registrar aceptación visual explícita del Inicio con beneficios y observación de su copia final por dos personas nuevas con protocolo confirmado; conservar las respuestas, sus límites y las rondas previas por separado del control de exportación.
 - [x] 3.6 Verificar interacción y responsive de las dos tareas de Archivos e integrar hacia #150; ocho celdas con revisión/cancelación/copia exacta, sin duplicar las seis respuestas recibidas.
-- [ ] 3.7 Registrar nueva observación humana del control de exportación específicamente señalado y aceptación visual de las dos tareas; confirmar por separado el protocolo de la ronda final recibida.
+- [x] 3.7 Registrar la respuesta humana propia al control renombrado señalado mediante el procedimiento solicitado, con interpretación mínima y límites explícitos en renamed-export-reading.json; conservar por separado el protocolo confirmado de Inicio/paso 1 y la aceptación visual condicionada a gestión primero.
 
 - [x] 3.8 Verificar en #150 el nombre refinado y su descripción en la matriz responsive/ambos movimientos; mostrar la captura real sin atribuirle aceptación visual o lectura humana. El mantenedor rechazó su dirección; queda registrada antes de revisar la organización de #148.
