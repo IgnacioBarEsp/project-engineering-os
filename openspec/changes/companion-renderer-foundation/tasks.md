@@ -24,3 +24,9 @@
 - [x] 4.4 Preparar el paquete de archive con OpenSpec strict, metadata de readiness, evidencia, rollback y revisión adversarial sin Blockers/Majors.
 
 Después de estas tareas: ejecutar el gate de archive. Si pasa, archivar mediante el CLI oficial, firmar los commits DCO y entregar por PR protegido. La revisión independiente, aprobación visual del mantenedor y CI son gates de integración separados; no se declaran realizados antes de observarlos.
+
+## 5. Hallazgos independientes de cierre
+
+- [x] 5.1 Derivar las rutas declaradas y compararlas con las realmente renderizadas por los recorridos; comprobar los nombres ausentes y negativos no vacuos. Primer pase 23/21 FAIL; repetición 21/21 PASS y ruta añadida detectada por su nombre.
+- [x] 5.2 Corregir visual-check a pending conforme a su evidencia, sin atribuir aprobación humana de otra versión.
+- [ ] 5.3 Registrar pruebas, deuda y reprueba independiente del SHA corregido; propagar en orden sin archivar, fusionar o iniciar ola4 mientras falten gates.

@@ -14,8 +14,6 @@ export const ROUTES = Object.freeze({
   vision: wizard('PREPARAR PROYECTO / VISIÓN', 2),
   install: wizard('PREPARAR PROYECTO / PREPARAR', 3),
   finished: wizard('PREPARAR PROYECTO / LISTO', 3),
-  'stack-choice': wizard('PREPARAR PROYECTO / ENFOQUE', 1),
-  ready: wizard('PREPARAR PROYECTO / LISTO', 3),
   'base-review': wizard('PREPARAR PROYECTO / REVISAR PREPARACIÓN', 3),
   'stack-review': wizard('PREPARAR PROYECTO / TECNOLOGÍA', 3),
   'repair-review': wizard('PREPARAR PROYECTO / HERRAMIENTAS', 3),
