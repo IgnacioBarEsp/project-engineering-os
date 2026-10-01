@@ -507,7 +507,7 @@ try {
     await click(page,INSTALL.ai);await finishPreparation(page);await heading(page,'Resultado de la preparación');
     await click(page,'Ver mi proyecto');await heading(page,name);
     // The old review route is now project maintenance, not a second onboarding path.
-    if(profile==='software')await page.locator('[data-action="review-stack"]').click();
+    if(profile==='software')await click(page,'Revisar tecnología del proyecto');
     if(profile==='software'){
       await heading(page,'Esto es lo que pediste instalar.');
       const shown=await page.locator('#view').innerText();
@@ -524,7 +524,7 @@ try {
       await click(page,'Volver');
     }
     if(engineeringProfile){
-      await page.locator('[data-action="review-development"]').click();
+      await click(page,'Revisar desarrollo');
       if(manager){await heading(page,'Tus herramientas, listas en este equipo.');await click(page,'Preparar herramientas y continuar →');}
       await heading(page,'Un proceso claro para desarrollar.');await click(page,'Guardar estas instrucciones →');
       if(manager){await heading(page,'Un método de trabajo para tu IA.');await click(page,'Activar y continuar →');}

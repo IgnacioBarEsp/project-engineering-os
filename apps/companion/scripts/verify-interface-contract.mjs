@@ -194,7 +194,8 @@ const MUTATIONS = [
     detect: report => listOf(report).purity.stray.length > 0 },
   { id: 'term-without-definition-on-inicio', file: 'app.mjs',
     reason: 'un término técnico vuelve a aparecer en Inicio como prosa',
-    from: "p('¿Cansado de repetirle a tu IA", to: "p('OpenSpec: ¿Cansado de repetirle a tu IA",
+    from: "'Ahora, cuando trabajes con tu IA en software, podrás revisar los cambios que documente con ',term('openspec'),'.'",
+    to: "'Ahora, cuando trabajes con tu IA en software, podrás revisar los cambios que documente con OpenSpec.'",
     detect: report => report.screens.inicio.vocabulary.missing.some(entry => entry.id === 'openspec') },
   { id: 'forbidden-word-on-the-help-screen', file: 'app.mjs',
     reason: 'una palabra de la jerga de este repositorio aparece en una pantalla que no es Inicio',
@@ -455,6 +456,7 @@ async function inspect(page) {
     // stub answered `stackCatalog` but not `previewStack`, so this screen never rendered here and stayed out of
     // the names-and-counts table even though the journey harness walked it.
     const toStack = page.locator('#view [data-action="review-stack"]').first();
+    await revealDetails(toStack);
     const reachedStack = await toStack.count()
       ? await toStack.click({ timeout: 4000 }).then(() => true, () => false)
       : false;
