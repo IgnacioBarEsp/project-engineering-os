@@ -234,6 +234,17 @@ main#content {
 .files-task h2,.files-task p {margin:0;}
 .files-task .actions {margin-top:auto;}
 @media(max-width:900px){.files-tasks {grid-template-columns:minmax(0,1fr);}}
+.preparation-choices {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:16px 0;}
+.preparation-choices dt {color:var(--slate-400);font-size:.875rem;}
+.preparation-choices dd {margin:4px 0 0;font-weight:600;overflow-wrap:anywhere;}
+.project-tools {margin:20px 0;}
+.project-tools > summary,.project-check-details > summary {min-height:44px;padding:10px 0;cursor:pointer;}
+.project-tools[open] > .subtle {margin:8px 0 16px;}
+.project-tools[open] {margin-bottom:24px;}
+.guide-options {list-style:none;margin-top:12px;}
+.project-ai-guidance > summary {min-height:44px;padding:10px 0;cursor:pointer;}
+.guide-optional-list {padding-left:20px;}
+@media(max-width:650px){.preparation-choices {grid-template-columns:minmax(0,1fr);gap:12px;}}
 @media(max-width:480px){.project-segments button {font-size:.82rem;padding:8px 3px;}}
 /* Transitions are destination-only; no transformed containing block persists. */
 :root {view-transition-name:none;}

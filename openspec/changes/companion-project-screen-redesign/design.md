@@ -36,3 +36,37 @@ Reproducción Electron: listProjects rechaza `peos://app/index.html#/start` y ac
 ## Action Items
 
 Ver tasks.md. No preguntas técnicas abiertas; gates humanos continúan pendientes.
+
+## 2026-09-30 · gestión de preparaciones primero
+
+El mantenedor rechazó el detalle centrado en Estado/Archivos/Recetas/Tu IA porque espera
+administrar los proyectos que configuró. Tras proponer una lista de preparaciones, un
+detalle de gestión y herramientas opcionales, respondió literalmente «apruebo la reoganizacion».
+Esto aprueba la dirección/especificación de organización, no una captura final o nuevas
+capacidades. La respuesta previa completa queda conservada en el change de #149.
+
+Sustituir la prioridad de guía y segmentos siempre visibles: el detalle abre en preparación,
+con resumen de elecciones guardadas, revisión existente, duplicar preparación y quitar de
+la lista. La recuperación permanece accesible con su alcance real: último cambio por etapa,
+no desconfiguración completa. Duplicar reusa respuestas en una carpeta elegida; quitar de
+la lista no elimina archivos. No mover, copiar, renombrar carpetas ni añadir IPC.
+
+Las tareas locales pendientes de la guía del servicio quedan visibles y con sus controles,
+en el mismo orden. Los pasos destinados a una IA se reúnen en un desplegable explícitamente
+opcional. Conservar todos los pasos, motivos, copia revisada y definiciones del servicio,
+sin duplicar acciones. Los detalles de etapas, tecnología/mapa y lectura se pliegan aparte.
+Buscar/recetas/IA se alcanzan desde «Herramientas opcionales», cerrado al abrir preparación;
+una ruta directa a una herramienta lo abre. Los cuatro destinos internos, hash cerrado,
+teclado y región exclusiva permanecen; cerrar el selector estando en una herramienta vuelve
+a preparación con foco en su summary. Volver por teclado también conserva un destino visible.
+
+Migrar los probes para sumar los pasos locales y opcionales: comparar todos los títulos,
+motivos, controles y copias, no omitir los ocultos como si se hubieran comprobado. Ensayar
+los desplegables abiertos y cerrados, los negativos originales, cuatro anchos y ambos
+movimientos. Resumen de elecciones sin marcador falso de preparación y contenido de la
+persona como texto. No prometer que la IA leyó o mejoró sus respuestas.
+
+Riesgos: foco al plegar la navegación, controles duplicados al abrir la guía, tareas locales
+pendientes escondidas o qualifiers de veredicto recortados. Añadir regresiones y preservar
+la comprobación auténtica. Costos/dependencias: ninguno. Rollback: revertir renderer/probes;
+no cambian proyectos o formatos. Se implementa en #148 y se integra hacia #149/#150 en orden.
