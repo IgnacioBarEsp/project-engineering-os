@@ -27,4 +27,4 @@
 - [x] 3.6 Verificar interacción y responsive de las dos tareas de Archivos e integrar hacia #150; ocho celdas con revisión/cancelación/copia exacta, sin duplicar las seis respuestas recibidas.
 - [ ] 3.7 Registrar nueva observación humana del control de exportación específicamente señalado y aceptación visual de las dos tareas; confirmar por separado el protocolo de la ronda final recibida.
 
-- [ ] 3.8 Verificar en #150 el nombre refinado y su descripción en la matriz responsive/ambos movimientos; mostrar la captura real sin atribuirle aceptación visual o lectura humana.
+- [x] 3.8 Verificar en #150 el nombre refinado y su descripción en la matriz responsive/ambos movimientos; mostrar la captura real sin atribuirle aceptación visual o lectura humana. El mantenedor rechazó su dirección; queda registrada antes de revisar la organización de #148.

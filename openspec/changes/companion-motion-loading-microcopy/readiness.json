@@ -31,7 +31,7 @@
       "id": "visual-check-when-configured",
       "status": "pending",
       "evidence": null,
-      "justification": "La segunda ronda cumple la copia breve. final-reading-round.json conserva las seis respuestas anteriores sin atribuirles confirmación nueva. export-reading-followup.json registra otra ronda válida y mixta del nombre anterior: un lector reconoce texto para pegar en la IA y otro búsqueda. No exigir unanimidad ni propósito como criterio adicional; el nombre refinado y la finalidad breve necesitan su propia observación y aceptación visual. La base aprobada permanece intacta.",
+      "justification": "La segunda ronda cumple la copia breve. Las seis respuestas anteriores y export-reading-followup.json permanecen con su alcance original; este último resultado es mixto, con un lector que reconoce el mínimo de texto para pegar en IA. No exigir unanimidad o propósito como criterio añadido. maintainer-project-management-feedback.json registra rechazo de la dirección de Archivos: espera gestión de proyectos preparados, no herramientas como entrada principal. Decisión de organización de #148 pendiente; no pedir más lectores para presentar el nombre refinado como solución aceptada. La base aprobada permanece intacta.",
       "profileCondition": null
     },
     {
