@@ -65,9 +65,9 @@
     },
     {
       "id": "visual-check-when-configured",
-      "status": "passed",
-      "evidence": "openspec/changes/companion-renderer-foundation/evidence/validation.md",
-      "justification": null,
+      "status": "pending",
+      "evidence": null,
+      "justification": "La inspección de Codex no equivale a aceptación visual del mantenedor de Inicio/Ayuda de esta capa. La evidencia citada la mantiene pendiente; la aprobación posterior de capturas de #149 conserva su propio alcance.",
       "profileCondition": null
     }
   ],
@@ -76,8 +76,8 @@
       "id": "adversarial-review",
       "kind": "manual",
       "status": "pending",
-      "ref": "openspec/changes/companion-renderer-foundation/evidence/adversarial-review.md",
-      "justification": null,
+      "ref": "docs/companion/reviews/WAVE3_CLOSEOUT_20260930.md",
+      "justification": "La revisión independiente confirmó dos P2 en49378d7. Las correcciones requieren reprueba; el informe no acredita el recorrido nativo ni la aprobación humana de esta capa.",
       "profileCondition": null
     },
     {
@@ -153,7 +153,7 @@
   },
   "adversarialReview": {
     "status": "pending",
-    "ref": "openspec/changes/companion-renderer-foundation/evidence/adversarial-review.md",
+    "ref": "docs/companion/reviews/WAVE3_CLOSEOUT_20260930.md",
     "blockers": 0,
     "majors": 0
   },
