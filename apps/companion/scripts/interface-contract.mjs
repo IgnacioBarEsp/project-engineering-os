@@ -460,8 +460,15 @@ export const REACH = interactive => {
     ?? [...view.querySelectorAll('.enter > .actions, form > .actions')].find(node => getComputedStyle(node).position === 'fixed')
     ?? null;
   const controls = [];
+  // Closed details can retain layout boxes in Chromium. They are not painted content.
+  const folded = node => {
+    for(let parent=node.parentElement;parent;parent=parent.parentElement){
+      if(parent.tagName==='DETAILS'&&!parent.open&&!parent.querySelector(':scope > summary')?.contains(node))return true;
+    }
+    return false;
+  };
   for (const node of view.querySelectorAll(interactive)) {
-    if (!node.getClientRects().length || getComputedStyle(node).visibility === 'hidden') continue;
+    if (folded(node) || !node.getClientRects().length || getComputedStyle(node).visibility === 'hidden') continue;
     node.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' });
     const box = [...node.getClientRects()].find(rect => rect.width > 0 && rect.height > 0);
     if (!box) { controls.push({ name: nameOf(node), element: describe(node), ok: false, hit: 'sin tamaño' }); continue; }
@@ -476,7 +483,7 @@ export const REACH = interactive => {
   let lastContent = null, lastContentBottom = -Infinity;
   for (const node of view.querySelectorAll('*')) {
     if (bar && (node === bar || bar.contains(node) || node.contains(bar))) continue;
-    if (!node.getClientRects().length) continue;
+    if (folded(node) || !node.getClientRects().length || getComputedStyle(node).visibility === 'hidden') continue;
     const box = node.getBoundingClientRect();
     if (box.height > 0 && box.bottom > lastContentBottom) { lastContentBottom = box.bottom; lastContent = node; }
   }
@@ -490,6 +497,9 @@ export const REACH = interactive => {
     enter: enter ? { animationName: getComputedStyle(enter).animationName,
       animations: enter.getAnimations().map(animation => animation.playState) } : null,
     controls,
+    decorative: [...view.querySelectorAll('span, div')].filter(node=>
+      !folded(node)&&node.getClientRects().length&&['primary','secondary','quiet','button','btn','prompt-chip','step-back'].some(name=>node.classList.contains(name)))
+      .map(describe),
     // What the bar holds has to fit inside it. The first version of the fix reused a class name the progress pills
     // already had, the bar came out 28 px wide, and its buttons spilled far below it.
     bar: bar ? { element: describe(bar), position: barStyle.position, top: barBox.top, bottom: barBox.bottom,
@@ -515,6 +525,7 @@ export function reachProblems(report, { primary = [], bar: expectBar = false } =
   if (!report) return ['la pantalla no se midió'];
   const problems = [], round = value => Math.round(value);
   if (!report.controls.length) problems.push('ningún control medido');
+  for(const node of report.decorative??[])problems.push(`control decorativo sin semántica de botón: ${node}`);
   for (const control of report.controls) {
     if (!control.ok) problems.push(`«${control.name}» no se puede pulsar: en su centro está ${control.hit}`);
   }

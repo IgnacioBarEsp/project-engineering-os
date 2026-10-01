@@ -8,6 +8,7 @@ import { execFileSync } from 'node:child_process';
 import {ASSETS, CSP} from '../desktop/assets.mjs';
 import {routeFor} from '../ui/lib/router.mjs';
 import {verifyProfileCompatibility} from './verify-profile-compatibility.mjs';
+import {verifyWizardIsolation} from './verify-wizard-isolation.mjs';
 import { zipSync, strToU8 } from 'fflate';
 import * as core from 'create-project-engineering-os';
 import { createDesktopService, publicError } from '../desktop/service.mjs';
@@ -126,11 +127,10 @@ const checkAccessibility=checkScreen;
 // 1180 × 820 window leaves 1164 × 755 CSS px, so at 200 % zoom 582 × 377, and the minimum 480 × 540 window leaves
 // 464 × 475. At 500 px of height and below the bar is static by design, and everything still has to be reachable.
 const WIZARD_VIEWPORTS=[[1180,820],[1160,810],[1040,700],[582,377],[464,475]],MOTIONS=['no-preference','reduce'];
-const INSTALL={quick:'Instalar stack base y obtener prompt →',ai:'Preparar carpeta y generar prompt maestro →'};
-const PRIMARY={setup:['Inicio','Elegir carpeta →'],'folder-empty':['Volver','Buscar carpeta en este equipo'],
-  folder:['Cambiar carpeta','Ver mi proyecto','Volver','Continuar a delimitación →','Revisar preparación →'],
-  delimitation:['Volver','Paso 3: Visión y Descripción →'],vision:['Volver','Paso 4: Instalación →'],
-  install:['Volver',...Object.values(INSTALL)],finished:['Copiar ruta','Copiar Prompt Maestro','Ver mi proyecto','Tus proyectos']};
+const INSTALL={quick:'Guardar la preparación revisada →',ai:'Guardar la preparación revisada →'};
+const PRIMARY={setup:['Inicio','Elegir carpeta','Continuar a Enfoque →'],
+  delimitation:['Volver','Continuar a Visión →'],vision:['Volver','Continuar a Preparar →'],
+  install:['Volver','Guardar la preparación revisada →'],finished:['Copiar ruta','Copiar instrucción','Ver mi proyecto','Tus proyectos']};
 const WIZARD_SCREENS=Object.keys(PRIMARY),WITH_BAR=new Set(WIZARD_SCREENS.filter(screen=>screen!=='finished'));
 const wizard={date:new Date().toISOString(),
   scope:'Renderer real y servicio real en el navegador; selector de carpeta, portapapeles y apertura externa inyectados. Asistente vigente en las tres ventanas del informe y en las dos ventanas pequeñas de la aplicación real (por defecto con zoom al 200 % y mínima), con movimiento normal y reducido y con las dos formas de instalar.',
@@ -179,7 +179,7 @@ async function walkWizard(width,height,motion,branch){
     for(const [action,value] of Object.entries(report.nav)){
       if(value!==String(action==='prepare-project'))problems.push(`${screen}: la navegación «${action}» declara aria-pressed="${value}"`);
     }
-    const route=routeFor(screen==='folder-empty'?'folder':screen);
+    const route=routeFor(screen);
     const routeView=await page.evaluate(()=>{
       const main=document.getElementById('content'),rail=document.querySelector('.wizard-rail'),steps=rail?.querySelector('.steps');
       const previous=main.scrollTop;main.scrollTop=main.scrollHeight;
@@ -215,7 +215,7 @@ async function walkWizard(width,height,motion,branch){
   try{
     await page.goto(url);await reached('Dale a tu IA un buen punto de partida.','inicio');
     await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
-    if(!await reached('Empecemos por lo que quieres lograr.','inicio'))return;
+    if(!await reached('¿Qué vas a preparar?','inicio'))return;
     await measure('setup');
     if(branch==='ai'){
       // Keyboard, on the longest screen: every stop Tab reaches has to stay at least partly visible, never wholly
@@ -235,73 +235,62 @@ async function walkWizard(width,height,motion,branch){
         if(stop)stops.push(stop);
       }
       screens.setup.keyboard={stops:stops.length,underBar:stops.filter(stop=>stop.underBar).map(stop=>stop.name),outside:stops.filter(stop=>stop.outside).map(stop=>stop.name),reachedSubmit:!!stops.at(-1)?.submit};
-      if(stops.length<10||!screens.setup.keyboard.reachedSubmit)problems.push(`setup: con Tab no se recorrió el formulario hasta «Elegir carpeta →» (${stops.length} paradas)`);
+      if(stops.length<10||!screens.setup.keyboard.reachedSubmit)problems.push(`setup: con Tab no se recorrió el formulario hasta «Continuar a Enfoque →» (${stops.length} paradas)`);
       for(const name of screens.setup.keyboard.underBar)problems.push(`setup: al tabular, «${name}» queda oculto bajo la barra`);
       for(const name of screens.setup.keyboard.outside)problems.push(`setup: al tabular, «${name}» recibe el foco fuera de la ventana`);
       await page.evaluate(()=>window.scrollTo(0,0));
     }
-    // A required field keeps the wizard where it is, by click and by Enter; valid answers advance by either.
+    // Required name, through click and Enter. Folder selection belongs to this same first step.
+    await press('Elegir carpeta','setup');await page.locator('.wizard-folder .path').waitFor();
     await page.getByLabel('Nombre de tu proyecto').fill('');
-    await page.getByLabel('¿Qué quieres lograr?').fill('Terminar el asistente con la animación activa');
-    await press('Elegir carpeta →','setup');
-    await page.getByLabel('¿Qué quieres lograr?').press('Enter');
-    const refused=await page.evaluate(()=>({screen:document.querySelector('#view h1')?.textContent,missing:document.getElementById('name')?.validity.valueMissing}));
-    if(refused.screen!=='Empecemos por lo que quieres lograr.'||!refused.missing)problems.push(`setup: un nombre vacío no detuvo el asistente ${JSON.stringify(refused)}`);
+    await press('Continuar a Enfoque →','setup');
+    await page.getByLabel('Nombre de tu proyecto').press('Enter');
+    const refused=await page.evaluate(()=>({screen:document.querySelector('#view h1')?.textContent,missing:document.getElementById('wizard-name')?.validity.valueMissing}));
+    if(refused.screen!=='¿Qué vas a preparar?'||!refused.missing)problems.push(`setup: un nombre vacío no detuvo el asistente ${JSON.stringify(refused)}`);
     await page.getByLabel('Nombre de tu proyecto').fill('Asistente con animación');
-    if(branch==='quick')await page.getByLabel('¿Qué quieres lograr?').press('Enter');else await press('Elegir carpeta →','setup');
-    if(!await reached('Tu trabajo empieza en una carpeta.','setup'))return;
+    if(branch==='quick')await page.getByLabel('Nombre de tu proyecto').press('Enter');else await press('Continuar a Enfoque →','setup');
+    if(!await reached('¿Qué tipo de trabajo harás?','setup'))return;
     if(branch==='quick'){
-      // Going back keeps what was answered.
       await settle(page);
-      if(!await press('Volver','folder-empty')||!await reached('Empecemos por lo que quieres lograr.','folder-empty'))return;
-      const kept={name:await page.getByLabel('Nombre de tu proyecto').inputValue(),goal:await page.getByLabel('¿Qué quieres lograr?').inputValue()};
-      if(kept.name!=='Asistente con animación'||kept.goal!=='Terminar el asistente con la animación activa')problems.push(`setup: al volver se perdieron las respuestas ${JSON.stringify(kept)}`);
-      await settle(page);
-      if(!await press('Elegir carpeta →','setup')||!await reached('Tu trabajo empieza en una carpeta.','setup'))return;
+      if(!await press('Volver','delimitation')||!await reached('¿Qué vas a preparar?','delimitation'))return;
+      if(await page.getByLabel('Nombre de tu proyecto').inputValue()!=='Asistente con animación')problems.push('setup: al volver se perdió el nombre');
+      if(!await press('Continuar a Enfoque →','setup')||!await reached('¿Qué tipo de trabajo harás?','setup'))return;
     }
-    await measure('folder-empty');
-    if(!await press('Buscar carpeta en este equipo','folder-empty'))return;
-    await page.locator('.folder-card .path').waitFor();
-    await measure('folder');
-    if(!await press('Continuar a delimitación →','folder')||!await reached('¿Cuál es el enfoque principal de tu proyecto?','folder'))return;
     await measure('delimitation');
-    // The last card is the one the bar covered in the maintainer's report.
-    const cards=page.locator('.delimitation-card'),last=cards.nth(await cards.count()-1),title=await last.locator('h3').innerText();
-    await last.click({timeout:5000}).catch(()=>problems.push(`delimitation: un clic normal no pudo elegir «${title}»`));
-    await settle(page);
-    if(await page.locator('.delimitation-card.selected h3').innerText().catch(()=>null)!==title)problems.push(`delimitation: «${title}» no quedó elegida`);
-    if(!await press('Paso 3: Visión y Descripción →','delimitation')||!await reached('Cuéntanos en tus palabras: ¿qué quieres lograr?','delimitation'))return;
+    const radios=page.locator('input[name="focus"]'),last=radios.nth(await radios.count()-1),focus=await last.getAttribute('value');
+    await last.check({timeout:5000}).catch(()=>problems.push(`delimitation: no se pudo elegir ${focus}`));await settle(page);
+    if(!await page.locator(`input[name="focus"][value="${focus}"]`).isChecked())problems.push('delimitation: no quedó elegido el enfoque');
+    if(!await press('Continuar a Visión →','delimitation')||!await reached('Cuéntalo en tus palabras','delimitation'))return;
     await measure('vision');
-    // A screen reader needs the editor's name from something other than its placeholder, which goes away as soon as
-    // the person types. The name is read from the accessibility tree with the placeholder removed for the moment.
-    const placeholder=await page.locator('#vision-input').getAttribute('placeholder');
-    await page.locator('#vision-input').evaluate(node=>node.removeAttribute('placeholder'));
-    const named=await page.getByRole('textbox',{name:'Tu visión del proyecto',exact:true}).count();
-    if(named!==1)problems.push('vision: el editor no tiene nombre accesible sin su placeholder');
-    // The same reading with the aria-label gone too has to find nothing, or it could not tell a named editor apart.
-    const label=await page.locator('#vision-input').getAttribute('aria-label');
-    await page.locator('#vision-input').evaluate(node=>node.removeAttribute('aria-label'));
-    const withoutLabel=await page.getByRole('textbox',{name:'Tu visión del proyecto',exact:true}).count();
-    await page.locator('#vision-input').evaluate((node,value)=>{if(value!==null)node.setAttribute('aria-label',value);},label);
-    if(withoutLabel!==0)problems.push('vision: la lectura del nombre no distingue un editor sin aria-label');
-    screens.vision.name={withoutPlaceholder:named,withoutPlaceholderOrLabel:withoutLabel};
-    await page.locator('#vision-input').evaluate((node,value)=>{if(value!==null)node.setAttribute('placeholder',value);},placeholder);
-    // The suggestions are the last content of this screen, and each one adds a paragraph. With the quick branch a
-    // line break is also typed by hand: both are ordinary ways to write a vision.
-    for(const chip of await page.locator('.prompt-chip strong').allInnerTexts()){
-      await page.locator('.prompt-chip').filter({hasText:chip}).click({timeout:5000}).catch(()=>problems.push(`vision: un clic normal no pudo pulsar la sugerencia «${chip}»`));
+    await press('Continuar a Preparar →','vision');await settle(page);
+    if(await page.locator('#view h1').innerText()!=='Cuéntalo en tus palabras')problems.push('vision: un objetivo vacío permitió avanzar');
+    await page.getByLabel('¿Qué quieres lograr?').fill('Terminar el asistente con la animación activa');
+    // A real label, not the disappearing placeholder. Removing both is the negative control.
+    const area=page.locator('#vision-free'),placeholder=await area.getAttribute('placeholder');
+    await area.evaluate(node=>node.removeAttribute('placeholder'));
+    const named=await page.getByRole('textbox',{name:'Descripción libre (opcional)',exact:true}).count();
+    await page.locator('label[for="vision-free"]').evaluate(node=>node.removeAttribute('for'));
+    const unnamed=await page.getByRole('textbox',{name:'Descripción libre (opcional)',exact:true}).count();
+    await page.locator('.field label').filter({hasText:'Descripción libre (opcional)'}).evaluate(node=>node.setAttribute('for','vision-free'));
+    await area.evaluate((node,value)=>{if(value!==null)node.setAttribute('placeholder',value);},placeholder);
+    screens.vision.name={withoutPlaceholder:named,withoutPlaceholderOrLabel:unnamed};
+    if(named!==1||unnamed!==0)problems.push('vision: la lectura del nombre no distingue un editor sin etiqueta');
+    for(const label of ['Pregunta sobre audiencia','Pregunta sobre materiales','Pregunta sobre límites'])await press(label,'vision');
+    if(branch==='quick'){await area.press('End');await page.keyboard.press('Enter');await page.keyboard.type('Una línea escrita a mano.');}
+    const draft=await area.inputValue();
+    for(const question of ['¿Para quién es este proyecto?','¿Qué materiales o avances existen ya?','¿Qué no entra en este primer resultado?']){
+      if(!draft.includes(question))problems.push(`vision: falta la pregunta ${question}`);
     }
-    if(branch==='quick'){await page.locator('#vision-input').press('End');await page.keyboard.press('Enter');await page.keyboard.type('Una línea escrita a mano.');}
-    const draft=await page.locator('#vision-input').inputValue();
-    for(const added of ['### Público Objetivo','### Problema Principal a Resolver','### Alcance del Primer Incremento']){
-      if(!draft.includes(added))problems.push(`vision: la sugerencia «${added}» no llegó al borrador`);
-    }
-    if(!await press('Paso 4: Instalación →','vision')||!await reached('Tu espacio está listo. ¿Cómo prefieres equiparlo?','vision'))return;
+    await press('Ver PROJECT_VISION.md antes de guardar','vision');await settle(page);
+    const preview=await page.locator('.wizard-preview').textContent();
+    if(!await press('Continuar a Preparar →','vision')||!await reached('Cómo quieres continuar','vision'))return;
+    await page.locator(`input[name="install-mode"][value="${branch}"]`).check();await settle(page);
     await measure('install');
-    if(!await press(INSTALL[branch],'install')||!await reached('¡Tu proyecto está listo para cobrar vida!','install'))return;
+    if(!await press(INSTALL[branch],'install')||!await reached('Preparación base guardada','install'))return;
     await measure('finished');
     // The vision keeps its paragraphs in the folder, and the objective the preparation recorded is one line.
     const written=await readFile(path.join(root,'PROJECT_VISION.md'),'utf8').catch(()=>'');
+    if(written!==preview)problems.push('finished: la vista previa no coincide byte a byte con PROJECT_VISION.md');
     for(const line of draft.split('\n').filter(line=>line.trim())){
       if(!written.includes(line.trim()))problems.push(`finished: PROJECT_VISION.md no conserva «${line.trim().slice(0,60)}»`);
     }
@@ -309,8 +298,8 @@ async function walkWizard(width,height,motion,branch){
     if(!recorded||/[\r\n]/.test(recorded)||recorded.length>500)problems.push(`finished: el objetivo registrado no es una línea de hasta 500 caracteres ${JSON.stringify(recorded.slice(0,80))}`);
     // Both copy controls, through the service and never through the page's own clipboard, with the exact text the
     // screen shows, and a confirmation in the status region only after the copy succeeded.
-    const shown={'Copiar ruta':await page.locator('.finished-path-bar code').evaluate(node=>node.textContent),
-      'Copiar Prompt Maestro':await page.locator('.prompt-box pre').evaluate(node=>node.textContent)};
+    const shown={'Copiar ruta':await page.locator('#view .path').evaluate(node=>node.textContent),
+      'Copiar instrucción':await page.locator('#view pre.prompt').evaluate(node=>node.textContent)};
     for(const [control,expected] of Object.entries(shown)){
       const before=copied.length;
       // With the ai branch the copy is made from the keyboard, and where focus is afterwards is recorded: the
@@ -327,7 +316,7 @@ async function walkWizard(width,height,motion,branch){
     }
     // The quick prompt says what happened: the folder was prepared and nothing was installed. 0.3.1 told the AI
     // that the base dependencies were already provisioned.
-    if(branch==='quick'&&(/aprovisionad/i.test(shown['Copiar Prompt Maestro'])||!shown['Copiar Prompt Maestro'].includes('no instaló ninguna dependencia'))){
+    if(branch==='quick'&&(/aprovisionad/i.test(shown['Copiar instrucción'])||!shown['Copiar instrucción'].includes('no ha leído todos los archivos'))){
       problems.push('finished: el prompt de instalación rápida afirma dependencias que no se instalaron');
     }
     await page.locator('#nav [data-action="open-start"]').click();await reached('Dale a tu IA un buen punto de partida.','finished');
@@ -361,17 +350,17 @@ async function walkVisionWithoutText(tag,drafts){
   try{
     await page.goto(url);
     await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
-    await page.getByLabel('Nombre de tu proyecto').fill('Visión sin texto');await page.getByLabel('¿Qué quieres lograr?').fill(goal);
-    await go('Elegir carpeta →','Tu trabajo empieza en una carpeta.');
-    await page.getByRole('button',{name:'Buscar carpeta en este equipo',exact:true}).click();await page.locator('.folder-card .path').waitFor();
-    await go('Continuar a delimitación →','¿Cuál es el enfoque principal de tu proyecto?');
-    await go('Paso 3: Visión y Descripción →','Cuéntanos en tus palabras: ¿qué quieres lograr?');
+    await page.getByLabel('Nombre de tu proyecto').fill('Visión sin texto');
+    await page.getByRole('button',{name:'Elegir carpeta',exact:true}).click();await page.locator('.wizard-folder .path').waitFor();
+    await go('Continuar a Enfoque →','¿Qué tipo de trabajo harás?');
+    await go('Continuar a Visión →','Cuéntalo en tus palabras');
+    await page.getByLabel('¿Qué quieres lograr?').fill(goal);
     for(const [index,draft] of drafts.entries()){
-      await page.locator('#vision-input').fill(draft);
-      await go('Paso 4: Instalación →','Tu espacio está listo. ¿Cómo prefieres equiparlo?');
-      if(index<drafts.length-1)await go('Volver','Cuéntanos en tus palabras: ¿qué quieres lograr?');
+      await page.locator('#vision-free').fill(draft);
+      await go('Continuar a Preparar →','Cómo quieres continuar');
+      if(index<drafts.length-1)await go('Volver','Cuéntalo en tus palabras');
     }
-    await go(INSTALL.ai,'¡Tu proyecto está listo para cobrar vida!');
+    await go(INSTALL.ai,'Preparación base guardada');
     const recorded=(await service.listProjects())[0]?.selection?.goal;
     if(recorded!==goal)problems.push(`el objetivo registrado es ${JSON.stringify(recorded)} y no el del primer paso`);
     const written=await readFile(path.join(root,'PROJECT_VISION.md'),'utf8').catch(()=>'');
@@ -444,23 +433,25 @@ try {
     if(profile==='research')await capture(page,'home-desktop');
     await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
     const name=profile==='general'?'Estudio'.repeat(14):profile==='research'?'<img src=x onerror=alert(1)>':'Proyecto '+profile;
-    await page.getByLabel('Nombre de tu proyecto').fill(name);await page.getByLabel('¿Qué quieres lograr?').fill('Comparar evidencia sobre tokens medidos');
+    await page.getByLabel('Nombre de tu proyecto').fill(name);
+    await click(page,'Elegir carpeta');await page.locator('.wizard-folder .path').waitFor();
     await page.locator(`input[name="profile"][value="${selectedProfile}"]`).check();
-    assert(await page.locator('input[name="agent"][value="web"]').isChecked(),'Default AI should be reflected in the form');
-    // The technology answer, and for a software project the first of the three, so the screen that shows what
-    // would be installed is visited by a journey instead of only by a unit test. Nothing is installed here: the
-    // journey reads the identity, the licence, the sizes and the destination and then declines.
-    assert(await page.locator('input[name="stack-decision"][value="too-early"]').isChecked(),'The third answer is the one a form with no choice records');
-    if(profile==='software'){await page.locator('input[name="stack-decision"][value="chosen"]').check();
-      await page.locator('input[name="stack"][value="typed-code"]').check();}
-    await noOverflow(page,profile+' setup');
-    await checkScreen(page,`${profile} asistente`);
-    await click(page,'Elegir carpeta →');await click(page,'Buscar carpeta en este equipo');
-    await click(page,'Continuar a delimitación →');
-    const focusName=profile==='unity'?'Videojuego':profile==='media'?'Contenido creativo':null;
-    if(focusName)await page.locator('.delimitation-card').filter({hasText:focusName}).click();
-    await click(page,'Volver');
-    await click(page,'Revisar preparación →');await click(page,'Guardar esta preparación →');
+    await noOverflow(page,profile+' setup');await checkScreen(page,`${profile} asistente`);
+    await click(page,'Continuar a Enfoque →');
+    if(engineeringProfile){
+      assert(await page.locator('input[name="stack-decision"][value="too-early"]').isChecked());
+      if(profile==='unity')await page.locator('input[name="focus"][value="game"]').check();
+      if(profile==='software'){await page.locator('input[name="stack-decision"][value="chosen"]').check();
+        await page.locator('input[name="stack"][value="typed-code"]').check();}
+    }else assert.equal(await page.locator('input[name="stack-decision"]').count(),0);
+    await click(page,'Continuar a Visión →');
+    await page.getByLabel('¿Qué quieres lograr?').fill('Comparar evidencia sobre tokens medidos');
+    await click(page,'Continuar a Preparar →');
+    assert(await page.locator('input[name="agent"][value="web"]').isChecked());
+    await click(page,INSTALL.ai);await heading(page,'Preparación base guardada');
+    await click(page,'Ver mi proyecto');await heading(page,name);
+    // The old review route is now project maintenance, not a second onboarding path.
+    if(profile==='software')await page.locator('[data-action="review-stack"]').click();
     if(profile==='software'){
       await heading(page,'Esto es lo que pediste instalar.');
       const shown=await page.locator('#view').innerText();
@@ -477,10 +468,12 @@ try {
       await click(page,'Volver');
     }
     if(engineeringProfile){
+      await page.locator('[data-action="review-development"]').click();
       if(manager){await heading(page,'Tus herramientas, listas en este equipo.');await click(page,'Preparar herramientas y continuar →');}
       await heading(page,'Un proceso claro para desarrollar.');await click(page,'Guardar estas instrucciones →');
       if(manager){await heading(page,'Un método de trabajo para tu IA.');await click(page,'Activar y continuar →');}
     }
+    if(!engineeringProfile)await click(page,'Leer mis archivos');
     await heading(page,'Tus archivos, leídos y ubicables.');
     await page.getByText('Dejar materiales fuera',{exact:true}).click();await page.getByLabel('Una ruta relativa por línea').fill('private-notes.txt');await click(page,'Revisar con estas exclusiones');
     await click(page,'Guardar y continuar →');
@@ -596,14 +589,14 @@ try {
       await page.locator('article.project details.more > summary').first().click();
       await page.locator('[data-row-action="duplicate-project"]').first().click();
       await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')!=='true');
-      await heading(page,'Tu trabajo empieza en una carpeta.');
+      await heading(page,'¿Qué vas a preparar?');
       await checkScreen(page,'general duplicar carpeta');
-      assert.equal(await page.locator('.folder-card h2').innerText(),path.basename(copyRoot));
+      assert.equal(await page.locator('.wizard-folder .path').innerText(),copyRoot);
       await assert.rejects(readFile(path.join(copyRoot,'.project-os/companion/receipt.json')),{code:'ENOENT'},
         'Duplicating writes nothing into the new folder before the plan is approved');
-      await click(page,'Volver');await heading(page,'Empecemos por lo que quieres lograr.');
       assert.equal(await page.getByLabel('Nombre de tu proyecto').inputValue(),name,
-        'Duplicating arrives with the original answers already filled in and editable');
+        'Duplicating reuses the editable answers');
+      await click(page,'Continuar a Enfoque →');await click(page,'Continuar a Visión →');
       assert.equal(await page.getByLabel('¿Qué quieres lograr?').inputValue(),'Comparar evidencia sobre tokens medidos');
       pickFolder=root;
       evidence.checks.push('general: duplicating reuses the answers, writes nothing into the new folder before the plan is approved, and copies none of the original preparation PASS');
@@ -656,3 +649,4 @@ try {
 }catch(error){if(browser){const pages=browser.contexts().flatMap(c=>c.pages());if(pages.length){await capture(pages.at(-1),'failure');console.error((await pages.at(-1).locator('body').innerText()).slice(-6000));}}throw error;}
 finally{await browser?.close();await new Promise(r=>server.close(r));assert(path.dirname(temp)===await realpath(tmpdir())&&path.basename(temp).startsWith('peos-desktop-ui-'));await rm(temp,{recursive:true,force:true});}
 await verifyProfileCompatibility(path.join(output,'profile-compatibility'));
+await verifyWizardIsolation(path.join(output,'wizard-isolation'));

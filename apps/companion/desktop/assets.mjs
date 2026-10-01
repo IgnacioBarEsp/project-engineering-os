@@ -15,13 +15,13 @@ export const ASSETS = Object.freeze(new Map([
   ['/lib/dom.mjs', 'text/javascript; charset=utf-8'],
   ['/lib/router.mjs', 'text/javascript; charset=utf-8'],
   ['/lib/state.mjs', 'text/javascript; charset=utf-8'],
+  ['/lib/wizard-model.mjs', 'text/javascript; charset=utf-8'],
   ['/components/actions-bar.mjs', 'text/javascript; charset=utf-8'],
   ['/components/step-rail.mjs', 'text/javascript; charset=utf-8'],
   ['/screens/home.mjs', 'text/javascript; charset=utf-8'],
-  ['/screens/setup.mjs', 'text/javascript; charset=utf-8'],
-  ['/screens/flow.mjs', 'text/javascript; charset=utf-8'],
   ['/screens/reviews.mjs', 'text/javascript; charset=utf-8'],
   ['/screens/workspace.mjs', 'text/javascript; charset=utf-8'],
+  ['/screens/wizard.mjs', 'text/javascript; charset=utf-8'],
 ]));
 
 export const CSP = "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'";

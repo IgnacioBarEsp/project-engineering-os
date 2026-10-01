@@ -17,7 +17,7 @@ protocol.registerSchemesAsPrivileged([{scheme:'peos',privileges:{standard:true,s
 app.setName('Project Engineering OS');
 if (!app.requestSingleInstanceLock()) app.quit();
 else void app.whenReady().then(async () => {
-  let window;
+  let window,closePending=false;
   app.on('second-instance',()=>{if(window){if(window.isMinimized())window.restore();window.show();window.focus();}});
   const ses=session.fromPartition('companion-local');
   ses.setPermissionRequestHandler((_contents,_permission,callback)=>callback(false));
@@ -58,9 +58,18 @@ else void app.whenReady().then(async () => {
     }catch(error){return {ok:false,error:publicError(error)};}
   });
   window.once('ready-to-show',()=>window.show());
-  window.on('close',event=>{if(window.__closing)return;event.preventDefault();void (async()=>{
-    const job=await service.job();if(job){await dialog.showMessageBox(window,{type:'info',message:'Hay una preparación en curso.',detail:'Usa Detener en la app y espera a que termine antes de cerrar.',buttons:['Volver al proyecto']});return;}
-    window.__closing=true;window.close();})();});
+  window.on('close',event=>{if(window.__closing)return;event.preventDefault();if(closePending)return;closePending=true;void (async()=>{
+    try{
+      const job=await service.job();if(job){await dialog.showMessageBox(window,{type:'info',message:'Hay una preparación en curso.',detail:'Usa Detener en la app y espera a que termine antes de cerrar.',buttons:['Volver al proyecto']});return;}
+      // No user text becomes code. Only the shipping main-frame hook is called; it has no new privilege.
+      if(window.webContents.getURL()===APP_URL){
+        const saved=await window.webContents.executeJavaScript("typeof globalThis.companionBeforeClose !== 'function' || globalThis.companionBeforeClose()");
+        if(saved!==true)return;
+      }
+      window.__closing=true;window.close();
+    }catch{await dialog.showMessageBox(window,{type:'error',message:'No se pudo guardar el borrador antes de cerrar.',detail:'La ventana sigue abierta. Conserva tus respuestas y vuelve a intentarlo.',buttons:['Volver al proyecto']});}
+    finally{closePending=false;}
+  })();});
   await window.loadURL(APP_URL);
   app.on('window-all-closed',()=>app.quit());
 }).catch(error=>{

@@ -1,0 +1,12 @@
+# Revisión adversarial propia — #146
+
+Autor: el mismo agente que implementó. Guía usada: engineering:code-review. Esta revisión no es independiente ni humana.
+
+1. **Pérdida del último evento al cerrar.** El debounce podía guardar después del cierre de la ventana. Corregido: el proceso principal espera una función fija del renderer local; el test en Electron real cierra inmediatamente, reabre y compara respuestas. Ante JSON dañado mantiene ventana, texto y bytes originales. Una terminación forzada del sistema no permite prometer el último evento aún no entregado.
+2. **Borrador usado como ruta arbitraria.** El IPC acepta un handle previamente elegido, nunca una raíz del renderer. El registro durable tiene shape cerrado, 16 KiB y prerrequisitos por paso; se rechazan ids desconocidos, enfoque/tecnología incompatible, campos extra, saltos de línea en identidad y tamaños excesivos. Reabrir valida carpeta canónica sin vínculos. Un archivo corrupto se conserva o se renombra de forma explícita dentro de app data.
+3. **Visión distinta de su preview.** La vía elegida alteraba la modalidad después del preview y la descripción libre podía ocultar el objetivo. Corregido: el objetivo siempre se conserva, la visión no depende de la vía y se retiran directrices declarativas heredadas. Tests comparan el contenido exacto escrito.
+4. **Confirmaciones falsas.** La copia rechazada no anuncia éxito ni conserva la etiqueta anterior; la última IA no puede quedar visualmente desmarcada mientras el estado aún la conserva. Mutaciones y caso negativo cubren esos comportamientos.
+5. **Aprobación o final inventados.** Solo applyBase escribe tras el plan revisado; Listo dice base guardada y enumera pendientes. No acredita herramientas, contexto o agente. Las etapas reales pertenecen a #147.
+6. **Cobertura aparente.** Se migraron las rutas de los harnesses sin eliminar controles de accesibilidad, vocabulario, lista, recuperación, citas o portapapeles. El caso nuevo de span con estilo de botón debe fallar. El probe distingue contenido plegado de contenido pintado. La comprobación de exportación de raíz debe ejecutarse con árbol estable: editar durante su comparación produjo divergencia, no un pase.
+
+No quedaron Blockers o Majors observados en esta revisión propia. Siguen pendientes revisión independiente, recorrido del mantenedor y lectura en frío por una persona ajena; se registran como gates abiertos y no como deuda resuelta ni aprobación.

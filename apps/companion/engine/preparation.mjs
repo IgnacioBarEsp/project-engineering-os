@@ -70,24 +70,18 @@ export function renderProjectVision(selection) {
   const safeName = (selection?.name ?? 'Mi proyecto').replace(/[\\`*_{}[\]<>#]/g, '\\$&');
   const profile = profileLabel(selection);
   const subtype = focusLabel(selection);
-  const mode = selection?.installMode === 'quick' ? 'Instalación Rápida' : 'Guiado por IA';
   const goal = selection?.goal ?? 'Objetivo inicial en definición.';
   const vision = selection?.vision ?? goal;
 
   return `# Visión del Proyecto: ${safeName}
 
-## 1. Declaración de Intención
-${vision}
+## 1. Qué quieres lograr
+${goal}
+${vision!==goal?`\n## 2. Descripción\n${vision}\n`:''}
 
-## 2. Perfil y Delimitación
+## Perfil y Delimitación
 - **Perfil**: ${profile}
 - **Subtipo**: ${subtype}
-- **Modalidad de Configuración**: ${mode}
-
-## 3. Directrices de Ejecución para IA
-- **Preservación de fuentes**: Conserva intactos todos los archivos originales (PDFs, notas, binarios). Cualquier conversión o extracto a Markdown (.md) debe realizarse junto al archivo original sin eliminarlo ni alterarlo.
-- **Enfoque modular**: Diseña y construye en incrementos comprobables con especificaciones claras.
-- **Verificación continua**: Al concluir cualquier cambio, ejecuta las pruebas pertinentes para confirmar funcionamiento al 100%.
 `;
 }
 

@@ -1,9 +1,9 @@
 import { randomUUID } from 'node:crypto';
-import { mkdir } from 'node:fs/promises';
+import { lstat, mkdir, rename } from 'node:fs/promises';
 import path from 'node:path';
-import { canonicalFolder, hash, snapshot, writeChecked, withLock, fail, json } from '../engine/files.mjs';
+import { assertPath, canonicalFolder, hash, snapshot, writeChecked, withLock, fail, json } from '../engine/files.mjs';
 import { glossaryIdsIn } from '../ui/glossary.mjs';
-import { createPreparationEngine, normalizeSelection, AGENT_IDS, WEB_AGENT } from '../engine/preparation.mjs';
+import { createPreparationEngine, normalizeSelection, renderProjectVision, AGENT_IDS, WEB_AGENT } from '../engine/preparation.mjs';
 import {PROFILES, PROFILE_IDS, LEGACY_PROFILE_MAP, READABLE_PROFILE_IDS, requiredStages, isEngineering, profileLabel, focusLabel, resolveProfile, offeredStacks} from '../engine/profiles.mjs';
 import { createContextEngine } from '../context/engine.mjs';
 import { createConstructorAdapter } from '../engine/constructor-adapter.mjs';
@@ -15,6 +15,7 @@ import { createActivationEngine } from '../runtime/activation.mjs';
 import { createCodeGraphEngine } from '../runtime/codegraph.mjs';
 import { createStackStore } from '../runtime/stack.mjs';
 import { NOT_OFFERED, STACKS, STACK_IDS } from '../runtime/stack-catalog.mjs';
+import {DRAFT_MAX_BYTES, validateDraft} from './draft.mjs';
 
 const UUID = /^[a-f0-9-]{36}$/;
 // A read of a remembered folder can hang for as long as the operating system is willing to wait for a
@@ -492,6 +493,49 @@ export async function createDesktopService({ dataRoot, core, environment = null,
       const prior=items.find(i=>i.root===root), p=prior??{id:randomUUID(),root,name:path.basename(root)};
       projects.set(p.id,p);return {id:p.id,root,name:p.name,inspection:await base.inspect(root)};
     });},
+    async draftLoad(input={}) {exact(input,[]);noJob();
+      let saved;try{saved=await snapshot(historyRoot,'draft.json',DRAFT_MAX_BYTES);}catch{
+        fail('DRAFT_INVALID','No se pudo leer el borrador.','Conserva el borrador y empieza de nuevo; tu carpeta no cambió.');}
+      if(!saved.content)return null;
+      let value;try{value=validateDraft(JSON.parse(saved.content),{stored:true});}catch{
+        fail('DRAFT_INVALID','El borrador no tiene un formato reconocido.','Conserva el borrador y empieza de nuevo; tu carpeta no cambió.');}
+      let folder=null;
+      if(value.folder){
+        let root;try{root=await canonicalFolder(value.folder.root);}catch{
+          fail('DRAFT_FOLDER_UNAVAILABLE','La carpeta del borrador ya no se puede abrir.','Vuelve a elegir la carpeta antes de preparar; el borrador se conserva.');}
+        if(root!==value.folder.root)fail('DRAFT_FOLDER_UNAVAILABLE','La carpeta del borrador cambió de ubicación.','Vuelve a elegir la carpeta antes de preparar; el borrador se conserva.');
+        const {items}=await history(),prior=items.find(item=>item.root===root);
+        const p=prior??{id:randomUUID(),root,name:path.basename(root)};
+        projects.set(p.id,p);folder={id:p.id,root,name:p.name,inspection:await base.inspect(root)};
+      }
+      return {step:value.step,selection:value.selection,project:folder};
+    },
+    async draftSave(input) {exact(input,['draft']);noJob();const value=validateDraft(input.draft);
+      const folder=value.projectId===null?null:{root:(await project(value.projectId)).root};
+      const record={version:1,step:value.step,selection:value.selection,folder};
+      validateDraft(record,{stored:true});
+      await withLock(historyRoot,async()=>{const before=await snapshot(historyRoot,'draft.json',DRAFT_MAX_BYTES);
+        if(before.content)try{validateDraft(JSON.parse(before.content),{stored:true});}catch{
+          fail('DRAFT_INVALID','El borrador guardado está dañado.','Consérvalo y resuélvelo antes de guardar otro; tu carpeta no cambió.');}
+        await writeChecked(historyRoot,'draft.json',json(record),before.hash,DRAFT_MAX_BYTES);});
+      return {saved:true};
+    },
+    async draftClear(input={}) {exact(input,['preserveInvalid']);if(input.preserveInvalid!==undefined&&typeof input.preserveInvalid!=='boolean')fail('DRAFT_INVALID','La opción de conservar el borrador debe ser booleana.');noJob();return withLock(historyRoot,async()=>{
+      let before,invalid=false;
+      try{before=await snapshot(historyRoot,'draft.json',DRAFT_MAX_BYTES);
+        if(before.content)validateDraft(JSON.parse(before.content),{stored:true});}
+      catch{invalid=true;}
+      if(invalid||input.preserveInvalid===true){
+        if(!input.preserveInvalid)fail('DRAFT_INVALID','El borrador guardado está dañado.','Conserva su archivo y empieza de nuevo desde Inicio.');
+        const source=await assertPath(historyRoot,'draft.json');
+        let stat;try{stat=await lstat(source);}catch(error){if(error.code==='ENOENT')return {cleared:true,preservedAs:null};throw error;}
+        if(!stat.isFile())fail('DRAFT_INVALID','El borrador no es un archivo regular.','Conserva este estado y revisa la instalación.');
+        const backupName=`draft-preserved-${randomUUID()}.json`,backup=await assertPath(historyRoot,backupName);
+        await rename(source,backup);return {cleared:true,preservedAs:backupName};
+      }
+      await writeChecked(historyRoot,'draft.json',null,before.hash,DRAFT_MAX_BYTES);return {cleared:true,preservedAs:null};
+    });},
+    async previewVision(input) {exact(input,['selection']);noJob();return {text:renderProjectVision(selection(input.selection))};},
     async openProject(input) {exact(input,['id']);noJob();const {items}=await history(),p=items.find(i=>i.id===input.id);if(!p)fail('PROJECT_UNKNOWN','El proyecto ya no está en el historial.');
       projects.set(p.id,p);return operation('Comprobar proyecto',async controls=>status(await project(p.id),controls));},
     async forgetProject(input) {exact(input,['id']);noJob();await withLock(historyRoot,async()=>{const {state,items}=await history();if(!items.some(i=>i.id===input.id))fail('PROJECT_UNKNOWN','El proyecto no está en el historial.');await writeChecked(historyRoot,'projects.json',json({version:1,items:items.filter(i=>i.id!==input.id)}),state.hash,256*1024);

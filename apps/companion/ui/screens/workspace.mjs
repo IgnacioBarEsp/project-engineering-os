@@ -1,6 +1,6 @@
 import { $, profiles, canonicalProfile, isEngineeringProfile, agents, onDate, state, el, p, btn, doBtn, own, ownHeading, actions, panel, term, field, input, select, steps, notice, error, call, run, render, openDialog, closeDialog} from '../lib/core.mjs';
-import {showProjects, stackPanel} from '../lib/bridge.mjs';
-async function openProject(id){state.status=await call('openProject',{id});state.project=state.status.project;
+import {showProjects, stackPanel, suspendWizard} from '../lib/bridge.mjs';
+async function openProject(id){await suspendWizard();state.status=await call('openProject',{id});state.project=state.status.project;
   // Resolve this project's answers only. Merging global answers leaks another project's focus.
   const saved=structuredClone(state.project.selection??{});
   state.selection={...saved,...canonicalProfile(saved)};state.tab='overview';await showWorkspace(false);}
