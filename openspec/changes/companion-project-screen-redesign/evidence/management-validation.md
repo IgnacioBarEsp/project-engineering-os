@@ -32,8 +32,13 @@ Pase observado en el árbol de #148:
 - Raíz npm run check: 391/391, exit 0, en df517b3; no se renombra ese resultado como ejecución
   del commit final. Bin/src/blueprint/schema/README/docs de core no cambiaron en este delta;
   la CI protegida repetirá la validación final.
-- Recorrido completo de UI reorganizada: ejecución final todavía en curso; no acreditar el
-  JSON intermedio antes de terminar compatibilidad y aislamiento del wizard.
+- Recorrido completo de UI reorganizada v3: proceso terminado con exit 0, incluidos los
+  suplementos de rutas, compatibilidad de perfiles y aislamiento del wizard. 28 recorridos,
+  168 pantallas del wizard, 1876/1876 controles alcanzables y 56/56 copias exactas; 57 pantallas
+  de las siete variantes, 1550 definiciones sin desajustes y cero hallazgos. Renderer/servicio
+  reales en navegador con superficies nativas/proveedor inyectados; no es instalación.
+  Producto y scripts del recorrido/contrato permanecen idénticos a a39a95e; los commits
+  posteriores solo añaden el ensayo de gestión y documentación.
 
 Artefactos locales: peos-management-contract-v2, peos-project-management-final-v5,
 peos-management-electron-v1 y peos-management-ui-v3. Captura mostrada y respuesta humana
