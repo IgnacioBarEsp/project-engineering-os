@@ -12,21 +12,118 @@ export function packageNameFromKey(key) {
 // An optional dependency for another platform is present in the lockfile and absent from a Windows
 // artifact. Listing it would overstate what a person actually receives.
 export function installedOnWindows(entry) {
-  const platforms = entry.os, architectures = entry.cpu;
-  if (Array.isArray(platforms) && !platforms.includes('win32') && !platforms.includes('!win32')) return false;
-  if (Array.isArray(architectures) && !architectures.includes('x64') && !architectures.includes('!x64')) return false;
-  return true;
+  const allows = (constraints, target) => {
+    if (!Array.isArray(constraints)) return true;
+    if (constraints.includes(`!${target}`)) return false;
+    const positives = constraints.filter((value) => (
+      typeof value === 'string' && !value.startsWith('!')
+    ));
+    return positives.length === 0 || positives.includes(target);
+  };
+  return allows(entry.os, 'win32') && allows(entry.cpu, 'x64');
 }
 
-export function productionPackages(lockfile) {
-  const rows = new Map();
-  for (const [key, value] of Object.entries(lockfile.packages)) {
-    if (!key.startsWith('node_modules/') || value.dev || !value.version) continue;
-    if (!installedOnWindows(value)) continue;
-    const name = packageNameFromKey(key);
-    rows.set(`${name}@${value.version}`, { name, version: value.version, license: value.license ?? null });
+function dependencyMap(record, field) {
+  const value = record?.[field];
+  if (value === undefined) return {};
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+    throw new Error(`invalid ${field} map`);
   }
-  return [...rows.values()].sort((a, b) => a.name.localeCompare(b.name) || a.version.localeCompare(b.version));
+  return value;
+}
+
+function peerDependencyMeta(record) {
+  const value = record?.peerDependenciesMeta;
+  if (value === undefined) return {};
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+    throw new Error('invalid peerDependenciesMeta map');
+  }
+  for (const [name, metadata] of Object.entries(value)) {
+    if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)
+      || (Object.hasOwn(metadata, 'optional') && typeof metadata.optional !== 'boolean')) {
+      throw new Error(`invalid peerDependenciesMeta entry: ${name}`);
+    }
+  }
+  return value;
+}
+
+export function isOptionalPeer(record, name) {
+  return peerDependencyMeta(record)[name]?.optional === true;
+}
+
+function resolvePackageKey(packages, parentKey, dependencyName) {
+  let ancestor = parentKey;
+  while (ancestor) {
+    const candidate = `${ancestor}/node_modules/${dependencyName}`;
+    if (Object.hasOwn(packages, candidate)) return candidate;
+    const marker = ancestor.lastIndexOf('/node_modules/');
+    if (marker < 0) break;
+    ancestor = ancestor.slice(0, marker);
+  }
+  const rootCandidate = `node_modules/${dependencyName}`;
+  return Object.hasOwn(packages, rootCandidate) ? rootCandidate : null;
+}
+
+export function productionPackages(lockfile, { windowsOnly = true } = {}) {
+  const lockPackages = lockfile?.packages;
+  if (!lockPackages || typeof lockPackages !== 'object' || Array.isArray(lockPackages)) {
+    throw new Error('invalid package lock inventory');
+  }
+  const rootPackage = lockPackages[''];
+  if (!rootPackage || typeof rootPackage !== 'object' || Array.isArray(rootPackage)) {
+    throw new Error('package lock root entry missing or invalid');
+  }
+  peerDependencyMeta(rootPackage);
+  const pending = [];
+  for (const field of ['dependencies', 'optionalDependencies', 'peerDependencies']) {
+    for (const name of Object.keys(dependencyMap(rootPackage, field))) {
+      pending.push({
+        parentKey: '',
+        name,
+        optional: field === 'optionalDependencies'
+          || (field === 'peerDependencies' && isOptionalPeer(rootPackage, name)),
+      });
+    }
+  }
+  const rows = new Map();
+  const visited = new Set();
+  while (pending.length > 0) {
+    const { parentKey, name, optional } = pending.pop();
+    const key = resolvePackageKey(lockPackages, parentKey, name);
+    if (!key) {
+      if (optional) continue;
+      throw new Error(`production dependency lock entry missing: ${name}`);
+    }
+    if (visited.has(key)) continue;
+    visited.add(key);
+    const value = lockPackages[key];
+    if (!value || typeof value !== 'object' || Array.isArray(value)) {
+      throw new Error(`invalid production dependency lock entry: ${name}`);
+    }
+    if (value.link === true) throw new Error(`linked production dependency is unsupported: ${name}`);
+    if (windowsOnly && !installedOnWindows(value)) continue;
+    const packageName = packageNameFromKey(key);
+    const version = typeof value.version === 'string' && value.version.length > 0
+      ? value.version
+      : null;
+    rows.set(`${packageName}@${version ?? 'missing-version'}`, {
+      name: packageName,
+      version,
+      license: value.license ?? null,
+    });
+    for (const field of ['dependencies', 'optionalDependencies', 'peerDependencies']) {
+      for (const childName of Object.keys(dependencyMap(value, field))) {
+        pending.push({
+          parentKey: key,
+          name: childName,
+          optional: field === 'optionalDependencies'
+            || (field === 'peerDependencies' && isOptionalPeer(value, childName)),
+        });
+      }
+    }
+  }
+  return [...rows.values()].sort((a, b) => a.name.localeCompare(b.name)
+    || String(a.version ?? '').localeCompare(String(b.version ?? '')));
 }
 
 export function renderNotices(packages, appVersion) {

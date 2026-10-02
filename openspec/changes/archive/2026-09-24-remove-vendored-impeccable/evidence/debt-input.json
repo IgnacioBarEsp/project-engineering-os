@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-24",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "La revisión adversarial final es independiente y de solo lectura; los hallazgos de fail-open en avisos/versiones, flags dev, filtros de plataforma, mapas nulos y peers opcionales se corrigen antes del pase definitivo. Los checks locales incluyen npm run check con 371/371 pruebas y validación estricta de OpenSpec. No se identifica deuda nueva dentro del alcance. El plan upstream mantiene su estado preexistente (4/5 unidades y tres flujos abiertos); no se reclasifica ni corrige #115/#122 de pasada. La medición del requisito de líneas se corrige con evidencia en el issue.",
+  "flow": "remove-vendored-impeccable"
+}

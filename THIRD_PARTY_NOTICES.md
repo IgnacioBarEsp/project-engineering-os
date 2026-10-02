@@ -21,7 +21,15 @@ outside those scripts keeps the upstream behavior. Any one of the following disa
 - `OPENSPEC_TELEMETRY=0`
 - `DO_NOT_TRACK=1`
 
-No third-party source is vendored in the npm package. The release gate verifies this inventory against
-the lockfile and stops on an unknown or incompatible license. The
+The core npm package has no production dependencies today. `check:package` compares every future
+production package in its lockfile with a package/version/license row in this notice and fails closed
+when license metadata or the notice is missing. The Companion artifact is a separate redistribution;
+its full dependency and Electron notices are maintained in
+[the Companion notice](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/apps/companion/THIRD-PARTY-NOTICES.md)
+and checked against its production lock inventory. No standalone third-party source tree is included in
+the core npm package.
+
+The release gate also verifies the core dependency inventory against the lockfile and stops on an
+unknown or incompatible license. The
 [versioned supply-chain triage](docs/security/SUPPLY_CHAIN_TRIAGE_2026-08-18.md) records scanner signals,
 affected surfaces and decisions.

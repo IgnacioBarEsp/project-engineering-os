@@ -16,6 +16,14 @@ No edites artefactos OPSX como si pertenecieran al renderer general. No añadas 
 servicios pagados obligatorios ni defaults de producto. Dependencias nuevas requieren licencia, costo,
 mantenimiento, alternativa y motivo.
 
+## Plugins de agentes externos
+
+Si quieres usar [Impeccable](https://github.com/pbakaus/impeccable#installation), instálalo desde el
+mecanismo oficial de plugins de tu agente y consulta allí los pasos vigentes para tu proveedor. No copies
+la skill o sus agentes a `.github/`, ni habilites un hook de proyecto en este repositorio. Revisa el origen
+y los permisos solicitados por cualquier plugin antes de confiar en él. El directorio `.impeccable/` se
+reserva para estado local de esa herramienta y no forma parte del export público.
+
 Los commits deben declarar autoría mediante el certificado DCO: al contribuir confirmas que tienes
 derecho a enviar el trabajo bajo MIT. Puedes firmar con `git commit -s`.
 

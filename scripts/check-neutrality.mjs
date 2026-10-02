@@ -4,11 +4,14 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { scanPublicTree } from './neutrality-lib.mjs';
+import { checkProjectHookPolicy, scanPublicTree } from './neutrality-lib.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const allowlist = JSON.parse(await readFile(path.join(root, 'config', 'export-allowlist.json'), 'utf8'));
-const violations = await scanPublicTree(root, allowlist);
+const violations = [
+  ...await scanPublicTree(root, allowlist),
+  ...await checkProjectHookPolicy(root),
+].sort((left, right) => left.path.localeCompare(right.path) || left.kind.localeCompare(right.kind));
 
 if (violations.length > 0) {
   process.stderr.write(`FAIL public tree neutrality (${violations.length})\n`);

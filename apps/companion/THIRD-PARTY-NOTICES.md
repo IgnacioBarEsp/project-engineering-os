@@ -25,13 +25,12 @@ Optional dependencies for other platforms are excluded because they are not inst
 - ISC: 73 packages
 - MIT: 48 packages
 - BlueOak-1.0.0: 11 packages
-- Apache-2.0: 9 packages
+- Apache-2.0: 10 packages
 - BSD-2-Clause: 5 packages
 - Artistic-2.0: 1 package
 - BSD-3-Clause: 1 package
 - CC-BY-3.0: 1 package
 - CC0-1.0: 1 package
-- declared in the package: 1 package
 
 | Package | Version | License |
 | --- | --- | --- |
@@ -155,7 +154,7 @@ Optional dependencies for other platforms are excluded because they are not inst
 | promise-all-reject-late | 1.0.1 | ISC |
 | promise-call-limit | 3.0.2 | ISC |
 | promzard | 3.0.1 | ISC |
-| qrcode-terminal | 0.12.0 | declared in the package |
+| qrcode-terminal | 0.12.0 | Apache-2.0 |
 | read | 5.0.1 | ISC |
 | read-cmd-shim | 6.0.0 | ISC |
 | safer-buffer | 2.1.2 | MIT |

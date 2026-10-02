@@ -15,11 +15,13 @@ import test from 'node:test';
 
 import {
   checkPackageAllowlist,
+  checkCoreNoticeCoverage,
   checkPackageRoot,
   checkPackedFiles,
   checkRelativeMarkdownLinks,
   checkSeededIdentity,
 } from '../scripts/check-package.mjs';
+import { productionPackages, renderNotices } from '../apps/companion/scripts/notices.mjs';
 import { compareReleaseDirectories } from '../scripts/compare-release.mjs';
 import { assertStableReleaseVersion, nonCanonicalEolEntries, sha256 } from '../scripts/release-lib.mjs';
 import { checkReleaseWorkflow, checkPinnedClient } from '../scripts/release-workflow-policy.mjs';
@@ -30,6 +32,7 @@ const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 async function packageFixture(name) {
   const root = await mkdtemp(path.join(tmpdir(), `project-os-${name}-`));
   await mkdir(path.join(root, 'config'));
+  await mkdir(path.join(root, 'apps', 'companion'), { recursive: true });
   for (const relative of [
     'package.json',
     'package-lock.json',
@@ -39,6 +42,16 @@ async function packageFixture(name) {
     'config/npm-package-allowlist.json',
   ]) {
     await cp(path.join(packageRoot, relative), path.join(root, relative));
+  }
+  for (const relative of [
+    'package.json',
+    'package-lock.json',
+    'THIRD-PARTY-NOTICES.md',
+  ]) {
+    await cp(
+      path.join(packageRoot, 'apps', 'companion', relative),
+      path.join(root, 'apps', 'companion', relative),
+    );
   }
   await mkdir(path.join(root, 'bin'));
   await cp(
@@ -93,6 +106,246 @@ test('package contract rechaza bin ausente y licencia incompatible', async () =>
     failures.some((failure) => failure.includes(`dependency license ${dependency}`)),
     true,
   );
+});
+
+test('check:package rechaza redistribuciones de producción sin aviso versionado', async () => {
+  const root = await packageFixture('package-notice-negative');
+  const manifestPath = path.join(root, 'package.json');
+  const lockPath = path.join(root, 'package-lock.json');
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  const lock = JSON.parse(await readFile(lockPath, 'utf8'));
+  manifest.dependencies = { 'fixture-runtime': '1.2.3' };
+  lock.packages[''].dependencies = { 'fixture-runtime': '1.2.3' };
+  lock.packages['node_modules/fixture-runtime'] = {
+    version: '1.2.3',
+    resolved: 'https://registry.npmjs.org/fixture-runtime/-/fixture-runtime-1.2.3.tgz',
+    integrity: 'sha512-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==',
+    license: 'MIT',
+  };
+  await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+  await writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+
+  const failures = await checkPackageRoot(root);
+  assert.ok(failures.includes('production dependency notice missing: fixture-runtime@1.2.3 (MIT)'));
+
+  lock.packages['node_modules/fixture-runtime'].dev = true;
+  await writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+  assert.ok((await checkPackageRoot(root)).includes(
+    'core production dependency marked development: fixture-runtime',
+  ));
+
+  const companionLockPath = path.join(root, 'apps', 'companion', 'package-lock.json');
+  const companionManifestPath = path.join(root, 'apps', 'companion', 'package.json');
+  const companionManifest = JSON.parse(await readFile(companionManifestPath, 'utf8'));
+  const companionLock = JSON.parse(await readFile(companionLockPath, 'utf8'));
+  companionManifest.dependencies['fixture-runtime'] = '1.2.3';
+  companionLock.packages[''].dependencies['fixture-runtime'] = '1.2.3';
+  companionLock.packages['node_modules/fixture-runtime'] = {
+    version: '1.2.3',
+    license: 'MIT',
+  };
+  await writeFile(companionManifestPath, `${JSON.stringify(companionManifest, null, 2)}\n`);
+  await writeFile(companionLockPath, `${JSON.stringify(companionLock, null, 2)}\n`);
+  failures.length = 0;
+  failures.push(...await checkPackageRoot(root));
+  assert.ok(failures.includes(
+    'Companion third-party notices differ from its production lock inventory',
+  ));
+
+  companionLock.packages['node_modules/fixture-runtime'].dev = true;
+  await writeFile(companionLockPath, `${JSON.stringify(companionLock, null, 2)}\n`);
+  failures.length = 0;
+  failures.push(...await checkPackageRoot(root));
+  assert.ok(failures.includes(
+    'Companion production dependency marked development: fixture-runtime',
+  ));
+
+  const productionPackage = Object.keys(companionLock.packages).find((key) => (
+    key.startsWith('node_modules/')
+    && companionLock.packages[key].dev !== true
+    && companionLock.packages[key].version
+  ));
+  companionLock.packages[productionPackage].license = 'GPL-3.0-only';
+  await writeFile(companionLockPath, `${JSON.stringify(companionLock, null, 2)}\n`);
+  assert.ok((await checkPackageRoot(root)).includes(
+    'Companion third-party notices differ from its production lock inventory',
+  ));
+});
+
+test('check:package no omite dependencias de producción sin versión o con metadatos inválidos', async () => {
+  const coreLock = JSON.parse(await readFile(path.join(packageRoot, 'package-lock.json'), 'utf8'));
+  coreLock.packages[''].dependencies = { 'unversioned-core-fixture': '1.0.0' };
+  coreLock.packages['node_modules/unversioned-core-fixture'] = { license: 'MIT' };
+  assert.ok(checkCoreNoticeCoverage(coreLock, await readFile(
+    path.join(packageRoot, 'THIRD_PARTY_NOTICES.md'),
+    'utf8',
+  )).includes('production dependency version missing: unversioned-core-fixture'));
+
+  const root = await packageFixture('package-unversioned-companion');
+  const companionLockPath = path.join(root, 'apps', 'companion', 'package-lock.json');
+  const companionManifestPath = path.join(root, 'apps', 'companion', 'package.json');
+  const companionManifest = JSON.parse(await readFile(companionManifestPath, 'utf8'));
+  const companionLock = JSON.parse(await readFile(companionLockPath, 'utf8'));
+  companionManifest.dependencies['unversioned-companion-fixture'] = '1.0.0';
+  companionLock.packages[''].dependencies['unversioned-companion-fixture'] = '1.0.0';
+  companionLock.packages['node_modules/unversioned-companion-fixture'] = { license: 'MIT' };
+  await writeFile(companionManifestPath, `${JSON.stringify(companionManifest, null, 2)}\n`);
+  await writeFile(companionLockPath, `${JSON.stringify(companionLock, null, 2)}\n`);
+  let failures = await checkPackageRoot(root);
+  assert.ok(failures.includes(
+    'Companion production dependency version missing: unversioned-companion-fixture',
+  ));
+
+  companionLock.packages['node_modules/unversioned-companion-fixture'] = {
+    version: '1.0.0',
+    license: 'MIT',
+    dev: 'false',
+  };
+  await writeFile(companionLockPath, `${JSON.stringify(companionLock, null, 2)}\n`);
+  failures = await checkPackageRoot(root);
+  assert.ok(failures.includes(
+    'Companion production dependency dev flag invalid: unversioned-companion-fixture',
+  ));
+});
+
+test('check:package incluye transitivas de producción aunque el lockfile las marque dev', async () => {
+  const coreLock = JSON.parse(await readFile(path.join(packageRoot, 'package-lock.json'), 'utf8'));
+  coreLock.packages[''].dependencies = { 'fixture-runtime': '1.0.0' };
+  coreLock.packages['node_modules/fixture-runtime'] = {
+    version: '1.0.0',
+    license: 'MIT',
+    dependencies: { 'hidden-transitive': '1.0.0' },
+  };
+  coreLock.packages['node_modules/hidden-transitive'] = {
+    version: '1.0.0',
+    license: 'MIT',
+    dev: true,
+  };
+  assert.ok(checkCoreNoticeCoverage(coreLock, await readFile(
+    path.join(packageRoot, 'THIRD_PARTY_NOTICES.md'),
+    'utf8',
+  )).includes('production dependency notice missing: hidden-transitive@1.0.0 (MIT)'));
+
+  const root = await packageFixture('package-transitive-dev-flag');
+  const manifestPath = path.join(root, 'apps', 'companion', 'package.json');
+  const lockPath = path.join(root, 'apps', 'companion', 'package-lock.json');
+  const noticesPath = path.join(root, 'apps', 'companion', 'THIRD-PARTY-NOTICES.md');
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  const lock = JSON.parse(await readFile(lockPath, 'utf8'));
+  manifest.dependencies['fixture-runtime'] = '1.0.0';
+  lock.packages[''].dependencies['fixture-runtime'] = '1.0.0';
+  lock.packages['node_modules/fixture-runtime'] = {
+    version: '1.0.0',
+    license: 'MIT',
+    dependencies: {
+      'hidden-transitive': '1.0.0',
+      'platform-neutral': '1.0.0',
+    },
+  };
+  lock.packages['node_modules/hidden-transitive'] = {
+    version: '1.0.0',
+    license: 'MIT',
+    dev: true,
+  };
+  lock.packages['node_modules/fixture-runtime/node_modules/platform-neutral'] = {
+    version: '1.0.0',
+    license: 'MIT',
+    os: ['!darwin'],
+    cpu: ['!arm64'],
+    dev: true,
+  };
+  await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+  await writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+
+  const inventory = productionPackages(lock);
+  assert.ok(inventory.some((entry) => entry.name === 'hidden-transitive'));
+  assert.ok(inventory.some((entry) => entry.name === 'platform-neutral'));
+  await writeFile(
+    noticesPath,
+    renderNotices(inventory.filter((entry) => (
+      !['hidden-transitive', 'platform-neutral'].includes(entry.name)
+    )), manifest.version),
+  );
+  assert.ok((await checkPackageRoot(root)).includes(
+    'Companion third-party notices differ from its production lock inventory',
+  ));
+});
+
+test('check:package falla cerrado ante mapas de dependencias explícitamente nulos', async () => {
+  const lock = JSON.parse(await readFile(
+    path.join(packageRoot, 'apps', 'companion', 'package-lock.json'),
+    'utf8',
+  ));
+  for (const field of ['dependencies', 'optionalDependencies', 'peerDependencies']) {
+    const malformed = structuredClone(lock);
+    malformed.packages[''][field] = null;
+    assert.throws(() => productionPackages(malformed), new RegExp(`invalid ${field} map`));
+  }
+
+  const malformedTransitive = structuredClone(lock);
+  malformedTransitive.packages['node_modules/fixture-runtime'] = {
+    version: '1.0.0',
+    license: 'MIT',
+    dependencies: null,
+  };
+  malformedTransitive.packages[''].dependencies = { 'fixture-runtime': '1.0.0' };
+  assert.throws(
+    () => productionPackages(malformedTransitive),
+    /invalid dependencies map/,
+  );
+});
+
+test('check:package rechaza mapas nulos del manifiesto y contrasta peerDependencies', async () => {
+  const root = await packageFixture('package-manifest-map-negative');
+  const manifestPath = path.join(root, 'apps', 'companion', 'package.json');
+  const lockPath = path.join(root, 'apps', 'companion', 'package-lock.json');
+  const originalManifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  const originalLock = JSON.parse(await readFile(lockPath, 'utf8'));
+
+  for (const field of ['dependencies', 'optionalDependencies', 'peerDependencies']) {
+    const manifest = structuredClone(originalManifest);
+    manifest[field] = null;
+    await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+    assert.ok((await checkPackageRoot(root)).includes(
+      `Companion manifest ${field} invalid`,
+    ));
+  }
+
+  const manifest = structuredClone(originalManifest);
+  const lock = structuredClone(originalLock);
+  manifest.peerDependencies = { 'fixture-peer': '^1.0.0' };
+  lock.packages[''].peerDependencies = { 'fixture-peer': '^2.0.0' };
+  await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+  await writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+  assert.ok((await checkPackageRoot(root)).includes(
+    'Companion peerDependencies declaration differs from lock: fixture-peer',
+  ));
+});
+
+test('check:package omite peers opcionales no instalados y exige los peers requeridos', async () => {
+  const root = await packageFixture('package-optional-peer');
+  const manifestPath = path.join(root, 'apps', 'companion', 'package.json');
+  const lockPath = path.join(root, 'apps', 'companion', 'package-lock.json');
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  const lock = JSON.parse(await readFile(lockPath, 'utf8'));
+  manifest.peerDependencies = { 'optional-peer': '^1.0.0' };
+  lock.packages[''].peerDependencies = { 'optional-peer': '^1.0.0' };
+  lock.packages[''].peerDependenciesMeta = { 'optional-peer': { optional: true } };
+  await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+  await writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+  assert.deepEqual(await checkPackageRoot(root), []);
+
+  delete lock.packages[''].peerDependenciesMeta['optional-peer'];
+  await writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+  assert.ok((await checkPackageRoot(root)).some((failure) => (
+    failure.includes('production dependency lock entry missing: optional-peer')
+  )));
+
+  lock.packages[''].peerDependenciesMeta['optional-peer'] = { optional: 'true' };
+  await writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
+  assert.ok((await checkPackageRoot(root)).some((failure) => (
+    failure.includes('invalid peerDependenciesMeta entry: optional-peer')
+  )));
 });
 
 test('package allowlist rechaza globs amplios y rutas del Companion o fuera de lista', async () => {
