@@ -20,8 +20,11 @@ const server=createServer(async(req,res)=>{const relative=req.url==='/'?'/index.
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const browser=await chromium.launch({...(process.platform==='win32'?{channel:'msedge'}:{}),headless:true});
 let chosen;
-const service=await createDesktopService({dataRoot:path.join(temp,'data'),core,chooseFolder:async()=>chosen,copyText:async()=>{},openExternal:async()=>{}});
+const copied=[],opened=[];
+const service=await createDesktopService({dataRoot:path.join(temp,'data'),core,chooseFolder:async()=>chosen,copyText:async text=>copied.push(text),openExternal:async url=>opened.push(url)});
 const entries=[],results=[];
+const captureOutput=process.argv[2];
+if(captureOutput)await mkdir(captureOutput,{recursive:true});
 try{
   for(let i=0;i<5;i++){
     chosen=path.join(temp,`project-${i}`);await mkdir(chosen);await writeFile(path.join(chosen,'source.txt'),'Evidencia original.');
@@ -34,21 +37,32 @@ try{
   await writeFile(path.join(entries[4].root,'.project-os','companion','receipt.json'),'{');
   for(const motion of ['reduce','no-preference']){
     const context=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:motion});const page=await context.newPage(),errors=[];
-    page.on('pageerror',error=>errors.push(error.message));let hold=false,hang=false,releaseList;const calls=[];
+    page.on('pageerror',error=>errors.push(error.message));let hold=false,hang=false,releaseList,holdPreview=false,releasePreview;const calls=[];
     await page.exposeFunction('qaCall',async(name,input)=>{calls.push(name);try{
       if(name==='listProjects'){if(hang)return await new Promise(()=>{});if(hold)await new Promise(resolve=>releaseList=resolve);}
+      if(name==='exportPreview'&&holdPreview)await new Promise(resolve=>releasePreview=resolve);
       return {ok:true,value:await service[name](input)};
     }catch(error){return {ok:false,error:publicError(error)};}});
     await page.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>{if(name==='listProjects')window.__listAt=Date.now();return window.qaCall(name,input??{});} ]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
     const listAge=async age=>{
       for(let count=0;count<100&&await page.evaluate(()=>window.__listAt==null);count++)await page.clock.runFor(20);
-      const elapsed=await page.evaluate(()=>window.__listAt==null?null:Date.now()-window.__listAt);
-      assert.notEqual(elapsed,null,'List transport was not called after rendering');
+      const elapsed=await page.evaluate(()=>window.__slowAt==null?null:Date.now()-window.__slowAt);
+      assert.notEqual(elapsed,null,'List skeleton timer was not registered after rendering');
       assert.ok(elapsed<=age,'Test clock has already passed the requested boundary');
       await page.clock.runFor(age-elapsed);
     };
     await page.clock.install({time:new Date('2026-09-26T00:00:00Z')});
     await page.goto(`http://127.0.0.1:${server.address().port}`);await page.locator('#nav [data-action="open-project-list"]').waitFor();
+    // Install after Playwright's clock, which replaces the native scheduling functions.
+    // Anchor observations to registration rather than the later IPC microtask.
+    await page.evaluate(()=>{
+      const schedule=window.setTimeout;
+      window.setTimeout=function(callback,delay,...args){
+        if(delay===300)window.__slowAt=Date.now();
+        if(delay===10000)window.__limitAt=Date.now();
+        return schedule.call(this,callback,delay,...args);
+      };
+    });
     // Virtual renderer clock isolates the precise threshold from disk/IPC timing. Hold IPC until observed.
     hold=true;
     await page.locator('#nav [data-action="open-project-list"]').click();
@@ -75,6 +89,14 @@ try{
       await page.setViewportSize({width,height:820});
       assert.equal(await page.locator('.project-management').count(),1);
       assert.equal(await page.locator('pre.prompt').first().isVisible(),false);
+      const managementAccessibility=await page.evaluate(ACCESSIBILITY);
+      assert.ok(managementAccessibility.measured>0);
+      assert.deepEqual(managementAccessibility.contrast,[]);
+      assert.deepEqual(managementAccessibility.headingOrder,[]);
+      assert.deepEqual(managementAccessibility.brokenWords,[]);
+      if(captureOutput&&motion==='no-preference'&&[1180,480].includes(width)){
+        await page.screenshot({path:path.join(captureOutput,`project-management-browser-${width}.png`),mask:[page.locator('.path')],maskColor:'#232735'});
+      }
       const expected=await service.guide({id:identity});
       const actual=await page.evaluate(GUIDE);
       assert.equal(actual.steps.length,expected.steps.length,'Every local and optional guide step remains represented');
@@ -94,6 +116,54 @@ try{
         assert.equal(await page.locator('#query').count(),tab==='search'?1:0);
         assert.equal(await page.locator('.recipe').count()>0,tab==='recipes');
         assert.equal(await page.getByRole('heading',{name:'Quién escribe estas instrucciones',exact:true}).count(),tab==='handoff'?1:0);
+        if(tab==='search'){
+          const searchTask=page.getByRole('region',{name:'Buscar en tus archivos',exact:true});
+          const exportTask=page.getByRole('region',{name:'Dale información de tus archivos a tu IA',exact:true});
+          const exportAction=exportTask.getByRole('button',{name:'Revisar texto de mis archivos para mi IA',exact:true});
+          assert.equal(await searchTask.count(),1);assert.equal(await exportTask.count(),1);
+          assert.equal(await exportAction.isDisabled(),true,'Empty-query action must remain disabled after rendering/re-entry');
+          const boxes=await page.locator('.files-task').evaluateAll(nodes=>nodes.map(n=>{const r=n.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,bottom:r.bottom};}));
+          assert.equal(boxes.length,2);
+          if(width>900){assert.ok(Math.abs(boxes[0].y-boxes[1].y)<=1);assert.ok(boxes[1].x>=boxes[0].x+boxes[0].width+15);}
+          else{assert.ok(Math.abs(boxes[0].x-boxes[1].x)<=1);assert.ok(boxes[1].y>=boxes[0].bottom+15);}
+          const searchCalls=calls.filter(n=>n==='search').length;
+          await page.locator('#query').fill('Evidencia');assert.equal(await exportAction.isEnabled(),true);
+          assert.equal(calls.filter(n=>n==='search').length,searchCalls,'Preparing text must not require submitting search first');
+          if(captureOutput&&motion==='no-preference'&&[1180,480].includes(width)){
+            await page.screenshot({path:path.join(captureOutput,`files-tasks-browser-${width}.png`)});
+          }
+          const copiesBefore=copied.length;
+          holdPreview=true;await exportAction.click();
+          await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='true');
+          assert.equal(await exportAction.isDisabled(),true);assert.equal(await page.locator('#query').isDisabled(),true);
+          assert.equal(typeof releasePreview,'function');releasePreview();holdPreview=false;
+          await page.getByRole('dialog').waitFor();
+          assert.equal(copied.length,copiesBefore,'Opening review must not copy');
+          const preview=await page.getByLabel('Texto que se copiará',{exact:true}).innerText();
+          assert.ok(preview.includes('source.txt'));assert.ok(preview.includes('Evidencia original.'));
+          await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.getElementById('dialog').open);
+          assert.equal(copied.length,copiesBefore,'Cancelling review must not copy');
+          assert.equal(await exportAction.evaluate(n=>n===document.activeElement),true,'Review returns focus to its own action');
+          await exportAction.click();await page.getByRole('dialog').waitFor();
+          const reviewed=await page.getByLabel('Texto que se copiará',{exact:true}).innerText();
+          await page.getByRole('button',{name:'Copiar este texto',exact:true}).click();
+          await page.waitForFunction(()=>!document.getElementById('dialog').open);
+          assert.equal(copied.length,copiesBefore+1);assert.equal(copied.at(-1),reviewed);
+          assert.equal(opened.length,0,'No external AI or navigation is opened');
+          await page.getByText('Texto copiado. Todavía no se ha enviado a ninguna IA.',{exact:true}).waitFor();
+          await searchTask.getByRole('button',{name:'Buscar',exact:true}).click();
+          await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
+          assert.ok(await page.locator('#search-results article.result').count()>0);
+          assert.equal(await exportAction.isEnabled(),true,'Nonempty query remains available after search');
+          const below=await page.locator('#search-results').evaluate(n=>n.getBoundingClientRect().top>=document.querySelector('.files-tasks').getBoundingClientRect().bottom);
+          assert.equal(below,true,'Results must follow both tasks');
+          await page.locator('#query').fill('   ');assert.equal(await exportAction.isDisabled(),true);
+          await searchTask.getByRole('button',{name:'Buscar',exact:true}).click();
+          await page.locator('#feedback:not([hidden])').waitFor();
+          await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
+          assert.equal(await exportAction.isDisabled(),true,'Error recovery must not enable an empty query');
+          await page.locator('#query').fill('');assert.equal(await exportAction.isDisabled(),true);
+        }
         const a11y=await page.evaluate(ACCESSIBILITY);assert.ok(a11y.measured>0);
         assert.deepEqual(a11y.contrast,[]);assert.deepEqual(a11y.headingOrder,[]);assert.deepEqual(a11y.brokenWords,[]);
         assert.ok(await page.locator('#content').evaluate(node=>node.scrollWidth<=node.clientWidth+1),`${tab}/${width}: overflow`);
@@ -104,6 +174,13 @@ try{
     await page.evaluate(()=>{location.hash='#/project/foreign/search';});await page.clock.runFor(50);
     assert.equal(calls.length,before);assert.equal(await page.locator('#project-panel').getAttribute('data-project-tab'),'overview');
     await page.evaluate(id=>{location.hash=`#/project/${id}/search`;},identity);await page.locator('#project-panel[data-project-tab="search"]').waitFor();
+    assert.equal(await page.locator('#project-tools').evaluate(node=>node.open),true,'Direct optional route opens its navigation');
+    await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
+    await page.locator('#project-tools > summary').click();
+    await page.locator('#project-panel[data-project-tab="overview"]').waitFor();
+    await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
+    assert.equal(await page.locator('#project-tools').evaluate(node=>node.open),false,'Closing optional tools returns to management');
+    assert.ok(page.url().endsWith(`/project/${identity}/overview`));
     // Re-entry uses known identities but never stale verdicts. Timeout leaves no endless skeleton.
     await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
     hang=true;await page.evaluate(()=>{window.__listAt=null;});
@@ -111,10 +188,66 @@ try{
     await page.waitForFunction(()=>window.__listAt!=null);
     await page.clock.pauseAt(await page.evaluate(()=>Date.now()));await listAge(300);
     assert.equal(await page.locator('.project-loading').count(),5);assert.equal(await page.locator('.state-mark').count(),0);
-    await page.clock.runFor(9700);await page.getByRole('heading',{name:'La lista tardó demasiado en responder.'}).waitFor();
+    const limitAge=await page.evaluate(()=>Date.now()-window.__limitAt);
+    assert.ok(limitAge<=9999);await page.clock.runFor(9999-limitAge);
+    assert.equal(await page.getByRole('heading',{name:'La lista tardó demasiado en responder.'}).count(),0);
+    await page.clock.runFor(1);
+    await page.getByRole('heading',{name:'La lista tardó demasiado en responder.'}).waitFor();
     assert.equal(await page.locator('.project-loading').count(),0);assert.equal(await page.locator('#content').getAttribute('aria-busy'),'false');
     assert.deepEqual(errors,[]);await context.close();hang=false;
   }
+  // Exercise the management controls themselves, not only the unchanged list menu. A non-default
+  // profile/focus catches losing the detail's normalized metadata when reusing a preparation.
+  chosen=path.join(temp,'personal-management');await mkdir(chosen);
+  const personalRoot=chosen;await writeFile(path.join(personalRoot,'original.txt'),'Conservar este original.');
+  const personal=await service.chooseFolder();
+  const personalPlan=await service.previewBase({id:personal.id,selection:{name:'Gestión personal',profile:'personal',focus:'organization',goal:'Organizar mis gastos',agents:['web'],installMode:'ai'}});
+  await service.applyBase({plan:personalPlan.id});
+  const receipt=await readFile(path.join(personalRoot,'.project-os/companion/receipt.json'));
+  const managementContext=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'});
+  const managementPage=await managementContext.newPage(),managementCalls=[],managementErrors=[];
+  managementPage.on('pageerror',error=>managementErrors.push(error.message));
+  await managementPage.exposeFunction('qaCall',async(name,input)=>{managementCalls.push({name,input});try{return {ok:true,value:await service[name](input)};}catch(error){return {ok:false,error:publicError(error)};}});
+  await managementPage.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>window.qaCall(name,input??{})]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
+  const settled=()=>managementPage.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')==='false');
+  const openPersonal=async()=>{
+    await managementPage.locator('#nav [data-action="open-project-list"]').click();
+    await managementPage.locator('.project-list[aria-busy="false"]').waitFor();
+    await managementPage.locator('article.project').filter({has:managementPage.locator('.card-name').filter({hasText:/^Gestión personal$/})}).locator('.card-open').click();
+    await managementPage.locator('#project-panel[data-project-tab="overview"]').waitFor();await settled();
+  };
+  await managementPage.goto(`http://127.0.0.1:${server.address().port}`);await openPersonal();
+  assert.match(await managementPage.locator('.preparation-choices').innerText(),/Personal y laboratorio/);
+  assert.match(await managementPage.locator('.preparation-choices').innerText(),/Organización y finanzas/);
+  await managementPage.getByRole('button',{name:'Revisar tus elecciones otra vez',exact:true}).click();await settled();
+  await managementPage.getByRole('heading',{name:'Esto es lo que se va a escribir.',exact:true}).waitFor();
+  const reviewed=managementCalls.filter(entry=>entry.name==='previewBase').at(-1).input.selection;
+  assert.equal(reviewed.profile,'personal');assert.equal(reviewed.focus,'organization');assert.equal(reviewed.goal,'Organizar mis gastos');
+  await managementPage.getByRole('button',{name:'Ver mi proyecto',exact:true}).click();await settled();
+  chosen=null;await managementPage.locator('#project-panel [data-row-action="duplicate-project"]').click();await settled();
+  assert.equal(await managementPage.locator('#project-panel[data-project-tab="overview"]').count(),1,'Cancelling the picker leaves the preparation open');
+  const destination=path.join(temp,'reuse-management');await mkdir(destination);await writeFile(path.join(destination,'target.txt'),'Destino independiente.');chosen=destination;
+  await managementPage.locator('#project-panel [data-row-action="duplicate-project"]').click();await settled();
+  await managementPage.getByRole('heading',{name:'¿Qué vas a preparar?',exact:true}).waitFor();
+  assert.equal(await managementPage.getByLabel('Nombre de tu proyecto').inputValue(),'Gestión personal');
+  assert.equal(await managementPage.locator('input[name="profile"][value="personal"]').isChecked(),true);
+  await managementPage.getByRole('button',{name:'Continuar a Enfoque →',exact:true}).click();await settled();
+  assert.equal(await managementPage.locator('input[name="focus"][value="organization"]').isChecked(),true);
+  await managementPage.getByRole('button',{name:'Continuar a Visión →',exact:true}).click();await settled();
+  assert.equal(await managementPage.getByLabel('¿Qué quieres lograr?').inputValue(),'Organizar mis gastos');
+  await assert.rejects(readFile(path.join(destination,'.project-os/companion/receipt.json')),{code:'ENOENT'},'Reusing answers does not apply the preparation');
+  assert.equal(await readFile(path.join(destination,'target.txt'),'utf8'),'Destino independiente.');
+  await openPersonal();
+  await managementPage.locator('#project-panel [data-row-action="forget-project"]').click();await managementPage.getByRole('dialog').waitFor();
+  await managementPage.getByRole('button',{name:'Conservar',exact:true}).click();await settled();
+  assert.ok((await service.listProjects()).some(entry=>entry.id===personal.id),'Cancelling history removal keeps the entry');
+  await managementPage.locator('#project-panel [data-row-action="forget-project"]').click();await managementPage.getByRole('dialog').waitFor();
+  await managementPage.getByRole('dialog').getByRole('button',{name:'Quitar de la lista',exact:true}).click();await settled();
+  await managementPage.locator('.project-list[aria-busy="false"]').waitFor();
+  assert.equal((await service.listProjects()).some(entry=>entry.id===personal.id),false);
+  assert.deepEqual(await readFile(path.join(personalRoot,'.project-os/companion/receipt.json')),receipt,'History removal preserves the owned preparation');
+  assert.equal(await readFile(path.join(personalRoot,'original.txt'),'utf8'),'Conservar este original.');
+  assert.deepEqual(managementErrors,[]);await managementContext.close();
   for(const entry of entries)assert.equal(await readFile(path.join(entry.root,'source.txt'),'utf8'),'Evidencia original.');
-  console.log(JSON.stringify({scope:'Real browser renderer/service; native surfaces injected',screens:results.length,results,loading:'299 ms none / 300 ms shown / 10 s error',rows:'four verified, one unreadable',originals:5,errors:0},null,2));
+  console.log(JSON.stringify({scope:'Real browser renderer/service; native surfaces injected',screens:results.length,results,managementActions:'Detail review preserves personal/organization/goal; picker cancellation stays in preparation; reuse preserves answers and writes no preparation; history cancellation/removal preserves receipt and originals',filesTasks:'8 responsive/motion cells: named regions, query availability, busy/re-entry/error, preview/cancel/explicit copy, results below',exactCopies:copied.length,externalOpens:opened.length,loading:'299 ms none / 300 ms shown / 10 s error',rows:'four verified, one unreadable',originals:5,errors:0},null,2));
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve));await rm(temp,{recursive:true,force:true});}

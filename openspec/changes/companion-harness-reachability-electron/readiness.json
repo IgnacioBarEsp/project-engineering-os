@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 150,
+  "change": "companion-harness-reachability-electron",
+  "surfaces": [
+    "harness-tooling",
+    "ui"
+  ],
+  "validations": [
+    {
+      "id": "openspec-strict",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "opsx-check",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "constructor-tests",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "sync-check",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "capability-matrix-check",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "doctor-json-check",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "second-run-idempotence",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "component-or-interaction-tests",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "accessibility-check",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "visual-check-when-configured",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/ci-management-20260930.md",
+      "justification": "Se conserva el rechazo histórico. El mantenedor aprobó después la reorganización y captura principal de #148, aceptó Inicio explícitamente y condicionó Archivos a gestión primero ya implementada. Confirmó la ronda final de dos lectores de Inicio/paso 1 y facilitó una respuesta propia al botón renombrado; los registros de #149 conservan palabras, condiciones y límites. Esta aceptación acotada de las pantallas refinadas y observaciones reales no certifica otros gates de los PRs padres, instalación o cierre de ola 3.",
+      "profileCondition": null
+    },
+    {
+      "id": "responsive-check-when-configured",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "issue-link",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/150",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "adversarial-review",
+      "kind": "manual",
+      "status": "pending",
+      "ref": "docs/companion/reviews/WAVE3_COMPLETION_INSPECTION_20261001.md",
+      "justification": "La inspección independiente del HEAD limpio 429c644 ya está recibida, sin nuevos P0–P3 confirmados, incluyendo el delta de Archivos/gestión y dos mutaciones propias detectadas y restauradas. Sus ejecuciones completas proceden de otro revisor sobre 5706 con bytes Companion idénticos; el informe distingue esa evidencia compuesta de las comprobaciones personales. Se conserva pending hasta resolver explícitamente el alcance del gate integral; no se atribuye este resultado a heads intermedios, aceptación humana, instalación, auditoría o integración protegida.",
+      "profileCondition": null
+    },
+    {
+      "id": "review-of-declared-degradations",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recovery-rehearsal-for-one-transaction",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "ground-truth-comparison",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "keyboard-and-assistive-technology-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "loading-empty-error-and-constrained-connectivity-states",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "rollback": {
+    "strategy": "Revertir el PR de harness/CI y dos reglas CSS; sin migrar datos.",
+    "status": "verified",
+    "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "pending",
+    "ref": "docs/companion/reviews/WAVE3_COMPLETION_INSPECTION_20261001.md",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}

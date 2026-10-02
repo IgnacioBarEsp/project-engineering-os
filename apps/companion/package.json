@@ -15,7 +15,7 @@
   "scripts": {
     "start": "electron .",
     "runtime:install": "node node_modules/electron/install.js",
-    "test:ui": "node scripts/verify-wizard-flow.mjs && node scripts/verify-ui.mjs",
+    "test:ui": "node scripts/verify-ui-suite.mjs",
     "test": "node --test qa/*.mjs",
     "audit": "npm audit --omit=dev --audit-level=high",
     "pack": "node scripts/pack-app.mjs",
@@ -32,6 +32,7 @@
     "evidence:landing": "node scripts/verify-landing.mjs",
     "evidence:contract": "node scripts/verify-interface-contract.mjs",
     "evidence:renderer-electron": "node scripts/verify-electron-shell.mjs",
+    "evidence:electron": "node scripts/verify-electron.mjs",
     "evidence:draft-close": "node scripts/verify-electron-draft.mjs",
     "evidence:preparation": "node scripts/verify-electron-preparation.mjs",
     "evidence:project": "node scripts/verify-project-screens.mjs",

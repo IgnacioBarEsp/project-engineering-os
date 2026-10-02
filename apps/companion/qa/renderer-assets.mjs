@@ -43,7 +43,7 @@ test('renderer remains modular, local and style-injection free',async()=>{
       assert.doesNotMatch(source,/\.innerHTML\s*=|insertAdjacentHTML\s*\(/,`${file} injects markup`);
       assert.doesNotMatch(source,/\bstyle\s*:/,`${file} constructs inline style`);
     }
-    if(file.endsWith('.css')&&file!=='/tokens.css')assert.doesNotMatch(source,/#[\da-f]{3,8}\b/i,`${file} contains a literal color`);
+    if(file.endsWith('.css')&&file!=='/tokens.css')assert.doesNotMatch(source,/#[\da-f]{3,8}\b|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\(/i,`${file} contains a literal color`);
     if(file.endsWith('.svg'))assert.doesNotMatch(source,/#[\da-f]{3,8}\b/i,`${file} contains a literal color`);
   }
   assert.match(assets.find(([name])=>name==='/app.css')[1],/@layer tokens, layout, components, pages/);

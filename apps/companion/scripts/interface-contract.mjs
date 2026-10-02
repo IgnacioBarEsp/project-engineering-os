@@ -571,3 +571,4 @@ export function vacuous(screen) {
   if (!screen.names?.controls) empty.push('ningún control inspeccionado para nombre accesible');
   return empty;
 }
+export {QUALITY,assertCoverage} from './quality-probes.mjs';

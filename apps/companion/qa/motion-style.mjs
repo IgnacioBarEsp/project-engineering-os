@@ -29,4 +29,7 @@ test('motion is finite except for ambient opacity; illumination has a separate b
   }
   assert.ok(measured>=15);
   assert.match(await read('layout.css'),/button:disabled\{cursor:wait;opacity:1\}/);
+  const nav=(await read('pages.css')).match(/\.nav-button \{([^}]+)\}/)?.[1];
+  assert.ok(nav);assert.doesNotMatch(nav,/transition:\s*all/);
+  assert.match(nav,/transition: color var\(--dur-base\)/);
 });

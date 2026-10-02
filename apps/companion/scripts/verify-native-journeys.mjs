@@ -9,6 +9,7 @@ import { portable } from './portable-path.mjs';
 import { READY_CLAIMS, ROW_MENUS, GUIDE, readyProblems, rowMenuProblems, guideProblems }
   from './interface-contract.mjs';
 import { pdf, docx } from './fixtures.mjs';
+import {revealDetails,expandProjectDetails} from './project-disclosures.mjs';
 
 // Runs the five profiles through the INSTALLED application's own window: the packaged interface, driven
 // over its debugging port, against real folders on this machine.
@@ -523,8 +524,9 @@ try {
       terms: guide?.terms ?? [] });
 
     // Context preparation, reviewed and then applied, in the interface.
-    const reviewContext = page.getByRole('button', { name: /^Leer mis archivos$/ }).first();
+    const reviewContext = page.getByRole('button', { name: /^Leer mis archivos$/,includeHidden:true }).first();
     if (await reviewContext.count()) {
+      await revealDetails(reviewContext);
       await reviewContext.click();
       await page.waitForTimeout(1500);
       const save = page.getByRole('button', { name: /Guardar y continuar|Revisar con estas exclusiones/ }).first();
@@ -536,7 +538,8 @@ try {
     } else finding(id, 'context', `la interfaz no ofreció preparar el contexto. Botones visibles: ${(await page.locator('button:visible').allTextContents()).join(' | ')}`);
 
     // Context and a search whose answer is known in advance.
-    const sources = page.getByRole('button', { name: 'Archivos', exact: true });
+    const sources = page.getByRole('button', { name: 'Archivos', exact: true,includeHidden:true });
+    await revealDetails(sources.first());
     await sources.first().waitFor({ timeout: 180000 }).catch(() => {});
     if (await sources.count()) {
       if (!await notBusy()) finding(id, 'search', 'la aplicación siguió ocupada al ir a buscar en los archivos');
@@ -587,10 +590,11 @@ try {
     if (['software', 'unity'].includes(id)) {
       const stages = {};
       const press = async (pattern, wait = 120000) => {
-        const control = page.getByRole('button', { name: pattern }).first();
+        const control = page.getByRole('button', { name: pattern,includeHidden:true }).first();
         if (!await control.count()) return false;
         await notBusy(wait);
         if (!await control.count()) return false;
+        await revealDetails(control);
         await control.click();
         await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: wait }).catch(() => {});
         await page.waitForTimeout(800);
@@ -598,9 +602,10 @@ try {
       };
       // The stages are on the project's status tab; the search left the sources tab open, so a run that
       // never navigates back would report every stage as absent and blame the product for it.
-      const status = page.getByRole('button', { name: /^Estado$/ });
+      const status = page.getByRole('button', { name: /^Preparación$/,includeHidden:true });
+      await revealDetails(status.first());
       if (await status.count()) { await status.first().click(); await page.waitForTimeout(1500); }
-      else finding(id, 'engineering', 'la interfaz no ofreció la pestaña de estado del proyecto');
+      else finding(id, 'engineering', 'la interfaz no ofreció volver a la preparación del proyecto');
       stages.visibleControls = await page.locator('button:visible').allTextContents();
       // The interface does not offer one fixed sequence: each stage changes which control appears next, so
       // a hard-coded chain reports "not offered" for stages that simply had not been reached yet. This
@@ -689,7 +694,8 @@ try {
     await reopened.locator('.card-open').click();
     await page.locator('article.project').first().waitFor({ state: 'detached', timeout: 120000 });
     await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 180000 }).catch(() => {});
-    const afterReopen = page.getByRole('button', { name: 'Archivos', exact: true });
+    const afterReopen = page.getByRole('button', { name: 'Archivos', exact: true,includeHidden:true });
+    await revealDetails(afterReopen.first());
     await afterReopen.first().waitFor({ timeout: 180000 }).catch(() => {});
     let survived = null;
     if (await afterReopen.count()) {
@@ -733,8 +739,11 @@ try {
     // The panel lives on the project's state tab, and by this point the journey has been searching. Read where
     // the thing being read actually is: the first version of this check looked from the search tab and reported
     // the panel as missing, which is a finding about the check and not about the window.
-    await page.getByRole('button', { name: 'Estado', exact: true }).click();
+    const preparation=page.getByRole('button', { name: 'Preparación', exact: true,includeHidden:true });
+    await revealDetails(preparation);
+    await preparation.click();
     await page.waitForTimeout(500);
+    await expandProjectDetails(page);
     const technology = await page.evaluate(() => {
       const heading = [...document.querySelectorAll('#view h2')].find(node => node.textContent.includes('Tecnología de este proyecto'));
       return heading ? heading.closest('section').innerText.replace(/\s+/g, ' ').trim() : null;
@@ -802,7 +811,9 @@ try {
     await page.getByRole('button', { name: 'Tus proyectos', exact: true }).click();
     await page.locator('article.project .card-open').first().click();
     await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 180000 }).catch(() => {});
-    await page.getByRole('button', { name: 'Tu IA', exact: true }).click();
+    const ai=page.getByRole('button', { name: 'Tu IA', exact: true,includeHidden:true });
+    await revealDetails(ai);
+    await ai.click();
     await page.getByRole('heading', { name: 'Quién escribe estas instrucciones', exact: true })
       .waitFor({ timeout: 60000 }).catch(() => finding('general', 'captura', 'no se alcanzó la pantalla de tu IA'));
   });

@@ -59,3 +59,79 @@ perfección, éxito comercial ni compatibilidad con miles de usuarios como resul
 
 Un revisor separado es preferible para el pase adversarial. La autoría de revisión y la participación real
 del mantenedor se registran; no se fabrican sesiones humanas, calificaciones de diseño ni certificados.
+
+## Revisión adversarial de Companion
+
+La revisión debe ejecutarla una persona o agente distinto del implementador sobre el SHA exacto del PR.
+No es una lectura en frío con personas (#149), una revisión del instalador ni una certificación de una
+release. No se archiva un change con el informe independiente pendiente.
+
+### Preparación reproducible
+
+1. Registrar revisor, fecha UTC, SHA, sistema, Node, Electron y árbol limpio/sucio.
+2. Usar una carpeta de prueba sin datos reales. Instalar con `npm ci --ignore-scripts` en la raíz y en
+   `apps/companion`. Instalar explícitamente el Electron fijado con `npm run runtime:install`.
+3. En Linux, instalar Chromium de Playwright con su CLI local. No instalar proveedores ni modelos de IA.
+4. Ejecutar desde `apps/companion` y guardar salidas, códigos de salida y artefactos:
+
+```text
+node scripts/verify-wizard-flow.mjs <evidencia>
+node scripts/verify-ui.mjs <evidencia>
+node scripts/verify-interface-contract.mjs <evidencia-contrato>
+node scripts/verify-electron.mjs <evidencia-nativa>
+node scripts/verify-historical-pair.mjs <evidencia-historica>
+npm test
+```
+
+La prueba Electron requiere Windows. Una omisión no es PASS. El job obligatorio de Windows publica
+capturas y sus registros `.png.provenance.json`, compatibles con el contrato v1 de #143. Declara
+ventana exterior, viewport real, motor, versión, commit y hash de fuentes; un árbol sucio se identifica
+como tal. No publicar capturas de una rama como si fueran del instalador distribuido.
+
+### Qué inspeccionar, además de ejecutar
+
+- Seis perfiles × dos vías × dos modos de movimiento × tres tamaños: cotejar cada celda de
+  `profile-matrix.json`; no aceptar únicamente un total.
+- Las 20 rutas actuales se derivan de la tabla cerrada del renderer, no de un contador escrito a mano.
+  `declared-routes/route-coverage.json` compara las rutas observadas en 1180×820, 1024×700 y 480×540.
+  Esa prueba utiliza respuestas de servicio fijas; no certifica instalaciones reales.
+- El recorrido general usa los servicios reales con transporte nativo inyectado y conserva las
+  variantes heredadas, duplicación, recuperación, búsqueda y handoff en ambos modos de movimiento.
+- Leer denominadores por pantalla: controles realmente alcanzables, elementos de contraste, nodos
+  y pseudoelementos medidos para movimiento y elementos posicionados. La conexión fallida tiene
+  controles globales pero no acciones dentro de la vista. Un diálogo modal bloquea deliberadamente
+  su fondo: comprobar foco/teclado en el diálogo, no certificar alcanzabilidad del fondo.
+- Desplazarse al final, tabular, usar los controles inferiores y revisar las capturas mínima/default.
+  Los paneles con borde cuentan como contenido pintado; un espaciador vacío no cuenta.
+- Copiar ruta e instrucción: comprobar el texto exacto mediante `clipboard.readText()` en el proceso
+  principal de Electron. Una etiqueta «Copiado» sola no prueba nada.
+
+### Mutaciones del revisor
+
+Trabajar en una rama o copia aislada. No tocar proyectos personales. Introducir al menos dos
+mutaciones propias, una en una ruta poco visitada y otra en el transporte o en la evidencia.
+Por ejemplo: footer fixed bajo transform, botón detrás de una capa, hueco inferior de 600 px,
+un enfoque de otro perfil, riel/breadcrumb/pastilla incoherentes, span con aspecto de botón,
+duración de 600 ms, ease-in, color literal fuera de tokens, copiar sin IPC o solo reduced-motion.
+La suite debe fallar por la propiedad alterada. Restaurar la mutación y repetir hasta verde.
+Adjuntar el diff de cada mutación, fallo observado y restauración. No usar un número fijo de
+mutaciones como evidencia: cotejar identificadores declarados, intentados y detectados.
+
+La doble ejecución histórica sirve bytes inmutables obtenidos con `git show`: a3b1efd (defectuoso)
+y c044d2d (hotfix #142/#169). Aplica los mismos probes actuales de alcanzabilidad/contención y
+contrato de copia. El hotfix precede a la nueva taxonomía y a los tokens de la ola 3; no se le
+atribuye cumplir requisitos que todavía no existían. Conservar también los recorridos detenidos.
+
+### Informe obligatorio
+
+Adjuntar al issue y al change un informe con:
+
+- Identidad/independencia del revisor, SHA y entorno exactos.
+- Comandos, códigos de salida y límites: renderer, servicio, Electron, instalador.
+- Matriz observada y denominadores mínimos; rutas/celdas ausentes.
+- Mutaciones propias con reproducción y capturas originales con procedencia.
+- Hallazgos P0–P3, pasos, esperado/observado y archivo/línea.
+- Reprueba sobre el SHA corregido y veredicto explícito; riesgos pendientes.
+
+El implementador puede aportar una autorrevisión claramente etiquetada, pero no sustituye este
+informe ni las dos lecturas humanas de #149. CI verde tampoco sustituye aceptación humana.

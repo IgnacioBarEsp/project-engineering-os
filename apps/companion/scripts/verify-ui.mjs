@@ -10,6 +10,8 @@ import { execFileSync } from 'node:child_process';
 import {ASSETS, CSP} from '../desktop/assets.mjs';
 import {revealDetails,expandProjectDetails} from './project-disclosures.mjs';
 import {routeFor} from '../ui/lib/router.mjs';
+import {QUALITY} from './interface-contract.mjs';
+import {verifyRouteCoverage} from './verify-route-coverage.mjs';
 import {verifyProfileCompatibility} from './verify-profile-compatibility.mjs';
 import {verifyWizardIsolation} from './verify-wizard-isolation.mjs';
 import { zipSync, strToU8 } from 'fflate';
@@ -68,7 +70,7 @@ const heading=async(page,name)=>{const node=page.getByRole('heading',{name,exact
 // Every click probes the screen it lands on, so coverage is not a list of screens someone remembered to
 // check. The label is the screen's own h1, which is also what a person would call it.
 const click=async(page,name)=>{const node=page.getByRole('button',{name,exact:true,includeHidden:true});await revealDetails(node);await node.click();await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')!=='true');await checkAccessibility(page,await page.locator('#view h1').first().innerText().catch(()=>'(pantalla sin encabezado)'));};
-async function capture(page,name){const target=path.join(output,name+'.png');await page.screenshot({path:target,fullPage:true,mask:[page.locator('.path')],maskColor:'#e7eee4'});evidence.screenshots.push(name+'.png');}
+async function capture(page,name){const motion=await page.evaluate(()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'reduce':'no-preference');const file=name+'-'+motion+'.png',target=path.join(output,file);await page.screenshot({path:target,fullPage:true,mask:[page.locator('.path')],maskColor:'#e7eee4'});evidence.screenshots.push(file);}
 async function noOverflow(page,label){
   const size=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,
     navClient:document.getElementById('nav').clientWidth,navScroll:document.getElementById('nav').scrollWidth}));
@@ -95,6 +97,14 @@ async function collectActions(page,where){
 // fails instead of stopping at the first.
 const a11y=new Set(),screensSeen=new Set(),screenDenominators=[],listStates=[],guideSignatures=[];
 async function checkScreen(page,where){
+  await page.evaluate(()=>Promise.all(document.getAnimations().filter(a=>Number.isFinite(a.effect.getComputedTiming().iterations)).map(a=>a.finished.catch(()=>{}))));
+  const modal=await page.locator('dialog[open]').count();
+  if(!modal){
+    const current=await page.evaluate(async()=>{const {state}=await import('/lib/core.mjs');return {page:state.page,tab:state.tab};});
+    const quality=await page.evaluate(QUALITY,routeFor(current.page,current));
+    assert.deepEqual(quality.issues,[],where+': '+JSON.stringify(quality));
+    (evidence.quality??=[]).push({where,motion:await page.evaluate(()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'reduce':'no-preference'),quality});
+  }else (evidence.modalChecks??=[]).push({where,scope:'Modal accessibility and explicit focus/copy assertions; background route occlusion not applicable while modal is open'});
   screensSeen.add(where);
   await collectActions(page,where);
   const result=await page.evaluate(ACCESSIBILITY);
@@ -131,7 +141,7 @@ const checkAccessibility=checkScreen;
 // The two small windows are the viewports the real window gives, measured in Electron 44 on Windows 11: the default
 // 1180 × 820 window leaves 1164 × 755 CSS px, so at 200 % zoom 582 × 377, and the minimum 480 × 540 window leaves
 // 464 × 475. At 500 px of height and below the bar is static by design, and everything still has to be reachable.
-const WIZARD_VIEWPORTS=[[1180,820],[1160,810],[1040,700],[582,377],[464,475]],MOTIONS=['no-preference','reduce'];
+const WIZARD_VIEWPORTS=[[1180,820],[1024,700],[480,540],[1160,810],[1040,700],[582,377],[464,475]],MOTIONS=['no-preference','reduce'];
 const INSTALL={quick:'Guardar la preparación revisada →',ai:'Guardar la preparación revisada →'};
 const PRIMARY={setup:['Inicio','Elegir carpeta','Continuar a Enfoque →'],
   delimitation:['Volver','Continuar a Visión →'],vision:['Volver','Continuar a Preparar →'],
@@ -422,9 +432,9 @@ try {
   assert.deepEqual(wizard.problems,[],'Every control of the current wizard has to be reachable with and without motion, and both copies have to go through the service');
   assert.equal(wizard.summary.screensVisited,wizard.summary.screensExpected,'Every screen of every run has to be visited');
   evidence.checks.push(`Asistente vigente: ${runs.length} recorridos (${WIZARD_VIEWPORTS.length} ventanas × 2 preferencias de movimiento × 2 formas de instalar), ${wizard.summary.screensVisited} pantallas, ${wizard.summary.controlsReachable} de ${wizard.summary.controlsMeasured} controles alcanzables al tocar su centro, ${wizard.summary.copiesEqual} de ${wizard.summary.copies} copias con el texto exacto, y una visión sin texto que conserva el objetivo del primer paso en ${wizard.withoutText.length} de ${wizard.withoutText.length} casos PASS`);
-  for(const profile of ['research','software','studies','business','unity','media','general']){
+  for(const motion of MOTIONS)for(const profile of ['research','software','studies','business','unity','media','general']){
     const selectedProfile={unity:'software',media:'content',general:'personal'}[profile]??profile;
-    const root=path.join(temp,profile);await mkdir(root);
+    const root=path.join(temp,profile+'-'+motion);await mkdir(root);
     await writeFile(path.join(root,'notes.txt'),'Evidence: tokens must be measured. A byte budget is not an observed token reduction.');
     await writeFile(path.join(root,'private-notes.txt'),'Confidential excluded material.');
     if(profile==='research'){
@@ -441,9 +451,9 @@ try {
     }
     const originals=new Map();for(const file of ['notes.txt','private-notes.txt'])originals.set(file,await readFile(path.join(root,file)));
     let pickFolder=root;
-    const context=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'}),page=await context.newPage(),errors=[],opened=[],copied=[];
+    const context=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:motion}),page=await context.newPage(),errors=[],opened=[],copied=[];
     watchRenderer(page,errors);
-    const service=await createDesktopService({dataRoot:path.join(temp,profile+'-history'),core,environment:manager&&engineeringProfile?createEnvironmentEngine(manager):null,chooseFolder:async()=>pickFolder,copyText:v=>copied.push(v),openExternal:v=>opened.push(v)});
+    const service=await createDesktopService({dataRoot:path.join(temp,profile+'-'+motion+'-history'),core,environment:manager&&engineeringProfile?createEnvironmentEngine(manager):null,chooseFolder:async()=>pickFolder,copyText:v=>copied.push(v),openExternal:v=>opened.push(v)});
     page.setDefaultTimeout(manager?240000:30000);
     await page.exposeFunction('qaCall',async(name,input)=>{
       if(!Object.hasOwn(service,name))return {ok:false,error:{message:'Unknown method'}};
@@ -475,7 +485,7 @@ try {
     assert.equal(await page.locator('#dialog-title').innerText(),byId.get(firstTerm).term,'A term opens its own definition where it appears');
     await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.getElementById('dialog').open);
     await click(page,'Inicio');await heading(page,'Prepara tus proyectos con Project Engineering OS');
-    assert.equal(await page.locator('.enter').evaluate(n=>getComputedStyle(n).animationName),'none');
+    assert.equal(await page.locator('.enter').evaluate(n=>getComputedStyle(n).animationName),motion==='reduce'?'none':'enter');
     if(profile==='research')await capture(page,'home-desktop');
     await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
     const name=profile==='general'?'Estudio'.repeat(14):profile==='research'?'<img src=x onerror=alert(1)>':'Proyecto '+profile;
@@ -514,7 +524,7 @@ try {
       await click(page,'Volver');
     }
     if(engineeringProfile){
-      await page.locator('[data-action="review-development"]').click();
+      await click(page,'Revisar desarrollo');
       if(manager){await heading(page,'Tus herramientas, listas en este equipo.');await click(page,'Preparar herramientas y continuar →');}
       await heading(page,'Un proceso claro para desarrollar.');await click(page,'Guardar estas instrucciones →');
       if(manager){await heading(page,'Un método de trabajo para tu IA.');await click(page,'Activar y continuar →');}
@@ -631,7 +641,7 @@ try {
       await writeFile(notes,originals.get('notes.txt'));
       // Duplicating: the answers are reused, the new folder is chosen, and nothing of the original travels
       // with it. Measured on disk before anything is written, which is the only place it can be measured.
-      const copyRoot=path.join(temp,'general-copia');await mkdir(copyRoot);
+      const copyRoot=path.join(temp,'general-copia-'+motion);await mkdir(copyRoot);
       await writeFile(path.join(copyRoot,'otras-notas.txt'),'Otro acuerdo, en otra carpeta.');
       pickFolder=copyRoot;
       await page.locator('article.project details.more > summary').first().click();
@@ -692,9 +702,13 @@ try {
   assert.deepEqual([...actionsSeen.keys()].sort(),[...expected].sort(),'The closed set of navigable actions is part of the contract');
   assert.deepEqual(duplicated,[],'An action offered under two different names is the defect this change removes');
   evidence.checks.push(`One name per action across ${actionsSeen.size} navigable actions: ${[...actionsSeen].map(([a,n])=>`${a}="${[...n.keys()][0]}"`).join(', ')} PASS`);
-  evidence.checks.push('No renderer exceptions across five journeys; source markup rendered as text; original documents preserved.');
+  evidence.checks.push('No renderer exceptions across the seven legacy variants in both motion modes; source markup rendered as text; original documents preserved.');
   await writeFile(path.join(output,'browser-evidence.json'),JSON.stringify(evidence,null,2)+'\n');console.log(JSON.stringify(evidence,null,2));
 }catch(error){if(browser){const pages=browser.contexts().flatMap(c=>c.pages());if(pages.length){await capture(pages.at(-1),'failure');console.error((await pages.at(-1).locator('body').innerText()).slice(-6000));}}throw error;}
 finally{await browser?.close();await new Promise(r=>server.close(r));assert(path.dirname(temp)===await realpath(tmpdir())&&path.basename(temp).startsWith('peos-desktop-ui-'));await rm(temp,{recursive:true,force:true});}
+
+
+const routeReport=await verifyRouteCoverage(path.join(output,'declared-routes'));
+console.log(JSON.stringify({declaredRoutes:routeReport.routes,routeCells:routeReport.cells,negativeControls:routeReport.negatives.length}));
 await verifyProfileCompatibility(path.join(output,'profile-compatibility'));
 await verifyWizardIsolation(path.join(output,'wizard-isolation'));

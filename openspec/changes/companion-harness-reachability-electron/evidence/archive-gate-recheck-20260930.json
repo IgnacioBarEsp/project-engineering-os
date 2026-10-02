@@ -1,0 +1,1327 @@
+{
+  "schemaVersion": "1.0.0",
+  "date": "2026-09-30",
+  "sourceCommit": "a080f679b920bc31488398ed4e15d8d1d4ddc642",
+  "sourceDirty": false,
+  "scope": "Read-only archive gates; not an archive, human approval, protected integration or wave completion.",
+  "supersedes": "Only the invalid adversarialReview state in companion-renderer-foundation was corrected. archive-gates-20260930.json remains historical evidence.",
+  "reports": [
+    {
+      "change": "companion-renderer-foundation",
+      "exitCode": 1,
+      "report": {
+        "counts": {
+          "EXCEPTION": 0,
+          "FAIL": 1,
+          "PASS": 15
+        },
+        "mutationPerformed": false,
+        "ok": false,
+        "phase": "archive",
+        "results": [
+          {
+            "cause": "Change confinado a openspec/changes/companion-renderer-foundation.",
+            "evidence": {},
+            "id": "change.root",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Change confinado a openspec/changes/companion-renderer-foundation."
+          },
+          {
+            "cause": "Los artefactos OpenSpec/readiness requeridos son archivos regulares y no vacíos.",
+            "evidence": {
+              "invalid": [],
+              "required": [
+                "proposal.md",
+                "design.md",
+                "tasks.md",
+                "TLDR.md",
+                "brownfield-baseline.md",
+                "readiness.json"
+              ]
+            },
+            "id": "change.artifacts",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Los artefactos OpenSpec/readiness requeridos son archivos regulares y no vacíos."
+          },
+          {
+            "cause": "Las delta specs incluyen SHALL y escenarios WHEN/THEN.",
+            "evidence": {
+              "files": [
+                "openspec/changes/companion-renderer-foundation/specs/companion-experience/spec.md",
+                "openspec/changes/companion-renderer-foundation/specs/companion-renderer/spec.md"
+              ]
+            },
+            "id": "change.specs",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Las delta specs incluyen SHALL y escenarios WHEN/THEN."
+          },
+          {
+            "cause": "tasks.md registra 16 tareas completas y ninguna pendiente.",
+            "evidence": {
+              "completed": 16,
+              "pending": 0
+            },
+            "id": "change.tasks",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "tasks.md registra 16 tareas completas y ninguna pendiente."
+          },
+          {
+            "cause": "readiness.json cumple identidad y shape v1.",
+            "evidence": {},
+            "id": "readiness.contract",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json cumple identidad y shape v1."
+          },
+          {
+            "cause": "readiness.json contiene evidencia concreta y no conserva placeholders.",
+            "evidence": {
+              "fields": []
+            },
+            "id": "readiness.placeholders",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json contiene evidencia concreta y no conserva placeholders."
+          },
+          {
+            "cause": "readiness.json no declara comandos ni rutas ejecutables.",
+            "evidence": {},
+            "id": "readiness.command-injection",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json no declara comandos ni rutas ejecutables."
+          },
+          {
+            "cause": "readiness.json no contiene secretos literales detectables.",
+            "evidence": {},
+            "id": "readiness.secrets",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json no contiene secretos literales detectables."
+          },
+          {
+            "cause": "proposal.md enlaza al issue #144.",
+            "evidence": {},
+            "id": "readiness.issue-traceability",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "proposal.md enlaza al issue #144."
+          },
+          {
+            "cause": "Todas las superficies usan perfiles declarados.",
+            "evidence": {
+              "surfaces": [
+                "documentation",
+                "ui"
+              ]
+            },
+            "id": "readiness.surfaces",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Todas las superficies usan perfiles declarados."
+          },
+          {
+            "cause": "missing=-; unknown=-; duplicate=-; pending/invalid=visual-check-when-configured.",
+            "evidence": {
+              "required": [
+                "accessibility-check",
+                "component-or-interaction-tests",
+                "critical-document-presence",
+                "findability-two-hop-check",
+                "neutrality-check",
+                "openspec-strict",
+                "relative-link-check",
+                "responsive-check-when-configured",
+                "visual-check-when-configured"
+              ]
+            },
+            "id": "readiness.validations",
+            "remediation": "Ejecuta cada validación, registra evidencia o usa una condición N/A exacta del perfil.",
+            "status": "FAIL",
+            "summary": "missing=-; unknown=-; duplicate=-; pending/invalid=visual-check-when-configured."
+          },
+          {
+            "cause": "Evidencia automática/manual proporcional está verificada.",
+            "evidence": {
+              "required": [
+                "adversarial-review",
+                "ground-truth-comparison",
+                "issue-link",
+                "keyboard-and-assistive-technology-review",
+                "loading-empty-error-and-constrained-connectivity-states",
+                "qualitative-review-for-clarity-and-current-ownership",
+                "recorded-drift-decisions"
+              ]
+            },
+            "id": "readiness.evidence",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Evidencia automática/manual proporcional está verificada."
+          },
+          {
+            "cause": "Rollback verificado con estrategia y evidencia.",
+            "evidence": {},
+            "id": "readiness.rollback",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Rollback verificado con estrategia y evidencia."
+          },
+          {
+            "cause": "Revisión adversarial independiente sin Blockers ni Majors.",
+            "evidence": {},
+            "id": "readiness.adversarial-review",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Revisión adversarial independiente sin Blockers ni Majors."
+          },
+          {
+            "cause": "Assessment de 'companion-renderer-foundation' presente y valido (resultado: clean).",
+            "evidence": {},
+            "id": "debt.debt-assessment",
+            "remediation": "Conserva el assessment capturado y el registro de deuda.",
+            "status": "PASS",
+            "summary": "Assessment de 'companion-renderer-foundation' presente y valido (resultado: clean)."
+          },
+          {
+            "cause": "Sin Blockers/Majors abiertos del flujo ni deuda critica transversal abierta.",
+            "evidence": {},
+            "id": "debt.debt-gate",
+            "remediation": "Conserva el assessment capturado y el registro de deuda.",
+            "status": "PASS",
+            "summary": "Sin Blockers/Majors abiertos del flujo ni deuda critica transversal abierta."
+          }
+        ],
+        "schemaVersion": "1.0.0",
+        "verdict": "FAIL"
+      }
+    },
+    {
+      "change": "companion-profile-taxonomy",
+      "exitCode": 1,
+      "report": {
+        "counts": {
+          "EXCEPTION": 0,
+          "FAIL": 4,
+          "PASS": 12
+        },
+        "mutationPerformed": false,
+        "ok": false,
+        "phase": "archive",
+        "results": [
+          {
+            "cause": "Change confinado a openspec/changes/companion-profile-taxonomy.",
+            "evidence": {},
+            "id": "change.root",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Change confinado a openspec/changes/companion-profile-taxonomy."
+          },
+          {
+            "cause": "Los artefactos OpenSpec/readiness requeridos son archivos regulares y no vacíos.",
+            "evidence": {
+              "invalid": [],
+              "required": [
+                "proposal.md",
+                "design.md",
+                "tasks.md",
+                "TLDR.md",
+                "brownfield-baseline.md",
+                "readiness.json"
+              ]
+            },
+            "id": "change.artifacts",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Los artefactos OpenSpec/readiness requeridos son archivos regulares y no vacíos."
+          },
+          {
+            "cause": "Las delta specs incluyen SHALL y escenarios WHEN/THEN.",
+            "evidence": {
+              "files": [
+                "openspec/changes/companion-profile-taxonomy/specs/companion-experience/spec.md",
+                "openspec/changes/companion-profile-taxonomy/specs/companion-profiles/spec.md"
+              ]
+            },
+            "id": "change.specs",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Las delta specs incluyen SHALL y escenarios WHEN/THEN."
+          },
+          {
+            "cause": "Persisten 1 tareas pendientes.",
+            "evidence": {
+              "completed": 13,
+              "pending": 1
+            },
+            "id": "change.tasks",
+            "remediation": "Completa tareas con evidencia; el gate nunca marca checkboxes automáticamente.",
+            "status": "FAIL",
+            "summary": "Persisten 1 tareas pendientes."
+          },
+          {
+            "cause": "readiness.json cumple identidad y shape v1.",
+            "evidence": {},
+            "id": "readiness.contract",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json cumple identidad y shape v1."
+          },
+          {
+            "cause": "readiness.json contiene evidencia concreta y no conserva placeholders.",
+            "evidence": {
+              "fields": []
+            },
+            "id": "readiness.placeholders",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json contiene evidencia concreta y no conserva placeholders."
+          },
+          {
+            "cause": "readiness.json no declara comandos ni rutas ejecutables.",
+            "evidence": {},
+            "id": "readiness.command-injection",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json no declara comandos ni rutas ejecutables."
+          },
+          {
+            "cause": "readiness.json no contiene secretos literales detectables.",
+            "evidence": {},
+            "id": "readiness.secrets",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json no contiene secretos literales detectables."
+          },
+          {
+            "cause": "proposal.md enlaza al issue #145.",
+            "evidence": {},
+            "id": "readiness.issue-traceability",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "proposal.md enlaza al issue #145."
+          },
+          {
+            "cause": "Todas las superficies usan perfiles declarados.",
+            "evidence": {
+              "surfaces": [
+                "ui"
+              ]
+            },
+            "id": "readiness.surfaces",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Todas las superficies usan perfiles declarados."
+          },
+          {
+            "cause": "missing=-; unknown=-; duplicate=-; pending/invalid=visual-check-when-configured.",
+            "evidence": {
+              "required": [
+                "accessibility-check",
+                "component-or-interaction-tests",
+                "openspec-strict",
+                "responsive-check-when-configured",
+                "visual-check-when-configured"
+              ]
+            },
+            "id": "readiness.validations",
+            "remediation": "Ejecuta cada validación, registra evidencia o usa una condición N/A exacta del perfil.",
+            "status": "FAIL",
+            "summary": "missing=-; unknown=-; duplicate=-; pending/invalid=visual-check-when-configured."
+          },
+          {
+            "cause": "missing=-; duplicate=-; pending/invalid=adversarial-review.",
+            "evidence": {
+              "required": [
+                "adversarial-review",
+                "ground-truth-comparison",
+                "issue-link",
+                "keyboard-and-assistive-technology-review",
+                "loading-empty-error-and-constrained-connectivity-states"
+              ]
+            },
+            "id": "readiness.evidence",
+            "remediation": "Registra refs verificables por perfil; la evidencia de una superficie activa no admite excepción.",
+            "status": "FAIL",
+            "summary": "missing=-; duplicate=-; pending/invalid=adversarial-review."
+          },
+          {
+            "cause": "Rollback verificado con estrategia y evidencia.",
+            "evidence": {},
+            "id": "readiness.rollback",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Rollback verificado con estrategia y evidencia."
+          },
+          {
+            "cause": "La revisión adversarial falta, falló o conserva Blockers/Majors.",
+            "evidence": {},
+            "id": "readiness.adversarial-review",
+            "remediation": "Ejecuta revisión desde contexto limpio, corrige Blockers/Majors y registra el ref.",
+            "status": "FAIL",
+            "summary": "La revisión adversarial falta, falló o conserva Blockers/Majors."
+          },
+          {
+            "cause": "Assessment de 'companion-profile-taxonomy' presente y valido (resultado: clean).",
+            "evidence": {},
+            "id": "debt.debt-assessment",
+            "remediation": "Conserva el assessment capturado y el registro de deuda.",
+            "status": "PASS",
+            "summary": "Assessment de 'companion-profile-taxonomy' presente y valido (resultado: clean)."
+          },
+          {
+            "cause": "Sin Blockers/Majors abiertos del flujo ni deuda critica transversal abierta.",
+            "evidence": {},
+            "id": "debt.debt-gate",
+            "remediation": "Conserva el assessment capturado y el registro de deuda.",
+            "status": "PASS",
+            "summary": "Sin Blockers/Majors abiertos del flujo ni deuda critica transversal abierta."
+          }
+        ],
+        "schemaVersion": "1.0.0",
+        "verdict": "FAIL"
+      }
+    },
+    {
+      "change": "companion-single-preparation-flow",
+      "exitCode": 1,
+      "report": {
+        "counts": {
+          "EXCEPTION": 0,
+          "FAIL": 4,
+          "PASS": 12
+        },
+        "mutationPerformed": false,
+        "ok": false,
+        "phase": "archive",
+        "results": [
+          {
+            "cause": "Change confinado a openspec/changes/companion-single-preparation-flow.",
+            "evidence": {},
+            "id": "change.root",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Change confinado a openspec/changes/companion-single-preparation-flow."
+          },
+          {
+            "cause": "Los artefactos OpenSpec/readiness requeridos son archivos regulares y no vacíos.",
+            "evidence": {
+              "invalid": [],
+              "required": [
+                "proposal.md",
+                "design.md",
+                "tasks.md",
+                "TLDR.md",
+                "brownfield-baseline.md",
+                "readiness.json"
+              ]
+            },
+            "id": "change.artifacts",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Los artefactos OpenSpec/readiness requeridos son archivos regulares y no vacíos."
+          },
+          {
+            "cause": "Las delta specs incluyen SHALL y escenarios WHEN/THEN.",
+            "evidence": {
+              "files": [
+                "openspec/changes/companion-single-preparation-flow/specs/companion-desktop/spec.md",
+                "openspec/changes/companion-single-preparation-flow/specs/companion-experience/spec.md",
+                "openspec/changes/companion-single-preparation-flow/specs/companion-preparation/spec.md"
+              ]
+            },
+            "id": "change.specs",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Las delta specs incluyen SHALL y escenarios WHEN/THEN."
+          },
+          {
+            "cause": "Persisten 1 tareas pendientes.",
+            "evidence": {
+              "completed": 14,
+              "pending": 1
+            },
+            "id": "change.tasks",
+            "remediation": "Completa tareas con evidencia; el gate nunca marca checkboxes automáticamente.",
+            "status": "FAIL",
+            "summary": "Persisten 1 tareas pendientes."
+          },
+          {
+            "cause": "readiness.json cumple identidad y shape v1.",
+            "evidence": {},
+            "id": "readiness.contract",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json cumple identidad y shape v1."
+          },
+          {
+            "cause": "readiness.json contiene evidencia concreta y no conserva placeholders.",
+            "evidence": {
+              "fields": []
+            },
+            "id": "readiness.placeholders",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json contiene evidencia concreta y no conserva placeholders."
+          },
+          {
+            "cause": "readiness.json no declara comandos ni rutas ejecutables.",
+            "evidence": {},
+            "id": "readiness.command-injection",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json no declara comandos ni rutas ejecutables."
+          },
+          {
+            "cause": "readiness.json no contiene secretos literales detectables.",
+            "evidence": {},
+            "id": "readiness.secrets",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json no contiene secretos literales detectables."
+          },
+          {
+            "cause": "proposal.md enlaza al issue #146.",
+            "evidence": {},
+            "id": "readiness.issue-traceability",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "proposal.md enlaza al issue #146."
+          },
+          {
+            "cause": "Todas las superficies usan perfiles declarados.",
+            "evidence": {
+              "surfaces": [
+                "ui"
+              ]
+            },
+            "id": "readiness.surfaces",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Todas las superficies usan perfiles declarados."
+          },
+          {
+            "cause": "missing=-; unknown=-; duplicate=-; pending/invalid=visual-check-when-configured.",
+            "evidence": {
+              "required": [
+                "accessibility-check",
+                "component-or-interaction-tests",
+                "openspec-strict",
+                "responsive-check-when-configured",
+                "visual-check-when-configured"
+              ]
+            },
+            "id": "readiness.validations",
+            "remediation": "Ejecuta cada validación, registra evidencia o usa una condición N/A exacta del perfil.",
+            "status": "FAIL",
+            "summary": "missing=-; unknown=-; duplicate=-; pending/invalid=visual-check-when-configured."
+          },
+          {
+            "cause": "missing=-; duplicate=-; pending/invalid=adversarial-review.",
+            "evidence": {
+              "required": [
+                "adversarial-review",
+                "ground-truth-comparison",
+                "issue-link",
+                "keyboard-and-assistive-technology-review",
+                "loading-empty-error-and-constrained-connectivity-states"
+              ]
+            },
+            "id": "readiness.evidence",
+            "remediation": "Registra refs verificables por perfil; la evidencia de una superficie activa no admite excepción.",
+            "status": "FAIL",
+            "summary": "missing=-; duplicate=-; pending/invalid=adversarial-review."
+          },
+          {
+            "cause": "Rollback verificado con estrategia y evidencia.",
+            "evidence": {},
+            "id": "readiness.rollback",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Rollback verificado con estrategia y evidencia."
+          },
+          {
+            "cause": "La revisión adversarial falta, falló o conserva Blockers/Majors.",
+            "evidence": {},
+            "id": "readiness.adversarial-review",
+            "remediation": "Ejecuta revisión desde contexto limpio, corrige Blockers/Majors y registra el ref.",
+            "status": "FAIL",
+            "summary": "La revisión adversarial falta, falló o conserva Blockers/Majors."
+          },
+          {
+            "cause": "Assessment de 'companion-single-preparation-flow' presente y valido (resultado: clean).",
+            "evidence": {},
+            "id": "debt.debt-assessment",
+            "remediation": "Conserva el assessment capturado y el registro de deuda.",
+            "status": "PASS",
+            "summary": "Assessment de 'companion-single-preparation-flow' presente y valido (resultado: clean)."
+          },
+          {
+            "cause": "Sin Blockers/Majors abiertos del flujo ni deuda critica transversal abierta.",
+            "evidence": {},
+            "id": "debt.debt-gate",
+            "remediation": "Conserva el assessment capturado y el registro de deuda.",
+            "status": "PASS",
+            "summary": "Sin Blockers/Majors abiertos del flujo ni deuda critica transversal abierta."
+          }
+        ],
+        "schemaVersion": "1.0.0",
+        "verdict": "FAIL"
+      }
+    },
+    {
+      "change": "companion-step-4-real-preparation",
+      "exitCode": 1,
+      "report": {
+        "counts": {
+          "EXCEPTION": 0,
+          "FAIL": 3,
+          "PASS": 13
+        },
+        "mutationPerformed": false,
+        "ok": false,
+        "phase": "archive",
+        "results": [
+          {
+            "cause": "Change confinado a openspec/changes/companion-step-4-real-preparation.",
+            "evidence": {},
+            "id": "change.root",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Change confinado a openspec/changes/companion-step-4-real-preparation."
+          },
+          {
+            "cause": "Los artefactos OpenSpec/readiness requeridos son archivos regulares y no vacíos.",
+            "evidence": {
+              "invalid": [],
+              "required": [
+                "proposal.md",
+                "design.md",
+                "tasks.md",
+                "TLDR.md",
+                "brownfield-baseline.md",
+                "readiness.json"
+              ]
+            },
+            "id": "change.artifacts",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Los artefactos OpenSpec/readiness requeridos son archivos regulares y no vacíos."
+          },
+          {
+            "cause": "Las delta specs incluyen SHALL y escenarios WHEN/THEN.",
+            "evidence": {
+              "files": [
+                "openspec/changes/companion-step-4-real-preparation/specs/companion-activation-prompt/spec.md",
+                "openspec/changes/companion-step-4-real-preparation/specs/companion-agent-route-migration/spec.md",
+                "openspec/changes/companion-step-4-real-preparation/specs/companion-preparation-orchestration/spec.md"
+              ]
+            },
+            "id": "change.specs",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Las delta specs incluyen SHALL y escenarios WHEN/THEN."
+          },
+          {
+            "cause": "tasks.md registra 10 tareas completas y ninguna pendiente.",
+            "evidence": {
+              "completed": 10,
+              "pending": 0
+            },
+            "id": "change.tasks",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "tasks.md registra 10 tareas completas y ninguna pendiente."
+          },
+          {
+            "cause": "readiness.json cumple identidad y shape v1.",
+            "evidence": {},
+            "id": "readiness.contract",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json cumple identidad y shape v1."
+          },
+          {
+            "cause": "readiness.json contiene evidencia concreta y no conserva placeholders.",
+            "evidence": {
+              "fields": []
+            },
+            "id": "readiness.placeholders",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json contiene evidencia concreta y no conserva placeholders."
+          },
+          {
+            "cause": "readiness.json no declara comandos ni rutas ejecutables.",
+            "evidence": {},
+            "id": "readiness.command-injection",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json no declara comandos ni rutas ejecutables."
+          },
+          {
+            "cause": "readiness.json no contiene secretos literales detectables.",
+            "evidence": {},
+            "id": "readiness.secrets",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json no contiene secretos literales detectables."
+          },
+          {
+            "cause": "proposal.md enlaza al issue #147.",
+            "evidence": {},
+            "id": "readiness.issue-traceability",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "proposal.md enlaza al issue #147."
+          },
+          {
+            "cause": "Todas las superficies usan perfiles declarados.",
+            "evidence": {
+              "surfaces": [
+                "ui"
+              ]
+            },
+            "id": "readiness.surfaces",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Todas las superficies usan perfiles declarados."
+          },
+          {
+            "cause": "missing=-; unknown=-; duplicate=-; pending/invalid=visual-check-when-configured.",
+            "evidence": {
+              "required": [
+                "accessibility-check",
+                "component-or-interaction-tests",
+                "openspec-strict",
+                "responsive-check-when-configured",
+                "visual-check-when-configured"
+              ]
+            },
+            "id": "readiness.validations",
+            "remediation": "Ejecuta cada validación, registra evidencia o usa una condición N/A exacta del perfil.",
+            "status": "FAIL",
+            "summary": "missing=-; unknown=-; duplicate=-; pending/invalid=visual-check-when-configured."
+          },
+          {
+            "cause": "missing=-; duplicate=-; pending/invalid=adversarial-review.",
+            "evidence": {
+              "required": [
+                "adversarial-review",
+                "ground-truth-comparison",
+                "issue-link",
+                "keyboard-and-assistive-technology-review",
+                "loading-empty-error-and-constrained-connectivity-states"
+              ]
+            },
+            "id": "readiness.evidence",
+            "remediation": "Registra refs verificables por perfil; la evidencia de una superficie activa no admite excepción.",
+            "status": "FAIL",
+            "summary": "missing=-; duplicate=-; pending/invalid=adversarial-review."
+          },
+          {
+            "cause": "Rollback verificado con estrategia y evidencia.",
+            "evidence": {},
+            "id": "readiness.rollback",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Rollback verificado con estrategia y evidencia."
+          },
+          {
+            "cause": "La revisión adversarial falta, falló o conserva Blockers/Majors.",
+            "evidence": {},
+            "id": "readiness.adversarial-review",
+            "remediation": "Ejecuta revisión desde contexto limpio, corrige Blockers/Majors y registra el ref.",
+            "status": "FAIL",
+            "summary": "La revisión adversarial falta, falló o conserva Blockers/Majors."
+          },
+          {
+            "cause": "Assessment de 'companion-step-4-real-preparation' presente y valido (resultado: clean).",
+            "evidence": {},
+            "id": "debt.debt-assessment",
+            "remediation": "Conserva el assessment capturado y el registro de deuda.",
+            "status": "PASS",
+            "summary": "Assessment de 'companion-step-4-real-preparation' presente y valido (resultado: clean)."
+          },
+          {
+            "cause": "Sin Blockers/Majors abiertos del flujo ni deuda critica transversal abierta.",
+            "evidence": {},
+            "id": "debt.debt-gate",
+            "remediation": "Conserva el assessment capturado y el registro de deuda.",
+            "status": "PASS",
+            "summary": "Sin Blockers/Majors abiertos del flujo ni deuda critica transversal abierta."
+          }
+        ],
+        "schemaVersion": "1.0.0",
+        "verdict": "FAIL"
+      }
+    },
+    {
+      "change": "companion-project-screen-redesign",
+      "exitCode": 1,
+      "report": {
+        "counts": {
+          "EXCEPTION": 0,
+          "FAIL": 3,
+          "PASS": 13
+        },
+        "mutationPerformed": false,
+        "ok": false,
+        "phase": "archive",
+        "results": [
+          {
+            "cause": "Change confinado a openspec/changes/companion-project-screen-redesign.",
+            "evidence": {},
+            "id": "change.root",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Change confinado a openspec/changes/companion-project-screen-redesign."
+          },
+          {
+            "cause": "Los artefactos OpenSpec/readiness requeridos son archivos regulares y no vacíos.",
+            "evidence": {
+              "invalid": [],
+              "required": [
+                "proposal.md",
+                "design.md",
+                "tasks.md",
+                "TLDR.md",
+                "brownfield-baseline.md",
+                "readiness.json"
+              ]
+            },
+            "id": "change.artifacts",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Los artefactos OpenSpec/readiness requeridos son archivos regulares y no vacíos."
+          },
+          {
+            "cause": "Las delta specs incluyen SHALL y escenarios WHEN/THEN.",
+            "evidence": {
+              "files": [
+                "openspec/changes/companion-project-screen-redesign/specs/companion-project-navigation/spec.md"
+              ]
+            },
+            "id": "change.specs",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Las delta specs incluyen SHALL y escenarios WHEN/THEN."
+          },
+          {
+            "cause": "Persisten 1 tareas pendientes.",
+            "evidence": {
+              "completed": 9,
+              "pending": 1
+            },
+            "id": "change.tasks",
+            "remediation": "Completa tareas con evidencia; el gate nunca marca checkboxes automáticamente.",
+            "status": "FAIL",
+            "summary": "Persisten 1 tareas pendientes."
+          },
+          {
+            "cause": "readiness.json cumple identidad y shape v1.",
+            "evidence": {},
+            "id": "readiness.contract",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json cumple identidad y shape v1."
+          },
+          {
+            "cause": "readiness.json contiene evidencia concreta y no conserva placeholders.",
+            "evidence": {
+              "fields": []
+            },
+            "id": "readiness.placeholders",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json contiene evidencia concreta y no conserva placeholders."
+          },
+          {
+            "cause": "readiness.json no declara comandos ni rutas ejecutables.",
+            "evidence": {},
+            "id": "readiness.command-injection",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json no declara comandos ni rutas ejecutables."
+          },
+          {
+            "cause": "readiness.json no contiene secretos literales detectables.",
+            "evidence": {},
+            "id": "readiness.secrets",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json no contiene secretos literales detectables."
+          },
+          {
+            "cause": "proposal.md enlaza al issue #148.",
+            "evidence": {},
+            "id": "readiness.issue-traceability",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "proposal.md enlaza al issue #148."
+          },
+          {
+            "cause": "Todas las superficies usan perfiles declarados.",
+            "evidence": {
+              "surfaces": [
+                "ui"
+              ]
+            },
+            "id": "readiness.surfaces",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Todas las superficies usan perfiles declarados."
+          },
+          {
+            "cause": "Validaciones requeridas declaradas con PASS evidenciado o N/A permitido.",
+            "evidence": {
+              "required": [
+                "accessibility-check",
+                "component-or-interaction-tests",
+                "openspec-strict",
+                "responsive-check-when-configured",
+                "visual-check-when-configured"
+              ]
+            },
+            "id": "readiness.validations",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Validaciones requeridas declaradas con PASS evidenciado o N/A permitido."
+          },
+          {
+            "cause": "missing=-; duplicate=-; pending/invalid=adversarial-review.",
+            "evidence": {
+              "required": [
+                "adversarial-review",
+                "ground-truth-comparison",
+                "issue-link",
+                "keyboard-and-assistive-technology-review",
+                "loading-empty-error-and-constrained-connectivity-states"
+              ]
+            },
+            "id": "readiness.evidence",
+            "remediation": "Registra refs verificables por perfil; la evidencia de una superficie activa no admite excepción.",
+            "status": "FAIL",
+            "summary": "missing=-; duplicate=-; pending/invalid=adversarial-review."
+          },
+          {
+            "cause": "Rollback verificado con estrategia y evidencia.",
+            "evidence": {},
+            "id": "readiness.rollback",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Rollback verificado con estrategia y evidencia."
+          },
+          {
+            "cause": "La revisión adversarial falta, falló o conserva Blockers/Majors.",
+            "evidence": {},
+            "id": "readiness.adversarial-review",
+            "remediation": "Ejecuta revisión desde contexto limpio, corrige Blockers/Majors y registra el ref.",
+            "status": "FAIL",
+            "summary": "La revisión adversarial falta, falló o conserva Blockers/Majors."
+          },
+          {
+            "cause": "Assessment de 'companion-project-screen-redesign' presente y valido (resultado: clean).",
+            "evidence": {},
+            "id": "debt.debt-assessment",
+            "remediation": "Conserva el assessment capturado y el registro de deuda.",
+            "status": "PASS",
+            "summary": "Assessment de 'companion-project-screen-redesign' presente y valido (resultado: clean)."
+          },
+          {
+            "cause": "Sin Blockers/Majors abiertos del flujo ni deuda critica transversal abierta.",
+            "evidence": {},
+            "id": "debt.debt-gate",
+            "remediation": "Conserva el assessment capturado y el registro de deuda.",
+            "status": "PASS",
+            "summary": "Sin Blockers/Majors abiertos del flujo ni deuda critica transversal abierta."
+          }
+        ],
+        "schemaVersion": "1.0.0",
+        "verdict": "FAIL"
+      }
+    },
+    {
+      "change": "companion-motion-loading-microcopy",
+      "exitCode": 1,
+      "report": {
+        "counts": {
+          "EXCEPTION": 0,
+          "FAIL": 2,
+          "PASS": 14
+        },
+        "mutationPerformed": false,
+        "ok": false,
+        "phase": "archive",
+        "results": [
+          {
+            "cause": "Change confinado a openspec/changes/companion-motion-loading-microcopy.",
+            "evidence": {},
+            "id": "change.root",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Change confinado a openspec/changes/companion-motion-loading-microcopy."
+          },
+          {
+            "cause": "Los artefactos OpenSpec/readiness requeridos son archivos regulares y no vacíos.",
+            "evidence": {
+              "invalid": [],
+              "required": [
+                "proposal.md",
+                "design.md",
+                "tasks.md",
+                "TLDR.md",
+                "brownfield-baseline.md",
+                "readiness.json"
+              ]
+            },
+            "id": "change.artifacts",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Los artefactos OpenSpec/readiness requeridos son archivos regulares y no vacíos."
+          },
+          {
+            "cause": "Las delta specs incluyen SHALL y escenarios WHEN/THEN.",
+            "evidence": {
+              "files": [
+                "openspec/changes/companion-motion-loading-microcopy/specs/companion-motion-feedback/spec.md"
+              ]
+            },
+            "id": "change.specs",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Las delta specs incluyen SHALL y escenarios WHEN/THEN."
+          },
+          {
+            "cause": "tasks.md registra 18 tareas completas y ninguna pendiente.",
+            "evidence": {
+              "completed": 18,
+              "pending": 0
+            },
+            "id": "change.tasks",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "tasks.md registra 18 tareas completas y ninguna pendiente."
+          },
+          {
+            "cause": "readiness.json cumple identidad y shape v1.",
+            "evidence": {},
+            "id": "readiness.contract",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json cumple identidad y shape v1."
+          },
+          {
+            "cause": "readiness.json contiene evidencia concreta y no conserva placeholders.",
+            "evidence": {
+              "fields": []
+            },
+            "id": "readiness.placeholders",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json contiene evidencia concreta y no conserva placeholders."
+          },
+          {
+            "cause": "readiness.json no declara comandos ni rutas ejecutables.",
+            "evidence": {},
+            "id": "readiness.command-injection",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json no declara comandos ni rutas ejecutables."
+          },
+          {
+            "cause": "readiness.json no contiene secretos literales detectables.",
+            "evidence": {},
+            "id": "readiness.secrets",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json no contiene secretos literales detectables."
+          },
+          {
+            "cause": "proposal.md enlaza al issue #149.",
+            "evidence": {},
+            "id": "readiness.issue-traceability",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "proposal.md enlaza al issue #149."
+          },
+          {
+            "cause": "Todas las superficies usan perfiles declarados.",
+            "evidence": {
+              "surfaces": [
+                "ui"
+              ]
+            },
+            "id": "readiness.surfaces",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Todas las superficies usan perfiles declarados."
+          },
+          {
+            "cause": "Validaciones requeridas declaradas con PASS evidenciado o N/A permitido.",
+            "evidence": {
+              "required": [
+                "accessibility-check",
+                "component-or-interaction-tests",
+                "openspec-strict",
+                "responsive-check-when-configured",
+                "visual-check-when-configured"
+              ]
+            },
+            "id": "readiness.validations",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Validaciones requeridas declaradas con PASS evidenciado o N/A permitido."
+          },
+          {
+            "cause": "missing=-; duplicate=-; pending/invalid=adversarial-review.",
+            "evidence": {
+              "required": [
+                "adversarial-review",
+                "ground-truth-comparison",
+                "issue-link",
+                "keyboard-and-assistive-technology-review",
+                "loading-empty-error-and-constrained-connectivity-states"
+              ]
+            },
+            "id": "readiness.evidence",
+            "remediation": "Registra refs verificables por perfil; la evidencia de una superficie activa no admite excepción.",
+            "status": "FAIL",
+            "summary": "missing=-; duplicate=-; pending/invalid=adversarial-review."
+          },
+          {
+            "cause": "Rollback verificado con estrategia y evidencia.",
+            "evidence": {},
+            "id": "readiness.rollback",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Rollback verificado con estrategia y evidencia."
+          },
+          {
+            "cause": "La revisión adversarial falta, falló o conserva Blockers/Majors.",
+            "evidence": {},
+            "id": "readiness.adversarial-review",
+            "remediation": "Ejecuta revisión desde contexto limpio, corrige Blockers/Majors y registra el ref.",
+            "status": "FAIL",
+            "summary": "La revisión adversarial falta, falló o conserva Blockers/Majors."
+          },
+          {
+            "cause": "Assessment de 'companion-motion-loading-microcopy' presente y valido (resultado: clean).",
+            "evidence": {},
+            "id": "debt.debt-assessment",
+            "remediation": "Conserva el assessment capturado y el registro de deuda.",
+            "status": "PASS",
+            "summary": "Assessment de 'companion-motion-loading-microcopy' presente y valido (resultado: clean)."
+          },
+          {
+            "cause": "Sin Blockers/Majors abiertos del flujo ni deuda critica transversal abierta.",
+            "evidence": {},
+            "id": "debt.debt-gate",
+            "remediation": "Conserva el assessment capturado y el registro de deuda.",
+            "status": "PASS",
+            "summary": "Sin Blockers/Majors abiertos del flujo ni deuda critica transversal abierta."
+          }
+        ],
+        "schemaVersion": "1.0.0",
+        "verdict": "FAIL"
+      }
+    },
+    {
+      "change": "companion-harness-reachability-electron",
+      "exitCode": 1,
+      "report": {
+        "counts": {
+          "EXCEPTION": 0,
+          "FAIL": 3,
+          "PASS": 13
+        },
+        "mutationPerformed": false,
+        "ok": false,
+        "phase": "archive",
+        "results": [
+          {
+            "cause": "Change confinado a openspec/changes/companion-harness-reachability-electron.",
+            "evidence": {},
+            "id": "change.root",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Change confinado a openspec/changes/companion-harness-reachability-electron."
+          },
+          {
+            "cause": "Los artefactos OpenSpec/readiness requeridos son archivos regulares y no vacíos.",
+            "evidence": {
+              "invalid": [],
+              "required": [
+                "proposal.md",
+                "design.md",
+                "tasks.md",
+                "TLDR.md",
+                "brownfield-baseline.md",
+                "readiness.json"
+              ]
+            },
+            "id": "change.artifacts",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Los artefactos OpenSpec/readiness requeridos son archivos regulares y no vacíos."
+          },
+          {
+            "cause": "Las delta specs incluyen SHALL y escenarios WHEN/THEN.",
+            "evidence": {
+              "files": [
+                "openspec/changes/companion-harness-reachability-electron/specs/companion-harness-coverage/spec.md"
+              ]
+            },
+            "id": "change.specs",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Las delta specs incluyen SHALL y escenarios WHEN/THEN."
+          },
+          {
+            "cause": "Persisten 1 tareas pendientes.",
+            "evidence": {
+              "completed": 10,
+              "pending": 1
+            },
+            "id": "change.tasks",
+            "remediation": "Completa tareas con evidencia; el gate nunca marca checkboxes automáticamente.",
+            "status": "FAIL",
+            "summary": "Persisten 1 tareas pendientes."
+          },
+          {
+            "cause": "readiness.json cumple identidad y shape v1.",
+            "evidence": {},
+            "id": "readiness.contract",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json cumple identidad y shape v1."
+          },
+          {
+            "cause": "readiness.json contiene evidencia concreta y no conserva placeholders.",
+            "evidence": {
+              "fields": []
+            },
+            "id": "readiness.placeholders",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json contiene evidencia concreta y no conserva placeholders."
+          },
+          {
+            "cause": "readiness.json no declara comandos ni rutas ejecutables.",
+            "evidence": {},
+            "id": "readiness.command-injection",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json no declara comandos ni rutas ejecutables."
+          },
+          {
+            "cause": "readiness.json no contiene secretos literales detectables.",
+            "evidence": {},
+            "id": "readiness.secrets",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "readiness.json no contiene secretos literales detectables."
+          },
+          {
+            "cause": "proposal.md enlaza al issue #150.",
+            "evidence": {},
+            "id": "readiness.issue-traceability",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "proposal.md enlaza al issue #150."
+          },
+          {
+            "cause": "Todas las superficies usan perfiles declarados.",
+            "evidence": {
+              "surfaces": [
+                "harness-tooling",
+                "ui"
+              ]
+            },
+            "id": "readiness.surfaces",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Todas las superficies usan perfiles declarados."
+          },
+          {
+            "cause": "Validaciones requeridas declaradas con PASS evidenciado o N/A permitido.",
+            "evidence": {
+              "required": [
+                "accessibility-check",
+                "capability-matrix-check",
+                "component-or-interaction-tests",
+                "constructor-tests",
+                "doctor-json-check",
+                "openspec-strict",
+                "opsx-check",
+                "responsive-check-when-configured",
+                "second-run-idempotence",
+                "sync-check",
+                "visual-check-when-configured"
+              ]
+            },
+            "id": "readiness.validations",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Validaciones requeridas declaradas con PASS evidenciado o N/A permitido."
+          },
+          {
+            "cause": "missing=-; duplicate=-; pending/invalid=adversarial-review.",
+            "evidence": {
+              "required": [
+                "adversarial-review",
+                "ground-truth-comparison",
+                "issue-link",
+                "keyboard-and-assistive-technology-review",
+                "loading-empty-error-and-constrained-connectivity-states",
+                "recovery-rehearsal-for-one-transaction",
+                "review-of-declared-degradations"
+              ]
+            },
+            "id": "readiness.evidence",
+            "remediation": "Registra refs verificables por perfil; la evidencia de una superficie activa no admite excepción.",
+            "status": "FAIL",
+            "summary": "missing=-; duplicate=-; pending/invalid=adversarial-review."
+          },
+          {
+            "cause": "Rollback verificado con estrategia y evidencia.",
+            "evidence": {},
+            "id": "readiness.rollback",
+            "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+            "status": "PASS",
+            "summary": "Rollback verificado con estrategia y evidencia."
+          },
+          {
+            "cause": "La revisión adversarial falta, falló o conserva Blockers/Majors.",
+            "evidence": {},
+            "id": "readiness.adversarial-review",
+            "remediation": "Ejecuta revisión desde contexto limpio, corrige Blockers/Majors y registra el ref.",
+            "status": "FAIL",
+            "summary": "La revisión adversarial falta, falló o conserva Blockers/Majors."
+          },
+          {
+            "cause": "Assessment de 'companion-harness-reachability-electron' presente y valido (resultado: clean).",
+            "evidence": {},
+            "id": "debt.debt-assessment",
+            "remediation": "Conserva el assessment capturado y el registro de deuda.",
+            "status": "PASS",
+            "summary": "Assessment de 'companion-harness-reachability-electron' presente y valido (resultado: clean)."
+          },
+          {
+            "cause": "Sin Blockers/Majors abiertos del flujo ni deuda critica transversal abierta.",
+            "evidence": {},
+            "id": "debt.debt-gate",
+            "remediation": "Conserva el assessment capturado y el registro de deuda.",
+            "status": "PASS",
+            "summary": "Sin Blockers/Majors abiertos del flujo ni deuda critica transversal abierta."
+          }
+        ],
+        "schemaVersion": "1.0.0",
+        "verdict": "FAIL"
+      }
+    }
+  ]
+}
