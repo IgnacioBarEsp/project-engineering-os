@@ -1,7 +1,12 @@
 import {
+  constants as fsConstants,
+} from 'node:fs';
+import {
   access,
   lstat,
+  open,
   realpath,
+  stat,
 } from 'node:fs/promises';
 import {
   dirname,
@@ -106,6 +111,72 @@ export async function assertNoSymlinkEscape(root, relativePath) {
     await assertExistingPathInsideRoot(root, cursor, normalized);
   }
 }
+
+async function readBoundedHandle(handle, maxBytes, label = 'archivo') {
+  if (!Number.isSafeInteger(maxBytes) || maxBytes < 0) {
+    throw new TypeError('maxBytes debe ser un entero seguro no negativo.');
+  }
+  const metadata = await handle.stat();
+  if (!metadata.isFile()) {
+    const error = new Error(`${label} no es un archivo regular.`);
+    error.code = 'EVIDENCE_NOT_REGULAR';
+    throw error;
+  }
+  if (metadata.size > maxBytes) {
+    const error = new Error(`${label} excede el límite de lectura.`);
+    error.code = 'EVIDENCE_SIZE_LIMIT';
+    throw error;
+  }
+
+  // Read at most maxBytes + 1 even if a concurrently modified file grows
+  // after fstat. The extra byte distinguishes an exact-limit file from one
+  // that crossed the limit during the read.
+  const buffer = Buffer.alloc(maxBytes + 1);
+  let bytesRead = 0;
+  while (bytesRead < buffer.length) {
+    const result = await handle.read(
+      buffer,
+      bytesRead,
+      buffer.length - bytesRead,
+      bytesRead,
+    );
+    if (result.bytesRead === 0) break;
+    bytesRead += result.bytesRead;
+  }
+  if (bytesRead > maxBytes) {
+    const error = new Error(`${label} excede el límite de lectura.`);
+    error.code = 'EVIDENCE_SIZE_LIMIT';
+    throw error;
+  }
+  return buffer.subarray(0, bytesRead);
+}
+
+export async function readBoundedFile(absolutePath, maxBytes, label = 'archivo') {
+  if (!Number.isSafeInteger(maxBytes) || maxBytes < 0) {
+    throw new TypeError('maxBytes debe ser un entero seguro no negativo.');
+  }
+  // Reject stable special files before opening them: opening a FIFO for
+  // reading can otherwise wait indefinitely before fstat gets a chance to
+  // reject it. O_NONBLOCK also closes that wait if the path changes to a FIFO
+  // between this check and open on POSIX systems.
+  const metadata = await stat(absolutePath);
+  if (!metadata.isFile()) {
+    const error = new Error(`${label} no es un archivo regular.`);
+    error.code = 'EVIDENCE_NOT_REGULAR';
+    throw error;
+  }
+  const flags = process.platform === 'win32'
+    ? fsConstants.O_RDONLY
+    : fsConstants.O_RDONLY | fsConstants.O_NONBLOCK;
+  const handle = await open(absolutePath, flags);
+  try {
+    return await readBoundedHandle(handle, maxBytes, label);
+  } finally {
+    await handle.close();
+  }
+}
+
+export const pathsInternals = Object.freeze({ readBoundedHandle });
 
 export async function pathExists(path) {
   try {

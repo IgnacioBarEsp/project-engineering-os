@@ -305,3 +305,45 @@ tarjeta no tenga texto propio.
 - **THEN** las 22 páginas se pueden abrir y renderizar sin depender de Canva
 - **AND** se inspeccionan visualmente todas las páginas antes de publicar un enlace descargable desde el issue
 
+### Requirement: La guía explica la evidencia técnica y sus límites
+
+La guía operativa SHALL documentar la ubicación y estructura fija del registro de evidencia, sus hashes de
+configuración/perfil, vigencia, referencias a artefactos, migración desde consumidores 0.5.0 y recuperación.
+SHALL aclarar que `doctor` verifica integridad, completitud y vigencia del registro, pero no ejecuta ni
+autentica las pruebas o aprobaciones del consumidor. SHALL indicar que el workaround de landing se retira
+solo después de publicar el core corregido, migrar los recibos contra su catálogo empaquetado y verificar la
+misma suite del consumidor en un cambio propio revisado del repositorio landing.
+
+#### Scenario: Un consumidor prepara evidencia para un perfil técnico activo
+
+- **WHEN** una persona sigue la guía de operación upstream
+- **THEN** conoce la forma del registro, evidencias requeridas, referencias, expiración, límites de verificación
+  y recuperación
+- **AND** la guía no presenta un PASS consumer-owned como una prueba ejecutada por el core
+
+#### Scenario: El consumidor retira el workaround temporal
+
+- **WHEN** se publica una versión corregida del core y el consumidor migra su evidencia de perfil
+- **THEN** la guía indica retirar el workaround mediante su propio cambio revisado
+- **AND** no recomienda retirarlo antes de que esa versión esté disponible
+- **AND** indica conservar cualquier FAIL ajeno al workaround y no debilitar el runner fijo
+
+### Requirement: Upstream operations document the expected doctor baseline and receipt renewal
+
+The upstream runbook SHALL state which doctor failures are accepted and issue-tracked, how the exact-set
+baseline gate detects new or unresolved failures, and how to renew the GitHub Project receipt with its
+read-only command. It SHALL explain that freshness is advisory, the command is not executed by doctor or
+CI, and the receipt does not certify future access.
+
+#### Scenario: A maintainer encounters a new upstream doctor failure
+
+- **WHEN** the baseline gate reports an unlisted `FAIL`
+- **THEN** the runbook directs the maintainer to investigate and track it before any baseline change
+- **AND** it forbids widening the baseline to make the check green
+
+#### Scenario: A GitHub Project receipt is stale
+
+- **WHEN** the freshness report marks the receipt stale or due soon
+- **THEN** the runbook gives the exact read-only command and the values to compare before renewing it
+- **AND** it tells the maintainer to redact the saved receipt and never put credentials in it
+

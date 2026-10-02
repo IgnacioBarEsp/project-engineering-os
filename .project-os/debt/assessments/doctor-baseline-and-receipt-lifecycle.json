@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-24",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "La revisión adversarial detectó y corrigió antes del cierre que abrir un archivo especial antes de validar su tipo podía bloquear el lector acotado. Las pruebas, el baseline exacto y el reporte local de frescura no dejaron deuda nueva atribuible al cambio. Las tres fallas técnicas preexistentes del doctor se conservan como estado conocido; las obligaciones abiertas del plan upstream no se reclasifican como deuda de este flujo.",
+  "flow": "doctor-baseline-and-receipt-lifecycle"
+}

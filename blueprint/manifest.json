@@ -262,6 +262,15 @@
       "required": true
     },
     {
+      "id": "technical-profile-evidence-schema",
+      "source": "schema/technical-profile-evidence.schema.json",
+      "target": ".project-constructor/schema/technical-profile-evidence.schema.json",
+      "owner": "constructor",
+      "mode": "json",
+      "lineEndings": "lf",
+      "required": true
+    },
+    {
       "id": "pre-propose-readiness-schema",
       "source": "schema/pre-propose-readiness.schema.json",
       "target": ".project-constructor/schema/pre-propose-readiness.schema.json",

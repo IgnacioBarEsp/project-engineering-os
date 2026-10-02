@@ -1,0 +1,4 @@
+schema: spec-driven
+created: 2026-09-24
+goal: Let a consumer close a technical profile and local archive readiness with
+  fixed, fail-closed evidence checks

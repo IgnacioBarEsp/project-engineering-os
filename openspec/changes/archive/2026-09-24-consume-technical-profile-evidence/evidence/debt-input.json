@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-24",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "El review adversarial del alcance encontró 0 Blockers y 0 Majors; sus límites (autoatestación del consumer, sin autenticidad criptográfica) están declarados y probados. La ejecución inicial de Codex Security se canceló antes del análisis; una revisión diff posterior y completa, scan 5ffee433-8813-4e9d-8735-9fa5a690ec5c, cerró 7/7 archivos asignados con 0 hallazgos reportables. `npm run check` pasó 374/374, el fixture empaquetado y los gates strict/archive pasaron, y las rutas incompletas/hostiles fallan cerrado. Sin dependencias ni deuda nueva; el plan upstream y hallazgos preexistentes permanecen sin reclasificar.",
+  "flow": "consume-technical-profile-evidence"
+}

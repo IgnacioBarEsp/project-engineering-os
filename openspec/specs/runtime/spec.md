@@ -353,3 +353,197 @@ The upstream core and generated consumer SHALL declare the identical Node engine
 - **THEN** the sync check exits successfully and the remaining read-only checks continue
 - **AND** an actual repository drift still makes the project-level check fail
 
+### Requirement: Read-only consumer checks skip the identified upstream
+
+The constructor SHALL return an explicit `SKIP` result with exit code 0, no plan, and no mutation when
+`sync --check` or `upgrade --check` targets a repository whose `.project-os/repository-governance.json`
+declares `repositoryKind: upstream` and whose `package.json` name exactly matches the constructor package.
+The result SHALL state that the upstream does not consume the generated consumer layout and direct validation
+to a consumer fixture. This applicability result SHALL NOT change any active profile data.
+
+#### Scenario: Both upstream identity signals match
+
+- **WHEN** `sync --check` or `upgrade --check` runs against the declared upstream repository
+- **THEN** the result has `status: SKIP`, exit code 0, `mutationPerformed: false`, and no plan
+- **AND** the output explains that the upstream does not consume the generated layout
+
+#### Scenario: Only one upstream identity signal matches
+
+- **WHEN** the repository-kind marker is absent or the package identity does not match
+- **THEN** the command follows normal consumer validation
+- **AND** a divergent profile selection returns `PROJECT_OS_PROFILE_SELECTION_DRIFT` with the configured and canonical profile IDs
+
+#### Scenario: A read-only command checks a consumer with equal profiles
+
+- **WHEN** a consumer's configured and canonical active-profile lists agree
+- **THEN** the existing check builds its normal read-only plan and reports its established status
+
+#### Scenario: A mutating command targets the upstream
+
+- **WHEN** `sync --dry-run`, `sync` apply, or `upgrade --apply` targets the declared upstream repository
+- **THEN** the command does not use the read-only applicability skip
+- **AND** any profile-selection mismatch fails before writes
+
+#### Scenario: The upstream's active profile choices remain unchanged
+
+- **WHEN** the read-only checks return `SKIP`
+- **THEN** the upstream profile catalog and blueprint consumer defaults remain byte-for-byte unchanged
+
+### Requirement: Doctor verifies consumer-owned evidence for active technical profiles
+
+`doctor` SHALL preserve `SKIP` for an inactive technical profile. For an active technical profile, it SHALL
+read only `.project-os/evidence/technical-profile-<profile-id>.json` and return `PASS` only when the
+versioned record covers exactly every automatic validation, manual evidence item and negative case, plus
+rollback and closure-gate evidence, from that profile's definition in the package's
+`blueprint/core/project-os/profiles.json`. The record SHALL bind to the profile identity, current effective
+profile configuration and canonical profile definition with SHA-256 hashes, and declare canonical UTC
+`issuedAt`/`expiresAt` instants with a validity window of at most 30 days. Every item SHALL declare `PASS`
+and reference a regular in-repository artifact whose raw-byte SHA-256 matches. The doctor SHALL bound record
+and artifact reads, reject traversal and paths/symlinks escaping the target root, and SHALL NOT write the
+record or artifacts, execute commands from them, or claim that it independently ran or authenticated the
+consumer's probes. Consumer-defined requirement lists SHALL NOT replace the packaged canonical list; there
+is no generic `N/A` result. Missing, incomplete, malformed, stale, future-dated, mismatched, unknown,
+duplicated, oversized or unsafe evidence SHALL remain `FAIL` with cause and recovery.
+
+#### Scenario: An inactive technical profile remains skipped
+
+- **WHEN** a technical profile is not in the consumer's effective active-profile list
+- **THEN** `doctor` reports that profile as `SKIP`
+- **AND** it does not require an evidence record for that profile
+
+#### Scenario: A complete current profile record passes without mutation
+
+- **WHEN** an active technical profile has a record containing exactly the canonical required evidence and
+  current hashes for every in-repository artifact
+- **THEN** `doctor` reports `PASS` for that profile and names the record and evidence references
+- **AND** the raw record and evidence artifacts remain byte-for-byte unchanged
+- **AND** a `PASS` states that integrity and completeness were checked, not that the core executed or
+  authenticated the referenced validations, reviews or rollback
+
+#### Scenario: An active profile has no complete record
+
+- **WHEN** an active technical profile has no record or omits any required validation, manual evidence,
+  negative case, rollback or closure-gate evidence
+- **THEN** `doctor` reports `FAIL` with the missing items and the expected record path
+- **AND** it does not infer success from profile activation, configuration or a top-level PASS alone
+
+#### Scenario: Malformed, stale, mismatched or unsafe evidence is rejected
+
+- **WHEN** a record has an unsupported schema, an unknown or duplicate item, a wrong profile/configuration or
+  canonical-definition hash, an invalid time window, a missing/mismatched artifact hash, or an artifact path
+  that traverses outside the repository or escapes through a symlink
+- **THEN** `doctor` reports `FAIL` with a bounded reason and recovery
+- **AND** it does not read outside the target root or mutate the evidence
+
+#### Scenario: The record is incomplete or exceeds the bounded evidence contract
+
+- **WHEN** the record has duplicate/unknown/missing canonical item IDs, a non-PASS item, extra properties,
+  exceeds the record/artifact limits, or contains an `N/A` in place of required evidence
+- **THEN** `doctor` reports `FAIL` with the affected item or limit and recovery
+- **AND** it does not accept consumer-edited validation lists as a smaller canonical contract
+
+#### Scenario: The fixed local archive runner consumes the doctor result
+
+- **WHEN** `readiness-check --phase archive --run-local` runs against a consumer with complete active-profile
+  evidence
+- **THEN** its fixed `constructor-doctor-json` runner can pass the technical-profile checks
+- **AND** metadata or evidence cannot select an executable, arguments or an alternate runner
+
+#### Scenario: A consumer bootstrapped with core 0.5.0 remains fail-closed
+
+- **WHEN** a 0.5.0-shaped consumer has an active technical profile but no current record in the new contract
+- **THEN** the updated doctor accepts its existing configuration shape without an internal error
+- **AND** the active profile remains `FAIL` until the consumer supplies a current, complete record
+- **AND** no legacy receipt or workaround is silently rewritten or treated as the new record
+
+### Requirement: Upstream doctor failures have an issue-backed exact baseline
+
+The upstream repository SHALL keep a versioned baseline of accepted doctor failures. The baseline checker
+SHALL run the read-only doctor against the current repository and SHALL compare the complete set of live
+`FAIL` check IDs and profiles with the baseline. Every baseline entry SHALL identify a positive tracking
+issue. `npm run check` SHALL fail when a live failure is absent from the baseline, a baseline entry still
+fails after being removed, or a baseline row no longer corresponds to a live failure. The check SHALL NOT
+query GitHub or mutate the baseline.
+
+#### Scenario: The live doctor matches the accepted baseline
+
+- **WHEN** the upstream doctor returns exactly the issue-backed failures in the baseline
+- **THEN** the baseline gate passes
+- **AND** it reports that the observation was read-only and offline
+
+#### Scenario: A new doctor failure appears
+
+- **WHEN** the doctor adds a `FAIL` whose check ID/profile pair is absent from the baseline
+- **THEN** `npm run check` fails and names the new check and its cause
+- **AND** the baseline is not automatically extended
+
+#### Scenario: An unresolved failure is removed from the baseline
+
+- **WHEN** a baseline entry is removed while the doctor still reports that failure
+- **THEN** the exact-set comparison fails
+- **AND** it explains that the doctor result must be fixed before retiring the baseline entry
+
+#### Scenario: A baseline entry is stale or ambiguous
+
+- **WHEN** an entry duplicates another ID, omits its issue reference, or no longer appears as a live failure
+- **THEN** validation fails closed and identifies the invalid or obsolete entry
+
+### Requirement: Freshness reports include expiry-bound receipts and tool decisions
+
+`project-os freshness` SHALL combine existing tool-catalog freshness results with an allowlisted report of
+local expiry-bound receipts. It SHALL distinguish fresh, due-soon, stale, missing and invalid receipt
+states and SHALL show the fixed human renewal procedure. It SHALL NOT execute that procedure, contact a
+remote service, authenticate, install or repair. Staleness SHALL remain informational and SHALL NOT make
+the freshness command fail.
+
+#### Scenario: A receipt is current or nearing expiry
+
+- **WHEN** freshness reads a valid allowlisted receipt
+- **THEN** it reports `fresh` or `due-soon` with its expiry timestamp and fixed renewal command
+- **AND** it reports existing tool-catalog freshness entries in the same result
+
+#### Scenario: The Product OS manifest changes after the smoke
+
+- **WHEN** the receipt hash no longer matches the current local Product OS manifest
+- **THEN** freshness reports `invalid`, not `fresh` or `due-soon`
+- **AND** it performs no mutation and makes no remote request
+
+#### Scenario: A receipt has expired
+
+- **WHEN** a valid receipt's `expiresAt` is at or before the injected current time
+- **THEN** freshness reports `stale` and prints the manual renewal procedure
+- **AND** the command exits 0, performs no mutation and does not run the procedure
+
+#### Scenario: A receipt is malformed, oversized or linked outside the target
+
+- **WHEN** an allowlisted receipt cannot be parsed, exceeds the read limit, has invalid timestamps or
+  resolves through a symlink outside the target
+- **THEN** freshness reports `invalid` without reading outside the target or repairing the receipt
+- **AND** it does not execute receipt content
+
+### Requirement: The upstream GitHub Project receipt declares a bounded fixed renewal procedure
+
+The upstream `github.project` receipt SHALL contain a config-bound PASS, canonical `issuedAt` and
+`expiresAt`, and the exact read-only GitHub Project view command used to regenerate it. The validity window
+SHALL be positive and at most 180 days. `doctor` SHALL validate those fields but SHALL NOT run the command
+or claim it proves access after `expiresAt`.
+
+#### Scenario: The current manual smoke matches the declared Project
+
+- **WHEN** a person runs the fixed read-only Project view and verifies the configured owner and title
+- **THEN** they may record a minimal receipt with the observed timestamp and the bounded expiry
+- **AND** the receipt contains no token or issue/item content
+
+#### Scenario: The receipt has a wrong, missing or overlong renewal command
+
+- **WHEN** `doctor` validates an upstream GitHub Project receipt whose renewal command is not the fixed
+  read-only command
+- **THEN** `github.project` remains `FAIL` with an actionable cause
+- **AND** neither doctor, freshness nor CI attempts to execute it
+
+#### Scenario: Doctor validates an expired or current receipt
+
+- **WHEN** doctor inspects a structurally valid receipt with current or expired `expiresAt`
+- **THEN** it reports only the validity result for the configured Project
+- **AND** the receipt and target files remain byte-for-byte unchanged
+

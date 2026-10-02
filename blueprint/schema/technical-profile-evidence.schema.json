@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://project-os.local/schema/technical-profile-evidence.schema.json",
+  "title": "Technical profile evidence receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "profileId",
+    "configHash",
+    "profileHash",
+    "issuedAt",
+    "expiresAt",
+    "automaticValidations",
+    "manualEvidence",
+    "negativeCases",
+    "rollback",
+    "closureGate"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "profileId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "configHash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "profileHash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "issuedAt": {
+      "$ref": "#/$defs/utcTimestamp"
+    },
+    "expiresAt": {
+      "$ref": "#/$defs/utcTimestamp"
+    },
+    "automaticValidations": {
+      "$ref": "#/$defs/evidenceItems"
+    },
+    "manualEvidence": {
+      "$ref": "#/$defs/evidenceItems"
+    },
+    "negativeCases": {
+      "$ref": "#/$defs/evidenceItems"
+    },
+    "rollback": {
+      "$ref": "#/$defs/evidenceOutcome"
+    },
+    "closureGate": {
+      "$ref": "#/$defs/evidenceOutcome"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "utcTimestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "evidenceItems": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "status",
+          "artifact"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "status": {
+            "const": "PASS"
+          },
+          "artifact": {
+            "$ref": "#/$defs/artifact"
+          }
+        }
+      }
+    },
+    "evidenceOutcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "artifact"
+      ],
+      "properties": {
+        "status": {
+          "const": "PASS"
+        },
+        "artifact": {
+          "$ref": "#/$defs/artifact"
+        }
+      }
+    }
+  }
+}

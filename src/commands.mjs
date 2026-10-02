@@ -21,7 +21,7 @@ import {
   buildPlan,
   publicPlan,
 } from './plan.mjs';
-import { resolveInside } from './paths.mjs';
+import { assertNoSymlinkEscape, resolveInside } from './paths.mjs';
 import { preflightTarget } from './preflight.mjs';
 import { resolveLocalToolchain } from '../blueprint/core/project-constructor/toolchain.mjs';
 import {
@@ -39,6 +39,37 @@ async function loadConfiguration(targetRoot) {
   catch (error) {
     throw new ConstructorError(error.code ?? 'TOOLCHAIN_CONFIGURATION_INVALID', error.message, { cause: error, remediation: error.remediation });
   }
+}
+
+async function isDeclaredUpstream(targetRoot) {
+  const governancePath = '.project-os/repository-governance.json';
+  const packagePath = 'package.json';
+  await Promise.all([
+    assertNoSymlinkEscape(targetRoot, governancePath),
+    assertNoSymlinkEscape(targetRoot, packagePath),
+  ]);
+  const governance = await readJsonFile(
+    resolveInside(targetRoot, governancePath),
+    { label: governancePath, optional: true },
+  );
+  const packageManifest = await readJsonFile(
+    resolveInside(targetRoot, packagePath),
+    { label: packagePath, optional: true },
+  );
+  return governance?.repositoryKind === 'upstream'
+    && packageManifest?.name === PACKAGE_NAME;
+}
+
+function skippedConsumerCheck(command) {
+  return {
+    command,
+    dryRun: true,
+    exitCode: EXIT_CODES.success,
+    mode: 'check',
+    mutationPerformed: false,
+    skipReason: 'El upstream no consume el layout gestionado; valida este check en un fixture consumidor.',
+    status: 'SKIP',
+  };
 }
 
 async function loadExternalOwnership(targetRoot, baseBlueprint) {
@@ -384,6 +415,13 @@ export async function runBootstrapOrSync({
     throw new ConstructorError('COMMAND_INVALID', `Comando mutante desconocido: ${command}.`);
   }
 
+  if (check && command === 'sync') {
+    const preflight = await preflightTarget(resolve(targetRoot), { writable: false });
+    if (await isDeclaredUpstream(preflight.target)) {
+      return skippedConsumerCheck(command);
+    }
+  }
+
   const prepared = await preparePlan({
     adoptProjectSeeds,
     blueprintRoot: resolve(blueprintRoot),
@@ -484,6 +522,12 @@ export async function runUpgrade({
       runner: commandRunner,
       targetRoot: resolve(targetRoot),
     });
+  }
+  if (check) {
+    const preflight = await preflightTarget(resolve(targetRoot), { writable: false });
+    if (await isDeclaredUpstream(preflight.target)) {
+      return skippedConsumerCheck('upgrade');
+    }
   }
   const prepared = await preparePlan({
     blueprintRoot: resolve(blueprintRoot),

@@ -1,0 +1,5 @@
+schema: spec-driven
+created: 2026-09-24
+goal: Keep the upstream doctor read-only while making accepted failures
+  explicit, detecting new failures in npm check, and surfacing expiring receipts
+  with their fixed renewal procedure.
