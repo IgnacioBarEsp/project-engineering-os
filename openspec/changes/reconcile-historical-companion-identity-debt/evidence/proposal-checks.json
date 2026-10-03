@@ -1,0 +1,145 @@
+{
+  "recordedAt": "2026-10-03T22:40:57.173Z",
+  "scope": "Proposal-only checks; not implementation, archive or CI evidence",
+  "strict": {
+    "args": [
+      "node_modules/@fission-ai/openspec/bin/openspec.js",
+      "validate",
+      "reconcile-historical-companion-identity-debt",
+      "--strict",
+      "--json"
+    ],
+    "stdout": "{\n  \"items\": [\n    {\n      \"id\": \"reconcile-historical-companion-identity-debt\",\n      \"type\": \"change\",\n      \"valid\": true,\n      \"issues\": [],\n      \"durationMs\": 2\n    }\n  ],\n  \"summary\": {\n    \"totals\": {\n      \"items\": 1,\n      \"passed\": 1,\n      \"failed\": 0\n    },\n    \"byType\": {\n      \"change\": {\n        \"items\": 1,\n        \"passed\": 1,\n        \"failed\": 0\n      }\n    }\n  },\n  \"version\": \"1.0\",\n  \"root\": {\n    \"path\": \"C:\\\\Users\\\\RitualDesktop\\\\.codex\\\\worktrees\\\\206-debt-reconciliation\\\\project-engineering-os\",\n    \"source\": \"nearest\"\n  }\n}\n",
+    "stderr": "",
+    "exitCode": 0
+  },
+  "upstreamDocumentCheck": {
+    "args": [
+      "scripts/check-docs.mjs"
+    ],
+    "stdout": "PASS docs 12 README links, prompt contract and 20 spec purposes\n",
+    "stderr": "",
+    "exitCode": 0
+  },
+  "neutrality": {
+    "args": [
+      "scripts/check-neutrality.mjs"
+    ],
+    "stdout": "PASS public tree neutrality and export allowlist\n",
+    "stderr": "",
+    "exitCode": 0
+  },
+  "relativeLinks": {
+    "checked": 15,
+    "failures": 0,
+    "links": [
+      {
+        "source": "proposal.md",
+        "href": "design.md",
+        "resolved": "openspec/changes/reconcile-historical-companion-identity-debt/design.md"
+      },
+      {
+        "source": "TLDR.md",
+        "href": "proposal.md",
+        "resolved": "openspec/changes/reconcile-historical-companion-identity-debt/proposal.md"
+      },
+      {
+        "source": "TLDR.md",
+        "href": "design.md",
+        "resolved": "openspec/changes/reconcile-historical-companion-identity-debt/design.md"
+      },
+      {
+        "source": "TLDR.md",
+        "href": "specs/debt-control/spec.md",
+        "resolved": "openspec/changes/reconcile-historical-companion-identity-debt/specs/debt-control/spec.md"
+      },
+      {
+        "source": "TLDR.md",
+        "href": "tasks.md",
+        "resolved": "openspec/changes/reconcile-historical-companion-identity-debt/tasks.md"
+      },
+      {
+        "source": "TLDR.md",
+        "href": "brownfield-baseline.md",
+        "resolved": "openspec/changes/reconcile-historical-companion-identity-debt/brownfield-baseline.md"
+      },
+      {
+        "source": "brownfield-baseline.md",
+        "href": "../../specs/debt-control/spec.md",
+        "resolved": "openspec/specs/debt-control/spec.md"
+      },
+      {
+        "source": "brownfield-baseline.md",
+        "href": "../../../docs/DEBT_CONTROL.md",
+        "resolved": "docs/DEBT_CONTROL.md"
+      },
+      {
+        "source": "brownfield-baseline.md",
+        "href": "../../../src/debt/capture.mjs",
+        "resolved": "src/debt/capture.mjs"
+      },
+      {
+        "source": "brownfield-baseline.md",
+        "href": "../../../apps/companion/scripts/verify-native-journeys.mjs",
+        "resolved": "apps/companion/scripts/verify-native-journeys.mjs"
+      },
+      {
+        "source": "brownfield-baseline.md",
+        "href": "../../../.project-os/debt/assessments/restructure-companion-navigation-remediation-2.json",
+        "resolved": ".project-os/debt/assessments/restructure-companion-navigation-remediation-2.json"
+      },
+      {
+        "source": "brownfield-baseline.md",
+        "href": "../archive/2026-09-12-restructure-companion-navigation/evidence/validation.md",
+        "resolved": "openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/validation.md"
+      },
+      {
+        "source": "brownfield-baseline.md",
+        "href": "../archive/2026-09-12-restructure-companion-navigation/evidence/native-journeys.json",
+        "resolved": "openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/native-journeys.json"
+      },
+      {
+        "source": "brownfield-baseline.md",
+        "href": "evidence/proposal-baseline.json",
+        "resolved": "openspec/changes/reconcile-historical-companion-identity-debt/evidence/proposal-baseline.json"
+      },
+      {
+        "source": "brownfield-baseline.md",
+        "href": "evidence/readiness-propose.json",
+        "resolved": "openspec/changes/reconcile-historical-companion-identity-debt/evidence/readiness-propose.json"
+      }
+    ]
+  },
+  "readinessSchema": "passed",
+  "specApproval": "pending",
+  "archiveEligible": false,
+  "registryUnchanged": true,
+  "historicalAssessmentHashesUnchanged": 73,
+  "phaseAssessmentAbsent": true,
+  "proposalHashes": [
+    {
+      "file": "proposal.md",
+      "sha256": "7b0abb4c47636667e2251a27f59c95697d4c4ff410b77b4a9c0a427c5edebd80"
+    },
+    {
+      "file": "design.md",
+      "sha256": "c8e762fc33a71e67f488a727279dea934e7626d6c713966ead4e19b10e63a537"
+    },
+    {
+      "file": "tasks.md",
+      "sha256": "e262d1964c6a6c64734e0a005c4b5b1b2499cfccf4aa5f7a0222664b1b94d7e3"
+    },
+    {
+      "file": "TLDR.md",
+      "sha256": "1b60a748db6f3e470a70e1ee806972d0f85d341295bf4c94780b05edcfa89ac3"
+    },
+    {
+      "file": "brownfield-baseline.md",
+      "sha256": "43c63dd4ecc5131a28ad47788b38bf19cac51f94cfe936f7ff5f44a93fe7d341"
+    },
+    {
+      "file": "specs/debt-control/spec.md",
+      "sha256": "eac191156324b4ed38889046722c6d84c2ca7c5fa5575c9fb4497d80acf538f4"
+    }
+  ]
+}
