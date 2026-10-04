@@ -1,0 +1,474 @@
+{
+  "recordedAt": "2026-10-04T01:53:37.277Z",
+  "flow": "reconcile-historical-companion-identity-debt",
+  "scope": "Actual core CLI on disposable copies; not an installed Companion run",
+  "beforeFiles": {
+    ".project-os/debt/config.json": "38196169ebbe2fea780ee9e7b3182b9fa18f5902272e8787515a582942ffa112",
+    ".project-os/debt/registry.json": "2711f41198011fa04434a3ded8c6b805a2fe5de9102140ecbedb85c54914d6d3",
+    ".project-os/debt/assessments/activate-companion-environment.json": "0e9ece63a77193e05bd760ce346849e4b70c20ccc8775bf2c3925111e045aecd",
+    ".project-os/debt/assessments/add-adaptive-onboarding-classifier.json": "dba550414c31cbd48bef0a5969e9c223edde641abe09c3999f20697dd0d71a8e",
+    ".project-os/debt/assessments/add-curated-tool-catalog.json": "6b4790365fc10f938f4f902287786cb00e9183a05ae1cb0e0863a099a03df1bf",
+    ".project-os/debt/assessments/adopt-existing-project-seeds.json": "3d00f26b88fbe096a0e075c839e2f889c11b5709d89badf6cecf6f2e296558ed",
+    ".project-os/debt/assessments/align-companion-first-public-guidance.json": "86b17c2a6b80442b09c5e28ac2ba8a779147f8f4f29f763d630542d38b28225b",
+    ".project-os/debt/assessments/align-degradation-spec-with-the-code.json": "1a70d47cc11317d827c4aa2a2c224733d3d1ef4333d93e18b98ffc93fa1f17bf",
+    ".project-os/debt/assessments/authorized-tracker-workflow.json": "2a83fef6a0e9c5224a837a0412929760b1ec2c268d13bf1e28c66cf81322aa1a",
+    ".project-os/debt/assessments/build-companion-desktop.json": "78c46d25b1aa52f4e30360bf7bb9e14fb3e48cef5a6a6b09a502f4900c6e2ea0",
+    ".project-os/debt/assessments/classify-upstream-profile-drift.json": "9c85079ce42284d5da9bff81939dc6bb8bc532429b2e17220f81d4d68323a215",
+    ".project-os/debt/assessments/companion-0-3-2-hotfix-actions-bar-clipboard.json": "671c2bee3fd19ba63ab3bbf9da111013c36185130e4be7dc10a0758fb6c4fe22",
+    ".project-os/debt/assessments/companion-contextual-installer.json": "6175f53b81fdb760ba24f3118212872637f9d953406742b16ee0b7fe1c553d77",
+    ".project-os/debt/assessments/companion-design-system-impeccable.json": "0eb695a3ecf59acf095dd2003480af705784fcd822f800916501c3309a6b02a8",
+    ".project-os/debt/assessments/companion-installer-choices.json": "dd79a2c3d76a29bbb8f071eead79c81da39283e1cc3dd68d4747e2dc04eb442a",
+    ".project-os/debt/assessments/companion-obsidian-stitch-ui.json": "214986cb7aa395d70b2bbbab90020b909eddce79872ad8ef6a4f35fa17ff207c",
+    ".project-os/debt/assessments/companion-redesign-flow.json": "cb7645b6f673abb43d00d2e1182de507543abb4023b7dffd8ab1936e3a83f8ed",
+    ".project-os/debt/assessments/complete-companion-program-remediation.json": "37f54b0b7d521414a3bb798d04aa99a019765bca59d92446800e5ed68271573c",
+    ".project-os/debt/assessments/complete-companion-program.json": "5f5e50782b494ab7821822ea51e3fefb95503425060de5ccdf60b28f432e1c06",
+    ".project-os/debt/assessments/complete-upstream-controls.json": "0b00736cd5342fc259f6e724a03043849787cce7bae953f1cf61f3545a8e1325",
+    ".project-os/debt/assessments/compose-project-specific-prompts-remediation-2.json": "a79374a97fab23dfa7e5585b1083a44169ad94d7e352374553e82baa903de2a4",
+    ".project-os/debt/assessments/compose-project-specific-prompts-remediation.json": "a472c41be0903e949abc3ff6d3f170ac80afc45f7ab9df5cb208da8d6a086e88",
+    ".project-os/debt/assessments/compose-project-specific-prompts.json": "9f44d508aab5a45af26faa4f21d041de829f207c360b49e5c5d73e2c8d219bfb",
+    ".project-os/debt/assessments/congress-presentation-concept-layout.json": "ed03f525419ce30417e0d279cccf1a6f56029f2bfab5454832a461ba264646f3",
+    ".project-os/debt/assessments/congress-presentation-with-measured-evidence.json": "b64416ff37255de868aac9c75d0734749a146adb36654b858575ec85ac78d45c",
+    ".project-os/debt/assessments/consume-technical-profile-evidence.json": "f9b9ce15bb240e807726370aa55d9c3f2e444f171d269567edf18f98989ea7a1",
+    ".project-os/debt/assessments/correct-companion-authenticode-probe.json": "c618f34f8ea3d63038217c9e14d8ccd002d2ce5621fbc0c634fbc51dbf7b0ca3",
+    ".project-os/debt/assessments/correct-companion-release-artifact-action-pin.json": "9f7828e94a470a12d459550493dfbfd87277350fb41fa0475fd48f269bf2d961",
+    ".project-os/debt/assessments/decide-on-a-hosted-inference-gateway.json": "62f2291e2aa3c29dbc54de1484eab9dee52431d6410e39fa709e7a567941159b",
+    ".project-os/debt/assessments/define-companion-experience.json": "ef5df6a711af33917212981b004b354c85eb724d68aa08e23b7fc5e0d5032fe3",
+    ".project-os/debt/assessments/distinguish-provenance-from-repository-drift.json": "0ded4d9803b6820dd0dead1142c5ed6fab77cddaf65f3931b321bdd465643ce9",
+    ".project-os/debt/assessments/doctor-baseline-and-receipt-lifecycle.json": "3e12400662ef6bfb4b18aede477d3fd25632c48853a297a75f7457f03ae95ca0",
+    ".project-os/debt/assessments/evaluate-sdd-friction.json": "0dcb5a3dd6a05e7808b44bf574c8c2fdfed0cce34facd416a67784568baf0fe0",
+    ".project-os/debt/assessments/fix-marker-homograph-detection.json": "23ad5ab7aa88f3239da0c0c13d7874879cc0359bbe2790ba11b1eb7ad32c6e75",
+    ".project-os/debt/assessments/fix-release-pack-eol-classification.json": "950770291fb292d0a0b960a76fc63022adeb2bb9f96fb311161d59db5037e4b1",
+    ".project-os/debt/assessments/fix-release-rebuild-path.json": "2d81f37292de9df49dbeb180209f3dbe3e6f6f8292c52e38b5a0bc209880dab6",
+    ".project-os/debt/assessments/guard-consumer-spec-purpose.json": "db7d5917c57fe11616d3177c1653da5b9efda9427f6fb5f731fa80e55300aa46",
+    ".project-os/debt/assessments/harden-package-installation.json": "8656f50467d8b460348418195d7701dd0e01a0a3f003148015841e5306188807",
+    ".project-os/debt/assessments/harden-release-install-cleanup.json": "f20c5064b1b3a46b53359b66f7434518c5f788a96327d87537f47955ad10011b",
+    ".project-os/debt/assessments/harden-supply-chain-policy.json": "3f0908fde0cf3fcf858a4f3c9d70712b04e27719e1c3a226458e9bf7d6c4d607",
+    ".project-os/debt/assessments/ignore-rules-for-what-companion-regenerates.json": "091ea0a6d1febaa97ee34012674567e7e82c35abf974faf1b50ff2e7d5d954ba",
+    ".project-os/debt/assessments/make-delayed-release-publishable.json": "e04f9fa2247add7340a5c5aef41cef39789ff8013a9de65c7171dd13621c258f",
+    ".project-os/debt/assessments/make-github-plan-source-truthful.json": "a2117154fbd55ea1455c12af49a8598b54eba2aaa8205467a544a78a581bde05",
+    ".project-os/debt/assessments/measure-prepared-context-on-real-repositories.json": "4cc29f28a90ae3e8d0767c6efb8979f4e8f9ad2032644bb4b5a28d2ab256d067",
+    ".project-os/debt/assessments/open-claude-and-opencode-when-they-declare-it.json": "fc4dfa642edc70488e2e696777b177c7eaab739ed114d2cd9f1ed31ba9aeaf98",
+    ".project-os/debt/assessments/open-the-desktop-ai-you-chose-and-install-what-fits.json": "28f655e7599eadf87b7def62f0f2c34abaadf59d2ee061356f354bf4c796c05f",
+    ".project-os/debt/assessments/orchestrate-onboarding-prompts.json": "a5e896e52868ced168433032ac16e0f452440e25f6e486e07058375b3228e8fe",
+    ".project-os/debt/assessments/package-companion-windows.json": "5df652e86e619adf8d76481b2b4ece28a705819dbf08b8ac97421bcfabc5f393",
+    ".project-os/debt/assessments/pin-upstream-openspec-1-6-0.json": "355435ffe68177bfb43782b5a047d23ec07ee8db264e6d20d2ce50504487fa29",
+    ".project-os/debt/assessments/poll-uninstaller-removal.json": "78bc6ebb8518217765a79a79afdb4096f5499322207051cc9a5c86d604b81c61",
+    ".project-os/debt/assessments/prepare-companion-projects.json": "919ce9d6da8fd61a8f160f5a14a6d81a00541c8c33585aada80af05d2fe84727",
+    ".project-os/debt/assessments/preserve-path-rule-selection.json": "7088c8185fbb73eb4b7dc6e99c30b000d77d682a79184ac2d184247d50d6d5d0",
+    ".project-os/debt/assessments/publish-0-3-0.json": "75d62c775b6d3f476be8c45ee9787e9be9dda8caf4a7159499d7949d8972062b",
+    ".project-os/debt/assessments/publish-companion-0-3-0.json": "0e821b630a496a9b10bf8d4d75f65f44dfd895fd6a0a69e0fb7e4b5c84a96229",
+    ".project-os/debt/assessments/raise-supported-node-baseline.json": "6ae6b15a68b39fc525faa47c35675ba44c871df629d0eedc107eeb7d15dcaf06",
+    ".project-os/debt/assessments/recover-registry-verification.json": "ef5bc6bbd2f2f416da3d5575908657f0b464cd76f62b87b2418dd62e925adbdb",
+    ".project-os/debt/assessments/release-current-companion-for-windows.json": "5413100ecd0584659a8d62d870e81338771106e5b52eb825531dab444866abd5",
+    ".project-os/debt/assessments/remeasure-retrieval-and-record-flow-comparison.json": "c74911a955525d020dd03bbe7684658597af5e300d5c363738d5f920f6603d2e",
+    ".project-os/debt/assessments/renew-public-documentation.json": "ed5fc50c74733a0542cc5f13185ae4cd59a01505149f0068d1356a08747bbbca",
+    ".project-os/debt/assessments/research-adaptive-onboarding.json": "4f5b59b40ebba72fcfd2f3630177ad8e77adb1f39159ee7280071ed7c7db8617",
+    ".project-os/debt/assessments/research-package-manager-supply-chain.json": "df85d5c4ce6b53f8e1cd67dcc52757e92bcfa0a7d44fa9b53431c24f577640cc",
+    ".project-os/debt/assessments/research-upstream-self-application.json": "60e30ee258d7b7d345cdfee5ed2ac7c1be5f208f3f84577794aa9bd547150a0f",
+    ".project-os/debt/assessments/resolve-historical-purpose.json": "fe96b7e7c39c5a23daf255ebda19d9f64ef84440092de1a41ce261f24e855993",
+    ".project-os/debt/assessments/restore-screenshot-provenance.json": "70513f04ca9293dafc96c920b684b7feb0416eaca0c4528f512161f3e923687c",
+    ".project-os/debt/assessments/restructure-companion-navigation-remediation-2.json": "f36dd512d50b25207459bc5d8a0b50ece59a56db12dd659244ad6ecbe0fa52dd",
+    ".project-os/debt/assessments/restructure-companion-navigation-remediation.json": "42be8713053c89d126467b74e8e1b3d982e9906e159ab9fcde4761f8faf09014",
+    ".project-os/debt/assessments/restructure-companion-navigation.json": "5fcc98830f099b533513752f222e04ef9cb8895a0bb91bb0023a728dd8a97896",
+    ".project-os/debt/assessments/revalidate-agent-adapters.json": "da465be74af5dcc43bf50ccc43dae837db22f5e22dd2e8786436379b42a5fad0",
+    ".project-os/debt/assessments/route-companion-context.json": "8b02401732c3c2e0f13c3ad0c73163b6a7cd3692f5388f2231d2ac01c070712e",
+    ".project-os/debt/assessments/sanitise-provider-friction-and-ci-coverage.json": "29f06e6b102efaa0d4e8bd99d54a3260c882127b27947c7a5ffea84a949c09f3",
+    ".project-os/debt/assessments/show-verified-project-state.json": "a0a85d164df5d16b1b9c215d04564c57c2947784594a586f4ac34e2980999706",
+    ".project-os/debt/assessments/support-isolated-local-toolchain.json": "488a0caa13c93859967071f3d949ff6f9c9d48ee420b6e7b4a4a05d1822c90e5",
+    ".project-os/debt/assessments/trim-npm-documentation-payload.json": "afb460cb159fa1e97dc304696c37ea484cf9bebff6aae2a07087c767401c0310",
+    ".project-os/debt/assessments/validate-companion-journeys.json": "c2159c8eb46f079e734d5bc66e255a76af6e460f77ffd9c04cee8074469c6c92",
+    ".project-os/debt/assessments/verify-published-workflow-provenance.json": "6c8d53dad0de623544564cef6ea07bde03dd8c36694425e4d75c512168ed1b3d"
+  },
+  "afterFiles": {
+    ".project-os/debt/config.json": "38196169ebbe2fea780ee9e7b3182b9fa18f5902272e8787515a582942ffa112",
+    ".project-os/debt/registry.json": "44182434ca402f7edc97c042f7a0430d945843d49306e864d37a51ac4f4a70af",
+    ".project-os/debt/assessments/activate-companion-environment.json": "0e9ece63a77193e05bd760ce346849e4b70c20ccc8775bf2c3925111e045aecd",
+    ".project-os/debt/assessments/add-adaptive-onboarding-classifier.json": "dba550414c31cbd48bef0a5969e9c223edde641abe09c3999f20697dd0d71a8e",
+    ".project-os/debt/assessments/add-curated-tool-catalog.json": "6b4790365fc10f938f4f902287786cb00e9183a05ae1cb0e0863a099a03df1bf",
+    ".project-os/debt/assessments/adopt-existing-project-seeds.json": "3d00f26b88fbe096a0e075c839e2f889c11b5709d89badf6cecf6f2e296558ed",
+    ".project-os/debt/assessments/align-companion-first-public-guidance.json": "86b17c2a6b80442b09c5e28ac2ba8a779147f8f4f29f763d630542d38b28225b",
+    ".project-os/debt/assessments/align-degradation-spec-with-the-code.json": "1a70d47cc11317d827c4aa2a2c224733d3d1ef4333d93e18b98ffc93fa1f17bf",
+    ".project-os/debt/assessments/authorized-tracker-workflow.json": "2a83fef6a0e9c5224a837a0412929760b1ec2c268d13bf1e28c66cf81322aa1a",
+    ".project-os/debt/assessments/build-companion-desktop.json": "78c46d25b1aa52f4e30360bf7bb9e14fb3e48cef5a6a6b09a502f4900c6e2ea0",
+    ".project-os/debt/assessments/classify-upstream-profile-drift.json": "9c85079ce42284d5da9bff81939dc6bb8bc532429b2e17220f81d4d68323a215",
+    ".project-os/debt/assessments/companion-0-3-2-hotfix-actions-bar-clipboard.json": "671c2bee3fd19ba63ab3bbf9da111013c36185130e4be7dc10a0758fb6c4fe22",
+    ".project-os/debt/assessments/companion-contextual-installer.json": "6175f53b81fdb760ba24f3118212872637f9d953406742b16ee0b7fe1c553d77",
+    ".project-os/debt/assessments/companion-design-system-impeccable.json": "0eb695a3ecf59acf095dd2003480af705784fcd822f800916501c3309a6b02a8",
+    ".project-os/debt/assessments/companion-installer-choices.json": "dd79a2c3d76a29bbb8f071eead79c81da39283e1cc3dd68d4747e2dc04eb442a",
+    ".project-os/debt/assessments/companion-obsidian-stitch-ui.json": "214986cb7aa395d70b2bbbab90020b909eddce79872ad8ef6a4f35fa17ff207c",
+    ".project-os/debt/assessments/companion-redesign-flow.json": "cb7645b6f673abb43d00d2e1182de507543abb4023b7dffd8ab1936e3a83f8ed",
+    ".project-os/debt/assessments/complete-companion-program-remediation.json": "37f54b0b7d521414a3bb798d04aa99a019765bca59d92446800e5ed68271573c",
+    ".project-os/debt/assessments/complete-companion-program.json": "5f5e50782b494ab7821822ea51e3fefb95503425060de5ccdf60b28f432e1c06",
+    ".project-os/debt/assessments/complete-upstream-controls.json": "0b00736cd5342fc259f6e724a03043849787cce7bae953f1cf61f3545a8e1325",
+    ".project-os/debt/assessments/compose-project-specific-prompts-remediation-2.json": "a79374a97fab23dfa7e5585b1083a44169ad94d7e352374553e82baa903de2a4",
+    ".project-os/debt/assessments/compose-project-specific-prompts-remediation.json": "a472c41be0903e949abc3ff6d3f170ac80afc45f7ab9df5cb208da8d6a086e88",
+    ".project-os/debt/assessments/compose-project-specific-prompts.json": "9f44d508aab5a45af26faa4f21d041de829f207c360b49e5c5d73e2c8d219bfb",
+    ".project-os/debt/assessments/congress-presentation-concept-layout.json": "ed03f525419ce30417e0d279cccf1a6f56029f2bfab5454832a461ba264646f3",
+    ".project-os/debt/assessments/congress-presentation-with-measured-evidence.json": "b64416ff37255de868aac9c75d0734749a146adb36654b858575ec85ac78d45c",
+    ".project-os/debt/assessments/consume-technical-profile-evidence.json": "f9b9ce15bb240e807726370aa55d9c3f2e444f171d269567edf18f98989ea7a1",
+    ".project-os/debt/assessments/correct-companion-authenticode-probe.json": "c618f34f8ea3d63038217c9e14d8ccd002d2ce5621fbc0c634fbc51dbf7b0ca3",
+    ".project-os/debt/assessments/correct-companion-release-artifact-action-pin.json": "9f7828e94a470a12d459550493dfbfd87277350fb41fa0475fd48f269bf2d961",
+    ".project-os/debt/assessments/decide-on-a-hosted-inference-gateway.json": "62f2291e2aa3c29dbc54de1484eab9dee52431d6410e39fa709e7a567941159b",
+    ".project-os/debt/assessments/define-companion-experience.json": "ef5df6a711af33917212981b004b354c85eb724d68aa08e23b7fc5e0d5032fe3",
+    ".project-os/debt/assessments/distinguish-provenance-from-repository-drift.json": "0ded4d9803b6820dd0dead1142c5ed6fab77cddaf65f3931b321bdd465643ce9",
+    ".project-os/debt/assessments/doctor-baseline-and-receipt-lifecycle.json": "3e12400662ef6bfb4b18aede477d3fd25632c48853a297a75f7457f03ae95ca0",
+    ".project-os/debt/assessments/evaluate-sdd-friction.json": "0dcb5a3dd6a05e7808b44bf574c8c2fdfed0cce34facd416a67784568baf0fe0",
+    ".project-os/debt/assessments/fix-marker-homograph-detection.json": "23ad5ab7aa88f3239da0c0c13d7874879cc0359bbe2790ba11b1eb7ad32c6e75",
+    ".project-os/debt/assessments/fix-release-pack-eol-classification.json": "950770291fb292d0a0b960a76fc63022adeb2bb9f96fb311161d59db5037e4b1",
+    ".project-os/debt/assessments/fix-release-rebuild-path.json": "2d81f37292de9df49dbeb180209f3dbe3e6f6f8292c52e38b5a0bc209880dab6",
+    ".project-os/debt/assessments/guard-consumer-spec-purpose.json": "db7d5917c57fe11616d3177c1653da5b9efda9427f6fb5f731fa80e55300aa46",
+    ".project-os/debt/assessments/harden-package-installation.json": "8656f50467d8b460348418195d7701dd0e01a0a3f003148015841e5306188807",
+    ".project-os/debt/assessments/harden-release-install-cleanup.json": "f20c5064b1b3a46b53359b66f7434518c5f788a96327d87537f47955ad10011b",
+    ".project-os/debt/assessments/harden-supply-chain-policy.json": "3f0908fde0cf3fcf858a4f3c9d70712b04e27719e1c3a226458e9bf7d6c4d607",
+    ".project-os/debt/assessments/ignore-rules-for-what-companion-regenerates.json": "091ea0a6d1febaa97ee34012674567e7e82c35abf974faf1b50ff2e7d5d954ba",
+    ".project-os/debt/assessments/make-delayed-release-publishable.json": "e04f9fa2247add7340a5c5aef41cef39789ff8013a9de65c7171dd13621c258f",
+    ".project-os/debt/assessments/make-github-plan-source-truthful.json": "a2117154fbd55ea1455c12af49a8598b54eba2aaa8205467a544a78a581bde05",
+    ".project-os/debt/assessments/measure-prepared-context-on-real-repositories.json": "4cc29f28a90ae3e8d0767c6efb8979f4e8f9ad2032644bb4b5a28d2ab256d067",
+    ".project-os/debt/assessments/open-claude-and-opencode-when-they-declare-it.json": "fc4dfa642edc70488e2e696777b177c7eaab739ed114d2cd9f1ed31ba9aeaf98",
+    ".project-os/debt/assessments/open-the-desktop-ai-you-chose-and-install-what-fits.json": "28f655e7599eadf87b7def62f0f2c34abaadf59d2ee061356f354bf4c796c05f",
+    ".project-os/debt/assessments/orchestrate-onboarding-prompts.json": "a5e896e52868ced168433032ac16e0f452440e25f6e486e07058375b3228e8fe",
+    ".project-os/debt/assessments/package-companion-windows.json": "5df652e86e619adf8d76481b2b4ece28a705819dbf08b8ac97421bcfabc5f393",
+    ".project-os/debt/assessments/pin-upstream-openspec-1-6-0.json": "355435ffe68177bfb43782b5a047d23ec07ee8db264e6d20d2ce50504487fa29",
+    ".project-os/debt/assessments/poll-uninstaller-removal.json": "78bc6ebb8518217765a79a79afdb4096f5499322207051cc9a5c86d604b81c61",
+    ".project-os/debt/assessments/prepare-companion-projects.json": "919ce9d6da8fd61a8f160f5a14a6d81a00541c8c33585aada80af05d2fe84727",
+    ".project-os/debt/assessments/preserve-path-rule-selection.json": "7088c8185fbb73eb4b7dc6e99c30b000d77d682a79184ac2d184247d50d6d5d0",
+    ".project-os/debt/assessments/publish-0-3-0.json": "75d62c775b6d3f476be8c45ee9787e9be9dda8caf4a7159499d7949d8972062b",
+    ".project-os/debt/assessments/publish-companion-0-3-0.json": "0e821b630a496a9b10bf8d4d75f65f44dfd895fd6a0a69e0fb7e4b5c84a96229",
+    ".project-os/debt/assessments/raise-supported-node-baseline.json": "6ae6b15a68b39fc525faa47c35675ba44c871df629d0eedc107eeb7d15dcaf06",
+    ".project-os/debt/assessments/reconcile-historical-companion-identity-debt.json": "cece4d97aa70a7757840c85d020cd427cfd6be11dd6f798a41d3cdb60e2b709f",
+    ".project-os/debt/assessments/recover-registry-verification.json": "ef5bc6bbd2f2f416da3d5575908657f0b464cd76f62b87b2418dd62e925adbdb",
+    ".project-os/debt/assessments/release-current-companion-for-windows.json": "5413100ecd0584659a8d62d870e81338771106e5b52eb825531dab444866abd5",
+    ".project-os/debt/assessments/remeasure-retrieval-and-record-flow-comparison.json": "c74911a955525d020dd03bbe7684658597af5e300d5c363738d5f920f6603d2e",
+    ".project-os/debt/assessments/renew-public-documentation.json": "ed5fc50c74733a0542cc5f13185ae4cd59a01505149f0068d1356a08747bbbca",
+    ".project-os/debt/assessments/research-adaptive-onboarding.json": "4f5b59b40ebba72fcfd2f3630177ad8e77adb1f39159ee7280071ed7c7db8617",
+    ".project-os/debt/assessments/research-package-manager-supply-chain.json": "df85d5c4ce6b53f8e1cd67dcc52757e92bcfa0a7d44fa9b53431c24f577640cc",
+    ".project-os/debt/assessments/research-upstream-self-application.json": "60e30ee258d7b7d345cdfee5ed2ac7c1be5f208f3f84577794aa9bd547150a0f",
+    ".project-os/debt/assessments/resolve-historical-purpose.json": "fe96b7e7c39c5a23daf255ebda19d9f64ef84440092de1a41ce261f24e855993",
+    ".project-os/debt/assessments/restore-screenshot-provenance.json": "70513f04ca9293dafc96c920b684b7feb0416eaca0c4528f512161f3e923687c",
+    ".project-os/debt/assessments/restructure-companion-navigation-remediation-2.json": "f36dd512d50b25207459bc5d8a0b50ece59a56db12dd659244ad6ecbe0fa52dd",
+    ".project-os/debt/assessments/restructure-companion-navigation-remediation.json": "42be8713053c89d126467b74e8e1b3d982e9906e159ab9fcde4761f8faf09014",
+    ".project-os/debt/assessments/restructure-companion-navigation.json": "5fcc98830f099b533513752f222e04ef9cb8895a0bb91bb0023a728dd8a97896",
+    ".project-os/debt/assessments/revalidate-agent-adapters.json": "da465be74af5dcc43bf50ccc43dae837db22f5e22dd2e8786436379b42a5fad0",
+    ".project-os/debt/assessments/route-companion-context.json": "8b02401732c3c2e0f13c3ad0c73163b6a7cd3692f5388f2231d2ac01c070712e",
+    ".project-os/debt/assessments/sanitise-provider-friction-and-ci-coverage.json": "29f06e6b102efaa0d4e8bd99d54a3260c882127b27947c7a5ffea84a949c09f3",
+    ".project-os/debt/assessments/show-verified-project-state.json": "a0a85d164df5d16b1b9c215d04564c57c2947784594a586f4ac34e2980999706",
+    ".project-os/debt/assessments/support-isolated-local-toolchain.json": "488a0caa13c93859967071f3d949ff6f9c9d48ee420b6e7b4a4a05d1822c90e5",
+    ".project-os/debt/assessments/trim-npm-documentation-payload.json": "afb460cb159fa1e97dc304696c37ea484cf9bebff6aae2a07087c767401c0310",
+    ".project-os/debt/assessments/validate-companion-journeys.json": "c2159c8eb46f079e734d5bc66e255a76af6e460f77ffd9c04cee8074469c6c92",
+    ".project-os/debt/assessments/verify-published-workflow-provenance.json": "6c8d53dad0de623544564cef6ea07bde03dd8c36694425e4d75c512168ed1b3d"
+  },
+  "first": {
+    "exitCode": 0,
+    "stdout": "{\n  \"command\": \"capture\",\n  \"ok\": true,\n  \"verdict\": \"PASS\",\n  \"counts\": {\n    \"PASS\": 1,\n    \"FAIL\": 0,\n    \"WARN\": 0,\n    \"SKIP\": 0\n  },\n  \"checks\": [\n    {\n      \"id\": \"capture\",\n      \"status\": \"PASS\",\n      \"summary\": \"Assessment 'reconcile-historical-companion-identity-debt' capturado (clean); cambios: resolved:debt-bee2fa0c0549.\",\n      \"recovery\": null\n    }\n  ],\n  \"capture\": {\n    \"flow\": \"reconcile-historical-companion-identity-debt\",\n    \"noop\": false,\n    \"wroteAssessment\": true,\n    \"wroteRegistry\": true,\n    \"changes\": [\n      {\n        \"action\": \"resolved\",\n        \"id\": \"debt-bee2fa0c0549\"\n      }\n    ],\n    \"result\": \"clean\"\n  }\n}\n",
+    "stderr": "",
+    "parsed": {
+      "command": "capture",
+      "ok": true,
+      "verdict": "PASS",
+      "counts": {
+        "PASS": 1,
+        "FAIL": 0,
+        "WARN": 0,
+        "SKIP": 0
+      },
+      "checks": [
+        {
+          "id": "capture",
+          "status": "PASS",
+          "summary": "Assessment 'reconcile-historical-companion-identity-debt' capturado (clean); cambios: resolved:debt-bee2fa0c0549.",
+          "recovery": null
+        }
+      ],
+      "capture": {
+        "flow": "reconcile-historical-companion-identity-debt",
+        "noop": false,
+        "wroteAssessment": true,
+        "wroteRegistry": true,
+        "changes": [
+          {
+            "action": "resolved",
+            "id": "debt-bee2fa0c0549"
+          }
+        ],
+        "result": "clean"
+      }
+    }
+  },
+  "second": {
+    "exitCode": 0,
+    "stdout": "{\n  \"command\": \"capture\",\n  \"ok\": true,\n  \"verdict\": \"PASS\",\n  \"counts\": {\n    \"PASS\": 1,\n    \"FAIL\": 0,\n    \"WARN\": 0,\n    \"SKIP\": 0\n  },\n  \"checks\": [\n    {\n      \"id\": \"capture\",\n      \"status\": \"PASS\",\n      \"summary\": \"Captura idempotente: 'reconcile-historical-companion-identity-debt' ya estaba registrado (no-op, sin drift).\",\n      \"recovery\": null\n    }\n  ],\n  \"capture\": {\n    \"flow\": \"reconcile-historical-companion-identity-debt\",\n    \"noop\": true,\n    \"wroteAssessment\": false,\n    \"wroteRegistry\": false,\n    \"changes\": [],\n    \"result\": \"clean\"\n  }\n}\n",
+    "stderr": "",
+    "parsed": {
+      "command": "capture",
+      "ok": true,
+      "verdict": "PASS",
+      "counts": {
+        "PASS": 1,
+        "FAIL": 0,
+        "WARN": 0,
+        "SKIP": 0
+      },
+      "checks": [
+        {
+          "id": "capture",
+          "status": "PASS",
+          "summary": "Captura idempotente: 'reconcile-historical-companion-identity-debt' ya estaba registrado (no-op, sin drift).",
+          "recovery": null
+        }
+      ],
+      "capture": {
+        "flow": "reconcile-historical-companion-identity-debt",
+        "noop": true,
+        "wroteAssessment": false,
+        "wroteRegistry": false,
+        "changes": [],
+        "result": "clean"
+      }
+    }
+  },
+  "resumed": {
+    "exitCode": 0,
+    "stdout": "{\n  \"command\": \"capture\",\n  \"ok\": true,\n  \"verdict\": \"PASS\",\n  \"counts\": {\n    \"PASS\": 1,\n    \"FAIL\": 0,\n    \"WARN\": 0,\n    \"SKIP\": 0\n  },\n  \"checks\": [\n    {\n      \"id\": \"capture\",\n      \"status\": \"PASS\",\n      \"summary\": \"Assessment 'reconcile-historical-companion-identity-debt' capturado (clean); cambios: resolved:debt-bee2fa0c0549.\",\n      \"recovery\": null\n    }\n  ],\n  \"capture\": {\n    \"flow\": \"reconcile-historical-companion-identity-debt\",\n    \"noop\": false,\n    \"wroteAssessment\": false,\n    \"wroteRegistry\": true,\n    \"changes\": [\n      {\n        \"action\": \"resolved\",\n        \"id\": \"debt-bee2fa0c0549\"\n      }\n    ],\n    \"result\": \"clean\"\n  }\n}\n",
+    "stderr": "",
+    "parsed": {
+      "command": "capture",
+      "ok": true,
+      "verdict": "PASS",
+      "counts": {
+        "PASS": 1,
+        "FAIL": 0,
+        "WARN": 0,
+        "SKIP": 0
+      },
+      "checks": [
+        {
+          "id": "capture",
+          "status": "PASS",
+          "summary": "Assessment 'reconcile-historical-companion-identity-debt' capturado (clean); cambios: resolved:debt-bee2fa0c0549.",
+          "recovery": null
+        }
+      ],
+      "capture": {
+        "flow": "reconcile-historical-companion-identity-debt",
+        "noop": false,
+        "wroteAssessment": false,
+        "wroteRegistry": true,
+        "changes": [
+          {
+            "action": "resolved",
+            "id": "debt-bee2fa0c0549"
+          }
+        ],
+        "result": "clean"
+      }
+    }
+  },
+  "budget": {
+    "exitCode": 0,
+    "stdout": "{\n  \"command\": \"check\",\n  \"ok\": true,\n  \"verdict\": \"PASS\",\n  \"counts\": {\n    \"PASS\": 2,\n    \"FAIL\": 0,\n    \"WARN\": 0,\n    \"SKIP\": 0\n  },\n  \"checks\": [\n    {\n      \"id\": \"debt-config\",\n      \"status\": \"PASS\",\n      \"summary\": \"Politica y registro validos (50 item(s)).\",\n      \"recovery\": null\n    },\n    {\n      \"id\": \"plan-upstream-core\",\n      \"status\": \"PASS\",\n      \"summary\": \"Plan activo: 4/5 unidades, 3 flujo(s) con deuda abierta.\",\n      \"recovery\": null\n    }\n  ],\n  \"evaluation\": {\n    \"plans\": {\n      \"upstream-core\": {\n        \"id\": \"upstream-core\",\n        \"title\": \"Upstream engineering controls\",\n        \"budget\": 4,\n        \"threshold\": 5,\n        \"remaining\": 1,\n        \"openItems\": [\n          \"debt-9e0738544eb1\",\n          \"debt-1e4dcea05e47\",\n          \"debt-bd1d39bb57fe\",\n          \"debt-ddb82e8fd48e\"\n        ],\n        \"flowsWithResidualDebt\": 3,\n        \"triggers\": [],\n        \"paused\": false,\n        \"pausedBy\": []\n      }\n    },\n    \"globalTriggers\": [],\n    \"pausedPlans\": [],\n    \"openDebtCount\": 4,\n    \"expiredExceptionIds\": [],\n    \"criticalTransversalIds\": []\n  }\n}\n",
+    "stderr": "",
+    "parsed": {
+      "command": "check",
+      "ok": true,
+      "verdict": "PASS",
+      "counts": {
+        "PASS": 2,
+        "FAIL": 0,
+        "WARN": 0,
+        "SKIP": 0
+      },
+      "checks": [
+        {
+          "id": "debt-config",
+          "status": "PASS",
+          "summary": "Politica y registro validos (50 item(s)).",
+          "recovery": null
+        },
+        {
+          "id": "plan-upstream-core",
+          "status": "PASS",
+          "summary": "Plan activo: 4/5 unidades, 3 flujo(s) con deuda abierta.",
+          "recovery": null
+        }
+      ],
+      "evaluation": {
+        "plans": {
+          "upstream-core": {
+            "id": "upstream-core",
+            "title": "Upstream engineering controls",
+            "budget": 4,
+            "threshold": 5,
+            "remaining": 1,
+            "openItems": [
+              "debt-9e0738544eb1",
+              "debt-1e4dcea05e47",
+              "debt-bd1d39bb57fe",
+              "debt-ddb82e8fd48e"
+            ],
+            "flowsWithResidualDebt": 3,
+            "triggers": [],
+            "paused": false,
+            "pausedBy": []
+          }
+        },
+        "globalTriggers": [],
+        "pausedPlans": [],
+        "openDebtCount": 4,
+        "expiredExceptionIds": [],
+        "criticalTransversalIds": []
+      }
+    }
+  },
+  "negatives": [
+    {
+      "name": "wrong existing ID rejected by preflight",
+      "detected": true,
+      "expected": "/input exact target/"
+    },
+    {
+      "name": "additional resolution rejected by preflight",
+      "detected": true,
+      "expected": "/input exact target/"
+    },
+    {
+      "name": "absent ID rejected by actual CLI without mutation",
+      "detected": true,
+      "run": {
+        "exitCode": 2,
+        "stdout": "project-os debt capture: FAIL - assessment.resolves refiere un item inexistente: debt-000000000000.\nRecuperacion: Corrige el id o elimina la resolucion del assessment.\n",
+        "stderr": "",
+        "parsed": null
+      }
+    },
+    {
+      "name": "changed same-flow input rejected by CLI",
+      "detected": true,
+      "run": {
+        "exitCode": 2,
+        "stdout": "project-os debt capture: FAIL - El flujo 'reconcile-historical-companion-identity-debt' ya tiene un assessment distinto; la evidencia historica es inmutable.\nRecuperacion: Usa otro identificador de flujo o revisa el assessment existente antes de reintentar.\n",
+        "stderr": "",
+        "parsed": null
+      }
+    },
+    {
+      "name": "removed item",
+      "detected": true,
+      "expected": "/registry identities\\/order/"
+    },
+    {
+      "name": "unrelated classification",
+      "detected": true,
+      "expected": "/unrelated item/"
+    },
+    {
+      "name": "target occurrence",
+      "detected": true,
+      "expected": "/target immutable fields/"
+    },
+    {
+      "name": "target classification",
+      "detected": true,
+      "expected": "/target immutable fields/"
+    },
+    {
+      "name": "wrong target resolution",
+      "detected": true,
+      "expected": "/target resolution/"
+    },
+    {
+      "name": "historical assessment changed",
+      "detected": true,
+      "expected": "/historical\\/config bytes/"
+    },
+    {
+      "name": "configuration changed",
+      "detected": true,
+      "expected": "/historical\\/config bytes/"
+    },
+    {
+      "name": "wrong actual capture caught after mutation",
+      "detected": true,
+      "expected": "/unrelated item|target resolved/"
+    }
+  ],
+  "summary": {
+    "total": 50,
+    "beforeOpen": 37,
+    "afterOpen": 36,
+    "otherObjectsIdentical": 49,
+    "negativeDetections": 12,
+    "negativeFailures": 0,
+    "phaseBranchMutations": 0
+  },
+  "recovery": {
+    "status": "PASS",
+    "strategy": "Separate preserved baseline/rejected candidate; no post-merge reopen claim",
+    "baselineHash": "2711f41198011fa04434a3ded8c6b805a2fe5de9102140ecbedb85c54914d6d3",
+    "recoveredHash": "2711f41198011fa04434a3ded8c6b805a2fe5de9102140ecbedb85c54914d6d3",
+    "rejectedAssessmentPreserved": true,
+    "recoveryHealth": {
+      "exitCode": 0,
+      "stdout": "{\n  \"command\": \"check\",\n  \"ok\": true,\n  \"verdict\": \"PASS\",\n  \"counts\": {\n    \"PASS\": 2,\n    \"FAIL\": 0,\n    \"WARN\": 0,\n    \"SKIP\": 0\n  },\n  \"checks\": [\n    {\n      \"id\": \"debt-config\",\n      \"status\": \"PASS\",\n      \"summary\": \"Politica y registro validos (50 item(s)).\",\n      \"recovery\": null\n    },\n    {\n      \"id\": \"plan-upstream-core\",\n      \"status\": \"PASS\",\n      \"summary\": \"Plan activo: 4/5 unidades, 3 flujo(s) con deuda abierta.\",\n      \"recovery\": null\n    }\n  ],\n  \"evaluation\": {\n    \"plans\": {\n      \"upstream-core\": {\n        \"id\": \"upstream-core\",\n        \"title\": \"Upstream engineering controls\",\n        \"budget\": 4,\n        \"threshold\": 5,\n        \"remaining\": 1,\n        \"openItems\": [\n          \"debt-9e0738544eb1\",\n          \"debt-1e4dcea05e47\",\n          \"debt-bd1d39bb57fe\",\n          \"debt-ddb82e8fd48e\"\n        ],\n        \"flowsWithResidualDebt\": 3,\n        \"triggers\": [],\n        \"paused\": false,\n        \"pausedBy\": []\n      }\n    },\n    \"globalTriggers\": [],\n    \"pausedPlans\": [],\n    \"openDebtCount\": 4,\n    \"expiredExceptionIds\": [],\n    \"criticalTransversalIds\": []\n  }\n}\n",
+      "stderr": "",
+      "parsed": {
+        "command": "check",
+        "ok": true,
+        "verdict": "PASS",
+        "counts": {
+          "PASS": 2,
+          "FAIL": 0,
+          "WARN": 0,
+          "SKIP": 0
+        },
+        "checks": [
+          {
+            "id": "debt-config",
+            "status": "PASS",
+            "summary": "Politica y registro validos (50 item(s)).",
+            "recovery": null
+          },
+          {
+            "id": "plan-upstream-core",
+            "status": "PASS",
+            "summary": "Plan activo: 4/5 unidades, 3 flujo(s) con deuda abierta.",
+            "recovery": null
+          }
+        ],
+        "evaluation": {
+          "plans": {
+            "upstream-core": {
+              "id": "upstream-core",
+              "title": "Upstream engineering controls",
+              "budget": 4,
+              "threshold": 5,
+              "remaining": 1,
+              "openItems": [
+                "debt-9e0738544eb1",
+                "debt-1e4dcea05e47",
+                "debt-bd1d39bb57fe",
+                "debt-ddb82e8fd48e"
+              ],
+              "flowsWithResidualDebt": 3,
+              "triggers": [],
+              "paused": false,
+              "pausedBy": []
+            }
+          },
+          "globalTriggers": [],
+          "pausedPlans": [],
+          "openDebtCount": 4,
+          "expiredExceptionIds": [],
+          "criticalTransversalIds": []
+        }
+      }
+    }
+  },
+  "disposableDirectories": {
+    "positive": "positive",
+    "interrupted": "interrupted",
+    "absent-id": "absent-id",
+    "rejected-wrong-id": "rejected-wrong-id",
+    "recovered-baseline": "recovered-baseline"
+  },
+  "note": "All disposable copies retained outside repository. Absolute user paths omitted from versioned report."
+}

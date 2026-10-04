@@ -1,0 +1,332 @@
+{
+  "schemaVersion": "1.0.0",
+  "result": "PASS",
+  "fixture": "empty-git-repository",
+  "commands": [
+    {
+      "id": "git-init",
+      "exitCode": 0
+    },
+    {
+      "id": "npm-pack",
+      "exitCode": 0
+    },
+    {
+      "id": "install-packed-runner",
+      "exitCode": 0
+    },
+    {
+      "id": "bootstrap-from-packed-tarball",
+      "exitCode": 0
+    },
+    {
+      "id": "bootstrap-second",
+      "exitCode": 0
+    },
+    {
+      "id": "sync-check",
+      "exitCode": 0
+    }
+  ],
+  "checks": {
+    "targetBeforeBootstrap": {
+      "nonGitEntries": []
+    },
+    "packageArtifact": {
+      "bytes": 278813,
+      "filename": "create-project-engineering-os-1.0.0.tgz",
+      "sha256": "014827a48cd3950605482fc93e1742e36a8693b33b012672b8856ea1fe12e7b5"
+    },
+    "packedRunnerInstall": {
+      "stderrLines": 0,
+      "stdoutLines": 1,
+      "warnings": []
+    },
+    "firstBootstrapRunner": {
+      "artifactSha256": "014827a48cd3950605482fc93e1742e36a8693b33b012672b8856ea1fe12e7b5",
+      "source": "temporary-runner-from-verified-tarball"
+    },
+    "firstBootstrap": {
+      "command": "bootstrap",
+      "exitCode": 0,
+      "incompleteTransaction": null,
+      "mode": "apply",
+      "mutationPerformed": true,
+      "plan": {
+        "adoptionCandidates": [],
+        "blueprintHash": "580be244a594696a8640adaaecffbfc34ee928dd9f836b758c3953f82d26071e",
+        "configurationHash": "3fc41ea72053531a4137c5612d9031089bcdb7751fc9bffb5f68d6ddb970075f",
+        "externalOwnership": {
+          "commands": {
+            "adapt": "project-os opsx-adapt --target .",
+            "check": "project-os opsx-check --target .",
+            "init": "npm run openspec:init",
+            "update": "npm run openspec:update"
+          },
+          "generatedGlobs": [
+            ".claude/commands/opsx/*.md",
+            ".codex/skills/openspec-*/SKILL.md",
+            ".cursor/commands/opsx-*.md",
+            ".github/prompts/opsx-*.prompt.md",
+            ".opencode/commands/opsx-*.md"
+          ],
+          "owner": "external-openspec"
+        },
+        "hasDrift": true,
+        "migrations": [],
+        "rollbackPoint": "pre-bootstrap",
+        "stateChanges": [
+          {
+            "field": "packageHash",
+            "observed": "f3600da516c6f75a2fc6ab7a30e8392161e148aaf4dad00d4339f6eb554561aa",
+            "saved": null
+          },
+          {
+            "field": "blueprintHash",
+            "observed": "580be244a594696a8640adaaecffbfc34ee928dd9f836b758c3953f82d26071e",
+            "saved": null
+          },
+          {
+            "field": "configurationHash",
+            "observed": "3fc41ea72053531a4137c5612d9031089bcdb7751fc9bffb5f68d6ddb970075f",
+            "saved": null
+          },
+          {
+            "field": "activeProfiles",
+            "observed": [
+              "documentation",
+              "harness-tooling"
+            ],
+            "saved": null
+          },
+          {
+            "field": "stateFormatVersion",
+            "observed": 2,
+            "saved": null
+          },
+          {
+            "field": "packageName",
+            "observed": "create-project-engineering-os",
+            "saved": null
+          },
+          {
+            "field": "packageVersion",
+            "observed": "1.0.0",
+            "saved": null
+          },
+          {
+            "field": "packageHashAlgorithm",
+            "observed": "sha256-tree-v1",
+            "saved": null
+          },
+          {
+            "field": "schemaVersion",
+            "observed": "1.0.0",
+            "saved": null
+          }
+        ],
+        "summary": {
+          "adopts": 0,
+          "conflicts": 0,
+          "creates": 90,
+          "deletes": 0,
+          "preserves": 0,
+          "stateUpdate": true,
+          "updates": 0
+        },
+        "validations": [
+          "git-root-and-writability",
+          "blueprint-schema-and-sources",
+          "ownership-and-hashes",
+          "harness-capability-and-mcp-parity",
+          "transaction-journal-and-state-schema"
+        ],
+        "operationCount": 90
+      },
+      "status": "APPLIED",
+      "transaction": {
+        "changes": 91,
+        "resumed": false,
+        "transactionId": "tx-2026-10-04T02-00-07-999Z-d51b16f5"
+      }
+    },
+    "installedRuntime": {
+      "entrypoint": null,
+      "path": ".project-constructor/runtime",
+      "exists": false,
+      "executionContract": "exact-package-dependency"
+    },
+    "secondBootstrap": {
+      "command": "bootstrap",
+      "exitCode": 0,
+      "incompleteTransaction": null,
+      "mode": "apply",
+      "mutationPerformed": false,
+      "plan": {
+        "adoptionCandidates": [],
+        "blueprintHash": "580be244a594696a8640adaaecffbfc34ee928dd9f836b758c3953f82d26071e",
+        "configurationHash": "3fc41ea72053531a4137c5612d9031089bcdb7751fc9bffb5f68d6ddb970075f",
+        "externalOwnership": {
+          "commands": {
+            "adapt": "project-os opsx-adapt --target .",
+            "check": "project-os opsx-check --target .",
+            "init": "npm run openspec:init",
+            "update": "npm run openspec:update"
+          },
+          "generatedGlobs": [
+            ".claude/commands/opsx/*.md",
+            ".codex/skills/openspec-*/SKILL.md",
+            ".cursor/commands/opsx-*.md",
+            ".github/prompts/opsx-*.prompt.md",
+            ".opencode/commands/opsx-*.md"
+          ],
+          "owner": "external-openspec"
+        },
+        "hasDrift": false,
+        "migrations": [],
+        "rollbackPoint": "tx-2026-10-04T02-00-07-999Z-d51b16f5",
+        "stateChanges": [],
+        "summary": {
+          "adopts": 0,
+          "conflicts": 0,
+          "creates": 0,
+          "deletes": 0,
+          "preserves": 90,
+          "stateUpdate": false,
+          "updates": 0
+        },
+        "validations": [
+          "git-root-and-writability",
+          "blueprint-schema-and-sources",
+          "ownership-and-hashes",
+          "harness-capability-and-mcp-parity",
+          "transaction-journal-and-state-schema"
+        ],
+        "operationCount": 90
+      },
+      "status": "IN_SYNC",
+      "transaction": {
+        "changes": 0,
+        "resumed": false,
+        "transactionId": null
+      }
+    },
+    "idempotence": {
+      "changedFiles": 0
+    },
+    "sync": {
+      "command": "sync",
+      "dryRun": true,
+      "exitCode": 0,
+      "incompleteTransaction": null,
+      "mode": "check",
+      "mutationPerformed": false,
+      "plan": {
+        "adoptionCandidates": [],
+        "blueprintHash": "580be244a594696a8640adaaecffbfc34ee928dd9f836b758c3953f82d26071e",
+        "configurationHash": "3fc41ea72053531a4137c5612d9031089bcdb7751fc9bffb5f68d6ddb970075f",
+        "externalOwnership": {
+          "commands": {
+            "adapt": "project-os opsx-adapt --target .",
+            "check": "project-os opsx-check --target .",
+            "init": "npm run openspec:init",
+            "update": "npm run openspec:update"
+          },
+          "generatedGlobs": [
+            ".claude/commands/opsx/*.md",
+            ".codex/skills/openspec-*/SKILL.md",
+            ".cursor/commands/opsx-*.md",
+            ".github/prompts/opsx-*.prompt.md",
+            ".opencode/commands/opsx-*.md"
+          ],
+          "owner": "external-openspec"
+        },
+        "hasDrift": false,
+        "migrations": [],
+        "rollbackPoint": "tx-2026-10-04T02-00-07-999Z-d51b16f5",
+        "stateChanges": [],
+        "summary": {
+          "adopts": 0,
+          "conflicts": 0,
+          "creates": 0,
+          "deletes": 0,
+          "preserves": 90,
+          "stateUpdate": false,
+          "updates": 0
+        },
+        "validations": [
+          "git-root-and-writability",
+          "blueprint-schema-and-sources",
+          "ownership-and-hashes",
+          "harness-capability-and-mcp-parity",
+          "transaction-journal-and-state-schema"
+        ],
+        "operationCount": 90
+      },
+      "status": "IN_SYNC"
+    },
+    "harnesses": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      ".cursor/rules/project-os.mdc",
+      ".codex/config.toml",
+      ".github/copilot-instructions.md",
+      "OPENCODE.md"
+    ],
+    "harnessContract": {
+      "adapters": [
+        ".agents/skills/project-os/SKILL.md",
+        ".claude/rules/project-os-documentation.md",
+        ".claude/rules/project-os-governance.md",
+        ".claude/rules/project-os-tests.md",
+        ".claude/rules/project-os-universal.md",
+        ".claude/rules/project-os.md",
+        ".claude/skills/project-os/SKILL.md",
+        ".codex/config.toml",
+        ".cursor/mcp.json",
+        ".cursor/rules/project-os-documentation.mdc",
+        ".cursor/rules/project-os-governance.mdc",
+        ".cursor/rules/project-os-tests.mdc",
+        ".cursor/rules/project-os-universal.mdc",
+        ".cursor/rules/project-os.mdc",
+        ".github/copilot-instructions.md",
+        ".github/instructions/project-os-documentation.instructions.md",
+        ".github/instructions/project-os-governance.instructions.md",
+        ".github/instructions/project-os-tests.instructions.md",
+        ".github/instructions/project-os-universal.instructions.md",
+        ".github/instructions/project-os.instructions.md",
+        ".mcp.json",
+        ".opencode/project-os.md",
+        ".project-os/path-rules.json",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "opencode.json"
+      ],
+      "cells": 30,
+      "runtimeSignalsVerifiedByBootstrap": 0
+    },
+    "seededIdentity": {
+      "pinned": "1.0.0"
+    },
+    "discovery": {
+      "relative": ".project-os/github/discovery-issues.json",
+      "count": 10
+    },
+    "neutrality": {
+      "forbiddenPatterns": 5,
+      "productDependencies": 0
+    },
+    "findability": {
+      "expected": 9,
+      "missing": 0
+    },
+    "doctor": {
+      "skipped": true,
+      "cause": "--skip-install"
+    }
+  },
+  "failure": null
+}
+
+STDERR:
+Fixture conservada en <system-temp>\project-constructor-empty-W8AR9N

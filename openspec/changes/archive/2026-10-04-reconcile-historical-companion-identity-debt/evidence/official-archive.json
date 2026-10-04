@@ -1,0 +1,18 @@
+{
+  "recordedAt": "2026-10-04T02:21:21.770Z",
+  "command": [
+    "node_modules/@fission-ai/openspec/bin/openspec.js",
+    "archive",
+    "reconcile-historical-companion-identity-debt",
+    "--yes",
+    "--json"
+  ],
+  "exitCode": 0,
+  "stdout": "{\n  \"archive\": {\n    \"change\": \"reconcile-historical-companion-identity-debt\",\n    \"archivedAs\": \"2026-10-04-reconcile-historical-companion-identity-debt\",\n    \"path\": \"C:\\\\Users\\\\RitualDesktop\\\\.codex\\\\worktrees\\\\206-debt-reconciliation\\\\project-engineering-os\\\\openspec\\\\changes\\\\archive\\\\2026-10-04-reconcile-historical-companion-identity-debt\",\n    \"specsUpdated\": true,\n    \"totals\": {\n      \"added\": 0,\n      \"modified\": 1,\n      \"removed\": 0,\n      \"renamed\": 0\n    }\n  },\n  \"root\": {\n    \"path\": \"C:\\\\Users\\\\RitualDesktop\\\\.codex\\\\worktrees\\\\206-debt-reconciliation\\\\project-engineering-os\",\n    \"source\": \"nearest\"\n  }\n}\n",
+  "stderr": "",
+  "fixedOpenSpecVersion": "1.6.0",
+  "skipSpecs": false,
+  "noValidate": false,
+  "archive": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt",
+  "activeSpecUpdatedByOfficialCLI": true
+}

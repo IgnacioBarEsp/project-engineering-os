@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 206,
+  "change": "reconcile-historical-companion-identity-debt",
+  "surfaces": ["documentation", "harness-tooling"],
+  "validations": [
+    {"id":"openspec-strict","status":"passed","evidence":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/documentation-checks.json","justification":null,"profileCondition":null},
+    {"id":"critical-document-presence","status":"passed","evidence":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/documentation-checks.json","justification":null,"profileCondition":null},
+    {"id":"relative-link-check","status":"passed","evidence":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/documentation-checks.json","justification":null,"profileCondition":null},
+    {"id":"findability-two-hop-check","status":"passed","evidence":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/documentation-checks.json","justification":null,"profileCondition":null},
+    {"id":"neutrality-check","status":"passed","evidence":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/documentation-checks.json","justification":null,"profileCondition":null},
+    {"id":"constructor-tests","status":"passed","evidence":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/post-archive-checks.json","justification":null,"profileCondition":null},
+    {"id":"sync-check","status":"passed","evidence":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/fixture-sync-final.log","justification":null,"profileCondition":null},
+    {"id":"capability-matrix-check","status":"passed","evidence":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/fixture-base.log","justification":null,"profileCondition":null},
+    {"id":"opsx-check","status":"passed","evidence":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/fixture-opsx-check.log","justification":null,"profileCondition":null},
+    {"id":"doctor-json-check","status":"passed","evidence":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/qa.json","justification":null,"profileCondition":null},
+    {"id":"second-run-idempotence","status":"passed","evidence":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/official-recapture.json","justification":null,"profileCondition":null}
+  ],
+  "evidence": [
+    {"id":"issue-link","kind":"manual","status":"verified","ref":"https://github.com/IgnacioBarEsp/project-engineering-os/issues/206","justification":null,"profileCondition":null},
+    {"id":"readiness-propose","kind":"automatic","status":"verified","ref":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/readiness-propose.json","justification":null,"profileCondition":null},
+    {"id":"spec-approval","kind":"manual","status":"verified","ref":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/spec-approval.md","justification":null,"profileCondition":null},
+    {"id":"adversarial-review","kind":"manual","status":"verified","ref":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/independent-review.md","justification":null,"profileCondition":null},
+    {"id":"qualitative-review-for-clarity-and-current-ownership","kind":"manual","status":"verified","ref":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/qualitative-review.md","justification":null,"profileCondition":null},
+    {"id":"recorded-drift-decisions","kind":"manual","status":"verified","ref":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/qualitative-review.md","justification":null,"profileCondition":null},
+    {"id":"review-of-declared-degradations","kind":"manual","status":"verified","ref":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/qualitative-review.md","justification":null,"profileCondition":null},
+    {"id":"recovery-rehearsal-for-one-transaction","kind":"manual","status":"verified","ref":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/qualitative-review.md","justification":null,"profileCondition":null},
+    {"id":"targeted-registry-diff","kind":"automatic","status":"verified","ref":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/actual-capture-verification.json","justification":null,"profileCondition":null},
+    {"id":"historical-assessment-hashes","kind":"automatic","status":"verified","ref":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/actual-capture-verification.json","justification":null,"profileCondition":null},
+    {"id":"debt-check","kind":"automatic","status":"verified","ref":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/official-debt-check.json","justification":null,"profileCondition":null},
+    {"id":"post-capture-checks","kind":"automatic","status":"verified","ref":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/post-capture-checks.json","justification":null,"profileCondition":null},
+    {"id":"final-author-review","kind":"manual","status":"verified","ref":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/final-author-review.md","justification":null,"profileCondition":null}
+  ],
+  "rollback": {
+    "strategy": "Preintegration: preserve verified baseline and rejected candidate in separate copies; resume from baseline only after hash/debt checks without deleting assessments. Interrupted valid capture resumes with identical input. No official post-merge reopen exists; a wrong integrated resolution requires a separately approved correction, not a registry-only revert.",
+    "status": "verified",
+    "evidence": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/qualitative-review.md",
+    "justification": null
+  },
+  "adversarialReview": {"status":"passed","ref":"openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/independent-review.md","blockers":0,"majors":0},
+  "exceptions": []
+}

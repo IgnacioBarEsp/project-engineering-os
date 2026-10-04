@@ -1,0 +1,32 @@
+{
+  "command": "capture",
+  "ok": true,
+  "verdict": "PASS",
+  "counts": {
+    "PASS": 1,
+    "FAIL": 0,
+    "WARN": 0,
+    "SKIP": 0
+  },
+  "checks": [
+    {
+      "id": "capture",
+      "status": "PASS",
+      "summary": "Assessment 'reconcile-historical-companion-identity-debt' capturado (clean); cambios: resolved:debt-bee2fa0c0549.",
+      "recovery": null
+    }
+  ],
+  "capture": {
+    "flow": "reconcile-historical-companion-identity-debt",
+    "noop": false,
+    "wroteAssessment": true,
+    "wroteRegistry": true,
+    "changes": [
+      {
+        "action": "resolved",
+        "id": "debt-bee2fa0c0549"
+      }
+    ],
+    "result": "clean"
+  }
+}

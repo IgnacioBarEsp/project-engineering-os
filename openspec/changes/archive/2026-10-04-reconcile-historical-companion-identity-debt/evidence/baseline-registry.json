@@ -903,14 +903,11 @@
         }
       ],
       "issue": null,
-      "status": "resolved",
+      "status": "open",
       "exception": null,
       "createdAt": "2026-09-12",
-      "updatedAt": "2026-10-04",
-      "resolution": {
-        "flow": "reconcile-historical-companion-identity-debt",
-        "evidence": "#206 phase 1: original ID of the already corrected installed-identity guard. The immutable remediation-2 assessment matched/resolved debt-53f4fcdb6a67 under a different title, leaving this original ID open. Current inspection at main 9751c301976fe27e9bbad33e69f39372b69f901e confirms retained Electron-payload, own loadable dependency closure, root/manifest/package-presence and sealed npm digest comparisons/rejection assertions. Historical validation/native-journeys from 2026-09-12 at clean cb257fac27421506b5a0336e6de0845f080b3e11 reports 68 runtime files, 5 packages/137 loadable files and 12 bypass refusals with intact positive control. This is not a fresh installed run, full coverage of presence-only packages, rewritten-executable coverage or binary identity with current main. Sources, hashes and declared exclusions: docs/debt/IDENTITY_RECONCILIATION_206.md. The other 49 item objects and all prior assessments/configuration/occurrences remain unchanged; 36 other items remain open."
-      }
+      "updatedAt": "2026-09-12",
+      "resolution": null
     },
     {
       "id": "debt-7a5becc4cd20",

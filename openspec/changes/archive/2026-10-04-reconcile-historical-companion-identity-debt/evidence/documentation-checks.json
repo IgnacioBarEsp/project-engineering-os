@@ -1,0 +1,382 @@
+{
+  "recordedAt": "2026-10-04T02:22:19.131Z",
+  "status": "PASS",
+  "presence": [
+    "docs/UPSTREAM_OPERATIONS.md",
+    "docs/debt/HISTORICAL_DEBT_206.md",
+    "docs/debt/IDENTITY_RECONCILIATION_206.md",
+    "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/proposal.md",
+    "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/TLDR.md",
+    "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/design.md",
+    "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/brownfield-baseline.md",
+    "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/specs/debt-control/spec.md"
+  ],
+  "checkedLinks": 66,
+  "links": [
+    {
+      "source": "docs/UPSTREAM_OPERATIONS.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/debt/HISTORICAL_DEBT_206.md",
+      "checkedLocalMirror": "docs/debt/HISTORICAL_DEBT_206.md"
+    },
+    {
+      "source": "docs/UPSTREAM_OPERATIONS.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/debt/IDENTITY_RECONCILIATION_206.md",
+      "checkedLocalMirror": "docs/debt/IDENTITY_RECONCILIATION_206.md"
+    },
+    {
+      "source": "docs/UPSTREAM_OPERATIONS.md",
+      "href": "README.md",
+      "checkedLocalMirror": "docs/README.md"
+    },
+    {
+      "source": "docs/UPSTREAM_OPERATIONS.md",
+      "href": "SELF_APPLICATION.md",
+      "checkedLocalMirror": "docs/SELF_APPLICATION.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "IDENTITY_RECONCILIATION_206.md",
+      "checkedLocalMirror": "docs/debt/IDENTITY_RECONCILIATION_206.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "../../.project-os/debt/registry.json",
+      "checkedLocalMirror": ".project-os/debt/registry.json"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/independent-final.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/independent-final.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/validation.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/validation.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/independent-final.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/independent-final.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/independent-final.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/independent-final.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-package-companion-windows/evidence/build-idempotence.json",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-11-package-companion-windows/evidence/build-idempotence.json"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-package-companion-windows/evidence/validation.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-11-package-companion-windows/evidence/validation.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-package-companion-windows/evidence/validation.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-11-package-companion-windows/evidence/validation.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/journeys.json",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/journeys.json"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/journeys.json",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/journeys.json"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/benchmark.json",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/benchmark.json"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/landing.json",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/landing.json"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/independent-review.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/independent-review.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-complete-companion-program/evidence/local-launches.json",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-12-complete-companion-program/evidence/local-launches.json"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-complete-companion-program/evidence/native-acceptance.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-12-complete-companion-program/evidence/native-acceptance.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-complete-companion-program/evidence/model-experiment.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-12-complete-companion-program/evidence/model-experiment.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-complete-companion-program/evidence/model-benchmark.json",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-12-complete-companion-program/evidence/model-benchmark.json"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-complete-companion-program/evidence/native-acceptance.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-12-complete-companion-program/evidence/native-acceptance.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/docs/companion/COLD_READING.md",
+      "checkedLocalMirror": "docs/companion/COLD_READING.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/keyboard-and-assistive-technology.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/keyboard-and-assistive-technology.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/validation.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/validation.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/qa/project-list.mjs",
+      "checkedLocalMirror": "apps/companion/qa/project-list.mjs"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/states-and-degradations.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/states-and-degradations.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/test/companion-language.test.mjs",
+      "checkedLocalMirror": "test/companion-language.test.mjs"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-show-verified-project-state/design.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-13-show-verified-project-state/design.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-show-verified-project-state/evidence/states-and-degradations.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-13-show-verified-project-state/evidence/states-and-degradations.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-compose-project-specific-prompts/evidence/states-and-degradations.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-13-compose-project-specific-prompts/evidence/states-and-degradations.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-compose-project-specific-prompts/evidence/validation.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-13-compose-project-specific-prompts/evidence/validation.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-open-claude-and-opencode-when-they-declare-it/evidence/local-launches.json",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-13-open-claude-and-opencode-when-they-declare-it/evidence/local-launches.json"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/docs/companion/SECURITY.md",
+      "checkedLocalMirror": "docs/companion/SECURITY.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-13-open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-open-the-desktop-ai-you-chose-and-install-what-fits/design.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-13-open-the-desktop-ai-you-chose-and-install-what-fits/design.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/docs/companion/ENVIRONMENT.md",
+      "checkedLocalMirror": "docs/companion/ENVIRONMENT.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-measure-prepared-context-on-real-repositories/evidence/run-01/measurement.json",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-13-measure-prepared-context-on-real-repositories/evidence/run-01/measurement.json"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-decide-on-a-hosted-inference-gateway/evidence/validation.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-13-decide-on-a-hosted-inference-gateway/evidence/validation.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-15-correct-companion-authenticode-probe/evidence/adversarial-review.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-15-correct-companion-authenticode-probe/evidence/adversarial-review.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-15-correct-companion-authenticode-probe/evidence/adversarial-review.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-15-correct-companion-authenticode-probe/evidence/adversarial-review.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-20-congress-presentation-with-measured-evidence/evidence/adversarial-review.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-20-congress-presentation-with-measured-evidence/evidence/adversarial-review.md"
+    },
+    {
+      "source": "docs/debt/HISTORICAL_DEBT_206.md",
+      "href": "../UPSTREAM_OPERATIONS.md",
+      "checkedLocalMirror": "docs/UPSTREAM_OPERATIONS.md"
+    },
+    {
+      "source": "docs/debt/IDENTITY_RECONCILIATION_206.md",
+      "href": "HISTORICAL_DEBT_206.md",
+      "checkedLocalMirror": "docs/debt/HISTORICAL_DEBT_206.md"
+    },
+    {
+      "source": "docs/debt/IDENTITY_RECONCILIATION_206.md",
+      "href": "../../.project-os/debt/assessments/restructure-companion-navigation-remediation-2.json",
+      "checkedLocalMirror": ".project-os/debt/assessments/restructure-companion-navigation-remediation-2.json"
+    },
+    {
+      "source": "docs/debt/IDENTITY_RECONCILIATION_206.md",
+      "href": "../../src/debt/capture.mjs",
+      "checkedLocalMirror": "src/debt/capture.mjs"
+    },
+    {
+      "source": "docs/debt/IDENTITY_RECONCILIATION_206.md",
+      "href": "../../.project-os/debt/registry.json",
+      "checkedLocalMirror": ".project-os/debt/registry.json"
+    },
+    {
+      "source": "docs/debt/IDENTITY_RECONCILIATION_206.md",
+      "href": "../../apps/companion/scripts/verify-native-journeys.mjs",
+      "checkedLocalMirror": "apps/companion/scripts/verify-native-journeys.mjs"
+    },
+    {
+      "source": "docs/debt/IDENTITY_RECONCILIATION_206.md",
+      "href": "../../openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/validation.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/validation.md"
+    },
+    {
+      "source": "docs/debt/IDENTITY_RECONCILIATION_206.md",
+      "href": "../../openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/native-journeys.json",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/native-journeys.json"
+    },
+    {
+      "source": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/proposal.md",
+      "href": "design.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/design.md"
+    },
+    {
+      "source": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/TLDR.md",
+      "href": "proposal.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/proposal.md"
+    },
+    {
+      "source": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/TLDR.md",
+      "href": "design.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/design.md"
+    },
+    {
+      "source": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/TLDR.md",
+      "href": "specs/debt-control/spec.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/specs/debt-control/spec.md"
+    },
+    {
+      "source": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/TLDR.md",
+      "href": "tasks.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/tasks.md"
+    },
+    {
+      "source": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/TLDR.md",
+      "href": "brownfield-baseline.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/brownfield-baseline.md"
+    },
+    {
+      "source": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/brownfield-baseline.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/specs/debt-control/spec.md",
+      "checkedLocalMirror": "openspec/specs/debt-control/spec.md"
+    },
+    {
+      "source": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/brownfield-baseline.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/docs/DEBT_CONTROL.md",
+      "checkedLocalMirror": "docs/DEBT_CONTROL.md"
+    },
+    {
+      "source": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/brownfield-baseline.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/src/debt/capture.mjs",
+      "checkedLocalMirror": "src/debt/capture.mjs"
+    },
+    {
+      "source": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/brownfield-baseline.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/scripts/verify-native-journeys.mjs",
+      "checkedLocalMirror": "apps/companion/scripts/verify-native-journeys.mjs"
+    },
+    {
+      "source": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/brownfield-baseline.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/.project-os/debt/assessments/restructure-companion-navigation-remediation-2.json",
+      "checkedLocalMirror": ".project-os/debt/assessments/restructure-companion-navigation-remediation-2.json"
+    },
+    {
+      "source": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/brownfield-baseline.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/validation.md",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/validation.md"
+    },
+    {
+      "source": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/brownfield-baseline.md",
+      "href": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/native-journeys.json",
+      "checkedLocalMirror": "openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/native-journeys.json"
+    },
+    {
+      "source": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/brownfield-baseline.md",
+      "href": "evidence/proposal-baseline.json",
+      "checkedLocalMirror": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/proposal-baseline.json"
+    },
+    {
+      "source": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/brownfield-baseline.md",
+      "href": "evidence/readiness-propose.json",
+      "checkedLocalMirror": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence/readiness-propose.json"
+    }
+  ],
+  "findability": [
+    "README -> docs/UPSTREAM_OPERATIONS.md -> docs/debt/HISTORICAL_DEBT_206.md",
+    "README -> docs/UPSTREAM_OPERATIONS.md -> docs/debt/IDENTITY_RECONCILIATION_206.md"
+  ],
+  "commands": [
+    {
+      "args": [
+        "scripts/check-docs.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "PASS docs 12 README links, prompt contract and 20 spec purposes\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "scripts/check-neutrality.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "PASS public tree neutrality and export allowlist\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "node_modules/@fission-ai/openspec/bin/openspec.js",
+        "validate",
+        "--all",
+        "--strict",
+        "--json"
+      ],
+      "exitCode": 0,
+      "stdout": "{\n  \"items\": [\n    {\n      \"id\": \"adaptive-onboarding\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [],\n      \"durationMs\": 7\n    },\n    {\n      \"id\": \"companion-context\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [],\n      \"durationMs\": 3\n    },\n    {\n      \"id\": \"companion-desktop\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [],\n      \"durationMs\": 2\n    },\n    {\n      \"id\": \"companion-distribution\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[0]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        },\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[1]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        }\n      ],\n      \"durationMs\": 2\n    },\n    {\n      \"id\": \"companion-environment\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [],\n      \"durationMs\": 1\n    },\n    {\n      \"id\": \"companion-evaluation\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[1]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        },\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[2]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        }\n      ],\n      \"durationMs\": 0\n    },\n    {\n      \"id\": \"companion-experience\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[15]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        }\n      ],\n      \"durationMs\": 5\n    },\n    {\n      \"id\": \"companion-preparation\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [],\n      \"durationMs\": 4\n    },\n    {\n      \"id\": \"companion-program-acceptance\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [],\n      \"durationMs\": 3\n    },\n    {\n      \"id\": \"companion-prompt-composition\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[5]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        }\n      ],\n      \"durationMs\": 2\n    },\n    {\n      \"id\": \"debt-control\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[3]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        }\n      ],\n      \"durationMs\": 2\n    },\n    {\n      \"id\": \"distribution\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[4]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        },\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[5]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        }\n      ],\n      \"durationMs\": 1\n    },\n    {\n      \"id\": \"isolated-local-toolchain\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [],\n      \"durationMs\": 4\n    },\n    {\n      \"id\": \"project-seed-adoption\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [],\n      \"durationMs\": 4\n    },\n    {\n      \"id\": \"public-documentation-experience\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[9]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        },\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[12]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        },\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[19]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        }\n      ],\n      \"durationMs\": 3\n    },\n    {\n      \"id\": \"published-release-verification\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [],\n      \"durationMs\": 2\n    },\n    {\n      \"id\": \"runtime\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[4]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        },\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[9]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        },\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[11]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        },\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[17]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        },\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[18]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        },\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[19]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        },\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[20]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        }\n      ],\n      \"durationMs\": 2\n    },\n    {\n      \"id\": \"supply-chain-governance\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[4]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        },\n        {\n          \"level\": \"INFO\",\n          \"path\": \"requirements[5]\",\n          \"message\": \"Requirement text is very long (>500 characters). Consider breaking it down.\"\n        }\n      ],\n      \"durationMs\": 1\n    },\n    {\n      \"id\": \"tool-catalog\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [],\n      \"durationMs\": 1\n    },\n    {\n      \"id\": \"upgrade\",\n      \"type\": \"spec\",\n      \"valid\": true,\n      \"issues\": [],\n      \"durationMs\": 1\n    }\n  ],\n  \"summary\": {\n    \"totals\": {\n      \"items\": 20,\n      \"passed\": 20,\n      \"failed\": 0\n    },\n    \"byType\": {\n      \"change\": {\n        \"items\": 0,\n        \"passed\": 0,\n        \"failed\": 0\n      },\n      \"spec\": {\n        \"items\": 20,\n        \"passed\": 20,\n        \"failed\": 0\n      }\n    }\n  },\n  \"version\": \"1.0\",\n  \"root\": {\n    \"path\": \"C:\\\\Users\\\\RitualDesktop\\\\.codex\\\\worktrees\\\\206-debt-reconciliation\\\\project-engineering-os\",\n    \"source\": \"nearest\"\n  }\n}\n",
+      "stderr": ""
+    }
+  ],
+  "limits": "Repo-only GitHub links checked against local mirror; their integration into main is not claimed before merge."
+}

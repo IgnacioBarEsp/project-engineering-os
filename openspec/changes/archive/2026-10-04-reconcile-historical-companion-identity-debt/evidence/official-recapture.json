@@ -1,0 +1,27 @@
+{
+  "command": "capture",
+  "ok": true,
+  "verdict": "PASS",
+  "counts": {
+    "PASS": 1,
+    "FAIL": 0,
+    "WARN": 0,
+    "SKIP": 0
+  },
+  "checks": [
+    {
+      "id": "capture",
+      "status": "PASS",
+      "summary": "Captura idempotente: 'reconcile-historical-companion-identity-debt' ya estaba registrado (no-op, sin drift).",
+      "recovery": null
+    }
+  ],
+  "capture": {
+    "flow": "reconcile-historical-companion-identity-debt",
+    "noop": true,
+    "wroteAssessment": false,
+    "wroteRegistry": false,
+    "changes": [],
+    "result": "clean"
+  }
+}
