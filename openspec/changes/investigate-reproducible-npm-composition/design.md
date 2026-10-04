@@ -4,13 +4,13 @@ El catálogo de Companion fija npm11.19.1 y el empaquetador sella todo su árbol
 
 La CI37171002125 de #207, SHA9feea6597d4fc43ab1f4dfb6a45f5bf4c797ac92, reporta24 vulnerabilidades Companion, además del fallo distinto #208 en root/blueprint. Son observaciones históricas fechadas, no un audit recién ejecutado del candidato.
 
-Status: **Accepted for feasibility**. El scaffold oficial registra2026-10-04 UTC. Decisor: IgnacioBarEsp. El mantenedor aprobó la revisión fa279d9 y añadió directamente la condición de cambios reversibles entre distribución oficial/derivada y versiones; aprobación literal en evidence/spec-approval.md. No aprueba aún la distribución ni una futura spec de adopción.
+Status: **Proposed amendment over accepted feasibility baseline**. El scaffold oficial registra2026-10-04 UTC. Decisor: IgnacioBarEsp. La aprobación de fa279d9 y la condición reversible conservan su alcance en evidence/spec-approval.md. El «si» posterior solo seleccionó preparar la ampliación de parche propio (evidence/patch-amendment-selection.md), todavía sin aprobación de esta revisión ni Apply ampliado, adopción o distribución.
 
 ## Goals / Non-Goals
 
 **Goals:** decidir con evidencia si una composición basada en fuentes oficiales puede corregir el árbol npm sin romper el contrato de Companion; conservar controles y reproducibilidad, incluida una salida no-viable.
 
-**Non-Goals:** adopción automática, fixes de #208, cambio de gestor/baseline, parches propios, cambios de runtime/installer, actualización silenciosa de OpenSpec, modificaciones de políticas/protecciones o trabajo de ola4.
+**Non-Goals:** adopción automática, fixes de #208, cambio de gestor/baseline, parche de npm/otros componentes, cambios de runtime/installer, actualización silenciosa de OpenSpec, modificaciones de políticas/protecciones o trabajo de ola4. El único parche propio propuesto requiere aprobar la ampliación específica antes de Apply.
 
 ## Decisions
 
@@ -24,11 +24,19 @@ La aprobación de esta fase autoriza herramientas de experimentación y candidat
 
 Base del experimento: fuentes de npm11.21.0, commit `5fd1e17e468d58e7f14dc6cbb5390029ff49a41d`. El artefacto oficial de referencia es `https://registry.npmjs.org/npm/-/npm-11.21.0.tgz`, con integridad `sha512-Zov8KhamNneiLdELtj5YALtNmJW4L4fCLTzjfpzXG2w6MSHcf0UxgdlK5uloCuksWT+7mGUU7wi79cO6RqivPg==`. La obtención de fuentes también fijará y conservará digest propio. No aceptaremos latest flotante ni modificación upstream del mismo número de versión.
 
-La receta partirá del manifest upstream conservado y producirá, en una copia propia, metadata de composición que declare cada dependencia fijada, su origen/integridad y el motivo del cambio. Se reconstruirá el grafo desde cero; no se conservará un bundled tree vulnerable mientras se audita otro grafo virtual. Las únicas diferencias permitidas en esta fase son metadata necesaria para reconstrucción, lock candidato y selección de dependencias compatibles de origen oficial; el código npm y el de las dependencias deben corresponder a los inputs fijados. No se permite editar source vulnerable para inventar un parche.
+La receta partirá del manifest upstream conservado y producirá, en una copia propia, metadata de composición que declare cada dependencia fijada, su origen/integridad y el motivo del cambio. Se reconstruirá el grafo desde cero; no se conservará un bundled tree vulnerable mientras se audita otro grafo virtual. El código npm sigue intacto. La ampliación propuesta agrega a metadata/lock/dependencias oficiales una sola diferencia source permitida: index.js de http-cache-semantics4.3.0, con original/patch/postimage fijados y revisión. Ningún cambio de código se permite antes de aprobarla.
 
-Las versiones exactas de los componentes se determinarán con fuentes oficiales y comprobación de compatibilidad, y se congelarán en la receta antes de construir. No estamos aprobando versiones hipotéticas. Cada variación de inputs tendrá su propia identidad/resultados, con máximo tres recetas completas dentro de este spike; dos builds por receta no cuentan como dos alternativas. Si falta una corrección comprobable o hace falta modificar código upstream, el informe termina no-viable/bloqueado por alcance y solicita una nueva decisión.
+Las versiones exactas de los componentes se determinarán con fuentes oficiales y comprobación de compatibilidad, y se congelarán en la receta antes de construir. Cada variación de inputs (incluido patchHash) tendrá identidad/resultados propios dentro del máximo acumulado de tres recetas; el presupuesto no se reinicia. Si falta corrección comprobable, se necesita un archivo/componente propio distinto o la ampliación no está aprobada, detenerse con evidencia y solicitar otra decisión.
 
 La identidad del experimento será `experimental-npm-composition` con source version, recipe hash y árbol final; no se presentará como una distribución npm oficial intacta.
+
+### Decisión nueva propuesta: un parche mínimo, retirado cuando el oficial sea apto
+
+El preflight del original produjo tres discrepancias. La interpretación posterior (evidence/cache-interpretation.md) distingue restricciones normativas de la política conservadora de cookies y de una explotación de producto no probada. No se adopta PR58 por existir ni se atribuye su código/pruebas a upstream integrado. La opción propuesta, alternativas, owner/costo, allowlist, matriz de comportamiento y plan de retirada están definidos en [patch-amendment.md](patch-amendment.md).
+
+El parche será datos revisables sobre preimage exacta; sin fuzz, scripts propios del input ni edición manual del bundled tree. Originales/licencias intactos; receta incorpora patchHash y árbol derivado con nombre/versión upstream conservados para la auditoría. Todas las copias físicas del componente deben tener trazabilidad; ninguna copia vulnerable o fuera de grafo se oculta por validar solo una instancia. Cambiar la identidad nominal para evadir avisos no es corrección.
+
+La implementación deberá verificar igualdad de dos resultados independientes, rechazos de drift/paths/diff extra y controles positivos además de negativos. Conserva las pruebas reales de npm completas y la misma compatibilidad/edad mínima. Retirar el parche significa comprobar un oficial sin parche con los mismos gates y usar un slot/receta propios; no significa aplicar el diff viejo a latest o borrar historial.
 
 ### Auditoría de los bytes reales, no de una apariencia verde
 
@@ -79,7 +87,7 @@ La base npm usa Artistic-2.0, con licencias de sus dependencias. Conservaremos t
 | Operación | Nos tocaría mantener receta y vigilancia si se adopta | Owner y costo explícitos; no adoptar en este spike |
 | Migración | Ninguna sobre usuarios en faseA; una adopción exigirá nueva identidad | Hash/diff de límites y spec posterior |
 
-Un componente sin parche comprobable → dictamen no-viable, sin fork implícito.
+Un componente sin corrección comprobable o fuera del allowlist aprobado → dictamen no-viable/inconcluso, sin fork implícito.
 Auditoría excluye bytes → fallo cerrado, no exception.
 #208 sigue rojo → no afirmar CI requerido verde.
 Supuesto éxito del spike → no publicar ni cerrar #204.
@@ -95,4 +103,4 @@ Rollback del spike: preservar candidata rechazada y evidencia fuera de rutas de 
 
 ## Open Questions
 
-La aprobación de esta fase y la condición de reversibilidad están recibidas. Siguen siendo resultados a investigar —no permisos omitidos— la existencia de una composición realmente corregida/compatible, las versiones concretas de componentes, los recursos y el costo futuro de mantenerla. Si la respuesta requiere modificar código upstream, redistribuir con obligaciones no resueltas o alterar runtime soportado, detenerse y proponer un acuerdo distinto.
+La fase original y la condición reversible están aprobadas. La ampliación concreta para un solo parche propio sigue propuesta; falta aprobar este acuerdo, incluida su política conservadora y mantenimiento. No se aplica un diff durante la preparación. Siguen sin probarse corrección completa/compatibilidad de npm, recursos y revisión independiente. Otra modificación de código upstream, obligaciones de redistribución o cambio de runtime exige otro acuerdo, nunca autorización inferida.

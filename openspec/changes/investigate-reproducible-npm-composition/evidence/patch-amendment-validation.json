@@ -1,0 +1,391 @@
+{
+  "stage": "component-patch-amendment-proposal-only",
+  "observedUtc": "2026-10-04T04:41:49.142Z",
+  "baselineRevision": "6807d5cb98341e5190c83bbfffbd9380acc07ad3",
+  "previouslyApprovedProposal": "fa279d952784cd0138fb78ec91226f5cefe00ba2",
+  "humanSelection": "si to preparing the amendment, not approval of this amended agreement",
+  "amendmentApproved": false,
+  "amendmentApplyStarted": false,
+  "originalPhaseApplyStarted": true,
+  "patchWritten": false,
+  "patchApplied": false,
+  "newPackageInstallations": false,
+  "recipeAttempts": 0,
+  "newTestsRun": false,
+  "readinessPropose": {
+    "counts": {
+      "EXCEPTION": 0,
+      "FAIL": 0,
+      "PASS": 13
+    },
+    "mutationPerformed": false,
+    "ok": true,
+    "phase": "propose",
+    "results": [
+      {
+        "cause": "Issue #204 verificado.",
+        "evidence": {
+          "issue": 204,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/204"
+        },
+        "id": "issue.identity",
+        "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+        "status": "PASS",
+        "summary": "Issue #204 verificado."
+      },
+      {
+        "cause": "El issue permanece abierto.",
+        "evidence": {
+          "state": "OPEN"
+        },
+        "id": "issue.state",
+        "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+        "status": "PASS",
+        "summary": "El issue permanece abierto."
+      },
+      {
+        "cause": "## Historia Original está presente.",
+        "evidence": {},
+        "id": "issue.section.historia-original",
+        "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+        "status": "PASS",
+        "summary": "## Historia Original está presente."
+      },
+      {
+        "cause": "## Enriquecida está presente.",
+        "evidence": {},
+        "id": "issue.section.enriquecida",
+        "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+        "status": "PASS",
+        "summary": "## Enriquecida está presente."
+      },
+      {
+        "cause": "El bloque de metadata contiene JSON válido.",
+        "evidence": {},
+        "id": "metadata.parse",
+        "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+        "status": "PASS",
+        "summary": "El bloque de metadata contiene JSON válido."
+      },
+      {
+        "cause": "La metadata DoR cumple el contrato v1.",
+        "evidence": {
+          "change": "investigate-reproducible-npm-composition",
+          "surfaces": [
+            "documentation",
+            "harness-tooling"
+          ]
+        },
+        "id": "metadata.contract",
+        "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+        "status": "PASS",
+        "summary": "La metadata DoR cumple el contrato v1."
+      },
+      {
+        "cause": "La metadata contiene valores concretos y no conserva placeholders.",
+        "evidence": {
+          "fields": []
+        },
+        "id": "metadata.placeholders",
+        "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+        "status": "PASS",
+        "summary": "La metadata contiene valores concretos y no conserva placeholders."
+      },
+      {
+        "cause": "La metadata no declara comandos ni rutas ejecutables.",
+        "evidence": {},
+        "id": "metadata.command-injection",
+        "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+        "status": "PASS",
+        "summary": "La metadata no declara comandos ni rutas ejecutables."
+      },
+      {
+        "cause": "No se detectaron secretos literales en metadata.",
+        "evidence": {},
+        "id": "metadata.secrets",
+        "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+        "status": "PASS",
+        "summary": "No se detectaron secretos literales en metadata."
+      },
+      {
+        "cause": "Las intervenciones manuales están aprobadas o justificadas como no aplicables.",
+        "evidence": {},
+        "id": "metadata.manual-interventions",
+        "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+        "status": "PASS",
+        "summary": "Las intervenciones manuales están aprobadas o justificadas como no aplicables."
+      },
+      {
+        "cause": "Costos y licencias están aprobados o justificados como no aplicables.",
+        "evidence": {},
+        "id": "metadata.cost-license",
+        "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+        "status": "PASS",
+        "summary": "Costos y licencias están aprobados o justificados como no aplicables."
+      },
+      {
+        "cause": "El issue pertenece a Project Engineering OS.",
+        "evidence": {
+          "expectedProject": "Project Engineering OS",
+          "visibleProjects": [
+            "Project Engineering OS"
+          ]
+        },
+        "id": "github.project-membership",
+        "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+        "status": "PASS",
+        "summary": "El issue pertenece a Project Engineering OS."
+      },
+      {
+        "cause": "Todas las dependencias declaradas están cerradas.",
+        "evidence": {
+          "dependencies": []
+        },
+        "id": "issue.dependencies",
+        "remediation": "Ninguna; conserva la evidencia y repite el gate si cambia la fuente.",
+        "status": "PASS",
+        "summary": "Todas las dependencias declaradas están cerradas."
+      }
+    ],
+    "schemaVersion": "1.0.0",
+    "verdict": "PASS"
+  },
+  "checks": {
+    "strict": {
+      "exitCode": 0,
+      "output": "{\n  \"items\": [\n    {\n      \"id\": \"investigate-reproducible-npm-composition\",\n      \"type\": \"change\",\n      \"valid\": true,\n      \"issues\": [],\n      \"durationMs\": 1\n    }\n  ],\n  \"summary\": {\n    \"totals\": {\n      \"items\": 1,\n      \"passed\": 1,\n      \"failed\": 0\n    },\n    \"byType\": {\n      \"change\": {\n        \"items\": 1,\n        \"passed\": 1,\n        \"failed\": 0\n      }\n    }\n  },\n  \"version\": \"1.0\",\n  \"root\": {\n    \"path\": \"C:\\\\Users\\\\RitualDesktop\\\\.codex\\\\worktrees\\\\204-npm-composition-spec\\\\project-engineering-os\",\n    \"source\": \"nearest\"\n  }\n}\n"
+    },
+    "docs": {
+      "exitCode": 0,
+      "output": "PASS docs 12 README links, prompt contract and 20 spec purposes\n"
+    },
+    "neutrality": {
+      "exitCode": 0,
+      "output": "PASS public tree neutrality and export allowlist\n"
+    },
+    "workflows": {
+      "exitCode": 0,
+      "output": "PASS workflows 6\n"
+    },
+    "debt": {
+      "exitCode": 0,
+      "output": "PASS Politica y registro validos (50 item(s)).\nPASS Plan activo: 4/5 unidades, 3 flujo(s) con deuda abierta.\n"
+    }
+  },
+  "boundaryAndLinks": {
+    "observedUtc": "2026-10-04T04:41:49.142Z",
+    "stage": "patch-amendment-proposal-only",
+    "boundaries": [
+      {
+        "file": "package.json",
+        "sha256": "485f505414eb2470d45c84b6cbd1dd80094d7cfcd7832682467f954c1c89d911",
+        "unchanged": true
+      },
+      {
+        "file": "package-lock.json",
+        "sha256": "a998d349598124aa401f744750be7edd14ab6eb15c554096608755059bd641dc",
+        "unchanged": true
+      },
+      {
+        "file": "apps/companion/package.json",
+        "sha256": "d83a917127a3ab0e0e73318e1275f812d62fdf75b9275c95d5ea1ba5d37c04c9",
+        "unchanged": true
+      },
+      {
+        "file": "apps/companion/package-lock.json",
+        "sha256": "22a733b21c0f69954b38061b8e77282542016bcd2b6da2a48157cfc75efdf785",
+        "unchanged": true
+      },
+      {
+        "file": "apps/companion/runtime/catalog.mjs",
+        "sha256": "7e337a50c24e672d9f8d7301d6444bb255602c3a00ce63128e6cf43d33feb4d3",
+        "unchanged": true
+      },
+      {
+        "file": "apps/companion/runtime/manager.mjs",
+        "sha256": "749f4c1a59534fd15e354f346ab56be298995074319826c47384f666d8a18bb4",
+        "unchanged": true
+      },
+      {
+        "file": "apps/companion/runtime/process.mjs",
+        "sha256": "46a07379ff52362ed86c2e3178193ca211bf692edefbb512af18094ddbcc08ea",
+        "unchanged": true
+      },
+      {
+        "file": "apps/companion/runtime/toolchain.mjs",
+        "sha256": "54f15a70ac996ad4f8a888a2c17af26924865a5a34443bb59cc7b1f8c813efd6",
+        "unchanged": true
+      },
+      {
+        "file": "apps/companion/runtime/stack.mjs",
+        "sha256": "878ba7b9b67b2bf0154ae6fda2c8c5487d9d8b55a7e4b6047b8600e4bd02a53b",
+        "unchanged": true
+      },
+      {
+        "file": "apps/companion/scripts/seal-npm.mjs",
+        "sha256": "967acea8fe1bd40327ccf43521e18a61318714f3721d38e01366972294ae4d5e",
+        "unchanged": true
+      },
+      {
+        "file": "apps/companion/scripts/pack-app.mjs",
+        "sha256": "b4f55c342021f29f19cbbe4b30eacacc52141b43a01c8df0170c4c8820813f09",
+        "unchanged": true
+      },
+      {
+        "file": "config/dependency-audit-policy.json",
+        "sha256": "c0742a34e3acc74d61aa115ec5f8eb71bee06907bd80108613372b1b37510444",
+        "unchanged": true
+      },
+      {
+        "file": "blueprint/core/package-lock.json",
+        "sha256": "7be3078914136e8fb408f3eac8b50a4ede2dfaad6562a8d938e2c73469143a7c",
+        "unchanged": true
+      },
+      {
+        "file": ".github/workflows/ci.yml",
+        "sha256": "d48d0d96c257c2f533d2b34efb5d078f59b8bb8e32dcace4f38de5f5f1663c5a",
+        "unchanged": true
+      }
+    ],
+    "unchangedBoundaries": 14,
+    "relativeLinks": 28,
+    "links": [
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "evidence/cache-interpretation.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "patch-amendment.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "proposal.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "design.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "specs/companion-npm-composition/spec.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "tasks.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "evidence/patch-amendment-selection.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "evidence/spec-approval.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "evidence/apply-preflight.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "evidence/patch-amendment-validation.json"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\proposal.md",
+        "link": "patch-amendment.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\proposal.md",
+        "link": "evidence/readiness-propose.json"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\proposal.md",
+        "link": "evidence/spec-approval.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\patch-amendment.md",
+        "link": "evidence/cache-component-preflight.json"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\patch-amendment.md",
+        "link": "evidence/cache-interpretation.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\patch-amendment.md",
+        "link": "tasks.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\patch-amendment.md",
+        "link": "evidence/patch-amendment-selection.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\evidence\\apply-preflight.md",
+        "link": "cache-interpretation.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\evidence\\apply-preflight.md",
+        "link": "spec-approval.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\evidence\\apply-preflight.md",
+        "link": "cache-component-preflight.json"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\evidence\\apply-preflight.md",
+        "link": "apply-boundaries.json"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\evidence\\apply-preflight.md",
+        "link": "apply-validation.json"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\design.md",
+        "link": "patch-amendment.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\brownfield-baseline.md",
+        "link": "evidence/proposal-baseline.json"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\brownfield-baseline.md",
+        "link": "evidence/issue-original.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\brownfield-baseline.md",
+        "link": "evidence/issue-enriched.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\brownfield-baseline.md",
+        "link": "evidence/readiness-propose.json"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\brownfield-baseline.md",
+        "link": "evidence/strategy-selection.md"
+      }
+    ],
+    "componentSha256": "ede1cc404a492fa348eb9d97a3007a0d72aa717bd22cd86a56bd0824c19729ca",
+    "componentUnchanged": true,
+    "experimentalImplementationUnchanged": true,
+    "priorSyntheticTests": 14,
+    "priorTestEvidence": "apply-validation.json",
+    "newTestsRun": false,
+    "patchWritten": false,
+    "patchApplied": false,
+    "recipeAttempts": 0,
+    "amendmentApproved": false
+  },
+  "localOpenSpec": {
+    "version": "1.6.0",
+    "binSha256": "ca136f0e9fd4951dcf93d8ed729ebc97b2d97d3980cd9dc9d42fc80e32e797c6",
+    "source": "existing isolated project installation, no global/npx/install"
+  },
+  "limits": [
+    "Planning/strict/DoR checks do not approve the amended spec",
+    "No corrected component/npm built or tested, no new full audit/runtime/repair/benchmark",
+    "Prior 14 synthetic tests remain prior evidence, not a new real switching result",
+    "Author review is not independent or human review",
+    "No archive, formal debt capture, PR, merge, release or wave4"
+  ],
+  "exceptions": [],
+  "finalLinkCheckUtc": "2026-10-04T04:45:47.236Z"
+}

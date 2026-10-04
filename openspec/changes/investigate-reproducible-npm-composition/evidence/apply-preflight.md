@@ -1,5 +1,7 @@
 # Apply: reversibilidad experimental y primer gate de componentes
 
+Nota posterior conservando este registro: [cache-interpretation.md](cache-interpretation.md) reclasifica el caso de cookies como política conservadora/disputada, no prohibición normativa demostrada. No cambia los resultados JSON ni afirma exposición de producto. La ampliación propuesta aún no aplica ningún parche.
+
 Estado: **Apply iniciado y detenido en un gate de corrección; no hay un npm derivado apto.**
 La aprobación humana de fa279d9 y la condición reversible están en [spec-approval.md](spec-approval.md).
 La fase A no está archivada, revisada independientemente, integrada ni terminada. #204 sigue abierto y #208 sigue siendo un bloqueo distinto.

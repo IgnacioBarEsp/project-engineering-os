@@ -1,19 +1,19 @@
-# #204 — probar una composición reproducible de npm
+# #204 — ampliación para un parche propio, reversible y acotado
 
-**Spec aprobada para la prueba de viabilidad, con requisito humano de reversibilidad. DoR original: 13/13 PASS, sin excepciones.**
+**Propuesta pendiente de aprobación.** Tu «si» autoriza prepararla; no aplicar todavía el parche. La aprobación anterior de fa279d9 conserva su alcance y tu requisito de reversibilidad.
 
-**Avance actual:** el modelo reversible pasó14/14 pruebas sintéticas. El primer componente oficial comprobado (`http-cache-semantics4.3.0`) falló tres regresiones de seguridad, por lo que la candidata se detuvo antes de construir npm. [Resultado y límites](evidence/apply-preflight.md). No hay todavía un derivado seguro ni cambio real instalado en Companion.
+Propongo permitir un único parche revisable en `index.js` de `http-cache-semantics4.3.0`, solo en copias desechables. No parchear npm ni otra dependencia, ni cambiar tu instalación, catálogo, locks, auditorías o protecciones.
 
-Queremos comprobar si podemos dejar de esperar el paquete completo de npm, conservando todos los controles de seguridad. La primera fase hará una prueba en carpetas desechables con fuentes oficiales fijadas y dependencias realmente corregidas.
+El parche tendrá fuente/licencia/autoría, hashes de entrada/parche/salida, diferencias permitidas y pruebas de seguridad y usos legítimos. Dos construcciones deben producir los mismos bytes. Después seguirá pendiente comprobar todo el npm: grafo real, auditor independiente, compatibilidad Node, instalación, reparación y recursos. Un fix de este componente no resuelve todos los avisos ni #208.
 
-Comprobaremos que dos construcciones produzcan los mismos archivos, que se audite todo el código incluido y que funcionen las operaciones que Companion necesita. Un resultado verde de auditoría no basta: también revisaremos las correcciones y sus casos negativos.
+El modelo reversible existente pasó14/14 pruebas **sintéticas**. No hay un derivado seguro instalado. La evidencia anterior se conserva; una [nota de interpretación](evidence/cache-interpretation.md) separa los dos casos normativos del caso de cookies, que responde a una política conservadora del componente disputada por upstream.
 
-**No cambiaremos todavía el npm de Companion, tu instalación, el catálogo ni los locks del repositorio.** No reduciremos auditorías o protecciones. Si hacen falta parches propios o falta una corrección comprobable, conservaremos la evidencia y pediremos una nueva decisión.
+Cuando aparezca un oficial candidato, se probará **sin nuestro parche**, con los mismos controles, en un slot separado. Solo si pasa podremos volver al oficial. Ni fallo/cancelación ni una versión vulnerable se aceptan como cambio seguro; se conserva el estado y la historia anteriores.
 
-El resultado puede ser «viable» o «no viable». Incluso si es viable, adoptar y publicar el derivado necesitará una spec posterior con instalación, reparación, identidad y CI protegido. #204 seguirá abierto; el bloqueo separado #208 no se resuelve con esta prueba. No iniciaremos ola4.
+IgnacioBarEsp decide continuidad/retirada del parche. Ese mantenimiento propio se evalúa como costo y deuda, no como compromiso indefinido. Antes del archivo se requiere revisión adversarial independiente y evaluación formal; el trabajo del autor no se presentará como aprobación humana.
 
-El mantenedor aprobó el [acuerdo completo](proposal.md), su [diseño](design.md) y sus [requisitos](specs/companion-npm-composition/spec.md), y pidió poder cambiar reversiblemente entre la distribución oficial y la propia. La [aprobación literal](evidence/spec-approval.md) conserva la revisión aprobada y esa condición.
+**La futura adopción/publicación sigue fuera de esta prueba** y necesitará otro acuerdo con recuperación durable y PR protegido/CI verde. #204/#208 siguen abiertos; no se mezcla #207 ni se inicia ola4.
 
-La prueba incluirá selección por identidad (canal, versión, hash y origen), slots separados y cambio solo después de verificar el destino. Ensayaremos oficial → derivado → oficial, actualizaciones dentro de cada canal y cancelación/fallo conservando la selección anterior. No habrá cambio automático a una versión vulnerable, ni borrado de proyectos/caché/historial. Una futura adopción tendrá que implementar este mismo contrato con evidencia real; aquí no se cambia el runtime del Companion.
+[Ampliación completa](patch-amendment.md) · [Proposal](proposal.md) · [Diseño](design.md) · [Requisitos](specs/companion-npm-composition/spec.md) · [Tareas](tasks.md)
 
-[Tareas](tasks.md) · [Baseline](brownfield-baseline.md) · [Decisión recibida](evidence/strategy-selection.md).
+[Selección recibida](evidence/patch-amendment-selection.md) · [Aprobación anterior](evidence/spec-approval.md) · [Evidencia previa](evidence/apply-preflight.md) · [Validación de esta propuesta](evidence/patch-amendment-validation.json)

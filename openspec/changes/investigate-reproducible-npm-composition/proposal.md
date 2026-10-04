@@ -9,6 +9,7 @@
 - Probar reproducibilidad, auditoría independiente del árbol físico, regresiones de avisos y contrato de instalación/runtime de Companion.
 - Ensayar transición reversible entre identidades oficiales y derivadas, y versiones del mismo canal, con slots separados y cambio de selección solo tras verificar el destino; una versión vulnerable no será un rollback aceptable.
 - Emitir un dictamen trazable viable/no-viable. No declarar corrección integrada, release apta o cierre de #204 por completar la investigación.
+- Ampliación propuesta (no aprobada todavía): permitir un parche reproducible y revisado de datos limitado a index.js de http-cache-semantics4.3.0 en copia experimental, con política/criterios separados, procedencia/licencia y retirada verificable al oficial; detalle en [patch-amendment.md](patch-amendment.md).
 - Mantener separada la adopción: si hay evidencia suficiente, proponer después el cambio de catálogo/locks/avisos/hashes y la validación del instalador mediante otra aprobación.
 
 ## Capabilities
@@ -25,11 +26,11 @@ Ninguna. No se cambia el contrato actual de distribución, instalación, prepara
 
 Superficies: `documentation` y `harness-tooling`. Implementación futura, después de aprobación: harness y pruebas de investigación bajo `apps/companion/scripts/` y `apps/companion/test/`, expediente OpenSpec y evidencia. No se modifica el núcleo universal ni los workflows OPSX generados.
 
-Se permite obtener y evaluar fuentes/dependencias oficiales solo en temporales, sin scripts de instalación ni compilación arbitrarios. No se instala nada nuevo durante esta preparación. La distribución candidata de producción, identidad de versión, soporte y cumplimiento de redistribución no se deciden aquí.
+La fase original permite obtener y evaluar fuentes/dependencias oficiales solo en temporales, sin scripts de instalación ni compilación arbitrarios. La ampliación propone un diff/manifiesto de parche bajo apps/companion/patches y su verificador/pruebas internos, solo después de aprobarla. No se instala nada ni se escribe/aplica el parche durante esta preparación. La distribución de producción sigue fuera de alcance.
 
 ## Non-Goals
 
-No reemplazar npm en runtime; no cambiar catálogo, locks oficiales, avisos publicados, pin OpenSpec, gestor, baseline Node, CI o protecciones; no editar dependencias vendorizadas a mano ni mantener parches propios; no publicar artefactos o ejecutar instaladores en el host; no resolver #208 ni iniciar ola4.
+No reemplazar npm en runtime; no cambiar catálogo, locks oficiales, avisos publicados, pin OpenSpec, gestor, baseline Node, CI o protecciones; no editar dependencias vendorizadas a mano, parchear código npm/otros componentes ni aplicar el parche acotado antes de aprobar la ampliación; no publicar artefactos o ejecutar instaladores en el host; no resolver #208 ni iniciar ola4.
 
 ## Risk and Recovery
 
@@ -40,3 +41,5 @@ Podríamos obtener un audit verde que omita archivos bundled o no represente una
 Issue enriquecido y DoR original **13/13 PASS** en [evidence/readiness-propose.json](evidence/readiness-propose.json). Change creado por OpenSpec local fijo **1.6.0**. **El mantenedor aprobó proposal/design/spec de fa279d952784cd0138fb78ec91226f5cefe00ba2 con la condición explícita de reversibilidad oficial/derivado**, incorporada en este expediente; véase [evidence/spec-approval.md](evidence/spec-approval.md). La aprobación sigue limitada a viabilidad, no a distribución/adopción.
 
 El archivo futuro exige evidencia real, revisión adversarial y assessment de deuda. Cualquier integración espera `CI / required` verde bajo protecciones existentes; #208 y el orden de los PR de ola3 permanecen obligaciones separadas. No se mezclará este trabajo en #207.
+
+**Ampliación pendiente:** el mantenedor respondió «si» a prepararla, no a aprobar un acuerdo aún no presentado. La aprobación de fa279d9 conserva su alcance original. Apply ampliado permanece bloqueado hasta aprobación de esta revisión y patch-amendment.md; no hay parche aplicado por este cambio documental.

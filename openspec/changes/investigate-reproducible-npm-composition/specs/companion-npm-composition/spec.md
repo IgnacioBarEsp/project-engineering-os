@@ -1,7 +1,7 @@
 ## ADDED Requirements
 
 ### Requirement: Approval-bounded feasibility phase
-The investigation SHALL execute only after explicit approval of this proposal, design and specification. A strategy selection SHALL NOT count as approval of unseen requirements. The phase SHALL remain limited to experimental composition and evidence; it SHALL NOT adopt or publish a derived npm distribution, close issue204, infer green required CI or start wave4.
+The investigation SHALL execute only within explicit approval of the applicable proposal, design and specification. The accepted fa279d9 baseline SHALL NOT approve the newly proposed component-code patch amendment. An authorization to prepare an amendment SHALL NOT count as approval of unseen requirements. Applying a local patch SHALL wait for approval of this revision and patch-amendment.md. The phase SHALL remain experimental and SHALL NOT adopt/publish a distribution, close issue204, infer green required CI or start wave4.
 
 #### Scenario: Maintainer selects an alternative
 - **WHEN** the maintainer authorizes preparing a reproducible npm proposal
@@ -14,7 +14,7 @@ The investigation SHALL execute only after explicit approval of this proposal, d
 - **AND** adoption SHALL require a subsequent approved agreement and all existing release protections
 
 ### Requirement: Immutable recipe with explicit derivation
-Each composition SHALL declare a fixed official npm11.21.0 source identity, each dependency version/source/integrity, the original manifest, allowed metadata differences, assembler identity and recipe digest. The candidate SHALL reconstruct its physical dependency graph from pinned inputs without preserving an unreviewed bundled tree, changing upstream code or hand-editing vendored packages. The experiment SHALL evaluate at most three distinct frozen recipes.
+Each composition SHALL declare a fixed official npm11.21.0 source identity, each dependency version/source/integrity, original manifest, allowed differences, assembler identity and recipe digest. It SHALL reconstruct its physical graph from pinned inputs without preserving an unreviewed bundled tree or hand-editing vendored packages. npm code and other upstream component code SHALL remain unchanged; only the approved single-component amendment may add a traceable index.js patch to http-cache-semantics4.3.0 in an owned disposable copy. The cumulative budget SHALL remain at most three distinct frozen recipes including patch variations.
 
 #### Scenario: Recipe is constructed
 - **WHEN** a compatible officially corrected component set is identified
@@ -22,9 +22,45 @@ Each composition SHALL declare a fixed official npm11.21.0 source identity, each
 - **AND** the candidate SHALL retain input provenance, license texts and a distinct experimental derivation identity
 
 #### Scenario: Source or scope cannot satisfy the recipe
-- **WHEN** a digest differs, no verifiable correction exists, upstream code requires a local patch, a new manager is needed or more than three distinct recipes are required
+- **WHEN** a digest differs, no verifiable correction exists, code needs an unapproved/out-of-allowlist patch, a new manager is needed or more than three distinct recipes are required
 - **THEN** the candidate SHALL stop with preserved evidence and a not-viable or inconclusive result
 - **AND** a changed scope SHALL require a new explicit decision rather than automatic patching or relaxed checks
+
+### Requirement: A single controlled and attributable component patch
+After explicit amendment approval, the experiment MAY create one data-only patch recipe limited to index.js of fixed http-cache-semantics4.3.0. It SHALL preserve original bytes/license/copyright, retain exact source/patch/postimage hashes and author/rationale, reject source drift, fuzzy application, executable patch inputs, unsafe paths, links and additional modified files, and produce identical outputs independently. Receipts SHALL identify derived bytes and every physical copy. Upstream package identity SHALL remain audit-visible; version/name manipulation SHALL NOT hide findings. Maintaining a patch SHALL NOT imply permission for a general fork or production adoption.
+
+#### Scenario: The patch input differs from its exact preimage or allowlist
+- **WHEN** source integrity changes or a patch adds another path/component, unsafe path or executable instruction
+- **THEN** the harness SHALL reject before accepting the patched payload and preserve originals, prior selection and outside-root sentinels
+- **AND** a broader fix SHALL require another explicit scope decision
+
+#### Scenario: Two copies are produced from the same approved patch recipe
+- **WHEN** independent owned roots apply the same frozen source and patch
+- **THEN** complete file/inventory/tree hashes SHALL match and differences SHALL be limited to the allowed source file
+- **AND** original LICENSE, metadata and all unchanged files SHALL remain byte-identical
+
+#### Scenario: A derived component retains the upstream version number
+- **WHEN** patched bytes are inventoried or audited
+- **THEN** their original name/version plus derivation/source/patch/tree identities SHALL be recorded for every physical instance
+- **AND** raw findings and known advisories SHALL remain visible and subject to the unchanged audit policy
+
+### Requirement: Demonstrated behavior without false security claims
+The patch SHALL distinguish normative reuse restrictions, the declared conservative cookie policy and unproven product exposure. It SHALL correct the measured restriction bypasses without blanket cookie rejection or an unreviewed change to unrelated cache behavior/API/serialization. It SHALL test original and derived bytes with deterministic time, positive/negative controls, both cache modes and applicable API/stale/revalidation/serialization paths. Uncertain semantics or incomplete coverage SHALL remain inconclusive, not PASS or proof of exploitability. The reported upstream dispute SHALL NOT waive raw audit findings or substitute for local evidence.
+
+#### Scenario: Restriction or conservative policy is bypassed by an alternative reuse path
+- **WHEN** max-stale, another stale path, deserialization or a revalidated policy can supply a response
+- **THEN** applicable response restrictions and the declared conservative policy SHALL still be enforced and checked by focused regressions
+- **AND** legitimate control cases, including existing cookie opt-ins and private-cache cases, SHALL remain explicit rather than categorically forbidden
+
+#### Scenario: A normative and a policy-specific test disagree with upstream
+- **WHEN** the original component reproduces a reuse decision that differs from a test expectation
+- **THEN** evidence SHALL classify that expectation with its rationale and retain actual results without treating every disagreement as a normative vulnerability
+- **AND** passing component tests SHALL NOT prove correction/audit/runtime compatibility of the whole npm tree
+
+#### Scenario: An official replacement becomes available
+- **WHEN** a new official component/npm distribution is considered
+- **THEN** it SHALL be evaluated unpatched with the same correction/audit/runtime/integrity gates and a new source identity
+- **AND** an accepted replacement SHALL retain patch retirement history and use separate verified slots; an unverified replacement SHALL not be activated and an old patch SHALL not be silently rebased
 
 ### Requirement: Complete physical audit and demonstrated correction
 A candidate SHALL inventory every included package and executable source file, match its physical nested/bundled graph against the audited graph and reject uncovered bytes. It SHALL retain full production audit results at the existing high threshold, exact auditor identity and advisory observations. The candidate SHALL NOT be the sole authority auditing itself. Feasibility acceptance SHALL require no high/critical finding and verifiable correction/regression evidence for every known affected issue.

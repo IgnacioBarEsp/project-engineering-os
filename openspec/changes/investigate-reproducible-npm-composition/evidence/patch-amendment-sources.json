@@ -1,0 +1,131 @@
+{
+  "stage": "read-only amendment preparation",
+  "observedUtc": "2026-10-04T04:41:49.142Z",
+  "repo": "IgnacioBarEsp/project-engineering-os",
+  "issues": [
+    {
+      "number": 149,
+      "state": "OPEN",
+      "title": "[Companion][Diseño] Movimiento, estados de carga y microcopia con reglas medibles",
+      "updatedAt": "2026-09-30T22:02:40Z",
+      "url": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/149"
+    },
+    {
+      "number": 150,
+      "state": "OPEN",
+      "title": "[QA][Companion] El harness debe recorrer el flujo real con animaciones, medir alcanzabilidad y probar la app de Electron",
+      "updatedAt": "2026-10-01T05:36:14Z",
+      "url": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/150"
+    },
+    {
+      "number": 204,
+      "state": "OPEN",
+      "title": "[Companion] Corregir dependencias vulnerables bundled de npm que bloquean ola 3",
+      "updatedAt": "2026-10-04T04:15:06Z",
+      "url": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/204"
+    },
+    {
+      "number": 206,
+      "state": "OPEN",
+      "title": "[Deuda] Reconciliar 37 registros históricos abiertos y sus issues de seguimiento",
+      "updatedAt": "2026-10-04T02:34:58Z",
+      "url": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/206"
+    },
+    {
+      "number": 208,
+      "state": "OPEN",
+      "title": "[Seguridad] Desbloquear auditoría core/blueprint por braces 3.0.3",
+      "updatedAt": "2026-10-04T02:29:58Z",
+      "url": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/208"
+    }
+  ],
+  "pullRequests": [
+    {
+      "baseRefName": "codex/148-project-screen",
+      "headRefName": "codex/149-motion-loading",
+      "headRefOid": "d89830e792ced60d81d6a48563f36e4e559b49a3",
+      "isDraft": true,
+      "number": 201,
+      "state": "OPEN",
+      "updatedAt": "2026-10-01T17:54:47Z",
+      "url": "https://github.com/IgnacioBarEsp/project-engineering-os/pull/201"
+    },
+    {
+      "baseRefName": "codex/149-motion-loading",
+      "headRefName": "codex/150-harness-electron",
+      "headRefOid": "658e505031b195ed2d088447eec5c5d841c7c319",
+      "isDraft": true,
+      "number": 202,
+      "state": "OPEN",
+      "updatedAt": "2026-10-02T00:18:08Z",
+      "url": "https://github.com/IgnacioBarEsp/project-engineering-os/pull/202"
+    },
+    {
+      "baseRefName": "main",
+      "headRefName": "codex/206-reconcile-historical-debt",
+      "headRefOid": "9feea6597d4fc43ab1f4dfb6a45f5bf4c797ac92",
+      "isDraft": true,
+      "number": 207,
+      "state": "OPEN",
+      "updatedAt": "2026-10-04T02:35:08Z",
+      "url": "https://github.com/IgnacioBarEsp/project-engineering-os/pull/207"
+    }
+  ],
+  "duplicateSearch": [],
+  "duplicateSearchLimit": "A search query is not proof no issue exists; this amendment deliberately stays within existing issue204/change/branch.",
+  "upstreamPull58": {
+    "headSha": "14a8c2ad51740dc39bf3e8f1a11c845a5003f217",
+    "html_url": "https://github.com/kornelski/http-cache-semantics/pull/58",
+    "merged": false,
+    "merged_at": null,
+    "state": "closed",
+    "updated_at": "2026-10-04T02:27:23Z"
+  },
+  "upstreamComments": [
+    {
+      "author": "kornelski",
+      "createdAt": "2026-10-04T02:12:22Z",
+      "url": "https://github.com/kornelski/http-cache-semantics/pull/58#issuecomment-5975673900",
+      "summary": "Questions tests, implementation and the HTTP basis of the Set-Cookie claim."
+    },
+    {
+      "author": "kornelski",
+      "createdAt": "2026-10-04T02:27:23Z",
+      "url": "https://github.com/kornelski/http-cache-semantics/pull/58#issuecomment-5975776797",
+      "summary": "Disputes the advisory interpretation; not a withdrawal by the advisory database."
+    }
+  ],
+  "advisory": {
+    "ghsa_id": "GHSA-ch52-4w7c-c8xp",
+    "html_url": "https://github.com/advisories/GHSA-ch52-4w7c-c8xp",
+    "updated_at": "2026-10-02T22:36:44Z",
+    "vulnerabilities": [
+      {
+        "first_patched_version": null,
+        "package": {
+          "ecosystem": "npm",
+          "name": "http-cache-semantics"
+        },
+        "vulnerable_functions": [],
+        "vulnerable_version_range": "<= 4.2.0"
+      }
+    ],
+    "withdrawn_at": null
+  },
+  "officialRegistryObservation": {
+    "observedUtc": "2026-10-04T04:30:34.1742647Z",
+    "npmNext11": "11.21.0",
+    "npmLatest": "12.2.0",
+    "cacheVersion": "4.3.0",
+    "cacheGitHead": "b1d4bd682fbab0252985de45219f4e7497c0067c",
+    "cacheIntegrity": "sha512-M5t5LlJpS1UHMjvwRQVdFHvPISGeLAxNcrWuJkeGh0KxsqCHZ1O3NXZU/8x7cD0BDcGW8kapxMKTvwlqrNkHkA==",
+    "cacheLicense": "BSD-2-Clause",
+    "inputsChanged": false,
+    "installationsRepeated": false,
+    "downloadsRepeated": false
+  },
+  "standard": "https://www.rfc-editor.org/rfc/rfc9111.html",
+  "componentEvidence": "cache-component-preflight.json",
+  "interpretation": "cache-interpretation.md",
+  "newCandidateEvidence": false
+}
