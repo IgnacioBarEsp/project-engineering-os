@@ -22,7 +22,7 @@
   "evidence": [
     {"id":"issue-link","kind":"manual","status":"verified","ref":"https://github.com/IgnacioBarEsp/project-engineering-os/issues/206","justification":null,"profileCondition":null},
     {"id":"readiness-propose","kind":"automatic","status":"verified","ref":"openspec/changes/reconcile-historical-companion-identity-debt/evidence/readiness-propose.json","justification":null,"profileCondition":null},
-    {"id":"spec-approval","kind":"manual","status":"pending","ref":null,"justification":null,"profileCondition":null},
+    {"id":"spec-approval","kind":"manual","status":"verified","ref":"openspec/changes/reconcile-historical-companion-identity-debt/evidence/spec-approval.md","justification":null,"profileCondition":null},
     {"id":"adversarial-review","kind":"manual","status":"pending","ref":null,"justification":null,"profileCondition":null},
     {"id":"qualitative-review-for-clarity-and-current-ownership","kind":"manual","status":"pending","ref":null,"justification":null,"profileCondition":null},
     {"id":"recorded-drift-decisions","kind":"manual","status":"pending","ref":null,"justification":null,"profileCondition":null},

@@ -1,0 +1,1671 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "debt-cdeb7323f2a1",
+      "title": "Cuatro specs históricas carecen de Purpose",
+      "description": "Cuatro specs históricas carecen de Purpose",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": true,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "openspec/specs/{debt-control,distribution,runtime,upgrade}/spec.md",
+      "consequence": "La validación estricta global falla aunque la spec nueva y los changes activos sean válidos.",
+      "remediation": "Resolver el Issue #25 mediante un change documental que añada Purpose sin alterar requisitos.",
+      "evidence": [
+        {
+          "type": "validation",
+          "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/25",
+          "date": "2026-08-18"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "harden-supply-chain-policy",
+          "date": "2026-08-18"
+        }
+      ],
+      "issue": null,
+      "status": "resolved",
+      "exception": null,
+      "createdAt": "2026-08-18",
+      "updatedAt": "2026-09-04",
+      "resolution": {
+        "flow": "resolve-historical-purpose",
+        "evidence": "Issue #25 closed; current debt-control, distribution, runtime and upgrade specs have authored Purpose. npm run check:docs and OpenSpec strict PASS on 2026-09-04."
+      }
+    },
+    {
+      "id": "debt-a376987e2eae",
+      "title": "La spec activa adaptive-onboarding conserva un Purpose TBD generado por el archive anterior",
+      "description": "La spec activa adaptive-onboarding conserva un Purpose TBD generado por el archive anterior",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "openspec/specs/adaptive-onboarding/spec.md",
+      "consequence": "La capacidad que este change extiende declara su propósito como pendiente. Quien lea la spec activa no encuentra el alcance de adaptive-onboarding y debe reconstruirlo desde los changes archivados. Es la misma clase de hallazgo que resolvió el Issue #25 para las specs históricas, reintroducida por una capacidad creada después.",
+      "remediation": "Redactar el Purpose de adaptive-onboarding mediante un change propio, como hizo el Issue #25 con las specs históricas, y revisar si el archive debería exigir un Purpose escrito antes de crear una capacidad nueva.",
+      "evidence": [
+        {
+          "type": "file",
+          "ref": "openspec/specs/adaptive-onboarding/spec.md primera sección Purpose",
+          "date": "2026-08-19"
+        },
+        {
+          "type": "command",
+          "ref": "openspec archive orchestrate-onboarding-prompts --yes en un consumidor de ensayo: añade 7 requisitos y deja el Purpose sin cambios",
+          "date": "2026-08-19"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "orchestrate-onboarding-prompts",
+          "date": "2026-08-19"
+        }
+      ],
+      "issue": null,
+      "status": "resolved",
+      "exception": null,
+      "createdAt": "2026-08-19",
+      "updatedAt": "2026-09-04",
+      "resolution": {
+        "flow": "resolve-historical-purpose",
+        "evidence": "Issue #42 and PR #44 integrated; adaptive-onboarding Purpose is authored and shared Purpose gate is present. npm run check:docs PASS on 2026-09-04."
+      }
+    },
+    {
+      "id": "debt-b3a6e12d995d",
+      "title": "Las instrucciones por ruta siguen documented aunque tres harnesses soporten seleccion por glob",
+      "description": "Las instrucciones por ruta siguen documented aunque tres harnesses soporten seleccion por glob",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "blueprint/core/project-os/harness-capabilities.json",
+      "consequence": "Claude Code documenta frontmatter paths en .claude/rules, Cursor documenta globs por regla y GitHub Copilot documenta applyTo en .github/instructions. El constructor ya escribe archivos en dos de esas tres superficies, pero con un alcance universal, asi que no conserva la seleccion por glob que es la semantica de la capacidad. El resultado es una capacidad declarada documented mientras la superficie oficial existe y esta parcialmente ocupada: quien lea la matriz no distingue entre una superficie ausente y una superficie escrita sin su semantica.",
+      "remediation": "Implementar un renderer por regla que emita un archivo por entrada de path-rules.json con su glob en el frontmatter de cada harness, y fixtures que prueben seleccion equivalente antes de promover la celda. Mientras tanto la degradacion declarada explica el limite y su criterio de promocion.",
+      "evidence": [
+        {
+          "type": "file",
+          "ref": "blueprint/core/harness/copilot/project-os.instructions.md declara applyTo con alcance universal para todas las reglas",
+          "date": "2026-08-19"
+        },
+        {
+          "type": "file",
+          "ref": "blueprint/core/project-os/path-rules.json declara cuatro reglas con globs distintos que el espejo agregado no preserva",
+          "date": "2026-08-19"
+        },
+        {
+          "type": "command",
+          "ref": "npm test: la celda pathRules de claude-code, cursor y github-copilot permanece documented con su degradacion escrita",
+          "date": "2026-08-19"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "revalidate-agent-adapters",
+          "date": "2026-08-19"
+        }
+      ],
+      "issue": null,
+      "status": "resolved",
+      "exception": null,
+      "createdAt": "2026-08-19",
+      "updatedAt": "2026-09-05",
+      "resolution": {
+        "flow": "preserve-path-rule-selection",
+        "evidence": "Issue #65: per-rule selectors and bodies are rendered and verified in all three supported collections. Full check 248 PASS; complete installed fixture PASS, including negative selectors, collision, retirement and rollback evidence."
+      }
+    },
+    {
+      "id": "debt-ce9dd61a43b7",
+      "title": "Sin reglas de ignore revisadas para las carpetas que Companion escribe dentro de .project-os",
+      "description": "Sin reglas de ignore revisadas para las carpetas que Companion escribe dentro de .project-os",
+      "category": "decision-required",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/runtime/toolchain.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "activate-companion-environment",
+          "date": "2026-09-11"
+        },
+        {
+          "flow": "open-the-desktop-ai-you-chose-and-install-what-fits",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "resolved",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-13",
+      "resolution": {
+        "flow": "ignore-rules-for-what-companion-regenerates",
+        "evidence": "Decision tomada, no diferida. Este cambio la volvio concreta: hasta ahora lo que Companion escribia dentro de .project-os eran recibos pequenos y un cache de herramientas de 13 MB, y ahora puede caer un node_modules de 23 MB y 135 archivos, asi que una persona que prepara su proyecto y lo commitea empujaria algo que nunca eligio versionar. Se escriben reglas en .project-os/.gitignore, dentro de lo que esta aplicacion administra y sin tocar ningun archivo de la persona, nombrando solo las dos carpetas que se regeneran y se comprueban por digesto y no por historial. Los recibos quedan fuera de las reglas a proposito: son pequenos y dicen que se preparo. Un archivo que la persona haya escrito ahi no se toca nunca, y las reglas explican en palabras como deshacerlas. Comprobado en apps/companion/qa/stack.mjs con el contenido exacto, con que una segunda llamada no cambia nada y con que un archivo ajeno se conserva, y anclado por la mutacion the-ignore-rules-overwrite-what-the-person-wrote, que la prueba detecta. Ver openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md"
+      }
+    },
+    {
+      "id": "debt-9e0738544eb1",
+      "title": "La aplicación local se abre con un entorno reducido que no incluye PATH",
+      "description": "La aplicación local se abre con un entorno reducido que no incluye PATH",
+      "category": "decision-required",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/desktop/local-apps.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "activate-companion-environment",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-1e4dcea05e47",
+      "title": "La frescura del contexto documental usa la fecha de modificación además del contenido",
+      "description": "La frescura del contexto documental usa la fecha de modificación además del contenido",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/engine/inventory.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/activate-companion-environment/evidence/validation.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "activate-companion-environment",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-ebf05681fa69",
+      "title": "CI ejecuta las travesías del navegador sin cache de runtimes, así que las pantallas de herramientas y mapa de código solo se cubren localmente",
+      "description": "CI ejecuta las travesías del navegador sin cache de runtimes, así que las pantallas de herramientas y mapa de código solo se cubren localmente",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": ".github/workflows/ci.yml",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "activate-companion-environment",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "resolved",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-14",
+      "resolution": {
+        "flow": "sanitise-provider-friction-and-ci-coverage",
+        "evidence": "El item decia que CI corre las travesias del navegador sin cache de runtimes, y al investigarlo la premisa resulto falsa: los runtimes gestionados son win32-x64 unicamente segun RUNTIME_PLATFORM y las URL del catalogo, y las travesias corren en ubuntu, asi que ningun cache podia llenarlos ahi. La causa real era otra: las pantallas que dependen del toolchain gestionado, el panel de herramientas del proyecto y el mapa de codigo, no se cubrian en ninguna parte salvo un equipo Windows. Resuelto por el camino que si funciona en esa plataforma: el arnes de contrato de interfaz, que alcanza esas pantallas desde payloads simulados y no necesita ningun runtime gestionado, entra en el job companion de CI sobre el navegador que ese job ya instala. Cubre diez pantallas y vuelve a comprobar que sus 39 mutaciones deliberadas se siguen detectando. No se anadio ni se quito nada de CI / required: git diff contra main sobre el workflow son siete lineas anadidas dentro del job companion"
+      }
+    },
+    {
+      "id": "debt-d1f04de40687",
+      "title": "Cada invocación de la entrada local vuelve a leer unos 200 MB de árboles fijados, incluso para consultar símbolos",
+      "description": "Cada invocación de la entrada local vuelve a leer unos 200 MB de árboles fijados, incluso para consultar símbolos",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/runtime/agent-entry.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "activate-companion-environment",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-4ae6535a87e5",
+      "title": "Un archivo preexistente sin UTF-8 válido en una ruta generada aborta todo el plan de activación",
+      "description": "Un archivo preexistente sin UTF-8 válido en una ruta generada aborta todo el plan de activación",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/runtime/activation.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "activate-companion-environment",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-d6b356608fa5",
+      "title": "Los bytes del instalador no son reproducibles entre construcciones del mismo árbol",
+      "description": "Los bytes del instalador no son reproducibles entre construcciones del mismo árbol",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/pack-app.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/package-companion-windows/evidence/build-idempotence.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "package-companion-windows",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-5987ee39d1be",
+      "title": "CI no construye ni instala el artefacto: solo comprueba el contrato de empaquetado",
+      "description": "CI no construye ni instala el artefacto: solo comprueba el contrato de empaquetado",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": ".github/workflows/ci.yml",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/package-companion-windows/evidence/validation.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "package-companion-windows",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-0a40d51b50bc",
+      "title": "La aplicación se empaqueta sin asar, lo que aumenta tamaño y tiempo de arranque",
+      "description": "La aplicación se empaqueta sin asar, lo que aumenta tamaño y tiempo de arranque",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/electron-builder.yml",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/package-companion-windows/evidence/validation.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "package-companion-windows",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-8a9b74c15a3b",
+      "title": "El primer criterio del issue pide evidencia desde el instalador y ninguna comprobación recorre sus páginas",
+      "description": "El primer criterio del issue pide evidencia desde el instalador y ninguna comprobación recorre sus páginas",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-journeys.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/validate-companion-journeys/evidence/journeys.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "validate-companion-journeys",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-fc4309bcddbf",
+      "title": "Los recorridos conducen la capa de servicio instalada, no la interfaz ni a una persona usuaria",
+      "description": "Los recorridos conducen la capa de servicio instalada, no la interfaz ni a una persona usuaria",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/validate-companion-journeys/evidence/journeys.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "validate-companion-journeys",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-64538bb1a725",
+      "title": "El corpus medido es sintético y pequeño, y su PDF lleva el texto sin comprimir: otro corpus da otro resultado",
+      "description": "El corpus medido es sintético y pequeño, y su PDF lleva el texto sin comprimir: otro corpus da otro resultado",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-benchmark.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/validate-companion-journeys/evidence/benchmark.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "validate-companion-journeys",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-0f4ed704728a",
+      "title": "La comprobación de la landing no es una auditoría de accesibilidad ni se probó con lector de pantalla",
+      "description": "La comprobación de la landing no es una auditoría de accesibilidad ni se probó con lector de pantalla",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-landing.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/validate-companion-journeys/evidence/landing.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "validate-companion-journeys",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-ae9412074b30",
+      "title": "Los recorridos y la medición no pueden correr en CI porque necesitan la aplicación instalada desde un artefacto",
+      "description": "Los recorridos y la medición no pueden correr en CI porque necesitan la aplicación instalada desde un artefacto",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": ".github/workflows/ci.yml",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/validate-companion-journeys/evidence/independent-review.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "validate-companion-journeys",
+          "date": "2026-09-11"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "resolution": null
+    },
+    {
+      "id": "debt-8058c027fc30",
+      "title": "Tras cerrar y reabrir, software y Unity dejan de devolver cita, y la activación no avanza: falta decidir si es correcto o un defecto",
+      "description": "Tras cerrar y reabrir, software y Unity dejan de devolver cita, y la activación no avanza: falta decidir si es correcto o un defecto",
+      "category": "decision-required",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/native-journeys.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "complete-companion-program",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "refuted",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": {
+        "flow": "complete-companion-program-remediation",
+        "evidence": "refutado"
+      }
+    },
+    {
+      "id": "debt-49914ab4fee0",
+      "title": "De las cinco IA imprescindibles, solo Cursor tiene apertura local verificada; Antigravity llega sin firma y Claude y OpenCode no exponen forma comprobada de recibir una carpeta",
+      "description": "De las cinco IA imprescindibles, solo Cursor tiene apertura local verificada; Antigravity llega sin firma y Claude y OpenCode no exponen forma comprobada de recibir una carpeta",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/desktop/local-apps.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/local-launches.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "complete-companion-program",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-eac137c63b3c",
+      "title": "Elegir carpeta y las páginas del instalador requieren una persona: ninguna comprobación automática puede cubrirlas",
+      "description": "Elegir carpeta y las páginas del instalador requieren una persona: ninguna comprobación automática puede cubrirlas",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/observe-folder-dialog.ps1",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/native-acceptance.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "complete-companion-program",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-6d7898c76dd0",
+      "title": "Una pregunta de abstención no numérica queda condicionada por la instrucción numérica global",
+      "description": "Una pregunta de abstención no numérica queda condicionada por la instrucción numérica global",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-model-benchmark.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/model-experiment.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "complete-companion-program",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-6cb925491f6b",
+      "title": "El corpus medido es sintético y con relleno, las consultas se eligieron de antemano, y la medición corrió sobre una versión anterior a la entregada",
+      "description": "El corpus medido es sintético y con relleno, las consultas se eligieron de antemano, y la medición corrió sobre una versión anterior a la entregada",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "openspec/changes/complete-companion-program/evidence/protocol.json",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/model-benchmark.json",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "complete-companion-program",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-5549b45ce5a5",
+      "title": "El arnés nativo no completa activación, ingeniería ni mapa de código en la ventana instalada",
+      "description": "El arnés nativo no completa activación, ingeniería ni mapa de código en la ventana instalada",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/complete-companion-program/evidence/native-acceptance.md",
+          "date": "2026-09-11"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "complete-companion-program-remediation",
+          "date": "2026-09-12"
+        },
+        {
+          "flow": "restructure-companion-navigation-remediation-2",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-b1d0e4086495",
+      "title": "Dos criterios del issue exigen una lectura en frío por una persona que no conoce la aplicación, y nadie la ha hecho; no se sustituyó por un agente ni por una heurística",
+      "description": "Dos criterios del issue exigen una lectura en frío por una persona que no conoce la aplicación, y nadie la ha hecho; no se sustituyó por un agente ni por una heurística",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "docs/companion/COLD_READING.md",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "docs/companion/COLD_READING.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-3357b1fa1b44",
+      "title": "La mitad observable por máquina de la accesibilidad está verificada en 29 pantallas, pero no se condujo ningún lector de pantalla ni participó una persona usuaria de tecnología asistiva",
+      "description": "La mitad observable por máquina de la accesibilidad está verificada en 29 pantallas, pero no se condujo ningún lector de pantalla ni participó una persona usuaria de tecnología asistiva",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/interface-contract.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/keyboard-and-assistive-technology.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-a75a69baccc3",
+      "title": "Diez etapas nativas de software y Unity siguen sin verificar por un límite del harness: la aplicación rechaza con causa un plan que quedó viejo y el control de revisión no está en la pantalla alcanzable",
+      "description": "Diez etapas nativas de software y Unity siguen sin verificar por un límite del harness: la aplicación rechaza con causa un plan que quedó viejo y el control de revisión no está en la pantalla alcanzable",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/native-journeys.json",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "refuted",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": {
+        "flow": "restructure-companion-navigation-remediation-2",
+        "evidence": "refutado"
+      }
+    },
+    {
+      "id": "debt-bee2fa0c0549",
+      "title": "El guarda de identidad de la aplicación instalada no compara el runtime de Electron ni los paquetes de node_modules distintos del núcleo fijado, y lo declara en lugar de cubrirlo",
+      "description": "El guarda de identidad de la aplicación instalada no compara el runtime de Electron ni los paquetes de node_modules distintos del núcleo fijado, y lo declara en lugar de cubrirlo",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-7a5becc4cd20",
+      "title": "El listado relee los recibos en cada visita con un límite fijo de 1500 ms, así que una carpeta lenta pero sana aparece como que no respondió hasta que se abre; el estado habla de la lectura y no del proyecto, y abrirlo verifica sin límite",
+      "description": "El listado relee los recibos en cada visita con un límite fijo de 1500 ms, así que una carpeta lenta pero sana aparece como que no respondió hasta que se abre; el estado habla de la lectura y no del proyecto, y abrirlo verifica sin límite",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/desktop/service.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "apps/companion/qa/project-list.mjs",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-b98b078fd930",
+      "title": "El texto de las recetas conserva su vocabulario porque se entrega a un modelo además de mostrarse, así que su jerga llega a la pantalla mitigada por un panel de definiciones en vez de reescrita",
+      "description": "El texto de las recetas conserva su vocabulario porque se entrega a un modelo además de mostrarse, así que su jerga llega a la pantalla mitigada por un panel de definiciones en vez de reescrita",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/context/recipes.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/states-and-degradations.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-5608a07e98a3",
+      "title": "La identidad entre una etiqueta y la intención de la persona no es derivable por máquina: dos intenciones pueden compartir implementación y se declaran como dos acciones, así que esa correspondencia la declara quien escribe y la revisa una persona",
+      "description": "La identidad entre una etiqueta y la intención de la persona no es derivable por máquina: dos intenciones pueden compartir implementación y se declaran como dos acciones, así que esa correspondencia la declara quien escribe y la revisa una persona",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/ui/app.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "test/companion-language.test.mjs",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": null
+    },
+    {
+      "id": "debt-ada43bf01664",
+      "title": "Reclasificado tras la segunda revision: el septimo criterio pide accesibilidad verificada y solo esta medida la mitad observable por maquina, sin lector de pantalla ni persona usuaria de tecnologia asistiva",
+      "description": "Reclasificado tras la segunda revision: el septimo criterio pide accesibilidad verificada y solo esta medida la mitad observable por maquina, sin lector de pantalla ni persona usuaria de tecnologia asistiva",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/interface-contract.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/independent-review.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation-remediation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "refuted",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": {
+        "flow": "restructure-companion-navigation-remediation-2",
+        "evidence": "refutado"
+      }
+    },
+    {
+      "id": "debt-25431ff4ae7f",
+      "title": "Reclasificado tras la segunda revision: diez etapas nativas de software y Unity siguen sin verificar porque el arnes no vuelve a pedir un plan nuevo cuando la aplicacion rechaza el viejo",
+      "description": "Reclasificado tras la segunda revision: diez etapas nativas de software y Unity siguen sin verificar porque el arnes no vuelve a pedir un plan nuevo cuando la aplicacion rechaza el viejo",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/native-journeys.json",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation-remediation",
+          "date": "2026-09-12"
+        },
+        {
+          "flow": "show-verified-project-state",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "refuted",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-13",
+      "resolution": {
+        "flow": "restructure-companion-navigation-remediation-2",
+        "evidence": "refutado"
+      }
+    },
+    {
+      "id": "debt-53f4fcdb6a67",
+      "title": "Reclasificado tras la segunda revision: el guarda de identidad afirma que la ventana corre esta rama y no compara el runtime de Electron ni las dependencias transitivas izadas",
+      "description": "Reclasificado tras la segunda revision: el guarda de identidad afirma que la ventana corre esta rama y no compara el runtime de Electron ni las dependencias transitivas izadas",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-native-journeys.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "restructure-companion-navigation-remediation",
+          "date": "2026-09-12"
+        }
+      ],
+      "issue": null,
+      "status": "resolved",
+      "exception": null,
+      "createdAt": "2026-09-12",
+      "updatedAt": "2026-09-12",
+      "resolution": {
+        "flow": "restructure-companion-navigation-remediation-2",
+        "evidence": "resuelto"
+      }
+    },
+    {
+      "id": "debt-210d9c0fcca8",
+      "title": "Cualquier archivo nuevo en la carpeta deja al proyecto fuera del estado listo hasta que se revisa la preparacion otra vez, y ese paso lo tiene que iniciar la persona",
+      "description": "Cualquier archivo nuevo en la carpeta deja al proyecto fuera del estado listo hasta que se revisa la preparacion otra vez, y ese paso lo tiene que iniciar la persona",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/desktop/service.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/show-verified-project-state/design.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "show-verified-project-state",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-6ec4205b019a",
+      "title": "El resumen que respalda la marca no cubre la cadena de herramientas administrada, porque vive fuera de la carpeta del proyecto",
+      "description": "El resumen que respalda la marca no cubre la cadena de herramientas administrada, porque vive fuera de la carpeta del proyecto",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/runtime/environment.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/show-verified-project-state/evidence/states-and-degradations.md",
+          "date": "2026-09-12"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "show-verified-project-state",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-25e020743489",
+      "title": "Los niveles que hablan con un proveedor nunca se probaron contra un proveedor real: hace falta una clave del mantenedor y su aceptacion de los terminos",
+      "description": "Los niveles que hablan con un proveedor nunca se probaron contra un proveedor real: hace falta una clave del mantenedor y su aceptacion de los terminos",
+      "category": "decision-required",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/runtime/inference.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/compose-project-specific-prompts/evidence/validation.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "compose-project-specific-prompts",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "refuted",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": {
+        "flow": "compose-project-specific-prompts-remediation-2",
+        "evidence": "refutado"
+      }
+    },
+    {
+      "id": "debt-f3a4a5105436",
+      "title": "Un modelo compatible que escuche en un puerto distinto del 1234 no se detecta",
+      "description": "Un modelo compatible que escuche en un puerto distinto del 1234 no se detecta",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/runtime/inference.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/compose-project-specific-prompts/evidence/states-and-degradations.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "compose-project-specific-prompts",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-8b1db48fe147",
+      "title": "Los niveles con proveedor solo se midieron contra servidores locales que imitan sus fallas, nunca contra Cerebras ni Groq",
+      "description": "Los niveles con proveedor solo se midieron contra servidores locales que imitan sus fallas, nunca contra Cerebras ni Groq",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-prompts.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/compose-project-specific-prompts/evidence/validation.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "compose-project-specific-prompts-remediation-2",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-f504c38512a8",
+      "title": "Que la ventana de Claude muestre la carpeta entregada no se observa desde aqui: hace falta que una persona lo mire",
+      "description": "Que la ventana de Claude muestre la carpeta entregada no se observa desde aqui: hace falta que una persona lo mire",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-local-launches.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/local-launches.json",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "open-claude-and-opencode-when-they-declare-it",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-97dbe5f7b412",
+      "title": "Dos de las seis comprobaciones que habilitan una apertura viven en rutas que la propia cuenta puede escribir y no estan ancladas a ninguna firma",
+      "description": "Dos de las seis comprobaciones que habilitan una apertura viven en rutas que la propia cuenta puede escribir y no estan ancladas a ninguna firma",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/desktop/local-apps.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "docs/companion/SECURITY.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "open-claude-and-opencode-when-they-declare-it",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-9c3d2fe4527c",
+      "title": "El digesto que ancla cada tecnologia se midio en un solo sistema operativo, no en los tres que el repositorio soporta",
+      "description": "El digesto que ancla cada tecnologia se midio en un solo sistema operativo, no en los tres que el repositorio soporta",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/runtime/stack-catalog.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "open-the-desktop-ai-you-chose-and-install-what-fits",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-52d247a5c7c5",
+      "title": "La deriva del catalogo solo la detectan arneses de maquina real, no la suite que corre en CI",
+      "description": "La deriva del catalogo solo la detectan arneses de maquina real, no la suite que corre en CI",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/pin-stack.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/design.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "open-the-desktop-ai-you-chose-and-install-what-fits",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-1f9c6c08b897",
+      "title": "Los paquetes instalados quedan verificados y ubicados, pero nada conecta el proyecto de la persona con ellos",
+      "description": "Los paquetes instalados quedan verificados y ubicados, pero nada conecta el proyecto de la persona con ellos",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/runtime/stack.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "docs/companion/ENVIRONMENT.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "open-the-desktop-ai-you-chose-and-install-what-fits",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-bd1d39bb57fe",
+      "title": "El contexto preparado cubre solo un prefijo pequeño en repositorios grandes y no recuperó ninguna de las veinte respuestas congeladas",
+      "description": "El contexto preparado cubre solo un prefijo pequeño en repositorios grandes y no recuperó ninguna de las veinte respuestas congeladas",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/{engine/inventory,context/sources}.mjs",
+      "consequence": "En las dos muestras fijadas la aplicación declaró cobertura parcial, indexó 45 de 2654 y 42 de 2753 fuentes observadas y devolvió 0 de 20 respuestas, aunque un barrido literal devolvió las veinte.",
+      "remediation": "Diseñar en un issue separado selección o paginación que mantenga límites locales pero evite que el orden del inventario excluya casi todo el corpus; aprobar un protocolo nuevo y repetir estas mismas muestras sin reemplazar el resultado 0 de 20.",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "openspec/changes/measure-prepared-context-on-real-repositories/evidence/run-01/measurement.json",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "measure-prepared-context-on-real-repositories",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-213c7429f35f",
+      "title": "El nivel provider pide teclear el modelo a mano y repegar la clave en cada arranque, teniendo ya construida la lista desplegable y declarada la ruta que la llenaria",
+      "description": "El nivel provider pide teclear el modelo a mano y repegar la clave en cada arranque, teniendo ya construida la lista desplegable y declarada la ruta que la llenaria",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/ui/app.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "docs/companion/HOSTED_INFERENCE.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "decide-on-a-hosted-inference-gateway",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "resolved",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-14",
+      "resolution": {
+        "flow": "sanitise-provider-friction-and-ci-coverage",
+        "evidence": "El nivel provider hacia teclear el identificador exacto del modelo en un campo de texto libre mientras el nivel local ofrecia una lista, y PROVIDERS declaraba una ruta models por proveedor que no se llamaba desde ningun sitio. Resuelto conectandola: listProviderModels en inference.mjs pide esa ruta declarada, con los mismos limites que el resto de llamadas, y devuelve un motivo en vez de lanzar en cada forma de fallo. El servicio la expone como providerModels, una operacion propia y no un efecto de mirar la pantalla, porque preguntar a un proveedor que sirve usa la clave de la persona contra su cuenta: inferenceStatus sigue sin hablar con nadie mas que la interfaz de bucle local. La pantalla ofrece un control explicito, muestra la lista cuando la trae y conserva el campo de texto como salida cuando no. Se anadio ademas donde se emite una clave, que la pantalla no decia. Comprobado con una prueba con nombre que afirma la ruta exacta del catalogo, la cabecera de autorizacion, el descarte de ids vacios y las cinco formas de fallo; y anclado por dos mutaciones que construyen la ruta a mano y que lanzan en vez de dar un motivo, ambas detectadas. Lo que NO se toco: que la clave no se guarde en ninguna parte, que es una decision deliberada y no una friccion"
+      }
+    },
+    {
+      "id": "debt-74ff4dad7447",
+      "title": "El spec vigente dice que un proveedor caido degrada al nivel de abajo, y el codigo entrega la plantilla sin cascada",
+      "description": "El spec vigente dice que un proveedor caido degrada al nivel de abajo, y el codigo entrega la plantilla sin cascada",
+      "category": "technical-debt",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "openspec/specs/companion-prompt-composition/spec.md",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/decide-on-a-hosted-inference-gateway/evidence/independent-review.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "decide-on-a-hosted-inference-gateway",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "resolved",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": {
+        "flow": "align-degradation-spec-with-the-code",
+        "evidence": "El spec vigente decia que un proveedor caido degrada al nivel de abajo, y el codigo hace un intento al nivel configurado y entrega la plantilla con su motivo, sin cascada: inference.mjs lineas 180 a 213 y service.mjs lineas 399 a 406. Resuelto alineando el spec con lo que el codigo hace: el escenario ahora dice que se vuelve a la plantilla ya escrita, sin intentar un segundo nivel, y anade por que, que es que un nivel que la persona no eligio no es un nivel que este producto pueda usar en su nombre. Comprobado que no queda ninguna aparicion de la frase laxa ni en openspec/specs ni en docs/companion, y que openspec validate --all --strict sigue pasando. Ver openspec/changes/decide-on-a-hosted-inference-gateway/evidence/validation.md"
+      }
+    },
+    {
+      "id": "debt-ddb82e8fd48e",
+      "title": "La decision de no ofrecer un gateway depende de que dos proveedores externos sigan emitiendo claves gratuitas, y eso no se verifico",
+      "description": "La decision de no ofrecer un gateway depende de que dos proveedores externos sigan emitiendo claves gratuitas, y eso no se verifico",
+      "category": "external-risk",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "docs/companion/HOSTED_INFERENCE.md",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "doc",
+          "ref": "openspec/changes/decide-on-a-hosted-inference-gateway/evidence/validation.md",
+          "date": "2026-09-13"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "decide-on-a-hosted-inference-gateway",
+          "date": "2026-09-13"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-13",
+      "updatedAt": "2026-09-13",
+      "resolution": null
+    },
+    {
+      "id": "debt-cb6e469cd84f",
+      "title": "Las guardas que impiden volver al host heredado son regex sobre el fuente del verificador, no sobre su comportamiento: un verificador que conserve el literal pero sondee con otra variable las pasaría",
+      "description": "Las guardas que impiden volver al host heredado son regex sobre el fuente del verificador, no sobre su comportamiento: un verificador que conserve el literal pero sondee con otra variable las pasaría",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/qa/packaging.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "validation",
+          "ref": "openspec/changes/correct-companion-authenticode-probe/evidence/adversarial-review.md",
+          "date": "2026-09-15"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "correct-companion-authenticode-probe",
+          "date": "2026-09-15"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-15",
+      "updatedAt": "2026-09-15",
+      "resolution": null
+    },
+    {
+      "id": "debt-018320fa77f0",
+      "title": "verify-engineering-runtime.mjs conserva el host Windows PowerShell heredado que falló en el runner: funciona localmente pero repite la clase de fallo corregida en el verificador de publicación",
+      "description": "verify-engineering-runtime.mjs conserva el host Windows PowerShell heredado que falló en el runner: funciona localmente pero repite la clase de fallo corregida en el verificador de publicación",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "apps/companion/scripts/verify-engineering-runtime.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "validation",
+          "ref": "openspec/changes/correct-companion-authenticode-probe/evidence/adversarial-review.md",
+          "date": "2026-09-15"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "correct-companion-authenticode-probe",
+          "date": "2026-09-15"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-15",
+      "updatedAt": "2026-09-15",
+      "resolution": null
+    },
+    {
+      "id": "debt-ad5d4b93ff84",
+      "title": "El generador del mazo transcribe el guion a mano: las cifras quedan comprobadas, el texto no",
+      "description": "El generador del mazo transcribe el guion a mano: las cifras quedan comprobadas, el texto no",
+      "category": "optional-improvement",
+      "severity": "minor",
+      "transversal": false,
+      "critical": false,
+      "planOwner": "upstream-core",
+      "artifact": "openspec/changes/congress-presentation-with-measured-evidence/evidence/build-deck.mjs",
+      "consequence": "",
+      "remediation": "",
+      "evidence": [
+        {
+          "type": "review",
+          "ref": "openspec/changes/congress-presentation-with-measured-evidence/evidence/adversarial-review.md",
+          "date": "2026-09-20"
+        }
+      ],
+      "occurrences": [
+        {
+          "flow": "congress-presentation-with-measured-evidence",
+          "date": "2026-09-20"
+        }
+      ],
+      "issue": null,
+      "status": "open",
+      "exception": null,
+      "createdAt": "2026-09-20",
+      "updatedAt": "2026-09-20",
+      "resolution": null
+    }
+  ]
+}

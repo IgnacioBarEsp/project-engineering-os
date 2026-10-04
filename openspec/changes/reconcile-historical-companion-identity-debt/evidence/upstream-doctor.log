@@ -1,0 +1,436 @@
+{
+  "schemaVersion": "1.0.0",
+  "verdict": "FAIL",
+  "counts": {
+    "PASS": 9,
+    "FAIL": 3,
+    "WARN": 2,
+    "SKIP": 15
+  },
+  "results": [
+    {
+      "id": "runtime.node",
+      "profile": "universal",
+      "status": "PASS",
+      "summary": "Runtime Node compatible con el núcleo",
+      "cause": "Node v24.18.0 satisface ^22.22.0 || ^24.18.0.",
+      "remediation": "Active Node 22.22.0 o posterior dentro de Node 22, o Node 24.18.0 o posterior dentro de Node 24 (recomendado), y vuelva a ejecutar.",
+      "evidence": {
+        "version": "v24.18.0",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "runtime.package-manager",
+      "profile": "universal",
+      "status": "PASS",
+      "summary": "Package manager npm disponible",
+      "cause": "npm respondió al probe de versión.",
+      "remediation": "Restaura npm desde la misma distribución de Node; no uses el doctor para instalarlo.",
+      "evidence": {
+        "version": "11.16.0",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "dependencies.lockfile",
+      "profile": "universal",
+      "status": "PASS",
+      "summary": "Lockfile reproducible presente",
+      "cause": "package-lock.json lockfileVersion 3 corresponde al paquete.",
+      "remediation": "Revisa toolchainRoot; restaura el lockfile y ejecuta npm ci en esa ubicación fuera del doctor.",
+      "evidence": {
+        "lockfileVersion": 3,
+        "location": ".",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "git.repository",
+      "profile": "universal",
+      "status": "PASS",
+      "summary": "Destino bajo control de Git",
+      "cause": "git rev-parse confirmó el repositorio.",
+      "remediation": "Inicializa o restaura Git manualmente antes del bootstrap.",
+      "evidence": {
+        "isWorkTree": true,
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "git.working-tree",
+      "profile": "universal",
+      "status": "WARN",
+      "summary": "Working tree contiene cambios",
+      "cause": "Los cambios deben clasificarse antes de iniciar un change que se superponga.",
+      "remediation": "Conserva, aísla o registra los cambios manualmente; el doctor no limpia ni revierte archivos.",
+      "evidence": {
+        "paths": [
+          "docs/UPSTREAM_OPERATIONS.md",
+          "docs/debt/",
+          "openspec/changes/reconcile-historical-companion-identity-debt/evidence/apply-start-issue-state.json",
+          "openspec/changes/reconcile-historical-companion-identity-debt/evidence/assessment-input.json",
+          "openspec/changes/reconcile-historical-companion-identity-debt/evidence/baseline-registry.json",
+          "openspec/changes/reconcile-historical-companion-identity-debt/evidence/exercise.json",
+          "openspec/changes/reconcile-historical-companion-identity-debt/evidence/inventory-37.json",
+          "openspec/changes/reconcile-historical-companion-identity-debt/evidence/spec-approval.md",
+          "openspec/changes/reconcile-historical-companion-identity-debt/evidence/static-identity-review.json",
+          "openspec/changes/reconcile-historical-companion-identity-debt/tasks.md",
+          "scripts/verify-historical-debt-reconciliation.mjs",
+          "test/debt/historical-reconciliation.test.mjs"
+        ],
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "sdd.openspec-local",
+      "profile": "universal",
+      "status": "PASS",
+      "summary": "OpenSpec local fijado y resuelto",
+      "cause": "Manifiesto, lockfile, instalación y entrada local resuelven OpenSpec 1.6.0 en ..",
+      "remediation": "Revisa toolchainRoot; restaura @fission-ai/openspec 1.6.0 y ejecuta npm ci en esa ubicación, nunca un fallback global o @latest.",
+      "evidence": {
+        "manifest": "1.6.0",
+        "lockfile": "1.6.0",
+        "installed": "1.6.0",
+        "entryPresent": true,
+        "location": ".",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "release.identity",
+      "profile": "harness-tooling",
+      "status": "SKIP",
+      "summary": "La identidad del paquete no coincide o existe un runtime duplicado",
+      "cause": "El upstream no consume el layout que genera.",
+      "remediation": "Valida esta superficie en el fixture de consumidor; no bootstrapees el upstream.",
+      "evidence": {
+        "declared": "ausente",
+        "installed": "ausente",
+        "locked": "ausente",
+        "entryPresent": false,
+        "location": ".",
+        "stateName": "ausente",
+        "stateVersion": "ausente",
+        "duplicateSources": [],
+        "category": "consumer-shape",
+        "applicability": "not-applicable",
+        "originalStatus": "FAIL"
+      }
+    },
+    {
+      "id": "debt.health",
+      "profile": "harness-tooling",
+      "status": "PASS",
+      "summary": "El registro de deuda es válido",
+      "cause": "Policy, registry y assessments son coherentes; el check fue read-only.",
+      "remediation": "Ninguna.",
+      "evidence": {
+        "failedChecks": [],
+        "pausedPlans": [],
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "debt.github",
+      "profile": "harness-tooling",
+      "status": "SKIP",
+      "summary": "Sincronización GitHub de deuda desactivada",
+      "cause": "La política local declara github.mode=off.",
+      "remediation": "Ninguna; cambia la política mediante una decisión del consumidor si necesita integración.",
+      "evidence": {
+        "mode": "off",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "harness.parity",
+      "profile": "harness-tooling",
+      "status": "SKIP",
+      "summary": "Fuente canónica y espejos administrados están en paridad",
+      "cause": "El upstream no consume el layout que genera.",
+      "remediation": "Valida esta superficie en el fixture de consumidor; no bootstrapees el upstream.",
+      "evidence": {
+        "checked": [],
+        "mismatches": [
+          "state.json"
+        ],
+        "planSummary": "no disponible",
+        "category": "consumer-shape",
+        "applicability": "not-applicable",
+        "originalStatus": "FAIL"
+      }
+    },
+    {
+      "id": "profile.ui",
+      "profile": "ui",
+      "status": "FAIL",
+      "summary": "Perfil ui activo sin expediente de evidencia",
+      "cause": "No existe el recibo esperado .project-os/evidence/technical-profile-ui.json.",
+      "remediation": "Completa el recibo del perfil según el schema empaquetado, vuelve a producir sus artefactos y calcula hashes actuales; no desactives el perfil para ocultar el bloqueo.",
+      "evidence": {
+        "active": true,
+        "catalog": ".project-os/profiles.json",
+        "expectedReceipt": ".project-os/evidence/technical-profile-ui.json",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "profile.backend-api",
+      "profile": "backend-api",
+      "status": "SKIP",
+      "summary": "Perfil backend-api inactivo antes del discovery",
+      "cause": "El perfil requiere una decisión posterior al discovery.",
+      "remediation": "No actives el perfil hasta aprobar discovery, ADR, validaciones, casos negativos y rollback.",
+      "evidence": {
+        "active": false,
+        "catalog": ".project-os/profiles.json",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "profile.auth-security",
+      "profile": "auth-security",
+      "status": "FAIL",
+      "summary": "Perfil auth-security activo sin expediente de evidencia",
+      "cause": "No existe el recibo esperado .project-os/evidence/technical-profile-auth-security.json.",
+      "remediation": "Completa el recibo del perfil según el schema empaquetado, vuelve a producir sus artefactos y calcula hashes actuales; no desactives el perfil para ocultar el bloqueo.",
+      "evidence": {
+        "active": true,
+        "catalog": ".project-os/profiles.json",
+        "expectedReceipt": ".project-os/evidence/technical-profile-auth-security.json",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "profile.data-migration-sync",
+      "profile": "data-migration-sync",
+      "status": "SKIP",
+      "summary": "Perfil data-migration-sync inactivo antes del discovery",
+      "cause": "El perfil requiere una decisión posterior al discovery.",
+      "remediation": "No actives el perfil hasta aprobar discovery, ADR, validaciones, casos negativos y rollback.",
+      "evidence": {
+        "active": false,
+        "catalog": ".project-os/profiles.json",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "profile.ai",
+      "profile": "ai",
+      "status": "SKIP",
+      "summary": "Perfil ai inactivo antes del discovery",
+      "cause": "El perfil requiere una decisión posterior al discovery.",
+      "remediation": "No actives el perfil hasta aprobar discovery, ADR, validaciones, casos negativos y rollback.",
+      "evidence": {
+        "active": false,
+        "catalog": ".project-os/profiles.json",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "profile.infra-deploy",
+      "profile": "infra-deploy",
+      "status": "SKIP",
+      "summary": "Perfil infra-deploy inactivo antes del discovery",
+      "cause": "El perfil requiere una decisión posterior al discovery.",
+      "remediation": "No actives el perfil hasta aprobar discovery, ADR, validaciones, casos negativos y rollback.",
+      "evidence": {
+        "active": false,
+        "catalog": ".project-os/profiles.json",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "profile.library-cli",
+      "profile": "library-cli",
+      "status": "FAIL",
+      "summary": "Perfil library-cli activo sin expediente de evidencia",
+      "cause": "No existe el recibo esperado .project-os/evidence/technical-profile-library-cli.json.",
+      "remediation": "Completa el recibo del perfil según el schema empaquetado, vuelve a producir sus artefactos y calcula hashes actuales; no desactives el perfil para ocultar el bloqueo.",
+      "evidence": {
+        "active": true,
+        "catalog": ".project-os/profiles.json",
+        "expectedReceipt": ".project-os/evidence/technical-profile-library-cli.json",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "mcp.configuration",
+      "profile": "harness-tooling",
+      "status": "SKIP",
+      "summary": "Configuración MCP estructurada",
+      "cause": "El upstream no consume el layout que genera.",
+      "remediation": "Valida esta superficie en el fixture de consumidor; no bootstrapees el upstream.",
+      "evidence": {
+        "source": ".project-os/mcp.json",
+        "servers": [],
+        "category": "consumer-shape",
+        "applicability": "not-applicable",
+        "originalStatus": "FAIL"
+      }
+    },
+    {
+      "id": "mcp.startup",
+      "profile": "harness-tooling",
+      "status": "SKIP",
+      "summary": "Startup/handshake MCP no ejecutado por el doctor",
+      "cause": "No existe evidencia opt-in vigente; la configuración por sí sola no prueba operación.",
+      "remediation": "Usa el runbook para ejecutar el smoke read-only separado y guardar su recibo redactado.",
+      "evidence": {
+        "expectedReceipt": ".project-os/evidence/mcp-startup.json",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "mcp.tools-list",
+      "profile": "harness-tooling",
+      "status": "SKIP",
+      "summary": "Listado de herramientas MCP no ejecutado por el doctor",
+      "cause": "No existe evidencia opt-in vigente; la configuración por sí sola no prueba operación.",
+      "remediation": "Usa el runbook para ejecutar el smoke read-only separado y guardar su recibo redactado.",
+      "evidence": {
+        "expectedReceipt": ".project-os/evidence/mcp-tools.json",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "mcp.auth-smoke",
+      "profile": "harness-tooling",
+      "status": "SKIP",
+      "summary": "Smoke autenticado MCP no ejecutado por el doctor",
+      "cause": "No existe evidencia opt-in vigente; la configuración por sí sola no prueba operación.",
+      "remediation": "Usa el runbook para ejecutar el smoke read-only separado y guardar su recibo redactado.",
+      "evidence": {
+        "expectedReceipt": ".project-os/evidence/mcp-smoke.json",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "code-intelligence.gitnexus",
+      "profile": "harness-tooling",
+      "status": "SKIP",
+      "summary": "gitnexus no está habilitado por la política de indexación",
+      "cause": "codeIndexable no está activado; esto no afirma que falte código fuente.",
+      "remediation": "Activa el check solo cuando exista código y una política de indexación aprobada.",
+      "evidence": {
+        "codeIndexable": false,
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "code-intelligence.codegraph",
+      "profile": "harness-tooling",
+      "status": "SKIP",
+      "summary": "codegraph no está habilitado por la política de indexación",
+      "cause": "codeIndexable no está activado; esto no afirma que falte código fuente.",
+      "remediation": "Activa el check solo cuando exista código y una política de indexación aprobada.",
+      "evidence": {
+        "codeIndexable": false,
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "code-intelligence.graphify",
+      "profile": "harness-tooling",
+      "status": "SKIP",
+      "summary": "Graphify retirado del runtime activo",
+      "cause": "retirado/manual",
+      "remediation": "Ninguna; auditoría opcional fuera del bootstrap con instalación y rebuild explícitos.",
+      "evidence": {
+        "active": false,
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "github.cli",
+      "profile": "universal",
+      "status": "PASS",
+      "summary": "GitHub CLI disponible",
+      "cause": "gh respondió al probe local de versión.",
+      "remediation": "Instala y autentica GitHub CLI manualmente antes de aplicar el plan Product OS.",
+      "evidence": {
+        "version": "gh version 2.98.0 (2026-08-20)",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "github.project",
+      "profile": "universal",
+      "status": "PASS",
+      "summary": "GitHub Project demostrado por evidencia vigente",
+      "cause": "El recibo coincide con la configuración actual y declara PASS.",
+      "remediation": "Renueva el smoke opt-in cuando cambie la configuración o venza la evidencia.",
+      "evidence": {
+        "receipt": ".project-os/evidence/github-project.json",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "ci.configuration",
+      "profile": "harness-tooling",
+      "status": "SKIP",
+      "summary": "Falta CI del constructor",
+      "cause": "El upstream no consume el layout que genera.",
+      "remediation": "Valida esta superficie en el fixture de consumidor; no bootstrapees el upstream.",
+      "evidence": {
+        "workflow": "ausente",
+        "category": "consumer-shape",
+        "applicability": "not-applicable",
+        "originalStatus": "FAIL"
+      }
+    },
+    {
+      "id": "ci.execution",
+      "profile": "harness-tooling",
+      "status": "WARN",
+      "summary": "Ejecución CI local no ejecutado por el doctor",
+      "cause": "No existe evidencia opt-in vigente; la configuración por sí sola no prueba operación.",
+      "remediation": "Usa el runbook para ejecutar el smoke read-only separado y guardar su recibo redactado.",
+      "evidence": {
+        "expectedReceipt": ".project-os/evidence/ci-local.json",
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    },
+    {
+      "id": "constructor.transactions",
+      "profile": "harness-tooling",
+      "status": "PASS",
+      "summary": "Los journals de transacción están en estado terminal",
+      "cause": "No se encontraron transacciones incompletas.",
+      "remediation": "Ejecuta rollback o reanuda el comando mutante de forma explícita; el doctor no repara.",
+      "evidence": {
+        "corruptJournals": [],
+        "incompleteTransactionIds": [],
+        "journalCount": 0,
+        "category": "published-obligation",
+        "applicability": "applicable"
+      }
+    }
+  ]
+}

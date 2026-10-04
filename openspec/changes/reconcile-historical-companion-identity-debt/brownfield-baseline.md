@@ -22,9 +22,9 @@ Upstream owns CLI/specs/documentación; deuda project-owned e histórica inmutab
 
 ## Fuentes
 
-- [Debt Control](../../specs/debt-control/spec.md) y [guía de deuda](../../../docs/DEBT_CONTROL.md).
-- [Motor de captura](../../../src/debt/capture.mjs).
-- [Guarda actual](../../../apps/companion/scripts/verify-native-journeys.mjs).
-- [Assessment histórico](../../../.project-os/debt/assessments/restructure-companion-navigation-remediation-2.json).
-- [Validación histórica](../archive/2026-09-12-restructure-companion-navigation/evidence/validation.md) y [run instalado histórico](../archive/2026-09-12-restructure-companion-navigation/evidence/native-journeys.json).
+- [Debt Control](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/specs/debt-control/spec.md) y [guía de deuda](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/docs/DEBT_CONTROL.md).
+- [Motor de captura](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/src/debt/capture.mjs).
+- [Guarda actual](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/scripts/verify-native-journeys.mjs).
+- [Assessment histórico](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/.project-os/debt/assessments/restructure-companion-navigation-remediation-2.json).
+- [Validación histórica](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/validation.md) y [run instalado histórico](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/native-journeys.json).
 - [Manifiesto de propuesta](evidence/proposal-baseline.json) y [DoR real](evidence/readiness-propose.json).

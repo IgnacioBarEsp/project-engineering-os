@@ -74,4 +74,4 @@ Sin dependencia nueva, licencia/coste nuevos, secreto, proveedor, servicio pagad
 
 ## Open Questions
 
-Único gate inmediato: aprobación humana de la spec y sus límites. La resolución de npm y las pruebas humanas pendientes de la pila de ola 3 se mantienen en sus propios issues; no se sustituyen aquí.
+La aprobación humana de esta spec se recibió («apruebo») y se conserva en evidence/spec-approval.md. La resolución de npm y las pruebas humanas pendientes de la pila de ola 3 se mantienen en sus propios issues; no se sustituyen aquí. No hay decisión de scope nueva pendiente para esta fase.

@@ -36,4 +36,4 @@ El riesgo principal es cerrar el ID equivocado o atribuir alcance nuevo a eviden
 
 ## Gates
 
-DoR pasó 13/13, sin excepciones. **Spec pendiente de aprobación humana; Apply no iniciado.** #204 no bloquea preparar ni comprobar esta fase local, pero el CI requerido sigue siendo obligatorio: no habrá merge rojo, debilitamiento de protecciones ni declaración de cierre de ola 3.
+DoR pasó 13/13, sin excepciones. **Spec aprobada por el mantenedor («apruebo»); Apply en curso**, según evidence/spec-approval.md. #204 no bloquea preparar ni comprobar esta fase local, pero el CI requerido sigue siendo obligatorio: no habrá merge rojo, debilitamiento de protecciones ni declaración de cierre de ola 3.

@@ -1,24 +1,24 @@
 ## 1. Proposal and approval
 
 - [x] 1.1 Isolate exact main, verify no duplicate, enrich #206 preserving its original story, and pass pre-propose DoR (evidence/readiness-propose.json).
-- [ ] 1.2 Obtain and record explicit maintainer approval of this proposal/design/spec before Apply; do not infer approval from permission to start.
+- [x] 1.2 Obtain and record explicit maintainer approval of this proposal/design/spec before Apply; do not infer approval from permission to start (evidence/spec-approval.md).
 
 ## 2. Baseline and inventory
 
-- [ ] 2.1 Revalidate base/remote issue and registry; version inventory for all 37 IDs, source hashes, provisional categories and phased priorities from the published diagnostic.
-- [ ] 2.2 Record exact-ID mismatch, current static guard inspection and historical installed provenance/exclusions with hashes; distinguish unmerged ola 3 work.
-- [ ] 2.3 Prepare the one-ID assessment input, complete baseline snapshots/hashes and a phase preflight/verifier without changing generic capture behavior.
+- [x] 2.1 Revalidate base/remote issue and registry; version inventory for all 37 IDs, source hashes, provisional categories and phased priorities from the published diagnostic (evidence/inventory-37.json, apply-start-issue-state.json).
+- [x] 2.2 Record exact-ID mismatch, current static guard inspection and historical installed provenance/exclusions with hashes; distinguish unmerged ola 3 work (evidence/static-identity-review.json, docs/debt/IDENTITY_RECONCILIATION_206.md).
+- [x] 2.3 Prepare the one-ID assessment input, complete baseline snapshots/hashes and a phase preflight/verifier without changing generic capture behavior (evidence/assessment-input.json, baseline-registry.json, exercise.json).
 
 ## 3. Verification and capture
 
-- [ ] 3.1 Exercise valid capture, byte-identical recapture and interrupted-capture convergence in disposable copies.
-- [ ] 3.2 Exercise wrong existing/absent ID, extra resolution, removed/reclassified item, changed occurrence, changed prior assessment and changed same-flow input; record non-vacuous detection.
-- [ ] 3.3 Rehearse preintegration recovery using separate preserved baseline and rejected candidate copies, proving hashes and debt health without deleting assessments.
+- [x] 3.1 Exercise valid capture, byte-identical recapture and interrupted-capture convergence in disposable copies (evidence/exercise.json).
+- [x] 3.2 Exercise wrong existing/absent ID, extra resolution, removed/reclassified item, changed occurrence, changed prior assessment and changed same-flow input; record non-vacuous detection (12 named detections in evidence/exercise.json).
+- [x] 3.3 Rehearse preintegration recovery using separate preserved baseline and rejected candidate copies, proving hashes and debt health without deleting assessments (evidence/exercise.json recovery).
 
 ## 4. QA and assessment
 
-- [ ] 4.1 Link the reconciled inventory from upstream documentation and pass documentation presence/links/findability/neutrality checks.
-- [ ] 4.2 Run constructor tests, capability-matrix, opsx/sync/doctor checks and read-only debt checks; record any bounded degradation rather than suppress it.
+- [x] 4.1 Link the reconciled inventory from upstream documentation and pass documentation presence/links/findability/neutrality checks (66 links/two-hop routes in evidence/documentation-checks.json).
+- [x] 4.2 Run constructor tests, capability-matrix, opsx/sync/doctor checks and read-only debt checks; record any bounded degradation rather than suppress it (393 tests and disposable consumer in evidence/qa.json; debt in exercise.json).
 - [ ] 4.3 Run independent or clean-context adversarial review of the candidate, resolve all Blockers/Majors and finalize the assessment input before its immutable capture. If residual findings require changed scope, stop for an approved amendment rather than invent a clean result.
 
 ## 5. Official capture and closure preparation
