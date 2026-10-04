@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "kind": "exact-replacements",
+  "operations": [
+    {
+      "path": "index.js",
+      "before": "        this._assertRequestHasHeaders(req);\n\n        // In all circumstances, a cache MUST NOT ignore the must-revalidate directive",
+      "after": "        this._assertRequestHasHeaders(req);\n\n        if (!this._allowsReuse()) {\n            return this._evaluateRequestMissResult(req);\n        }\n\n        // In all circumstances, a cache MUST NOT ignore the must-revalidate directive"
+    },
+    {
+      "path": "index.js",
+      "before": "        if (requestCC['no-cache'] || /no-cache/.test(req.headers.pragma)) {",
+      "after": "        if (this._hasReuseDirective(requestCC, 'no-cache') || /no-cache/.test(req.headers.pragma)) {"
+    },
+    {
+      "path": "index.js",
+      "before": "    _useStaleIfError() {\n        return this.maxAge() + toNumberOrZero(this._rescc['stale-if-error']) > this.age();\n    }",
+      "after": "    // Project Engineering OS experimental guard; not an upstream release.\n    // Inspect existing parsed state so ignoreCargoCult and serialization retain their contract.\n    _hasReuseDirective(directives, name) {\n        return Object.keys(directives).some(key => key.toLowerCase() === name);\n    }\n\n    _allowsReuse() {\n        const has = name => this._hasReuseDirective(this._rescc, name);\n        if (!this.storable() || has('no-cache') || has('no-store') ||\n            this._hasReuseDirective(this._reqcc, 'no-store') ||\n            (this._isShared && has('private'))) {\n            return false;\n        }\n\n        // Keep the component's existing conservative cookie policy and exact opt-ins.\n        // Set-Cookie itself is not an RFC prohibition.\n        if (this._isShared && this._resHeaders['set-cookie'] &&\n            !this._rescc.public && !this._rescc.immutable) {\n            return false;\n        }\n\n        // RFC 9111 4.2.4: client max-stale and stale extensions cannot override these.\n        return !this.stale() || !(has('must-revalidate') ||\n            (this._isShared && (has('proxy-revalidate') || has('s-maxage'))));\n    }\n\n    _useStaleIfError() {\n        return this.maxAge() + toNumberOrZero(this._rescc['stale-if-error']) > this.age() &&\n            this._allowsReuse();\n    }"
+    },
+    {
+      "path": "index.js",
+      "before": "        return swr > 0 && this.maxAge() + swr > this.age();",
+      "after": "        return swr > 0 && this.maxAge() + swr > this.age() && this._allowsReuse();"
+    },
+    {
+      "path": "index.js",
+      "before": "        if (this._useStaleIfError() && isErrorResponse(response)) {",
+      "after": "        if (this._useStaleIfError() && isErrorResponse(response) &&\n            this._requestMatches(request, true) &&\n            !this._hasReuseDirective(parseCacheControl(request.headers['cache-control']), 'no-cache') &&\n            !/no-cache/.test(request.headers.pragma)) {"
+    },
+    {
+      "path": "index.js",
+      "before": "        const newResponse = Object.assign({}, response, {",
+      "after": "        // A 304 can introduce restrictions absent from the previous response.\n        // Limit this fix to cache directives and the existing conservative cookie policy.\n        for (const k of ['cache-control', 'set-cookie']) {\n            if (!(k in headers) && k in response.headers) headers[k] = response.headers[k];\n        }\n\n        const newResponse = Object.assign({}, response, {"
+    },
+    {
+      "path": "index.js",
+      "before": "        if (this.stale()) {\n            // If a value is present",
+      "after": "        if (this.stale()) {\n            // Recheck permission at the stale branch; freshness may have expired since entry.\n            if (!this._allowsReuse()) {\n                return this._evaluateRequestMissResult(req);\n            }\n            // If a value is present"
+    }
+  ]
+}

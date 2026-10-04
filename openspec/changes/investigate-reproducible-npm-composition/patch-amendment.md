@@ -1,6 +1,6 @@
 # #204 — ampliación propuesta: un parche propio, acotado y retirable
 
-**Estado: propuesta pendiente de aprobación.** El «si» recibido autoriza prepararla, no aplicar un parche ni adoptar un npm derivado. La fase original y sus resultados en6807d5c se conservan. Esta ampliación utiliza el mismo issue/change, no crea un duplicado ni reinicia la pila de ola3.
+**Estado: aprobada sobre la revisión6b3997.** El «apruebo» recibido después de presentar esa revisión autoriza Apply acotado; no adoptar un npm derivado. El «si» anterior solo autorizó preparar la propuesta. Véase [aprobación real](evidence/patch-amendment-approval.md). La fase original y sus resultados en6807d5c se conservan. Esta ampliación utiliza el mismo issue/change, no crea un duplicado ni reinicia la pila de ola3.
 
 ## Qué permitiría aprobar esta ampliación
 
@@ -18,7 +18,7 @@ Diseñaremos un guard mínimo y revisable para las decisiones de reutilización,
 
 Input: versión4.3.0, gitHead `b1d4bd682fbab0252985de45219f4e7497c0067c`, [tarball oficial](https://registry.npmjs.org/http-cache-semantics/-/http-cache-semantics-4.3.0.tgz), integridad `sha512-M5t5LlJpS1UHMjvwRQVdFHvPISGeLAxNcrWuJkeGh0KxsqCHZ1O3NXZU/8x7cD0BDcGW8kapxMKTvwlqrNkHkA==`; `index.js` SHA256 `ede1cc404a492fa348eb9d97a3007a0d72aa717bd22cd86a56bd0824c19729ca`. Cualquier diferencia exige revisar inputs antes de aplicar. Los originales quedan intactos y separados.
 
-El componente usa BSD-2-Clause. Se conservarán su copyright, LICENSE y avisos sin atribuir la corrección al mantenedor upstream. Se preparará un diff de datos y un manifiesto propio bajo `apps/companion/patches/http-cache-semantics/4.3.0/`, con motivo, autoría, fuente/licencia, archivo permitido, preimage/postimage, digest de parche y casos que lo justifican. **Todavía no existe ese parche ni se conoce su digest/postimage**: se producirán tras la aprobación y se congelarán antes de ensamblar una receta; no se inventan hashes.
+El componente usa BSD-2-Clause. Se conservaron su copyright, LICENSE y avisos sin atribuir la corrección al mantenedor upstream. El Apply aprobado produjo el diff de datos y manifiesto propio bajo `apps/companion/patches/http-cache-semantics/4.3.0/`, con motivo, autoría, fuente/licencia, archivo permitido y preimage/patch/postimage medidos y congelados antes de cada aplicación. Dos variantes quedaron registradas; la segunda resuelve un gap temporal confirmado por revisión. La matriz121/123 y el caller todavía impiden aceptación. El [registro de avance](evidence/component-apply-ledger.json) distingue identidad, integridad y aptitud; no es una release.
 
 El ensamblador controlado aplica datos, no ejecuta un script suministrado con el parche; valida rutas, integridades y la lista exacta de diferencias. Drift, fuzz, paths absolutos/traversal, symlinks/hardlinks, bytes o archivos adicionales se rechazan. No se permite re-vendorización manual, `postinstall`, código `eval` ni herramientas flotantes.
 
@@ -46,4 +46,4 @@ No instalar el derivado en Companion/host, modificar catálogo/locks/notices de 
 
 Opciones evaluadas: esperar un oficial corregido (menos carga propia, plazo externo); este parche experimental mínimo (más control, carga propia y riesgo medibles); fork amplio/cambio de gestor (rechazados por alcance). Elegir esta segunda prueba no garantiza viabilidad. Si no supera los gates, emitir no-viable/inconcluso sin publicar.
 
-Antes de Apply ampliado falta aprobar **proposal/design/spec y este alcance**, incluida la política conservadora del componente y responsabilidad de mantenimiento. Después, revisión adversarial independiente del diff/evidencia y evaluación formal de deuda antes del archivo. No se fabrica revisión humana ni independiente. [Tareas](tasks.md) · [Selección recibida](evidence/patch-amendment-selection.md).
+El mantenedor aprobó **proposal/design/spec y este alcance** en6b3997, incluida la política conservadora del componente y responsabilidad de mantenimiento. Siguen pendientes pruebas reales, revisión adversarial independiente del diff/evidencia y evaluación formal de deuda antes del archivo. No se fabrica revisión humana ni independiente. [Tareas](tasks.md) · [Selección recibida](evidence/patch-amendment-selection.md) · [Aprobación](evidence/patch-amendment-approval.md).

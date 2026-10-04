@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "component": {
+    "name": "http-cache-semantics",
+    "version": "4.3.0",
+    "gitHead": "b1d4bd682fbab0252985de45219f4e7497c0067c",
+    "source": "https://registry.npmjs.org/http-cache-semantics/-/http-cache-semantics-4.3.0.tgz",
+    "integrity": "sha512-M5t5LlJpS1UHMjvwRQVdFHvPISGeLAxNcrWuJkeGh0KxsqCHZ1O3NXZU/8x7cD0BDcGW8kapxMKTvwlqrNkHkA==",
+    "archiveSha256": "d75e1e6a11587954da5e2f0e2b5c4b397a16d28cc2f7bdf64e9027fc2fe593ee",
+    "license": "BSD-2-Clause"
+  },
+  "approvedSpec": "6b399724e41fb3633bb0900ecbdd49cf6622fee9",
+  "attribution": "Project Engineering OS experimental patch, authored by Codex for IgnacioBarEsp; not an upstream release or PR58 transplant",
+  "reason": "Enforce applicable reuse restrictions across max-stale and stale extensions; preserve the existing conservative cookie policy and propagate new restrictions on 304.",
+  "allowedFiles": [
+    "index.js"
+  ],
+  "patchFile": "reuse-guard.patch.json",
+  "patchSha256": "e37eb3e458539ededb9161104b1d68d72273e09795733f4631560b035b031a62",
+  "postimage": {
+    "path": "index.js",
+    "bytes": 37978,
+    "sha256": "d7c95951899bd5756a13fb2119614070b22a8a9e54b63bfebb735a0ec707262a"
+  },
+  "originalFiles": [
+    {
+      "path": "LICENSE",
+      "bytes": 1274,
+      "sha256": "ab868ad5a2ef5068560d9cd3b2180ec63c140bb4c5cae1ba779d300a0ac74fa3"
+    },
+    {
+      "path": "README.md",
+      "bytes": 12687,
+      "sha256": "be77466544e7060ad859664e779d84db4440f6dcca28da0975d0bcd97000c9fa"
+    },
+    {
+      "path": "index.js",
+      "bytes": 35882,
+      "sha256": "ede1cc404a492fa348eb9d97a3007a0d72aa717bd22cd86a56bd0824c19729ca"
+    },
+    {
+      "path": "package.json",
+      "bytes": 601,
+      "sha256": "dbe99941ed2092d43257294405cfb389a476ef54a029488b51125e6f3a777fde"
+    }
+  ],
+  "maintenance": {
+    "owner": "IgnacioBarEsp",
+    "retirement": "Evaluate a new unpatched official input with the same gates; separate slot and identity. Do not rebase this patch silently or adopt a vulnerable official rollback.",
+    "adoptionAuthorized": false
+  }
+}

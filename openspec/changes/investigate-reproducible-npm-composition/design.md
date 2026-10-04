@@ -4,7 +4,7 @@ El catálogo de Companion fija npm11.19.1 y el empaquetador sella todo su árbol
 
 La CI37171002125 de #207, SHA9feea6597d4fc43ab1f4dfb6a45f5bf4c797ac92, reporta24 vulnerabilidades Companion, además del fallo distinto #208 en root/blueprint. Son observaciones históricas fechadas, no un audit recién ejecutado del candidato.
 
-Status: **Proposed amendment over accepted feasibility baseline**. El scaffold oficial registra2026-10-04 UTC. Decisor: IgnacioBarEsp. La aprobación de fa279d9 y la condición reversible conservan su alcance en evidence/spec-approval.md. El «si» posterior solo seleccionó preparar la ampliación de parche propio (evidence/patch-amendment-selection.md), todavía sin aprobación de esta revisión ni Apply ampliado, adopción o distribución.
+Status: **Accepted amendment over accepted feasibility baseline; Apply remains experimental**. El scaffold oficial registra2026-10-04 UTC. Decisor: IgnacioBarEsp. La aprobación de fa279d9 y la condición reversible conservan su alcance en evidence/spec-approval.md. El «si» posterior solo seleccionó preparar la ampliación; el «apruebo» después de presentar6b3997 aprobó este alcance (evidence/patch-amendment-approval.md), no adopción o distribución.
 
 ## Goals / Non-Goals
 
@@ -103,4 +103,6 @@ Rollback del spike: preservar candidata rechazada y evidencia fuera de rutas de 
 
 ## Open Questions
 
-La fase original y la condición reversible están aprobadas. La ampliación concreta para un solo parche propio sigue propuesta; falta aprobar este acuerdo, incluida su política conservadora y mantenimiento. No se aplica un diff durante la preparación. Siguen sin probarse corrección completa/compatibilidad de npm, recursos y revisión independiente. Otra modificación de código upstream, obligaciones de redistribución o cambio de runtime exige otro acuerdo, nunca autorización inferida.
+Segunda ampliación **propuesta, no aprobada**: [boundary-amendment.md](boundary-amendment.md) cubre únicamente la canonicalización necesaria de directivas/vencimiento y nueva metadata304/Vary, y la frontera del caller compatible make-fetch-happen15.0.6 en policy.js/entry.js/index.js. El guard del componente no controla una devolución que el caller realiza sin consultarlo. Un predicado único debe mantener matching y restricciones incluso en error/red y preferencias de caché. No alterar defaults ni otras reglas para producir PASS. La aprobación de6b3997 no autoriza estos cambios adicionales; el registro conserva el presupuesto acumulado y el resultado blocked.
+
+La fase original, la condición reversible y la ampliación concreta para un solo parche están aprobadas. El Apply encontró límites de parsing/expiración y metadata304, además de rutas de un caller distinto que el parche autorizado no corrige. La candidata no es apta; no se probaron composición completa/compatibilidad de npm ni reparación/recursos. Otra modificación de código upstream, obligaciones de redistribución o cambio de runtime exige otro acuerdo, nunca autorización inferida.

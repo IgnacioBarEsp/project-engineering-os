@@ -9,8 +9,9 @@
 - Probar reproducibilidad, auditoría independiente del árbol físico, regresiones de avisos y contrato de instalación/runtime de Companion.
 - Ensayar transición reversible entre identidades oficiales y derivadas, y versiones del mismo canal, con slots separados y cambio de selección solo tras verificar el destino; una versión vulnerable no será un rollback aceptable.
 - Emitir un dictamen trazable viable/no-viable. No declarar corrección integrada, release apta o cierre de #204 por completar la investigación.
-- Ampliación propuesta (no aprobada todavía): permitir un parche reproducible y revisado de datos limitado a index.js de http-cache-semantics4.3.0 en copia experimental, con política/criterios separados, procedencia/licencia y retirada verificable al oficial; detalle en [patch-amendment.md](patch-amendment.md).
+- Ampliación aprobada en6b3997: permitir un parche reproducible y revisado de datos limitado a index.js de http-cache-semantics4.3.0 en copia experimental, con política/criterios separados, procedencia/licencia y retirada verificable al oficial; detalle en [patch-amendment.md](patch-amendment.md).
 - Mantener separada la adopción: si hay evidencia suficiente, proponer después el cambio de catálogo/locks/avisos/hashes y la validación del instalador mediante otra aprobación.
+- Segunda ampliación propuesta, NO aprobada: permitir los fixes de casing/expiry/304-Vary necesarios en el mismo index.js y un parche acotado de tres archivos del caller make-fetch-happen15.0.6, solo experimental. Motivo, allowlist, costo, presupuesto restante y gates en [boundary-amendment.md](boundary-amendment.md).
 
 ## Capabilities
 
@@ -26,7 +27,7 @@ Ninguna. No se cambia el contrato actual de distribución, instalación, prepara
 
 Superficies: `documentation` y `harness-tooling`. Implementación futura, después de aprobación: harness y pruebas de investigación bajo `apps/companion/scripts/` y `apps/companion/test/`, expediente OpenSpec y evidencia. No se modifica el núcleo universal ni los workflows OPSX generados.
 
-La fase original permite obtener y evaluar fuentes/dependencias oficiales solo en temporales, sin scripts de instalación ni compilación arbitrarios. La ampliación propone un diff/manifiesto de parche bajo apps/companion/patches y su verificador/pruebas internos, solo después de aprobarla. No se instala nada ni se escribe/aplica el parche durante esta preparación. La distribución de producción sigue fuera de alcance.
+La fase original permite obtener y evaluar fuentes/dependencias oficiales solo en temporales, sin scripts de instalación ni compilación arbitrarios. La ampliación aprobada permite un diff/manifiesto de parche bajo apps/companion/patches y su verificador/pruebas internos. Apply ya produjo copias experimentales; no se instala nada en el host/Companion. La distribución de producción sigue fuera de alcance.
 
 ## Non-Goals
 
@@ -42,4 +43,4 @@ Issue enriquecido y DoR original **13/13 PASS** en [evidence/readiness-propose.j
 
 El archivo futuro exige evidencia real, revisión adversarial y assessment de deuda. Cualquier integración espera `CI / required` verde bajo protecciones existentes; #208 y el orden de los PR de ola3 permanecen obligaciones separadas. No se mezclará este trabajo en #207.
 
-**Ampliación pendiente:** el mantenedor respondió «si» a prepararla, no a aprobar un acuerdo aún no presentado. La aprobación de fa279d9 conserva su alcance original. Apply ampliado permanece bloqueado hasta aprobación de esta revisión y patch-amendment.md; no hay parche aplicado por este cambio documental.
+**Ampliación aprobada:** después de presentar la revisión inmutable6b3997 el mantenedor respondió «apruebo», registrado en [evidence/patch-amendment-approval.md](evidence/patch-amendment-approval.md). La aprobación de fa279d9 conserva su alcance original. El Apply experimental no autoriza ampliar parsing/expiración, otros componentes ni producción; los límites descubiertos deben bloquear aceptación.

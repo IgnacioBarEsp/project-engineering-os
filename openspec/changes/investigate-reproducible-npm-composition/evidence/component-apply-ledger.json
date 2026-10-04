@@ -1,0 +1,66 @@
+{
+  "scope": "approved first amendment only; second amendment proposed, not applied",
+  "outcome": "blocked",
+  "approvalCommit": "6b399724e41fb3633bb0900ecbdd49cf6622fee9",
+  "component": {
+    "version": "4.3.0",
+    "patchHash": "e37eb3e458539ededb9161104b1d68d72273e09795733f4631560b035b031a62",
+    "postimageHash": "d7c95951899bd5756a13fb2119614070b22a8a9e54b63bfebb735a0ec707262a",
+    "passingCases": 121,
+    "cases": 123,
+    "securityGate": false,
+    "remainingFailures": [
+      "mixed-smaxage-earlier-expiry",
+      "304-introduces-vary-star"
+    ],
+    "clockGapFixed": true
+  },
+  "budget": {
+    "maximumRecipes": 3,
+    "consumedPatchVariants": 2,
+    "remaining": 1,
+    "wholeNpmCompositionsBuilt": 0
+  },
+  "npmCaller": {
+    "officialNpm": "11.21.0",
+    "makeFetchHappen": "15.0.6",
+    "patched": false,
+    "networkErrorReuseObserved": true,
+    "vmSyntheticBodyOnly": true,
+    "productExposureProven": false
+  },
+  "productionChanged": false,
+  "archived": false,
+  "pullRequestCreated": false,
+  "artifacts": {
+    "storage": "persistent",
+    "targetPath": "C:/Users/RitualDesktop/.codex/worktrees/204-npm-composition-spec/project-engineering-os",
+    "collectionDirectory": "C:/Users/RitualDesktop/.codex/state/plugins/codex-security/scans/project-engineering-os/artifacts-52cf88eca9b5d27a69959362a915ec072c6630e7874e4589405739b71d284df1",
+    "index": [
+      {
+        "path": "artifacts/cache-patch-20261004/component-recipe-v2-result.json",
+        "sha256": "e9fa401ffe56bf570d5e5371c5f5901cf8195d24656dbccfb1e78893418576e4"
+      },
+      {
+        "path": "artifacts/cache-patch-20261004/caller-recipe-v2-result.json",
+        "sha256": "37bccc36a7ec5d05e835733ad91921edc6c2e86be7c23a40a7eee7c14967fbda"
+      },
+      {
+        "path": "artifacts/cache-patch-20261004/adversarial-review.md",
+        "sha256": "95327d79a3cfcfbb36bce2c3ccb63f94b57add431600edf62872e9af2262d22d"
+      },
+      {
+        "path": "artifacts/cache-patch-20261004/final-checks-recipe-v2.json",
+        "sha256": "da4fa15bcd26922a3f2707a53f38841d70aff95fd0db4c267e82fcc4fa6240bf"
+      },
+      {
+        "path": "artifacts/cache-patch-20261004/readiness-second-amendment.json",
+        "sha256": "3c2deb00c5c2642a1f53ac0725786c5390478a5051238f7d3c9d02c76087e936"
+      },
+      {
+        "path": "artifacts/cache-patch-20261004/verification.md",
+        "sha256": "1bb2b86444d312c1fbf77754336fdfbe9bf79cdce021adbf889a74133483b159"
+      }
+    ]
+  }
+}

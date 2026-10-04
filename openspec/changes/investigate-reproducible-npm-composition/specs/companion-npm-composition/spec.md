@@ -1,5 +1,23 @@
 ## ADDED Requirements
 
+### Requirement: Explicit approval for discovered boundary expansion
+The follow-up boundary-amendment.md and its proposal/design/spec additions SHALL remain proposed until explicit approval of the presented revision. Acceptance of6b3997 SHALL NOT approve this follow-up. Only after that gate MAY owned disposable copies add the necessary directive-name/expiry and304-Vary propagation changes to http-cache-semantics4.3.0/index.js and exact data patches to make-fetch-happen15.0.6/lib/cache/policy.js, lib/cache/entry.js and lib/cache/index.js from the pinned npm11.21.0 source. These are the only additional upstream scope exceptions; no npm or third-component source MAY change.
+
+#### Scenario: The component refuses reuse but its caller returns stale
+- **WHEN** an error/default/force-cache/only-if-cached route can bypass the component decision
+- **THEN** the result SHALL remain not apt unless the explicitly approved caller boundary enforces applicable restrictions and request matching
+- **AND** synthetic caller execution SHALL NOT replace real disposable integration or prove Companion exposure
+
+#### Scenario: An approved future candidate closes the discovered residuals
+- **WHEN** the expanded scope has actually been approved and implemented
+- **THEN** case-insensitive directive/expiry,304-Vary, temporal, serialized-state and caller regressions plus legitimate/default-option controls SHALL pass with fixed provenance and two identical builds
+- **AND** the original cumulative three-recipe budget, full physical audit/advisory/runtime/repair gates and separate adoption agreement SHALL still apply
+
+#### Scenario: Approval has not been received or another source fix is required
+- **WHEN** the follow-up is pending, a source differs or another component/file needs modification
+- **THEN** no expanded patch SHALL be applied and the experiment SHALL stay blocked with original evidence preserved
+- **AND** no future approval, budget reset, audit exception or production adoption SHALL be inferred
+
 ### Requirement: Approval-bounded feasibility phase
 The investigation SHALL execute only within explicit approval of the applicable proposal, design and specification. The accepted fa279d9 baseline SHALL NOT approve the newly proposed component-code patch amendment. An authorization to prepare an amendment SHALL NOT count as approval of unseen requirements. Applying a local patch SHALL wait for approval of this revision and patch-amendment.md. The phase SHALL remain experimental and SHALL NOT adopt/publish a distribution, close issue204, infer green required CI or start wave4.
 
@@ -14,7 +32,7 @@ The investigation SHALL execute only within explicit approval of the applicable 
 - **AND** adoption SHALL require a subsequent approved agreement and all existing release protections
 
 ### Requirement: Immutable recipe with explicit derivation
-Each composition SHALL declare a fixed official npm11.21.0 source identity, each dependency version/source/integrity, original manifest, allowed differences, assembler identity and recipe digest. It SHALL reconstruct its physical graph from pinned inputs without preserving an unreviewed bundled tree or hand-editing vendored packages. npm code and other upstream component code SHALL remain unchanged; only the approved single-component amendment may add a traceable index.js patch to http-cache-semantics4.3.0 in an owned disposable copy. The cumulative budget SHALL remain at most three distinct frozen recipes including patch variations.
+Each composition SHALL declare a fixed official npm11.21.0 source identity, each dependency version/source/integrity, original manifest, allowed differences, assembler identity and recipe digest. It SHALL reconstruct its physical graph from pinned inputs without preserving an unreviewed bundled tree or hand-editing vendored packages. npm code SHALL remain unchanged. The accepted6b3997 amendment permits only a traceable index.js patch to http-cache-semantics4.3.0 in an owned disposable copy. A future explicit approval of the boundary-expansion requirement MAY add only its exact listed files; all other upstream source SHALL remain unchanged. That approval SHALL NOT be inferred from the first amendment. The cumulative budget SHALL remain at most three distinct frozen recipes including patch variations.
 
 #### Scenario: Recipe is constructed
 - **WHEN** a compatible officially corrected component set is identified
