@@ -25,11 +25,11 @@
 
 - [x] 5.1 Only after successful preflight and review, capture officially in the phase branch; verify 50 total/36 open, all other 49 objects unchanged, target immutable fields unchanged, prior assessment hashes and budget 4/5 unchanged; repeat identical capture (official-capture.json, official-recapture.json, actual-capture-verification.json).
 - [x] 5.2 Review the final diff and actual checks after capture; complete readiness metadata from evidence and strictly validate without falsely completing pending work (final-author-review.md, post-capture-checks.json; 62/62 and documentation/strict PASS).
-- [ ] 5.3 Prepare the archive/handoff summary with accurate integration status, remaining 36 and #204 blocker; ensure issue and Project report only verified phase progress.
+- [x] 5.3 Prepare the archive/handoff summary with accurate integration status, remaining 36 and #204 blocker; ensure issue and Project report only verified phase progress (handoff.md and handoff-progress-receipt.json: #206/#167 updated; Project In progress, no main integration).
 
-## Post-Apply milestones (all pending, outside the archive completion ledger)
+## Post-Apply milestones (outside the archive completion ledger)
 
-- Run pre-archive readiness only after the above tasks actually pass, then archive/sync through local fixed OpenSpec. Archive is not integration.
+- Performed after all 14 tasks passed: pre-archive readiness 16/16 PASS, then official OpenSpec 1.6.0 archive/sync on 2026-10-04 UTC (readiness-archive.json, official-archive.json). Archive is not integration.
 - Open and attach protected PR with `Refs #206`, never umbrella autoclose; preserve pile order and #204/required-CI blocker.
 - After actual green required CI and permitted merge, update #167/#206/Project with the phase result, keeping the other 36 and the umbrella open. Stop before ola 4 as required by the main handoff.
 

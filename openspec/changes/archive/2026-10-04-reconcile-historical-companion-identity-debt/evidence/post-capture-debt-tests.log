@@ -2,373 +2,373 @@ TAP version 13
 # Subtest: captura registra deuda nueva y el segundo run es no-op sin drift
 ok 1 - captura registra deuda nueva y el segundo run es no-op sin drift
   ---
-  duration_ms: 21.4902
+  duration_ms: 25.317
   type: 'test'
   ...
 # Subtest: la evidencia historica es inmutable: input distinto para el mismo flujo falla
 ok 2 - la evidencia historica es inmutable: input distinto para el mismo flujo falla
   ---
-  duration_ms: 16.1495
+  duration_ms: 14.432
   type: 'test'
   ...
 # Subtest: candidatos refutados y resueltos-previamente no crean deuda
 ok 3 - candidatos refutados y resueltos-previamente no crean deuda
   ---
-  duration_ms: 18.2892
+  duration_ms: 21.5791
   type: 'test'
   ...
 # Subtest: reaparicion en otro flujo agrega occurrence sin duplicar item
 ok 4 - reaparicion en otro flujo agrega occurrence sin duplicar item
   ---
-  duration_ms: 20.7018
+  duration_ms: 20.6878
   type: 'test'
   ...
 # Subtest: ejecucion parcial: assessment sin registro se detecta y reejecutar converge
 ok 5 - ejecucion parcial: assessment sin registro se detecta y reejecutar converge
   ---
-  duration_ms: 18.363
+  duration_ms: 18.94
   type: 'test'
   ...
 # Subtest: resolves cierra items con trazabilidad y assessmentReflected lo reconoce
 ok 6 - resolves cierra items con trazabilidad y assessmentReflected lo reconoce
   ---
-  duration_ms: 15.8005
+  duration_ms: 15.9933
   type: 'test'
   ...
 # Subtest: las excepciones se aplican via capture y quedan validadas
 ok 7 - las excepciones se aplican via capture y quedan validadas
   ---
-  duration_ms: 18.3203
+  duration_ms: 19.5555
   type: 'test'
   ...
 # Subtest: una excepcion con expiracion mas alla del horizonte maximo es rechazada
 ok 8 - una excepcion con expiracion mas alla del horizonte maximo es rechazada
   ---
-  duration_ms: 11.0366
+  duration_ms: 10.6615
   type: 'test'
   ...
 # Subtest: el fingerprint es estable ante mayusculas y espacios
 ok 9 - el fingerprint es estable ante mayusculas y espacios
   ---
-  duration_ms: 0.2163
+  duration_ms: 0.2062
   type: 'test'
   ...
 # Subtest: contentHash canonico ignora el orden de claves
 ok 10 - contentHash canonico ignora el orden de claves
   ---
-  duration_ms: 0.1393
+  duration_ms: 0.148
   type: 'test'
   ...
 # Subtest: check humano y JSON comparten veredicto, causa y recuperacion
 ok 11 - check humano y JSON comparten veredicto, causa y recuperacion
   ---
-  duration_ms: 9.8017
+  duration_ms: 7.0117
   type: 'test'
   ...
 # Subtest: check en repositorio sin motor reporta SKIP con exit 0
 ok 12 - check en repositorio sin motor reporta SKIP con exit 0
   ---
-  duration_ms: 1.459
+  duration_ms: 0.7665
   type: 'test'
   ...
 # Subtest: gate pre-archive exige --change y reporta uso invalido con exit 2
 ok 13 - gate pre-archive exige --change y reporta uso invalido con exit 2
   ---
-  duration_ms: 0.2494
+  duration_ms: 0.2867
   type: 'test'
   ...
 # Subtest: capture desde CLI escribe estado y postfinish en modo off hace SKIP de GitHub
 ok 14 - capture desde CLI escribe estado y postfinish en modo off hace SKIP de GitHub
   ---
-  duration_ms: 20.5482
+  duration_ms: 21.7036
   type: 'test'
   ...
 # Subtest: postfinish: la primera deteccion de una pausa falla y la pausa reconocida degrada a WARN
 ok 15 - postfinish: la primera deteccion de una pausa falla y la pausa reconocida degrada a WARN
   ---
-  duration_ms: 13.1013
+  duration_ms: 14.5811
   type: 'test'
   ...
 # Subtest: postfinish: un fallo de sync en modo required conserva el FAIL del plan
 ok 16 - postfinish: un fallo de sync en modo required conserva el FAIL del plan
   ---
-  duration_ms: 7.5338
+  duration_ms: 7.2038
   type: 'test'
   ...
 # Subtest: handoff imprime recomendacion y prompt desde datos canonicos
 ok 17 - handoff imprime recomendacion y prompt desde datos canonicos
   ---
-  duration_ms: 7.504
+  duration_ms: 7.4828
   type: 'test'
   ...
 # Subtest: comando desconocido imprime uso con exit 2
 ok 18 - comando desconocido imprime uso con exit 2
   ---
-  duration_ms: 0.1624
+  duration_ms: 0.1198
   type: 'test'
   ...
 # Subtest: pre-propose: SKIP explicito sin motor configurado
 ok 19 - pre-propose: SKIP explicito sin motor configurado
   ---
-  duration_ms: 2.6702
+  duration_ms: 3.9554
   type: 'test'
   ...
 # Subtest: pre-propose: plan pausado bloquea features y la allowlist permite saneamiento
 ok 20 - pre-propose: plan pausado bloquea features y la allowlist permite saneamiento
   ---
-  duration_ms: 10.1792
+  duration_ms: 15.3308
   type: 'test'
   ...
 # Subtest: pre-propose: deuda transversal critica bloquea todos los planes
 ok 21 - pre-propose: deuda transversal critica bloquea todos los planes
   ---
-  duration_ms: 13.0365
+  duration_ms: 11.4025
   type: 'test'
   ...
 # Subtest: pre-archive: falla sin assessment y pasa con cierre clean
 ok 22 - pre-archive: falla sin assessment y pasa con cierre clean
   ---
-  duration_ms: 20.4044
+  duration_ms: 21.7088
   type: 'test'
   ...
 # Subtest: pre-archive: un Blocker/Major confirmado del flujo bloquea el archive
 ok 23 - pre-archive: un Blocker/Major confirmado del flujo bloquea el archive
   ---
-  duration_ms: 19.6865
+  duration_ms: 16.7776
   type: 'test'
   ...
 # Subtest: pre-archive: un feature puede capturar deuda preexistente; saneamiento no puede agregar deuda nueva
 ok 24 - pre-archive: un feature puede capturar deuda preexistente; saneamiento no puede agregar deuda nueva
   ---
-  duration_ms: 28.6634
+  duration_ms: 29.8694
   type: 'test'
   ...
 # Subtest: pre-archive: un Major capturado y luego resuelto no deja el archive en bloqueo permanente
 ok 25 - pre-archive: un Major capturado y luego resuelto no deja el archive en bloqueo permanente
   ---
-  duration_ms: 20.0391
+  duration_ms: 20.4016
   type: 'test'
   ...
 # Subtest: pre-archive: un duplicate de un Major abierto bloquea el archive de ese flujo
 ok 26 - pre-archive: un duplicate de un Major abierto bloquea el archive de ese flujo
   ---
-  duration_ms: 10.8444
+  duration_ms: 11.4821
   type: 'test'
   ...
 # Subtest: el modo auto resuelve a required u off segun el manifest local, sin red
 ok 27 - el modo auto resuelve a required u off segun el manifest local, sin red
   ---
-  duration_ms: 10.8776
+  duration_ms: 8.8202
   type: 'test'
   ...
 # Subtest: modo off reporta SKIP y no invoca gh
 ok 28 - modo off reporta SKIP y no invoca gh
   ---
-  duration_ms: 9.6011
+  duration_ms: 11.3982
   type: 'test'
   ...
 # Subtest: modo advisory degrada a WARN cuando gh no esta utilizable
 ok 29 - modo advisory degrada a WARN cuando gh no esta utilizable
   ---
-  duration_ms: 8.2436
+  duration_ms: 9.9245
   type: 'test'
   ...
 # Subtest: modo required produce FAIL con recuperacion cuando gh no esta utilizable
 ok 30 - modo required produce FAIL con recuperacion cuando gh no esta utilizable
   ---
-  duration_ms: 7.5993
+  duration_ms: 7.9503
   type: 'test'
   ...
 # Subtest: required crea un issue idempotente por plan pausado y reejecutar es no-op
 ok 31 - required crea un issue idempotente por plan pausado y reejecutar es no-op
   ---
-  duration_ms: 15.1773
+  duration_ms: 14.7118
   type: 'test'
   ...
 # Subtest: required persiste el backref desde la URL creada aunque GitHub aun no lo liste
 ok 32 - required persiste el backref desde la URL creada aunque GitHub aun no lo liste
   ---
-  duration_ms: 9.908
+  duration_ms: 8.5188
   type: 'test'
   ...
 # Subtest: la sincronizacion actualiza el bloque administrado preservando texto ajeno
 ok 33 - la sincronizacion actualiza el bloque administrado preservando texto ajeno
   ---
-  duration_ms: 9.5861
+  duration_ms: 9.6689
   type: 'test'
   ...
 # Subtest: el contenido hostil del registro queda como dato inerte del cuerpo
 ok 34 - el contenido hostil del registro queda como dato inerte del cuerpo
   ---
-  duration_ms: 5.8576
+  duration_ms: 6.4059
   type: 'test'
   ...
 # Subtest: un titulo con marcadores administrados no rompe la idempotencia del bloque
 ok 35 - un titulo con marcadores administrados no rompe la idempotencia del bloque
   ---
-  duration_ms: 5.97
+  duration_ms: 6.0619
   type: 'test'
   ...
 # Subtest: persistIssueRefs=false no escribe registry.json y lo reporta como WARN
 ok 36 - persistIssueRefs=false no escribe registry.json y lo reporta como WARN
   ---
-  duration_ms: 7.0686
+  duration_ms: 6.9098
   type: 'test'
   ...
 # Subtest: el prompt de relevo es reproducible y contiene las secciones obligatorias
 ok 37 - el prompt de relevo es reproducible y contiene las secciones obligatorias
   ---
-  duration_ms: 15.1299
+  duration_ms: 15.6197
   type: 'test'
   ...
 # Subtest: el prompt redacta secretos presentes en la evidencia (formatos reales)
 ok 38 - el prompt redacta secretos presentes en la evidencia (formatos reales)
   ---
-  duration_ms: 12.5577
+  duration_ms: 12.1487
   type: 'test'
   ...
 # Subtest: recomendacion: misma tarea solo para correccion pequena pre-archive con contexto sano
 ok 39 - recomendacion: misma tarea solo para correccion pequena pre-archive con contexto sano
   ---
-  duration_ms: 2.151
+  duration_ms: 1.8858
   type: 'test'
   ...
 # Subtest: recomendacion: saneamiento, blockers o pausa exigen tarea nueva con razones
 ok 40 - recomendacion: saneamiento, blockers o pausa exigen tarea nueva con razones
   ---
-  duration_ms: 3.7819
+  duration_ms: 3.4664
   type: 'test'
   ...
 # Subtest: historical phase preflight accepts only approved single-ID remediation
 ok 41 - historical phase preflight accepts only approved single-ID remediation
   ---
-  duration_ms: 2.2093
+  duration_ms: 2.1423
   type: 'test'
   ...
 # Subtest: historical phase validates actual pure capture semantics without unrelated mutations
 ok 42 - historical phase validates actual pure capture semantics without unrelated mutations
   ---
-  duration_ms: 1.6477
+  duration_ms: 1.8012
   type: 'test'
   ...
 # Subtest: historical phase refuses removal, reclassification and occurrence mutation
 ok 43 - historical phase refuses removal, reclassification and occurrence mutation
   ---
-  duration_ms: 3.6958
+  duration_ms: 2.8865
   type: 'test'
   ...
 # Subtest: historical phase file manifest requires exactly one new assessment and immutable old bytes
 ok 44 - historical phase file manifest requires exactly one new assessment and immutable old bytes
   ---
-  duration_ms: 2.0416
+  duration_ms: 0.4229
   type: 'test'
   ...
 # Subtest: bajo presupuesto: 4 unidades no pausan el plan
 ok 45 - bajo presupuesto: 4 unidades no pausan el plan
   ---
-  duration_ms: 3.3913
+  duration_ms: 7.2375
   type: 'test'
   ...
 # Subtest: umbral alcanzado: 5 unidades pausan solo el plan afectado
 ok 46 - umbral alcanzado: 5 unidades pausan solo el plan afectado
   ---
-  duration_ms: 1.6325
+  duration_ms: 1.8374
   type: 'test'
   ...
 # Subtest: minor transversal vale 2 unidades y minor normal 1
 ok 47 - minor transversal vale 2 unidades y minor normal 1
   ---
-  duration_ms: 1.4208
+  duration_ms: 5.7574
   type: 'test'
   ...
 # Subtest: major inmediato: bloquea sin acumulacion
 ok 48 - major inmediato: bloquea sin acumulacion
   ---
-  duration_ms: 1.3467
+  duration_ms: 2.8813
   type: 'test'
   ...
 # Subtest: hallazgo repetido en 3 flujos dispara recurrencia
 ok 49 - hallazgo repetido en 3 flujos dispara recurrencia
   ---
-  duration_ms: 1.3419
+  duration_ms: 2.8402
   type: 'test'
   ...
 # Subtest: excepcion expirada dispara saneamiento y vuelve a contar unidades
 ok 50 - excepcion expirada dispara saneamiento y vuelve a contar unidades
   ---
-  duration_ms: 1.5311
+  duration_ms: 1.6126
   type: 'test'
   ...
 # Subtest: excepcion vigente no pausa ni consume presupuesto
 ok 51 - excepcion vigente no pausa ni consume presupuesto
   ---
-  duration_ms: 1.5844
+  duration_ms: 1.3458
   type: 'test'
   ...
 # Subtest: deuda transversal critica pausa todos los planes
 ok 52 - deuda transversal critica pausa todos los planes
   ---
-  duration_ms: 1.5037
+  duration_ms: 1.334
   type: 'test'
   ...
 # Subtest: cinco flujos con deuda residual disparan el trigger de flujos
 ok 53 - cinco flujos con deuda residual disparan el trigger de flujos
   ---
-  duration_ms: 1.4277
+  duration_ms: 1.1665
   type: 'test'
   ...
 # Subtest: deuda nueva nacida en un flujo de saneamiento mantiene la pausa aunque el presupuesto baje
 ok 54 - deuda nueva nacida en un flujo de saneamiento mantiene la pausa aunque el presupuesto baje
   ---
-  duration_ms: 1.7476
+  duration_ms: 1.2162
   type: 'test'
   ...
 # Subtest: resumeConditions reporta la condicion pendiente exacta
 ok 55 - resumeConditions reporta la condicion pendiente exacta
   ---
-  duration_ms: 1.6374
+  duration_ms: 1.2967
   type: 'test'
   ...
 # Subtest: ruteo por labels: primera label mapeada gana, default cubre el resto
 ok 56 - ruteo por labels: primera label mapeada gana, default cubre el resto
   ---
-  duration_ms: 1.2848
+  duration_ms: 1.0012
   type: 'test'
   ...
 # Subtest: config y registry de fixtures validan sin errores
 ok 57 - config y registry de fixtures validan sin errores
   ---
-  duration_ms: 2.1722
+  duration_ms: 3.0379
   type: 'test'
   ...
 # Subtest: config invalida nombra el campo exacto
 ok 58 - config invalida nombra el campo exacto
   ---
-  duration_ms: 0.1884
+  duration_ms: 0.2155
   type: 'test'
   ...
 # Subtest: un item con categoria fuera de las siete canonicas falla
 ok 59 - un item con categoria fuera de las siete canonicas falla
   ---
-  duration_ms: 0.6856
+  duration_ms: 0.8218
   type: 'test'
   ...
 # Subtest: estados terminales exigen resolucion trazable e ids duplicados fallan
 ok 60 - estados terminales exigen resolucion trazable e ids duplicados fallan
   ---
-  duration_ms: 0.651
+  duration_ms: 1.0529
   type: 'test'
   ...
 # Subtest: un assessment exige verificacion por candidato y coherencia clean/debt
 ok 61 - un assessment exige verificacion por candidato y coherencia clean/debt
   ---
-  duration_ms: 0.2885
+  duration_ms: 0.4673
   type: 'test'
   ...
 # Subtest: una excepcion incompleta o sin fecha ISO falla
 ok 62 - una excepcion incompleta o sin fecha ISO falla
   ---
-  duration_ms: 0.1578
+  duration_ms: 0.1754
   type: 'test'
   ...
 1..62
@@ -379,4 +379,4 @@ ok 62 - una excepcion incompleta o sin fecha ISO falla
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 226.9339
+# duration_ms 230.9669

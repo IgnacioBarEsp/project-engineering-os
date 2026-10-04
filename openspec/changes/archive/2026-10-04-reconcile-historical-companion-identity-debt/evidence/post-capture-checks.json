@@ -1,6 +1,6 @@
 {
-  "recordedAt": "2026-10-04T02:17:11.121Z",
-  "phase": "openspec/changes/reconcile-historical-companion-identity-debt",
+  "recordedAt": "2026-10-04T02:22:17.596Z",
+  "phase": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt",
   "status": "PASS",
   "tests": {
     "command": [
@@ -25,7 +25,7 @@
     "args": [
       "scripts/verify-historical-debt-reconciliation.mjs",
       "--verify",
-      "openspec/changes/reconcile-historical-companion-identity-debt/evidence"
+      "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence"
     ],
     "exitCode": 0,
     "stdout": "{\"verdict\":\"PASS\",\"total\":50,\"open\":36,\"otherObjectsIdentical\":49,\"historicalAssessmentsUnchanged\":73}\n",

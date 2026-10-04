@@ -30,3 +30,9 @@ Bugbot revisó la candidata a6127ce desde contexto independiente, sin bugs repor
 Readiness/archive y PR protegido siguen siendo etapas separadas. Archive no implica merge ni cierre de #206; #204 sigue bloqueando integración. No se cambia la configuración ni se introduce excepción para que el gate pase.
 
 Revisión final posterior del implementador: final-author-review.md. Nueva ejecución conservada de pruebas de deuda: 62/62 PASS, post-capture-checks.json y post-capture-debt-tests.log; verificador PASS y código de la revisión independiente sin cambios. Handoff acotado en handoff.md, sin presentar esta fase como cierre del paraguas.
+
+## Archivo oficial y comprobación posterior
+
+Los 14 tasks de Apply se completaron antes del gate. readiness-archive.json: 16 PASS/0 FAIL/0 EXCEPTION. official-archive.json: OpenSpec local 1.6.0 archive/sync, exit 0, un requisito modificado, sin skip-specs ni no-validate. Readiness repunta referencias actuales al expediente archivado; los recibos anteriores conservan las rutas históricas de ejecución.
+
+Comprobación posterior a archivo: core `npm run check` exit 0, **393/393 PASS**; **20/20 specs estrictas** y documentos/66 enlaces/dos saltos/neutralidad PASS. Recibos post-archive-checks.json, post-archive-core-check.log y documentation-checks.json. Pruebas de deuda/verificador se repitieron tras el movimiento y siguen PASS. No se atribuye esto a CI remota ni se cerró #206. PR e integración siguen separados y conservan #204.
