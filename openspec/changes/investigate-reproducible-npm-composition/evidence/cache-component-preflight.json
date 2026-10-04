@@ -1,0 +1,141 @@
+{
+  "stage": "approved-apply-component-preflight",
+  "root": "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-204-cache-regression-6cdd6d7c09e94e5ea9ffc26c28b4a360",
+  "archiveIntegrity": "sha512-M5t5LlJpS1UHMjvwRQVdFHvPISGeLAxNcrWuJkeGh0KxsqCHZ1O3NXZU/8x7cD0BDcGW8kapxMKTvwlqrNkHkA==",
+  "archiveSha256": "d75e1e6a11587954da5e2f0e2b5c4b397a16d28cc2f7bdf64e9027fc2fe593ee",
+  "sourceSha256": "ede1cc404a492fa348eb9d97a3007a0d72aa717bd22cd86a56bd0824c19729ca",
+  "entries": [
+    "package/LICENSE",
+    "package/index.js",
+    "package/package.json",
+    "package/README.md"
+  ],
+  "scriptsExecuted": false,
+  "collectedUtc": "2026-10-04T03:56:07.6189768Z",
+  "officialRegistry": {
+    "version": "4.3.0",
+    "gitHead": "b1d4bd682fbab0252985de45219f4e7497c0067c",
+    "dist": {
+      "shasum": "09eead3b16c6d85552857cc3fbd888d8353a2aaf",
+      "tarball": "https://registry.npmjs.org/http-cache-semantics/-/http-cache-semantics-4.3.0.tgz",
+      "fileCount": 4,
+      "integrity": "sha512-M5t5LlJpS1UHMjvwRQVdFHvPISGeLAxNcrWuJkeGh0KxsqCHZ1O3NXZU/8x7cD0BDcGW8kapxMKTvwlqrNkHkA==",
+      "signatures": [
+        {
+          "sig": "MEUCIQDU71NGQGXN2buhOfei8zXURLpUX2HZ5LtN+S2RA3DdXAIgTyD8bU/4QDHCqLXZ9rJomYbAJ8S0FuwmAbXfZWIqAhw=",
+          "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+        },
+        {
+          "sig": "MEUCIGi6foYRIrk5DVJSvvCMxa3/bOoY2UAobLWZqWuB0zPiAiEA9hXrJvqvBfqVrkB+W+TEbg+OPpjr9JqPrrmgPsZ3big=",
+          "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+        }
+      ],
+      "unpackedSize": 50444
+    },
+    "license": "BSD-2-Clause",
+    "engines": null
+  },
+  "latest": {
+    "observedUtc": "2026-10-04T04:07:19.8125600Z",
+    "version": "4.3.0",
+    "gitHead": "b1d4bd682fbab0252985de45219f4e7497c0067c",
+    "integrity": "sha512-M5t5LlJpS1UHMjvwRQVdFHvPISGeLAxNcrWuJkeGh0KxsqCHZ1O3NXZU/8x7cD0BDcGW8kapxMKTvwlqrNkHkA=="
+  },
+  "execution": {
+    "executable": "C:\\Program Files\\nodejs\\node.exe",
+    "exitCode": 0,
+    "stderr": "",
+    "runner": "runFixedProcess; shell:false; timeoutMs:15000; maxOutputBytes:65536; isolatedEnvironment with owned temp home",
+    "lifecycleScriptsExecuted": false,
+    "packageInstallation": false
+  },
+  "observedUtc": "2026-10-04T04:03:45.713Z",
+  "node": "v24.18.0",
+  "component": "http-cache-semantics",
+  "version": "4.3.0",
+  "experiment": "component-api-synthetic-inputs",
+  "targetExposureProven": false,
+  "cases": [
+    {
+      "name": "shared-cookie",
+      "storable": true,
+      "maxAge": 0,
+      "expectedReuse": false,
+      "observedReuse": true,
+      "passed": false,
+      "returnsResponse": true,
+      "revalidationRequired": false
+    },
+    {
+      "name": "proxy-revalidate",
+      "storable": true,
+      "maxAge": 0,
+      "expectedReuse": false,
+      "observedReuse": true,
+      "passed": false,
+      "returnsResponse": true,
+      "revalidationRequired": false
+    },
+    {
+      "name": "response-no-cache",
+      "storable": true,
+      "maxAge": 0,
+      "expectedReuse": false,
+      "observedReuse": true,
+      "passed": false,
+      "returnsResponse": true,
+      "revalidationRequired": false
+    },
+    {
+      "name": "ordinary-stale",
+      "storable": true,
+      "maxAge": 1,
+      "expectedReuse": true,
+      "observedReuse": true,
+      "passed": true,
+      "returnsResponse": true,
+      "revalidationRequired": false
+    },
+    {
+      "name": "must-revalidate-control",
+      "storable": true,
+      "maxAge": 0,
+      "expectedReuse": false,
+      "observedReuse": false,
+      "passed": true,
+      "returnsResponse": false,
+      "revalidationRequired": true
+    },
+    {
+      "name": "public-cookie-control",
+      "storable": true,
+      "maxAge": 1,
+      "expectedReuse": true,
+      "observedReuse": true,
+      "passed": true,
+      "returnsResponse": true,
+      "revalidationRequired": false
+    }
+  ],
+  "passed": false,
+  "failingCases": [
+    "shared-cookie",
+    "proxy-revalidate",
+    "response-no-cache"
+  ],
+  "upstreamPull58": {
+    "url": "https://github.com/kornelski/http-cache-semantics/pull/58",
+    "state": "closed",
+    "merged": false,
+    "mergedAt": null,
+    "updatedAt": "2026-10-04T02:27:23Z",
+    "head": "14a8c2ad51740dc39bf3e8f1a11c845a5003f217",
+    "source": "fresh GitHub REST pulls/58 response, not cached page"
+  },
+  "disposition": "STOP before composition: latest released component fails required max-stale behavior; own upstream code patch is outside approved scope",
+  "limits": [
+    "No proof of exploitability in Companion/npm",
+    "No complete npm candidate audit or runtime/repair proof",
+    "No release/adoption or independent review"
+  ]
+}

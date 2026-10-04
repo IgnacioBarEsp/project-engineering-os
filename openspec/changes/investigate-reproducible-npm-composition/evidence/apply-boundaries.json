@@ -1,0 +1,95 @@
+{
+  "observedUtc": "2026-10-04T04:07:18.974Z",
+  "base": "9751c301976fe27e9bbad33e69f39372b69f901e",
+  "files": [
+    {
+      "file": "package.json",
+      "sha256": "485f505414eb2470d45c84b6cbd1dd80094d7cfcd7832682467f954c1c89d911",
+      "actualSha256": "485f505414eb2470d45c84b6cbd1dd80094d7cfcd7832682467f954c1c89d911",
+      "unchanged": true
+    },
+    {
+      "file": "package-lock.json",
+      "sha256": "a998d349598124aa401f744750be7edd14ab6eb15c554096608755059bd641dc",
+      "actualSha256": "a998d349598124aa401f744750be7edd14ab6eb15c554096608755059bd641dc",
+      "unchanged": true
+    },
+    {
+      "file": "apps/companion/package.json",
+      "sha256": "d83a917127a3ab0e0e73318e1275f812d62fdf75b9275c95d5ea1ba5d37c04c9",
+      "actualSha256": "d83a917127a3ab0e0e73318e1275f812d62fdf75b9275c95d5ea1ba5d37c04c9",
+      "unchanged": true
+    },
+    {
+      "file": "apps/companion/package-lock.json",
+      "sha256": "22a733b21c0f69954b38061b8e77282542016bcd2b6da2a48157cfc75efdf785",
+      "actualSha256": "22a733b21c0f69954b38061b8e77282542016bcd2b6da2a48157cfc75efdf785",
+      "unchanged": true
+    },
+    {
+      "file": "apps/companion/runtime/catalog.mjs",
+      "sha256": "7e337a50c24e672d9f8d7301d6444bb255602c3a00ce63128e6cf43d33feb4d3",
+      "actualSha256": "7e337a50c24e672d9f8d7301d6444bb255602c3a00ce63128e6cf43d33feb4d3",
+      "unchanged": true
+    },
+    {
+      "file": "apps/companion/runtime/manager.mjs",
+      "sha256": "749f4c1a59534fd15e354f346ab56be298995074319826c47384f666d8a18bb4",
+      "actualSha256": "749f4c1a59534fd15e354f346ab56be298995074319826c47384f666d8a18bb4",
+      "unchanged": true
+    },
+    {
+      "file": "apps/companion/runtime/process.mjs",
+      "sha256": "46a07379ff52362ed86c2e3178193ca211bf692edefbb512af18094ddbcc08ea",
+      "actualSha256": "46a07379ff52362ed86c2e3178193ca211bf692edefbb512af18094ddbcc08ea",
+      "unchanged": true
+    },
+    {
+      "file": "apps/companion/runtime/toolchain.mjs",
+      "sha256": "54f15a70ac996ad4f8a888a2c17af26924865a5a34443bb59cc7b1f8c813efd6",
+      "actualSha256": "54f15a70ac996ad4f8a888a2c17af26924865a5a34443bb59cc7b1f8c813efd6",
+      "unchanged": true
+    },
+    {
+      "file": "apps/companion/runtime/stack.mjs",
+      "sha256": "878ba7b9b67b2bf0154ae6fda2c8c5487d9d8b55a7e4b6047b8600e4bd02a53b",
+      "actualSha256": "878ba7b9b67b2bf0154ae6fda2c8c5487d9d8b55a7e4b6047b8600e4bd02a53b",
+      "unchanged": true
+    },
+    {
+      "file": "apps/companion/scripts/seal-npm.mjs",
+      "sha256": "967acea8fe1bd40327ccf43521e18a61318714f3721d38e01366972294ae4d5e",
+      "actualSha256": "967acea8fe1bd40327ccf43521e18a61318714f3721d38e01366972294ae4d5e",
+      "unchanged": true
+    },
+    {
+      "file": "apps/companion/scripts/pack-app.mjs",
+      "sha256": "b4f55c342021f29f19cbbe4b30eacacc52141b43a01c8df0170c4c8820813f09",
+      "actualSha256": "b4f55c342021f29f19cbbe4b30eacacc52141b43a01c8df0170c4c8820813f09",
+      "unchanged": true
+    },
+    {
+      "file": "config/dependency-audit-policy.json",
+      "sha256": "c0742a34e3acc74d61aa115ec5f8eb71bee06907bd80108613372b1b37510444",
+      "actualSha256": "c0742a34e3acc74d61aa115ec5f8eb71bee06907bd80108613372b1b37510444",
+      "unchanged": true
+    },
+    {
+      "file": "blueprint/core/package-lock.json",
+      "sha256": "7be3078914136e8fb408f3eac8b50a4ede2dfaad6562a8d938e2c73469143a7c",
+      "actualSha256": "7be3078914136e8fb408f3eac8b50a4ede2dfaad6562a8d938e2c73469143a7c",
+      "unchanged": true
+    },
+    {
+      "file": ".github/workflows/ci.yml",
+      "sha256": "d48d0d96c257c2f533d2b34efb5d078f59b8bb8e32dcace4f38de5f5f1663c5a",
+      "actualSha256": "d48d0d96c257c2f533d2b34efb5d078f59b8bb8e32dcace4f38de5f5f1663c5a",
+      "unchanged": true
+    }
+  ],
+  "unchanged": true,
+  "sourceSha256": "ede1cc404a492fa348eb9d97a3007a0d72aa717bd22cd86a56bd0824c19729ca",
+  "archiveSha256": "d75e1e6a11587954da5e2f0e2b5c4b397a16d28cc2f7bdf64e9027fc2fe593ee",
+  "sourceUnchanged": true,
+  "archiveUnchanged": true
+}

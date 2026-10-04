@@ -1,0 +1,162 @@
+{
+  "stage": "approved-apply-component-preflight-and-synthetic-model",
+  "observedUtc": "2026-10-04T04:07:18.974Z",
+  "approvedProposal": "fa279d952784cd0138fb78ec91226f5cefe00ba2",
+  "specApproved": true,
+  "applyStarted": true,
+  "candidateBuilt": false,
+  "recipeAttempts": 0,
+  "officialNpmTags": {
+    "latest-1": "1.4.29",
+    "next-3": "3.10.10",
+    "latest-3": "3.10.10",
+    "latest-2": "2.15.12",
+    "next-2": "2.15.12",
+    "next-4": "4.6.1",
+    "latest-4": "4.6.1",
+    "latest-5": "5.10.0",
+    "next-5": "5.10.0",
+    "next-7": "7.24.2",
+    "latest-7": "7.24.2",
+    "latest-6": "6.14.18",
+    "next-6": "6.14.18",
+    "v6.14-next": "6.14.18",
+    "next-8": "8.19.4",
+    "next-9": "9.9.4",
+    "next-10": "10.9.9",
+    "next-11": "11.21.0",
+    "next-12": "12.2.0",
+    "latest": "12.2.0"
+  },
+  "tests": {
+    "command": "node --test apps/companion/test/npm-composition-experiment.test.mjs",
+    "exitCode": 0,
+    "total": 14,
+    "passed": 14,
+    "failed": 0,
+    "output": "✔ synthetic official/derived identities differ at the same version; malformed identity rejected (1.0685ms)\n✔ synthetic official -> derived -> official plus versions preserves all immutable slots (105.0161ms)\n✔ synthetic official fallback fails closed on audit (44.9625ms)\n✔ synthetic official fallback fails closed on regressions (41.3077ms)\n✔ synthetic official fallback fails closed on runtime (39.1195ms)\n✔ synthetic cancellation and gate failure preserve active identity (40.732ms)\n✔ synthetic changed destination and stale request cannot replace selection (35.6417ms)\n✔ synthetic concurrent switch linearizes once after verification (36.2817ms)\n✔ synthetic slot escape rejected before any selection (24.8923ms)\n✔ synthetic identities cannot alias or nest their physical slots (30.1801ms)\n✔ synthetic mutable expected state cannot allow a second concurrent winner (36.1965ms)\n✔ synthetic destination changed during gates cannot replace selection (36.884ms)\n✔ physical package inventory rejects omitted nested package despite apparent green audit (35.0768ms)\n✔ security probe rejects misleading component results and includes legitimate control cases (0.9643ms)\nℹ tests 14\nℹ suites 0\nℹ pass 14\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 579.4747\n"
+  },
+  "checks": {
+    "readiness": {
+      "exitCode": 0,
+      "output": "{\n  \"counts\": {\n    \"EXCEPTION\": 0,\n    \"FAIL\": 0,\n    \"PASS\": 13\n  },\n  \"mutationPerformed\": false,\n  \"ok\": true,\n  \"phase\": \"propose\",\n  \"results\": [\n    {\n      \"cause\": \"Issue #204 verificado.\",\n      \"evidence\": {\n        \"issue\": 204,\n        \"url\": \"https://github.com/IgnacioBarEsp/project-engineering-os/issues/204\"\n      },\n      \"id\": \"issue.identity\",\n      \"remediation\": \"Ninguna; conserva la evidencia y repite el gate si cambia la fuente.\",\n      \"status\": \"PASS\",\n      \"summary\": \"Issue #204 verificado.\"\n    },\n    {\n      \"cause\": \"El issue permanece abierto.\",\n      \"evidence\": {\n        \"state\": \"OPEN\"\n      },\n      \"id\": \"issue.state\",\n      \"remediation\": \"Ninguna; conserva la evidencia y repite el gate si cambia la fuente.\",\n      \"status\": \"PASS\",\n      \"summary\": \"El issue permanece abierto.\"\n    },\n    {\n      \"cause\": \"## Historia Original está presente.\",\n      \"evidence\": {},\n      \"id\": \"issue.section.historia-original\",\n      \"remediation\": \"Ninguna; conserva la evidencia y repite el gate si cambia la fuente.\",\n      \"status\": \"PASS\",\n      \"summary\": \"## Historia Original está presente.\"\n    },\n    {\n      \"cause\": \"## Enriquecida está presente.\",\n      \"evidence\": {},\n      \"id\": \"issue.section.enriquecida\",\n      \"remediation\": \"Ninguna; conserva la evidencia y repite el gate si cambia la fuente.\",\n      \"status\": \"PASS\",\n      \"summary\": \"## Enriquecida está presente.\"\n    },\n    {\n      \"cause\": \"El bloque de metadata contiene JSON válido.\",\n      \"evidence\": {},\n      \"id\": \"metadata.parse\",\n      \"remediation\": \"Ninguna; conserva la evidencia y repite el gate si cambia la fuente.\",\n      \"status\": \"PASS\",\n      \"summary\": \"El bloque de metadata contiene JSON válido.\"\n    },\n    {\n      \"cause\": \"La metadata DoR cumple el contrato v1.\",\n      \"evidence\": {\n        \"change\": \"investigate-reproducible-npm-composition\",\n        \"surfaces\": [\n          \"documentation\",\n          \"harness-tooling\"\n        ]\n      },\n      \"id\": \"metadata.contract\",\n      \"remediation\": \"Ninguna; conserva la evidencia y repite el gate si cambia la fuente.\",\n      \"status\": \"PASS\",\n      \"summary\": \"La metadata DoR cumple el contrato v1.\"\n    },\n    {\n      \"cause\": \"La metadata contiene valores concretos y no conserva placeholders.\",\n      \"evidence\": {\n        \"fields\": []\n      },\n      \"id\": \"metadata.placeholders\",\n      \"remediation\": \"Ninguna; conserva la evidencia y repite el gate si cambia la fuente.\",\n      \"status\": \"PASS\",\n      \"summary\": \"La metadata contiene valores concretos y no conserva placeholders.\"\n    },\n    {\n      \"cause\": \"La metadata no declara comandos ni rutas ejecutables.\",\n      \"evidence\": {},\n      \"id\": \"metadata.command-injection\",\n      \"remediation\": \"Ninguna; conserva la evidencia y repite el gate si cambia la fuente.\",\n      \"status\": \"PASS\",\n      \"summary\": \"La metadata no declara comandos ni rutas ejecutables.\"\n    },\n    {\n      \"cause\": \"No se detectaron secretos literales en metadata.\",\n      \"evidence\": {},\n      \"id\": \"metadata.secrets\",\n      \"remediation\": \"Ninguna; conserva la evidencia y repite el gate si cambia la fuente.\",\n      \"status\": \"PASS\",\n      \"summary\": \"No se detectaron secretos literales en metadata.\"\n    },\n    {\n      \"cause\": \"Las intervenciones manuales están aprobadas o justificadas como no aplicables.\",\n      \"evidence\": {},\n      \"id\": \"metadata.manual-interventions\",\n      \"remediation\": \"Ninguna; conserva la evidencia y repite el gate si cambia la fuente.\",\n      \"status\": \"PASS\",\n      \"summary\": \"Las intervenciones manuales están aprobadas o justificadas como no aplicables.\"\n    },\n    {\n      \"cause\": \"Costos y licencias están aprobados o justificados como no aplicables.\",\n      \"evidence\": {},\n      \"id\": \"metadata.cost-license\",\n      \"remediation\": \"Ninguna; conserva la evidencia y repite el gate si cambia la fuente.\",\n      \"status\": \"PASS\",\n      \"summary\": \"Costos y licencias están aprobados o justificados como no aplicables.\"\n    },\n    {\n      \"cause\": \"El issue pertenece a Project Engineering OS.\",\n      \"evidence\": {\n        \"expectedProject\": \"Project Engineering OS\",\n        \"visibleProjects\": [\n          \"Project Engineering OS\"\n        ]\n      },\n      \"id\": \"github.project-membership\",\n      \"remediation\": \"Ninguna; conserva la evidencia y repite el gate si cambia la fuente.\",\n      \"status\": \"PASS\",\n      \"summary\": \"El issue pertenece a Project Engineering OS.\"\n    },\n    {\n      \"cause\": \"Todas las dependencias declaradas están cerradas.\",\n      \"evidence\": {\n        \"dependencies\": []\n      },\n      \"id\": \"issue.dependencies\",\n      \"remediation\": \"Ninguna; conserva la evidencia y repite el gate si cambia la fuente.\",\n      \"status\": \"PASS\",\n      \"summary\": \"Todas las dependencias declaradas están cerradas.\"\n    }\n  ],\n  \"schemaVersion\": \"1.0.0\",\n  \"verdict\": \"PASS\"\n}\n"
+    },
+    "strict": {
+      "exitCode": 0,
+      "output": "{\n  \"items\": [\n    {\n      \"id\": \"investigate-reproducible-npm-composition\",\n      \"type\": \"change\",\n      \"valid\": true,\n      \"issues\": [],\n      \"durationMs\": 2\n    }\n  ],\n  \"summary\": {\n    \"totals\": {\n      \"items\": 1,\n      \"passed\": 1,\n      \"failed\": 0\n    },\n    \"byType\": {\n      \"change\": {\n        \"items\": 1,\n        \"passed\": 1,\n        \"failed\": 0\n      }\n    }\n  },\n  \"version\": \"1.0\",\n  \"root\": {\n    \"path\": \"C:\\\\Users\\\\RitualDesktop\\\\.codex\\\\worktrees\\\\204-npm-composition-spec\\\\project-engineering-os\",\n    \"source\": \"nearest\"\n  }\n}\n"
+    },
+    "docs": {
+      "exitCode": 0,
+      "output": "PASS docs 12 README links, prompt contract and 20 spec purposes\n"
+    },
+    "neutrality": {
+      "exitCode": 0,
+      "output": "PASS public tree neutrality and export allowlist\n"
+    },
+    "workflows": {
+      "exitCode": 0,
+      "output": "PASS workflows 6\n"
+    },
+    "debt": {
+      "exitCode": 0,
+      "output": "PASS Politica y registro validos (50 item(s)).\nPASS Plan activo: 4/5 unidades, 3 flujo(s) con deuda abierta.\n"
+    }
+  },
+  "boundaryEvidence": "apply-boundaries.json",
+  "componentEvidence": "cache-component-preflight.json",
+  "unperformed": [
+    "whole npm source retrieval/matrix",
+    "composition recipe and two independent builds",
+    "complete physical production audit against advisory service",
+    "supported-runtime matrix",
+    "real npm installation/repair/crash-recovery",
+    "benchmarks",
+    "independent adversarial review",
+    "formal archive/debt assessment",
+    "PR/merge/release"
+  ],
+  "exceptions": [],
+  "relativeLinks": {
+    "observedUtc": "2026-10-04T04:10:00.663Z",
+    "relativeLinks": 19,
+    "checked": [
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "evidence/apply-preflight.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "proposal.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "design.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "specs/companion-npm-composition/spec.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "evidence/spec-approval.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "tasks.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "brownfield-baseline.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\TLDR.md",
+        "link": "evidence/strategy-selection.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\proposal.md",
+        "link": "evidence/readiness-propose.json"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\proposal.md",
+        "link": "evidence/spec-approval.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\evidence\\apply-preflight.md",
+        "link": "spec-approval.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\evidence\\apply-preflight.md",
+        "link": "cache-component-preflight.json"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\evidence\\apply-preflight.md",
+        "link": "apply-boundaries.json"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\evidence\\apply-preflight.md",
+        "link": "apply-validation.json"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\brownfield-baseline.md",
+        "link": "evidence/proposal-baseline.json"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\brownfield-baseline.md",
+        "link": "evidence/issue-original.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\brownfield-baseline.md",
+        "link": "evidence/issue-enriched.md"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\brownfield-baseline.md",
+        "link": "evidence/readiness-propose.json"
+      },
+      {
+        "file": "openspec/changes/investigate-reproducible-npm-composition\\brownfield-baseline.md",
+        "link": "evidence/strategy-selection.md"
+      }
+    ],
+    "passed": true
+  }
+}

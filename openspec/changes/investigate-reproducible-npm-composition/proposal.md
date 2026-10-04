@@ -7,6 +7,7 @@
 - Añadir un expediente y un harness de investigación de composición npm, limitado a carpetas desechables propias, sin reemplazar herramientas del host ni del Companion.
 - Partir de fuentes oficiales npm11.21.0 fijadas por commit e integridad, declarar las diferencias de metadata/dependencias y generar un lock e inventario candidatos fuera de los locks oficiales.
 - Probar reproducibilidad, auditoría independiente del árbol físico, regresiones de avisos y contrato de instalación/runtime de Companion.
+- Ensayar transición reversible entre identidades oficiales y derivadas, y versiones del mismo canal, con slots separados y cambio de selección solo tras verificar el destino; una versión vulnerable no será un rollback aceptable.
 - Emitir un dictamen trazable viable/no-viable. No declarar corrección integrada, release apta o cierre de #204 por completar la investigación.
 - Mantener separada la adopción: si hay evidencia suficiente, proponer después el cambio de catálogo/locks/avisos/hashes y la validación del instalador mediante otra aprobación.
 
@@ -36,6 +37,6 @@ Podríamos obtener un audit verde que omita archivos bundled o no represente una
 
 ## Gates
 
-Issue enriquecido y DoR **13/13 PASS** en [evidence/readiness-propose.json](evidence/readiness-propose.json). Change creado por OpenSpec local fijo **1.6.0**. La selección de estrategia autoriza preparar la spec; **proposal/design/spec aún no aprobados; Apply no iniciado**.
+Issue enriquecido y DoR original **13/13 PASS** en [evidence/readiness-propose.json](evidence/readiness-propose.json). Change creado por OpenSpec local fijo **1.6.0**. **El mantenedor aprobó proposal/design/spec de fa279d952784cd0138fb78ec91226f5cefe00ba2 con la condición explícita de reversibilidad oficial/derivado**, incorporada en este expediente; véase [evidence/spec-approval.md](evidence/spec-approval.md). La aprobación sigue limitada a viabilidad, no a distribución/adopción.
 
 El archivo futuro exige evidencia real, revisión adversarial y assessment de deuda. Cualquier integración espera `CI / required` verde bajo protecciones existentes; #208 y el orden de los PR de ola3 permanecen obligaciones separadas. No se mezclará este trabajo en #207.

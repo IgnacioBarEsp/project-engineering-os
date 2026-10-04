@@ -4,7 +4,7 @@ El catálogo de Companion fija npm11.19.1 y el empaquetador sella todo su árbol
 
 La CI37171002125 de #207, SHA9feea6597d4fc43ab1f4dfb6a45f5bf4c797ac92, reporta24 vulnerabilidades Companion, además del fallo distinto #208 en root/blueprint. Son observaciones históricas fechadas, no un audit recién ejecutado del candidato.
 
-Status: **Proposed**. Fecha local:2026-10-03; el scaffold oficial registra2026-10-04 UTC. Decisor: IgnacioBarEsp. La confirmación humana autoriza esta preparación, no la aprobación futura ni la distribución.
+Status: **Accepted for feasibility**. El scaffold oficial registra2026-10-04 UTC. Decisor: IgnacioBarEsp. El mantenedor aprobó la revisión fa279d9 y añadió directamente la condición de cambios reversibles entre distribución oficial/derivada y versiones; aprobación literal en evidence/spec-approval.md. No aprueba aún la distribución ni una futura spec de adopción.
 
 ## Goals / Non-Goals
 
@@ -18,7 +18,7 @@ Status: **Proposed**. Fecha local:2026-10-03; el scaffold oficial registra2026-1
 
 Elegimos proponer un spike aislado antes de tocar producción. Esperar exclusivamente upstream conserva menor carga propia, pero no controlamos su calendario; adoptar ya un derivado trasladaría a nosotros responsabilidad aún no medida. El spike compra información y puede fallar correctamente.
 
-Esta fase autorizaría, solo después de aprobarla, preparar herramientas de experimentación y candidatas no distribuibles. Incluso un dictamen viable no aprueba un cambio de catálogo/locks ni un instalador. Ese cambio posterior requerirá criterios acordados, licencias y recuperación de una distribución real.
+La aprobación de esta fase autoriza herramientas de experimentación y candidatas no distribuibles. Incluso un dictamen viable no aprueba un cambio de catálogo/locks ni un instalador. Ese cambio posterior requerirá criterios acordados, licencias y recuperación de una distribución real.
 
 ### Fuente fija y diferencias explícitas
 
@@ -52,6 +52,16 @@ Dos construcciones con inputs idénticos, directorios y cachés separados produc
 
 Mediremos tiempos de build, instalación fría/caliente y reparación, RSS pico y tamaño comparando baseline y candidato con las mismas operaciones. No hay benchmark ejecutado ni presupuesto numérico aprobado; los resultados son información del spike, no aceptación de una regresión para distribución. La spec de adopción fijará un presupuesto concreto antes de publicar.
 
+### Identidades intercambiables y recuperación reversible
+
+Condición nueva dictada por el mantenedor: poder pasar de oficial a derivado y volver, y cambiar versiones sin quedar acoplados al derivado. La identidad de cada alternativa incluye canal (`official` o `derived`), versión upstream, digest de árbol, origen y digest de receta si es derivada. Dos distribuciones con la misma versión nominal no comparten identidad ni slot.
+
+Ensayaremos el modelo en raíces desechables, conservando slots inmutables separados. El selector apunta a una identidad completamente verificada, no a latest, PATH global ni una carpeta sobrescrita. Primero revisar/validar el destino, luego comprobar que la selección de partida no cambió y finalmente confirmar la transición; un fallo, cancelación o selección obsoleta deja intacta la elección anterior. Reparar un slot requiere identidad y verificación de sus mismos inputs; no sustituye el canal implícitamente.
+
+La vuelta al oficial exige su propia auditoría/regresiones, compatibilidad y hash, exactamente como un derivado. No haremos rollback a un oficial vulnerable porque sea oficial. Si el destino o la anterior instalación dejan de ser aptos, fallar cerrado: no ejecutarlas ni prometer una recuperación segura hacia bytes alterados. Conservar archivos de slots anteriores no es permiso para activarlos sin reverificación.
+
+El prototipo prueba estado/ownership/cancelación/recuperación con fixtures sintéticos claramente etiquetados cuando no haya dos npms aptos. Eso NO cuenta como transición real de npm ni como instalación/reparación del Companion. Si hay candidatas reales aptas, ensayaremos ambos canales y versiones bajo los mismos gates. La adopción posterior deberá incluir staging, selector/recibo con cambios transaccionales y recuperación de interrupción verificados, sin borrar proyectos, caché compartida, historial ni el resto del toolchain. No se instalará este selector en producción en la faseA.
+
 ### Ownership, costo y licencia
 
 El harness pertenecerá a `apps/companion`, no al core universal. IgnacioBarEsp decide viabilidad/adopción y quién mantiene receta/provenance/avisos. Herramientas locales fijadas, sin servicios pagos, cuentas nuevas ni telemetría.
@@ -79,10 +89,10 @@ Cambio upstream o source drift → refrescar evidencia y volver a revisar alcanc
 
 No hay migración de usuario. Después de aprobación explícita implementaríamos harness/tests, registraríamos inputs fijados, ejecutaríamos las pruebas y produciríamos el dictamen. Luego revisión adversarial real, assessment de deuda, readiness archive y archivo oficial. Un PR de investigación usaría `Refs #204`, mantendría el bloqueo de integración si CI no pasa y no mezclaría fixes en #207.
 
-Si la investigación es viable, presentaremos una spec de adopción que incluya actualización de catálogo, locks, avisos, manifiestos/hashes, instalación y reparación real, artefacto canónico, revisión y PR protegido. No damos por aprobada esa segunda fase con este documento.
+Si la investigación es viable, presentaremos una spec de adopción que incluya actualización de catálogo, locks, avisos, manifiestos/hashes, instalación y reparación real, transición oficial/derivado/versiones con rollback e interrupción verificados, artefacto canónico, revisión y PR protegido. No damos por aprobada esa segunda fase con este documento.
 
 Rollback del spike: preservar candidata rechazada y evidencia fuera de rutas de usuario, elegir copia nueva del baseline fijado y verificar hashes. No modificar ni borrar runtimes existentes. No ofrecer como rollback una versión vulnerable para publicar.
 
 ## Open Questions
 
-La aprobación de este proposal/design/spec sigue pendiente. También son resultados a investigar —no permisos omitidos— la existencia de una composición realmente corregida/compatible, las versiones concretas de componentes, los recursos y el costo futuro de mantenerla. Si la respuesta requiere modificar código upstream, redistribuir con obligaciones no resueltas o alterar runtime soportado, detenerse y proponer un acuerdo distinto.
+La aprobación de esta fase y la condición de reversibilidad están recibidas. Siguen siendo resultados a investigar —no permisos omitidos— la existencia de una composición realmente corregida/compatible, las versiones concretas de componentes, los recursos y el costo futuro de mantenerla. Si la respuesta requiere modificar código upstream, redistribuir con obligaciones no resueltas o alterar runtime soportado, detenerse y proponer un acuerdo distinto.

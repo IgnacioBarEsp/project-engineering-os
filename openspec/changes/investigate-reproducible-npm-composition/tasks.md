@@ -1,13 +1,14 @@
 ## 1. Proposal and explicit approval
 
 - [x] 1.1 Verify no duplicate, isolate exact main, enrich existing issue204 preserving its prior body, pass pre-propose DoR13/13 and create the change with fixed local OpenSpec1.6.0 (evidence/readiness-propose.json and proposal-baseline.json).
-- [ ] 1.2 Obtain approval of this actual proposal/design/spec and record its exact revision before any Apply; strategy-selection.md is not that approval.
+- [x] 1.2 Obtain approval of actual proposal/design/spec fa279d9 and record the literal approval plus maintainer-dictated reversible-switching condition before Apply (evidence/spec-approval.md).
 
 ## 2. Experimental harness and frozen inputs
 
 - [ ] 2.1 Implement owned-root, input-integrity, graph inventory and unchanged-boundary assertions under Companion scripts/tests; add outside-root sentinels and negative tests without production dependency/runtime changes.
 - [ ] 2.2 Verify official source npm11.21.0 and collect complete current advisory/component provenance/license matrix; stop if a real correction cannot be demonstrated without an upstream code patch.
 - [ ] 2.3 Freeze explicit recipe, exact component integrities, allowed manifest delta and assembler/auditor identities before executing; preserve originals and do not retain unaudited bundled dependencies.
+- [x] 2.4 Implement and test an experimental switching model with distinct channel/version/tree/recipe identities, separate slots, verified destinations, stale/cancel/failure preservation and no vulnerable official fallback; synthetic evidence only (see evidence/apply-preflight.md).
 
 ## 3. Feasibility evidence
 
@@ -17,6 +18,9 @@
 - [ ] 3.4 Exercise npm version and fixed-lock ci under Node22.22.0,24.18.0 and managed24.20.0, preserving installation arguments/config/environment/release-age rules and execution sentinel.
 - [ ] 3.5 Exercise cache repair, network failure, timeout, cancellation, incorrect digest and interrupted repair; verify payload withholding, owned baseline and outside-root sentinel preservation.
 - [ ] 3.6 Measure same-workload build/install/repair time, RSS and bytes against baseline without inventing distribution acceptance budgets.
+- [ ] 3.7 If real apt distributions exist, exercise official to derived to official and versions within each channel; otherwise record this real-world proof as unavailable, never substitute synthetic switching tests for it. Real apt pair unavailable at this preflight; no production switching claim.
+
+The approved Apply reached a stop gate before any composition recipe: the verified official http-cache-semantics4.3.0 still fails three component max-stale regression cases. Only 2.4 is fully implemented here; 2.1 is partial, and 2.2/3.3 have component preflight evidence, not a complete npm source/advisory matrix. No task for two builds, full npm audit, supported-runtime matrix, repair, resources, independent review or archive has been substituted with this model. See evidence/apply-preflight.md.
 
 ## 4. Disposition, review and phase closure
 

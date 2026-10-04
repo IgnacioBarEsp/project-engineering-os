@@ -65,6 +65,29 @@ The harness SHALL use fixed Node binaries and an absolute npm entry without a sh
 - **THEN** the evidence SHALL identify the exact failing runtime/input and candidate suitability SHALL remain unproven
 - **AND** the experiment SHALL not upgrade Node, weaken release-age policy or change fixture locks to manufacture acceptance
 
+### Requirement: Reversible official and derived identities
+The experiment SHALL model official and derived distributions and their versions as distinct immutable identities including channel, upstream version, source and complete tree digest, with recipe digest for derived identities. It SHALL retain separate slots and select a destination only after identical security, runtime and integrity checks for either channel. Failure, cancellation or stale selection SHALL preserve the prior selection; returning to official SHALL NOT bypass checks or permit vulnerable fallback. PhaseA SHALL NOT install this selector in production.
+
+#### Scenario: Official and derived distributions share a version number
+- **WHEN** official and derived fixtures declare the same upstream version but different trees
+- **THEN** they SHALL have different identities and slots
+- **AND** moving between them SHALL preserve both payloads and provenance without overwriting either
+
+#### Scenario: Distribution channel or version is changed
+- **WHEN** an independently verified destination in either channel is selected
+- **THEN** the model SHALL support official to derived to official and a version change within each channel
+- **AND** interrupted, cancelled, stale or failed checks SHALL leave the previous selection unchanged
+
+#### Scenario: The apparent rollback target is vulnerable or altered
+- **WHEN** a prior or official destination fails current audit, regression, compatibility or integrity checks
+- **THEN** the model SHALL refuse selection even if the destination was accepted earlier
+- **AND** it SHALL preserve evidence and fail closed instead of weakening checks for rollback
+
+#### Scenario: Only synthetic switching fixtures are available
+- **WHEN** no two real npm distributions satisfy all gates
+- **THEN** state-machine tests SHALL be labelled synthetic and their hashes and outside-root sentinels checked
+- **AND** the report SHALL NOT treat that result as real npm installation, repair or production reversibility evidence
+
 ### Requirement: Explicit boundaries, ownership and disposition
 The phase SHALL preserve tracked production runtime sources, catalogs, official locks, release notices, audit policy, OpenSpec pin and protections. Mutable work SHALL remain inside validated disposable roots, with unchanged outside-root sentinels. The report SHALL include provenance/license review, resource measurements, owner, residual risk and viable/not-viable disposition. Issue208 SHALL remain a separate root/blueprint obligation.
 
