@@ -8,7 +8,7 @@ No cambiaremos la app, npm, las dependencias, la política de deuda ni las prote
 
 Antes del merge, un candidato incorrecto se conservará separado y recuperaremos el baseline verificado. No existe un comando oficial para reabrir un registro; no prometemos ese rollback ni borraremos assessments.
 
-DoR: **13/13 PASS**, sin excepciones. **Spec aprobada; Apply en curso.** El expediente conserva tu aprobación real; captura definitiva, archive e integración son etapas separadas.
+DoR: **13/13 PASS**, sin excepciones. **Spec aprobada; captura oficial realizada en la rama:** 50 registros, 36 abiertos, otros 49 objetos y 73 assessments históricos intactos, presupuesto 4/5. La recaptura fue no-op. Bugbot no encontró bugs en la candidata previa. Captura, archive e integración son etapas separadas; no se afirma merge ni cierre de #206.
 
 #206 seguirá abierto por los 36 restantes. Cualquier merge esperará CI requerido verde; #204 sigue bloqueándolo y no iniciaremos ola 4.
 

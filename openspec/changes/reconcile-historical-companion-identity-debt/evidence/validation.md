@@ -25,4 +25,8 @@ El orquestador externo de QA completó sus comandos comprobados y falló al escr
 
 ## Gates siguientes
 
-Revisión independiente de la candidata, resolución de sus Blockers/Majors, captura definitiva oficial, verificación de conservación/recaptura en la rama, readiness/archive y PR protegido. No se ha hecho la captura definitiva al escribir esta sección. Su recibo posterior será actual-capture-verification.json; archive no implica merge ni cierre de #206. #204 sigue bloqueando la integración.
+Bugbot revisó la candidata a6127ce desde contexto independiente, sin bugs reportados: independent-review.md. Después se hizo captura oficial en la rama mediante CLI sin `--now`: official-capture.json; recaptura no-op en official-recapture.json. actual-capture-verification.json demuestra 50 IDs, 36 abiertos, otros 49 objetos y 73 assessments anteriores intactos, campos inmutables del objetivo sin cambios, presupuesto 4/5 y tres flujos. La revisión independiente previa no se atribuye a otro head: la comprobación posterior es del implementador y del verificador ya revisado.
+
+Readiness/archive y PR protegido siguen siendo etapas separadas. Archive no implica merge ni cierre de #206; #204 sigue bloqueando integración. No se cambia la configuración ni se introduce excepción para que el gate pase.
+
+Revisión final posterior del implementador: final-author-review.md. Nueva ejecución conservada de pruebas de deuda: 62/62 PASS, post-capture-checks.json y post-capture-debt-tests.log; verificador PASS y código de la revisión independiente sin cambios. Handoff acotado en handoff.md, sin presentar esta fase como cierre del paraguas.

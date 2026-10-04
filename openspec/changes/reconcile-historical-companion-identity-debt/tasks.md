@@ -19,12 +19,12 @@
 
 - [x] 4.1 Link the reconciled inventory from upstream documentation and pass documentation presence/links/findability/neutrality checks (66 links/two-hop routes in evidence/documentation-checks.json).
 - [x] 4.2 Run constructor tests, capability-matrix, opsx/sync/doctor checks and read-only debt checks; record any bounded degradation rather than suppress it (393 tests and disposable consumer in evidence/qa.json; debt in exercise.json).
-- [ ] 4.3 Run independent or clean-context adversarial review of the candidate, resolve all Blockers/Majors and finalize the assessment input before its immutable capture. If residual findings require changed scope, stop for an approved amendment rather than invent a clean result.
+- [x] 4.3 Run independent or clean-context adversarial review of the candidate, resolve all Blockers/Majors and finalize the assessment input before its immutable capture. If residual findings require changed scope, stop for an approved amendment rather than invent a clean result (Bugbot: 0 findings on a6127ce, evidence/independent-review.md).
 
 ## 5. Official capture and closure preparation
 
-- [ ] 5.1 Only after successful preflight and review, capture officially in the phase branch; verify 50 total/36 open, all other 49 objects unchanged, target immutable fields unchanged, prior assessment hashes and budget 4/5 unchanged; repeat identical capture.
-- [ ] 5.2 Review the final diff and actual checks after capture; complete readiness metadata from evidence and strictly validate without falsely completing pending work.
+- [x] 5.1 Only after successful preflight and review, capture officially in the phase branch; verify 50 total/36 open, all other 49 objects unchanged, target immutable fields unchanged, prior assessment hashes and budget 4/5 unchanged; repeat identical capture (official-capture.json, official-recapture.json, actual-capture-verification.json).
+- [x] 5.2 Review the final diff and actual checks after capture; complete readiness metadata from evidence and strictly validate without falsely completing pending work (final-author-review.md, post-capture-checks.json; 62/62 and documentation/strict PASS).
 - [ ] 5.3 Prepare the archive/handoff summary with accurate integration status, remaining 36 and #204 blocker; ensure issue and Project report only verified phase progress.
 
 ## Post-Apply milestones (all pending, outside the archive completion ledger)
