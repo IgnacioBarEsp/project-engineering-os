@@ -39,4 +39,3 @@ Podríamos obtener un audit verde que omita archivos bundled o no represente una
 Issue enriquecido y DoR **13/13 PASS** en [evidence/readiness-propose.json](evidence/readiness-propose.json). Change creado por OpenSpec local fijo **1.6.0**. La selección de estrategia autoriza preparar la spec; **proposal/design/spec aún no aprobados; Apply no iniciado**.
 
 El archivo futuro exige evidencia real, revisión adversarial y assessment de deuda. Cualquier integración espera `CI / required` verde bajo protecciones existentes; #208 y el orden de los PR de ola3 permanecen obligaciones separadas. No se mezclará este trabajo en #207.
-

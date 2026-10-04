@@ -13,4 +13,3 @@ El resultado puede ser «viable» o «no viable». Incluso si es viable, adoptar
 Tu «si» autorizó preparar esta propuesta; no se registra como aprobación de sus requisitos. Para empezar la prueba hace falta aprobar este [acuerdo completo](proposal.md), su [diseño](design.md) y sus [requisitos](specs/companion-npm-composition/spec.md).
 
 [Tareas](tasks.md) · [Baseline](brownfield-baseline.md) · [Decisión recibida](evidence/strategy-selection.md).
-

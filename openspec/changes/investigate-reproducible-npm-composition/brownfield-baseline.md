@@ -33,4 +33,3 @@ El CLI OpenSpec1.6.0 se ejecutó desde una instalación local ya existente en el
 - `.github/workflows/ci.yml`: `d48d0d96c257c2f533d2b34efb5d078f59b8bb8e32dcace4f38de5f5f1663c5a`
 
 Solo se añade el expediente de propuesta. Catalog/locks/notices/CI/pin/runtime siguen byte-idénticos a main. La creación y validación de documentos no prueba un derivado corregido ni autoriza Apply.
-

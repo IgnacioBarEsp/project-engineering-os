@@ -146,4 +146,3 @@ Este es un issue de diagnóstico, todavía no DoR/spec aprobada ni implementaci�
 Bloquea cerrar ola 3; no es inicio de ola 4. No duplicado en issues abiertos al comprobar.
 
 </details>
-

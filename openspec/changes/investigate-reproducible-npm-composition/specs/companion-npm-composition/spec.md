@@ -77,4 +77,3 @@ The phase SHALL preserve tracked production runtime sources, catalogs, official 
 - **WHEN** npm feasibility checks pass but root or blueprint audit still fails under issue208
 - **THEN** the report SHALL state that required CI and wave3 remain blocked
 - **AND** the experiment SHALL not alter OpenSpec, hide dev dependencies, add audit exceptions or modify protections
-

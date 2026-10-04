@@ -86,4 +86,3 @@ Rollback del spike: preservar candidata rechazada y evidencia fuera de rutas de 
 ## Open Questions
 
 La aprobación de este proposal/design/spec sigue pendiente. También son resultados a investigar —no permisos omitidos— la existencia de una composición realmente corregida/compatible, las versiones concretas de componentes, los recursos y el costo futuro de mantenerla. Si la respuesta requiere modificar código upstream, redistribuir con obligaciones no resueltas o alterar runtime soportado, detenerse y proponer un acuerdo distinto.
-

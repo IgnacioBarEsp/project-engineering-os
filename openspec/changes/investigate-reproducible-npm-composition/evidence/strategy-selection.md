@@ -9,4 +9,3 @@ Respuesta humana directa: **«si»**.
 Alcance: autoriza dejar de limitar el diseño exclusivamente a esperar npm oficial y preparar el acuerdo para una alternativa reproducible. No es aprobación de proposal/design/spec aún no mostrados, de parches propios, de cambios de gestor, de excepciones o de distribución. La primera fase acotada se presenta ahora para aprobación explícita.
 
 No se guarda una autorización ficticia de Apply. El siguiente gate es la aprobación del acuerdo concreto y de su revisión exacta.
-

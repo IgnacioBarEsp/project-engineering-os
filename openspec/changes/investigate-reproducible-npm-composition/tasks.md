@@ -28,4 +28,3 @@
 ## Later milestones outside this phase ledger
 
 A research PR uses Refs #204, not automatic closure. Integration still requires protected green CI, including the distinct #208 obligation and the wave3 pile order. A viable result leads to a separately presented adoption spec (catalog/official locks/notices/hashes/installer/runtime/repair); it does not approve that phase in advance. No wave4 work.
-
