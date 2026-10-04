@@ -1,0 +1,70 @@
+{
+  "stage": "proposal-only",
+  "sourceBase": "9751c301976fe27e9bbad33e69f39372b69f901e",
+  "localDate": "2026-10-03",
+  "readinessPropose": {
+    "EXCEPTION": 0,
+    "FAIL": 0,
+    "PASS": 13
+  },
+  "openspecStrict": {
+    "items": [
+      {
+        "id": "investigate-reproducible-npm-composition",
+        "type": "change",
+        "valid": true,
+        "issues": [],
+        "durationMs": 2
+      }
+    ],
+    "summary": {
+      "totals": {
+        "items": 1,
+        "passed": 1,
+        "failed": 0
+      },
+      "byType": {
+        "change": {
+          "items": 1,
+          "passed": 1,
+          "failed": 0
+        }
+      }
+    },
+    "version": "1.0",
+    "root": {
+      "path": "C:\\Users\\RitualDesktop\\.codex\\worktrees\\204-npm-composition-spec\\project-engineering-os",
+      "source": "nearest"
+    }
+  },
+  "boundaryAndLinks": {
+    "unchangedBoundaries": 14,
+    "relativeLinks": 12,
+    "tasksComplete": 1,
+    "tasksPending": 14,
+    "applyStarted": false,
+    "specApproval": false
+  },
+  "documentation": {
+    "exitCode": 0,
+    "result": "PASS docs12 README links, prompt contract and20 spec purposes"
+  },
+  "neutrality": {
+    "exitCode": 0,
+    "result": "PASS public tree neutrality and export allowlist"
+  },
+  "workflows": {
+    "exitCode": 0,
+    "result": "PASS workflows6"
+  },
+  "scopeLimitations": [
+    "Full application/root test suite not rerun for this planning-only change.",
+    "No candidate construction, new package installation, production audit, benchmark, installer or repair performed.",
+    "No spec approval, adversarial review, debt capture, archive, PR, merge or release claimed.",
+    "OpenSpec status isComplete means planning artifacts exist, not approved implementation."
+  ],
+  "candidateBuilt": false,
+  "applyStarted": false,
+  "specApproved": false,
+  "exceptions": []
+}

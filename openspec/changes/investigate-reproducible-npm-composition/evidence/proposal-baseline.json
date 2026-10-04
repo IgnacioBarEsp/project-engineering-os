@@ -1,0 +1,80 @@
+{
+  "base": "9751c301976fe27e9bbad33e69f39372b69f901e",
+  "collectedUtc": "2026-10-04T03:22:54.8744792Z",
+  "files": [
+    {
+      "file": "package.json",
+      "sha256": "485f505414eb2470d45c84b6cbd1dd80094d7cfcd7832682467f954c1c89d911"
+    },
+    {
+      "file": "package-lock.json",
+      "sha256": "a998d349598124aa401f744750be7edd14ab6eb15c554096608755059bd641dc"
+    },
+    {
+      "file": "apps/companion/package.json",
+      "sha256": "d83a917127a3ab0e0e73318e1275f812d62fdf75b9275c95d5ea1ba5d37c04c9"
+    },
+    {
+      "file": "apps/companion/package-lock.json",
+      "sha256": "22a733b21c0f69954b38061b8e77282542016bcd2b6da2a48157cfc75efdf785"
+    },
+    {
+      "file": "apps/companion/runtime/catalog.mjs",
+      "sha256": "7e337a50c24e672d9f8d7301d6444bb255602c3a00ce63128e6cf43d33feb4d3"
+    },
+    {
+      "file": "apps/companion/runtime/manager.mjs",
+      "sha256": "749f4c1a59534fd15e354f346ab56be298995074319826c47384f666d8a18bb4"
+    },
+    {
+      "file": "apps/companion/runtime/process.mjs",
+      "sha256": "46a07379ff52362ed86c2e3178193ca211bf692edefbb512af18094ddbcc08ea"
+    },
+    {
+      "file": "apps/companion/runtime/toolchain.mjs",
+      "sha256": "54f15a70ac996ad4f8a888a2c17af26924865a5a34443bb59cc7b1f8c813efd6"
+    },
+    {
+      "file": "apps/companion/runtime/stack.mjs",
+      "sha256": "878ba7b9b67b2bf0154ae6fda2c8c5487d9d8b55a7e4b6047b8600e4bd02a53b"
+    },
+    {
+      "file": "apps/companion/scripts/seal-npm.mjs",
+      "sha256": "967acea8fe1bd40327ccf43521e18a61318714f3721d38e01366972294ae4d5e"
+    },
+    {
+      "file": "apps/companion/scripts/pack-app.mjs",
+      "sha256": "b4f55c342021f29f19cbbe4b30eacacc52141b43a01c8df0170c4c8820813f09"
+    },
+    {
+      "file": "config/dependency-audit-policy.json",
+      "sha256": "c0742a34e3acc74d61aa115ec5f8eb71bee06907bd80108613372b1b37510444"
+    },
+    {
+      "file": "blueprint/core/package-lock.json",
+      "sha256": "7be3078914136e8fb408f3eac8b50a4ede2dfaad6562a8d938e2c73469143a7c"
+    },
+    {
+      "file": ".github/workflows/ci.yml",
+      "sha256": "d48d0d96c257c2f533d2b34efb5d078f59b8bb8e32dcace4f38de5f5f1663c5a"
+    }
+  ],
+  "localOpenSpec": {
+    "version": "1.6.0",
+    "source": "existing isolated project worktree installation; no global or npx",
+    "binSha256": "ca136f0e9fd4951dcf93d8ed729ebc97b2d97d3980cd9dc9d42fc80e32e797c6"
+  },
+  "compositionSource": {
+    "version": "11.21.0",
+    "gitHead": "5fd1e17e468d58e7f14dc6cbb5390029ff49a41d",
+    "integrity": "sha512-Zov8KhamNneiLdELtj5YALtNmJW4L4fCLTzjfpzXG2w6MSHcf0UxgdlK5uloCuksWT+7mGUU7wi79cO6RqivPg==",
+    "tarball": "https://registry.npmjs.org/npm/-/npm-11.21.0.tgz",
+    "engines": {
+      "node": "^20.17.0 || >=22.9.0"
+    }
+  },
+  "candidateBuilt": false,
+  "dependenciesInstalled": false,
+  "specApproved": false
+}
+

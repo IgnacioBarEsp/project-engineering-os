@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0.0",
+  "change": "investigate-reproducible-npm-composition",
+  "execution": "versioned",
+  "dependencies": [],
+  "currentState": {
+    "summary": "#204 sigue abierto: npm bundled11.19.1 bloquea auditoría Companion; npm11.21.0/12.2.0 ya se probaron y no son candidatas corregidas. CI37171002125 en9feea659 también falla root/blueprint por #208. El mantenedor eligió preparar spec de una composición propia; aún no aprobó Apply.",
+    "sources": [
+      "https://github.com/IgnacioBarEsp/project-engineering-os/issues/204",
+      "https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/37171002125",
+      "https://github.com/IgnacioBarEsp/project-engineering-os/issues/208",
+      "main9751c301976fe27e9bbad33e69f39372b69f901e; apps/companion/runtime/catalog.mjs y scripts/seal-npm.mjs",
+      "Confirmación humana directa en esta conversación: si a preparar spec de alternativa reproducible, 2026-10-03 local"
+    ]
+  },
+  "scope": [
+    "Fase A de #204: evaluar en directorios desechables una composición reproducible con fuentes oficiales npm y dependencias compatibles realmente corregidas, después de aprobar la spec",
+    "Crear receta explícita, inventario completo, procedencia/integridades, hashes de dos builds y auditoría de los bytes efectivos",
+    "Validar regresiones de avisos y contrato npm/Node bajo los mismos controles de instalación, caché, fallo y reparación a escala de experimento",
+    "Emitir dictamen viable o no-viable con evidencia y próxima decisión; no reemplazar npm ni publicar artefactos al usuario en esta fase"
+  ],
+  "observableCriteria": [
+    "La fase utiliza OpenSpec local1.6.0 y no ejecuta Apply sin aprobación explícita de proposal/design/spec",
+    "Cada candidato declara inputs fijos, integridades, grafo físico completo incluidos bundled y fuente de avisos con fecha",
+    "Dos construcciones independientes de la misma receta producen árbol, inventario y hash idénticos o el dictamen rechaza la reproducibilidad",
+    "Auditoría de producción sin high/critical es necesaria pero no basta: se comprueba remediación de los avisos conocidos y que no se omiten bytes distribuidos",
+    "Se conserva scripts desactivados, sin bin-links, workspaces desactivadas, registry fijado, min-release-age existente, entorno aislado, límites y verificación del payload",
+    "Se verifica npm --version y operaciones ci bajo Node22.22.0 y24.18.0 y la versión administrada del catálogo; incompatibilidad se registra sin subir baseline",
+    "Un componente sin corrección comprobable, parche propio necesario o cambio de gestor detiene la candidata y exige nueva decisión de alcance",
+    "Catálogo, locks oficiales, avisos publicados, CI/protecciones, pin OpenSpec, runtimes del host y carpetas de usuario permanecen sin modificaciones; #208 queda separado",
+    "No se cierra #204 por un spike verde ni se declara CI ola3 verde; adopción requiere diseño/spec adicionales y PR protegido"
+  ],
+  "owner": "IgnacioBarEsp",
+  "risks": [
+    "Auditoría incompleta de bundled o ausencia del identificador sin corrección real: contrastar árbol físico, grafo y regresiones",
+    "Composición incompatible con API npm o baseline Node: usar contratos y matriz real sin relajar requisitos",
+    "Cadena de suministro del derivado y mantenimiento propio: fijar fuentes, receta, integridades, avisos y responsable antes de cualquier adopción",
+    "Confundir experimento con release o resolver #208 por asociación: conservar fase, issue y gates separados",
+    "Pérdida de evidencia o escapes del temporal: preservar entradas/resultados y verificar rutas absolutas dentro de raíz propia"
+  ],
+  "surfaces": [
+    "documentation",
+    "harness-tooling"
+  ],
+  "manualInterventions": [],
+  "costLicenseReview": {
+    "status": "not-applicable",
+    "owner": "IgnacioBarEsp",
+    "evidence": null,
+    "justification": "Esta fase diseña y evalúa internamente con herramientas locales fijadas, sin redistribuir el derivado, cambiar licencias publicadas ni contratar servicios. La viabilidad documentará Artistic-2.0 y licencias incluidas; cualquier redistribución, parche propio o cambio de licencia exige una decisión posterior aprobada. Aprobación de spec antes de Apply sigue pendiente y no se simula en DoR."
+  },
+  "evidence": {
+    "automatic": [
+      "readiness-propose",
+      "openspec-strict",
+      "input-integrity",
+      "physical-inventory-comparison",
+      "repeat-build-tree-hash",
+      "production-audit",
+      "advisory-regressions",
+      "node-runtime-matrix",
+      "fixed-install-contract",
+      "disposable-repair-and-failure",
+      "repository-boundary-diff",
+      "documentation-checks"
+    ],
+    "manual": [
+      "Aprobación concreta de proposal/design/spec antes de Apply",
+      "Revisión cualitativa de licencias, provenance y costo de mantener derivado",
+      "Revisión adversarial real de receta y evidencia antes del archivo",
+      "Dictamen del mantenedor sobre viabilidad; adopción no se autoriza automáticamente"
+    ]
+  },
+  "rollback": {
+    "strategy": "Preservar baseline e inputs/resultados de candidatas en carpetas propias separadas; no instalar ni sustituir el npm de Companion o del host",
+    "trigger": "Falla auditoría, regresión, compatibilidad, reproducibilidad o límite de ownership; se necesita un parche propio o cambio no aprobado",
+    "recovery": "Marcar candidata no-viable, conservar hashes/logs y retomar exclusivamente baseline fijado. No publicar ni revertir a usuario una versión vulnerable; #204 permanece abierto. Una adopción posterior definirá su rollback verificado en una spec separada."
+  },
+  "nonGoals": [
+    "No sustituir runtime npm, cambiar catálogo/locks/avisos de release ni distribuir instalador en esta fase",
+    "No mantener forks/parches propios sin una decisión nueva ni cambiar de gestor",
+    "No añadir excepciones, omitir dependencias auditadas, usar audit fix forzado o reducir protecciones",
+    "No actualizar OpenSpec ni resolver braces/root/blueprint #208 silenciosamente",
+    "No mezclar fixes con PR207, cerrar #204 o toda ola3 por el resultado del spike, ni iniciar ola4"
+  ],
+  "exceptions": []
+}
+

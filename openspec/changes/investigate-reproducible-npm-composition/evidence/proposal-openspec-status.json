@@ -1,0 +1,92 @@
+{
+  "changeName": "investigate-reproducible-npm-composition",
+  "schemaName": "spec-driven",
+  "planningHome": {
+    "kind": "repo",
+    "root": "C:\\Users\\RitualDesktop\\.codex\\worktrees\\204-npm-composition-spec\\project-engineering-os",
+    "changesDir": "C:\\Users\\RitualDesktop\\.codex\\worktrees\\204-npm-composition-spec\\project-engineering-os\\openspec\\changes",
+    "defaultSchema": "spec-driven"
+  },
+  "changeRoot": "C:\\Users\\RitualDesktop\\.codex\\worktrees\\204-npm-composition-spec\\project-engineering-os\\openspec\\changes\\investigate-reproducible-npm-composition",
+  "artifactPaths": {
+    "proposal": {
+      "outputPath": "proposal.md",
+      "resolvedOutputPath": "C:\\Users\\RitualDesktop\\.codex\\worktrees\\204-npm-composition-spec\\project-engineering-os\\openspec\\changes\\investigate-reproducible-npm-composition\\proposal.md",
+      "existingOutputPaths": [
+        "C:\\Users\\RitualDesktop\\.codex\\worktrees\\204-npm-composition-spec\\project-engineering-os\\openspec\\changes\\investigate-reproducible-npm-composition\\proposal.md"
+      ]
+    },
+    "specs": {
+      "outputPath": "specs/**/*.md",
+      "resolvedOutputPath": "C:\\Users\\RitualDesktop\\.codex\\worktrees\\204-npm-composition-spec\\project-engineering-os\\openspec\\changes\\investigate-reproducible-npm-composition\\specs\\**\\*.md",
+      "existingOutputPaths": [
+        "C:\\Users\\RitualDesktop\\.codex\\worktrees\\204-npm-composition-spec\\project-engineering-os\\openspec\\changes\\investigate-reproducible-npm-composition\\specs\\companion-npm-composition\\spec.md"
+      ]
+    },
+    "design": {
+      "outputPath": "design.md",
+      "resolvedOutputPath": "C:\\Users\\RitualDesktop\\.codex\\worktrees\\204-npm-composition-spec\\project-engineering-os\\openspec\\changes\\investigate-reproducible-npm-composition\\design.md",
+      "existingOutputPaths": [
+        "C:\\Users\\RitualDesktop\\.codex\\worktrees\\204-npm-composition-spec\\project-engineering-os\\openspec\\changes\\investigate-reproducible-npm-composition\\design.md"
+      ]
+    },
+    "tasks": {
+      "outputPath": "tasks.md",
+      "resolvedOutputPath": "C:\\Users\\RitualDesktop\\.codex\\worktrees\\204-npm-composition-spec\\project-engineering-os\\openspec\\changes\\investigate-reproducible-npm-composition\\tasks.md",
+      "existingOutputPaths": [
+        "C:\\Users\\RitualDesktop\\.codex\\worktrees\\204-npm-composition-spec\\project-engineering-os\\openspec\\changes\\investigate-reproducible-npm-composition\\tasks.md"
+      ]
+    }
+  },
+  "isComplete": true,
+  "applyRequires": [
+    "tasks"
+  ],
+  "nextSteps": [
+    "All planning artifacts are complete; review tasks before implementation."
+  ],
+  "actionContext": {
+    "mode": "repo-local",
+    "sourceOfTruth": "repo",
+    "planningArtifacts": [
+      "proposal",
+      "design",
+      "specs",
+      "tasks"
+    ],
+    "linkedContext": [],
+    "allowedEditRoots": [
+      "C:\\Users\\RitualDesktop\\.codex\\worktrees\\204-npm-composition-spec\\project-engineering-os"
+    ],
+    "requiresAffectedAreaSelection": false,
+    "constraints": [
+      "Repo-local change artifacts and implementation edits are scoped to this project."
+    ]
+  },
+  "artifacts": [
+    {
+      "id": "proposal",
+      "outputPath": "proposal.md",
+      "status": "done"
+    },
+    {
+      "id": "design",
+      "outputPath": "design.md",
+      "status": "done"
+    },
+    {
+      "id": "specs",
+      "outputPath": "specs/**/*.md",
+      "status": "done"
+    },
+    {
+      "id": "tasks",
+      "outputPath": "tasks.md",
+      "status": "done"
+    }
+  ],
+  "root": {
+    "path": "C:\\Users\\RitualDesktop\\.codex\\worktrees\\204-npm-composition-spec\\project-engineering-os",
+    "source": "nearest"
+  }
+}
