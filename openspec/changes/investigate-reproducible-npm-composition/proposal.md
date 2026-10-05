@@ -11,7 +11,9 @@
 - Emitir un dictamen trazable viable/no-viable. No declarar corrección integrada, release apta o cierre de #204 por completar la investigación.
 - Ampliación aprobada en6b3997: permitir un parche reproducible y revisado de datos limitado a index.js de http-cache-semantics4.3.0 en copia experimental, con política/criterios separados, procedencia/licencia y retirada verificable al oficial; detalle en [patch-amendment.md](patch-amendment.md).
 - Mantener separada la adopción: si hay evidencia suficiente, proponer después el cambio de catálogo/locks/avisos/hashes y la validación del instalador mediante otra aprobación.
-- Segunda ampliación propuesta, NO aprobada: permitir los fixes de casing/expiry/304-Vary necesarios en el mismo index.js y un parche acotado de tres archivos del caller make-fetch-happen15.0.6, solo experimental. Motivo, allowlist, costo, presupuesto restante y gates en [boundary-amendment.md](boundary-amendment.md).
+- Segunda ampliación aprobada en d6e2b543d632dc35b099037746891dbe2f3983db: permitir los fixes de casing/expiry/304-Vary necesarios en el mismo index.js y un parche acotado de tres archivos del caller make-fetch-happen15.0.6, solo experimental. [Aprobación literal](evidence/boundary-amendment-approval.md); motivo, allowlist, costo, presupuesto restante y gates en [boundary-amendment.md](boundary-amendment.md).
+
+- Final refinement [proposed, not approved](final-recipe-amendment.md): one additional frozen recipe (cumulative maximum4 only after explicit approval) and exact representation/304-expiry/history/matching corrections under the same two components/four files. The second amendment is already applied and blocked; no new source change is authorized by preparing this proposal.
 
 ## Capabilities
 
@@ -43,4 +45,4 @@ Issue enriquecido y DoR original **13/13 PASS** en [evidence/readiness-propose.j
 
 El archivo futuro exige evidencia real, revisión adversarial y assessment de deuda. Cualquier integración espera `CI / required` verde bajo protecciones existentes; #208 y el orden de los PR de ola3 permanecen obligaciones separadas. No se mezclará este trabajo en #207.
 
-**Ampliación aprobada:** después de presentar la revisión inmutable6b3997 el mantenedor respondió «apruebo», registrado en [evidence/patch-amendment-approval.md](evidence/patch-amendment-approval.md). La aprobación de fa279d9 conserva su alcance original. El Apply experimental no autoriza ampliar parsing/expiración, otros componentes ni producción; los límites descubiertos deben bloquear aceptación.
+**Ampliación aprobada:** después de presentar la revisión inmutable6b3997 el mantenedor respondió «apruebo», registrado en [evidence/patch-amendment-approval.md](evidence/patch-amendment-approval.md). La aprobación de fa279d9 conserva su alcance original. Esa primera aprobación no autorizó automáticamente la segunda. La segunda aprobación concreta d6e2b54 sí autorizó sus cuatro archivos y ya fue aplicada. Sus fallos conservados y presupuesto3 agotado bloquean aceptación. La propuesta final aún necesita aprobación real; no se infiere de ninguna aprobación anterior.

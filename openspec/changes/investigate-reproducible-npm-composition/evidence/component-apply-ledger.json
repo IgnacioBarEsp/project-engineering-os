@@ -1,32 +1,69 @@
 {
-  "scope": "approved first amendment only; second amendment proposed, not applied",
+  "scope": "second amendment approved and experimentally applied; variant3 blocked, fourth recipe proposed but not approved",
+  "boundaryApprovalCommit": "d6e2b543d632dc35b099037746891dbe2f3983db",
+  "boundaryApprovalRecord": "evidence/boundary-amendment-approval.md",
   "outcome": "blocked",
   "approvalCommit": "6b399724e41fb3633bb0900ecbdd49cf6622fee9",
   "component": {
     "version": "4.3.0",
-    "patchHash": "e37eb3e458539ededb9161104b1d68d72273e09795733f4631560b035b031a62",
-    "postimageHash": "d7c95951899bd5756a13fb2119614070b22a8a9e54b63bfebb735a0ec707262a",
-    "passingCases": 121,
-    "cases": 123,
+    "patchHash": "d8bddc955de493355e26f5ce86b6ed26d575599fa36df518c0832fdc7bb99d1c",
+    "postimageHash": "7216417ebf8ff9467905eb9b697334b119c4d5b8532af8911635d14def734149",
+    "treeHash": "cc34071f4af31ab92887d5f69571a76cca574def88beb3332ddf71ebe0dac46a",
+    "initialPassingCases": 152,
+    "initialCases": 152,
+    "passingCases": 154,
+    "cases": 161,
     "securityGate": false,
     "remainingFailures": [
-      "mixed-smaxage-earlier-expiry",
-      "304-introduces-vary-star"
-    ],
-    "clockGapFixed": true
+      "quoted-extension-public",
+      "quoted-extension-duration",
+      "quoted-extension-swr",
+      "quoted-extension-sie",
+      "ordinary-request-pragma-case",
+      "component-304-url-mismatch",
+      "304-introduces-past-expires"
+    ]
   },
   "budget": {
     "maximumRecipes": 3,
-    "consumedPatchVariants": 2,
-    "remaining": 1,
+    "consumedPatchVariants": 3,
+    "remaining": 0,
     "wholeNpmCompositionsBuilt": 0
   },
   "npmCaller": {
     "officialNpm": "11.21.0",
     "makeFetchHappen": "15.0.6",
-    "patched": false,
-    "networkErrorReuseObserved": true,
-    "vmSyntheticBodyOnly": true,
+    "patched": true,
+    "patchHash": "d8c65f353eff15543312c92a64f226443ea5c7a14b41658696acda47aa28cac2",
+    "postimages": [
+      {
+        "path": "lib/cache/policy.js",
+        "bytes": 5322,
+        "sha256": "7ce90490d4a05e506e8400f5f49e4fcf84d4e745c4ff21692c8555856a87ca43"
+      },
+      {
+        "path": "lib/cache/entry.js",
+        "bytes": 17257,
+        "sha256": "87760938858023deb828d9c052c85069dfef89b8f62f1217e8b484e9b628d743"
+      },
+      {
+        "path": "lib/cache/index.js",
+        "bytes": 1958,
+        "sha256": "26ed4b810db61168013e329a782bb3b6b1daf70964f651e9cd49cd9fdfce63bd"
+      }
+    ],
+    "treeHash": "0fb9d9b02c34facdaa28fb848b3fee2d293c98bccc898f11ed1dc29300d76f0c",
+    "realIntegration": true,
+    "passingCases": 67,
+    "cases": 69,
+    "securityGate": false,
+    "remainingFailures": [
+      "304-introduce-vary",
+      "304-vary-star"
+    ],
+    "graphFiles": 1530,
+    "graphDifferencePaths": 4,
+    "moduleGraphUnchanged": true,
     "productExposureProven": false
   },
   "productionChanged": false,
@@ -60,7 +97,133 @@
       {
         "path": "artifacts/cache-patch-20261004/verification.md",
         "sha256": "1bb2b86444d312c1fbf77754336fdfbe9bf79cdce021adbf889a74133483b159"
+      },
+      {
+        "path": "artifacts/cache-boundary/adversarial-review-partial.md",
+        "sha256": "6738c93ae0aa22908154a4a15a8801c5e42be207c4571f38b2e2cc8a00ebe448"
+      },
+      {
+        "path": "artifacts/cache-boundary/caller-integration-v3.json",
+        "sha256": "4728f5e11eebc25bf22ad5895922f4ff6b7151b20b47359ccfd300845d1572d2"
+      },
+      {
+        "path": "artifacts/cache-boundary/component-result-v3.json",
+        "sha256": "1b276e50490ed26c4a42a7122284a26c8a06d0338d01fbaeb6775bfcfdb32b81"
+      },
+      {
+        "path": "artifacts/cache-boundary/debt-assessment.md",
+        "sha256": "477b70faccade34b588706713c86b614510cca6bbf72c613579f5f74781dc07f"
+      },
+      {
+        "path": "artifacts/cache-boundary/expanded-matrix-v3.json",
+        "sha256": "97f3aadb4e27a96b4e106e5a0f56f4c9b98d8be3de641fdf04f91f459f73f88d"
+      },
+      {
+        "path": "artifacts/cache-boundary/frozen-inputs.json",
+        "sha256": "4cee05c2a45db22178fe72f96619ed35b2f36c1b91ab0bdd25ae040f46c3aa35"
+      },
+      {
+        "path": "artifacts/cache-boundary/official-observation-20261005.txt",
+        "sha256": "46bb61478b4d8ee9059c67eb9c4b29563cf56b498e9586bf0651213508f6248e"
+      },
+      {
+        "path": "artifacts/cache-boundary/pre-apply-checks.txt",
+        "sha256": "8b11d21f91e27938e97a9396ed429e4b9322626d5fb203fd5cf93e88fbbb0b1f"
+      },
+      {
+        "path": "artifacts/cache-boundary/pre-patch-investigation.md",
+        "sha256": "c7d7b9f6ddb2223bdfd34ada34b9a0eb6083682b57da68f3b0e9426ff2e4e78a"
+      },
+      {
+        "path": "artifacts/cache-boundary/review-confirmation.json",
+        "sha256": "c9492939aaf230729099cc845150bb6991adacc0fc9549f52081153956195696"
+      },
+      {
+        "path": "artifacts/cache-boundary/helpers/build-and-measure.mjs",
+        "sha256": "f3fd29515c7c7c0ab2aa288016f9803de9e4b423e6dd8325653f26f276e3447f"
+      },
+      {
+        "path": "artifacts/cache-boundary/helpers/caller-integration.mjs",
+        "sha256": "fb98e32b0c7f8b5239520560589f73b45041c75bb2e3c4225bd17fda489bc5e2"
+      },
+      {
+        "path": "artifacts/cache-boundary/helpers/expanded-matrix.mjs",
+        "sha256": "29353653fd7d53c3e60e832359fc984be92eee7b1c5e138c988f20937d06f7b4"
+      },
+      {
+        "path": "artifacts/cache-boundary/helpers/freeze-inputs.mjs",
+        "sha256": "922529fc5f3f2841c18ef6c0490e09e9c72f230ca317ab2898d19cb20647b36e"
+      },
+      {
+        "path": "artifacts/cache-boundary/helpers/review-confirmation.mjs",
+        "sha256": "2e8261acdec0fea2bc0e2d183db72fa789d5033c37871d2049e2a0f681096154"
+      },
+      {
+        "path": "artifacts/cache-boundary/final-checks-v3.json",
+        "sha256": "de6710d7b02017a98bf0998bf9488a9dc7fceb9fef84042babeb213d4d4231dc"
+      },
+      {
+        "path": "artifacts/cache-boundary/verification.md",
+        "sha256": "f36a8fed9125bca66cc9ae61322c4cc9bc16c7b7176171f2ccdf485dc360e384"
       }
     ]
+  },
+  "observedAt": "2026-10-05T02:40:36Z",
+  "history": {
+    "variant2": {
+      "approvalCommit": "6b399724e41fb3633bb0900ecbdd49cf6622fee9",
+      "component": {
+        "version": "4.3.0",
+        "patchHash": "e37eb3e458539ededb9161104b1d68d72273e09795733f4631560b035b031a62",
+        "postimageHash": "d7c95951899bd5756a13fb2119614070b22a8a9e54b63bfebb735a0ec707262a",
+        "passingCases": 121,
+        "cases": 123,
+        "securityGate": false,
+        "remainingFailures": [
+          "mixed-smaxage-earlier-expiry",
+          "304-introduces-vary-star"
+        ],
+        "clockGapFixed": true
+      },
+      "npmCaller": {
+        "officialNpm": "11.21.0",
+        "makeFetchHappen": "15.0.6",
+        "patched": false,
+        "networkErrorReuseObserved": true,
+        "vmSyntheticBodyOnly": true,
+        "productExposureProven": false
+      },
+      "consumedPatchVariants": 2
+    }
+  },
+  "experimentalChecks": {
+    "tests": 44,
+    "passingTests": 44,
+    "componentBuilds": 2,
+    "callerBuilds": 2,
+    "identical": true,
+    "productionBoundaryFiles": 14,
+    "boundariesUnchanged": true,
+    "independentInvestigation": "complete, read-only, before Apply",
+    "independentReview": "one fresh read-only turn; preliminary observations confirmed by parent; no final report due tool failure; INCOMPLETE, not approved",
+    "debtAssessment": "scoped candidates retained; no phase-closure capture or registry mutation"
+  },
+  "proposedFinalAmendment": {
+    "path": "final-recipe-amendment.md",
+    "approved": false,
+    "applied": false,
+    "proposedMaximumRecipes": 4,
+    "remainingCurrentlyApproved": 0
+  },
+  "fullNpmGates": {
+    "composition": false,
+    "independentPhysicalAudit": false,
+    "rawProductionAudit": false,
+    "allAdvisoryRegressions": false,
+    "supportedRuntimeMatrix": false,
+    "installationRepair": false,
+    "resourceComparison": false,
+    "realDurableSwitching": false,
+    "adoption": false
   }
 }

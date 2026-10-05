@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "kind": "exact-replacements",
+  "operations": [
+    {
+      "path": "lib/cache/policy.js",
+      "before": "  static storable (request, options) {\n",
+      "after": "  static storable (request, options) {\n    // Offline means no network, including an uncacheable request or absent cachePath.\n    if (options.cache === 'only-if-cached') {\n      return true\n    }\n\n"
+    },
+    {
+      "path": "lib/cache/policy.js",
+      "before": "    if (this.request.headers.host !== _req.headers.host) {",
+      "after": "    if (!this.policy._requestMatches(_req, true) || this.request.headers.host !== _req.headers.host) {"
+    },
+    {
+      "path": "lib/cache/policy.js",
+      "before": "  responseHeaders () {",
+      "after": "  // One eligibility boundary for all unvalidated cached-body responses.\n  canReuse (request, options = this.options) {\n    if (options.cache === 'no-cache' || options.cache === 'no-store') {\n      return false\n    }\n    return this.satisfies(request) && this.policy._allowsReuseForRequest(requestObject(request))\n  }\n\n  responseHeaders () {"
+    },
+    {
+      "path": "lib/cache/policy.js",
+      "before": "    const policy = this.policy.revalidatedPolicy(_req, _res)\n    return !policy.modified",
+      "after": "    if (_res.status !== 304 || !this.policy._requestMatches(_req, true)) {\n      return false\n    }\n    const result = this.policy.revalidatedPolicy(_req, _res)\n    if (result.modified || !result.matches) {\n      return false\n    }\n    this.policy = result.policy\n    this.response = { ...this.response, headers: result.policy.responseHeaders() }\n    return true"
+    },
+    {
+      "path": "lib/cache/entry.js",
+      "before": "      if (!this.policy.mustRevalidate) {",
+      "after": "      if (this.policy.canReuse(request, options)) {"
+    },
+    {
+      "path": "lib/cache/entry.js",
+      "before": "    if (this.policy.revalidated(revalidateRequest, response)) {\n",
+      "after": "    // SIE is not a successful 304: retain original metadata and age.\n    if ([500, 502, 503, 504].includes(response.status) &&\n        this.policy.canReuse(request, options) && this.policy.policy._useStaleIfError()) {\n      return this.respond(request.method, options, 'stale')\n    }\n\n    if (this.policy.revalidated(revalidateRequest, response)) {\n      // HEAD and cached redirects must see the updated policy too.\n      const headers = this.policy.responseHeaders()\n      for (const [name, value] of Object.entries(headers)) {\n        this.response.headers.set(name, value)\n      }\n      if (!this.policy.storable()) {\n        await CacheEntry.invalidate(request, options)\n        return this.respond(request.method, options, 'revalidated')\n      }\n"
+    },
+    {
+      "path": "lib/cache/entry.js",
+      "before": "      const metadata = getMetadata(request, response, options)",
+      "after": "      const mergedResponse = new Response(null, { status: this.response.status,\n        headers: this.policy.responseHeaders() })\n      const metadata = getMetadata(request, mergedResponse, options)"
+    },
+    {
+      "path": "lib/cache/index.js",
+      "before": "  if (options.cache === 'force-cache' ||\n      options.cache === 'only-if-cached' ||\n      !_needsRevalidation) {",
+      "after": "  const _canReuse = entry.policy.canReuse(request, options)\n  if (_canReuse && (options.cache === 'force-cache' ||\n      options.cache === 'only-if-cached' ||\n      !_needsRevalidation)) {"
+    },
+    {
+      "path": "lib/cache/index.js",
+      "before": "  // if we got here, the cache entry is stale so revalidate it",
+      "after": "  if (options.cache === 'only-if-cached') {\n    throw new NotCachedError(request.url)\n  }\n\n  // if we got here, the cache entry is stale so revalidate it"
+    }
+  ]
+}

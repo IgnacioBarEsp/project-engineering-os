@@ -1,6 +1,6 @@
 # #204 — segunda ampliación propuesta: cerrar la frontera de caché completa
 
-**Pendiente de aprobación; no aplicada.** La aprobación de `6b3997` sigue vigente para el parche de un archivo. Su variante revisada pasó 121/123 casos, pero los dos fallos conservados y el caller impiden aprobar un npm completo. Esta propuesta presenta el acuerdo nuevo; ninguna autorización anterior lo aprueba automáticamente.
+**Aprobada en la revisión `d6e2b543d632dc35b099037746891dbe2f3983db`; Apply ejecutado; resultado no apto.** La respuesta humana «si» a la confirmación de esa revisión queda registrada en [evidence/boundary-amendment-approval.md](evidence/boundary-amendment-approval.md). La aprobación de `6b3997` sigue vigente para el parche de un archivo. Su variante revisada pasó 121/123 casos, pero los dos fallos conservados y el caller impiden certificar un npm completo. Ninguna autorización anterior aprobó automáticamente esta ampliación.
 
 ## Qué cambia y por qué
 
@@ -19,7 +19,7 @@ Mantener fuente npm11.21.0, gitHead5fd1e17e468d58e7f14dc6cbb5390029ff49a41d e in
 
 Conservar BSD-2-Clause e ISC, copyrights, LICENSE y nombres/versiones upstream; atribuir cambios a nuestro experimento. No ocultar avisos renombrando ni usar ausencia del advisory como corrección. Antes de construir, congelar nuevos patchHash/postimage/recipeHash, inventario de cada copia física y toda diferencia permitida. Nunca aplicar automáticamente el parche anterior a otra fuente.
 
-El presupuesto NO se reinicia: dos variantes de parche ya congeladas consumen 2/3; queda una receta candidata distinta. Construcciones completas de npm realizadas: 0. Un cambio posterior de inputs requiere respetar ese límite o presentar explícitamente otro presupuesto; no encadenar variantes ilimitadas.
+El presupuesto NO se reinicia: antes de este Apply dos variantes consumían 2/3; variante3 consumió la restante y ahora no queda otra. La matriz ampliada154/161 y caller real67/69 impiden aceptación. [La propuesta final](final-recipe-amendment.md) solicita un máximo4 solo después de otra aprobación explícita. Construcciones completas de npm realizadas: 0. Un cambio posterior de inputs requiere respetar ese límite o presentar explícitamente otro presupuesto; no encadenar variantes ilimitadas.
 
 Repetir los 123 casos incluyendo casing/s-maxage, 304/Vary y cambio del reloj; ampliar matching URL/host/método/Vary y solicitudes no-cache, red 500/desconexión, force-cache/only-if-cached/no-cache/default, serialización antigua/nueva, private/shared, cargo-cult y opt-ins/controles positivos. Ejecutar una integración real en un directorio propio, no sustituirla por VM/stubs. La evidencia sintética ya guardada conserva ese alcance.
 
@@ -37,4 +37,4 @@ Un oficial futuro se prueba sin parches, con mismos gates y una identidad/slot n
 
 No host/Companion runtime, catálogo/locks/notices de release, publicación/instalador, npm source, tercera dependencia, baseline/gestor/OpenSpec, excepciones/auditoría/protecciones, #208 o ola4. Adopción sigue necesitando otra spec aprobada y PR protegido/CI verde.
 
-Approve significa aprobar esta ampliación junto con sus modificaciones explícitas de proposal/design/spec y el costo/mantenimiento, solo para Apply experimental. Hasta recibir esa respuesta, mantener el resultado blocked; no aplicar los fixes adicionales. [Resumen](TLDR.md) · [Diseño](design.md) · [Requisitos](specs/companion-npm-composition/spec.md) · [Registro de avance](evidence/component-apply-ledger.json).
+Approve significa aprobar esta ampliación junto con sus modificaciones explícitas de proposal/design/spec y el costo/mantenimiento, solo para Apply experimental. Esa respuesta sí fue recibida y Apply ejecutado. No repetir el gate anterior. El resultado sigue blocked por fallos y presupuesto agotado; la propuesta final aún no está aprobada ni aplicada. [Resumen](TLDR.md) · [Diseño](design.md) · [Requisitos](specs/companion-npm-composition/spec.md) · [Registro de avance](evidence/component-apply-ledger.json).

@@ -1,15 +1,17 @@
-# #204 — parche experimental probado; ampliación pendiente
+# #204 — tercera variante probada, todavía no apta
 
-**Sigue bloqueado, no instalado.** El parche de un archivo aprobado en `6b3997` pasó 121/123 casos y dos copias son idénticas. Se corrigió el fallo temporal hallado en revisión. Pasaron 29 tests y los 14 límites de producción siguen intactos. El componente completo aún no es apto.
+**La segunda ampliación de d6e2b543d632dc35b099037746891dbe2f3983db está aprobada y aplicada solo en copias desechables.** Tu respuesta literal «si» está en [el registro de aprobación](evidence/boundary-amendment-approval.md). No hay instalación ni adopción en host/Companion.
 
-Quedan dos casos de interpretación de directivas/metadata 304 y rutas del caller npm que devuelven caché sin consultar el guard. El [registro de avance](evidence/component-apply-ledger.json) conserva evidencia original, derivados y revisión. No se repiten las instalaciones oficiales fallidas ni se disfraza un exit 0 de auditoría/seguridad verde.
+Dos construcciones de cada componente son idénticas; originales, BSD-2-Clause/ISC, identidades y 14 límites de producción siguen intactos. Pasan 44/44 pruebas del verificador/modelo. La matriz inicial pasó 152/152, pero la ampliación con los casos confirmados de revisión resulta **154/161**. La integración con HTTP local, cacache y streams reales resulta **67/69**.
 
-La [segunda ampliación propuesta](boundary-amendment.md) permitiría corregir solo esos límites dentro de `index.js` de http-cache-semantics 4.3.0 y tres archivos de make-fetch-happen 15.0.6. Fuentes/hashes fijos, originales/licencias intactos, pruebas negativas y legítimas, dos construcciones iguales, revisión independiente y auditoría/runtime/reparación completos siguen obligatorios.
+Los dos fallos reales permiten recuperar una entrada antigua después de un Vary nuevo de 304. La revisión también mostró interpretación incorrecta de comillas, Expires nuevo perdido y diferencias entre controles directos del componente y del caller. Las pruebas fallidas se conservan; no se presenta el resultado inicial como corrección completa. El único ciclo de revisión independiente produjo observaciones parciales, pero no un informe final: ese gate sigue incompleto.
 
-**Todavía no aprobaste ni apliqué esa ampliación.** Aprobar esta revisión de proposal/design/spec permite solo Apply experimental de esos cuatro archivos en copias desechables. No cambia tu instalación, gestor, baseline, OpenSpec, locks, catálogo, auditorías ni protecciones. Dos variantes consumieron 2/3 del presupuesto acumulado; no se reinicia.
+**Se consumieron 3/3 variantes, sin reiniciar el presupuesto; composiciones npm completas: 0.** No habrá otro parche automáticamente. La [ampliación final propuesta](final-recipe-amendment.md), todavía NO aprobada ni aplicada, solicita una cuarta y última receta y refinamientos concretos de esas mismas representaciones/metadata, con los mismos dos componentes/cuatro archivos y controles. La alternativa es seguir esperando upstream.
 
-La vuelta al oficial sigue siendo reversible, en slots/identidades separados y únicamente tras pasar los mismos controles sin nuestro parche. Un oficial vulnerable no es un rollback aceptable. IgnacioBarEsp decide mantenimiento/retirada; no se promete un fork indefinido.
+El [registro de avance](evidence/component-apply-ledger.json) enlaza los resultados completos, hashes, controles legítimos, revisión parcial y evaluación de deuda. No se repiten instalaciones oficiales sin inputs nuevos. Catálogo, locks, avisos, baseline, OpenSpec, auditorías y protecciones no cambiaron.
 
-Adopción/publicación requiere otra aprobación y PR protegido/CI verde. #204/#208 y ola 3 siguen abiertos; no se inició ola 4 ni se archivó una fase incompleta.
+Un oficial futuro se prueba sin parches con los mismos gates, en identidad/slot separado. Reversibilidad real, auditoría completa, runtimes, instalación/reparación y recursos aún no están demostrados. IgnacioBarEsp decide mantenimiento/retirada; no se promete un fork indefinido.
 
-[Proposal](proposal.md) · [Diseño](design.md) · [Requisitos](specs/companion-npm-composition/spec.md) · [Tareas](tasks.md) · [Ampliación anterior aprobada](patch-amendment.md) · [Aprobación anterior](evidence/patch-amendment-approval.md)
+#204/#208 y ola3 siguen abiertos. No archivo, PR nuevo, merge, release ni inicio de ola4. Adopción requiere otra spec aprobada y PR protegido/CI verde.
+
+[Proposal](proposal.md) · [Diseño](design.md) · [Requisitos](specs/companion-npm-composition/spec.md) · [Tareas](tasks.md) · [Segunda ampliación aprobada](boundary-amendment.md) · [Ampliación anterior aprobada](patch-amendment.md)

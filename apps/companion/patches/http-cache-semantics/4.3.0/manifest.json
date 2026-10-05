@@ -9,18 +9,18 @@
     "archiveSha256": "d75e1e6a11587954da5e2f0e2b5c4b397a16d28cc2f7bdf64e9027fc2fe593ee",
     "license": "BSD-2-Clause"
   },
-  "approvedSpec": "6b399724e41fb3633bb0900ecbdd49cf6622fee9",
+  "approvedSpec": "d6e2b543d632dc35b099037746891dbe2f3983db",
   "attribution": "Project Engineering OS experimental patch, authored by Codex for IgnacioBarEsp; not an upstream release or PR58 transplant",
-  "reason": "Enforce applicable reuse restrictions across max-stale and stale extensions; preserve the existing conservative cookie policy and propagate new restrictions on 304.",
+  "reason": "Complete directive-name/expiry normalization, matching304 Vary and request reuse eligibility for the approved compatible caller.",
   "allowedFiles": [
     "index.js"
   ],
   "patchFile": "reuse-guard.patch.json",
-  "patchSha256": "e37eb3e458539ededb9161104b1d68d72273e09795733f4631560b035b031a62",
+  "patchSha256": "d8bddc955de493355e26f5ce86b6ed26d575599fa36df518c0832fdc7bb99d1c",
   "postimage": {
     "path": "index.js",
-    "bytes": 37978,
-    "sha256": "d7c95951899bd5756a13fb2119614070b22a8a9e54b63bfebb735a0ec707262a"
+    "bytes": 39540,
+    "sha256": "7216417ebf8ff9467905eb9b697334b119c4d5b8532af8911635d14def734149"
   },
   "originalFiles": [
     {

@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "component": {
+    "name": "make-fetch-happen",
+    "version": "15.0.6",
+    "source": "https://registry.npmjs.org/npm/-/npm-11.21.0.tgz",
+    "npmVersion": "11.21.0",
+    "npmGitHead": "5fd1e17e468d58e7f14dc6cbb5390029ff49a41d",
+    "integrity": "sha512-Zov8KhamNneiLdELtj5YALtNmJW4L4fCLTzjfpzXG2w6MSHcf0UxgdlK5uloCuksWT+7mGUU7wi79cO6RqivPg==",
+    "archiveSha256": "783e7c92bf73b442fb800c2d6ef3921e86da8894a700fed45140e37916877482",
+    "license": "ISC"
+  },
+  "approvedSpec": "d6e2b543d632dc35b099037746891dbe2f3983db",
+  "attribution": "Project Engineering OS experimental patch, authored by Codex for IgnacioBarEsp; not an upstream release or PR58 transplant",
+  "reason": "Enforce one unvalidated reuse permission boundary; preserve matching304 policy and legitimate offline/SIE behavior.",
+  "allowedFiles": [
+    "lib/cache/policy.js",
+    "lib/cache/entry.js",
+    "lib/cache/index.js"
+  ],
+  "patchFile": "reuse-boundary.patch.json",
+  "patchSha256": "d8c65f353eff15543312c92a64f226443ea5c7a14b41658696acda47aa28cac2",
+  "postimages": [
+    {
+      "path": "lib/cache/policy.js",
+      "bytes": 5322,
+      "sha256": "7ce90490d4a05e506e8400f5f49e4fcf84d4e745c4ff21692c8555856a87ca43"
+    },
+    {
+      "path": "lib/cache/entry.js",
+      "bytes": 17257,
+      "sha256": "87760938858023deb828d9c052c85069dfef89b8f62f1217e8b484e9b628d743"
+    },
+    {
+      "path": "lib/cache/index.js",
+      "bytes": 1958,
+      "sha256": "26ed4b810db61168013e329a782bb3b6b1daf70964f651e9cd49cd9fdfce63bd"
+    }
+  ],
+  "originalFiles": [
+    {
+      "path": "LICENSE",
+      "bytes": 765,
+      "sha256": "a806e21000ee60cfd64a6f1416f29c7552b4834701974e86c0156f99c0cdd806"
+    },
+    {
+      "path": "lib/cache/entry.js",
+      "bytes": 16421,
+      "sha256": "c448d1d1601ad2ec99c2963fc4dd093a57d884ff4ea089bb08a05496d01015c7"
+    },
+    {
+      "path": "lib/cache/errors.js",
+      "bytes": 284,
+      "sha256": "5e8a91f9e801e9eb81e00c52451c7fe4e354674cdd671713299f392ddc8ff324"
+    },
+    {
+      "path": "lib/cache/index.js",
+      "bytes": 1792,
+      "sha256": "b9a47e604b9d6ec9211e5129636ba7366c408c074ea1d4b8c859cf221c347071"
+    },
+    {
+      "path": "lib/cache/key.js",
+      "bytes": 430,
+      "sha256": "ae7da8b3fbc282391fc70df8a625de765062f955fc85587e575479cbe9c33adb"
+    },
+    {
+      "path": "lib/cache/policy.js",
+      "bytes": 4527,
+      "sha256": "2014cf549fceb8808cba81e8760315b9060f502b6c62b7cb79e1b024abde54c3"
+    },
+    {
+      "path": "lib/fetch.js",
+      "bytes": 3947,
+      "sha256": "7d57bfd656a6ae2a53738fb3f25365d074d9cb7364794005bc70317ff2bf81e8"
+    },
+    {
+      "path": "lib/index.js",
+      "bytes": 1173,
+      "sha256": "c6fa07e324498f7bbd05e98892790186556bf55c6265d0c07f45900a6941a57c"
+    },
+    {
+      "path": "lib/options.js",
+      "bytes": 1688,
+      "sha256": "b067a3566cf03d9a4cc77478efb88c2b3d8cc4081a311b2ae9ea67a500bf3c0e"
+    },
+    {
+      "path": "lib/pipeline.js",
+      "bytes": 1114,
+      "sha256": "082bb7c9c7f020c816c2582fe436c992b9851e0727339723337b580d6f6c1707"
+    },
+    {
+      "path": "lib/remote.js",
+      "bytes": 4875,
+      "sha256": "4902d89e949dae492557b734ddb4609ca283e97f4720d1bfc489b5306891fb0e"
+    },
+    {
+      "path": "package.json",
+      "bytes": 1800,
+      "sha256": "8c60f3dc6aa9d98a286228766dfc00373ef41dc0919cd94cb3a3947601b7a93f"
+    }
+  ],
+  "maintenance": {
+    "owner": "IgnacioBarEsp",
+    "retirement": "Evaluate a new unpatched official input with the same gates; separate slot and identity. Do not rebase this patch silently or adopt a vulnerable official rollback.",
+    "adoptionAuthorized": false
+  }
+}

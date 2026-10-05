@@ -1,5 +1,20 @@
 ## ADDED Requirements
 
+### Requirement: Explicit proposed final-recipe exception
+The final-recipe-amendment.md and its proposal/design additions SHALL remain proposed until human approval of the actual presented revision and cost. Maximum three frozen variants SHALL remain binding while pending. Only that distinct approval MAY raise the cumulative maximum to four for one final frozen recipe and permit the exact quoted Cache-Control representation, new304 Expires, direct matching/Pragma and obsolete-cache-history refinements stated in that amendment inside the same fixed two components/four source files. No fifth variant, new upstream source component, general HTTP parser, API/v1-field/default change or production adoption MAY be inferred.
+
+#### Scenario: The three approved variants have been consumed
+- **WHEN** variant3 retains component or real-caller failures and the final amendment has not been approved
+- **THEN** its sources/postimages and failed evidence SHALL remain immutable and no fourth recipe SHALL be applied or constructed
+- **AND** prior human approval of d6e2b54 SHALL remain fulfilled, not be asked for again or expanded into approval of this proposal
+
+#### Scenario: The actual final amendment is approved
+- **WHEN** explicit approval identifies the published final-recipe-amendment.md and its proposal/design/spec revision
+- **THEN** one additional exact combination MAY be frozen and tested, retaining all earlier attempts and original source/license identities
+- **AND** quoted contents SHALL NOT become directives, new expiry/request/history restrictions SHALL govern every reuse representation, legitimate/default/legacy controls SHALL pass and failure SHALL stop without a fifth variant
+- **AND** independent review, debt and full physical npm/audit/runtime/repair/resource/reversibility gates SHALL remain necessary before any later adoption agreement
+
+
 ### Requirement: Explicit approval for discovered boundary expansion
 The follow-up boundary-amendment.md and its proposal/design/spec additions SHALL remain proposed until explicit approval of the presented revision. Acceptance of6b3997 SHALL NOT approve this follow-up. Only after that gate MAY owned disposable copies add the necessary directive-name/expiry and304-Vary propagation changes to http-cache-semantics4.3.0/index.js and exact data patches to make-fetch-happen15.0.6/lib/cache/policy.js, lib/cache/entry.js and lib/cache/index.js from the pinned npm11.21.0 source. These are the only additional upstream scope exceptions; no npm or third-component source MAY change.
 
@@ -11,7 +26,7 @@ The follow-up boundary-amendment.md and its proposal/design/spec additions SHALL
 #### Scenario: An approved future candidate closes the discovered residuals
 - **WHEN** the expanded scope has actually been approved and implemented
 - **THEN** case-insensitive directive/expiry,304-Vary, temporal, serialized-state and caller regressions plus legitimate/default-option controls SHALL pass with fixed provenance and two identical builds
-- **AND** the original cumulative three-recipe budget, full physical audit/advisory/runtime/repair gates and separate adoption agreement SHALL still apply
+- **AND** the currently approved cumulative recipe budget (three until any distinct final-recipe exception is approved), full physical audit/advisory/runtime/repair gates and separate adoption agreement SHALL still apply
 
 #### Scenario: Approval has not been received or another source fix is required
 - **WHEN** the follow-up is pending, a source differs or another component/file needs modification
@@ -32,7 +47,7 @@ The investigation SHALL execute only within explicit approval of the applicable 
 - **AND** adoption SHALL require a subsequent approved agreement and all existing release protections
 
 ### Requirement: Immutable recipe with explicit derivation
-Each composition SHALL declare a fixed official npm11.21.0 source identity, each dependency version/source/integrity, original manifest, allowed differences, assembler identity and recipe digest. It SHALL reconstruct its physical graph from pinned inputs without preserving an unreviewed bundled tree or hand-editing vendored packages. npm code SHALL remain unchanged. The accepted6b3997 amendment permits only a traceable index.js patch to http-cache-semantics4.3.0 in an owned disposable copy. A future explicit approval of the boundary-expansion requirement MAY add only its exact listed files; all other upstream source SHALL remain unchanged. That approval SHALL NOT be inferred from the first amendment. The cumulative budget SHALL remain at most three distinct frozen recipes including patch variations.
+Each composition SHALL declare a fixed official npm11.21.0 source identity, each dependency version/source/integrity, original manifest, allowed differences, assembler identity and recipe digest. It SHALL reconstruct its physical graph from pinned inputs without preserving an unreviewed bundled tree or hand-editing vendored packages. npm code SHALL remain unchanged. The accepted6b3997 amendment permits only a traceable index.js patch to http-cache-semantics4.3.0 in an owned disposable copy. A future explicit approval of the boundary-expansion requirement MAY add only its exact listed files; all other upstream source SHALL remain unchanged. That approval SHALL NOT be inferred from the first amendment. The cumulative budget SHALL remain at most three distinct frozen recipes including patch variations unless the distinct proposed final-recipe exception is actually approved; only then its cumulative maximum four SHALL apply.
 
 #### Scenario: Recipe is constructed
 - **WHEN** a compatible officially corrected component set is identified
@@ -40,7 +55,7 @@ Each composition SHALL declare a fixed official npm11.21.0 source identity, each
 - **AND** the candidate SHALL retain input provenance, license texts and a distinct experimental derivation identity
 
 #### Scenario: Source or scope cannot satisfy the recipe
-- **WHEN** a digest differs, no verifiable correction exists, code needs an unapproved/out-of-allowlist patch, a new manager is needed or more than three distinct recipes are required
+- **WHEN** a digest differs, no verifiable correction exists, code needs an unapproved/out-of-allowlist patch, a new manager is needed or a recipe would exceed the currently approved cumulative maximum
 - **THEN** the candidate SHALL stop with preserved evidence and a not-viable or inconclusive result
 - **AND** a changed scope SHALL require a new explicit decision rather than automatic patching or relaxed checks
 
