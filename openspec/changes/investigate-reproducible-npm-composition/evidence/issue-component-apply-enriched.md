@@ -12,15 +12,19 @@ El mantenedor aprobó fa279d9 con reversibilidad oficial/derivado/versiones,6b39
 - Verificador/modelo44/44 PASS. Matriz inicial152/152 conservada; la ampliación con los casos confirmados resulta **154/161**, no verde. Comillas fabrican directivas/alteran freshness, Expires nuevo perdido y discrepancias Pragma/matching en llamadas directas.
 - **Caller real67/69**, usando loopback HTTP, streams y cacache reales con grafo físico verificado1530 archivos y solo cuatro diferencias. Fallan304-introduce-vary y304-vary-star: un registro antiguo todavía elegible puede eludir la metadata nueva. No VM/stubs ni explotación de producto demostrada.
 - Investigador independiente prepatch completado. El único reviewer fresco entregó observaciones preliminares y terminó sin informe final; el padre confirmó casos y los retuvo. Gate de revisión incompleto, sin aprobación independiente.
-- **Presupuesto vigente3/3 variantes consumidas; npm completos0**. No otro patch automáticamente. [Propuesta final](https://github.com/IgnacioBarEsp/project-engineering-os/blob/codex/204-npm-composition-feasibility/openspec/changes/investigate-reproducible-npm-composition/final-recipe-amendment.md) requiere otra aprobación: una cuarta y última receta más refinamientos concretos dentro de los mismos cuatro archivos. NO aprobada/aplicada. Alternativa: esperar oficial.
+- **Cuarta y última variante aprobada literalmente si en be7a2ed48c0f977f49da9857245f9f2096f83788; presupuesto vigente3/4 consumidas, una restante; npm completos0**. No otro patch automáticamente. [Propuesta final](https://github.com/IgnacioBarEsp/project-engineering-os/blob/codex/204-npm-composition-feasibility/openspec/changes/investigate-reproducible-npm-composition/final-recipe-amendment.md) recibió aprobación de su revisión real: una cuarta y última receta más refinamientos concretos dentro de los mismos cuatro archivos. Aprobada, Apply todavía no ejecutado; evidencia/final-recipe-approval.md. No quinta variante automática. Alternativa: esperar oficial.
 - Observación oficial2026-10-05T02:40:36Z: npm next11=11.21.0/latest=12.2.0, cache4.3.0 y braces3.0.3 sin cambio. Caller16.0.1 exige22.22.2 en rama22 y no satisface baseline22.22.0. Metadata solo; no repetir instalaciones de fuentes iguales. Avisos primarios conservan patched:null/withdrawn:null.
 - Evidencia completa/sha en openspec/changes/investigate-reproducible-npm-composition/evidence/component-apply-ledger.json, incluyendo originales, todas las candidatas fallidas, controles y evaluación de deuda. No assessment clean, captura duplicada, archivo, PR nuevo, merge o release.
 - [#208](https://github.com/IgnacioBarEsp/project-engineering-os/issues/208) sigue bloqueo independiente de braces root/blueprint. [CI37171002125](https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/37171002125), SHA9feea659, es fallo histórico de #207, no de esta candidata. No mezclar fixes ni interpretar archivo como integración.
 - #149/#150/#204/#206/#208 siguen abiertos; #201/#202/#207 draft y SHA/bases comprobados sin cambios. Mantener pila, ola3 incompleta y sin ola4. Lecturas/aceptaciones humanas previas conservan alcance.
 
+### Límite confirmado antes de la cuarta receta
+
+La cuarta receta permanece aprobada y sin consumir. El padre reprodujo tres parejas de estados oficialesv1 completos byte-idénticos; no se puede distinguir origen legítimo/quoted defect manteniendo todo legacy. No hay nueva construcción, patch o instalación. La migración propuesta en cache-migration-amendment.md (serializaciónv2, rechazar caché antigua sin procedencia nueva y journal del caller) todavía no está aprobada/aplicada; costo offline/I/O/mantenimiento explícito. La aprobación concreta de be7a2ed no se vuelve a pedir. Se conserva evidencia managed y su índice/hash; no se afirma explotación de Companion. La DoR nueva deberá mostrar los gates reales humanos/costo pendientes, no reutilizar13/13 anterior para este alcance.
+
 ### Criterios y próxima decisión
 
-Actualmente no queda variante autorizada. Aprobar la propuesta final y sus changes reales de proposal/design/spec antes de cualquier cuarto parche; no basta autorización general. Preimages/postimages, integridades/licencias, rechazo de drift/fuzz/paths/links, defaults/effective maps y controles legítimos siguen obligatorios.
+La revisión concreta be7a2ed de final-recipe-amendment.md y sus additions de proposal/design/spec ya recibió la respuesta literal si. Queda una sola variante autorizada, manteniendo todos los límites y sin un quinto intento. La aprobación no acredita corrección ni adopción. Preimages/postimages, integridades/licencias, rechazo de drift/fuzz/paths/links, defaults/effective maps y controles legítimos siguen obligatorios.
 
 Solo con componente/caller aptos seguir gates originales: npm completo reproducible, grafo/auditor independiente y todos los avisos, Node22.22.0/24.18.0/24.20.0, scripts/bin-links/workspaces/release-age/registry, instalación/reparación/interrupción/recursos y reversibilidad real. Ninguna excepción o protección reducida.
 
@@ -33,7 +37,7 @@ Un oficial futuro se prueba sin nuestro patch con mismos gates en identidad/slot
   "execution": "versioned",
   "dependencies": [],
   "currentState": {
-    "summary": "Segunda ampliación d6e2b54 aprobada literalmente si y aplicada a cuatro archivos exactos en copias desechables. Variante3 reproducible pero no apta:44/44 tests,154/161 componente (152/152 histórico inicial),67/69 caller real. Fallos de historia/Vary, quoted directives, Expires y entradas directas quedan conservados; revisión independiente parcial sin informe final.3/3 variantes consumidas,0 npm completos. Cuarta receta y refinamientos propuestos, NO aprobados/aplicados;204/208 y ola3 siguen abiertos.",
+    "summary": "Cuarta y última variante aprobada con respuesta literal si sobre be7a2ed,3/4 consumidas/1 restante; no congelación ni construcción final. Variante3 conserva154/161 componente y67/69 caller real;0 npm completos. Padre e investigador fresco confirmaron tres pares de estados oficialesv1 completos byte-idénticos de origen legítimo/quoted defect, por lo que la compatibilidad prometida es imposible sin aceptar una migración distinta. cache-migration-amendment.md propuesta, no aprobada/aplicada;204/208 y ola3 abiertos, no ola4.",
     "sources": [
       "https://github.com/IgnacioBarEsp/project-engineering-os/issues/204",
       "https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/37171002125",
@@ -51,7 +55,10 @@ Un oficial futuro se prueba sin nuestro patch con mismos gates en identidad/slot
       "Aprobación humana literal si de boundary-amendment.md y proposal/design/spec en d6e2b543d632dc35b099037746891dbe2f3983db: evidence/boundary-amendment-approval.md; cuatro archivos upstream exactos, misma política/baseline y presupuesto acumulado",
       "Resultados persistentes artifacts/cache-boundary: component-result-v3.json, caller-integration-v3.json, expanded-matrix-v3.json y review-confirmation.json; hashes y rutas en evidence/component-apply-ledger.json",
       "Revisión independiente de variante3 parcial/incompleta; observaciones preliminares verificadas por padre; artifacts/cache-boundary/adversarial-review-partial.md",
-      "final-recipe-amendment.md propuesta final: máximo acumulado4 y refinamientos explícitos, pendiente aprobación real; presupuesto3 actual agotado"
+      "final-recipe-amendment.md propuesta final: máximo acumulado4 y refinamientos explícitos, pendiente aprobación real; presupuesto3 actual agotado",
+      "Aprobación humana literal si de la cuarta y última variante presentada en be7a2ed48c0f977f49da9857245f9f2096f83788; evidence/final-recipe-approval.md",
+      "artifacts/final-pre-freeze/legacy-collision.json SHA2565e194287760b6dcfd3a78b663c49aa4ef8ca751697ba04350f609d4110fbac7f; índices en evidence/component-apply-ledger.json",
+      "cache-migration-amendment.md propuesta de compatibilidad/representación/journal antes de congelar último intento; aprobación de be7a2ed preservada"
     ]
   },
   "scope": [
@@ -78,7 +85,7 @@ Un oficial futuro se prueba sin nuestro patch con mismos gates en identidad/slot
     "Clasificar cookies como política conservadora del componente, no como prohibición HTTP ni explotación demostrada; no-cache/proxy-revalidate se verifican aparte y no se copia automáticamente PR58",
     "Parche allowlist aprobada de dos componentes/cuatro archivos, preimage/postimage y diff exactos, originales intactos, dos outputs reproducibles; cualquier otro fix propio requiere acuerdo distinto",
     "Sin renombrar/bumpear dependencias para esconder avisos: conservar grafo físico/identidad upstream, raw auditoría, regresiones y derivación trazable; los controles existentes siguen obligatorios",
-    "Tres variantes de patch consumen3/3 del presupuesto vigente; no cuarta candidata hasta aprobación real de final-recipe-amendment.md y sus proposal/design/spec, ni quinta por inferencia. Receipts y subconjuntos verdes no certifican una matriz/caller con fallos."
+    "be7a2ed aprobado: máximo acumulado4,3 consumidas/1 restante y no quinto intento. Estado final no congelado/aplicado por desacuerdo demostrado de compatibilidad. Migración de caché/serializaciónv2/journal solo tras aprobar esa revisión/costo distintos; ningún receipt o subconjunto verde acredita corrección/adopción."
   ],
   "owner": "IgnacioBarEsp",
   "risks": [
@@ -88,18 +95,27 @@ Un oficial futuro se prueba sin nuestro patch con mismos gates en identidad/slot
     "Confundir experimento con release o resolver #208 por asociación: conservar fase, issue y gates separados",
     "Pérdida de evidencia o escapes del temporal: preservar entradas/resultados y verificar rutas absolutas dentro de raíz propia",
     "El aviso es disputado por upstream; separar requisitos normativos de política conservadora y comprobar usos legítimos/serialización evita convertir expectativas dudosas en falsa corrección",
-    "Mantener un parche local agrega responsabilidad de vigilancia y retirada; una release oficial se evalúa sin parche con los mismos gates antes de cambiar de canal, nunca por ser latest"
+    "Mantener un parche local agrega responsabilidad de vigilancia y retirada; una release oficial se evalúa sin parche con los mismos gates antes de cambiar de canal, nunca por ser latest",
+    "Pérdida irreversible de procedencia en datosv1: no prometer simultáneamente distinguir permisos y preservar todo legacy. Nueva migración/costo pendiente mantiene DoR bloqueada, sin excepciones."
   ],
   "surfaces": [
     "documentation",
     "harness-tooling"
   ],
-  "manualInterventions": [],
+  "manualInterventions": [
+    {
+      "id": "approve-cache-data-migration",
+      "reason": "Aceptar pérdida de reutilización offline de caché legítima antigua, serializaciónv2 y persistencia experimental nueva de cache-migration-amendment.md; la cuarta receta ya está aprobada, esta incompatibilidad/costo no.",
+      "owner": "IgnacioBarEsp",
+      "status": "pending",
+      "evidence": null
+    }
+  ],
   "costLicenseReview": {
-    "status": "approved",
+    "status": "pending",
     "owner": "IgnacioBarEsp",
-    "evidence": "Aprobación humana literal si de d6e2b543d632dc35b099037746891dbe2f3983db, registrada en evidence/boundary-amendment-approval.md; primera aprobación preservada en evidence/patch-amendment-approval.md",
-    "justification": "La aprobación de d6e2b54 cubre Apply experimental acotado a dos componentes/cuatro archivos; su variante restante ya se consumió. Conserva BSD-2-Clause/ISC y originales sin redistribución ni servicios. Esta aprobación no certifica resultados ni aprueba el nuevo presupuesto/refinamientos de final-recipe-amendment.md, todavía pendiente."
+    "evidence": "Aprobaciones anteriores preservadas en evidence/final-recipe-approval.md; la migración y mantenimiento/I/O adicionales no están aprobados.",
+    "justification": "La decisión propuesta afecta solo datos de caché del experimento, mantiene cuatro archivos/dos componentes y licencias, pero rechaza legacy válido offline y añade un protocolo persistente; requiere aceptación concreta distinta. No host ni adopción."
   },
   "evidence": {
     "automatic": [

@@ -1,5 +1,5 @@
 {
-  "scope": "second amendment approved and experimentally applied; variant3 blocked, fourth recipe proposed but not approved",
+  "scope": "fourth and final recipe approved at be7a2ed; compatibility disagreement confirmed before freeze; cache migration proposed, not approved/applied",
   "boundaryApprovalCommit": "d6e2b543d632dc35b099037746891dbe2f3983db",
   "boundaryApprovalRecord": "evidence/boundary-amendment-approval.md",
   "outcome": "blocked",
@@ -25,9 +25,9 @@
     ]
   },
   "budget": {
-    "maximumRecipes": 3,
+    "maximumRecipes": 4,
     "consumedPatchVariants": 3,
-    "remaining": 0,
+    "remaining": 1,
     "wholeNpmCompositionsBuilt": 0
   },
   "npmCaller": {
@@ -165,10 +165,30 @@
       {
         "path": "artifacts/cache-boundary/verification.md",
         "sha256": "f36a8fed9125bca66cc9ae61322c4cc9bc16c7b7176171f2ccdf485dc360e384"
+      },
+      {
+        "path": "artifacts/final-pre-freeze/legacy-collision.mjs",
+        "sha256": "2e29cd712d7b011bba8781abc933a57ae091d21ea9ab8d992cd47954f4c0eb81"
+      },
+      {
+        "path": "artifacts/final-pre-freeze/legacy-collision.json",
+        "sha256": "5e194287760b6dcfd3a78b663c49aa4ef8ca751697ba04350f609d4110fbac7f"
+      },
+      {
+        "path": "artifacts/final-pre-freeze/verification.md",
+        "sha256": "cc96ef30f07c5ef3cb9cf2126297025adb9c0595f737cfcff6d28cfe2bc85990"
+      },
+      {
+        "path": "artifacts/final-pre-freeze/agreement-checks.json",
+        "sha256": "859cd31bad3ff2219bff72053969402cb40dd4ca6d4c3d58db7fc3c398e5447e"
+      },
+      {
+        "path": "artifacts/final-pre-freeze/verification-complete.md",
+        "sha256": "8b601752b96cec5390d29539f2928c50228de63b07d84ca7ec677848ed7d0e35"
       }
     ]
   },
-  "observedAt": "2026-10-05T02:40:36Z",
+  "observedAt": "2026-10-05T04:35:37.1850589+00:00",
   "history": {
     "variant2": {
       "approvalCommit": "6b399724e41fb3633bb0900ecbdd49cf6622fee9",
@@ -210,10 +230,10 @@
   },
   "proposedFinalAmendment": {
     "path": "final-recipe-amendment.md",
-    "approved": false,
+    "approved": true,
     "applied": false,
     "proposedMaximumRecipes": 4,
-    "remainingCurrentlyApproved": 0
+    "remainingCurrentlyApproved": 1
   },
   "fullNpmGates": {
     "composition": false,
@@ -225,5 +245,28 @@
     "resourceComparison": false,
     "realDurableSwitching": false,
     "adoption": false
+  },
+  "finalRecipeApprovalCommit": "be7a2ed48c0f977f49da9857245f9f2096f83788",
+  "finalRecipeApprovalRecord": "evidence/final-recipe-approval.md",
+  "preFreezeStop": {
+    "status": "blocked",
+    "frozenFourthRecipe": false,
+    "reason": "Three complete official v1 serialized pairs have identical bytes for legitimate and quoted-origin permissions; impossible to recover lost provenance while preserving every historical control.",
+    "confirmedBy": "fresh independent read-only investigator plus parent hash-checked original probe",
+    "callerScopeCaveat": "Caller getMetadata copies raw Response headers; component collision is not attributed to every persisted caller entry or installed Companion exposure.",
+    "proposedDecision": "cache-migration-amendment.md",
+    "migrationApproved": false,
+    "migrationApplied": false,
+    "budgetConsumedByProbe": false,
+    "readiness": {
+      "passing": 11,
+      "failing": 2,
+      "exceptions": 0,
+      "failures": [
+        "metadata.manual-interventions",
+        "metadata.cost-license"
+      ],
+      "reason": "Proposed cache migration compatibility/cost not approved; prior fourth recipe approval preserved."
+    }
   }
 }

@@ -1,6 +1,8 @@
 # #204 — propuesta final de receta y representaciones
 
-**Propuesta, NO aprobada ni aplicada.** La segunda ampliación aprobada en d6e2b543d632dc35b099037746891dbe2f3983db sí se implementó; no se pide repetir esa aprobación. Esta decisión es distinta: ampliar el máximo acumulado de **3 a 4 variantes congeladas**, permitiendo **una cuarta y última candidata** para corregir los fallos concretos de variante3. Hasta una aprobación humana de esta revisión publicada permanece vigente el máximo3, ya agotado.
+**Aprobada en be7a2ed48c0f977f49da9857245f9f2096f83788; Apply final aún no ejecutado.** Respuesta humana literal «si» en [evidence/final-recipe-approval.md](evidence/final-recipe-approval.md). Máximo4 vigente,3 consumidas/1 restante. Las formulaciones condicionales de aprobación abajo conservan la propuesta aprobada, no un permiso pendiente.
+
+Antes de congelar se confirmó el desacuerdo de compatibilidad: tres parejas completas de estados oficialesv1 son byte-idénticas pese a origen legítimo/quoted defect. Se cumple el stop expresamente previsto por este acuerdo. La [migración de caché propuesta](cache-migration-amendment.md) requiere una decisión diferente sobre formatos/offline/costo; no reabre esta aprobación ni consume un intento.
 
 ## Evidencia y por qué hace falta otra decisión
 

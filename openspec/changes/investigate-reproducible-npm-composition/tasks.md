@@ -7,11 +7,14 @@
 
 ## 2. Experimental harness and frozen inputs
 
-Current Apply ledger: evidence/component-apply-ledger.json. Historical recipe2 remains121/123. Approved second amendment produced frozen variant3: identical component/caller builds,44/44 verifier/model tests, initial152/152 then expanded154/161 component cases, real caller67/69. All three variants are consumed; no whole npm composition. Partial independent observations were confirmed by the parent, but the reviewer turn ended without final report. No independent approval or full correction is claimed. The final-recipe-amendment.md is proposed, not approved/applied.
+Current Apply ledger: evidence/component-apply-ledger.json. Historical recipe2 remains121/123. Approved second amendment produced frozen variant3: identical component/caller builds,44/44 verifier/model tests, initial152/152 then expanded154/161 component cases, real caller67/69. Three of four approved variants are consumed; the fourth is unspent; no whole npm composition. Partial independent observations were confirmed by the parent, but the reviewer turn ended without final report. No independent approval or full correction is claimed. The final-recipe-amendment.md at be7a2ed is approved, not applied. A new proven legacy-information-loss disagreement blocks freezing it; cache-migration-amendment.md remains proposed, not approved/applied.
 
 - [x] 2.9 Obtain approval of actual boundary-amendment.md plus its proposal/design/spec additions at d6e2b543d632dc35b099037746891dbe2f3983db before changing parsing/expiry/304-Vary or make-fetch-happen. Literal human reply: si; evidence/boundary-amendment-approval.md. Preparation was not Apply authorization.
 - [x] 2.10 After2.9, froze and applied exactly the four-source-file recipe in two disposable copies per component and executed real caller integration. Execution completed, NOT suitability: component154/161 and caller67/69; stopped with3/3 budget exhausted.
-- [ ] 2.11 Obtain explicit approval of actual final-recipe-amendment.md and proposed proposal/design/spec refinements before any fourth variant. Maximum3 remains binding while pending; no automatic fifth variant or budget reset.
+- [x] 2.11 Obtained explicit literal si approval of actual final-recipe-amendment.md/proposal/design/spec at be7a2ed48c0f977f49da9857245f9f2096f83788: evidence/final-recipe-approval.md. Maximum4 now applies,3 consumed/1 remaining before freeze; no fifth or reset.
+- [ ] 2.12 Freeze/apply the single final combination within exact four files, validate expanded component/caller/durable-state controls, conduct its independent review and stop for failure or scope incompatibility. BLOCKED before freeze: three pairs of complete oldv1 states are byte-identical; current compatibility promise cannot distinguish their origin.
+- [ ] 2.13 Obtain an actual approval of cache-migration-amendment.md plus its explicit proposal/design/spec additions and cost, or retain the compatibility stop. Fourth-recipe approval be7a2ed remains valid, not asked again; no fifth attempt.
+- [ ] 2.14 Only after2.13, finalize the exactv2/epoch/journal schema and recovery protocol in design, add explicit migration/maintenance/concurrency controls with unchanged historical evidence and freeze the single remaining recipe. No v1 conversion or permission revival.
 
 - [ ] 2.1 Implement owned-root, input-integrity, graph inventory and unchanged-boundary assertions under Companion scripts/tests; add outside-root sentinels and negative tests without production dependency/runtime changes.
 - [ ] 2.2 Verify official source npm11.21.0 and collect complete current advisory/component provenance/license matrix; stop if a correction cannot be demonstrated within the approved source/patch allowlist.
@@ -24,7 +27,7 @@ Current Apply ledger: evidence/component-apply-ledger.json. Historical recipe2 r
 
 ## 3. Feasibility evidence
 
-- [ ] 3.1 Produce at most three distinct candidate recipes in disposable roots and two independent builds per tested recipe; compare every file/inventory/tree hash with separate caches and preserve failed attempts.
+- [ ] 3.1 Produce at most four cumulative distinct candidate recipes after the recorded be7a2ed approval in disposable roots and two independent builds per tested recipe; compare every file/inventory/tree hash with separate caches and preserve failed attempts.
 - [ ] 3.2 Audit the complete physical production graph with an independent fixed auditor and prove it matches the bytes tested; exercise uncovered/nested/bundled and misleading-green negative cases.
 - [ ] 3.3 Verify regression/correction evidence for all known affected advisories, including max-stale rather than only the Vary correction; emit no-viable/inconclusive if evidence is insufficient.
 - [ ] 3.4 Exercise npm version and fixed-lock ci under Node22.22.0,24.18.0 and managed24.20.0, preserving installation arguments/config/environment/release-age rules and execution sentinel.

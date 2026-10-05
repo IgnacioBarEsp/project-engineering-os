@@ -1,5 +1,26 @@
 ## ADDED Requirements
 
+### Requirement: Proposed explicit cache-data compatibility migration
+The cache-migration-amendment.md and its explicit proposal/design additions SHALL remain proposed until human approval of the actual revision and its offline/I/O/maintenance cost. The approved fourth-recipe agreement at be7a2ed SHALL NOT imply approval of this different format/compatibility decision. Only after that decision MAY the same fixed four source files emit component serializationv2, reject historicalv1 with the serialization error, introduce caller peosCacheBoundaryv1 generation metadata and an owned experimental .peos-cache-boundary-v1 journal. Existing field names/defaults and upstream package identities SHALL remain; no fifth recipe, additional upstream file/component, audit exception or adoption MAY be inferred. This SHALL be the only proposed exception to earlier v1/legacy compatibility preservation, binding only upon actual approval.
+
+#### Scenario: Historical bytes do not identify the original grant
+- **WHEN** complete officialv1 output is byte-identical for legitimate and quoted-origin permissions
+- **THEN** the current agreement SHALL stop before freezing recipe4 and retain both inputs, full outputs, hashes and the legitimate control
+- **AND** the fourth-recipe approval SHALL stay valid with3/4 consumed and1 unspent, not be asked again or mistaken for a failed fourth build
+
+#### Scenario: The migration is explicitly accepted
+- **WHEN** the maintainer approves the actual cache-migration-amendment/proposal/design/spec revision and cost
+- **THEN** oldv1 policies and caller entries without valid new epoch/journal provenance SHALL NOT grant reuse through fresh/stale/force-cache/error/304 paths; no automaticv1 conversion SHALL occur
+- **AND** old state SHALL be preserved; network-allowed misses MAY fetch anew without old validators, only-if-cached SHALL return ENOTCACHED without network, and new legitimatev2/default/private/public/immutable/cargo-cult controls SHALL pass
+- **AND** exact journal schema/protocol SHALL be documented before the final freeze, require confirmation before reuse/network transitions and generation checks at deferred stream commits, preserve unaffected variants/keys and fail closed for write/read/cancel/restart/lease/maintenance failures
+- **AND** patched-caller decisions under real compact/verify/old-writer interleavings SHALL be tested without claiming control over unchanged old readers or hostile filesystem writers; cache roots SHALL remain separated by identity and missing bodies/journal SHALL never reactivate historical permissions
+- **AND** historical expectations/results SHALL remain unchanged, any deliberately changedv1 migration expectation SHALL be listed explicitly, and all original full npm/audit/runtime/repair/resource/reversibility/review/debt/adoption gates SHALL remain binding
+
+#### Scenario: Migration acceptance or bounded implementation evidence is missing
+- **WHEN** that format/cost decision is pending, the protocol cannot be demonstrated within four files, or the fourth frozen recipe fails
+- **THEN** the phase SHALL remain blocked with originals/project files and prior attempts preserved, no fifth recipe or automatic budget reset
+
+
 ### Requirement: Explicit proposed final-recipe exception
 The final-recipe-amendment.md and its proposal/design additions SHALL remain proposed until human approval of the actual presented revision and cost. Maximum three frozen variants SHALL remain binding while pending. Only that distinct approval MAY raise the cumulative maximum to four for one final frozen recipe and permit the exact quoted Cache-Control representation, new304 Expires, direct matching/Pragma and obsolete-cache-history refinements stated in that amendment inside the same fixed two components/four source files. No fifth variant, new upstream source component, general HTTP parser, API/v1-field/default change or production adoption MAY be inferred.
 

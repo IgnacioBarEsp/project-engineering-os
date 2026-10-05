@@ -1,0 +1,35 @@
+# #204 — decisión de compatibilidad de caché, antes de congelar la última receta
+
+**Propuesta, no aprobada ni aplicada.** La cuarta y última variante sí está aprobada en be7a2ed48c0f977f49da9857245f9f2096f83788, con respuesta literal «si». No se solicita repetirla. Se han consumido 3/4 variantes; la última no se ha congelado. Esta decisión cambia únicamente la compatibilidad de los datos de caché del experimento; no añade un quinto intento ni autoriza adopción.
+
+## Límite confirmado
+
+El padre reprodujo tres parejas de estados oficiales completos v1 byte-idénticos: permisos public/duración, stale-if-error y stale-while-revalidate legítimos frente a permisos fabricados al dividir una extensión entre comillas. No se eliminaron ni normalizaron campos para obtener igualdad. La limpieza ignoreCargoCult también reformateó el header, perdiendo su procedencia. Un lector no puede recuperar información que ya no existe.
+
+El ledger enlaza `artifacts/final-pre-freeze/legacy-collision.json` (SHA256 5e194287760b6dcfd3a78b663c49aa4ef8ca751697ba04350f609d4110fbac7f) y el helper conservado. Es un resultado del componente, no prueba de que el caller siempre persista ese header reformateado ni de explotación de Companion. El caller guarda headers de la Response; sus rutas e historia se evaluaron aparte.
+
+Además, cacache20.0.4 compacta/reconstruye snapshots y limpia tmp sin coordinar un registro nuevo del caller. Una tombstone sola no demuestra persistencia ni concurrencia. Un journal propio podría ser viable, pero introduce un formato operativo y recuperación nuevos: no se afirma que esté implementado o probado.
+
+## Opción propuesta: seguridad con recarga explícita de caché
+
+Solo tras aprobar esta revisión y sus additions de proposal/design/spec:
+
+1. **No reutilizar políticas serializadas v1.** El componente derivado emite `v:2`, conservando los otros nombres de campos y defaults. fromObject rechaza v1/versión desconocida mediante el error de serialización existente; nunca convierte v1 a v2 ni reinterpreta headers para revivir permisos. Nuevas políticas legítimas y sus round-trips v2 deben funcionar. Es una incompatibilidad deliberada de datos persistidos, no un cambio de nombre/versión de paquete para ocultar auditorías. Originales y estados previos se preservan intactos.
+2. **Época propia del caller.** Las entradas nuevas incluyen metadata `peosCacheBoundary` con versión1 y generación ligada al registro por clave. Una entrada anterior/sin metadata válida no se reutiliza, ni con force-cache, error, SWR/SIE o304. Con red permitida se solicita una respuesta nueva sin validadores tomados del estado rechazado; only-if-cached produce ENOTCACHED sin red. Un error de red no permite volver a esa entrada. No se borran cachés compartidas, proyectos ni archivos del usuario.
+3. **Journal persistente experimental.** Se permite crear `.peos-cache-boundary-v1` únicamente dentro del cachePath desechable propio, fuera de tmp/content/index de cacache. Su esquema versionado liga clave, generación, estado de cuarentena/confirmación y las identidades de metadata/cuerpo. Las transiciones requieren escritura y lectura de confirmación antes de red/reutilización; no basta con await insert. Antes de congelar la receta, su esquema y algoritmo exactos deben quedar documentados en diseño e inventariados como output experimental.
+4. **No resurrección.** Cada lectura, revalidación y commit de stream del caller parcheado verifica la generación. Escritura/confirmación fallida, journal ausente/corrupto, lease dudosa, cancelación o recuperación incompleta no bendicen datos viejos. No se recupera una lease por timeout/PID solamente ni se reinicia una generación para aceptar entradas existentes. Una raíz nueva puede comenzar vacía, manteniendo la anterior como evidencia. La política actualizada304 manda aunque compact/verify repongan un snapshot anterior; los otros Vary/keys legítimos se prueban y no se invalidan indiscriminadamente.
+5. **Aislamiento y alcance de garantía.** Las raíces de caché oficiales/derivadas/versiones son separadas. Se prueba el caller parcheado frente a compaction, cacache.verify y escrituras antiguas sin coordinación; entradas sin procedencia válida se rechazan. No se promete controlar una ejecución del binario antiguo que decida leer por su cuenta la misma carpeta, un escritor hostil con acceso al filesystem, ni durabilidad ante pérdida eléctrica no ensayada. Si falta el cuerpo por mantenimiento concurrente se falla/marca miss, nunca se devuelve una alternativa obsoleta. El journal no se presenta como autenticación criptográfica.
+
+La allowlist upstream sigue siendo index.js de http-cache-semantics4.3.0 y lib/cache/policy.js, entry.js e index.js de make-fetch-happen15.0.6. Solo APIs existentes de cacache y builtins Node, sin dependencia/parser HTTP/componente nuevos ni cambios en cacache o npm source. El scanner/formatter de Cache-Control mantiene límites de comillas/escapes; los demás fixes aprobados de Expires/matching/Pragma/Vary permanecen obligatorios.
+
+## Costo y gates
+
+IgnacioBarEsp es owner. Algunas entradas antes legítimas dejarán de servir offline y la primera operación necesitará descargar datos otra vez. Aumentan I/O, superficie de estado y mantenimiento; tiempos, RSS y bytes se miden, no se promete rendimiento ni un fork indefinido. No afecta ahora al host/Companion instalado. Una adopción posterior debe presentar su migración real, presupuesto, notices/hashes y reversibilidad por separado.
+
+Conservar todas las matrices y expectativas históricas. Añadir casos explícitos de migración v1/v2 y caché con/sin journal; cualquier expectativa que cambie por esta incompatibilidad se identifica por caso y justificación, nunca se elimina para hacer verde el reporte. Verificar controles nuevos legítimos, cargo-cult/defaults, todas las preferencias de caché, redirects/HEAD, variantes no afectadas, streams diferidos, dos procesos, restart/interrupción, fallos de escritura/lectura y mantenimiento real. No son sustitutos aceptables VM/stubs ni pruebas sintéticas de switching.
+
+Si no se demuestra el protocolo dentro de esos cuatro archivos, detener antes de congelar; si se congela la cuarta receta y falla, parar sin quinta. Un diff nuevo sigue requiriendo revisión independiente y deuda. Después siguen los mismos gates completos de npm, auditoría raw sin high/critical/excepciones, grafo físico/auditor independiente, runtimes, instalación/reparación/recursos y reversibilidad. #208 y CI protegido siguen aparte. Sin archive de fase incompleta ni ola4.
+
+## Alternativa y decisión pendiente
+
+Mantener compatibilidad v1 total deja imposible distinguir las parejas confirmadas. La alternativa es no continuar este derivado y esperar un oficial que pase los mismos controles, sin repetir instalaciones de inputs iguales. Aprobar esta propuesta acepta **la pérdida acotada de reutilización de caché antigua y el formato experimental nuevo**, no una candidata segura, adopción, quinto intento o permisos generales. La aprobación anterior de la cuarta variante sigue registrada y no se vuelve a pedir.
