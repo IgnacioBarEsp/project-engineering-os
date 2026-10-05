@@ -10,31 +10,31 @@
     "archiveSha256": "783e7c92bf73b442fb800c2d6ef3921e86da8894a700fed45140e37916877482",
     "license": "ISC"
   },
-  "approvedSpec": "d6e2b543d632dc35b099037746891dbe2f3983db",
+  "approvedSpec": "54c6b2c348074c330468317e2790af784ac169af",
   "attribution": "Project Engineering OS experimental patch, authored by Codex for IgnacioBarEsp; not an upstream release or PR58 transplant",
-  "reason": "Enforce one unvalidated reuse permission boundary; preserve matching304 policy and legitimate offline/SIE behavior.",
+  "reason": "Final experimental durable admissions, pre-network quarantine and per-chunk generation checks; deliberate old-cache non-reuse.",
   "allowedFiles": [
     "lib/cache/policy.js",
     "lib/cache/entry.js",
     "lib/cache/index.js"
   ],
   "patchFile": "reuse-boundary.patch.json",
-  "patchSha256": "d8c65f353eff15543312c92a64f226443ea5c7a14b41658696acda47aa28cac2",
+  "patchSha256": "634ec83ba7577b49927929f1390f6d83c309cae27cb87f4dadcc73dc73ebd2e1",
   "postimages": [
     {
       "path": "lib/cache/policy.js",
-      "bytes": 5322,
-      "sha256": "7ce90490d4a05e506e8400f5f49e4fcf84d4e745c4ff21692c8555856a87ca43"
+      "bytes": 12813,
+      "sha256": "82e1c372a3841f999194cdb25090bf949a200ce3b62a792a3b088a7c00ab5f92"
     },
     {
       "path": "lib/cache/entry.js",
-      "bytes": 17257,
-      "sha256": "87760938858023deb828d9c052c85069dfef89b8f62f1217e8b484e9b628d743"
+      "bytes": 20857,
+      "sha256": "9ad5687914760c652f2636b4a5d09cd44042732c4b2898eb0d4fc92fd29fe7a4"
     },
     {
       "path": "lib/cache/index.js",
-      "bytes": 1958,
-      "sha256": "26ed4b810db61168013e329a782bb3b6b1daf70964f651e9cd49cd9fdfce63bd"
+      "bytes": 2035,
+      "sha256": "8d20b8d2b578d752c6e892542579046c5f877842170022255b7b7787a877a49d"
     }
   ],
   "originalFiles": [
@@ -103,5 +103,12 @@
     "owner": "IgnacioBarEsp",
     "retirement": "Evaluate a new unpatched official input with the same gates; separate slot and identity. Do not rebase this patch silently or adopt a vulnerable official rollback.",
     "adoptionAuthorized": false
+  },
+  "approvalRecord": "openspec/changes/investigate-reproducible-npm-composition/evidence/cache-migration-approval.md",
+  "experimentalRecipe": 4,
+  "cacheFormat": {
+    "componentSerialization": 2,
+    "callerMetadata": 1,
+    "journal": 1
   }
 }

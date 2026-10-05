@@ -4,6 +4,24 @@ Al revalidar la ola3, CI bloquea los PR #201/#202 por vulnerabilidades del npm e
 
 ## Enriquecida
 
+### Estado actual — cuarta receta ejecutada, NO apta; presupuesto agotado
+
+El mantenedor aprobó literalmente **Apruebo** la migración concreta de54c6b2c348074c330468317e2790af784ac169af: cache-migration-amendment.md y sus additions de proposal/design/spec, con costo offline/I/O. Se registró en evidence/cache-migration-approval.md. DoR fresca13/13 PASS. La cuarta receta previamente aprobada en be7a2ed se congeló y ejecutó sin cambiar host/Companion/proyectos/catálogo/locks oficiales/avisos/instalador/OpenSpec/auditoría/protecciones.
+
+- **4/4 variantes consumidas, cero restantes, cero composiciones npm completas.** No repetir el gate humano anterior, alterar el parche congelado ni construir una quinta por autorización general.
+- Variante4 fija: cache patchHash85c89685d9ef61dbc3bf775a33656a69042a41ee7d28f7ae5322c4b8249b9eca; caller patchHash634ec83ba7577b49927929f1390f6d83c309cae27cb87f4dadcc73dc73ebd2e1. Dos builds por componente idénticos; syntax4/4, verificador/modelo44/44, componente161/161, serialización/migración24/24 y caller básico real69/69. Grafo real1530 archivos, cuatro fuentes distintas; originales/licencias/sentinels y14 límites de producción intactos.
+- **Tres P1 bloquean aceptación**, hallados por un reviewer independiente fresco y confirmados por el padre en loopback/caller reales: lectura diferida cruza expiry/must-revalidate; operación antigua con header irrelevante diferente restaura cache tras nuevo no-store; un stream pausado entrega30 bytes aún no entregados después de revocar su generación, aunque luego falla.
+- Protocolo directo5/8; bajo entorno aislado4/8 al aparecer además una regresión de concurrencia en lease acquisition (ENOENT cuando otro lector ya liberó la lease). BufferFAIL también aislado. No son controles verde, prueba de explotación de Companion ni npm corregido.
+- Nuevo assessment conserva bloqueo, costo operativo y tests faltantes; no waiver, assessment clean, captura de cierre o recaptura #206. Todo el historial y los helpers/resultados raw con SHA permanecen en evidence/component-apply-ledger.json. DoR aprobada y receipt de bytes no certifican seguridad.
+- **Se detuvo antes de npm completo/adopción.** Siguen pendientes auditoría física independiente/raw y todos los avisos, Node22.22.0/24.18.0/24.20.0 completos, instalación/reparación/recursos y switching real, así como la matriz durable completa de dos procesos/faults/mantenimiento. No archive de fase incompleta ni PR nuevo/merge/release.
+- **Siguiente decisión:** esperar un oficial que pase los mismos gates, o presentar otra propuesta acotada con frontera/presupuesto realmente aprobados antes de modificar inputs. Esa propuesta futura no está preparada/aprobada. Un oficial se evalúa sin patch y en identidad/slot separado; nunca rollback a un oficial vulnerable.
+- #208 braces sigue independiente; CI37171002125/head9feea659 es histórica de #207, no una corrida de esta candidata. #149/#150/#204/#206/#208 y ola3 siguen abiertos; preservar pila y no iniciar ola4.
+
+[Resumen actual y ledger](https://github.com/IgnacioBarEsp/project-engineering-os/blob/codex/204-npm-composition-feasibility/openspec/changes/investigate-reproducible-npm-composition/TLDR.md).
+
+<details>
+<summary>Historial conservado: estado antes del Apply de receta4, no estado vigente</summary>
+
 ### Estado actual: ampliación aprobada y aplicada, variante3 NO apta
 
 El mantenedor aprobó fa279d9 con reversibilidad oficial/derivado/versiones,6b3997 para el primer archivo, y respondió literalmente «si» a la segunda ampliación real d6e2b543d632dc35b099037746891dbe2f3983db. No repetir ni tratar ese gate como pendiente. Apply toca solo index.js de http-cache-semantics4.3.0 y policy.js/entry.js/index.js de make-fetch-happen15.0.6 en copias desechables. No host/Companion instalado, catálogo, locks, avisos, gestor, baseline, OpenSpec, auditoría ni protecciones.
@@ -20,7 +38,7 @@ El mantenedor aprobó fa279d9 con reversibilidad oficial/derivado/versiones,6b39
 
 ### Límite confirmado antes de la cuarta receta
 
-La cuarta receta permanece aprobada y sin consumir. El padre reprodujo tres parejas de estados oficialesv1 completos byte-idénticos; no se puede distinguir origen legítimo/quoted defect manteniendo todo legacy. No hay nueva construcción, patch o instalación. La migración propuesta en cache-migration-amendment.md (serializaciónv2, rechazar caché antigua sin procedencia nueva y journal del caller) todavía no está aprobada/aplicada; costo offline/I/O/mantenimiento explícito. La aprobación concreta de be7a2ed no se vuelve a pedir. Se conserva evidencia managed y su índice/hash; no se afirma explotación de Companion. La DoR nueva deberá mostrar los gates reales humanos/costo pendientes, no reutilizar13/13 anterior para este alcance.
+La cuarta receta permanece aprobada y sin consumir. El padre reprodujo tres parejas de estados oficialesv1 completos byte-idénticos; no se puede distinguir origen legítimo/quoted defect manteniendo todo legacy. No hay nueva construcción, patch o instalación. La migración propuesta en cache-migration-amendment.md (serializaciónv2, rechazar caché antigua sin procedencia nueva y journal del caller) ya recibió Apruebo sobre54c6b2c; costo offline/I/O/mantenimiento aceptado y registrado en evidence/cache-migration-approval.md. No se aplicó/congeló la cuarta receta aún. La aprobación concreta de be7a2ed no se vuelve a pedir. Se conserva evidencia managed y su índice/hash; no se afirma explotación de Companion. Los gates humanos/costo concretos están aceptados; ejecutar DoR fresca antes de Apply, no reutilizar13/13 histórico.
 
 ### Criterios y próxima decisión
 
@@ -30,6 +48,8 @@ Solo con componente/caller aptos seguir gates originales: npm completo reproduci
 
 Un oficial futuro se prueba sin nuestro patch con mismos gates en identidad/slot separado. Conservar selección e historia ante fallo/cancelación/obsolescencia; oficial vulnerable no es rollback apto. Adopción/publicación requiere otra spec y PR protegido/CI verde.204 permanece Open/Blocked.
 
+</details>
+
 <!-- project-os-readiness:pre-propose
 {
   "schemaVersion": "1.0.0",
@@ -37,7 +57,7 @@ Un oficial futuro se prueba sin nuestro patch con mismos gates en identidad/slot
   "execution": "versioned",
   "dependencies": [],
   "currentState": {
-    "summary": "Cuarta y última variante aprobada con respuesta literal si sobre be7a2ed,3/4 consumidas/1 restante; no congelación ni construcción final. Variante3 conserva154/161 componente y67/69 caller real;0 npm completos. Padre e investigador fresco confirmaron tres pares de estados oficialesv1 completos byte-idénticos de origen legítimo/quoted defect, por lo que la compatibilidad prometida es imposible sin aceptar una migración distinta. cache-migration-amendment.md propuesta, no aprobada/aplicada;204/208 y ola3 abiertos, no ola4.",
+    "summary": "Migración54c6b2c aprobada con Apruebo, DoR13/13 fresca; receta4 congelada/aplicada,4/4 consumidas/0 restantes/0 npm completos. Componente161/161, migración24/24 y caller69/69 no bastan: tres P1 independientes confirmados en caller real, protocolo5/8 directo y4/8 aislado, bufferFAIL; regresión adicional de lease/concurrencia. Candidata NO apta, sin patch retocado ni quinto intento/producción/adopción. Todos los gates full npm y ola3 siguen abiertos; próximo alcance/budget exige decisión/spec real, no repetir aprobación de migración.",
     "sources": [
       "https://github.com/IgnacioBarEsp/project-engineering-os/issues/204",
       "https://github.com/IgnacioBarEsp/project-engineering-os/actions/runs/37171002125",
@@ -58,7 +78,10 @@ Un oficial futuro se prueba sin nuestro patch con mismos gates en identidad/slot
       "final-recipe-amendment.md propuesta final: máximo acumulado4 y refinamientos explícitos, pendiente aprobación real; presupuesto3 actual agotado",
       "Aprobación humana literal si de la cuarta y última variante presentada en be7a2ed48c0f977f49da9857245f9f2096f83788; evidence/final-recipe-approval.md",
       "artifacts/final-pre-freeze/legacy-collision.json SHA2565e194287760b6dcfd3a78b663c49aa4ef8ca751697ba04350f609d4110fbac7f; índices en evidence/component-apply-ledger.json",
-      "cache-migration-amendment.md propuesta de compatibilidad/representación/journal antes de congelar último intento; aprobación de be7a2ed preservada"
+      "cache-migration-amendment.md propuesta de compatibilidad/representación/journal antes de congelar último intento; aprobación de be7a2ed preservada",
+      "Respuesta humana literal Apruebo a cache-migration-amendment.md/proposal/design/spec de54c6b2c348074c330468317e2790af784ac169af; evidence/cache-migration-approval.md",
+      "evidence/cache-migration-approval.md: Apruebo de54c6b2c; design protocolo fijado antes de freeze; artifacts/cache-migration/frozen-recipe4.json SHA256d30c57400fb72febd00765725934e480e24fe457fa6ceccb46d4e07b7e522703",
+      "artifacts/cache-migration/adversarial-review-v4.md: tres P1, revisión fresca completa; protocolos y buffer real confirmados por padre, raw/index hashes en ledger"
     ]
   },
   "scope": [
@@ -68,7 +91,8 @@ Un oficial futuro se prueba sin nuestro patch con mismos gates en identidad/slot
     "Emitir dictamen viable o no-viable con evidencia y próxima decisión; no reemplazar npm ni publicar artefactos al usuario en esta fase",
     "Ensayar modelo reversible con identidades de canal/version/treeHash/recipeHash y slots separados; la transición real solo si hay dos distribuciones aptas",
     "Ampliación6b3997 aprobada: parche de datos index.js de http-cache-semantics4.3.0, solo copias desechables; artefactos, revisión, compatibilidad y política conservadora declarada",
-    "Segunda ampliación d6e2b54 aprobada: Apply experimental de parsing/expiry/304-Vary y caller15.0.6 policy.js/entry.js/index.js, sin adoptar distribución ni cambiar otros componentes"
+    "Segunda ampliación d6e2b54 aprobada: Apply experimental de parsing/expiry/304-Vary y caller15.0.6 policy.js/entry.js/index.js, sin adoptar distribución ni cambiar otros componentes",
+    "Migración54c6b2c aprobada: v2 rechaza v1 sin conversión, caller epoch/journal propio; schema/algoritmo y evidencia fault/concurrency fijados antes de freeze, datos viejos intactos."
   ],
   "observableCriteria": [
     "La fase utiliza OpenSpec local1.6.0 y no ejecuta Apply sin aprobación explícita de proposal/design/spec",
@@ -85,7 +109,7 @@ Un oficial futuro se prueba sin nuestro patch con mismos gates en identidad/slot
     "Clasificar cookies como política conservadora del componente, no como prohibición HTTP ni explotación demostrada; no-cache/proxy-revalidate se verifican aparte y no se copia automáticamente PR58",
     "Parche allowlist aprobada de dos componentes/cuatro archivos, preimage/postimage y diff exactos, originales intactos, dos outputs reproducibles; cualquier otro fix propio requiere acuerdo distinto",
     "Sin renombrar/bumpear dependencias para esconder avisos: conservar grafo físico/identidad upstream, raw auditoría, regresiones y derivación trazable; los controles existentes siguen obligatorios",
-    "be7a2ed aprobado: máximo acumulado4,3 consumidas/1 restante y no quinto intento. Estado final no congelado/aplicado por desacuerdo demostrado de compatibilidad. Migración de caché/serializaciónv2/journal solo tras aprobar esa revisión/costo distintos; ningún receipt o subconjunto verde acredita corrección/adopción."
+    "Aprobacionesbe7a2ed y54c6b2c registradas: máximo4,4 consumidas/0 restantes; no quinto/reset. Migraciónv2/epoch/journal en temporales exige schema/protocolo antes de freeze y controles reales; ningún receipt o subconjunto verde acredita corrección/adopción."
   ],
   "owner": "IgnacioBarEsp",
   "risks": [
@@ -96,7 +120,7 @@ Un oficial futuro se prueba sin nuestro patch con mismos gates en identidad/slot
     "Pérdida de evidencia o escapes del temporal: preservar entradas/resultados y verificar rutas absolutas dentro de raíz propia",
     "El aviso es disputado por upstream; separar requisitos normativos de política conservadora y comprobar usos legítimos/serialización evita convertir expectativas dudosas en falsa corrección",
     "Mantener un parche local agrega responsabilidad de vigilancia y retirada; una release oficial se evalúa sin parche con los mismos gates antes de cambiar de canal, nunca por ser latest",
-    "Pérdida irreversible de procedencia en datosv1: no prometer simultáneamente distinguir permisos y preservar todo legacy. Nueva migración/costo pendiente mantiene DoR bloqueada, sin excepciones."
+    "Pérdida irreversible de procedencia en datosv1: migración explícita aprobada sacrifica legacyoffline, no se presenta como preservación total. Debe demostrarse protocolo durable y controles dentro del allowlist antes del último freeze."
   ],
   "surfaces": [
     "documentation",
@@ -105,17 +129,17 @@ Un oficial futuro se prueba sin nuestro patch con mismos gates en identidad/slot
   "manualInterventions": [
     {
       "id": "approve-cache-data-migration",
-      "reason": "Aceptar pérdida de reutilización offline de caché legítima antigua, serializaciónv2 y persistencia experimental nueva de cache-migration-amendment.md; la cuarta receta ya está aprobada, esta incompatibilidad/costo no.",
+      "reason": "Aceptación concreta recibida de pérdida offline de caché legítima antigua, serializaciónv2 y journal experimental; aprobación anterior de receta4 intacta.",
       "owner": "IgnacioBarEsp",
-      "status": "pending",
-      "evidence": null
+      "status": "approved",
+      "evidence": "evidence/cache-migration-approval.md: Apruebo sobre54c6b2c, incompatibilidad/costo experimentales aceptados."
     }
   ],
   "costLicenseReview": {
-    "status": "pending",
+    "status": "approved",
     "owner": "IgnacioBarEsp",
-    "evidence": "Aprobaciones anteriores preservadas en evidence/final-recipe-approval.md; la migración y mantenimiento/I/O adicionales no están aprobados.",
-    "justification": "La decisión propuesta afecta solo datos de caché del experimento, mantiene cuatro archivos/dos componentes y licencias, pero rechaza legacy válido offline y añade un protocolo persistente; requiere aceptación concreta distinta. No host ni adopción."
+    "evidence": "Aprobación humana literal Apruebo sobre54c6b2c, cache-migration-amendment.md/proposal/design/spec y costo/owner; evidence/cache-migration-approval.md.",
+    "justification": "Costo adicional I/O/mantenimiento e incompatibilidad offline aceptados para experimento desechable, cuatro archivos/dos componentes/licencias intactas. No redistribución/adopción/host ni quinto intento."
   },
   "evidence": {
     "automatic": [
@@ -154,37 +178,3 @@ Un oficial futuro se prueba sin nuestro patch con mismos gates en identidad/slot
   "exceptions": []
 }
 project-os-readiness:pre-propose -->
-
-
-<details>
-<summary>Cuerpo anterior íntegro conservado: diagnóstico histórico y alcance inicial</summary>
-
-## Historia Original
-
-Al revalidar la ola 3, CI bloquea los PR #201 y #202 por vulnerabilidades del npm empaquetado.
-
-## Enriquecida
-
-El job Windows de #201, run 36684024088/job 109785636413, pasa las pruebas pero falla
-`npm audit --omit=dev --audit-level=high` con tres paquetes vulnerables dentro de npm:
-brace-expansion (high), ip-address (moderate), undici (high). #202 repite el bloqueo.
-No se desactiva el gate ni se propone una excepción automática.
-
-Diagnóstico del 2026-09-30 en carpeta desechable y sin scripts: npm 11.20.0 y 12.1.0
-siguen fallando el mismo audit. Overrides acotados sobre npm 11.19.1 tampoco corrigen
-las dependencias bundled. `npm audit fix --dry-run` declara que no puede repararlas.
-Existen versiones corregidas de los componentes, pero sustituir bytes dentro del npm
-empaquetado requiere una distribución trazable, no editar node_modules del usuario.
-
-Alcance propuesto: evaluar actualización oficial frente a composición reproducible de npm,
-mantener runtime catalog/notices/lock/artifact hashes coherentes y comprobar instalación,
-reparación, caché y ejecución real. No cambiar el gestor de dependencias sin decisión técnica.
-
-Criterios: auditoría de producción sin high/critical; dependencias parcheadas realmente
-incluidas en el artifact; CI protegida de ola 3 verde; pruebas de runtime/reparación y
-regresión negativa; licencias, procedencia y rollback documentados.
-
-Este es un issue de diagnóstico, todavía no DoR/spec aprobada ni implementación.
-Bloquea cerrar ola 3; no es inicio de ola 4. No duplicado en issues abiertos al comprobar.
-
-</details>

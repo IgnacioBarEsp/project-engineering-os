@@ -1,69 +1,60 @@
 {
-  "scope": "fourth and final recipe approved at be7a2ed; compatibility disagreement confirmed before freeze; cache migration proposed, not approved/applied",
+  "scope": "Recipe 4 frozen/applied under actual approval; three independent P1 bypasses parent-confirmed directly and in isolated environment, plus parent-observed legitimate concurrency regression; budget exhausted, no fifth/adoption",
   "boundaryApprovalCommit": "d6e2b543d632dc35b099037746891dbe2f3983db",
   "boundaryApprovalRecord": "evidence/boundary-amendment-approval.md",
   "outcome": "blocked",
   "approvalCommit": "6b399724e41fb3633bb0900ecbdd49cf6622fee9",
   "component": {
     "version": "4.3.0",
-    "patchHash": "d8bddc955de493355e26f5ce86b6ed26d575599fa36df518c0832fdc7bb99d1c",
-    "postimageHash": "7216417ebf8ff9467905eb9b697334b119c4d5b8532af8911635d14def734149",
-    "treeHash": "cc34071f4af31ab92887d5f69571a76cca574def88beb3332ddf71ebe0dac46a",
-    "initialPassingCases": 152,
-    "initialCases": 152,
-    "passingCases": 154,
+    "patchSha256": "85c89685d9ef61dbc3bf775a33656a69042a41ee7d28f7ae5322c4b8249b9eca",
+    "postimage": {
+      "path": "index.js",
+      "bytes": 40963,
+      "sha256": "3487d50fff13630cd61d3816e164eb4db053059a4df879b8862222a12f3446b9"
+    },
+    "treeHash": "7fad9442ddd83756fdb6ab7b8100f4ece1ac6a660245920cc0653091a584bbe8",
+    "passingCases": 161,
     "cases": 161,
-    "securityGate": false,
-    "remainingFailures": [
-      "quoted-extension-public",
-      "quoted-extension-duration",
-      "quoted-extension-swr",
-      "quoted-extension-sie",
-      "ordinary-request-pragma-case",
-      "component-304-url-mismatch",
-      "304-introduces-past-expires"
-    ]
+    "migrationPassingCases": 24,
+    "migrationCases": 24,
+    "securityGate": false
   },
   "budget": {
     "maximumRecipes": 4,
-    "consumedPatchVariants": 3,
-    "remaining": 1,
+    "consumedPatchVariants": 4,
+    "remaining": 0,
     "wholeNpmCompositionsBuilt": 0
   },
   "npmCaller": {
     "officialNpm": "11.21.0",
     "makeFetchHappen": "15.0.6",
     "patched": true,
-    "patchHash": "d8c65f353eff15543312c92a64f226443ea5c7a14b41658696acda47aa28cac2",
+    "patchSha256": "634ec83ba7577b49927929f1390f6d83c309cae27cb87f4dadcc73dc73ebd2e1",
     "postimages": [
       {
         "path": "lib/cache/policy.js",
-        "bytes": 5322,
-        "sha256": "7ce90490d4a05e506e8400f5f49e4fcf84d4e745c4ff21692c8555856a87ca43"
+        "bytes": 12813,
+        "sha256": "82e1c372a3841f999194cdb25090bf949a200ce3b62a792a3b088a7c00ab5f92"
       },
       {
         "path": "lib/cache/entry.js",
-        "bytes": 17257,
-        "sha256": "87760938858023deb828d9c052c85069dfef89b8f62f1217e8b484e9b628d743"
+        "bytes": 20857,
+        "sha256": "9ad5687914760c652f2636b4a5d09cd44042732c4b2898eb0d4fc92fd29fe7a4"
       },
       {
         "path": "lib/cache/index.js",
-        "bytes": 1958,
-        "sha256": "26ed4b810db61168013e329a782bb3b6b1daf70964f651e9cd49cd9fdfce63bd"
+        "bytes": 2035,
+        "sha256": "8d20b8d2b578d752c6e892542579046c5f877842170022255b7b7787a877a49d"
       }
     ],
-    "treeHash": "0fb9d9b02c34facdaa28fb848b3fee2d293c98bccc898f11ed1dc29300d76f0c",
+    "treeHash": "c1b60b825e1e1a14eac6f1440069dbfc4df05ffa10c83ccede4bdb6ad08da136",
     "realIntegration": true,
-    "passingCases": 67,
+    "passingCases": 69,
     "cases": 69,
-    "securityGate": false,
-    "remainingFailures": [
-      "304-introduce-vary",
-      "304-vary-star"
-    ],
     "graphFiles": 1530,
     "graphDifferencePaths": 4,
     "moduleGraphUnchanged": true,
+    "securityGate": false,
     "productExposureProven": false
   },
   "productionChanged": false,
@@ -185,10 +176,114 @@
       {
         "path": "artifacts/final-pre-freeze/verification-complete.md",
         "sha256": "8b601752b96cec5390d29539f2928c50228de63b07d84ca7ec677848ed7d0e35"
+      },
+      {
+        "path": "artifacts/cache-migration/pre-apply-checks.json",
+        "sha256": "e116bbe7482f570f228acfb494992ae0d7377b9d7ecdc6f5345f2a0f136d2678"
+      },
+      {
+        "path": "artifacts/cache-migration/pre-patch-reconciliation.md",
+        "sha256": "033879c01cb591b70951cf869d0fa1832e274a11e3145c08221490c900549b7c"
+      },
+      {
+        "path": "artifacts/cache-migration/variant3-preserved-configs.json",
+        "sha256": "54ce1ccfa6cba8ac64e152a750ba2814084efd73aa845bcd33f8074843a37ed5"
+      },
+      {
+        "path": "artifacts/cache-migration/frozen-recipe4.json",
+        "sha256": "d30c57400fb72febd00765725934e480e24fe457fa6ceccb46d4e07b7e522703"
+      },
+      {
+        "path": "artifacts/cache-migration/component-result-v4.json",
+        "sha256": "4769ac0cbacff22cd5fb2f884a8f1acb66426c889aca4d1d878849c43ff7297b"
+      },
+      {
+        "path": "artifacts/cache-migration/caller-integration-v4.json",
+        "sha256": "415a03f610396716c943f130b5fc265ed2b458cc38796292d24a65ce1f2b92b9"
+      },
+      {
+        "path": "artifacts/cache-migration/build-and-measure-v4.mjs",
+        "sha256": "e6c3d7bfc66a2a33e2d022b0c192d31c6e1d32382e7cd1b23c3d1a882c2922d3"
+      },
+      {
+        "path": "artifacts/cache-migration/caller-integration-v4.mjs",
+        "sha256": "ac0ad711d8247acaacad0cd51a3eff292c5d6b4ae93ae62db869e953c6ea207a"
+      },
+      {
+        "path": "artifacts/cache-migration/freeze-recipe4.mjs",
+        "sha256": "e5cdf85ce50223d940225a4fc3c01003cc949bd4a7685c30f14d27c8aad688da"
+      },
+      {
+        "path": "artifacts/cache-migration/migration-component-v4.json",
+        "sha256": "9af530c257dd8c45ddf156d5056fa47250d2facb11d652fcf8d081d034b5ce3e"
+      },
+      {
+        "path": "artifacts/cache-migration/migration-component-v4.mjs",
+        "sha256": "e03fc26d88183d0d571010c733dfa55cdfc4d29a4d1f1dc6330f637081dfe067"
+      },
+      {
+        "path": "artifacts/cache-migration/protocol-confirmation-v4.json",
+        "sha256": "7191c0947f70664b7ba0debc38cc891924fc6b66525290811fcb8611354fb35d"
+      },
+      {
+        "path": "artifacts/cache-migration/protocol-confirmation-v4.mjs",
+        "sha256": "203bcd389027342f5a8ebd2357f3ca7c7cfafe811a2169eb77beb335d456295a"
+      },
+      {
+        "path": "artifacts/cache-migration/buffer-confirmation-v4.json",
+        "sha256": "8bd0211a7c2cc43ae298dde4f3a9727f2e892522067c55db252f34a0c5c69895"
+      },
+      {
+        "path": "artifacts/cache-migration/buffer-confirmation-v4.mjs",
+        "sha256": "ec3c24e18336f709a13103e15353fc8ed519de9791e22b76fa2e4b294818d609"
+      },
+      {
+        "path": "artifacts/cache-migration/adversarial-review-v4.md",
+        "sha256": "682c2af64d8d0c684d54cbfc41015a483a4fc6486c0922eb843e23dd5a3bc09f"
+      },
+      {
+        "path": "artifacts/cache-migration/debt-assessment-v4.md",
+        "sha256": "6f0cfd6885aa33b4f24802de5ce68b5e8471d911e6180bfbac7932677c1a0baa"
+      },
+      {
+        "path": "artifacts/cache-migration/protocol-confirmation-v4-isolated.json",
+        "sha256": "9e6d6ecaf6668d4a39f6b60ffc1b4279bb93b79b143df8f618df5f4df4c30c52"
+      },
+      {
+        "path": "artifacts/cache-migration/protocol-confirmation-v4-isolated.mjs",
+        "sha256": "784cc0fc8e84342e42034ac497a0a285917613d64c3ee30d1307f7afaf0ac600"
+      },
+      {
+        "path": "artifacts/cache-migration/buffer-confirmation-v4-isolated.json",
+        "sha256": "8bd0211a7c2cc43ae298dde4f3a9727f2e892522067c55db252f34a0c5c69895"
+      },
+      {
+        "path": "artifacts/cache-migration/buffer-confirmation-v4-isolated.mjs",
+        "sha256": "638e1a4d2d71708e75b0464132ad66efa1e40bfd298f9395331e7f09b9fc56da"
+      },
+      {
+        "path": "artifacts/cache-migration/final-isolated-confirmation-v4.json",
+        "sha256": "b48282380fe1ab8c98391e4586a25c9d3ffa9a8fd656b151a64ac76ef6313aee"
+      },
+      {
+        "path": "artifacts/cache-migration/run-isolated-confirmation-v4.mjs",
+        "sha256": "08574a320195f13e93cb0163dfb53a4e138614ad92c2b541bd7081af160bf02a"
+      },
+      {
+        "path": "artifacts/cache-migration/run-isolated-confirmation-v4-complete.mjs",
+        "sha256": "451711433a90d4ca2d9ba7ef0cc69ac91231fefdac158afcf6a5191cf760a307"
+      },
+      {
+        "path": "artifacts/cache-migration/final-repository-checks-v4.json",
+        "sha256": "6109d830a65d6b199366a18e4e57c5276157e53194d954a0d255931a705c65e8"
+      },
+      {
+        "path": "artifacts/cache-migration/verification-final-v4.md",
+        "sha256": "018903fb3b7f809e94eeaaade6308dbf1a3691e36ef51037b04599181f69a172"
       }
     ]
   },
-  "observedAt": "2026-10-05T04:35:37.1850589+00:00",
+  "observedAt": "2026-10-05T06:00:03.473Z",
   "history": {
     "variant2": {
       "approvalCommit": "6b399724e41fb3633bb0900ecbdd49cf6622fee9",
@@ -214,6 +309,92 @@
         "productExposureProven": false
       },
       "consumedPatchVariants": 2
+    },
+    "variant3": {
+      "component": {
+        "version": "4.3.0",
+        "patchHash": "d8bddc955de493355e26f5ce86b6ed26d575599fa36df518c0832fdc7bb99d1c",
+        "postimageHash": "7216417ebf8ff9467905eb9b697334b119c4d5b8532af8911635d14def734149",
+        "treeHash": "cc34071f4af31ab92887d5f69571a76cca574def88beb3332ddf71ebe0dac46a",
+        "initialPassingCases": 152,
+        "initialCases": 152,
+        "passingCases": 154,
+        "cases": 161,
+        "securityGate": false,
+        "remainingFailures": [
+          "quoted-extension-public",
+          "quoted-extension-duration",
+          "quoted-extension-swr",
+          "quoted-extension-sie",
+          "ordinary-request-pragma-case",
+          "component-304-url-mismatch",
+          "304-introduces-past-expires"
+        ]
+      },
+      "npmCaller": {
+        "officialNpm": "11.21.0",
+        "makeFetchHappen": "15.0.6",
+        "patched": true,
+        "patchHash": "d8c65f353eff15543312c92a64f226443ea5c7a14b41658696acda47aa28cac2",
+        "postimages": [
+          {
+            "path": "lib/cache/policy.js",
+            "bytes": 5322,
+            "sha256": "7ce90490d4a05e506e8400f5f49e4fcf84d4e745c4ff21692c8555856a87ca43"
+          },
+          {
+            "path": "lib/cache/entry.js",
+            "bytes": 17257,
+            "sha256": "87760938858023deb828d9c052c85069dfef89b8f62f1217e8b484e9b628d743"
+          },
+          {
+            "path": "lib/cache/index.js",
+            "bytes": 1958,
+            "sha256": "26ed4b810db61168013e329a782bb3b6b1daf70964f651e9cd49cd9fdfce63bd"
+          }
+        ],
+        "treeHash": "0fb9d9b02c34facdaa28fb848b3fee2d293c98bccc898f11ed1dc29300d76f0c",
+        "realIntegration": true,
+        "passingCases": 67,
+        "cases": 69,
+        "securityGate": false,
+        "remainingFailures": [
+          "304-introduce-vary",
+          "304-vary-star"
+        ],
+        "graphFiles": 1530,
+        "graphDifferencePaths": 4,
+        "moduleGraphUnchanged": true,
+        "productExposureProven": false
+      },
+      "experimentalChecks": {
+        "tests": 44,
+        "passingTests": 44,
+        "componentBuilds": 2,
+        "callerBuilds": 2,
+        "identical": true,
+        "productionBoundaryFiles": 14,
+        "boundariesUnchanged": true,
+        "independentInvestigation": "complete, read-only, before Apply",
+        "independentReview": "one fresh read-only turn; preliminary observations confirmed by parent; no final report due tool failure; INCOMPLETE, not approved",
+        "debtAssessment": "scoped candidates retained; no phase-closure capture or registry mutation"
+      },
+      "preFreezeStop": {
+        "status": "resolved by actual migration approval, not by candidate proof",
+        "frozenFourthRecipe": true,
+        "reason": "Three complete official v1 serialized pairs have identical bytes for legitimate and quoted-origin permissions; impossible to recover lost provenance while preserving every historical control.",
+        "confirmedBy": "fresh independent read-only investigator plus parent hash-checked original probe",
+        "callerScopeCaveat": "Caller getMetadata copies raw Response headers; component collision is not attributed to every persisted caller entry or installed Companion exposure.",
+        "proposedDecision": "cache-migration-amendment.md",
+        "migrationApproved": true,
+        "migrationApplied": false,
+        "budgetConsumedByProbe": false,
+        "readiness": {
+          "passing": 13,
+          "failing": 0,
+          "exceptions": 0
+        }
+      }
     }
   },
   "experimentalChecks": {
@@ -222,18 +403,28 @@
     "componentBuilds": 2,
     "callerBuilds": 2,
     "identical": true,
+    "syntaxChecks": 4,
+    "passingSyntaxChecks": 4,
     "productionBoundaryFiles": 14,
     "boundariesUnchanged": true,
-    "independentInvestigation": "complete, read-only, before Apply",
-    "independentReview": "one fresh read-only turn; preliminary observations confirmed by parent; no final report due tool failure; INCOMPLETE, not approved",
-    "debtAssessment": "scoped candidates retained; no phase-closure capture or registry mutation"
+    "independentInvestigation": "fresh read-only complete; parent reconciliation saved",
+    "independentReview": "one fresh read-only complete; three P1 source-backed findings, all parent confirmed through actual caller",
+    "debtAssessment": "scoped assessment retained; no waiver, closure capture or registry mutation",
+    "protocolCases": 8,
+    "protocolPassingCases": 5,
+    "bufferProbePassed": false,
+    "isolatedProtocolCases": 8,
+    "isolatedProtocolPassingCases": 4,
+    "isolatedBufferProbePassed": false,
+    "instrumentation": "First isolated driver rejected the protocol child exit1 after raw results were already written. Completion driver reused those results without rerunning the protocol, caught the separate buffer child exit1, and exited0 to signal evidence collection only; test gates remain failed."
   },
   "proposedFinalAmendment": {
     "path": "final-recipe-amendment.md",
     "approved": true,
-    "applied": false,
+    "applied": true,
     "proposedMaximumRecipes": 4,
-    "remainingCurrentlyApproved": 1
+    "remainingAtApproval": 1,
+    "remainingAfterRecipe4": 0
   },
   "fullNpmGates": {
     "composition": false,
@@ -249,24 +440,50 @@
   "finalRecipeApprovalCommit": "be7a2ed48c0f977f49da9857245f9f2096f83788",
   "finalRecipeApprovalRecord": "evidence/final-recipe-approval.md",
   "preFreezeStop": {
-    "status": "blocked",
-    "frozenFourthRecipe": false,
+    "status": "resolved by actual migration approval, not by candidate proof",
+    "frozenFourthRecipe": true,
     "reason": "Three complete official v1 serialized pairs have identical bytes for legitimate and quoted-origin permissions; impossible to recover lost provenance while preserving every historical control.",
     "confirmedBy": "fresh independent read-only investigator plus parent hash-checked original probe",
     "callerScopeCaveat": "Caller getMetadata copies raw Response headers; component collision is not attributed to every persisted caller entry or installed Companion exposure.",
     "proposedDecision": "cache-migration-amendment.md",
-    "migrationApproved": false,
-    "migrationApplied": false,
+    "migrationApproved": true,
+    "migrationApplied": true,
     "budgetConsumedByProbe": false,
     "readiness": {
-      "passing": 11,
-      "failing": 2,
-      "exceptions": 0,
-      "failures": [
-        "metadata.manual-interventions",
-        "metadata.cost-license"
-      ],
-      "reason": "Proposed cache migration compatibility/cost not approved; prior fourth recipe approval preserved."
+      "passing": 13,
+      "failing": 0,
+      "exceptions": 0
     }
+  },
+  "migrationApprovalCommit": "54c6b2c348074c330468317e2790af784ac169af",
+  "migrationApprovalRecord": "evidence/cache-migration-approval.md",
+  "frozenRecipe": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-52cf88eca9b5d27a69959362a915ec072c6630e7874e4589405739b71d284df1",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-52cf88eca9b5d27a69959362a915ec072c6630e7874e4589405739b71d284df1\\artifacts\\cache-migration\\frozen-recipe4.json",
+    "relativePath": "artifacts/cache-migration/frozen-recipe4.json",
+    "sha256": "d30c57400fb72febd00765725934e480e24fe457fa6ceccb46d4e07b7e522703"
+  },
+  "failingCases": [
+    "deferred-expiry-force-cache",
+    "deferred-expiry-only-if-cached",
+    "pending-error-after-new-no-store",
+    "paused-buffer-delivery-after-revocation"
+  ],
+  "requiredDecision": "All four approved recipes consumed. No fifth, reset, automatic rebase or adoption. Await qualifying official or an actual newly approved bounded proposal before further source/recipe alteration.",
+  "parentObservedRegressions": [
+    {
+      "name": "delayed-legitimate-two-responses",
+      "severity": "unclassified, not independent review finding",
+      "result": "FAIL in isolated execution (ENOENT), PASS in earlier direct execution",
+      "source": "make-fetch-happen lib/cache/policy.js journal.transact EEXIST followed by safeDirectory(lease); another owner can remove lease before lstat",
+      "rawLabel": "harnessError",
+      "classification": "Actual Response.text cached read failure, not a harness setup failure"
+    }
+  ],
+  "verificationReport": {
+    "path": "artifacts/cache-migration/verification-final-v4.md",
+    "sha256": "018903fb3b7f809e94eeaaade6308dbf1a3691e36ef51037b04599181f69a172",
+    "outcome": "blocked"
   }
 }

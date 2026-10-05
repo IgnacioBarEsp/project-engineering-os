@@ -9,18 +9,18 @@
     "archiveSha256": "d75e1e6a11587954da5e2f0e2b5c4b397a16d28cc2f7bdf64e9027fc2fe593ee",
     "license": "BSD-2-Clause"
   },
-  "approvedSpec": "d6e2b543d632dc35b099037746891dbe2f3983db",
+  "approvedSpec": "54c6b2c348074c330468317e2790af784ac169af",
   "attribution": "Project Engineering OS experimental patch, authored by Codex for IgnacioBarEsp; not an upstream release or PR58 transplant",
-  "reason": "Complete directive-name/expiry normalization, matching304 Vary and request reuse eligibility for the approved compatible caller.",
+  "reason": "Final experimental quoted directive/formatter, expiry/matching/Pragma boundary; deliberate v1 rejection, v2 round-trips.",
   "allowedFiles": [
     "index.js"
   ],
   "patchFile": "reuse-guard.patch.json",
-  "patchSha256": "d8bddc955de493355e26f5ce86b6ed26d575599fa36df518c0832fdc7bb99d1c",
+  "patchSha256": "85c89685d9ef61dbc3bf775a33656a69042a41ee7d28f7ae5322c4b8249b9eca",
   "postimage": {
     "path": "index.js",
-    "bytes": 39540,
-    "sha256": "7216417ebf8ff9467905eb9b697334b119c4d5b8532af8911635d14def734149"
+    "bytes": 40963,
+    "sha256": "3487d50fff13630cd61d3816e164eb4db053059a4df879b8862222a12f3446b9"
   },
   "originalFiles": [
     {
@@ -48,5 +48,12 @@
     "owner": "IgnacioBarEsp",
     "retirement": "Evaluate a new unpatched official input with the same gates; separate slot and identity. Do not rebase this patch silently or adopt a vulnerable official rollback.",
     "adoptionAuthorized": false
+  },
+  "approvalRecord": "openspec/changes/investigate-reproducible-npm-composition/evidence/cache-migration-approval.md",
+  "experimentalRecipe": 4,
+  "cacheFormat": {
+    "componentSerialization": 2,
+    "callerMetadata": 1,
+    "journal": 1
   }
 }
