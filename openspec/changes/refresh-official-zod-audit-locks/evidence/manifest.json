@@ -1,5 +1,5 @@
 {
-  "scope": "Proposal-only evidence index; no candidate installation, lock edit or functional PASS",
+  "scope": "Approved #214 Apply checkpoint; local gates passed, remote CI/archive/protected integration pending. Baseline and adverse evidence retained.",
   "targetPath": "C:/Users/RitualDesktop/.codex/worktrees/214-zod-audit-spec/project-engineering-os",
   "storage": "persistent",
   "records": [
@@ -50,6 +50,114 @@
     {
       "path": "artifacts/zod214/lock-boundary-check.json",
       "sha256": "8957f8fb464dc19ce2c73fce29ee19a3ba6df4de129c388dcdd546b794b15aa9"
+    },
+    {
+      "path": "artifacts/zod214/full-core-checks-result-v3.json",
+      "sha256": "9c23d3aee728ec76e07cbc18e33e666e831c3aedc0cbe2c3e3dea518507908ad"
+    },
+    {
+      "path": "artifacts/zod214/run-full-core-checks-v3.mjs",
+      "sha256": "df0576b124449d47ff1f9b0ce3cdbcf64a07e6969531a245173cedc50244df45"
+    },
+    {
+      "path": "artifacts/zod214/fixture-normal.json",
+      "sha256": "7339e651e374c003d4974075b7360b1d989fcdd4fc76ac32f7d315ca91f6b1a4"
+    },
+    {
+      "path": "artifacts/zod214/fixture-isolated.json",
+      "sha256": "f2c071d39d09e30e5535a9e2893da76dd123dc57a79b08274ec2026db436aa89"
+    },
+    {
+      "path": "artifacts/zod214/generated-consumer-ci-v2.mjs",
+      "sha256": "1d7b9a722e431b2faccb60324f3f1b56dfa57ec698a13436833cf492a1cfa42b"
+    },
+    {
+      "path": "artifacts/zod214/generated-consumer-ci-result-v2.json",
+      "sha256": "d3ba92ac8f771aa0bbfe7151db3cc6009f99bde231fa43005292f578332076b0"
+    },
+    {
+      "path": "artifacts/zod214/runtime-matrix-result.json",
+      "sha256": "3bd6ce25d66e1ab8829932370d6b330cca6e1c50d430c4f962e31bdc33dca184"
+    },
+    {
+      "path": "artifacts/zod214/run-runtime-matrix.mjs",
+      "sha256": "a193f1cefeca29850aefd1c09ff510b8a680b21146c737facf0fa99183ec4df6"
+    },
+    {
+      "path": "artifacts/zod214/runtime-downloads.json",
+      "sha256": "18b6ccd42fe156ca7be41d55045d63b76b9b0e065e8edae6bd39f9d638344488"
+    },
+    {
+      "path": "artifacts/zod214/download-test-runtimes.mjs",
+      "sha256": "600a1e3150ce987cdd9297c88641d3fae972a98b5b6197a2cf656a1bb49f3470"
+    },
+    {
+      "path": "artifacts/zod214/extract-test-runtimes.ps1",
+      "sha256": "3de67b3a77797b19b63d2df381faacfabe3b56a4bb60efe96a8bf80a98d838da"
+    },
+    {
+      "path": "artifacts/zod214/recovery-result.json",
+      "sha256": "322dd7be12d3cb8f0310a8eb347650afaad771a0ce187fedb0408b95276bba05"
+    },
+    {
+      "path": "artifacts/zod214/rehearse-baseline-recovery.mjs",
+      "sha256": "a381f8bd7f1caf2c5903f96ad12945b91744356c27928fed0c5ac50908b99e1a"
+    },
+    {
+      "path": "artifacts/zod214/independent-candidate-review.md",
+      "sha256": "dbb149734fee66232adb91f14dbdf7915ebac2c3a717efecfac22fb7d237b5a2"
+    },
+    {
+      "path": "artifacts/zod214/prepatch-investigation-reconciliation.md",
+      "sha256": "36450d087c480cab9a7caa2a0640d64666a151aa3b4544dcb451918997148f52"
+    },
+    {
+      "path": "artifacts/zod214/debt-assessment-input.json",
+      "sha256": "b7d03386f848124c30bf018acabe4272e7bc65afe405d06a995e9e0a53000097"
+    },
+    {
+      "path": "artifacts/zod214/debt-capture-receipt.json",
+      "sha256": "cbc9952a4544425fa0d1e16708392ad4c95c6dbd86872c2604f16dae50f2be6f"
+    },
+    {
+      "path": "artifacts/zod214/recovery-tree-check.json",
+      "sha256": "cb63b1e3f2c694c1b0dac22682ebed1481eb4004ff1a6729d91a459113c66d68"
+    },
+    {
+      "path": "artifacts/zod214/verification-checkpoint.md",
+      "sha256": "dc29f449877bb5e606b0c8863f464f576aa2e0ec4b5f2936ede5a7d7d56af2ce"
+    },
+    {
+      "path": "artifacts/zod214/post-checkpoint-readiness.json",
+      "sha256": "5eab396f0b4af2d9d48370b2c04ff4395722c6cb148cf78f99d6fd4de2da264c"
+    },
+    {
+      "path": "artifacts/zod214/run-full-core-checks-v2.mjs",
+      "sha256": "f7afd8570d26b2e6848102a9839e1fc8c8f9d8fb5c9af21edf1481880fbdb8b1"
+    },
+    {
+      "path": "artifacts/zod214/shims/npm.cmd",
+      "sha256": "ad9471c95954f4ce8d708a30f292755018fde4deef3f0686e9e1af97bd68efa6"
+    },
+    {
+      "path": "artifacts/zod214/shims/npx.cmd",
+      "sha256": "397b30e6b675c1a8167145340d5565eab46a4737babf2bd3195f36fe8f4cd0aa"
+    },
+    {
+      "path": "artifacts/zod214/shims-22.22.0/npm.cmd",
+      "sha256": "c52a394caae69661203355e13dd6a17fc309456672a9542be6fd98b5dcceb513"
+    },
+    {
+      "path": "artifacts/zod214/shims-22.22.0/npx.cmd",
+      "sha256": "7e2356f13389be11db0da921cdadc011a0aaa57bda9340c4fad5191b65f4e541"
+    },
+    {
+      "path": "artifacts/zod214/shims-24.20.0/npm.cmd",
+      "sha256": "daa973fc2bf716ef0fa6e4d425147fd94660de568ea0220b9ad72e79869f8d5d"
+    },
+    {
+      "path": "artifacts/zod214/shims-24.20.0/npx.cmd",
+      "sha256": "4b9890809e5d8db2c67ef50ef90d45f4293a7fad43c1722d41522c5febc3b669"
     }
   ],
   "priorAudit": {
@@ -61,5 +169,52 @@
     "status": "approved",
     "revision": "013ac7840ef86091b09080cfabfa4ad1986dfe7d",
     "humanWords": "Sí, apruebo esta spec de #214"
+  },
+  "current": {
+    "sourceCandidate": "ed08b7484d5e1b4198cca01a76c1694b22e57abb",
+    "originalApprovedSpec": "013ac7840ef86091b09080cfabfa4ad1986dfe7d",
+    "localChecks": {
+      "core": 396,
+      "strict": 21,
+      "runtimes": [
+        "22.22.0",
+        "24.18.0",
+        "24.20.0"
+      ],
+      "rawAuditHigh": 0,
+      "rawAuditCritical": 0,
+      "rootModerateRetained": 1,
+      "normalFixture": "PASS",
+      "isolatedFixture": "PASS",
+      "generatedConsumerCi": "PASS",
+      "independentReview": "no actionable findings in reachable OpenSpec flow"
+    },
+    "debt": {
+      "result": "clean",
+      "registryUnchanged": true,
+      "items": 50,
+      "open": 37,
+      "priorAssessmentsUnchanged": 73,
+      "newAssessmentCount": 1
+    },
+    "recovery": {
+      "gitRevert": true,
+      "versionedTree": "27c07ea72dcd77648e4b2b5601070c044aaa8105",
+      "originalLockVersions": [
+        "4.5.4",
+        "4.4.3"
+      ],
+      "baselineAdoption": false
+    },
+    "remoteCi": "pending",
+    "archived": false,
+    "integrated": false,
+    "ola4": false,
+    "archiveReadiness": {
+      "pass": 14,
+      "fail": 2,
+      "exceptions": 0,
+      "reason": "Current multi-platform CI and remaining workflow tasks"
+    }
   }
 }
