@@ -280,6 +280,46 @@
       {
         "path": "artifacts/cache-migration/verification-final-v4.md",
         "sha256": "018903fb3b7f809e94eeaaade6308dbf1a3691e36ef51037b04599181f69a172"
+      },
+      {
+        "path": "artifacts/official-watch/npm-11.21.1-20261111/preflight.mjs",
+        "sha256": "f6d1914ca5bb80da1d16f42c00e8e6bb9f7ccce2165f649d9d185b34fd1afbcc"
+      },
+      {
+        "path": "artifacts/official-watch/npm-11.21.1-20261111/input-package.json",
+        "sha256": "d7e555db90bc6cf3ec71899920f1c9545a46858a4eb8791e8d34368020babd13"
+      },
+      {
+        "path": "artifacts/official-watch/npm-11.21.1-20261111/input-user.npmrc",
+        "sha256": "fd71b350027af66ebf43002daf09ed06f85e74fae65668224283552dbacf6415"
+      },
+      {
+        "path": "artifacts/official-watch/npm-11.21.1-20261111/input-global.npmrc",
+        "sha256": "fd71b350027af66ebf43002daf09ed06f85e74fae65668224283552dbacf6415"
+      },
+      {
+        "path": "artifacts/official-watch/npm-11.21.1-20261111/result.json",
+        "sha256": "ac9e49aff971ef62a1242bf1ba9eec66e978be8cf441a7d9d9605779dbaff24f"
+      },
+      {
+        "path": "artifacts/official-watch/core-audits-20261111/preflight.mjs",
+        "sha256": "7c71728fe3d176db501572e892f5a4dd388f4a3d734976c2d81bb4fe5f0a92e4"
+      },
+      {
+        "path": "artifacts/official-watch/core-audits-20261111/input-user.npmrc",
+        "sha256": "fd71b350027af66ebf43002daf09ed06f85e74fae65668224283552dbacf6415"
+      },
+      {
+        "path": "artifacts/official-watch/core-audits-20261111/input-global.npmrc",
+        "sha256": "fd71b350027af66ebf43002daf09ed06f85e74fae65668224283552dbacf6415"
+      },
+      {
+        "path": "artifacts/official-watch/core-audits-20261111/result.json",
+        "sha256": "c1295f3a3aed5163e91e55f2fdeabf0d8b0d58db50c3f09ab9cd50c180b3014d"
+      },
+      {
+        "path": "artifacts/official-watch/observation-20261111.json",
+        "sha256": "8d7b2a735e8d6e702fd4d35380d880a1fd5309419f92e2b8d8fac4d5712d2f5e"
       }
     ]
   },
@@ -485,5 +525,192 @@
     "path": "artifacts/cache-migration/verification-final-v4.md",
     "sha256": "018903fb3b7f809e94eeaaade6308dbf1a3691e36ef51037b04599181f69a172",
     "outcome": "blocked"
+  },
+  "officialWatch20261111": {
+    "observedAt": "2026-11-11 08:36:43 UTC",
+    "sourceHead": "7cefda3cecf58dd27e7e8708601fe742f71e8009",
+    "main": "9751c301976fe27e9bbad33e69f39372b69f901e",
+    "withdrawnAdvisories": [
+      {
+        "id": "GHSA-ch52-4w7c-c8xp",
+        "date": "2026-10-28T21:13:39Z",
+        "reason": "not a valid vulnerability"
+      },
+      {
+        "id": "GHSA-vfj7-8cjw-p6xm",
+        "date": "2026-10-23T12:53:02Z",
+        "reason": "not practically exploitable"
+      }
+    ],
+    "npm11_21_1": {
+      "publishedAt": "2026-10-15T15:45:16.970Z",
+      "recheckedBecause": "external release-age eligibility had passed, exactly one eligible install/audit check",
+      "installed": true,
+      "integrity": {
+        "version": "11.21.1",
+        "integrity": "sha512-YTzL6QBEJXyHcTu0JiUc7RKMp+mzlJtl7rGLmERaXUQeFHIMc9atdr6G9M9C8vDWbv40epoTQAzNL2/PtZVDhQ==",
+        "resolved": "https://registry.npmjs.org/npm/-/npm-11.21.1.tgz"
+      },
+      "auditCounts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 33,
+        "high": 1,
+        "critical": 0,
+        "total": 34
+      },
+      "highPackage": {
+        "name": "undici",
+        "version": "6.29.0",
+        "advisories": [
+          "GHSA-xjj6-f33q-929c",
+          "GHSA-2m5v-pch6-74hx",
+          "GHSA-qrxm-fqhp-jwvm"
+        ]
+      },
+      "outcome": "blocked-production-audit; no routine retry"
+    },
+    "npm11_21_2": {
+      "publishedAt": "2026-11-04T22:39:06.269Z",
+      "earliestReleaseAgeEligibleAt": "2026-11-11T22:39:06.269Z",
+      "installed": false,
+      "audit": "not run",
+      "outcome": "pending release-age eligibility, declared engines compatible"
+    },
+    "core": {
+      "root": {
+        "exitCode": 1,
+        "high": 1,
+        "moderate": 1
+      },
+      "rootRuntime": {
+        "exitCode": 0,
+        "high": 0,
+        "moderate": 0
+      },
+      "consumerBlueprint": {
+        "exitCode": 1,
+        "high": 1,
+        "moderate": 0
+      },
+      "activeBlocker": "zod GHSA-mrhx-c7xc-m3w5",
+      "versions": {
+        "rootOpenSpec": {
+          "version": "1.6.0",
+          "resolved": "https://registry.npmjs.org/@fission-ai/openspec/-/openspec-1.6.0.tgz",
+          "integrity": "sha512-7yFTQ3hrrk11mQ2ACClNv2gtAN0o116vCgwoiQKmreoB6ambSnrZh7wf2FNFoSDBXHBi9iiCQ7G16fG71ZNppA==",
+          "dev": true,
+          "hasInstallScript": true,
+          "license": "MIT",
+          "dependencies": {
+            "@inquirer/core": "^10.3.2",
+            "@inquirer/prompts": "^7.10.1",
+            "chalk": "^5.5.0",
+            "commander": "^14.0.0",
+            "cross-spawn": "7.0.6",
+            "fast-glob": "^3.3.3",
+            "ora": "^8.2.0",
+            "posthog-node": "^5.20.0",
+            "yaml": "^2.8.2",
+            "zod": "^4.0.17"
+          },
+          "bin": {
+            "openspec": "bin/openspec.js"
+          },
+          "engines": {
+            "node": ">=20.19.0"
+          }
+        },
+        "rootZod": {
+          "version": "4.5.4",
+          "resolved": "https://registry.npmjs.org/zod/-/zod-4.5.4.tgz",
+          "integrity": "sha512-sC95tT5iHHH9gtpj6A81kh+NEaRAUFN+qlUPDUbRfOMvNf5QCBqsb3WgvnpVtK5Y+4UfA6KqufotuTvMGiTlsA==",
+          "dev": true,
+          "license": "MIT",
+          "funding": {
+            "url": "https://github.com/sponsors/colinhacks"
+          }
+        },
+        "blueprintZod": {
+          "version": "4.4.3",
+          "resolved": "https://registry.npmjs.org/zod/-/zod-4.4.3.tgz",
+          "integrity": "sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==",
+          "dev": true,
+          "license": "MIT",
+          "funding": {
+            "url": "https://github.com/sponsors/colinhacks"
+          }
+        },
+        "blueprintOpenSpec": {
+          "version": "1.6.0",
+          "resolved": "https://registry.npmjs.org/@fission-ai/openspec/-/openspec-1.6.0.tgz",
+          "integrity": "sha512-7yFTQ3hrrk11mQ2ACClNv2gtAN0o116vCgwoiQKmreoB6ambSnrZh7wf2FNFoSDBXHBi9iiCQ7G16fG71ZNppA==",
+          "dev": true,
+          "hasInstallScript": true,
+          "license": "MIT",
+          "dependencies": {
+            "@inquirer/core": "^10.3.2",
+            "@inquirer/prompts": "^7.10.1",
+            "chalk": "^5.5.0",
+            "commander": "^14.0.0",
+            "cross-spawn": "7.0.6",
+            "fast-glob": "^3.3.3",
+            "ora": "^8.2.0",
+            "posthog-node": "^5.20.0",
+            "yaml": "^2.8.2",
+            "zod": "^4.0.17"
+          },
+          "bin": {
+            "openspec": "bin/openspec.js"
+          },
+          "engines": {
+            "node": ">=20.19.0"
+          }
+        }
+      },
+      "policyUnchanged": true,
+      "all14BoundariesUnchanged": true
+    },
+    "issue208": {
+      "state": "CLOSED",
+      "reason": "NOT_PLANNED",
+      "cardArchived": true,
+      "implementationFixClaimed": false
+    },
+    "newBlockerIssue": 214,
+    "published": {
+      "issue204": {
+        "state": "OPEN",
+        "stateReason": "",
+        "updatedAt": "2026-11-11T08:34:27Z",
+        "url": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/204"
+      },
+      "issue208": {
+        "state": "CLOSED",
+        "stateReason": "NOT_PLANNED",
+        "updatedAt": "2026-11-11T08:34:30Z",
+        "url": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/208"
+      },
+      "handoff167": {
+        "state": "OPEN",
+        "stateReason": "",
+        "updatedAt": "2026-11-11T08:34:34Z",
+        "url": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/167"
+      },
+      "comment204": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/204#issuecomment-6791089570",
+      "comment208": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/208#issuecomment-6791090502",
+      "issue208Card": {
+        "id": "PVTI_lAHOBUE3s84Bgwf8zg-Y8EQ",
+        "status": "Done",
+        "isArchived": true,
+        "issueDeleted": false
+      }
+    },
+    "observation": {
+      "path": "artifacts/official-watch/observation-20261111.json",
+      "sha256": "8d7b2a735e8d6e702fd4d35380d880a1fd5309419f92e2b8d8fac4d5712d2f5e"
+    },
+    "notAnApprovalOfRecipe4": true,
+    "noFifth": true
   }
 }
