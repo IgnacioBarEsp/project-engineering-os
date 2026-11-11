@@ -22,6 +22,34 @@
     {
       "path": "artifacts/zod214/spec-approval-013ac784.json",
       "sha256": "2e0b63f7cf250593c7d6321ac487a427945a7f4ce6a51a8711f7c7db90ebfc1d"
+    },
+    {
+      "path": "artifacts/zod214/run-focused-regressions-v2.mjs",
+      "sha256": "e888372e4b2c7bf548dc9279433629a3b53b448b0abf87fd51eb2eeb0144bd3e"
+    },
+    {
+      "path": "artifacts/zod214/regressions-result-v2.json",
+      "sha256": "5d56dc89a502da2c1673b903f0e6ae694a03877eeaf8b4540e3ec57c39072b77"
+    },
+    {
+      "path": "artifacts/zod214/preflight-result.json",
+      "sha256": "38329810dd5ce8a469b9238542ef098db7e408236c5e5aea0e097263cc2db40a"
+    },
+    {
+      "path": "artifacts/zod214/preflight-official-zod.mjs",
+      "sha256": "909b54377f1b53b5534e735f4b571d16be1c4d32d02fe6b64ca60876c83502dc"
+    },
+    {
+      "path": "artifacts/zod214/regressions-initial-result.json",
+      "sha256": "404935e1a2bfaadd5efc5061349b98e4e69aaff86e13160fcd92e62f88bda9f7"
+    },
+    {
+      "path": "artifacts/zod214/run-focused-regressions-initial.mjs",
+      "sha256": "f890f11e75a6c31dd621fdcb8f04ddeb4247f915e6b56b622f435b1102d6140f"
+    },
+    {
+      "path": "artifacts/zod214/lock-boundary-check.json",
+      "sha256": "8957f8fb464dc19ce2c73fce29ee19a3ba6df4de129c388dcdd546b794b15aa9"
     }
   ],
   "priorAudit": {

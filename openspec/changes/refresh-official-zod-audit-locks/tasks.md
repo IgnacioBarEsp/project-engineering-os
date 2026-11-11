@@ -8,10 +8,10 @@
 
 ## 2. Apply only after approval
 
-- [ ] 2.1 Verify frozen baseline and official identity; change only the six permitted zod lock attributes.
-- [ ] 2.2 Add focused lock integrity/drift checks and bounded regression tests with legitimate controls.
-- [ ] 2.3 Install both owned clean environments with original controls and verify immutable locks/artifact/license.
-- [ ] 2.4 Pass raw root/root-runtime/consumer-blueprint audits through the original policy without new exceptions.
+- [x] 2.1 Verify frozen baseline and official identity; change only the six permitted zod lock attributes.
+- [x] 2.2 Add focused lock integrity/drift checks and bounded regression tests with legitimate controls.
+- [x] 2.3 Install both owned clean environments with original controls and verify immutable locks/artifact/license.
+- [x] 2.4 Pass raw root/root-runtime/consumer-blueprint audits through the original policy without new exceptions.
 - [ ] 2.5 Verify new local OpenSpec1.6.0, constructor/tarball/isolated fixtures, harnesses, sync/doctor classification and idempotence.
 - [ ] 2.6 Complete supported runtime checks and current CI matrix with identified SHA/base; preserve failures.
 
