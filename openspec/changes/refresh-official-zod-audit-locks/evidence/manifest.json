@@ -18,6 +18,10 @@
     {
       "path": "artifacts/zod214/proposal-checks-final-20261111.json",
       "sha256": "1591db03bdc52aef9b094aa708bcb0989e7e4d4168c6ae57cc4180d6c79dad51"
+    },
+    {
+      "path": "artifacts/zod214/spec-approval-013ac784.json",
+      "sha256": "2e0b63f7cf250593c7d6321ac487a427945a7f4ce6a51a8711f7c7db90ebfc1d"
     }
   ],
   "priorAudit": {
@@ -26,8 +30,8 @@
     "sha256": "c1295f3a3aed5163e91e55f2fdeabf0d8b0d58db50c3f09ab9cd50c180b3014d"
   },
   "approval": {
-    "status": "pending",
-    "revision": null,
-    "humanWords": null
+    "status": "approved",
+    "revision": "013ac7840ef86091b09080cfabfa4ad1986dfe7d",
+    "humanWords": "Sí, apruebo esta spec de #214"
   }
 }

@@ -2,7 +2,7 @@
 
 Root y consumer-blueprint fallan la política de auditoría por zod anterior a 4.6.6, dependencia dev del OpenSpec local 1.6.0. Existe una corrección oficial dentro del rango ya declarado; debe comprobarse sin convertir el desbloqueo en una actualización de herramienta o de política.
 
-Refs [#214](https://github.com/IgnacioBarEsp/project-engineering-os/issues/214). Base main `9751c301976fe27e9bbad33e69f39372b69f901e`. Owner: IgnacioBarEsp. Propuesta sin aprobación ni implementación.
+Refs [#214](https://github.com/IgnacioBarEsp/project-engineering-os/issues/214). Base main `9751c301976fe27e9bbad33e69f39372b69f901e`. Owner: IgnacioBarEsp. Spec aprobada en013ac784; el registro literal está en evidence/spec-approval.md. El resultado de implementación y sus gates se registran por separado.
 
 ## What Changes
 

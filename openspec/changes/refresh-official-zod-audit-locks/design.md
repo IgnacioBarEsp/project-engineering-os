@@ -1,6 +1,6 @@
 ## Contexto y autoridad
 
-Issue #214 enriquecido, Project3 Backlog, DoR pre-propose 13/13 sin excepciones. El change fue creado por CLI local OpenSpec1.6.0. La aprobación de esta revisión sigue pendiente. La autorización para preparar la spec no se registra como autorización de Apply.
+Issue #214 enriquecido, Project3 Backlog, DoR pre-propose 13/13 sin excepciones. El change fue creado por CLI local OpenSpec1.6.0. El mantenedor aprobó la revisión013ac784 con «Sí, apruebo esta spec de #214»; el registro literal está en evidence/spec-approval.md. El Apply conserva el alcance exacto de aquella revisión.
 
 La base integrada es `9751c301976fe27e9bbad33e69f39372b69f901e`. Root/blueprint fijan zod4.5.4/4.4.3; ambos fijan OpenSpec1.6.0 con rango zod `^4.0.17`. Auditorías nuevas: root exit1 (1high/1moderate), root-runtime exit0 (0), blueprint exit1 (1high). El high observado es GHSA-mrhx-c7xc-m3w5. No se ha demostrado explotación del producto.
 

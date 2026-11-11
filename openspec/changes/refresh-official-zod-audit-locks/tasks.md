@@ -4,7 +4,7 @@
 - [x] 1.2 Enrich #214 with an exact official candidate, boundaries, owner, risks and recovery; pass DoR13/13 without exceptions.
 - [x] 1.3 Create this change through the fixed local OpenSpec1.6.0 CLI; retain baseline and authoritative metadata.
 - [x] 1.4 Validate the actual proposal/design/spec revision with fixed local OpenSpec for publication.
-- [ ] 1.5 Record the maintainer's approval of that immutable revision before any candidate installation or lock edit.
+- [x] 1.5 Record the maintainer's approval of that immutable revision before any candidate installation or lock edit.
 
 ## 2. Apply only after approval
 
