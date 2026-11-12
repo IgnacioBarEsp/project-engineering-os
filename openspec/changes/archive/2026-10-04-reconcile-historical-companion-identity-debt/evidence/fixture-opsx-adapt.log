@@ -1,0 +1,236 @@
+{
+  "command": "opsx-adapt",
+  "exitCode": 0,
+  "mode": "apply",
+  "mutationPerformed": true,
+  "plan": {
+    "contractHash": "136a4b5b9231572ef4b73bcb13de01ce291395682a58167ef4a59639f206981c",
+    "generatedFileCount": 30,
+    "operations": [
+      {
+        "afterHash": "55c9d23cd801e39a618adbd3cc1054dc1c08bcd98bee956d08fe48df59491126",
+        "beforeHash": "89d7cee95f269936adfa3b38e19acca09dc1780d6b448968e3315fc87f5222f4",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".claude/commands/opsx/apply.md"
+      },
+      {
+        "afterHash": "160848fe8227d18da9b5ec9bc759bf07fa4cec76f5016dd40eb48a52704da155",
+        "beforeHash": "fd18d7258de6002efbed97ab32e9ce61f2b7d899e3be6843dd64f6f2b5d88108",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".claude/commands/opsx/archive.md"
+      },
+      {
+        "afterHash": "4c08b27ea32c195bad25eb98bce2ec608681e80ad86362174ab06f1f3e685600",
+        "beforeHash": "8ed0cb6e9933a71f676ef94a5b865e5681155b04ceafbe0171160791673da156",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".claude/commands/opsx/explore.md"
+      },
+      {
+        "afterHash": "59d67b47f4de21106af56adedaeddf725e98ab63b4947e89cb3735b317f167e7",
+        "beforeHash": "b6f40402553e7348172fae8e154aa65284f49308a90d79209d2bdaae35059023",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".claude/commands/opsx/propose.md"
+      },
+      {
+        "afterHash": "ec7fbcaf1a2c4bd5bd6fa87c01d8d3a280a78a6f863a8d291355cfb473c26011",
+        "beforeHash": "df2c3ba5ad9bc4d6ecc8b35427285ad6355fc12fe1574cbca7bed165396075b1",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".claude/commands/opsx/sync.md"
+      },
+      {
+        "afterHash": "fc4d9f70d9adcabea728188f2e5ccf9ebad75307c4562ce443f8275b7f2b3f81",
+        "beforeHash": "6fc83c666f6f9a5955f67560183a692d1aada36de66f12bfc6a42c85e58f3c49",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".claude/commands/opsx/update.md"
+      },
+      {
+        "afterHash": "4b85eb1a3255a89da3af042fb94ef2b5587562f92dbdd998eca1e1b3ce8ccd1c",
+        "beforeHash": "83e0d2d4c47674e312fc9d29297d91e5c018a5507e6961829ee623600e2cf2ff",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".codex/skills/openspec-apply-change/SKILL.md"
+      },
+      {
+        "afterHash": "4298d1f592d5de324109164a56971d83e9071f57ac932f15507632b51b05545d",
+        "beforeHash": "85c8764715a18fbd11d16ca04bd9e15d8644bf5e4203176ad34eee192b546472",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".codex/skills/openspec-archive-change/SKILL.md"
+      },
+      {
+        "afterHash": "d4223ec36202454474ad5ebcfee50c9cd8a98c0d8bc57fe5986914cb4a314958",
+        "beforeHash": "79249f798ad0d69bf95f08f3c7a29d44d982e4c1645f1a12a21dfcd488f4ba0d",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".codex/skills/openspec-explore/SKILL.md"
+      },
+      {
+        "afterHash": "557e2ea2ccbd2376bcb07380c83baf2f86bd8a87fddea4d6c3e4c414644b444f",
+        "beforeHash": "a666b2381a7d5e982d8e32183484020f518da2b795c0f387c5ff4b3cb47be0fd",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".codex/skills/openspec-propose/SKILL.md"
+      },
+      {
+        "afterHash": "96da80ab86e6c6b5a7276c7236cd1b1eb05d36e63ec71738ab61f7aecdcecaf8",
+        "beforeHash": "420e5815eee33ebd642b9d038f0a5307b176923a5c1a837c4873e51de085aae3",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".codex/skills/openspec-sync-specs/SKILL.md"
+      },
+      {
+        "afterHash": "16f5c271a849e90b2caa24ef114782cacfc253001025296acd1eae2facb76694",
+        "beforeHash": "82a51ed50b10ac3be479d7abc4a99fe3685ee7794078d7d8ea7bfc90ae42c2d9",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".codex/skills/openspec-update-change/SKILL.md"
+      },
+      {
+        "afterHash": "be7b85fb4ea594f1e92db66f4c8807382ed965db4827b22460f2f69c3ce4ea19",
+        "beforeHash": "9381cfe98c012e56c8df98b20eec21d1068b726ced23c91766dd309373f01994",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".cursor/commands/opsx-apply.md"
+      },
+      {
+        "afterHash": "32aef4018873fac1e888bbba8c8144b35ad5b6d9b4a05c511db36de48ac15deb",
+        "beforeHash": "111d678a7c2ce5ddc38edaa8e049b1b8b333dd1e77e8e88f8232eb82791c087e",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".cursor/commands/opsx-archive.md"
+      },
+      {
+        "afterHash": "19a2d28b1f26791b8ae192c7cc45c157973f08c84021d99376b75dfdfa1c46b0",
+        "beforeHash": "c488d16b0d9ece0b7bc1dad6b0724bba674c7683c163c2e467f7d6d82365b71a",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".cursor/commands/opsx-explore.md"
+      },
+      {
+        "afterHash": "f015c8c7b1fc91a2aa3cf235f552e05a89aa9084e1686a4c30fc32b325433079",
+        "beforeHash": "a6f9d1d260918767637fd72e6c652b86f80713cc9d6ef324173ebfafb04700a5",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".cursor/commands/opsx-propose.md"
+      },
+      {
+        "afterHash": "e054a31aa26f70189d0bad4b3ce67732a079c37d2e816a656a9dae4fe87a7116",
+        "beforeHash": "597fefb57ee15e18e18997cccf82abb08e1e34e3f93e92cdadf195170f93dbc8",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".cursor/commands/opsx-sync.md"
+      },
+      {
+        "afterHash": "47420f546090d770ab40de28774f14ef7519c019ea55bde1081d0cfbdd112305",
+        "beforeHash": "d0abc4e395b82c4a981b49ab13d7eb09a07a4bd937b581150ab373aa1d4dd207",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".cursor/commands/opsx-update.md"
+      },
+      {
+        "afterHash": "ee0e7688a5860c17aa621eb930209d4d4b719bd602b21ac731dd17bf7fecb969",
+        "beforeHash": "f60f9ae5a14ddd4d580c02b93e654bdc415fa582a536f23aabf034fe2e223b71",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".github/prompts/opsx-apply.prompt.md"
+      },
+      {
+        "afterHash": "6c9f8272507c9510b24e6991ca67aeddb104b45f6fc6eb41737bd25ca2515033",
+        "beforeHash": "5e699d70aafa805773e1bb6bc1eda1ae2b072b500795f5c021cf830e1432c1fd",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".github/prompts/opsx-archive.prompt.md"
+      },
+      {
+        "afterHash": "6ac85e59c56e9a1b120aac3115e07dcf45fd6bcebaf35651313a12fa5cb341a7",
+        "beforeHash": "3f83f2c4d98477a32b93dc1cd5d80592ef2f7abd6f23cf87421bf86347b7139d",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".github/prompts/opsx-explore.prompt.md"
+      },
+      {
+        "afterHash": "c00ab49dd47115abfc0c81f481d6bab83ce7800ff1c93dc5e3fbe0c4138a16ea",
+        "beforeHash": "52322790d84d0faec27a999dce1d17b1aef4a8d5f2e17df3a9387a395137b85a",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".github/prompts/opsx-propose.prompt.md"
+      },
+      {
+        "afterHash": "ec82460b74cdce45a06bfc581806a64ee28757acbceec277e7f4bfad97c5c47b",
+        "beforeHash": "341ffeb7cd7df5c0af7a4b760d15f6f7d57dbd7ab1ca65b86f4e3f6abe630408",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".github/prompts/opsx-sync.prompt.md"
+      },
+      {
+        "afterHash": "0b70b4dd2121fe258123e2f0e44d950e92a026a41a42e350868991c9dd96a248",
+        "beforeHash": "c403dc4de00ec53870f39a2f7dbfe5ec88e5259ea5150b781c7b463de8c7f80a",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".github/prompts/opsx-update.prompt.md"
+      },
+      {
+        "afterHash": "7b4097d96fdad857660a0820ec16350fc9ae0f219a44fe00db9fc3a8c518a04a",
+        "beforeHash": "e3d54dcd5d6735e4677a812e1ff08044afba7bd39c22dc75512de396b6e59b8b",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".opencode/commands/opsx-apply.md"
+      },
+      {
+        "afterHash": "fb2823c66052eec96d212a55a8706c5e2afb40a4ddc354215bdc49e56da67483",
+        "beforeHash": "6f50e23fbc58b6167429649faa7a54159afbab4cf6202fa59274571054b33472",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".opencode/commands/opsx-archive.md"
+      },
+      {
+        "afterHash": "50affe7100a8dc02cfb92730350b91b423153582f5dc10fd3d8e1d3348f705cb",
+        "beforeHash": "a682c5c6dc0e7b8e722df339d4b4a33b0d77434eb301ad0fbf52b405f995e826",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".opencode/commands/opsx-explore.md"
+      },
+      {
+        "afterHash": "afe7a69064cb7a7882736cd148358c2b4147c899e7a76254d1534fca4c114c84",
+        "beforeHash": "6bd2698742f60af1d151a87e533e21201a9d18ac7354009bc7ee66c13760cf13",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".opencode/commands/opsx-propose.md"
+      },
+      {
+        "afterHash": "7f10d0b8d2b247ec9c8c2d78520fec36305df44ebcf5d6d333266cb26495795b",
+        "beforeHash": "f67fd4ac7b525454a79689cb14df112ff643732fa4133a9a67869c2b8794be99",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".opencode/commands/opsx-sync.md"
+      },
+      {
+        "afterHash": "e5bd3699c403bce836976aa20de5952f6cc484b8784da81f3dcdc15feb1a34ca",
+        "beforeHash": "ba2e0742ccbf59e996bb351b3b3cc2858a4a03ad14bd758bdc56d87001f54144",
+        "operation": "update",
+        "owner": "external-openspec",
+        "target": ".opencode/commands/opsx-update.md"
+      }
+    ],
+    "summary": {
+      "conflicts": 0,
+      "creates": 0,
+      "deletes": 0,
+      "preserves": 0,
+      "stateUpdate": false,
+      "updates": 30
+    }
+  },
+  "recoveredTransactions": [],
+  "status": "APPLIED",
+  "transaction": {
+    "changes": 30,
+    "transactionId": "1791079320039-f9365ed8-bcd3-405a-bfc4-8dab73f737f6"
+  }
+}

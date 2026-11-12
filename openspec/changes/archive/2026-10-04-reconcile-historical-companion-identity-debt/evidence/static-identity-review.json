@@ -1,0 +1,72 @@
+{
+  "recordedAt": "2026-10-04T01:58:52.039Z",
+  "mainCommit": "9751c301976fe27e9bbad33e69f39372b69f901e",
+  "source": "apps/companion/scripts/verify-native-journeys.mjs",
+  "sha256": "e1d35a40ff2fda7948ff3b660b97a019ad9f807ee3c6acc9316af8110a8a70c5",
+  "method": "Current source inspection only, not behavioral invocation or installed-window execution",
+  "observations": [
+    {
+      "needle": "async function compareRuntime()",
+      "line": 341,
+      "sourceLine": "async function compareRuntime() {"
+    },
+    {
+      "needle": "identity.runtime = await compareRuntime()",
+      "line": 357,
+      "sourceLine": "identity.runtime = await compareRuntime();"
+    },
+    {
+      "needle": "assert.deepEqual(identity.runtime.differing, []",
+      "line": 398,
+      "sourceLine": "assert.deepEqual(identity.runtime.differing, [], 'El runtime de Electron instalado tiene archivos distintos de los de esta rama.');"
+    },
+    {
+      "needle": "assert.deepEqual(identity.runtime.missing, []",
+      "line": 399,
+      "sourceLine": "assert.deepEqual(identity.runtime.missing, [], 'Al runtime de Electron instalado le faltan archivos de la carga que el empaquetador copia.');"
+    },
+    {
+      "needle": "if (!closure.has(name))",
+      "line": 327,
+      "sourceLine": "if (!closure.has(name)) { identity.packages.presenceOnly += 1; continue; }"
+    },
+    {
+      "needle": "assert.deepEqual(identity.unknownPackages, []",
+      "line": 396,
+      "sourceLine": "assert.deepEqual(identity.unknownPackages, [], 'El árbol instalado tiene paquetes que esta rama no tiene.');"
+    },
+    {
+      "needle": "assert.equal(identity.unexpectedRootEntries.length, 0",
+      "line": 393,
+      "sourceLine": "assert.equal(identity.unexpectedRootEntries.length, 0, `El árbol instalado tiene entradas de raíz inesperadas (${identity.unexpectedRootEntries.join(', ')}).`);"
+    },
+    {
+      "needle": "assert.ok(identity.manifestMatches",
+      "line": 394,
+      "sourceLine": "assert.ok(identity.manifestMatches, `El package.json instalado declara otro main, otra versión u otras dependencias: ${JSON.stringify(identity.manifest)}`);"
+    },
+    {
+      "needle": "assert.deepEqual(dependencyProblems, []",
+      "line": 395,
+      "sourceLine": "assert.deepEqual(dependencyProblems, [], 'Los paquetes instalados no coinciden con los de esta rama.');"
+    },
+    {
+      "needle": "assert.ok(identity.sealedArchiveMatches",
+      "line": 397,
+      "sourceLine": "assert.ok(identity.sealedArchiveMatches, `El archivo sellado de ${SEALED_DEPENDENCY} instalado no coincide con el de esta rama (${identity.sealedArchive.installed} frente a ${identity.sealedArchive.branch}).`);"
+    }
+  ],
+  "historicalRun": {
+    "branchCommit": "cb257fac27421506b5a0336e6de0845f080b3e11",
+    "clean": true,
+    "runtimeCompared": 68,
+    "loadableFiles": 137
+  },
+  "limits": [
+    "Packages outside own closure are presence-only",
+    "Rewritten executable/license/placeholder excluded",
+    "Sealed-archive tree checked during extraction in a separate path",
+    "Old branch commit not claimed binary-identical to current main",
+    "Human readings not repeated"
+  ]
+}

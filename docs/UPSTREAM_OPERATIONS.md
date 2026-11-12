@@ -34,6 +34,11 @@ del plan propietario de los assessments importados; sus archivos de origen perma
 La deuda de selección de reglas por glob conserva su estado real hasta implementar y verificar su renderer.
 `npm run check:debt` falla si desaparece la configuración; un SKIP no satisface este control upstream.
 
+El [inventario histórico de #206](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/debt/HISTORICAL_DEBT_206.md) separa los 37 registros iniciales y sus
+seguimientos, sin declararlos defectos nuevos. La [primera fase de identidad](https://github.com/IgnacioBarEsp/project-engineering-os/blob/main/docs/debt/IDENTITY_RECONCILIATION_206.md)
+reconcilia un ID de una corrección ya implementada; no certifica ni cierra el resto. El registro operativo,
+la evidencia de la fase y el estado de integración se consultan por separado.
+
 ## Diagnóstico
 
 Cada resultado expone `evidence.category` y `evidence.applicability`. La declaración explícita

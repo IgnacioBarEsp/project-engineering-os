@@ -1,0 +1,34 @@
+{
+  "recordedAt": "2026-10-04T02:20:32.655Z",
+  "proof": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/f23c957fd082a7970976cab52cfdf4888d5ea1d1/openspec/changes/reconcile-historical-companion-identity-debt/evidence/actual-capture-verification.json",
+  "commit": "f23c957fd082a7970976cab52cfdf4888d5ea1d1",
+  "stage": "Verified branch capture; archive/PR pending; no main integration or umbrella closure",
+  "issues": [
+    {
+      "number": 206,
+      "url": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/206",
+      "state": "OPEN",
+      "updatedAt": "2026-10-04T02:20:28Z",
+      "beforeSha256": "cb9b84cfd4834d820a496d9bc9146ee61ef45049fd6a2cc1c9c8e6e266308857",
+      "afterSha256": "fcdee960293704b001ba5b0595499f4917da4a825ecb7fca441f1f0d6c9fe247"
+    },
+    {
+      "number": 167,
+      "url": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/167",
+      "state": "OPEN",
+      "updatedAt": "2026-10-04T02:20:31Z",
+      "beforeSha256": "e156da9d281496294a0537301b0a0ffe6abd7f83d793214e32a26a044c0616c0",
+      "afterSha256": "71927f80c3b922ff2ca78c396f9c56d3231bca338f88bcbfb42c79eb025fce4a"
+    }
+  ],
+  "project": {
+    "item": "PVTI_lAHOBUE3s84Bgwf8zg-BmN4",
+    "status": "In progress",
+    "archived": false,
+    "verifiedUnchanged": true
+  },
+  "historicalIssueAndDoRPreserved": true,
+  "remainingOpenBranch": 36,
+  "remainingOpenMain": 37,
+  "integrationBlocker": 204
+}

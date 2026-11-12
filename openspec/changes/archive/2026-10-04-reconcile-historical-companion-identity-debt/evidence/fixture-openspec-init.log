@@ -1,0 +1,27 @@
+
+OpenSpec Setup Complete
+
+Created: Codex, Claude Code, Cursor, GitHub Copilot, OpenCode
+6 skills and 6 commands in .codex, .claude, .cursor, .github, .opencode/
+Config: openspec/config.yaml (exists)
+
+Getting started:
+  Start your first change: /opsx:propose "your idea"
+
+Learn more: https://github.com/Fission-AI/OpenSpec
+Feedback:   https://github.com/Fission-AI/OpenSpec/issues
+
+Restart your IDE for slash commands to take effect.
+
+
+STDERR:
+- Setting up Codex...
+√ Setup complete for Codex
+- Setting up Claude Code...
+√ Setup complete for Claude Code
+- Setting up Cursor...
+√ Setup complete for Cursor
+- Setting up GitHub Copilot...
+√ Setup complete for GitHub Copilot
+- Setting up OpenCode...
+√ Setup complete for OpenCode

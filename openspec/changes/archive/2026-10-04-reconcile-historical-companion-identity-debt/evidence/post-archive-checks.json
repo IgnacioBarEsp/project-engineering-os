@@ -1,0 +1,21 @@
+{
+  "recordedAt": "2026-10-04T02:24:23.180Z",
+  "command": [
+    "C:/Program Files/nodejs/node_modules/npm/bin/npm-cli.js",
+    "run",
+    "check"
+  ],
+  "exitCode": 0,
+  "log": "post-archive-core-check.log",
+  "tests": {
+    "total": 393,
+    "passed": 393,
+    "failed": 0
+  },
+  "strict": {
+    "items": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "limits": "Local Windows/Node 24.18.0 core validation after official archive, not remote required CI or Companion audit."
+}
