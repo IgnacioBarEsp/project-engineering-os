@@ -45,7 +45,7 @@
     "saxes": "6.0.0"
   },
   "devDependencies": {
-    "electron": "44.1.1",
+    "electron": "44.9.1",
     "electron-builder": "26.15.3",
     "js-yaml": "4.3.2",
     "playwright": "1.62.1"
