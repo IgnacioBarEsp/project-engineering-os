@@ -1,0 +1,319 @@
+{
+  "scope": "Historical official npm preflight; bounded product Apply is indexed separately below, not integrated or released",
+  "applyCollections": [
+    {
+      "targetPath": "C:/Users/RitualDesktop/.codex/worktrees/204-official-npm-adoption/project-engineering-os",
+      "storage": "persistent",
+      "index": "windows-source-apply.md"
+    },
+    {
+      "targetPath": "C:/Users/RitualDesktop/.codex/worktrees/204-official-npm-adoption/project-engineering-os",
+      "storage": "persistent",
+      "index": "product-manifest.json",
+      "verification": "final-product-verification.md"
+    }
+  ],
+  "targetPath": "C:/Users/RitualDesktop/.codex/worktrees/204-npm-composition-spec/project-engineering-os",
+  "storage": "persistent",
+  "records": [
+    {
+      "path": "artifacts/official-watch/app-baseline-production-audit-20261112.mjs",
+      "sha256": "9177d920aed61da1c079e33ea80c5a0a9b34a339776779ced0f46c4771d7bca0"
+    },
+    {
+      "path": "artifacts/official-watch/app-baseline-production-audit-result.json",
+      "sha256": "7943ee044e9b30953a8f808193264aa9d7c4c602e43b322edeac8118915e4787"
+    },
+    {
+      "path": "artifacts/official-watch/prospective-app-audit-model-20261112.mjs",
+      "sha256": "90b849302965dc46b73b2d01b1390dfe1ae4d27476a48acd85df8e85e6d5ce26"
+    },
+    {
+      "path": "artifacts/official-watch/prospective-app-audit-result.json",
+      "sha256": "fc88e8c33f5e11278525a61d1bfa1f7670b4bff79baf2e09d6d335a8d5c10f6d"
+    },
+    {
+      "path": "artifacts/official-watch/older-bundled-advisories-20261112.json",
+      "sha256": "9d8cf54455cfccd66bd972675be7e7d6f06a906831aee53fcaa457955ce15ae9"
+    },
+    {
+      "path": "artifacts/official-watch/adoption-proposal-checks-final-20261112.json",
+      "sha256": "feca1b45794d0e906784fcbe1eb15b5bd7e4827c43746714f16633f9693a621b"
+    },
+    {
+      "path": "artifacts/official-watch/adoption-scaffold-result.json",
+      "sha256": "5305e6d46aba0d5f9213217c1236887c0b37a44bd7dc7f2aa047cf441d48cd4b"
+    },
+    {
+      "path": "artifacts/official-watch/adoption-duplicate-check-20261112.json",
+      "sha256": "ab2cdd196e624a89b2a04e360f149caebc827b5abc86f6b6e3dd3ab8adaa7459"
+    },
+    {
+      "path": "artifacts/official-watch/adoption-dor-20261112.json",
+      "sha256": "a8477f9152fc87e3f2860dd628643b768301cc464d9eb0f2832cd9e06d725e8b"
+    },
+    {
+      "path": "artifacts/official-watch/issue204-before-adoption-proposal-20261112.json",
+      "sha256": "b451c4ced880649ef92ad1eed96470984f986d9dba107adce79557ad0cd920d9"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/adapted/agent-tls.cjs",
+      "sha256": "a59ca41f45351ad213fc2b9601b3c159a6b283d0a643d062a4aab6cf207f5955"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/adapted/content-encoding.cjs",
+      "sha256": "9c1c246263dd2dbc084b874d063f093009b3eec9f759730e8f7a8796141fd796"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/adapted/eventsource-stream.cjs",
+      "sha256": "4fd0b6206ba4c522114a77c18779982846ef6bda75c8ff9faffa3f7f9cd77f00"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/adapted/fixtures/tls-renegotiation/ca.pem",
+      "sha256": "5117d80e6c85e92c5707e66979cb39bc352d6d782c0719afd82eefd88328d24f"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/adapted/fixtures/tls-renegotiation/matching-cert.pem",
+      "sha256": "e0ce16aec4f91bcdad4678f50c0e1f75ef24149a6f178f6fed7fee4005837205"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/adapted/fixtures/tls-renegotiation/matching-key.pem",
+      "sha256": "6567a15e4e0f2242e1b6f812531c6320c0bafe7d32b8e0cae0430d8ad6930091"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/adapted/fixtures/tls-renegotiation/wrong-cert.pem",
+      "sha256": "3454de306bf6694fd9b170822a0d61019380ecdc82cb52fe0184cf29ef2a78c3"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/adapted/fixtures/tls-renegotiation/wrong-key.pem",
+      "sha256": "7acaa4bea3de963cfcea59b9b251464b20b143a01b12039bab2b8cbac58eb326"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/adapted/pong-backpressure.cjs",
+      "sha256": "b973c0eaf59d74cdc4dbacbed74a42b196e60dd49003cd0d28b1c717750a8190"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/adapted/tls-renegotiation.cjs",
+      "sha256": "3097b929ce89284211159f5500e6a6cb36ec023682811ae92f4bb71bfdc073e4"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/input-global.npmrc",
+      "sha256": "fd71b350027af66ebf43002daf09ed06f85e74fae65668224283552dbacf6415"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/input-package.json",
+      "sha256": "d7e555db90bc6cf3ec71899920f1c9545a46858a4eb8791e8d34368020babd13"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/input-user.npmrc",
+      "sha256": "fd71b350027af66ebf43002daf09ed06f85e74fae65668224283552dbacf6415"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/interrupt-runtime-worker-v2.mjs",
+      "sha256": "3e484377b131bb0fcc4b5d013a9f5cde3a43b8de2b2840d58706e3f645939fcc"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/interrupt-runtime-worker.mjs",
+      "sha256": "3fefec6ad449a20ddb886d41d4cf93e8654b0f96463eec9623e70d564a5498dd"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/manager-layout-v2/resources/app/runtime/catalog.mjs",
+      "sha256": "2aecd76d9258901cfb595ed40c2f5559abe78753401b93ec7340de1fa588ce36"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/metadata.json",
+      "sha256": "1a22a5c2fd948cf793826fe13d3f991c679e864ed87d48c7696e183dc02d644f"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/network-fault-controls-result.json",
+      "sha256": "7efa3c844e75f66924868a405e5004dae5e7ad9be9f320136a8d46546c5c02a3"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/network-fault-controls.mjs",
+      "sha256": "72d86346014f419c57be10fbdf0680baf6858f6ec66971efe0b0f10538a75199"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/owner-verify-install-policy-adapted.mjs",
+      "sha256": "e1a4a9ccd432fa704fdd1233c8924898b6fb4975acffa7412e8b9a38d97f4f4d"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/owner-verify-install-policy.mjs",
+      "sha256": "7cf10e29c716e3c6de07c7a83d0c79c17e9f64e73c7026a95de36bef9fc8bd94"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/packaged-runtime-result-v2.json",
+      "sha256": "57b75718c44dc83552a6528bf6da742c4454e25ed51738658667de1da3c78443"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/packaged-runtime-v2.mjs",
+      "sha256": "1041e9a57296d02d280ee52ec312c223829edafac79920930d6c6ebfbfa1e188"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/packaged-runtime.mjs",
+      "sha256": "eb15f569a901cb2be6d2e36f53a783ce08cab4a3ecb03f45ed1bd4f8628a41b9"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/paired-resource-result.json",
+      "sha256": "9645e655e748049f6952b6fd2184b909f18d0bfbc2328d728af241bf97953daf"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/paired-resources.mjs",
+      "sha256": "b208ed0790e37094ca60e98d362abb67c41651ce36519199726ce701d956c181"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/physical-source-result-v2.json",
+      "sha256": "983d0f8b16cbb2060e49987341b0515fc013bda9ee42435df7d0fcb85b5f61c5"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/physical-source-result-v3.json",
+      "sha256": "674abf85c1fad679b5d17037099c3c9e4c454318f8a8a22238f1ee6f65e5cf99"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/physical-source-result.json",
+      "sha256": "7d7bfc30312236b55475adf0b7a2e033e692a32644485108d32270a7c66511b9"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/physical-source-v2.mjs",
+      "sha256": "266c916ef9443974cee97af60a593421cce0c5469e1073d37345cfceef696b10"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/physical-source-v3.mjs",
+      "sha256": "043c5a68b8370c2ac7a6243d6203d1f925c3a2870ba93ce06a05c56a9fa1c019"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/physical-source.mjs",
+      "sha256": "b6eadb27b361cef94df996726b465039b518974dbf288503cf379a8df8ea9522"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/preflight.mjs",
+      "sha256": "c6ad7de9205f573fafdf565435671f0d1fc0ffbcbc1b08e67965ce1b10aef082"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/release-age-controls-result.json",
+      "sha256": "d52c593f17c8e6cc71145a4f4504f13c5bfcfe490a0f0e79898a4c08e7aa149f"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/release-age-controls.mjs",
+      "sha256": "3af07ffe19b4579bea30278c968e090c52a3102404eb7b910fae6b7b6958594a"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/resource-monitor.cjs",
+      "sha256": "bd95df79b55355826977e63735c84c9f19e1671fb83dd3644cb1c6167f92ff3d"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/result.json",
+      "sha256": "6ea1a756322ba5013f8043e525aa13ff6d7fe4e63a87a7275c38b29a91ca7c06"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/runtime-fixture-result.json",
+      "sha256": "9c2d6b44c1423298775105a56df43d5f347febf70d988454d3f476421941abd0"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/runtime-fixture.mjs",
+      "sha256": "89e18cc2b38020126aa655b3d8c7123ab50dc00951297698206b21c01e04ffe0"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/script-config-controls-reconciliation.json",
+      "sha256": "99f5a6116f4d5addf8812130d3cf8d73037bcf1f6f571b02da605bddaf8141fb"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/script-config-controls-result.json",
+      "sha256": "e4a95b71302013f8697abeaa7811b77c2d9057969952f3b95dc6b6fd79d0b4d0"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/script-config-controls.mjs",
+      "sha256": "742db9eeadb3998ceffa36a0e1672d801f7a502d5c33599fb62533fc2b5cb6e5"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/undici-compare-v6.29.0-v6.29.1.json",
+      "sha256": "1eab0366b09b759c2e2fe43534506787ee414fdc2b00116b3524d5ac290500b4"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/undici-regression-inputs.json",
+      "sha256": "38ea868a7bd126bd07d0377e53d78f4ee1c286ec5cfa49f134edc98ad59d6685"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/undici-regression-result.json",
+      "sha256": "b416061ade0695f7abb60015ef1a6e2716df90bac877f993dee30e2e3ffc9f0b"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/undici-regression.mjs",
+      "sha256": "84a9d46d8615859a640e539f285634e5ea4aaa19145f93e1104a55604aa7ff1e"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/upstream/lib/dispatcher/agent.js",
+      "sha256": "c14647fb924405a51594b2b27cf93612862673cb212bcc179c10cfcd3e687635"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/upstream/lib/dispatcher/client-h1.js",
+      "sha256": "e219f9a7f00999c33be0b847ed77d108419e7dd359844290f9d3acc30aef037b"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/upstream/lib/dispatcher/client-h2.js",
+      "sha256": "f7580bce454423f36b8a63e459a99b49ab7b9039a61ce4841e363e3f91324415"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/upstream/lib/web/eventsource/eventsource-stream.js",
+      "sha256": "f66f223caa75b1c611b3595694e264cb5231384dabfde7472292efb85efef7c1"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/upstream/lib/web/fetch/index.js",
+      "sha256": "3e0b6aa3b09d5265f5cdebe5196376a809178776aed52eeba73788341df57a48"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/upstream/lib/web/websocket/receiver.js",
+      "sha256": "b7d86ff5da81b4debfaaf84cbbf02c0331625c966aa2530d9819697c8f11f2a6"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/upstream/test/eventsource/eventsource-stream.js",
+      "sha256": "c131c1f431320598aa2192614803cb004838ac77dbaf9375a031313490bc1c7d"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/upstream/test/fetch/encoding.js",
+      "sha256": "8fb51ddf1b3624e014cd23ad6cf5e216660e54fb63ff91c38641318e6f24a429"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/upstream/test/fixtures/tls-renegotiation/ca.pem",
+      "sha256": "5117d80e6c85e92c5707e66979cb39bc352d6d782c0719afd82eefd88328d24f"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/upstream/test/fixtures/tls-renegotiation/matching-cert.pem",
+      "sha256": "e0ce16aec4f91bcdad4678f50c0e1f75ef24149a6f178f6fed7fee4005837205"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/upstream/test/fixtures/tls-renegotiation/matching-key.pem",
+      "sha256": "6567a15e4e0f2242e1b6f812531c6320c0bafe7d32b8e0cae0430d8ad6930091"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/upstream/test/fixtures/tls-renegotiation/wrong-cert.pem",
+      "sha256": "3454de306bf6694fd9b170822a0d61019380ecdc82cb52fe0184cf29ef2a78c3"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/upstream/test/fixtures/tls-renegotiation/wrong-key.pem",
+      "sha256": "7acaa4bea3de963cfcea59b9b251464b20b143a01b12039bab2b8cbac58eb326"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/upstream/test/tls-renegotiation.js",
+      "sha256": "2de2f5bf635724a2d220051464bd6b4b5e6dee56d36dc05c88a326665a38b141"
+    },
+    {
+      "path": "artifacts/official-watch/npm-11.21.2-20261112/upstream/test/websocket/pong-backpressure.js",
+      "sha256": "49ef6b9e3c0350846050ef50d894166015009bc01d334367f1470bb4a10e77af"
+    },
+    {
+      "path": "artifacts/official-watch/observation-20261112.json",
+      "sha256": "1768546df3b9a7fe221443a2a5673df9b9aeb2d91ff489a7298eee8661bf33ce"
+    },
+    {
+      "path": "artifacts/official-watch/adoption-dor-final-20261112.json",
+      "sha256": "50588ad57a1531570af789b00837e0687ef940acd8a706e9e3af95b630332943"
+    }
+  ],
+  "limits": [
+    "Preflight is Windows only; three runtimes are not three platforms",
+    "Unchanged runtime was tested only in a copy with experimental catalog, not the final installer/selector",
+    "No fresh independent product review or production debt/archive/merge for this new phase",
+    "Known moderate advisories and initial failed instrumentation retained",
+    "Rejected recipe4 budget unchanged4/4; no fifth or adopted fork"
+  ]
+}

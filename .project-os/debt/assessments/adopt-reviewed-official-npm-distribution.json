@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "adopt-reviewed-official-npm-distribution",
+  "date": "2026-11-12",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Assessment acotado de la adopción oficial aprobada en8d335a2 y enmiendaWindowsf3b4ff2. npm11.21.2 intacto, identidad/slots/selector/recuperación y normalización0/27 limitada a desarrollo/build, con árbol oficial1944/12296462/5f3ed514. Dos ciclos independientes de fronteras separadas autorizadas: dosP2 y unP3 confirmados/corregidos por padre, reproducciones y fallos conservados, sin aprobación independiente post-fix inventada. CI43306807954 head346e3bd requerido verde3SO; artefacto0.3.7 limpio133271517bytes/SHA56b944b6cc8b90bec5e409bc74ce733289e478d5f5f1b53900e798d72c33f912, firma realNotSigned y verificador completoPASS. WindowsSandbox propio: baseline0.3.6/candidata mediciónpaired fría/caliente/reparación; slot histórico y proyectos/historia conservados, fallback vulnerable rechazado, cancelación y crash/restart real, CLI npm11.21.2 bajoNode22.22.0/24.18.0/24.20.0, ciclo0.1.0→candidata/cinco recorridos nativos/desinstalaciónPASS. Fría+1132ms en muestraúnica, caliente/reparación y maxRSS menores; datos raw sin presupuesto/claim estadístico inventados. No deuda nueva verificada pendiente de esta implementación; mantenimiento/costo de capa propia aceptados en specs, staging temporal limpio. Se conservan32moderate app y1root bajo política actual, sin excepción/override. No se resuelven deudas históricas ni se recapturan214/206. Límites explícitos: no dos destinos reales aptos, no FS hostil/powerloss,14aspectos no verificados del harness nativo y los pasos humanos/juicio visual siguen separados. Rechazo automático de limpiar un junction de repro inconcluyente conservado y sin insistir. Archivo/merge/release no son resultados de este assessment; guards/pins ajenos/protecciones y ola4 intactos."
+}

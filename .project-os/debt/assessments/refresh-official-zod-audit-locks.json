@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "refresh-official-zod-audit-locks",
+  "date": "2026-11-11",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Assessment acotado del refresh oficial zod4.6.6 aprobado en013ac784. Seis atributos de dos locks; OpenSpec1.6.0/resto del grafo/política/manifests intactos. Tres auditorías originales sin high/critical o excepciones; seis regresiones por cada instalación, checks396/396 y strict21/21 en Node22.22.0,24.18.0,24.20.0. Fixtures normal/aislada y consumidor generado npm ci sin drift; recuperación real de ambos locks y grafos anteriores en copia propia. Revisión independiente de una sola pasada sin bypass/regresión accionable en el flujo OpenSpec. No se identificó deuda nueva introducida. Límites: sólo parseo forward con cap inicial, sin promesa de recursos globales para OpenSpec/encode/arrays sin cap; el control REMOVED inicialmente rechazado también falla en baseline y se conserva. #204, CI remoto y la integración protegida siguen pendientes. Este clean no cierra deuda histórica ni afirma que todo el repositorio sea clean."
+}
