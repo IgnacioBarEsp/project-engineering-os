@@ -1,6 +1,8 @@
 # #204 — adoptar npm oficial, con identidad y recuperación
 
-**Propuesta para aprobación; todavía no autoriza Apply.**
+**Revisión8d335a2 aprobada; Apply en curso.** [Registro de aprobación](evidence/spec-approval.md).
+La candidata aún no tiene verificación global, archivo, integración o release. Los resultados de
+preflight descritos abajo conservan su alcance; no sustituyen esos gates.
 
 npm **11.21.2** ya supera el bloqueo high/critical sin nuestro parche. Su tarball e inventario concuerdan,
 los cuatro locks reales pasan en los tres Node soportados y las regresiones de Undici pasan.

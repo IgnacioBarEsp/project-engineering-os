@@ -1,6 +1,6 @@
 # Runtime sources and notices
 
-The private Companion app includes npm 11.19.1 under Artistic-2.0 with its complete bundled dependency
+The private Companion candidate0.3.7 includes official npm11.21.2 under Artistic-2.0 with its complete bundled dependency
 notices. Its MIT core and the isolated OpenSpec 1.6.0 toolchain remain separately pinned in their locks.
 The app itself remains MIT. The universal CLI package does not bundle these desktop dependencies.
 
@@ -11,7 +11,7 @@ tagged CodeGraph MIT notice included here because the platform ZIP omits that ro
 install CodeGraph's npm shim or use its automatic downloader, updater or hook-installing CLI init.
 
 - Node 24.20.0: [official release and source archives](https://nodejs.org/dist/v24.20.0/).
-- npm 11.19.1: [tagged source and license](https://github.com/npm/cli/tree/v11.19.1).
+- npm11.21.2: [fixed source and license](https://github.com/npm/cli/tree/a97776b5453204b99d3b28ff676a5e00d5822770).
 - MinGit 2.55.0.windows.5: [official download](https://github.com/git-for-windows/git/releases/tag/v2.55.0.windows.5)
   and [tagged Git source](https://github.com/git-for-windows/git/tree/v2.55.0.windows.5), GPL-2.0-only for Git
   with separately included component notices. MinGit is fetched by the user's app from its upstream release;

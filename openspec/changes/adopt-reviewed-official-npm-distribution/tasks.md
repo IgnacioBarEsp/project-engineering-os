@@ -8,8 +8,8 @@
 
 ## 2. Controlled production Apply, only after1.5
 
-- [ ] 2.1 Create product source from the identified approved214candidate; transport only this approved change, not experimental patches, and freeze the baseline/diff.
-- [ ] 2.2 Update Companion npm/version identity and only its bundled lock closure; verify every unrelated node/pin unchanged.
+- [x] 2.1 Create product source from the identified approved214candidate; transport only this approved change, not experimental patches, and freeze the baseline/diff. Branch codex/204-official-npm-adoption from3335cc7; approval checkpoint6f39c43.
+- [x] 2.2 Update Companion npm/version identity and only its bundled lock closure; verify every unrelated node/pin unchanged. Exact144-entry closure transplant, other nodes deep-equal; clean owned ci preserves lock.
 - [ ] 2.3 Implement compiled distribution identities and npm selection/receipts with existing guards; preserve other runtimes and old slots.
 - [ ] 2.4 Regenerate/check catalog, notice and pack/verifier identity against the exact official source/tree and two deterministic seals.
 - [ ] 2.5 Add meaningful regression/negative controls for unknown identity, misleading receipt, equal-version channel separation, stale/failure/cancel, real restart/recovery and vulnerable rollback rejection.

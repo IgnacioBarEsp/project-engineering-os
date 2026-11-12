@@ -6,7 +6,7 @@ componentes. Adoptarlo exige una decisión distinta de la investigación experim
 reversibilidad entre identidades que el mantenedor pidió.
 
 Refs [#204](https://github.com/IgnacioBarEsp/project-engineering-os/issues/204).
-Owner IgnacioBarEsp. Esta revisión está propuesta, **no aprobada**. DoR13/13 sin excepciones precede al
+Owner IgnacioBarEsp. Revisión8d335a2 **aprobada**; [palabras y alcance](evidence/spec-approval.md). DoR13/13 sin excepciones precede al
 scaffold generado por OpenSpec local1.6.0 el12nov2026.
 
 ## What Changes

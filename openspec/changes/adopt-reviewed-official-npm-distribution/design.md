@@ -1,6 +1,7 @@
 ## Context and decision status
 
-**Proposed, no Apply approval.** Main integrado9751c301976fe27e9bbad33e69f39372b69f901e.
+**Approved review8d335a2; bounded Apply in progress.** [Approval record](evidence/spec-approval.md).
+Main integrado9751c301976fe27e9bbad33e69f39372b69f901e.
 Fuente #214 disponible3335cc70209b42dd7a6f41aced97b5c50a2f852d, aprobación013ac784 conservada.
 Rama documental actual contiene el experimento rechazado; **no es la rama de producto a integrar**.
 Después de aprobación se crea fuente de adopción desde la candidata214 identificada, se transporta

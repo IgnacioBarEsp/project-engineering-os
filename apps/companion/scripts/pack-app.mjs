@@ -9,6 +9,10 @@ import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import { sealNpm } from './seal-npm.mjs';
 import { productionPackages, renderNotices } from './notices.mjs';
+import { inspectTree } from '../runtime/tree.mjs';
+import { RUNTIME_CATALOG } from '../runtime/catalog.mjs';
+import { identityOf, distributionKey } from '../runtime/distribution-identity.mjs';
+import { realpath } from 'node:fs/promises';
 
 // Builds the Windows artifact for the private app. It writes the third-party notices from the
 // lockfile, runs the pinned packager and records what was produced. It never signs, never
@@ -29,7 +33,13 @@ async function digest(file) {
 // tools. One file is opaque to every filter, and the application extracts it with the same reviewed
 // extractor it uses for downloads, checking the same pinned tree digest afterwards.
 const npmArchive = path.join(app, 'build', 'npm-dist.zip');
+const npmTree = await inspectTree(await realpath(path.join(app,'node_modules','npm')));
+assert.equal(manifest.dependencies.npm,RUNTIME_CATALOG.npm.version);
+assert.equal(npmTree.sha256,RUNTIME_CATALOG.npm.treeHash);
+assert.equal(npmTree.bytes,RUNTIME_CATALOG.npm.installedBytes);
 const sealed = await sealNpm(path.join(app, 'node_modules', 'npm'), npmArchive);
+assert.equal((await inspectTree(await realpath(path.join(app,'node_modules','npm')))).sha256,npmTree.sha256);
+const npmArchiveHash = await digest(npmArchive);
 
 const packages = productionPackages(lock);
 assert.ok(packages.length > 0, 'The lockfile declares no production packages.');
@@ -71,7 +81,9 @@ const record = {
   electron: manifest.devDependencies.electron,
   packager: `electron-builder ${manifest.devDependencies['electron-builder']}`,
   packages: packages.length,
-  bundledNpm: { files: sealed.files, archiveBytes: sealed.bytes },
+  bundledNpm: { files: sealed.files, archiveBytes: sealed.bytes, archiveSha256:npmArchiveHash,
+    identity:identityOf(RUNTIME_CATALOG.npm),distribution:distributionKey(identityOf(RUNTIME_CATALOG.npm)),
+    treeHash:npmTree.sha256,installedBytes:npmTree.bytes },
   signed: false,
   signingNote: 'Sin certificado de editor. Windows advertirá al ejecutarlo; esa advertencia es correcta y no se evita.',
   built: new Date().toISOString(),

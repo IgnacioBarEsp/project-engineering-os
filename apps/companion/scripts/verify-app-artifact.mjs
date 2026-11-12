@@ -119,12 +119,20 @@ const { inspectTree } = await import(pathToFileURL(path.join(packagedRuntime, 't
 const { RUNTIME_CATALOG } = await import(pathToFileURL(path.join(packagedRuntime, 'catalog.mjs')).href);
 const { extractZip } = await import(pathToFileURL(path.join(packagedRuntime, 'archive.mjs')).href);
 const { RUNTIME_CATALOG: REVIEWED_CATALOG } = await import(pathToFileURL(path.join(app, 'runtime', 'catalog.mjs')).href);
+const { NPM_DISTRIBUTIONS } = await import(pathToFileURL(path.join(packagedRuntime,'catalog.mjs')).href);
+const { NPM_DISTRIBUTIONS: REVIEWED_DISTRIBUTIONS } = await import(pathToFileURL(path.join(app,'runtime','catalog.mjs')).href);
+const { identityOf, distributionKey } = await import(pathToFileURL(path.join(packagedRuntime,'distribution-identity.mjs')).href);
+assert.deepEqual(NPM_DISTRIBUTIONS,REVIEWED_DISTRIBUTIONS,'Las identidades distribuidas no coinciden con la allowlist revisada.');
 assert.deepEqual(RUNTIME_CATALOG, REVIEWED_CATALOG,
   'El catalogo empaquetado no coincide con el catalogo revisado: la aplicacion instalada aplicaria otros pines.');
 const bundledTrees = {};
 for (const [id, archive] of Object.entries({ npm: path.join(installed, 'resources', 'npm-dist.zip') })) {
   const pin = RUNTIME_CATALOG[id];
   assert.ok(await stat(archive).catch(() => null), `El artefacto no incluye la distribucion revisada de ${id}.`);
+  assert.deepEqual(record.bundledNpm.identity,identityOf(pin));
+  assert.equal(record.bundledNpm.distribution,distributionKey(identityOf(pin)));
+  assert.equal(record.bundledNpm.archiveSha256,await digest(archive));
+  assert.equal(record.bundledNpm.archiveBytes,(await stat(archive)).size);
   const staging = await mkdtemp(path.join(tmpdir(), `companion-verify-${id}-`));
   try {
     const target = path.join(staging, 'payload');
@@ -133,6 +141,9 @@ for (const [id, archive] of Object.entries({ npm: path.join(installed, 'resource
     assert.equal(tree.sha256, pin.treeHash,
       `La copia empaquetada de ${id} no coincide con su pin: ${tree.files.length} archivos y ${tree.bytes} bytes frente a ${pin.installedBytes} esperados. La aplicacion instalada no podria preparar herramientas.`);
     assert.equal(tree.bytes, pin.installedBytes);
+    assert.equal(record.bundledNpm.treeHash,tree.sha256);
+    assert.equal(record.bundledNpm.installedBytes,tree.bytes);
+    assert.equal(record.bundledNpm.files,tree.files.length);
     bundledTrees[id] = { files: tree.files.length, bytes: tree.bytes, archiveBytes: (await stat(archive)).size, treeHash: tree.sha256 };
   } finally { await rm(staging, { recursive: true, force: true }); }
 }
