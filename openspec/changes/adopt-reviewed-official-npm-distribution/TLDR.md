@@ -1,5 +1,10 @@
 # #204 — adoptar npm oficial, con identidad y recuperación
 
+**Enmienda f3b4ff2 aprobada:** [Windows development input amendment](windows-development-source-amendment.md).
+CI confirma que Windows añade27lanzadores auxiliares, sin cambiar ningún archivo oficial. El Apply
+acotado conserva el hash oficial; [aprobación literal](evidence/windows-source-approval.md). La candidata
+sigue en borrador hasta completar implementación, revisión y gates reales.
+
 **Revisión8d335a2 aprobada; Apply en curso.** [Registro de aprobación](evidence/spec-approval.md).
 La candidata aún no tiene verificación global, archivo, integración o release. Los resultados de
 preflight descritos abajo conservan su alcance; no sustituyen esos gates.

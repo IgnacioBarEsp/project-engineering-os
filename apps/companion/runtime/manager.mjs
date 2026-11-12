@@ -12,7 +12,7 @@ import { reviewCacheRepair, replaceReviewedCache } from './cache-repair.mjs';
 import { randomUUID } from 'node:crypto';
 import { identityOf, distributionKey, distributionSlot, npmDistribution, readNpmSelection, npmReceipt,
   checkNpmReceipt, pendingNpmOperation, beginNpmOperation, finishNpmOperation,
-  commitNpmSelection, rollbackNpmSelection, recoverNpmOperation } from './distribution-identity.mjs';
+  commitNpmSelection, rollbackNpmSelection, recoverNpmOperation, prepareNpmDevelopmentSource } from './distribution-identity.mjs';
 
 // The reviewed npm distribution is pinned by the digest of its complete tree, vendored dependencies
 // included. Packagers deduplicate and drop nested node_modules, which prunes exactly those and leaves
@@ -151,7 +151,7 @@ export async function createRuntimeManager({ root: target, transport = fetch } =
         await mkdir(stage);
         onProgress({stage:'runtime',label:`Preparando ${tool.name}`,completed:0,total:tool.bytes});
         if(npmIsPackaged())await extractZip(npmArchive,payload,{signal});
-        else await cp(npmSource,payload,{recursive:true,force:false,errorOnExist:true,verbatimSymlinks:true,filter:()=>{signal?.throwIfAborted();return true;}});
+        else await prepareNpmDevelopmentSource(npmSource,payload,{signal});
         await verifyPayload(await canonicalFolder(payload),tool,signal);
         const ready=path.join(stage,'ready');await mkdir(ready);await rename(payload,path.join(ready,'payload'));
         await writeChecked(await canonicalFolder(ready),'receipt.json',json(npmReceipt(tool)),null,65536);

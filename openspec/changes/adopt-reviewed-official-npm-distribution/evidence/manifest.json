@@ -1,5 +1,6 @@
 {
-  "scope": "Official npm preflight and proposed adoption, not production Apply/approval/CI/integration",
+  "scope": "Historical official npm preflight; bounded product Apply is indexed separately below, not integrated or released",
+  "applyCollections": [{"targetPath":"C:/Users/RitualDesktop/.codex/worktrees/204-official-npm-adoption/project-engineering-os","storage":"persistent","index":"windows-source-apply.md"}],
   "targetPath": "C:/Users/RitualDesktop/.codex/worktrees/204-npm-composition-spec/project-engineering-os",
   "storage": "persistent",
   "records": [

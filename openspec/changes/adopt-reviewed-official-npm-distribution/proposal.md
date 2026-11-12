@@ -11,6 +11,11 @@ scaffold generado por OpenSpec local1.6.0 el12nov2026.
 
 ## What Changes
 
+Separately approved at f3b4ff2: [Windows development input amendment](windows-development-source-amendment.md)
+for27installer-generated auxiliaries. [Literal approval](evidence/windows-source-approval.md) authorizes
+its bounded canonical-copy Apply and additional independent review. Official source identity and all
+existing protections remain fixed; approval does not claim verification or integration.
+
 - Adoptar exclusivamente npm oficial11.21.2 intacto, con fuente/SRI/inventario congelados en diseño.
 - Preparar identidad candidata Companion0.3.7, lock/catálogo/notices/hashes coherentes, sin cambiar la
   versión del núcleo ni los demás pins.

@@ -12,6 +12,11 @@ migración o zod aprueba este diseño. El owner debe aceptar esta revisión conc
 
 ## Frozen official input
 
+**Additional amendment approved at f3b4ff2:** [Windows development input amendment](windows-development-source-amendment.md)
+defines an exact27-path auxiliary set observed in CI. Its separate literal approval and bounded
+additional review authorization are recorded in [evidence](evidence/windows-source-approval.md).
+Apply and verification are pending; the earlier8d335a2 approval is not used to infer this decision.
+
 | Campo | Valor |
 | --- | --- |
 | npm | 11.21.2 oficial, sin patch |

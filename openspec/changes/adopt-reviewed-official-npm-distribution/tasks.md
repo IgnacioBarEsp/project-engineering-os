@@ -8,6 +8,11 @@
 
 ## 2. Controlled production Apply, only after1.5
 
+- [x] 2.6 Obtain explicit approval of the Windows development input amendment before adding canonical-copy handling; preserve the original CI failure and run its specifically authorized new independent review cycle.
+
+  Approval f3b4ff2 received: «Sí, apruebo la enmienda f3b4ff2»; see evidence/windows-source-approval.md.
+  Bounded implementation/review and confirmed P3 correction completed; see evidence/windows-source-apply.md.
+
 - [x] 2.1 Create product source from the identified approved214candidate; transport only this approved change, not experimental patches, and freeze the baseline/diff. Branch codex/204-official-npm-adoption from3335cc7; approval checkpoint6f39c43.
 - [x] 2.2 Update Companion npm/version identity and only its bundled lock closure; verify every unrelated node/pin unchanged. Exact144-entry closure transplant, other nodes deep-equal; clean owned ci preserves lock.
 - [ ] 2.3 Implement compiled distribution identities and npm selection/receipts with existing guards; preserve other runtimes and old slots.

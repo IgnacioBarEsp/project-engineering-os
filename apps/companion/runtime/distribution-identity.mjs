@@ -1,4 +1,4 @@
-import { open, unlink, rename, lstat } from 'node:fs/promises';
+import { open, unlink, rename, lstat, mkdir, readdir, opendir, cp } from 'node:fs/promises';
 import path from 'node:path';
 import { NPM_DISTRIBUTIONS, RUNTIME_CATALOG, RUNTIME_PLATFORM } from './catalog.mjs';
 import { assertPath, canonicalFolder, snapshot, writeChecked, hash, json, fail, NAMESPACE } from '../engine/files.mjs';
@@ -32,6 +32,94 @@ export function npmDistribution(key) {
   return tool;
 }
 export const defaultNpmKey = () => distributionKey(identityOf(RUNTIME_CATALOG.npm));
+// This input exception belongs only to the separately reviewed 11.21.2 distribution. A future
+// catalog entry must not inherit it merely by becoming the default.
+const DEVELOPMENT_KEY = 'eac8d0556bad1da3835d0fd1376c546ce5840bc9191b5e92cd5ef1da02a0e835';
+const DEVELOPMENT_FILES = 1944, DEVELOPMENT_BYTES = 12296462;
+const AUXILIARIES = Object.freeze(['arborist','cssesc','installed-package-contents','node-gyp','node-which','nopt','pacote','qrcode-terminal','semver']
+  .flatMap(name => ['', '.cmd', '.ps1'].map(extension => `node_modules/.bin/${name}${extension}`)).sort());
+const treeSummary = tree => ({ files:tree.files.length, bytes:tree.bytes, sha256:tree.sha256 });
+function developmentPin() {
+  const tool = npmDistribution(DEVELOPMENT_KEY);
+  if (defaultNpmKey() !== DEVELOPMENT_KEY || tool.installedBytes !== DEVELOPMENT_BYTES) fail('NPM_SOURCE', 'Este origen de desarrollo necesita otra revisión.');
+  return tool;
+}
+function auxiliaryRecords(files) {
+  if (!Array.isArray(files) || ![0,AUXILIARIES.length].includes(files.length)) fail('NPM_SOURCE', 'El conjunto de auxiliares no coincide con la revisión.');
+  files.forEach((file,i) => {
+    keys(file,['path','bytes','sha256'],'NPM_SOURCE');
+    if (file.path !== AUXILIARIES[i] || !Number.isSafeInteger(file.bytes) || file.bytes < 0 || file.bytes > 16384 || !digest(file.sha256)) fail('NPM_SOURCE','Un auxiliar no corresponde al inventario permitido.');
+  });
+}
+export function checkNpmDevelopmentInventory(record, tree) {
+  const tool = developmentPin();
+  keys(record,['format','input','canonical','excluded'],'NPM_SOURCE');
+  keys(record.input,['files','bytes','sha256'],'NPM_SOURCE');
+  keys(record.canonical,['files','bytes','sha256'],'NPM_SOURCE');
+  auxiliaryRecords(record.excluded);
+  if (record.format !== 1 || tree.files.length !== DEVELOPMENT_FILES || tree.bytes !== DEVELOPMENT_BYTES || tree.sha256 !== tool.treeHash
+      || json(record.canonical) !== json(treeSummary(tree))) fail('RUNTIME_INTEGRITY','La copia de npm no coincide con el árbol oficial.');
+  const files = [...tree.files,...record.excluded].sort((a,b)=>a.path < b.path ? -1 : a.path > b.path ? 1 : 0);
+  const expected = {files:files.length,bytes:files.reduce((sum,file)=>sum+file.bytes,0),sha256:hash(JSON.stringify(files)+'\n')};
+  if (json(record.input) !== json(expected)) fail('NPM_SOURCE','La cobertura del origen de npm no coincide.');
+}
+async function inspectDevelopmentSource(source, signal) {
+  const tool = developmentPin(), bin = await assertPath(source,'node_modules/.bin');
+  const info = await lstat(bin).catch(error=>{if(error.code!=='ENOENT')throw error;return null;});
+  if (info) {
+    if (!info.isDirectory() || info.isSymbolicLink()) fail('NPM_SOURCE','La carpeta de auxiliares no es válida.');
+    let count = 0;
+    for await (const {name} of await opendir(bin)) {
+      signal?.throwIfAborted();
+      if (++count > AUXILIARIES.length) fail('NPM_SOURCE','El conjunto de auxiliares supera el límite.');
+      const relative=`node_modules/.bin/${name}`;
+      if (!AUXILIARIES.includes(relative)) fail('NPM_SOURCE','El origen contiene un auxiliar desconocido.');
+      const entry = await lstat(await assertPath(source,relative));
+      if (!entry.isFile() || entry.isSymbolicLink() || entry.nlink !== 1 || entry.size > 16384) fail('NPM_SOURCE','Un auxiliar tiene un tipo o tamaño no permitido.');
+    }
+    if (![0,AUXILIARIES.length].includes(count)) fail('NPM_SOURCE','El conjunto de auxiliares está incompleto.');
+  }
+  const input = await inspectTree(source,{signal,maxFiles:DEVELOPMENT_FILES+AUXILIARIES.length,maxBytes:DEVELOPMENT_BYTES+AUXILIARIES.length*16384});
+  const excluded = input.files.filter(file=>AUXILIARIES.includes(file.path));
+  auxiliaryRecords(excluded);
+  const files = input.files.filter(file=>!AUXILIARIES.includes(file.path));
+  const canonical = {files,bytes:files.reduce((sum,file)=>sum+file.bytes,0),sha256:hash(JSON.stringify(files)+'\n')};
+  const record = {format:1,input:treeSummary(input),canonical:treeSummary(canonical),excluded};
+  checkNpmDevelopmentInventory(record,canonical);
+  if (canonical.sha256 !== tool.treeHash) fail('RUNTIME_INTEGRITY','El origen de npm cambió.');
+  return {record,files};
+}
+export async function prepareNpmDevelopmentSource(input, destination, {signal} = {}) {
+  signal?.throwIfAborted();
+  // Resolve only after rejecting linked source ancestors. Never change the supplied origin.
+  const source = await canonicalFolder(input), parent = await canonicalFolder(path.dirname(destination));
+  const target = await assertPath(parent,path.basename(destination));
+  const comparable = value => process.platform==='win32' ? value.toLowerCase() : value;
+  const nested = (a,b) => {const relative=path.relative(comparable(a),comparable(b));return !relative || (!relative.startsWith('..'+path.sep) && relative!=='..' && !path.isAbsolute(relative));};
+  if (nested(source,target) || nested(target,source)) fail('NPM_SOURCE','Origen y copia deben ser independientes.');
+  const before = await inspectDevelopmentSource(source,signal);
+  signal?.throwIfAborted();
+  await mkdir(target); // Exclusive ownership; an existing target or another copier fails closed.
+  const paths = new Set(['']);
+  for (const file of before.files) {
+    const segments=file.path.split('/');
+    for(let i=1;i<=segments.length;i++)paths.add(segments.slice(0,i).join('/'));
+  }
+  // The complete prechecked inventory supplies both files and their ancestor directories. This
+  // is not a generic .bin exclusion; no unreviewed path is ever selected for copying.
+  for (const name of await readdir(source)) {
+    signal?.throwIfAborted();
+    if (paths.has(name)) await cp(path.join(source,name),path.join(target,name),{
+      recursive:true,force:false,errorOnExist:true,verbatimSymlinks:true,
+      filter:from=>{signal?.throwIfAborted();return paths.has(path.relative(source,from).split(path.sep).join('/'));}});
+  }
+  const tree = await inspectTree(await canonicalFolder(target),{signal,maxFiles:DEVELOPMENT_FILES,maxBytes:DEVELOPMENT_BYTES});
+  checkNpmDevelopmentInventory(before.record,tree);
+  const after = await inspectDevelopmentSource(source,signal);
+  if (json(before.record) !== json(after.record)) fail('RUNTIME_CHANGED','El origen de npm cambió durante la copia.');
+  signal?.throwIfAborted();
+  return before.record;
+}
 function selectionValue(value) {
   keys(value, ['format','generation','active','previous'], 'NPM_SELECTION');
   if (value.format !== 1 || !Number.isSafeInteger(value.generation) || value.generation < 0 || value.generation >= Number.MAX_SAFE_INTEGER) fail('NPM_SELECTION', 'La generación de la selección no es válida.');

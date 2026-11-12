@@ -122,6 +122,7 @@ const { RUNTIME_CATALOG: REVIEWED_CATALOG } = await import(pathToFileURL(path.jo
 const { NPM_DISTRIBUTIONS } = await import(pathToFileURL(path.join(packagedRuntime,'catalog.mjs')).href);
 const { NPM_DISTRIBUTIONS: REVIEWED_DISTRIBUTIONS } = await import(pathToFileURL(path.join(app,'runtime','catalog.mjs')).href);
 const { identityOf, distributionKey } = await import(pathToFileURL(path.join(packagedRuntime,'distribution-identity.mjs')).href);
+const { checkNpmDevelopmentInventory } = await import(pathToFileURL(path.join(app,'runtime','distribution-identity.mjs')).href);
 assert.deepEqual(NPM_DISTRIBUTIONS,REVIEWED_DISTRIBUTIONS,'Las identidades distribuidas no coinciden con la allowlist revisada.');
 assert.deepEqual(RUNTIME_CATALOG, REVIEWED_CATALOG,
   'El catalogo empaquetado no coincide con el catalogo revisado: la aplicacion instalada aplicaria otros pines.');
@@ -144,6 +145,7 @@ for (const [id, archive] of Object.entries({ npm: path.join(installed, 'resource
     assert.equal(record.bundledNpm.treeHash,tree.sha256);
     assert.equal(record.bundledNpm.installedBytes,tree.bytes);
     assert.equal(record.bundledNpm.files,tree.files.length);
+    checkNpmDevelopmentInventory(record.bundledNpm.developmentSource,tree);
     bundledTrees[id] = { files: tree.files.length, bytes: tree.bytes, archiveBytes: (await stat(archive)).size, treeHash: tree.sha256 };
   } finally { await rm(staging, { recursive: true, force: true }); }
 }
