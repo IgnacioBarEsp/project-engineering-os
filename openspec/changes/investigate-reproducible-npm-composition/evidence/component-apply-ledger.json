@@ -1,4 +1,80 @@
 {
+  "officialWatch20261112": {
+    "observedAt": "2026-11-12 03:17:48 UTC",
+    "outcome": "qualified-official-preflight-not-production-adoption",
+    "officialVersion": "11.21.2",
+    "sourceTree": "5f3ed5146082cfcb794ebb8fe6c1d8cc58b336aec26e3df0f871823c1758ec82",
+    "audit": {
+      "info": 0,
+      "low": 0,
+      "moderate": 32,
+      "high": 0,
+      "critical": 0,
+      "total": 32
+    },
+    "physical": {
+      "files": 1944,
+      "bytes": 12296462,
+      "treeHash": "5f3ed5146082cfcb794ebb8fe6c1d8cc58b336aec26e3df0f871823c1758ec82",
+      "namedPackages": 144,
+      "ownedModuleMarkers": 40,
+      "sourceDiff": {
+        "added": 0,
+        "missing": 0,
+        "changed": 0
+      }
+    },
+    "runtime": {
+      "nodes": [
+        "22.22.0",
+        "24.18.0",
+        "24.20.0"
+      ],
+      "platform": "win32-x64",
+      "realLocksPassed": 12,
+      "undiciTestsPerRuntime": 58,
+      "undiciSkipped": 0,
+      "advisoriesCovered": 5
+    },
+    "packaging": {
+      "twoSealsIdentical": true,
+      "archiveSha256": "fef16d4e55a97a22965ab51dd6dc2b670274a4d303d48e6b1da1d0f7a29803ef",
+      "archiveBytes": 4207812,
+      "runtimeChecksPassed": 6,
+      "experimentalCatalog": true,
+      "automaticCrashRecoveryProven": false,
+      "realInstallerBuilt": false
+    },
+    "controls": {
+      "releaseAgePerRuntime": true,
+      "scriptsBinLinksWorkspacesAndConfigPerRuntime": true,
+      "rawConfigComparisonReconciledWithoutRerun": true,
+      "networkTimeoutCancellationDigestPassed": 3,
+      "pairedResourceRowsPassed": 6,
+      "acceptanceBudgetApproved": false
+    },
+    "ownPatchBudgetUnchanged": {
+      "outcome": "rejected",
+      "consumed": 4,
+      "maximum": 4,
+      "remaining": 0,
+      "wholeNpmCompositions": 0,
+      "changed": false
+    },
+    "adoption": {
+      "change": "adopt-reviewed-official-npm-distribution",
+      "approved": false,
+      "implemented": false
+    },
+    "evidence": {
+      "path": "artifacts/official-watch/observation-20261112.json",
+      "sha256": "1768546df3b9a7fe221443a2a5673df9b9aeb2d91ff489a7298eee8661bf33ce",
+      "index": "../../adopt-reviewed-official-npm-distribution/evidence/manifest.json"
+    },
+    "productionBoundariesUnchanged": true,
+    "productionChanged": false,
+    "requiredCIGreen": false
+  },
   "scope": "Recipe 4 frozen/applied under actual approval; three independent P1 bypasses parent-confirmed directly and in isolated environment, plus parent-observed legitimate concurrency regression; budget exhausted, no fifth/adoption",
   "boundaryApprovalCommit": "d6e2b543d632dc35b099037746891dbe2f3983db",
   "boundaryApprovalRecord": "evidence/boundary-amendment-approval.md",

@@ -1,5 +1,21 @@
 # #204 — receta final ejecutada y rechazada
 
+## Nueva observación oficial — 12 de noviembre de 2026
+
+**npm11.21.2 pasó la comprobación elegible y puede proponerse para adopción; no está adoptado.**
+Una instalación, auditor independiente0high/critical32moderate,144paquetes/40markers/1944archivos exactos
+al tarball,12fixtures reales y58regresionesUndici en cada Node22.22.0/24.18.0/24.20.0. Dos sellados
+idénticos, seis controles del runtime en copia propia y controles de fallos/config/edad/recursos completados.
+Los32moderate de glob/minimatch se conservan, sin excepción o patch. Recuperación automática, selector
+durable de producto, instalador real, review/deuda y CI/integración siguen pendientes.
+
+La fase separada [adopt-reviewed-official-npm-distribution](../adopt-reviewed-official-npm-distribution/TLDR.md)
+tiene DoR13/13 y scaffold local1.6.0; **su revisión concreta aún necesita aprobación antes de Apply**.
+#214está aprobado y verificado localmente en3335cc7/PR215, no Backlog/sin implementar; CI43098417761
+seguía queued sin jobs. Los resultados anteriores abajo están fechados y no describen este estado nuevo.
+Ledger conserva los registros y hashes nuevos. Las14fronteras de producción siguen intactas; presupuesto
+propio4/4agotado sin cambios. No archive de investigación incompleta, quinto intento, merge/release u ola4.
+
 ## Actualización oficial — 11 de noviembre de 2026
 
 Los avisos [max-stale](https://github.com/advisories/GHSA-ch52-4w7c-c8xp) y [braces](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) fueron retirados el 28 y 23 de octubre, respectivamente. Eso no hace apta nuestra receta 4 ni borra sus fallos. El presupuesto propio sigue **4/4 consumido, 0 restante**.
