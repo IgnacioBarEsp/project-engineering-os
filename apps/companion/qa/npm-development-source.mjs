@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { cp, mkdir, mkdtemp, realpath, readFile, writeFile, rm, rmdir, rename, link, symlink } from 'node:fs/promises';
+import { cp, mkdir, mkdtemp, realpath, readFile, writeFile, rm, rmdir, rename, link, symlink, lstat } from 'node:fs/promises';
 import { watch, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { tmpdir } from 'node:os';
@@ -9,8 +9,9 @@ import { prepareNpmDevelopmentSource, checkNpmDevelopmentInventory } from '../ru
 import { inspectTree } from '../runtime/tree.mjs';
 import { RUNTIME_CATALOG } from '../runtime/catalog.mjs';
 import { sealNpm } from '../scripts/seal-npm.mjs';
+import { installedNpmSource, npmSourceForQA } from './fixtures/npm-source.mjs';
 
-const source=fileURLToPath(new URL('../node_modules/npm',import.meta.url));
+const source=installedNpmSource;
 const names=['arborist','cssesc','installed-package-contents','node-gyp','node-which','nopt','pacote','qrcode-terminal','semver']
   .flatMap(name=>['','.cmd','.ps1'].map(extension=>name+extension)).sort();
 async function fixture(t) {
@@ -18,22 +19,22 @@ async function fixture(t) {
   assert.equal(path.dirname(root),await realpath(tmpdir()));
   t.after(()=>rm(root,{recursive:true,force:true}));return root;
 }
-async function canonical(root) {const target=path.join(root,'canonical');await prepareNpmDevelopmentSource(source,target);return target;}
+async function canonical(root) {const target=path.join(root,'canonical');await prepareNpmDevelopmentSource(await npmSourceForQA(root),target);return target;}
 async function auxiliaries(root) {
   const bin=path.join(root,'node_modules','.bin');await mkdir(bin,{recursive:true});
   for(const name of names)await writeFile(path.join(bin,name),'untrusted auxiliary; never executed\n');return bin;
 }
 const rejected=error=>['NPM_SOURCE','LINK_REJECTED','RUNTIME_INTEGRITY','RUNTIME_LIMIT','RUNTIME_CHANGED','FOLDER_CHANGED'].includes(error.code);
 
-test('real development source and exact 27 auxiliaries preserve the official tree and deterministic sealed bytes',{timeout:90000},async t=>{
-  const root=await fixture(t),before=await inspectTree(source),input=await canonical(root);
+test('official fixture and exact 27 auxiliaries preserve the official tree and deterministic sealed bytes',{timeout:90000},async t=>{
+  const root=await fixture(t),input=await canonical(root);
   await auxiliaries(input);
   const raw=await inspectTree(input),first=path.join(root,'first'),second=path.join(root,'second');
   const records=await Promise.all([prepareNpmDevelopmentSource(input,first),prepareNpmDevelopmentSource(input,second)]);
   assert.deepEqual(records[0],records[1]);assert.equal(records[0].excluded.length,27);
   const tree=await inspectTree(first);assert.equal(tree.sha256,RUNTIME_CATALOG.npm.treeHash);assert.equal(tree.files.length,1944);
   assert.equal(tree.bytes,12296462);checkNpmDevelopmentInventory(records[0],tree);
-  assert.deepEqual(await inspectTree(input),raw);assert.deepEqual(await inspectTree(source),before);
+  assert.deepEqual(await inspectTree(input),raw);
   const zipA=path.join(root,'a.zip'),zipB=path.join(root,'b.zip');await sealNpm(first,zipA);await sealNpm(second,zipB);
   assert.deepEqual(await readFile(zipA),await readFile(zipB));
   for(const mutate of [r=>r.input.files++,r=>r.input.bytes++,r=>r.input.sha256='0'.repeat(64),r=>r.canonical.files++,
@@ -45,9 +46,21 @@ test('real development source and exact 27 auxiliaries preserve the official tre
 
 test('concurrent copiers cannot share or overwrite an owned destination',{timeout:90000},async t=>{
   const root=await fixture(t);
-  const concurrent=await Promise.allSettled([prepareNpmDevelopmentSource(source,path.join(root,'shared')),prepareNpmDevelopmentSource(source,path.join(root,'shared'))]);
+  const input=await npmSourceForQA(root);
+  const concurrent=await Promise.allSettled([prepareNpmDevelopmentSource(input,path.join(root,'shared')),prepareNpmDevelopmentSource(input,path.join(root,'shared'))]);
   assert.equal(concurrent.filter(r=>r.status==='fulfilled').length,1);
   assert.equal(concurrent.find(r=>r.status==='rejected').reason.code,'EEXIST');
+});
+
+test('POSIX installer symlinks remain rejected by the product boundary',{skip:process.platform==='win32'},async t=>{
+  const root=await fixture(t);
+  const original=await lstat(path.join(source,'node_modules/.bin/arborist')).catch(error=>{if(error.code!=='ENOENT')throw error;return null;});
+  let input=source;
+  if(!original?.isSymbolicLink()){
+    input=await canonical(root);await mkdir(path.join(input,'node_modules/.bin'),{recursive:true});
+    await symlink(path.join(input,'bin/npm-cli.js'),path.join(input,'node_modules/.bin/arborist'),'file');
+  }
+  await assert.rejects(prepareNpmDevelopmentSource(input,path.join(root,'rejected-linked-input')),error=>error.code==='LINK_REJECTED');
 });
 
 test('unknown, partial, nested, oversized and linked auxiliaries cannot grant a verified copy',{timeout:90000},async t=>{

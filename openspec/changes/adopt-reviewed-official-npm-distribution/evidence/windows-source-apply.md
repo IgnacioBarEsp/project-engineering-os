@@ -84,3 +84,23 @@ This is a verified bounded source candidate. Full build/artifact/installer, fina
 required CI at the actual final head and protected integration remain gates. No merge/release/issue
 closure or completion of ola3 is claimed, and no ola4 work is started.
 
+
+## Cross-platform CI fixture reconciliation after54245cb
+
+Run43305650052 head54245cb rejects original POSIX installer inputs because their .bin entries are
+symlinks, not the exact27 regular Windows auxiliaries. The product rejection is intentional and stays
+unchanged. New positive QA originally assumed every installed input was Windows-shaped. The QA-only
+fixture now omits solely the nine known POSIX installer symlinks from its own separate copy and verifies
+all1944official files/12296462bytes/full digest before it can serve as an accepted test input. Unknown
+files/links remain and fail the full pin; no product path accepts POSIX links. A separate POSIX test
+confirms the product still rejects the linked input, including when local installation used bin-links off.
+Pack-prefix cleanup tests use that explicitly constructed canonical fixture on POSIX. Windows tests
+continue using the real1971-file source. This is fixture correction, not widened acceptance, policy or
+source change. Original remote failures are retained as managed ci-43305650052-linux-original.json.
+
+The first complete Windows build reached the pinned packager but failed before graph collection because
+the isolated build PATH lacked Windows PowerShell. product-pack-54245cb-result.json retains that error;
+no installer/manifests or successful build claim resulted. Retry uses a different, complete isolated
+build environment with the already reviewed fixed CI npm client; it is not another npm candidate install.
+
+

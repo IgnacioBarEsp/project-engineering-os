@@ -8,16 +8,19 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { extractZip } from '../runtime/archive.mjs';
 import { inspectTree } from '../runtime/tree.mjs';
 import { RUNTIME_CATALOG } from '../runtime/catalog.mjs';
+import { npmSourceForQA } from './fixtures/npm-source.mjs';
 
 const packFile=new URL('../scripts/pack-app.mjs',import.meta.url),app=fileURLToPath(new URL('../',import.meta.url));
 for(const failure of [false,true])test(`actual npm pack preparation cleans its owned temporary copy on ${failure?'injected failure':'success'}`,{timeout:90000},async t=>{
   const temporaryBase=await realpath(tmpdir()),root=await realpath(await mkdtemp(path.join(temporaryBase,'npm-pack-')));
   assert.equal(path.dirname(root),temporaryBase);t.after(()=>rm(root,{recursive:true,force:true}));
   const original=await readFile(packFile,'utf8'),marker='\nconst packages = productionPackages(lock);',end=original.indexOf(marker);
+  const input=await npmSourceForQA(root);
   assert.ok(end>0,'The production npm preparation boundary changed; review the harness.');
   let source=original.slice(0,end).replace(/from '(\.{1,2}\/[^']+)'/g,(_match,relative)=>`from '${new URL(relative,packFile).href}'`)
     .replace("const app = fileURLToPath(new URL('../', import.meta.url));",`const app = ${JSON.stringify(app)};`)
-    .replace("const npmArchive = path.join(app, 'build', 'npm-dist.zip');",`const npmArchive = ${JSON.stringify(path.join(root,'npm.zip'))};`);
+    .replace("const npmArchive = path.join(app, 'build', 'npm-dist.zip');",`const npmArchive = ${JSON.stringify(path.join(root,'npm.zip'))};`)
+    .replace("path.join(app,'node_modules','npm')",JSON.stringify(input));
   if(failure){const point='  npmTree = await inspectTree(await canonicalFolder(canonicalNpm));';assert.ok(source.includes(point));source=source.replace(point,"  throw Object.assign(new Error('INJECTED_PACK_FAILURE'),{code:'INJECTED_PACK_FAILURE'});\n"+point);}
   const script=path.join(root,'actual-pack-prefix.mjs');await writeFile(script,source);
   const child=spawn(process.execPath,[script],{cwd:app,env:{...process.env,TEMP:root,TMP:root,TMPDIR:root},windowsHide:true,stdio:['ignore','pipe','pipe']});
