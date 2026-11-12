@@ -9,10 +9,11 @@ const tools = {
     treeHash: 'baef5c1022e24a090ff6a700439882da64ed0d5a0c26fd5336846bbbf0a4dae1', installedBytes: 93542003,
   },
   npm: {
-    id: 'npm', name: 'Preparador de dependencias', version: '11.19.1', license: 'Artistic-2.0 + avisos incluidos',
+    id: 'npm', name: 'Preparador de dependencias', version: '11.21.2', license: 'Artistic-2.0 + avisos incluidos',
     purpose: 'Prepara dependencias aisladas sin ejecutar los scripts del producto.',
-    source: 'https://github.com/npm/cli/tree/v11.19.1', entry: 'bin/npm-cli.js', bundled: true,
-    bytes: 0, treeHash: 'ee294c531ba0fb603d93040b014c8096975ba687978d09f317d93612bc96eb7d', installedBytes: 12237898,
+    source: 'https://github.com/npm/cli/tree/a97776b5453204b99d3b28ff676a5e00d5822770', entry: 'bin/npm-cli.js', bundled: true,
+    channel: 'official', recipeHash: null,
+    bytes: 0, treeHash: '5f3ed5146082cfcb794ebb8fe6c1d8cc58b336aec26e3df0f871823c1758ec82', installedBytes: 12296462,
     packagePath: 'package.json', packageName: 'npm',
   },
   git: {
@@ -35,4 +36,7 @@ const tools = {
 };
 function freeze(value) { for (const child of Object.values(value)) if (child && typeof child === 'object') freeze(child); return Object.freeze(value); }
 export const RUNTIME_CATALOG = freeze(tools);
+// Compiled reviewed destinations only. Mutable receipts cannot extend this list. Keep this module
+// self-contained: the offline agent tool copies it without the runtime manager.
+export const NPM_DISTRIBUTIONS = freeze([tools.npm]);
 export const RUNTIME_PLATFORM = 'win32-x64';

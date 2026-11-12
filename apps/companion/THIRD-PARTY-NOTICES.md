@@ -1,6 +1,6 @@
 # Third-party notices
 
-Project Engineering OS Companion 0.3.6 is MIT; see LICENSE. It also ships two bodies of
+Project Engineering OS Companion 0.3.7 is MIT; see LICENSE. It also ships two bodies of
 third-party software: the Electron runtime that executes it, and the npm packages it depends on.
 
 ## Electron runtime
@@ -40,8 +40,8 @@ Optional dependencies for other platforms are excluded because they are not inst
 | @napi-rs/canvas | 1.0.8 | MIT |
 | @napi-rs/canvas-win32-x64-msvc | 1.0.8 | MIT |
 | @npmcli/agent | 4.0.2 | ISC |
-| @npmcli/arborist | 9.9.1 | ISC |
-| @npmcli/config | 10.12.0 | ISC |
+| @npmcli/arborist | 9.9.3 | ISC |
+| @npmcli/config | 10.14.0 | ISC |
 | @npmcli/fs | 5.0.0 | ISC |
 | @npmcli/git | 7.0.2 | ISC |
 | @npmcli/installed-package-contents | 4.0.0 | ISC |
@@ -50,7 +50,7 @@ Optional dependencies for other platforms are excluded because they are not inst
 | @npmcli/name-from-folder | 4.0.0 | ISC |
 | @npmcli/node-gyp | 5.0.0 | ISC |
 | @npmcli/package-json | 7.0.5 | ISC |
-| @npmcli/promise-spawn | 9.0.1 | ISC |
+| @npmcli/promise-spawn | 9.0.2 | ISC |
 | @npmcli/query | 5.0.0 | ISC |
 | @npmcli/redact | 4.0.0 | ISC |
 | @npmcli/run-script | 10.0.4 | ISC |
@@ -67,9 +67,9 @@ Optional dependencies for other platforms are excluded because they are not inst
 | aproba | 2.1.0 | ISC |
 | archy | 1.0.0 | MIT |
 | balanced-match | 4.0.4 | MIT |
-| bin-links | 6.0.2 | ISC |
+| bin-links | 6.0.3 | ISC |
 | binary-extensions | 3.1.0 | MIT |
-| brace-expansion | 5.0.9 | MIT |
+| brace-expansion | 5.0.12 | MIT |
 | cacache | 20.0.4 | ISC |
 | chalk | 5.6.2 | MIT |
 | chownr | 3.0.0 | BlueOak-1.0.0 |
@@ -90,14 +90,14 @@ Optional dependencies for other platforms are excluded because they are not inst
 | glob | 13.0.6 | BlueOak-1.0.0 |
 | graceful-fs | 4.2.11 | ISC |
 | hosted-git-info | 9.0.3 | ISC |
-| http-cache-semantics | 4.2.0 | BSD-2-Clause |
+| http-cache-semantics | 4.3.0 | BSD-2-Clause |
 | http-proxy-agent | 7.0.2 | MIT |
 | https-proxy-agent | 7.0.6 | MIT |
 | iconv-lite | 0.7.2 | MIT |
 | ignore-walk | 8.0.0 | ISC |
 | ini | 6.0.0 | ISC |
 | init-package-json | 8.2.5 | ISC |
-| ip-address | 10.5.0 | MIT |
+| ip-address | 10.7.5 | MIT |
 | is-cidr | 6.0.4 | BSD-2-Clause |
 | isexe | 4.0.0 | BlueOak-1.0.0 |
 | json-parse-even-better-errors | 5.0.0 | MIT |
@@ -106,12 +106,12 @@ Optional dependencies for other platforms are excluded because they are not inst
 | just-diff | 6.0.2 | MIT |
 | just-diff-apply | 5.5.0 | MIT |
 | libnpmaccess | 10.0.3 | ISC |
-| libnpmdiff | 8.1.12 | ISC |
-| libnpmexec | 10.3.2 | ISC |
-| libnpmfund | 7.0.26 | ISC |
+| libnpmdiff | 8.1.14 | ISC |
+| libnpmexec | 10.3.5 | ISC |
+| libnpmfund | 7.0.28 | ISC |
 | libnpmorg | 8.0.1 | ISC |
-| libnpmpack | 9.1.13 | ISC |
-| libnpmpublish | 11.2.0 | ISC |
+| libnpmpack | 9.1.15 | ISC |
+| libnpmpublish | 11.2.1 | ISC |
 | libnpmsearch | 9.0.1 | ISC |
 | libnpmteam | 8.0.2 | ISC |
 | libnpmversion | 8.0.4 | ISC |
@@ -131,7 +131,7 @@ Optional dependencies for other platforms are excluded because they are not inst
 | negotiator | 1.0.0 | MIT |
 | node-gyp | 12.4.0 | MIT |
 | nopt | 9.0.0 | ISC |
-| npm | 11.19.1 | Artistic-2.0 |
+| npm | 11.21.2 | Artistic-2.0 |
 | npm-audit-report | 7.0.0 | ISC |
 | npm-bundled | 5.0.0 | ISC |
 | npm-install-checks | 8.0.0 | BSD-2-Clause |
@@ -143,12 +143,12 @@ Optional dependencies for other platforms are excluded because they are not inst
 | npm-registry-fetch | 19.1.1 | ISC |
 | npm-user-validate | 4.0.0 | BSD-2-Clause |
 | p-map | 7.0.4 | MIT |
-| pacote | 21.5.1 | ISC |
+| pacote | 21.5.2 | ISC |
 | parse-conflict-json | 5.0.1 | ISC |
 | path-scurry | 2.0.2 | BlueOak-1.0.0 |
 | pdfjs-dist | 6.3.289 | Apache-2.0 |
 | picomatch | 4.0.4 | MIT |
-| postcss-selector-parser | 7.1.4 | MIT |
+| postcss-selector-parser | 7.1.6 | MIT |
 | proc-log | 6.1.0 | ISC |
 | proggy | 4.0.0 | ISC |
 | promise-all-reject-late | 1.0.1 | ISC |
@@ -159,7 +159,7 @@ Optional dependencies for other platforms are excluded because they are not inst
 | read-cmd-shim | 6.0.0 | ISC |
 | safer-buffer | 2.1.2 | MIT |
 | saxes | 6.0.0 | ISC |
-| semver | 7.8.5 | ISC |
+| semver | 7.8.6 | ISC |
 | signal-exit | 4.1.0 | ISC |
 | sigstore | 4.1.1 | Apache-2.0 |
 | smart-buffer | 4.2.0 | MIT |
@@ -176,7 +176,7 @@ Optional dependencies for other platforms are excluded because they are not inst
 | tinyglobby | 0.2.17 | MIT |
 | treeverse | 3.0.0 | ISC |
 | tuf-js | 4.1.0 | MIT |
-| undici | 6.28.0 | MIT |
+| undici | 6.29.1 | MIT |
 | util-deprecate | 1.0.2 | MIT |
 | validate-npm-package-name | 7.0.2 | ISC |
 | walk-up-path | 4.0.0 | ISC |
