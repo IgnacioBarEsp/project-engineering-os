@@ -1,0 +1,5 @@
+schema: spec-driven
+created: 2026-09-24
+goal: Mantener los plugins de agentes externos al repositorio y hacer
+  comprobable que el contenido de terceros redistribuido esté declarado y
+  notificado.
