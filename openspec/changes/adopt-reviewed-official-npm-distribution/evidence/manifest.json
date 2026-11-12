@@ -4,6 +4,26 @@
   "storage": "persistent",
   "records": [
     {
+      "path": "artifacts/official-watch/app-baseline-production-audit-20261112.mjs",
+      "sha256": "9177d920aed61da1c079e33ea80c5a0a9b34a339776779ced0f46c4771d7bca0"
+    },
+    {
+      "path": "artifacts/official-watch/app-baseline-production-audit-result.json",
+      "sha256": "7943ee044e9b30953a8f808193264aa9d7c4c602e43b322edeac8118915e4787"
+    },
+    {
+      "path": "artifacts/official-watch/prospective-app-audit-model-20261112.mjs",
+      "sha256": "90b849302965dc46b73b2d01b1390dfe1ae4d27476a48acd85df8e85e6d5ce26"
+    },
+    {
+      "path": "artifacts/official-watch/prospective-app-audit-result.json",
+      "sha256": "fc88e8c33f5e11278525a61d1bfa1f7670b4bff79baf2e09d6d335a8d5c10f6d"
+    },
+    {
+      "path": "artifacts/official-watch/older-bundled-advisories-20261112.json",
+      "sha256": "9d8cf54455cfccd66bd972675be7e7d6f06a906831aee53fcaa457955ce15ae9"
+    },
+    {
       "path": "artifacts/official-watch/adoption-proposal-checks-final-20261112.json",
       "sha256": "feca1b45794d0e906784fcbe1eb15b5bd7e4827c43746714f16633f9693a621b"
     },

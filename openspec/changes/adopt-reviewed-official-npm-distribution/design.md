@@ -101,6 +101,15 @@ debe superar su prueba real; no se distribuye un derivado de prueba para obtener
 
 ## Policy, advisories and preflight evidence
 
+Una auditoría adicional del lock Companion original dio2high/34moderate: brace-expansion y undici,
+ambos dentro del closure npm. Un **modelo privado de lock, audit-only y sin instalación**, reemplazó
+solo sus144entradas por las144oficiales nuevas y dio0high/critical32moderate; todos los nodos ajenos,
+el lock/modelo auditado y las fuentes del repositorio se conservaron. No es Apply de producción.
+La matriz final también debe cubrir los avisos anteriores del baseline11.19.1: las tres correcciones de
+brace-expansion y las anteriores de Undici6.28.1, además de las cinco comprobadas aquí para6.29.1.
+Los primarios y raw/modelo están indexados; sus regresiones finales no se declaran ejecutadas por
+salir de un rango textual. No se ha descubierto un high fuera del closure npm en esa auditoría.
+
 Auditor fijo independiente11.21.0/Node24.18.0:0high/critical,32moderate.
 Undici6.29.1 supera58regresiones por runtime con seis fuentes idénticas al upstream8c57f6c y cubre cinco
 avisos anteriores. Los32moderate restantes derivan de glob13.0.6 y minimatch10.2.5: sus avisos activos y

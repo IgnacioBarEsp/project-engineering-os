@@ -26,6 +26,12 @@ workspaces off, fixed registry/age/exclusion, bounded processes and owned home/c
 Its immutable evidence and original failures are indexed in [manifest](evidence/manifest.json).
 No production npm source, catalog, lock, notice, installer or host runtime was updated by those probes.
 
+A fresh read-only audit of the original app lock found2high/34moderate (brace-expansion/undici inside
+npm). An audit-only private lock model replacing only that144-entry npm closure found0high/critical
+and32moderate, with no unrelated node or repository source change. No app dependencies were installed
+by that model and no production Apply occurred. Older baseline advisories are retained as explicit
+final regression obligations rather than being claimed covered by the58newest Undici tests.
+
 Initial coverage attempts overcounted module-scope type files as packages, then encountered the two
 sideEffects:false build markers. All40remain hashed/owned; the successful inventory omits no source.
 An initial fixture setup failed canonical path validation before install. Script-config observation

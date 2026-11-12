@@ -17,6 +17,7 @@
 ## 3. Verify actual changed product
 
 - [ ] 3.1 Verify clean install and all original audit scopes with physical coverage and retained moderate findings; no high/critical or new exception.
+- [ ] 3.7 Complete correction/regression evidence for the older baseline brace-expansion and Undici6.28.1 advisories as well as the five newest Undici fixes; preserve residual glob/minimatch findings.
 - [ ] 3.2 Verify three supported Node runtimes, four immutable real locks and installation policy/config/script/bin-link/workspace controls.
 - [ ] 3.3 Run core/consumer/Companion/QA/UI/mutation checks with exact source identity; preserve all unrelated failures.
 - [ ] 3.4 Build and verify the real installer; exercise installation, repair, cancellation, interrupted/restarted recovery, source/digest drift and data preservation in a disposable Windows environment.
