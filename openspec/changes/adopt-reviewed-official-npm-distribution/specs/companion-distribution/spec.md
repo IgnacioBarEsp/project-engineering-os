@@ -1,5 +1,21 @@
 ## ADDED Requirements
 
+### Requirement: Canonical Windows development input with bounded auxiliary inventory
+Subject to explicit approval of windows-development-source-amendment.md, the development copy path SHALL
+accept only an unmodified official npm source, with either no auxiliaries or the exact27regular paths
+declared by that amendment. All auxiliaries SHALL remain inventoried but unshipped/unexecuted, and the
+canonical destination SHALL match the unchanged official full-tree identity before use or sealing.
+
+#### Scenario: A Windows installer creates the exact known auxiliary set
+- **WHEN** complete raw coverage differs solely by those27bounded regular files and all official bytes are unchanged
+- **THEN** only a new canonical copy MAY be used after full official-tree verification
+- **AND** the original input and full excluded inventory SHALL remain preserved
+
+#### Scenario: Unknown, incomplete, linked, oversized or changed input appears
+- **WHEN** the auxiliary set is partial or unknown, a type/limit check fails, a source file changes, or the source drifts during copying
+- **THEN** canonicalization SHALL fail closed without execution or selection
+- **AND** no compiled hash, policy, CI protection or upstream source SHALL be weakened to accept it
+
 ### Requirement: Distribution closure and actual artifact evidence
 The new Companion candidate SHALL preserve and verify the exact official npm tree and its licenses
 through packaging. Its manifest, catalog, notices, receipt and installer evidence SHALL agree with the

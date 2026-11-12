@@ -11,6 +11,10 @@ scaffold generado por OpenSpec local1.6.0 el12nov2026.
 
 ## What Changes
 
+Pending separate decision: [Windows development input amendment](windows-development-source-amendment.md)
+for27installer-generated auxiliaries. Its proposed canonical-copy boundary is not covered by the earlier
+approval and has not been applied; official source identity and all existing protections remain fixed.
+
 - Adoptar exclusivamente npm oficial11.21.2 intacto, con fuente/SRI/inventario congelados en diseño.
 - Preparar identidad candidata Companion0.3.7, lock/catálogo/notices/hashes coherentes, sin cambiar la
   versión del núcleo ni los demás pins.
