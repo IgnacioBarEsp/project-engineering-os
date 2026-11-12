@@ -52,9 +52,9 @@
     },
     {
       "id": "multi-platform-smoke",
-      "status": "pending",
-      "evidence": "evidence/manifest.json -> artifacts/zod214/verification-checkpoint.md",
-      "justification": "Windows local checked on three runtimes; Linux/macOS and current remote CI still pending.",
+      "status": "passed",
+      "evidence": "evidence/joint-integration-verification.md",
+      "justification": null,
       "profileCondition": null
     },
     {

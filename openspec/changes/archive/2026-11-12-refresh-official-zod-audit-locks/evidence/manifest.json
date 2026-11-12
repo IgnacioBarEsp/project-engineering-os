@@ -172,6 +172,33 @@
   },
   "current": {
     "sourceCandidate": "ed08b7484d5e1b4198cca01a76c1694b22e57abb",
+    "unchangedApprovedSource": "3335cc70209b42dd7a6f41aced97b5c50a2f852d",
+    "jointCodeHead": "346e3bdc2d1d6e3c991b65963077aabea568b8ee",
+    "remoteCi": {
+      "run": 43306807954,
+      "conclusion": "SUCCESS",
+      "platforms": 3
+    },
+    "archived": true,
+    "archiveDirectory": "2026-11-12-refresh-official-zod-audit-locks",
+    "archiveReadiness": {
+      "pass": 16,
+      "fail": 0,
+      "exceptions": 0
+    },
+    "integrated": false,
+    "ola4": false
+  },
+  "jointIntegration": {
+    "evidence": "joint-integration-verification.md",
+    "productEvidence": "../../2026-11-12-adopt-reviewed-official-npm-distribution/evidence/product-manifest.json",
+    "ciRun": 43306807954,
+    "head": "346e3bdc2d1d6e3c991b65963077aabea568b8ee",
+    "approvedSource": "3335cc70209b42dd7a6f41aced97b5c50a2f852d",
+    "bytesChanged": false
+  },
+  "previousPublicationCheckpoint": {
+    "sourceCandidate": "ed08b7484d5e1b4198cca01a76c1694b22e57abb",
     "originalApprovedSpec": "013ac7840ef86091b09080cfabfa4ad1986dfe7d",
     "localChecks": {
       "core": 396,

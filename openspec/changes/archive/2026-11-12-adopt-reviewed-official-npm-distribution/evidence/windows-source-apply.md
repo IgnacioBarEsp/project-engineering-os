@@ -103,4 +103,10 @@ the isolated build PATH lacked Windows PowerShell. product-pack-54245cb-result.j
 no installer/manifests or successful build claim resulted. Retry uses a different, complete isolated
 build environment with the already reviewed fixed CI npm client; it is not another npm candidate install.
 
+## Final product checkpoint
+
+The subsequent full artifact, disposable installer/runtime/recovery cycle, all-platform CI and owner debt
+assessment completed; [final evidence](final-product-verification.md) supersedes the earlier pending
+labels above without replacing their raw results. Protected integration and release remain distinct.
+
 

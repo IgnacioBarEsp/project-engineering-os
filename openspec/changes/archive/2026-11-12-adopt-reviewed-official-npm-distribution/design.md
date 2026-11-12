@@ -1,9 +1,9 @@
 ## Context and decision status
 
-**Approved review8d335a2; bounded Apply in progress.** [Approval record](evidence/spec-approval.md).
+**Approved review8d335a2; Apply and product verification complete, protected integration not yet performed.** [Approval record](evidence/spec-approval.md).
 Main integrado9751c301976fe27e9bbad33e69f39372b69f901e.
 Fuente #214 disponible3335cc70209b42dd7a6f41aced97b5c50a2f852d, aprobación013ac784 conservada.
-Rama documental actual contiene el experimento rechazado; **no es la rama de producto a integrar**.
+La rama de producto codex/204-official-npm-adoption parte de3335cc7; el experimento rechazado queda en su rama histórica separada.
 Después de aprobación se crea fuente de adopción desde la candidata214 identificada, se transporta
 solo este expediente y se mantiene cada cambio/assessment con su owner. No copiar parches experimentales.
 
@@ -15,7 +15,7 @@ migración o zod aprueba este diseño. El owner debe aceptar esta revisión conc
 **Additional amendment approved at f3b4ff2:** [Windows development input amendment](windows-development-source-amendment.md)
 defines an exact27-path auxiliary set observed in CI. Its separate literal approval and bounded
 additional review authorization are recorded in [evidence](evidence/windows-source-approval.md).
-Apply and verification are pending; the earlier8d335a2 approval is not used to infer this decision.
+Apply and bounded verification completed; see evidence/final-product-verification.md. The earlier8d335a2 approval is not used to infer this decision.
 
 | Campo | Valor |
 | --- | --- |

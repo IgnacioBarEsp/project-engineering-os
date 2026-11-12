@@ -1,0 +1,204 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 204,
+  "change": "adopt-reviewed-official-npm-distribution",
+  "surfaces": [
+    "documentation",
+    "harness-tooling",
+    "auth-security"
+  ],
+  "validations": [
+    {
+      "id": "openspec-strict",
+      "status": "passed",
+      "evidence": "evidence/final-product-verification.md#readiness-evidence",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "opsx-check",
+      "status": "passed",
+      "evidence": "evidence/final-product-verification.md#readiness-evidence",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "critical-document-presence",
+      "status": "passed",
+      "evidence": "evidence/final-product-verification.md#readiness-evidence",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "relative-link-check",
+      "status": "passed",
+      "evidence": "evidence/final-product-verification.md#readiness-evidence",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "findability-two-hop-check",
+      "status": "passed",
+      "evidence": "evidence/final-product-verification.md#readiness-evidence",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "neutrality-check",
+      "status": "passed",
+      "evidence": "evidence/final-product-verification.md#readiness-evidence",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "constructor-tests",
+      "status": "passed",
+      "evidence": "evidence/final-product-verification.md#readiness-evidence",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "sync-check",
+      "status": "passed",
+      "evidence": "evidence/final-product-verification.md#readiness-evidence",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "capability-matrix-check",
+      "status": "passed",
+      "evidence": "evidence/final-product-verification.md#readiness-evidence",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "doctor-json-check",
+      "status": "passed",
+      "evidence": "evidence/final-product-verification.md#readiness-evidence",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "second-run-idempotence",
+      "status": "passed",
+      "evidence": "evidence/final-product-verification.md#readiness-evidence",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "authorization-tests",
+      "status": "passed",
+      "evidence": "evidence/final-product-verification.md#readiness-evidence",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "session-negative-tests",
+      "status": "passed",
+      "evidence": "evidence/final-product-verification.md#readiness-evidence",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "secret-scan",
+      "status": "passed",
+      "evidence": "evidence/product-manifest.json -> artifacts/adoption204/focused-literal-secret-check.json",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "dependency-signal-review",
+      "status": "passed",
+      "evidence": "evidence/final-product-verification.md#readiness-evidence",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "issue-link",
+      "kind": "automatic",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/204",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "adversarial-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence/final-product-verification.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "threat-model",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence/final-product-verification.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "privilege-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence/final-product-verification.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recovery-path-verification",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence/final-product-verification.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "qualitative-review-for-clarity-and-current-ownership",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence/final-product-verification.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recorded-drift-decisions",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence/final-product-verification.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recovery-rehearsal-for-one-transaction",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence/final-product-verification.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "review-of-declared-degradations",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "evidence/final-product-verification.md",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "rollback": {
+    "strategy": "preserved verified slots and protected revert without vulnerable fallback",
+    "status": "verified",
+    "evidence": "evidence/final-product-verification.md#recovery-and-retention",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "passed",
+    "ref": "evidence/final-product-verification.md#independent-review-and-trust-boundary",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}

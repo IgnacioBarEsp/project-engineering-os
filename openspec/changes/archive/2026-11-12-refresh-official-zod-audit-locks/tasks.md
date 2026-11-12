@@ -13,12 +13,17 @@
 - [x] 2.3 Install both owned clean environments with original controls and verify immutable locks/artifact/license.
 - [x] 2.4 Pass raw root/root-runtime/consumer-blueprint audits through the original policy without new exceptions.
 - [x] 2.5 Verify new local OpenSpec1.6.0, constructor/tarball/isolated fixtures, harnesses, sync/doctor classification and idempotence.
-- [ ] 2.6 Complete supported runtime checks and current CI matrix with identified SHA/base; preserve failures.
+- [x] 2.6 Complete supported runtime checks and current CI matrix with identified SHA/base; preserve failures.
 
 ## 3. Review and close
 
 - [x] 3.1 Complete fresh independent adversarial review and resolve confirmed findings within approved scope.
 - [x] 3.2 Assess/capture debt through the owner CLI as required, without recapturing unrelated immutable assessments.
 - [x] 3.3 Rehearse baseline recovery in owned copies and preserve adverse results.
-- [ ] 3.4 Satisfy archive readiness and archive through fixed official OpenSpec.
-- [ ] 3.5 Open/merge through a protected PR only with required CI green, revalidate dependent PRs in order, and update #214/#167 honestly.
+- [x] 3.4 Complete archive inputs/readiness evidence from actual results; retain official archive as the subsequent operation, not a prechecked task.
+- [x] 3.5 Prepare protected joint PR#216 with unchanged approved214 bytes and actual three-platform CI evidence; retain original draft#215 and honest #214/#167 tracking.
+
+After these inputs are complete, run archive readiness and archive through fixed official OpenSpec.
+Protected merge still requires current required CI green at the final head. Only after actual integration
+close #214 and supersede #215, then revalidate dependent PRs in order. Report each operation when it
+occurs; this task separation does not claim archive, merge or dependent integration already happened.

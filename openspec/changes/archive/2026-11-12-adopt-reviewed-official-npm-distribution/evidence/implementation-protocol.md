@@ -34,3 +34,10 @@ installation test harness changes only its expected candidate version; no NSIS/C
 
 Global suites, runtime matrix, packaged source/installer, resource/recovery negatives, debt/official
 archive and protected green CI remain required. No fixed/adopted/released/merged/ola3-closed claim.
+
+## Completed checkpoint
+
+The pending labels above describe the earlier checkpoint. Subsequent full three-platform CI, exact
+packaged artifact, real disposable installer/runtime/recovery and debt evidence are in
+[final verification](final-product-verification.md); earlier failures remain retained. Archive and
+protected integration are reported separately when performed.
