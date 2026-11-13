@@ -29,3 +29,9 @@
 - [ ] 5.2 Freeze and apply the single bounded correction; verify canonical fixtures, negative controls and unique mutation targets without changing the product.
 - [ ] 5.3 Run the approved regressions/full mutation runner and one corrected canonical installed cycle, retain failures and verify restored sources.
 - [ ] 5.4 Receive actual same-reviewer incremental reconciliation and assess remaining scope/debt; keep human/closure gates open until satisfied.
+
+## 6. Fixture-role decision after failed bounded Apply — not yet approved
+
+- [ ] 6.1 Receive approval of the concrete one-literal fixture-role and additional-budget amendment; retain2667452 approval, frozen variant and5/7 regression failure unchanged.
+- [ ] 6.2 Only if approved, apply and freeze that literal with linked preimage/postimage, then run the same seven regressions once on the changed input. No reset or unchanged full-mutation rerun.
+- [ ] 6.3 With all independent qualification gates passing, use only the still-unconsumed canonical VM cycle and same-reviewer incremental reconciliation; preserve separate product/harness identities and human gates.

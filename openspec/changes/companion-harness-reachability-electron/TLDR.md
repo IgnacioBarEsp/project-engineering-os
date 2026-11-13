@@ -30,6 +30,15 @@ regresión de UI demostrada. Fallos y revisiones originales se conservan.
 [Ampliación concreta propuesta](installed-evidence-harness-amendment.md) para
 corregir solo verificadores/fixtures/QA y reconciliar ese diff. **Aprobada2667452**:
 «Sí, apruebo la enmienda 2667452». [Recibo](evidence/installed-harness-approval.md).
-Comienza el Apply acotado; los resultados siguen pendientes. La aprobación f9ed23c del protocolo
-ya está registrada y no se vuelve a pedir. Humanos #146/#147 siguen pendientes
-en candidata apta; no archive, merge, release u ola4.
+El Apply se congeló en662fc27; las regresiones dieron5/7 y dos fallos por el rol
+`analyst` del fixture de Negocio. La app conserva su guarda correcta. Se retienen
+los fallos, el presupuesto y las fuentes originales. El runner completo terminó
+PASS37/37 por comportamiento, con tres baselines aptos y fuentes restauradas.
+[Resultado y evidencia](evidence/harness-apply-result-662fc27.json).
+La VM y reconciliación incremental no se han usado.
+
+[Decisión adicional concreta](fixture-role-correction-amendment.md): cambiar solo
+ese literal por `freelancer`, con una variante adicional y una comprobación de las
+mismas regresiones sobre entrada corregida. **Todavía no aprobada ni aplicada.**
+2667452 y f9ed23c ya están aprobadas y no se vuelven a pedir. Humanos #146/#147
+siguen pendientes en candidata apta; no archive, merge, release u ola4.

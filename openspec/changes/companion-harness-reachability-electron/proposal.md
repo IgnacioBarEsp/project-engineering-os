@@ -40,4 +40,14 @@ and incremental reconciliation; no product/CI/policy changes. The maintainer
 approved2667452 separately; the literal receipt is in evidence/installed-harness-approval.md.
 Apply may begin within that scope. Original qualification/human gates remain.
 
+### Pending fixture-role budget decision after the bounded Apply
+
+The correction frozen at662fc27 failed2/7 regressions because its business fixture
+uses an unrecognized optional role. The product guard is correct. The original
+approval and consumed one-variant budget remain recorded. The
+[new concrete decision](fixture-role-correction-amendment.md) proposes only
+analyst-to-freelancer in that fixture and one changed-input regression execution.
+It is not approved or applied. It neither resets the budget nor authorizes
+repeating unchanged mutation inputs, product edits or future result claims.
+
 Companion test harnesses, CI, EVALUATION documentation. No dependencies, release, installed-app mutation, product data migration or Wave 4. Existing live-service and stubbed native-capability evidence remain explicitly distinct.

@@ -58,9 +58,9 @@
     },
     {
       "id": "component-or-interaction-tests",
-      "status": "passed",
-      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
-      "justification": null,
+      "status": "failed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/harness-apply-result-662fc27.json",
+      "justification": "La regresión nueva de fixtures del harness dio5/7 por business.role=analyst. El runner de servicio37/37 y CI histórica de e713 conservan su alcance; no hacen apto el head nuevo. Se conserva el fallo original y no se inició otro ciclo instalado.",
       "profileCondition": null
     },
     {
@@ -99,7 +99,7 @@
       "kind": "manual",
       "status": "pending",
       "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-final-integration-review-e713e9a.md",
-      "justification": "La revisión independiente final de e713e9a terminó con dos P2 de verificadores: fixtures nativos retirados y anclas de mutaciones ausentes. Se conserva pending hasta aprobar/aplicar y reconciliar esa corrección acotada, sin convertir el FAIL del ciclo instalado en PASS. Los informes 5706/429c conservan sus ejecuciones, autoría y límites originales; no se simulan humanos ni revisión post-fix.",
+      "justification": "La revisión independiente final de e713e9a terminó con dos P2 de verificadores. La ampliación2667452 ya está aprobada/aplicada en662fc27: runner37/37 con fuentes restauradas, pero regresiones5/7 por un rol inválido del fixture de Negocio. La decisión adicional de un literal/presupuesto está preparada sin aprobar/aplicar; VM e incremental por el mismo revisor sin consumir. Pending conserva ese alcance; no convierte FAIL instalado o regresiones fallidas en PASS. Los informes históricos conservan autoría y límites; no humanos ni revisión post-fix simulados.",
       "profileCondition": null
     },
     {

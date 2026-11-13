@@ -63,3 +63,7 @@ Before approval this corrective expansion SHALL remain unapplied.
 #### Scenario: Corrected installed qualification
 - **WHEN** the approved bounded correction is frozen and the canonical VM cycle runs with separately identified product and verifier sources
 - **THEN** only completed observations count, originals and raw failures are retained, and human acceptance or protected integration is not inferred
+
+#### Scenario: Invalid fixture input after consuming a frozen variant
+- **WHEN** a frozen fixture fails the unchanged product selection validator and its approved variant budget is consumed
+- **THEN** the failure and budget remain recorded, no VM or product success is inferred, and any additional source variant requires a concrete approved decision rather than a silent reset

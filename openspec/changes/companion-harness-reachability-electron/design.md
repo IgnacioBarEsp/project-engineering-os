@@ -81,3 +81,12 @@ Its bounded regression/installed cycle and same-reviewer incremental reconciliat
 preserve the original source, failure, report and human gates. This is a separate
 decision from the approved f9ed23c protocol. A bounded source correction is being
 prepared/frozen; no future execution or post-fix review is inferred from approval.
+
+The actual freeze at662fc27 and first regression execution are retained separately:
+five passed and two failed on business.role=analyst. The unchanged product
+normalizer recognizes freelancer and rejects analyst. No validator or assertion
+will be relaxed. The [fixture-role decision](fixture-role-correction-amendment.md)
+contains the exact one-literal proposed diff, original/proposed hashes and an
+explicit additional-variant budget. That proposal remains unapplied and requires
+its own actual approval because the original single frozen variant is consumed.
+Unchanged mutation sources will not be rerun through a new budget by inference.
