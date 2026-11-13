@@ -122,4 +122,3 @@ contención de recursos. Se conservan logs, errores y el origen congelado.
 No hay CI actual de esta candidata, instalador de la nueva UI calificado, revisión
 independiente final, archivo de estas fases o merge de UI. Los anteriores PASS de
 main y el instalador npm con la UI antigua no satisfacen esos gates.
-
