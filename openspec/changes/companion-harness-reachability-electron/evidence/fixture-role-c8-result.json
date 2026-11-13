@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 150,
+  "approval": "c8cd8d5a8a753c0dd10e48cf41361073aec0d752",
+  "literalResponse": "CONTINUA DONDE TE QUEDASTE, apruebo",
+  "implementedSource": "716f9e2c714670bcaa45ee1b64ed352ad831c3a2",
+  "recipeHash": "a59f4f7a2a68acfedcd89c1031910076edfb6d6d650ff7638fc324cdc5f9da6a",
+  "sourcePostimage": "ce9106b2fb2ff04c139a3ac4c1a0755505a3b364bbaf1a15c00fc8580be65b61",
+  "standaloneTargetPath": "C:/Users/RitualDesktop/.codex/worktrees/wave3-current-source-verification/project-engineering-os",
+  "storage": "persistent",
+  "regressions": {
+    "tests": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "ownerExecutions": 1,
+    "raw": "artifacts/wave3-current/fixture-role-c8/regressions.json",
+    "sha256": "35875f6c550c585f5892a0f872584fd76945c349b25f834c5d1a3e3601126797",
+    "copyClean": true
+  },
+  "previous5of7Retained": true,
+  "serviceMutations": {
+    "detected": 37,
+    "total": 37,
+    "rerun": false,
+    "sameInputsVerifiedByReviewer": true,
+    "raw": "artifacts/wave3-current/service-mutations-266/service-mutations.json",
+    "sha256": "bd49c655e96d4eb6d6b8a02f0a11e0a07c407df3f2d0e31a4381a140a8d00303"
+  },
+  "independentReview": {
+    "sameOriginalAgent": true,
+    "reconciliationsConsumed": 1,
+    "maximumIncrementalReconciliations": 1,
+    "source": "716f9e2c714670bcaa45ee1b64ed352ad831c3a2",
+    "result": "No new actionable P0-P3 in five-file scope. F1 corrected in source/contract; installed validation pending. F2 corrected and supported by unchanged-input raw37/37.",
+    "raw": "artifacts/wave3-current/fixture-role-c8/independent-incremental-review.md",
+    "sha256": "d69bac8e9425a21dbd7c5189cd2d02cfc05f91b01ecc3447fdb58611a656e91b",
+    "readonlyRaw": "artifacts/wave3-current/fixture-role-c8/independent-readonly-reconciliation.json",
+    "readonlySha256": "b2956c6753c377baff1afb00df981a5bbdcbd7fa00b606e7efbda6af81d1d629"
+  },
+  "budget": {
+    "sourceVariantsConsumed": 2,
+    "sourceVariantsMaximum": 2,
+    "sourceVariantsRemaining": 0,
+    "regressionExecutionsCumulative": 2,
+    "fullServiceMutationExecutionsCumulative": 1,
+    "incrementalReviewConsumed": 1,
+    "incrementalReviewMaximum": 1,
+    "canonicalCorrectedVmConsumed": 0,
+    "canonicalCorrectedVmRemaining": 1
+  },
+  "knownSeparateBlocker": {
+    "issue": 218,
+    "advisory": "GHSA-jr5w-w6x2-84p9",
+    "currentElectron": "44.1.1",
+    "proposedElectron": "44.9.1",
+    "status": "Separate concrete proposal prepared, not approved or applied"
+  },
+  "currentFullCi": "Pending publication/run of final new head; c8 failure remains historical and is not a rerun target.",
+  "installedQualification": "PENDING_0_OF_1",
+  "globalCandidateApt": false,
+  "human146And147": "PENDING_ON_APT_CANDIDATE",
+  "debtClosureAssessment": "PENDING_WHEN_ELIGIBLE",
+  "archivePerformed": false,
+  "merged": false,
+  "wave4Started": false
+}

@@ -58,9 +58,9 @@
     },
     {
       "id": "component-or-interaction-tests",
-      "status": "failed",
-      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/harness-apply-result-662fc27.json",
-      "justification": "La regresión nueva de fixtures del harness dio5/7 por business.role=analyst. El runner de servicio37/37 y CI histórica de e713 conservan su alcance; no hacen apto el head nuevo. Se conserva el fallo original y no se inició otro ciclo instalado.",
+      "status": "pending",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/fixture-role-c8-result.json",
+      "justification": "Aprobación c8 aplicada en716f9e2 y regresiones7/7 reales. Se conserva5/7 anterior y runner37/37 sin rerun. Falta CI completa del head final y ciclo instalado0/1; Electron218 pendiente separado. No se atribuye verde a un head futuro.",
       "profileCondition": null
     },
     {
@@ -97,9 +97,9 @@
     {
       "id": "adversarial-review",
       "kind": "manual",
-      "status": "pending",
-      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-final-integration-review-e713e9a.md",
-      "justification": "La revisión independiente final de e713e9a terminó con dos P2 de verificadores. La ampliación2667452 ya está aprobada/aplicada en662fc27: runner37/37 con fuentes restauradas, pero regresiones5/7 por un rol inválido del fixture de Negocio. La decisión adicional de un literal/presupuesto está preparada sin aprobar/aplicar; VM e incremental por el mismo revisor sin consumir. Pending conserva ese alcance; no convierte FAIL instalado o regresiones fallidas en PASS. Los informes históricos conservan autoría y límites; no humanos ni revisión post-fix simulados.",
+      "status": "verified",
+      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-incremental-review-716f9e2.md",
+      "justification": "Mismo revisor independiente recibió una sola reconciliación aprobada sobre cinco archivos de716f9e2: F1 corregido en fuente/contrato7/7; F2 corregido con37/37 retenido por entradas idénticas. Sin nuevos P0-P3 accionables en ese delta. No revisó Electron218 ni certificó ciclo instalado0/1, futuros heads, humanos o release. Informe e713 original intacto.",
       "profileCondition": null
     },
     {
@@ -150,8 +150,8 @@
     "justification": null
   },
   "adversarialReview": {
-    "status": "failed",
-    "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-final-integration-review-e713e9a.md",
+    "status": "passed",
+    "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-incremental-review-716f9e2.md",
     "blockers": 0,
     "majors": 0
   },

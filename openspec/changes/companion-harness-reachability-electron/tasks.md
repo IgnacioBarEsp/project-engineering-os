@@ -26,12 +26,18 @@
 ## 5. Installed-evidence harness correction — 2667452 approved
 
 - [x] 5.1 Record approval of the exact installed-evidence harness amendment before changing its five allowlisted files. Literal response and revision in evidence/installed-harness-approval.md; fresh DoR13/13, no exceptions.
-- [ ] 5.2 Freeze and apply the single bounded correction; verify canonical fixtures, negative controls and unique mutation targets without changing the product.
+- [x] 5.2 Freeze and apply the bounded correction; original266 variant failed5/7 and the separately approved c8 literal fixes it in716f9e2 with7/7. Negative controls and unique targets retained; product unchanged.
 - [ ] 5.3 Run the approved regressions/full mutation runner and one corrected canonical installed cycle, retain failures and verify restored sources.
 - [ ] 5.4 Receive actual same-reviewer incremental reconciliation and assess remaining scope/debt; keep human/closure gates open until satisfied.
 
 ## 6. Fixture-role decision after failed bounded Apply — c8cd8d5 approved
 
 - [x] 6.1 Receive approval of the concrete one-literal fixture-role and additional-budget amendment; retain2667452 approval, frozen variant and5/7 regression failure unchanged. Literal response in evidence/fixture-role-approval.md.
-- [ ] 6.2 Only if approved, apply and freeze that literal with linked preimage/postimage, then run the same seven regressions once on the changed input. No reset or unchanged full-mutation rerun.
+- [x] 6.2 After approval, apply/freeze only that literal and run the same seven regressions once:7/7,0SKIP/cancel, source716f9e2/copy clean. Old5/7 retained, no reset or full-mutation rerun.
 - [ ] 6.3 With all independent qualification gates passing, use only the still-unconsumed canonical VM cycle and same-reviewer incremental reconciliation; preserve separate product/harness identities and human gates.
+
+Incremental reconciliation is now actually received: no new actionable findings
+in five-file scope, F1 source/contract fixed and F2 execution37/37 reconciled.
+The installed0/1 gate remains, together with the separate unapproved Electron218
+remediation. Preserve the reviewer report and do not perform another incremental
+pass or treat it as installed/human/security-wide approval.

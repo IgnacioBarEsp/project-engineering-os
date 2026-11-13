@@ -38,7 +38,16 @@ PASS37/37 por comportamiento, con tres baselines aptos y fuentes restauradas.
 La VM y reconciliación incremental no se han usado.
 
 [Decisión adicional concreta](fixture-role-correction-amendment.md): cambiar solo
-ese literal por `freelancer`, con una variante adicional y una comprobación de las
-mismas regresiones sobre entrada corregida. **Todavía no aprobada ni aplicada.**
-2667452 y f9ed23c ya están aprobadas y no se vuelven a pedir. Humanos #146/#147
-siguen pendientes en candidata apta; no archive, merge, release u ola4.
+ese literal por `freelancer`. **c8cd8d5 aprobada** con «CONTINUA DONDE TE QUEDASTE,
+apruebo» e implementada en716f9e2: mismas regresiones7/7PASS,0SKIP/cancelación.
+[Recibo](evidence/fixture-role-approval.md) y [resultado](evidence/fixture-role-c8-result.json).
+El MISMO revisor reconcilió F1/F2 sin nuevos hallazgos accionables en los cinco
+archivos; no certifica el ciclo instalado que sigue0/1. Dos variantes consumidas,
+0restantes; runner37/37 retenido por entradas idénticas, sin repetición.
+
+Electron44.1.1 empaquetado mantiene un bloqueo distinto; la propuesta oficial44.9.1
+vive en [#218](https://github.com/IgnacioBarEsp/project-engineering-os/issues/218),
+change refresh-official-electron-certificate-runtime, aún sin aprobación/Apply.
+No iniciar el ciclo final con una candidata insegura ni pedir humanos sobre ella.
+2667452,f9ed23c y c8cd8d5 están resueltas. Humanos146/147, instalación final,
+CI del nuevo head, deuda y archivo siguen pendientes. No merge/release u ola4.

@@ -86,7 +86,10 @@ The actual freeze at662fc27 and first regression execution are retained separate
 five passed and two failed on business.role=analyst. The unchanged product
 normalizer recognizes freelancer and rejects analyst. No validator or assertion
 will be relaxed. The [fixture-role decision](fixture-role-correction-amendment.md)
-contains the exact one-literal proposed diff, original/proposed hashes and an
-explicit additional-variant budget. That proposal remains unapplied and requires
-its own actual approval because the original single frozen variant is consumed.
-Unchanged mutation sources will not be rerun through a new budget by inference.
+contains the exact one-literal diff, preimage/postimage and explicitly additional
+budget. Actual c8cd8d5 approval is recorded in evidence/fixture-role-approval.md;
+716f9e2 applies only that literal, with7/7 real regressions. The same reviewer
+completed the approved single incremental reconciliation; its scope/remaining
+installed gate are recorded in evidence/fixture-role-c8-result.json. Original
+failure/budget remain; unchanged mutation sources were not rerun. Electron's
+separate issue218 proposal does not authorize its Apply or certify installed UI.

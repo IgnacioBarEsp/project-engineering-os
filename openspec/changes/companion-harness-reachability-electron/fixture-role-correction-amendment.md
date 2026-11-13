@@ -1,6 +1,8 @@
 # Decisión propuesta: corregir un rol del fixture de Negocio
 
-**Revisión c8cd8d5 aprobada; Apply del literal iniciado.**
+**Revisión c8cd8d5 aprobada y aplicada en716f9e2.** Regresiones7/7PASS,
+0FAIL/SKIP/cancelación; reconciliación única del mismo revisor recibida, sin nuevos
+hallazgos accionables en el delta. [Resultado y límites](evidence/fixture-role-c8-result.json).
 [Respuesta y alcance exactos](evidence/fixture-role-approval.md).
 La aprobación2667452 está
 resuelta y se aplicó en `662fc2786444ad32dec6a26d30ce3f604ca69d65`.

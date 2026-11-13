@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 218,
+  "change": "refresh-official-electron-certificate-runtime",
+  "status": "PROPOSED_NOT_APPROVED_NOT_APPLIED",
+  "base": "716f9e2c714670bcaa45ee1b64ed352ad831c3a2",
+  "main": "7073033724a20ee60bb76bc1791a7c3ae7cfca34",
+  "targetPath": "C:/Users/RitualDesktop/.codex/worktrees/wave3-current-source-verification/project-engineering-os",
+  "storage": "persistent",
+  "prefix": "artifacts/wave3-current/electron44-proposal/",
+  "artifacts": {
+    "metadata-result.json": "007014fb4340dc1fb79b1e2f138e117c85d6ba3774176906ac9248788e831281",
+    "electron-44.1.1-registry.json": "8fbf786fbbf95b2e9a46ed9152fefb410153ae5aad920a66c224f651c3597a75",
+    "electron-44.9.1-registry.json": "9d3fb4f2f7bf4c03d3b46d1d4551ff7bd0ddbcb4fffda4e0e63f0ee3f7025e66",
+    "read-metadata.mjs": "dd99d609b3db3ee48026d38939465e79a803ee0c351e16c4314d2ad44ff67976",
+    "fixture-inputs-read.json": "6505b3a841d6657d3e1f62c74546b571d7a98e7499ddaee03d5ce6bfcf577c41",
+    "read-proposal-fixtures.mjs": "f88f5de574e14c0aab2b7cda8a3a66a384fd65bb7688f62afd7a903f6cb604a2",
+    "emsign-repository.html": "96cde2720e350c56922e249dae32028b18afac5b1c9f61a7aa620a65202f9699",
+    "blocked-intermediate.crt": "0164d7ceae5bb909c272af151ff44b1177ae9b47d9424b94f1d9558c30934d19",
+    "blocked-intermediate.pem": "4fff198fb2c913407a63f13a6884bfe5781ced50f6b129e83a6595180a4fcb3c",
+    "blocked-certificate-identity.json": "42283958475758c0fe3fc00e7d4e16eed10e1ffc70742a592f16a18fe6b0828d",
+    "read-public-certificate.mjs": "3397caa24034fbc4da37f9bd1ab2c65ce0b78cbf1510672387aeb404596495d5",
+    "check-dor-218.mjs": "7968ea1a9bd1dc9de076575d0022fc96c4112ece262f7486bd8addd1143f3845",
+    "dor-218.json": "4a4ded45b444a93eccdfddefc854ee005e0303b3752aa83eef8dbd51170749a9",
+    "upstream-pr55127-files.json": "22772bdb7df268584393d9b17a0169883708ed2b2ec787fe8f34691bb0359ed0",
+    "tag-v44.9.1.json": "0723db651edd6ee069e4475957eeb38933fe3547cca46c7b076b68cb1fc41984"
+  },
+  "official": {
+    "version": "44.9.1",
+    "sourceCommit": "e02265be96c5e13ae43644ef482b718e1e800499",
+    "tagObject": "d24ef8561046a7e72c5f355dd9e50f0b04e1101c",
+    "tagSignatureVerified": false,
+    "releasePublishedAt": "2026-10-20T02:35:15Z",
+    "wrapperIntegrity": "sha512-x/tECFFDa2OFNjMObFH0EGKWrCnFZPOR1wP2iMIVt0STecGl8FmDXdaiaryY0kf8mtw9kSLP2yK8dfdaWkfDmw==",
+    "wrapperEngines": ">=22.12.0",
+    "license": "MIT",
+    "wrapperDependenciesUnchanged": true,
+    "registryGitHead": "not supplied",
+    "registryPublishTime": "not established by version-only metadata; existing release-age gate must verify",
+    "windowsZip": {
+      "bytes": 158389896,
+      "sha256": "41bd7900bd42d0f49110a81617876137041fbbf473466920248ddb076349ef91",
+      "url": "https://github.com/electron/electron/releases/download/v44.9.1/electron-v44.9.1-win32-x64.zip",
+      "downloaded": false
+    }
+  },
+  "blockedPublicCertificate": {
+    "at": "2026-11-13T16:03:19.173Z",
+    "url": "https://repository.emsign.com/certs/EMDVTLSCAG3C.crt",
+    "rawSha256": "0164d7ceae5bb909c272af151ff44b1177ae9b47d9424b94f1d9558c30934d19",
+    "rawBytes": 876,
+    "pemSha256": "4fff198fb2c913407a63f13a6884bfe5781ced50f6b129e83a6595180a4fcb3c",
+    "pemBytes": 1242,
+    "derSha256": "0164d7ceae5bb909c272af151ff44b1177ae9b47d9424b94f1d9558c30934d19",
+    "spkiSha256": "49dd353dc2b919a3770645117d0e60c16115e7d1bc259eefe734b00ea434fe5f",
+    "subject": "C=US\nO=eMudhra Inc\nCN=EM DV TLS CA - G3C",
+    "issuer": "C=IN\nO=eMudhra Technologies Limited\nCN=emSign Root TLS CA - G3",
+    "validFrom": "Apr 30 15:35:09 2025 GMT",
+    "validTo": "Apr 28 18:30:00 2040 GMT",
+    "scope": "Public certificate data only. No private key for this CA retrieved, no trust-store installation, connection, TLS probe or Electron runtime Apply."
+  },
+  "fixtureGeneration": {
+    "status": "PROPOSED_NOT_RUN",
+    "tool": "Existing Git OpenSSL3.5.7, no installation or host mutation",
+    "executableSha256": "78340fb01dea2df5caab73dcf28833b31329226a4c9e02f717f1d399592265b9",
+    "output": "Two fresh localhost-only self-signed test identities, each key/certificate; freeze bytes and dates once before candidate tests; never regenerate for two artifact builds"
+  },
+  "expiredUpstreamFixtures": {
+    "status": "observed metadata only, not used as positive controls",
+    "expires": "2026-04-16",
+    "testingBinding": "Official upstream spec requires debug-only electron_common_testing; unavailable binding or skip is never a PASS"
+  },
+  "dor": {
+    "pass": 13,
+    "fail": 0,
+    "exceptions": 0,
+    "mutationPerformed": false
+  },
+  "sourceMutationPerformed": false,
+  "downloadedElectronRuntime": false,
+  "archivePerformed": false,
+  "preparationChecks": {
+    "sha256": "8ecad878e8e8c1acaea51dd390baede5c107852235853ee864826556208458b2",
+    "path": "artifacts/wave3-current/electron44-proposal/preparation-checks.json",
+    "fixedLocalOpenSpec": "1.6.0",
+    "strict": {
+      "passed": 29,
+      "failed": 0
+    },
+    "docs": true,
+    "neutrality": true,
+    "debtReadOnly": true,
+    "owningDebtFilesUnchanged": 97,
+    "diffCheck": true,
+    "archiveReadiness218": {
+      "pass": 9,
+      "fail": 6,
+      "exceptions": 0,
+      "pendingTasks": 13,
+      "mutationPerformed": false
+    },
+    "archiveReadiness150": {
+      "pass": 14,
+      "fail": 2,
+      "exceptions": 0,
+      "pendingTasks": 8,
+      "mutationPerformed": false
+    }
+  }
+}
