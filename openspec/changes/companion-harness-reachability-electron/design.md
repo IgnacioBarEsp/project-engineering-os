@@ -48,3 +48,19 @@ existing duration, route, containment, contrast and reachability negatives; add 
 repeating-sheen negatives. Journey settling waits for finite animations only, never for the ambient
 cycle; the property probe must reject other loops rather than accepting them by timeout.
 The earlier CI/native results do not cover this refinement. Repeat evidence on the integrated tree.
+
+## Proposed final-head coordination — 2026-11-13, NOT accepted yet
+
+The original implementation authorization above remains historical and scoped.
+It does not approve the new [coordination protocol](coordinated-final-head-amendment.md).
+That protocol proposes validating the final composed product while preserving the
+seven-phase order, criteria, human receipt boundaries and individual official archives.
+It replaces neither failed checks nor human #146/#147 journeys with approval of a plan.
+
+Candidate `332a261` combines the stack with main `7073033`; owner byte comparisons
+and the raw failed qualification attempts are indexed in
+[the preflight manifest](evidence/coordinated-final-head-preflight.json).
+Only docs are added by this proposal. No source patch, CI/timeout change, readiness
+flag promotion, new debt capture, archive or integration is performed. Apply of the
+protocol requires explicit approval of this revision; product changes outside it
+require a concrete owner/spec decision. Source snapshots and original failures remain.

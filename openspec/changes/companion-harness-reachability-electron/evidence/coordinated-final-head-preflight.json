@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "proposal-preflight-not-qualification",
+  "proposalStatus": "pending-exact-revision-approval",
+  "issue": 150,
+  "sourceHead": "332a2614f7b8b3d2c15b4c8e40a564dc1bb84dc1",
+  "mainHead": "7073033724a20ee60bb76bc1791a7c3ae7cfca34",
+  "stackHead": "658e505031b195ed2d088447eec5c5d841c7c319",
+  "standaloneTargetPath": "C:/Users/RitualDesktop/.codex/worktrees/wave3-current-source-verification/project-engineering-os",
+  "storage": "persistent",
+  "result": "NOT_APT",
+  "productMutationByProposal": false,
+  "archivePerformed": false,
+  "uiMerged": false,
+  "sourceFiles": 2089,
+  "sourceFingerprintSha256": "e5f2bc59d888c868c5a7d86794322b35adefdc274652f537ec8930c7467c2c9d",
+  "checks": {
+    "dor": {
+      "pass": 13,
+      "fail": 0,
+      "exceptions": 0
+    },
+    "strict": {
+      "pass": 28,
+      "fail": 0
+    },
+    "core": {
+      "pass": false,
+      "processTimeoutMs": 360000,
+      "finalDenominator": null
+    },
+    "companionParallel": {
+      "pass": false,
+      "total": 254,
+      "passed": 247,
+      "failed": 2,
+      "cancelled": 4,
+      "skipped": 1
+    },
+    "companionSerial": {
+      "pass": false,
+      "processTimeoutMs": 600000,
+      "crashCaseMs": 91432.1905,
+      "finalDenominator": null
+    },
+    "proposalDocumentation": {
+      "strictItemsPassed": 28,
+      "strictItemsFailed": 0,
+      "docs": "PASS",
+      "neutrality": "PASS",
+      "debtReadonly": "PASS",
+      "archiveReadiness": {
+        "passed": 13,
+        "failed": 3,
+        "exceptions": 0,
+        "mutationPerformed": false,
+        "scope": "Metadata inspection, no --run-local, no archive operation, no final qualification claim"
+      }
+    }
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/wave3-current/coordination-proposal-dor.json",
+      "sha256": "00aa9865569281f4e7671f23b60c1de42503ed4b6a62b4dd176d0533b717044f"
+    },
+    {
+      "path": "artifacts/wave3-current/coordination-proposal-checks.mjs",
+      "sha256": "dd2374c5462c4842054d7571a77959525b10bd794abde7ea54c5827a57e409aa"
+    },
+    {
+      "path": "artifacts/wave3-current/coordination-proposal-documentation-checks.json",
+      "sha256": "a7de1692841de2fb03e1f4dfffb554909075c4b421cbc150b4e7079e17c3ab48"
+    },
+    {
+      "path": "artifacts/wave3-current/merge-preparation-attempts.json",
+      "sha256": "08da53e3f1fb31833aa442c07ae0bb3fdcf41fb846752875d9e3a91966d575f1"
+    },
+    {
+      "path": "artifacts/wave3-current/stage-v1-failure.md",
+      "sha256": "ddd7772e27b441bb071743bb23e96eea132919dbfa7d125dc938194c025625cf"
+    },
+    {
+      "path": "artifacts/wave3-current/stage.mjs",
+      "sha256": "9b6aa3fb0236241460359506779534d9ec0ef17c0b6eef255f3d0e67031c8d3a"
+    },
+    {
+      "path": "artifacts/wave3-current/stage-v2.mjs",
+      "sha256": "f3650a92be97addbd888d7ad59cdb2d242328e10e0cecd777db8e7ea3892056c"
+    },
+    {
+      "path": "artifacts/wave3-current/stage-result-v2.json",
+      "sha256": "0b9b91c8d7bf33f4ec2604defee29181787503e7e0ef8fc95c16fc58d52b82b4"
+    },
+    {
+      "path": "artifacts/wave3-current/run-check.mjs",
+      "sha256": "733be7999ddc1b4fbc8d9b82e5ad53af6f79162837c6210dc0f4f77deb8e6f2f"
+    },
+    {
+      "path": "artifacts/wave3-current/core-result.json",
+      "sha256": "08d0710cfd5093204bbee29827ce10195e97196f63c41d719fb9d29aeeea43ec"
+    },
+    {
+      "path": "artifacts/wave3-current/companion-result.json",
+      "sha256": "eec21da01d03dc7659dcb1a0e95a9b39b9aa6aa2ce0889950e0d5bae1f97946e"
+    },
+    {
+      "path": "artifacts/wave3-current/strict-result.json",
+      "sha256": "6b9f8411e1dcfdf7144efb037d08fbb38f234e3963dd689a865d95123473d9ce"
+    },
+    {
+      "path": "artifacts/wave3-current/run-companion-serial.mjs",
+      "sha256": "289a18db509b51ae162cd383adf93d22254a2ad2e4c79595cb2fd734ac58d481"
+    },
+    {
+      "path": "artifacts/wave3-current/companion-serial-result.json",
+      "sha256": "f5795537b2dd9aad100ccb09cf0bb5437d47990aeb4006420c86b00dba7deb48"
+    }
+  ],
+  "limits": [
+    "No full CI or qualified UI installer",
+    "No fresh independent final integration review",
+    "No new human #146/#147 results",
+    "No archive or UI merge",
+    "No source/guard/timeout weakening",
+    "Historical accepted views retain original scope"
+  ]
+}

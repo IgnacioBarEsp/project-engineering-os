@@ -27,3 +27,23 @@ The change SHALL record isolated execution at a3b1efd and the #142 hotfix and re
 #### Scenario: Historical broken and fixed trees
 - **WHEN** the same defect probes run against both immutable trees
 - **THEN** documented old defects are detected, the corresponding fixed controls pass, and source identities are preserved
+
+### Requirement: Approved final-head closure protocol
+Subject to explicit maintainer approval of the coordinated-final-head amendment,
+the seven Wave 3 phases SHALL be qualified on one identified final source while
+preserving each phase's criteria, human receipt scope, review, debt and ordered
+official archive. They SHALL integrate through a protected joint PR only after
+all applicable gates and current required CI pass. Before that approval the new
+protocol SHALL remain unapplied.
+
+#### Scenario: Scoped approval or unresolved qualification
+- **WHEN** an earlier view has a scoped human receipt but an intermediate layout differs, or the current candidate has a failed, timed-out or missing check
+- **THEN** the receipt is reused only for its verified unchanged surface, unresolved checks remain open, and no phase is archived or declared integrated
+
+#### Scenario: Outstanding real maintainer journeys
+- **WHEN** the coordination amendment is approved but the real #146 or Software A/B #147 journey has not been observed on a qualified candidate
+- **THEN** approval of the protocol, an agent, a capture or a VM does not satisfy that human gate
+
+#### Scenario: Protected final integration
+- **WHEN** every phase gate is complete and the phases have been archived officially in their original order
+- **THEN** the joint PR still requires current green required CI and normal branch protection, and actual integrated trees and original PR states are verified before closure claims
