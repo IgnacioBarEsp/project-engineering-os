@@ -12,6 +12,14 @@ En Assets encontrarás `ProjectEngineeringOS-Setup-0.3.6-x64.exe`, `SHA256SUMS` 
 
 ## Antes de instalar
 
+La candidata de desarrollo0.3.7 de #218 prepara Electron oficial44.9.1 bajo una
+[spec aprobada y verificaciones separadas](../../openspec/changes/refresh-official-electron-certificate-runtime/TLDR.md).
+Su ZIP de runtime verificado pesa158389896bytes y coincide con SHA256
+41bd7900bd42d0f49110a81617876137041fbbf473466920248ddb076349ef91.
+Eso no certifica todavía un instalador nuevo, firma de editor o aceptación humana:
+la descarga pública0.3.6 y sus recibos mantienen su alcance. No se usa el antiguo
+runtime afectado como rollback seguro. Fixtures y claves de prueba no se distribuyen.
+
 El artefacto **no está firmado** con un certificado de editor. Windows mostrará una advertencia de
 SmartScreen al ejecutarlo. Esa advertencia es correcta: la app es de un editor que Windows no puede
 verificar. No la evites ni la desactives. Lo que sí puedes hacer es comprobar que el archivo es el

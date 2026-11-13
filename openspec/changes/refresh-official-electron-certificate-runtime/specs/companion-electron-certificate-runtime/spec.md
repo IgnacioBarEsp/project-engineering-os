@@ -22,15 +22,16 @@ strict verification and bounded resources. The blocked-public-certificate witnes
 SHALL yield CERT_REVOKED on the corrected runtime and an ordinary non-revocation
 X509 rejection on the retained affected offline baseline.
 
-Pending amendment, not approved or applied: production-chain-witness-amendment.md
-would replace the unrelated self-signed fixture with an explicitly issuer-named,
-cryptographically untrusted test leaf. It would require exactly
+Approved amendment2d2d28c: production-chain-witness-amendment.md
+replaces the unrelated self-signed fixture with an explicitly issuer-named,
+cryptographically untrusted test leaf. It requires exactly
 UNABLE_TO_VERIFY_LEAF_SIGNATURE for that leaf alone in both runtimes,
 CERT_SIGNATURE_FAILURE for its baseline blocked-intermediate case and CERT_REVOKED
 for the corrected case. The valid trusted control, nine-case denominator, strict
 verification and stop-on-any-disagreement remain. No generated data or execution
-has established these proposed outcomes; the original protocol is stopped per
-evidence/prepatch-stop.md until this concrete decision is approved.
+has established these outcomes yet; the original protocol remains historical per
+evidence/prepatch-stop.md. The separately approved replacement may now be applied
+within the same budget; no future test outcome is inferred from either approval.
 
 #### Scenario: Invalid evidence cannot satisfy the boundary
 - **WHEN** a debug hook is unavailable, a suite is skipped, a positive fixture is expired, or a case fails through setup/timeout rather than its declared certificate behavior

@@ -2,12 +2,12 @@
 - [x] 1.1 Check duplicates, enrich issue218, assign owner/security and Project3 Backlog; record actual readback.
 - [x] 1.2 Pass fresh DoR13/13, create this change through fixed local OpenSpec1.6.0 and record baseline/official identities/protocol.
 - [x] 1.3 Obtain actual approval of this immutable revision before runtime/lock/harness/fixture Apply; record literal words and cost scope in evidence/spec-approval.md.
-- [ ] 1.4 Obtain actual approval of the concrete production-chain-witness amendment after the documented prepatch STOP; do not reopen original approval or reset budgets.
+- [x] 1.4 Obtain actual approval of the concrete production-chain-witness amendment2d2d28c: «Sí, apruebo la enmienda 2d2d28c»; do not reopen original approval or reset budgets.
 
 ## 2. Approved bounded Apply only
 - [x] 2.1 Receive one fresh readonly boundary investigation; verify source preimages, declared supplier/runtime metadata and generation tool identity. Result: static STOP before freeze, see evidence/prepatch-stop.md; payload integrity/execution remain unknown.
-- [ ] 2.2 Prepare/freeze one valid test-fixture set, exact single Electron lock/pin delta and allowlisted verifier implementation; retain originals and recipe.
-- [ ] 2.3 Install official staged wrapper/binary once under unchanged controls, verify actual SRI/SHASUMS/source/LICENSE and graph/lock invariance.
+- [x] 2.2 Prepare/freeze one test-fixture set, exact single Electron lock/pin delta and allowlisted verifier implementation; retain originals, pre-freeze certificate completion and recipe in evidence/apply-ledger.json. Runtime controls still pending.
+- [x] 2.3 Install official staged wrapper/binary once under unchanged controls, verify actual SRI/SHASUMS/source/LICENSE and graph/lock invariance;73runtime files match independently decoded official ZIP, no binary execution yet.
 - [ ] 2.4 Execute one baseline/candidate9-case contrast in real production Electron, with legitimate TLS/HTTPS/fetch controls and no skip/debug-hook credit.
 
 ## 3. Candidate qualification

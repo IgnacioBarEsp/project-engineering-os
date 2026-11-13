@@ -7,6 +7,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {_electron} from 'playwright';
 import {finishPreparation} from './wizard-journey.mjs';
+import {verifyElectronCertificateBoundary} from './electron-certificate-boundary.mjs';
 import {QUALITY,REACH,INTERACTIVE,reachProblems} from './interface-contract.mjs';
 import {routeFor} from '../ui/lib/router.mjs';
 import {provenanceFieldFailures,PROVENANCE_SUFFIX} from '../../../scripts/screenshot-provenance.mjs';
@@ -27,6 +28,9 @@ const localAppData=path.join(temp,'localappdata');await mkdir(localAppData);
 const report={completed:false,scope:'Source application in real Electron with isolated userData/LOCALAPPDATA; native picker alone injected; no installer or downloaded managed toolchain',commit,dirty:!!dirty,sourceSha256,screens:[],clipboard:[],failures:[]};
 let application;
 try{
+  report.certificateBoundary=await verifyElectronCertificateBoundary({
+    executablePath:path.join(appRoot,'node_modules/electron/dist/electron.exe'),
+    output:path.join(output,'certificate-boundary')});
   application=await _electron.launch({executablePath:path.join(appRoot,'node_modules/electron/dist/electron.exe'),
     args:['.','--user-data-dir='+path.join(temp,'userdata')],cwd:appRoot,
     env:{...process.env,LOCALAPPDATA:localAppData},timeout:60000});

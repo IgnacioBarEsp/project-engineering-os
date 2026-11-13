@@ -5,6 +5,17 @@ los resultados se añaden con artefactos y versiones cuando exista implementaci�
 
 ## Matriz de QA
 
+La fase de seguridad #218 tiene un protocolo separado de las capturas y de la
+aceptación humana: [spec y enmienda aprobadas](../../openspec/changes/refresh-official-electron-certificate-runtime/TLDR.md).
+El verificador nativo conserva18capturas/12copias y añade9casos de TLS/HTTPS/fetch
+en Electron de producción, con controles de confianza válidos y rechazos exactos.
+La comparación usa44.1.1 sólo como baseline offline afectado y44.9.1 como candidata;
+no es una demostración de explotación o de la red Chromium. Los certificados y
+claves son datos locales de prueba fijados, excluidos del artefacto distribuido.
+Un setup, timeout, skip o error X509 distinto no acredita el testigo. El resultado
+real del contraste, instalador, CI y humanos sigue pendiente mientras no exista
+su recibo; la aprobación del protocolo no lo vuelve PASS.
+
 Para cada perfil de [experiencia](EXPERIENCE.md): carpeta vacía/existente, ruta con espacios y Unicode,
 archivos originales conservados, permisos insuficientes, selección incorrecta de carpeta, vínculo fuera
 de raíz, formato ilegible, doble clic, cancelación, interrupción, reintento, segunda ejecución, modificación

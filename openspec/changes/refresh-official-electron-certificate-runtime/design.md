@@ -6,8 +6,9 @@ Revision7af8a2a has actual maintainer approval (evidence/spec-approval.md).
 Prepatch investigation invoked the explicit STOP before fixture generation/freeze:
 evidence/prepatch-stop.md. The original self-signed/bag protocol below is retained
 as approved history; its concrete replacement in production-chain-witness-amendment.md
-is pending approval. Do not generate or execute either protocol while that decision
-is unresolved. No variant/generation/contrast/build/VM allowance has been consumed.
+was separately approved in revision2d2d28c with the literal response recorded in
+production-chain-witness-amendment.md. Execute only that replacement protocol;
+the original STOP stays historical. No extra investigation or allowance is added.
 
 Owner IgnacioBarEsp; issue218, Project3 Backlog/security. Preparation uses fixed
 local OpenSpec1.6.0. The source baseline is716f9e2 (product e713e9a plus approved

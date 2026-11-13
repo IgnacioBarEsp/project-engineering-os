@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "issue": 218,
+  "status": "FROZEN_NOT_EXECUTED",
+  "approvals": {
+    "original": "7af8a2a298e1281b1c7230539a7472550ba94d9b",
+    "originalWords": "Sí, apruebo #218 en 7af8a2a",
+    "amendment": "2d2d28cd6a8d270d23f6920177b7d45a4c713bd3",
+    "amendmentWords": "Sí, apruebo la enmienda 2d2d28c"
+  },
+  "targetPath": "C:/Users/RitualDesktop/.codex/worktrees/wave3-current-source-verification/project-engineering-os",
+  "storage": "persistent",
+  "prefix": "artifacts/wave3-current/electron218/",
+  "frozen": {
+    "path": "frozen-variant.json",
+    "sha256": "f3e2a861cbff54309520183e5a607a78e53a9df52d5d33b1767632609af40d37",
+    "recipeSha256": "eacc55ee90c87ecfedd6180e382cdbdedc48db5cb2a912f2c227903c4ad8f188",
+    "frozenAt": "2026-11-13T18:38:10.836Z",
+    "appSourceSha256": "9aed64f2129349b368e7b79b1a4e7ca54acd3097f96001bfc438bb6290fe6290",
+    "sourceInputs": {
+      "apps/companion/package.json": {
+        "bytes": 2637,
+        "sha256": "7759b52a563f0181da2bbc4cc2b096474117412e362438b99dcad3163895d04b"
+      },
+      "apps/companion/package-lock.json": {
+        "bytes": 185307,
+        "sha256": "af535831614fe783283848cbecdc2e05dc675e3dc86df65e2b955c7115c5609c"
+      },
+      "apps/companion/scripts/electron-certificate-boundary.mjs": {
+        "bytes": 14854,
+        "sha256": "360ad8f222f75246cb845d7ab68d318f42d808955f78f7d1d9940895cd40343a"
+      },
+      "apps/companion/scripts/verify-electron.mjs": {
+        "bytes": 8573,
+        "sha256": "12e6e8c24f344252013186176ce0d133aca5ce67880ee4453bc997b5db0bc5ec"
+      },
+      "apps/companion/qa/fixtures/electron-certificates/trusted.pem": {
+        "bytes": 1220,
+        "sha256": "d139e5cb2c945d4daa0467396c09ce92f38e5b09a5cc40bf0f62c1277d83eb0b"
+      },
+      "apps/companion/qa/fixtures/electron-certificates/trusted.key": {
+        "bytes": 1704,
+        "sha256": "37b95aa0fc33e8b675f96bdd593ccfe68d27b2078a5bbfad53a8bbb75d31c8e0"
+      },
+      "apps/companion/qa/fixtures/electron-certificates/untrusted.pem": {
+        "bytes": 1233,
+        "sha256": "0b2e9d2125696fb13f079c74aa8d6b87778b4fefc420fe3d2933ecd1a9d834fd"
+      },
+      "apps/companion/qa/fixtures/electron-certificates/untrusted.key": {
+        "bytes": 1708,
+        "sha256": "0011e17be7e8e8776def4213253cc9763483c7b46a556aa06a5ca23b9db1396d"
+      },
+      "apps/companion/qa/fixtures/electron-certificates/blocked-intermediate.pem": {
+        "bytes": 1242,
+        "sha256": "4fff198fb2c913407a63f13a6884bfe5781ced50f6b129e83a6595180a4fcb3c"
+      },
+      "apps/companion/qa/fixtures/electron-certificates/provenance.json": {
+        "bytes": 4480,
+        "sha256": "5d90560a13e54efbd4c1b63b47abdb48646273043eca076c924e067201d9cdbd"
+      }
+    }
+  },
+  "supplier": {
+    "installation": "installation-result-v3.json",
+    "installationSha256": "0982aa669ccb960d98551b24833b9a785f2059b51f90a57bc02803720e04fba4",
+    "wrapperIntegrity": "sha512-x/tECFFDa2OFNjMObFH0EGKWrCnFZPOR1wP2iMIVt0STecGl8FmDXdaiaryY0kf8mtw9kSLP2yK8dfdaWkfDmw==",
+    "zipSha256": "41bd7900bd42d0f49110a81617876137041fbbf473466920248ddb076349ef91",
+    "zipBytes": 158389896,
+    "executableSha256": "1432afee01d6a788f11cb6649efd271923e1e490beef688c24d31f47965013aa",
+    "runtimeFiles": 73,
+    "independentZipComparison": "73/73; optional type-definition classification reconciled from retained existing raw, not rerun",
+    "runtimeExecuted": false
+  },
+  "preFreezeHistory": {
+    "originalStaticProtocolStop": "independent-prepatch-investigation.md",
+    "reportSha256": "51d89f71fdb516bec65db7453f59439756142f1ee4477438dfcb45a6b9036d55",
+    "originalProtocolChangedOnlyAfterApproval": true,
+    "generationInitialGuardFailure": "amended fixture shape mismatch: host OpenSSL checkIssued used as an inappropriate oracle for target BoringSSL",
+    "initialFiveFilesRetained": "generation-initial/",
+    "completion": "fixture-completion.json",
+    "completionSha256": "805f4414a61e540aa439da13ffded570ce18e8c8d68c78dab23bdf9281482d8a",
+    "keysGeneratedOnce": 2,
+    "certificateIssuances": 3,
+    "trustedCertificateCompletedUsingSameKeyBeforeFreeze": true,
+    "downloadInstrumentationFailures": [
+      "installation-result-instrumentation-v1.json: global Git cmd wrapper has two hardlinks; retained guard, used existing regular bin/git.exe",
+      "installation-result-instrumentation-v2.json: checkout MAX_PATH; reused same owned clone with command-scoped core.longpaths=true"
+    ],
+    "candidateInstallsActual": 1,
+    "runtimeDownloadsActual": 1,
+    "sourcePolicyGuardsRelaxed": false
+  },
+  "budget": {
+    "prepatchInvestigations": 1,
+    "sourceVariantsFrozen": 1,
+    "maximumSourceVariants": 1,
+    "remainingSourceVariants": 0,
+    "keyGenerationSets": 1,
+    "keysGenerated": 2,
+    "certificateIssuances": 3,
+    "preFreezeTrustedCertificateCorrectionRetained": true,
+    "baselineExecutions": 0,
+    "candidateExecutions": 0,
+    "postpatchReviews": 0,
+    "builds": 0,
+    "correctedCanonicalVm": 0
+  },
+  "focusedBaseline": "PENDING",
+  "whitespaceCheck": {
+    "fullDiffCheck": "One blank-at-EOF finding in the exact approved public certificate; not reported as blanket PASS",
+    "path": "apps/companion/qa/fixtures/electron-certificates/blocked-intermediate.pem",
+    "frozenSha256": "4fff198fb2c913407a63f13a6884bfe5781ced50f6b129e83a6595180a4fcb3c",
+    "disposition": "Preserve the supplier-data bytes and frozen hash. No Git whitespace configuration, security policy or fixture is changed. All other paths must pass the same check."
+  },
+  "focusedCandidate": "PENDING",
+  "nativeScreensAndClipboard": "PENDING",
+  "owningChecks": "PENDING",
+  "postpatchIndependentReview": "PENDING",
+  "debtAssessment": "PENDING_WHEN_ELIGIBLE",
+  "installedQualification": "PENDING_0_OF_1",
+  "human146And147": "PENDING_ON_APT_CANDIDATE",
+  "archivePerformed": false,
+  "merged": false,
+  "released": false,
+  "wave4Started": false
+}

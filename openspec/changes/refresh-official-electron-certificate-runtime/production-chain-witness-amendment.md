@@ -1,6 +1,10 @@
 # Pending amendment — production chain witness for #218
 
-**Prepared, not approved or applied.** The original revision7af8a2a was approved
+**Revision2d2d28c approved; implementation pending the bounded checks below.**
+The maintainer replied «Sí, apruebo la enmienda 2d2d28c».
+Persistent receipt amendment-approval-2d2d28c.json SHA256
+517453ea97466da354c197115bd00797f03831d5ec462e7967d170bf497e0796.
+The original revision7af8a2a was approved
 with «Sí, apruebo #218 en 7af8a2a». That approval remains recorded; it is not
 pending again. Its prepatch investigation found a concrete protocol disagreement
 before any fixture generation, variant freeze or runtime download.
@@ -66,9 +70,9 @@ Primary references:
 
 ## Authority, budget and stop condition
 
-This changes an explicit protocol/data expectation of7af8a2a and therefore needs
-approval of this actual amendment revision before generation or implementation.
-It does not ask again for the original runtime-update approval.
+This changes an explicit protocol/data expectation of7af8a2a. Approval of this
+actual amendment revision2d2d28c was received before generation/implementation.
+Both approval gates are satisfied; future results remain unapproved.
 
 No extra fixture file, dependency, source file, parser, signing implementation,
 debug hook, TLS bypass, host clock/trust modification or CA private key is added.

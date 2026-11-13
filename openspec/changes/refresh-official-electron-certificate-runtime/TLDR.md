@@ -7,8 +7,10 @@ cambios del harness ya están aprobados/aplicados; esta decisión es independien
 **STOP antes de generar fixtures o congelar variante:** la investigación previa
 confirmó un desacuerdo estático en el testigo TLS propuesto, no un fallo medido de
 Electron44.9.1. [Evidencia y presupuestos intactos](evidence/prepatch-stop.md).
-Se prepara una [enmienda concreta del testigo](production-chain-witness-amendment.md),
-todavía sin aprobación ni Apply. La aprobación original no vuelve a estar pendiente.
+La [enmienda concreta del testigo](production-chain-witness-amendment.md)2d2d28c
+también fue aprobada: «Sí, apruebo la enmienda 2d2d28c». Continúa únicamente el
+Apply acotado con ese protocolo; no se añade presupuesto ni se repite investigación.
+Ninguna de las dos aprobaciones vuelve a estar pendiente.
 
 El instalador candidato0.3.7 empaqueta Electron44.1.1, incluido en el
 [aviso primario](https://github.com/electron/electron/security/advisories/GHSA-jr5w-w6x2-84p9).
