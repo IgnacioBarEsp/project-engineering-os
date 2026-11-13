@@ -8,10 +8,12 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { portable } from './portable-path.mjs';
 import { READY_CLAIMS, ROW_MENUS, GUIDE, readyProblems, rowMenuProblems, guideProblems }
   from './interface-contract.mjs';
-import { pdf, docx } from './fixtures.mjs';
+import {NATIVE_PROJECT_FIXTURES,nativeSelection,validateNativeFixtures} from './native-project-fixtures.mjs';
+import {PROFILE_IDS,isEngineering} from '../engine/profiles.mjs';
+import {normalizeSelection} from '../engine/preparation.mjs';
 import {revealDetails,expandProjectDetails} from './project-disclosures.mjs';
 
-// Runs the five profiles through the INSTALLED application's own window: the packaged interface, driven
+// Runs the six canonical profiles (seven scenarios) through the INSTALLED application's own window: the packaged interface, driven
 // over its debugging port, against real folders on this machine.
 //
 // Two boundaries are stated here because they decide what this record does and does not prove.
@@ -48,36 +50,8 @@ const keep = flags.includes('--keep');
 await mkdir(output, { recursive: true });
 
 
-const PROFILES = {
-  // The profiles the product defines as documents and as creative work carry the formats it names. A
-  // fixture holding only the extensions the verifier can read would narrow the check to itself.
-  research: { name: 'Revisión de evidencia', role: 'researcher', profile: 'research',
-    goal: 'Comparar cómo se midió el resultado en cada fuente', query: 'instrumento',
-    files: { 'notas.txt': 'El protocolo exige registrar el instrumento antes de comparar resultados.\n',
-      'metodo.md': '# Método\n\nLa medición usa un instrumento calibrado cada semana.\n' },
-    binaryFiles: { 'articulo.pdf': () => pdf(['El grupo de control incluye treinta participantes.',
-      'La medición se repitió con el mismo instrumento calibrado cada semana.']) } },
-  software: { name: 'Servicio de presupuesto', role: 'developer', profile: 'software',
-    goal: 'Entender cómo se calcula el presupuesto antes de cambiarlo', query: 'presupuesto',
-    symbol: 'calculateProjectBudget',
-    files: { 'README.md': '# Servicio\n\nEl cálculo de presupuesto multiplica horas por tarifa.\n',
-      'src/budget.js': 'export function calculateProjectBudget(hours, rate) {\n  return hours * rate;\n}\n' } },
-  unity: { name: 'Prototipo de juego', role: 'developer', profile: 'unity',
-    goal: 'Localizar cómo se calcula el puntaje antes de ajustarlo', query: 'puntaje',
-    symbol: 'ComputeScore',
-    files: { 'ProjectSettings/ProjectVersion.txt': 'm_EditorVersion: 6000.0.0f1\n',
-      'notas.txt': 'El puntaje se calcula duplicando la evidencia recogida en la escena.\n' } },
-  media: { name: 'Serie de imágenes', role: 'creator', profile: 'media',
-    goal: 'Conservar la receta que produjo cada pieza', query: 'semilla',
-    files: { 'notas.txt': 'La receta conserva la semilla 42 para poder repetir la pieza.\n',
-      'workflow.json': '{"prompt":"Una ilustración original de un taller","seed":42}\n' },
-    binaryFiles: { 'ficha.docx': () => docx(['La ficha de la serie fija la semilla 42 para repetir la pieza.',
-      'Cada entrega conserva su receta junto al archivo final.']) } },
-  general: { name: 'Trabajo de la semana', role: 'general', profile: 'general',
-    goal: 'Encontrar los acuerdos tomados sin releer todo', query: 'acuerdo',
-    files: { 'acuerdos.md': '# Acuerdos\n\nSe acordó publicar el resumen antes del viernes.\n',
-      'notas.txt': 'Pendiente: confirmar el responsable de cada acuerdo.\n' } },
-};
+const PROFILES=NATIVE_PROJECT_FIXTURES;
+const fixtureCoverage=validateNativeFixtures(PROFILES,PROFILE_IDS,normalizeSelection);
 
 const digest = async file => createHash('sha256').update(await readFile(file)).digest('hex');
 async function hashesOf(root, relatives) {
@@ -411,6 +385,8 @@ const executable = path.join(installedRoot, '..', '..', `${installedManifest.pro
 const workspace = await realpath(await mkdtemp(path.join(tmpdir(), 'companion-native-')));
 const userData = path.join(workspace, 'userdata');
 const record = { date: new Date().toISOString(),
+  harness: { scriptSha256: await digest(fileURLToPath(import.meta.url)),
+    fixturesSha256: await digest(fileURLToPath(new URL('./native-project-fixtures.mjs', import.meta.url))) },
   application: { version: installedManifest.version, root: portable(installedRoot) },
   installedApplication: identity,
   machine: `${process.platform}-${process.arch}`,
@@ -445,9 +421,7 @@ for (const [id, definition] of Object.entries(PROFILES)) {
   const service = await createDesktopService({ dataRoot: path.join(userData, 'projects'), core,
     chooseFolder: async () => root, copyText: () => {}, openExternal: () => {} });
   const project = await service.chooseFolder();
-  const base = await service.previewBase({ id: project.id, selection: { name: definition.name,
-    role: definition.role, goal: definition.goal, profile: definition.profile,
-    experience: 'guided', agents: ['web'] } });
+  const base = await service.previewBase({ id: project.id, selection: nativeSelection(definition) });
   await service.applyBase({ plan: base.id });
   prepared[id] = { root, id: project.id, before };
 }
@@ -496,7 +470,7 @@ try {
     step('open history', { entries: await page.locator('article.project').count() });
 
     // Open this profile's own card, matched on the name the engine registered, so a run cannot silently
-    // walk the same project five times.
+    // walk the same project repeatedly.
     const card = page.locator('article.project').filter({ has: page.getByRole('heading', { name: definition.name }) });
     assert.equal(await card.count(), 1, `El historial no muestra exactamente una tarjeta de "${definition.name}".`);
     // What the row claims about this project, read off the installed window before it is opened: the mark
@@ -587,7 +561,7 @@ try {
     // The scenario this change added requires engineering, official OpenSpec workflows and the code map to
     // be verified for software and Unity. They are driven here, in the window, and a profile that cannot
     // reach a stage records why rather than skipping quietly.
-    if (['software', 'unity'].includes(id)) {
+    if (isEngineering(definition.profile)) {
       const stages = {};
       const press = async (pattern, wait = 120000) => {
         const control = page.getByRole('button', { name: pattern,includeHidden:true }).first();
@@ -760,7 +734,7 @@ try {
     if (changed.length) finding(id, 'preservation', `la aplicación modificó archivos de la persona: ${changed.join(', ')}`);
     step('original files preserved', { files: Object.keys(after).length, changed });
 
-    record.profiles.push({ profile: id, name: definition.name, steps,
+    record.profiles.push({ scenario: id, profile: definition.profile, focus: definition.focus, name: definition.name, steps,
       elapsedMs: Math.round(performance.now() - started) });
     console.log(`${id}: ${steps.length} pasos, ${record.findings.filter(f => f.profile === id).length} hallazgos`);
   }
@@ -769,7 +743,7 @@ try {
   // here is anchored through portable(), but no check reads an image, so a screenshot is the one place that
   // discipline silently does not apply — and an image is exactly what gets looked at. So the anchoring is
   // done in the page before each capture, on EVERY path element rather than the first one: the project list
-  // shows five of them, and anchoring one of five is the same failure with a smaller radius.
+  // shows several of them, and anchoring only one is the same failure with a smaller radius.
   const anchor = async () => page.evaluate(({ raw, anchored }) => {
     const forms = [raw, raw.replace(/\//g, '\\')];
     const nodes = [...document.querySelectorAll('.path')];
@@ -797,7 +771,7 @@ try {
     // The property is the state after anchoring, not how many elements were rewritten: a screen that shows
     // no path at all is a screen with nothing to leak, and reporting that as a finding would be the same
     // mistake as concluding a defect from an absence.
-    if (anchored.leaking.length) finding('general', 'captura', `la captura ${name} habría mostrado una ruta sin anclar: ${anchored.leaking.join(' | ')}`);
+    if (anchored.leaking.length) finding('personal', 'captura', `la captura ${name} habría mostrado una ruta sin anclar: ${anchored.leaking.join(' | ')}`);
     await page.screenshot({ path: path.join(output, `${name}.png`) });
     captures.push({ file: `${name}.png`, pathElements: anchored.nodes, anchored: anchored.replaced, leaking: anchored.leaking.length });
   };
@@ -815,12 +789,12 @@ try {
     await revealDetails(ai);
     await ai.click();
     await page.getByRole('heading', { name: 'Quién escribe estas instrucciones', exact: true })
-      .waitFor({ timeout: 60000 }).catch(() => finding('general', 'captura', 'no se alcanzó la pantalla de tu IA'));
+      .waitFor({ timeout: 60000 }).catch(() => finding('personal', 'captura', 'no se alcanzó la pantalla de tu IA'));
   });
   // The four destinations, read off the installed window rather than asserted from the source.
   record.navigation = await page.evaluate(() => [...document.querySelectorAll('nav [data-action]')]
     .map(node => [node.dataset.action, node.textContent.replace(/\s+/g, ' ').trim()]));
-  if (record.navigation.length !== 4) finding('general', 'navegacion', `la ventana no muestra cuatro destinos: ${JSON.stringify(record.navigation)}`);
+  if (record.navigation.length !== 4) finding('personal', 'navegacion', `la ventana no muestra cuatro destinos: ${JSON.stringify(record.navigation)}`);
   record.screenshots = captures;
   record.screenshotPathAnchored = captures.every(entry => entry.leaking === 0);
 } finally {
@@ -833,7 +807,11 @@ try {
   await new Promise(resolve => setTimeout(resolve, 3000));
 }
 
-record.summary = { profiles: record.profiles.length, findings: record.findings.length,
+const completedProfiles=[...new Set(record.profiles.map(item=>item.profile))];
+if(record.profiles.length!==fixtureCoverage.scenarios||PROFILE_IDS.some(id=>!completedProfiles.includes(id)))
+  finding('personal','coverage','El recorrido instalado no completó todos los perfiles y escenarios declarados.');
+record.summary = { profiles: completedProfiles.length, canonicalProfiles: completedProfiles,
+  scenarios: record.profiles.length, expectedScenarios: fixtureCoverage.scenarios, findings: record.findings.length,
   unverified: record.unverified.length,
   scope: 'Cada perfil abierto y recorrido en la ventana de la aplicación instalada. El motor de la propia aplicación hizo dos pasos, elegir carpeta y aplicar la base, porque no se llega a ellos sin responder el selector del sistema. Contexto, búsqueda con cita, reflujo y conservación de archivos se comprobaron en la interfaz. No demuestra el asistente del instalador.' };
 await writeFile(path.join(output, 'native-journeys.json'), JSON.stringify(record, null, 2) + '\n');

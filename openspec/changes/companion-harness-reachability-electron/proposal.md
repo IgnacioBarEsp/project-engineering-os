@@ -31,12 +31,13 @@ None.
 
 ## Impact
 
-### Pending installed-evidence harness amendment
+### Approved installed-evidence harness amendment — 2667452
 
 Qualification of e713e9a exposed two verifier defects, documented by the independent
 review and a real failed installed cycle. The [new concrete amendment](installed-evidence-harness-amendment.md)
 proposes an exact five-file harness/fixture/QA allowlist, one bounded correction
-and incremental reconciliation; no product/CI/policy changes. This expansion is
-not approved or applied by the existing f9ed23c decision. Original gates remain.
+and incremental reconciliation; no product/CI/policy changes. The maintainer
+approved2667452 separately; the literal receipt is in evidence/installed-harness-approval.md.
+Apply may begin within that scope. Original qualification/human gates remain.
 
 Companion test harnesses, CI, EVALUATION documentation. No dependencies, release, installed-app mutation, product data migration or Wave 4. Existing live-service and stubbed native-capability evidence remain explicitly distinct.

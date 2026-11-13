@@ -68,14 +68,16 @@ until all applicable gates, ordered archives and final required CI are complete.
 Product changes outside this scope require a concrete owner/spec decision.
 Source snapshots and original failures remain.
 
-## Installed-evidence corrective scope — proposed, NOT approved
+## Installed-evidence corrective scope — 2667452 approved
 
 The independent review of e713 found F1 (new native fixtures still use retired
 profile IDs) and F2 (two service-mutation anchors no longer exist). A real VM cycle
 failed with PROFILE_INVALID before its native window journey; runtime/installer
 steps that passed retain their narrower scope. The product guard is not weakened.
 The [installed-evidence amendment](installed-evidence-harness-amendment.md) fixes
-five named verifier/fixture/QA files only after explicit approval of that revision.
+five named verifier/fixture/QA files. Explicit approval of2667452 is now recorded
+in evidence/installed-harness-approval.md.
 Its bounded regression/installed cycle and same-reviewer incremental reconciliation
 preserve the original source, failure, report and human gates. This is a separate
-decision from the approved f9ed23c protocol; no source correction is applied yet.
+decision from the approved f9ed23c protocol. A bounded source correction is being
+prepared/frozen; no future execution or post-fix review is inferred from approval.

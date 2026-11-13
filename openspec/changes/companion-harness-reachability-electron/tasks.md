@@ -23,9 +23,9 @@
 - [ ] 4.4 Complete one fresh bounded independent final-integration review, reconcile findings and assess debt without recapturing immutable flows.
 - [ ] 4.5 Only with all gates satisfied, archive the seven phases officially in order, then integrate the joint protected PR with current required CI and verify actual issue/PR states.
 
-## 5. Installed-evidence harness correction — proposed, not approved
+## 5. Installed-evidence harness correction — 2667452 approved
 
-- [ ] 5.1 Record approval of the exact installed-evidence harness amendment before changing its five allowlisted files.
+- [x] 5.1 Record approval of the exact installed-evidence harness amendment before changing its five allowlisted files. Literal response and revision in evidence/installed-harness-approval.md; fresh DoR13/13, no exceptions.
 - [ ] 5.2 Freeze and apply the single bounded correction; verify canonical fixtures, negative controls and unique mutation targets without changing the product.
 - [ ] 5.3 Run the approved regressions/full mutation runner and one corrected canonical installed cycle, retain failures and verify restored sources.
 - [ ] 5.4 Receive actual same-reviewer incremental reconciliation and assess remaining scope/debt; keep human/closure gates open until satisfied.

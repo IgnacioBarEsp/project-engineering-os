@@ -1,6 +1,7 @@
 # Enmienda propuesta: verificadores del contrato final instalado
 
-**Pendiente de aprobación de esta revisión concreta.** Owner #150, integración de
+**Aprobación recibida para la revisión inmutable2667452.**
+[Palabras y alcance](evidence/installed-harness-approval.md). Owner #150, integración de
 contratos #145/#147. La aprobación f9ed23c ya está resuelta y el protocolo conjunto
 ya empezó: PR #217 está abierto/draft. No se vuelve a pedir esa decisión.
 

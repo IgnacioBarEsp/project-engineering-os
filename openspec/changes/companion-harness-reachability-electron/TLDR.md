@@ -28,7 +28,8 @@ concluyó con dos P2 de verificadores (fixtures y anclas de mutaciones), no una
 regresión de UI demostrada. Fallos y revisiones originales se conservan.
 
 [Ampliación concreta propuesta](installed-evidence-harness-amendment.md) para
-corregir solo verificadores/fixtures/QA y reconciliar ese diff. **Pendiente de
-aprobación; sin Apply de estas correcciones.** La aprobación f9ed23c del protocolo
+corregir solo verificadores/fixtures/QA y reconciliar ese diff. **Aprobada2667452**:
+«Sí, apruebo la enmienda 2667452». [Recibo](evidence/installed-harness-approval.md).
+Comienza el Apply acotado; los resultados siguen pendientes. La aprobación f9ed23c del protocolo
 ya está registrada y no se vuelve a pedir. Humanos #146/#147 siguen pendientes
 en candidata apta; no archive, merge, release u ola4.
