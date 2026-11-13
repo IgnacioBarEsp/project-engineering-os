@@ -49,4 +49,3 @@ The [pending amendment](../production-chain-witness-amendment.md) is a concrete
 source-backed alternative proposed by the parent, not yet approved, generated,
 executed or independently reviewed. It must not be inferred from the original
 approval. All c8 evidence, completed CI4346268029512/12 and original failures stay.
-
