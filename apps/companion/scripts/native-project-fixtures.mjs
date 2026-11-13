@@ -29,7 +29,7 @@ export const NATIVE_PROJECT_FIXTURES = Object.freeze({
       'workflow.json':'{"prompt":"Una ilustración original de un taller","seed":42}\n'},
     binaryFiles:{'ficha.docx':()=>docx(['La ficha de la serie fija la semilla 42 para repetir la pieza.',
       'Cada entrega conserva su receta junto al archivo final.'])}},
-  business: {name:'Propuesta de trabajo',role:'analyst',profile:'business',focus:'plan',
+  business: {name:'Propuesta de trabajo',role:'freelancer',profile:'business',focus:'plan',
     goal:'Comparar opciones de trabajo con sus restricciones',query:'cotización',
     files:{'propuesta.md':'# Propuesta\n\nLa cotización distingue las horas estimadas de los gastos confirmados.\n',
       'notas.txt':'Cada cotización registra los supuestos que faltan por confirmar.\n'}},

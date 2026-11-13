@@ -1,6 +1,8 @@
 # Decisión propuesta: corregir un rol del fixture de Negocio
 
-**Propuesta preparada; no aprobada ni aplicada.** La aprobación2667452 está
+**Revisión c8cd8d5 aprobada; Apply del literal iniciado.**
+[Respuesta y alcance exactos](evidence/fixture-role-approval.md).
+La aprobación2667452 está
 resuelta y se aplicó en `662fc2786444ad32dec6a26d30ce3f604ca69d65`.
 Esta decisión no vuelve a pedirla ni la sustituye.
 
@@ -22,7 +24,7 @@ Raw permanente standalone de este worktree:
 SHA256 `89b9e35d3cbb0292a4b77eaf941e268ce05e554e799e9134be5914807e68478c`.
 El ledger congelado, el commit662fc27 y ese fallo permanecen inmutables.
 
-## Cambio exacto propuesto, todavía sin Apply
+## Cambio exacto aprobado
 
 Solo `apps/companion/scripts/native-project-fixtures.mjs`, una aparición:
 
