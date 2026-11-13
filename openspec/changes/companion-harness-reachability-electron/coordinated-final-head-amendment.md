@@ -1,7 +1,9 @@
 # Enmienda propuesta: cerrar la ola 3 sobre una fuente final identificada
 
-**Pendiente de aprobación de esta revisión.** Owner: #150; coordinación: #167.
-No autoriza todavía el nuevo protocolo ni cambia los gates de las siete fases.
+**Aprobación recibida para la revisión inmutable f9ed23c.**
+Owner: #150; coordinación: #167. [Palabras y alcance](evidence/coordinated-final-head-approval.md).
+El protocolo puede empezar; sus gates y resultados futuros no quedan aprobados.
+La redacción propositiva siguiente conserva la decisión presentada originalmente.
 
 ## Decisión solicitada
 

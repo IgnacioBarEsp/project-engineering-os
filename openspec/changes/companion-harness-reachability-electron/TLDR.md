@@ -7,7 +7,10 @@ Ampliar pruebas existentes sin duplicar motores: matriz completa, cobertura de r
 [Enmienda propuesta](coordinated-final-head-amendment.md): comprobar las siete fases
 sobre una fuente final identificada, conservar sus criterios y recibos y, solo tras
 todos sus gates, archivarlas en orden y presentar un PR protegido conjunto.
-**Esta enmienda no está aprobada ni aplicada.** No atribuye aceptación a layouts
+**El mantenedor aprobó f9ed23c:** «Sí, apruebo la enmienda f9ed23c».
+[Recibo exacto](evidence/coordinated-final-head-approval.md).
+Comienza el protocolo; [matriz por fase](evidence/coordinated-final-head-matrix.md).
+No atribuye aceptación a layouts
 históricos ni sustituye los recorridos humanos de #146 y Software A/B de #147.
 
 Npm/Zod, #152 y la fase 1 de #206 ya están integrados en main `7073033`.

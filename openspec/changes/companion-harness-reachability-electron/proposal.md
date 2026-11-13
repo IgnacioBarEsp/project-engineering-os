@@ -12,15 +12,16 @@ Issue #150 completes Wave 3 verification. Existing tests already cover many regr
 
 ## Capabilities
 
-### Proposed coordination amendment — awaiting approval
+### Approved coordination amendment — f9ed23c
 
 The [final-head amendment](coordinated-final-head-amendment.md) proposes qualifying
 all seven existing phases on one identified final source, then archiving them in
 their original order and integrating through one protected PR. It preserves every
 phase criterion, scoped human receipt, independent review and debt history.
 It does not approve historical intermediate layouts or replace the real #146/#147
-maintainer journeys. The new protocol MUST NOT be applied before explicit approval
-of this concrete revision. Current local timeouts remain failures, not qualification.
+maintainer journeys. Explicit approval of f9ed23c is recorded in
+[the receipt](evidence/coordinated-final-head-approval.md); the protocol may begin.
+Current local timeouts remain failures, not qualification.
 
 ### New Capabilities
 - `companion-harness-coverage`: complete route/motion/window coverage, non-vacuous probes, negative controls and Electron source-app provenance.

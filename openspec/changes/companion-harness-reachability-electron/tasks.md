@@ -15,9 +15,9 @@
 - [x] 3.4 Record the actual scoped visual decisions and the two confirmed real cold readers of #149, plus the renamed-control observation, without certifying other parent-PR human gates or installed/released software. Wave 4 remains outside scope.
 - [x] 3.5 Independently review the latest Files-task renderer and interaction-harness refinement; prior reports retain only their original scope. Recorded review799, correction/layoutfb98 and static harness deltab4; their limitations do not certify all heads, human gates, installation or integration.
 
-## 4. Proposed final-head coordination — awaiting new approval
+## 4. Final-head coordination — f9ed23c approved
 
-- [ ] 4.1 Record explicit approval of the immutable coordinated-final-head amendment before applying that protocol.
+- [x] 4.1 Record explicit approval of the immutable coordinated-final-head amendment before applying that protocol. Literal response and f9ed23c in evidence/coordinated-final-head-approval.md; fresh DoR 13/13, zero exceptions.
 - [ ] 4.2 After approval, qualify the final source and resolve current failures under unchanged limits; keep the per-phase evidence matrix and source identities.
 - [ ] 4.3 Retain scoped human receipts and obtain only the outstanding real #146 and Software A/B #147 observations on a qualified candidate.
 - [ ] 4.4 Complete one fresh bounded independent final-integration review, reconcile findings and assess debt without recapturing immutable flows.
