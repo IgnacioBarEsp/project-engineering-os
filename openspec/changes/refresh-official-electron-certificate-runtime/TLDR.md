@@ -1,7 +1,14 @@
 # #218 — Electron oficial con la mitigación de certificados
 
-**Propuesta preparada, aún no aprobada ni aplicada.** C8cd8d5 y los anteriores
+**Revisión7af8a2a aprobada; Apply acotado iniciado, todavía sin candidata apta.**
+[Respuesta literal y alcance](evidence/spec-approval.md). C8cd8d5 y los anteriores
 cambios del harness ya están aprobados/aplicados; esta decisión es independiente.
+
+**STOP antes de generar fixtures o congelar variante:** la investigación previa
+confirmó un desacuerdo estático en el testigo TLS propuesto, no un fallo medido de
+Electron44.9.1. [Evidencia y presupuestos intactos](evidence/prepatch-stop.md).
+Se prepara una [enmienda concreta del testigo](production-chain-witness-amendment.md),
+todavía sin aprobación ni Apply. La aprobación original no vuelve a estar pendiente.
 
 El instalador candidato0.3.7 empaqueta Electron44.1.1, incluido en el
 [aviso primario](https://github.com/electron/electron/security/advisories/GHSA-jr5w-w6x2-84p9).

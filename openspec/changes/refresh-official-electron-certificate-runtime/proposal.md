@@ -7,6 +7,12 @@ explicit provider connection runs in main and relies on that runtime's TLS trust
 
 ## What Changes
 
+Revision7af8a2a is actually approved; see evidence/spec-approval.md. Its prepatch
+investigation stopped before freeze on the concrete static witness disagreement
+in evidence/prepatch-stop.md. The replacement fixture/expected-error protocol in
+production-chain-witness-amendment.md is PROPOSED, NOT APPROVED OR APPLIED.
+The original approval remains valid for its scope; no new protocol is inferred.
+
 Subject to approval of this exact proposal, update only Electron to official44.9.1
 and preserve the rest of the dependency graph. Add a bounded production-runtime
 certificate witness with legitimate controls to the existing Windows Electron
