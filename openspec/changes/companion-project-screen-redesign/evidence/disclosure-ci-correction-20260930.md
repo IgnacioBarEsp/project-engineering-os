@@ -16,4 +16,3 @@ Cada comando fue `node apps/companion/scripts/verify-ui.mjs <directorio propio>`
 El primer intento de gate propose usó por error --change y solo falló argumentos, sin evaluar DoR; el reintento --issue148 pasó13/13. El fix de una línea pertenece a la spec ya aprobada, validada con el OpenSpec local fijo1.6.0; no se atribuye una aprobación nueva a un gate posterior. Syntax/diff-check pasan. Los informes previos permanecen intactos.
 
 Esto es evidencia propia de browser/servicio con frontera nativa inyectada, **no revisión independiente de ambas cabezas, instalador, aprobación humana ni auditoría de producción**. #204 y los gates integrales siguen pendientes. No se archiva, integra o cierra ola3 con esta reprueba, y no se inicia ola4.
-

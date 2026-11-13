@@ -18,3 +18,17 @@ La composición local `332a261` conserva la UI de la pila, pero **no es apta tod
 strict 28/28 pasa; núcleo y Companion mantienen timeouts reales conservados.
 No hay CI actual o instalador calificado de esa UI, archive de las siete fases
 ni merge. [Resultados y límites](evidence/coordinated-final-head-preflight.json).
+
+## Resultado de la cualificación de e713e9a
+
+PR #217 abierto/draft: CI43364174800 pasó12jobs, incluido Electron Windows.
+El instalador actual se construyó y verificó; el ciclo canónico en VM falló
+PROFILE_INVALID en el harness de perfiles retirados. Una revisión independiente
+concluyó con dos P2 de verificadores (fixtures y anclas de mutaciones), no una
+regresión de UI demostrada. Fallos y revisiones originales se conservan.
+
+[Ampliación concreta propuesta](installed-evidence-harness-amendment.md) para
+corregir solo verificadores/fixtures/QA y reconciliar ese diff. **Pendiente de
+aprobación; sin Apply de estas correcciones.** La aprobación f9ed23c del protocolo
+ya está registrada y no se vuelve a pedir. Humanos #146/#147 siguen pendientes
+en candidata apta; no archive, merge, release u ola4.

@@ -47,3 +47,19 @@ protocol SHALL remain unapplied.
 #### Scenario: Protected final integration
 - **WHEN** every phase gate is complete and the phases have been archived officially in their original order
 - **THEN** the joint PR still requires current green required CI and normal branch protection, and actual integrated trees and original PR states are verified before closure claims
+
+### Requirement: Approved installed-evidence harness correction
+Subject to explicit approval of the installed-evidence harness amendment, only its
+five named verifier/fixture/QA files SHALL change. New native fixture writes SHALL
+use the six canonical profiles while retaining separate legacy-read controls.
+Every declared service mutation SHALL have exactly one current target and attribute
+detection to behavior tests, with immutable originals restored after every case.
+Before approval this corrective expansion SHALL remain unapplied.
+
+#### Scenario: Retired write identity or missing mutation target
+- **WHEN** a new fixture supplies a retired profile alias, or a mutation target is absent or duplicated
+- **THEN** qualification fails with its actual cause, setup errors do not count as detections, and the product's validation is not relaxed
+
+#### Scenario: Corrected installed qualification
+- **WHEN** the approved bounded correction is frozen and the canonical VM cycle runs with separately identified product and verifier sources
+- **THEN** only completed observations count, originals and raw failures are retained, and human acceptance or protected integration is not inferred
