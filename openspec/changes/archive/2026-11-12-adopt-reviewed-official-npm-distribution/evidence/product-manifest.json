@@ -1,0 +1,391 @@
+{
+  "scope": "Approved #204 product verification at346e3bd; official archives/protected merge/release are separate. Earlier failed evidence retained.",
+  "targetPath": "C:/Users/RitualDesktop/.codex/worktrees/204-official-npm-adoption/project-engineering-os",
+  "storage": "persistent",
+  "codeHead": "346e3bdc2d1d6e3c991b65963077aabea568b8ee",
+  "records": [
+    {
+      "sha256": "17f04532870e099c428c64cb21f7d7a65b4a3c64f4549f607c0c5cc1dbe76290",
+      "path": "artifacts/adoption204/actual-artifact-negative-result.json"
+    },
+    {
+      "sha256": "71875660ce2d876c609c507a2938085677fa845e3c2695524363fcb04e8c4eb2",
+      "path": "artifacts/adoption204/adoption-runtime-matrix-result.json"
+    },
+    {
+      "sha256": "d3ea733c64b0cb88b933d662164266066c11f7fcba85025e3bc369efd728917b",
+      "path": "artifacts/adoption204/build-toolchain-instrumentation-failure.json"
+    },
+    {
+      "sha256": "19ec642fbcff18fd29e1d50c83b5e231c9d7a664e1ad5a8bb76a97069bb99077",
+      "path": "artifacts/adoption204/build-toolchain-result.json"
+    },
+    {
+      "sha256": "56b944b6cc8b90bec5e409bc74ce733289e478d5f5f1b53900e798d72c33f912",
+      "path": "artifacts/adoption204/candidate346/ProjectEngineeringOS-Setup-0.3.7-x64.exe"
+    },
+    {
+      "sha256": "e521b5fe9f8a587050d88532109518953a5a0ffb7088f8ff78461d460b98531f",
+      "path": "artifacts/adoption204/ci-43305650052-linux-original.json"
+    },
+    {
+      "sha256": "58b6c80c2c2031d53145a0942899be470226c7dedad2972b3872f3213795c4bc",
+      "path": "artifacts/adoption204/ci-43306807954-green-jobs.json"
+    },
+    {
+      "sha256": "a7605e9bf311e7e11eb8876b1b4e332a7749867c44e21886a6910ffd9adb43cf",
+      "path": "artifacts/adoption204/ci-equivalent-install-result.json"
+    },
+    {
+      "sha256": "48616848c3fa63bc128b93b45075e5923c177006e026bc5d75804aa1ec67a193",
+      "path": "artifacts/adoption204/clean-install-result.json"
+    },
+    {
+      "sha256": "5ecdcab4fd6e26094f0c635a2679d8b71e9867cf275749a1ae610b6c170f8191",
+      "path": "artifacts/adoption204/core-bridge-longpaths-result.json"
+    },
+    {
+      "sha256": "1a896012b6f53ae655b594cab10b3ef272308a24ed6149535a1afb06b7ad8553",
+      "path": "artifacts/adoption204/core-bridge-longpaths-v2-result.json"
+    },
+    {
+      "sha256": "a236436615d6c5c61f515d07912ddd80b8844601ec63e9d3f169616186745660",
+      "path": "artifacts/adoption204/core-bridge-longpaths-v3-result.json"
+    },
+    {
+      "sha256": "1e5efdc5665899ea926cb72dc7416ac68cdb6e619130562f89e1d2c56935330f",
+      "path": "artifacts/adoption204/core-failed-cases-short-temp-result.json"
+    },
+    {
+      "sha256": "02c453c0b3d8d5dbba8aa3692cdfead591e88b020a5f1f89bb1ad3cb8a587e02",
+      "path": "artifacts/adoption204/core-install-result.json"
+    },
+    {
+      "sha256": "242240a1e7e29737ea74bfa4891f95a8fb370bc70f145ccf7a6060979226ba14",
+      "path": "artifacts/adoption204/crash-checks-result.json"
+    },
+    {
+      "sha256": "491d15fb4af040e688d42ebce240f9e9db610adae672fdaaad2f870efd36bc7d",
+      "path": "artifacts/adoption204/debt-and-source-recovery-result.json"
+    },
+    {
+      "sha256": "0b958cae376b88d3b2967bd9fa004612a533439b724d662295bd2b73025ae16a",
+      "path": "artifacts/adoption204/debt-before-adoption-capture.json"
+    },
+    {
+      "sha256": "1b0e928162ee456e253d4aa8b4e8763d7cee5576dd8b18ae0ce0b0f3e674b798",
+      "path": "artifacts/adoption204/debt-capture-result.json"
+    },
+    {
+      "sha256": "3bc768761ed3b3091084f4e7ff97b884bfa4ccb92f0847064e2675ef04cde0ad",
+      "path": "artifacts/adoption204/development-shims-prototype-result.json"
+    },
+    {
+      "sha256": "99ccedcfef5f5c427d905401a267c0b1b8b72f9369512e9244cd23f6eeef1685",
+      "path": "artifacts/adoption204/electron-runtime-build-result.json"
+    },
+    {
+      "sha256": "43e645d1f04aaf1986d47d87ffe16cc34963f5d9a88355da7eaba432d0a86c46",
+      "path": "artifacts/adoption204/existing-cache-repair-result.json"
+    },
+    {
+      "sha256": "5af94fd570b66adf74d07157c0f325f33ea06696313c2761f080e9fc16883a6c",
+      "path": "artifacts/adoption204/existing-runtime-packaging-result.json"
+    },
+    {
+      "sha256": "146098db0ccf47fc20949002bea63011b23eaedcd22fcb5703c0841e1ce2d13c",
+      "path": "artifacts/adoption204/focused-checks-result-v1.json"
+    },
+    {
+      "sha256": "3afdc7b956d7e088c5b7c2a3568972efeb36ef4738d70ea593bae02b5a0405a5",
+      "path": "artifacts/adoption204/focused-literal-secret-check.json"
+    },
+    {
+      "sha256": "ce1ba07e259cb20890c00c44e45a9001d5c61d93b3c4342b5d3403b221b9d21e",
+      "path": "artifacts/adoption204/focused-pure-result-v2.json"
+    },
+    {
+      "sha256": "be2877b7fe9e689961fb1c125a0d16e1cb115f3f95f1d494eef1108fd9e17f34",
+      "path": "artifacts/adoption204/fresh-dor-before-apply.json"
+    },
+    {
+      "sha256": "11e6192fbcf622528930da25be2f0a74e746b75c06fe33aff1c2379e9ab6e9d3",
+      "path": "artifacts/adoption204/independent-review-and-reconciliation.md"
+    },
+    {
+      "sha256": "5e759595eeb371910a54f40968ae5e58086bf821bdcdcedd880f64d797a2492c",
+      "path": "artifacts/adoption204/manager-real-result-v2.json"
+    },
+    {
+      "sha256": "b3c9bcb8a7a69149231e54a698198279f28231a421c42420c3cdb41f2b8cdcfe",
+      "path": "artifacts/adoption204/official-metadata-watch-20261112T2050.json"
+    },
+    {
+      "sha256": "d0dc165fda4affce3ce7c899c7e25b1537b36612cb0da44006109de30fa413d6",
+      "path": "artifacts/adoption204/older-advisories-result.json"
+    },
+    {
+      "sha256": "6839dc620aa3496a9ef48facda0157cf014fdb8ac3f4c7cc7e472e5ae34035c6",
+      "path": "artifacts/adoption204/older-upstream-inflate-limit.json"
+    },
+    {
+      "sha256": "d94c791fff414f2ef01b0b82d85f8601a377d86b53bf6d46d2085dbe6b28dc3a",
+      "path": "artifacts/adoption204/older-upstream-retry-resume.json"
+    },
+    {
+      "sha256": "6d59f03fbb65d68477d2f88eca3f7bd40920c6b0d18c30795c68947a27bce464",
+      "path": "artifacts/adoption204/older-upstream-websocket-unrequested.json"
+    },
+    {
+      "sha256": "7be9ce3cdd3ee7a13eecfb886e1df760343c4ddce5fa4b97263913cb19437694",
+      "path": "artifacts/adoption204/owning-companion-result-v1.json"
+    },
+    {
+      "sha256": "9d4a8d02767031598eb3e27407b2bd91c3aed3d09f40eac65cd3e8e792e440ba",
+      "path": "artifacts/adoption204/owning-core-result-v1.json"
+    },
+    {
+      "sha256": "14a6452bc1484d90084ed06ce8482d3e1d6c80faa0e2975693a176a254dc6282",
+      "path": "artifacts/adoption204/owning-core-result-v2.json"
+    },
+    {
+      "sha256": "fa820e30e712f2d32a62ead7a61635b867de671b91abd73cd936bd8286b304d9",
+      "path": "artifacts/adoption204/pack-cleanup-postreview-result.json"
+    },
+    {
+      "sha256": "55c41dc8a375f11e7be3c867f270c6bef1c2ebf248269bc73ff40567ad693fdc",
+      "path": "artifacts/adoption204/pack-npm-cleanup-before-after-result.json"
+    },
+    {
+      "sha256": "6b7ca2ad54c0a7585ba1279c07399ca916192f94290ba38db2edccd92b12aaf3",
+      "path": "artifacts/adoption204/packaging-v2-result.json"
+    },
+    {
+      "sha256": "16ab3c1cd87a84e7a5eccff6f4f8aa9268e460b4984b9f184027bdd542fbcb6b",
+      "path": "artifacts/adoption204/packaging-v3-result.json"
+    },
+    {
+      "sha256": "43d6c107c048ec0a91858b4c624587158c60b1817cfe735924931e96f07374b2",
+      "path": "artifacts/adoption204/prepatch-reconciliation.md"
+    },
+    {
+      "sha256": "fadd8b5a7b031e925fa49bf6324858a9375e195d5a344e40e70c46bf185953ac",
+      "path": "artifacts/adoption204/primary-advisory-watch-20261112T2052.json"
+    },
+    {
+      "sha256": "916c0c377921ed68e2679904569887e42ed916b1cd3de5adc50b2de45a4b64d4",
+      "path": "artifacts/adoption204/product-artifact-verification-346e3bd-result.json"
+    },
+    {
+      "sha256": "374ba152f4865f655912ec1555a6ea633d23e5069c13fcfc1fe06c6856a45f48",
+      "path": "artifacts/adoption204/product-audits-result.json"
+    },
+    {
+      "sha256": "1151cb0fefe8b1490835435487588cea96c9aee97ed9024391b9f69ef11691b3",
+      "path": "artifacts/adoption204/product-pack-346e3bd-result.json"
+    },
+    {
+      "sha256": "ac418a657fbfeb70f6a279bc04cbb4da26f0299e89096bb213db33ce24ee0799",
+      "path": "artifacts/adoption204/product-pack-54245cb-result.json"
+    },
+    {
+      "sha256": "304c350dc3c3860c45e6cbb82dd70ff6ce4e46d95057c42e1568523987cea1df",
+      "path": "artifacts/adoption204/product-pack-short-346e3bd-result.json"
+    },
+    {
+      "sha256": "eb1a2ed209b78cd8455d8cb9cc1f1415670feb98221a53e24ddbb9ac6f259a3c",
+      "path": "artifacts/adoption204/publication-checkpoint-20261112T1608.json"
+    },
+    {
+      "sha256": "c13f2ab02f0d7b245a64089b9995ce525005c428dfe0cb839db01698e3b91a3b",
+      "path": "artifacts/adoption204/pure-after-review-result.json"
+    },
+    {
+      "sha256": "a767f4bcad2673edb9a302c1e3337ce338f1fb5bdcf01f5ba0f03769d022d286",
+      "path": "artifacts/adoption204/qa-source-freeze.json"
+    },
+    {
+      "sha256": "8cd3bf721570c741b7a0b60a75378d4fd0363256a18c7f82988d36509d843747",
+      "path": "artifacts/adoption204/recovery-after-review-result.json"
+    },
+    {
+      "sha256": "22bcc6bf07fd1c82ed6adc5dcb5fedc2c3ce3d80fc2bb43cc905a04beee7263f",
+      "path": "artifacts/adoption204/review-findings-after-fix.json"
+    },
+    {
+      "sha256": "683d3f5b30cbb34ff7cc90d2fa9678595853334309f7c4ddb0e79d410326c758",
+      "path": "artifacts/adoption204/review-findings-before-fix.json"
+    },
+    {
+      "sha256": "293418bbc677569b0a71b84764053428e420562b602ebdf51f6500b231849993",
+      "path": "artifacts/adoption204/sandbox-config-primary-docs.md"
+    },
+    {
+      "sha256": "50582d3299db25d617c7be435c0e458d5650b04a9175282aa6ed3f901095c330",
+      "path": "artifacts/adoption204/sandbox-start-result.json"
+    },
+    {
+      "sha256": "ec218d6596d6fec4d22291781c846b89e9d0fbbcaef47d1564104e201f11c06e",
+      "path": "artifacts/adoption204/short-build-stage-result.json"
+    },
+    {
+      "sha256": "0020394586c4189d51e2848666b53e8482135dbbfae8948289b3f8429da0cbf9",
+      "path": "artifacts/adoption204/spec-approval-8d335a2.json"
+    },
+    {
+      "sha256": "9ea040c5001770a1ac22b557091b25d8c0c97135efaa60e3ace850b501a17f59",
+      "path": "artifacts/adoption204/vm346-evidence.zip"
+    },
+    {
+      "sha256": "c39d6bf5154bc887ceac5d33a62de433da49c62913ecf309e409a40367a05988",
+      "path": "artifacts/adoption204/vm346/baseline036-cold.json"
+    },
+    {
+      "sha256": "44d45085ac7b7b51331b5962db6c5c921b7ac4b23fe6b734769e573d74435091",
+      "path": "artifacts/adoption204/vm346/baseline036-repair.json"
+    },
+    {
+      "sha256": "2618bd33fd3dc0e1b499d2e7de959e5b00ee95c3fa41d5372ffd5a5f56572792",
+      "path": "artifacts/adoption204/vm346/baseline036-warm.json"
+    },
+    {
+      "sha256": "0c22a4ed434a44ede5fc3078952757ce2d7df0f22c7026fe533bd88c55276751",
+      "path": "artifacts/adoption204/vm346/candidate037-cold.json"
+    },
+    {
+      "sha256": "45d1a0e64f299e9e12f7604bbb6184ba25062a623443ecb26d84d7b7d316b8ce",
+      "path": "artifacts/adoption204/vm346/candidate037-repair.json"
+    },
+    {
+      "sha256": "e101d03d29f41e35c4d215620deeb4f176b8873ed1b0a7de2e87ce8d674224fa",
+      "path": "artifacts/adoption204/vm346/candidate037-warm.json"
+    },
+    {
+      "sha256": "5461cd82863c38dbb5e1d11873de5d4c2367817a8cf3dae49bd6fdfb16f830d1",
+      "path": "artifacts/adoption204/vm346/canonical-cycle/installer-cycle.json"
+    },
+    {
+      "sha256": "7296c8e19edf4492e89c4d1f59d54c2c71f1734adf286dd4d47cf090d5bdfe20",
+      "path": "artifacts/adoption204/vm346/canonical-cycle/native/native-journeys.json"
+    },
+    {
+      "sha256": "a5048ee4aeed7ffe6dd4525b15e8fd89d39fea9214b81a72a47c180a651c26e8",
+      "path": "artifacts/adoption204/vm346/commands.json"
+    },
+    {
+      "sha256": "b733af412e539fbd319b8e9ecf86d5dd1f7e5af0c72e94f1bd6dace922974c55",
+      "path": "artifacts/adoption204/vm346/final.json"
+    },
+    {
+      "sha256": "44c7b35c2dc3ff1c013e7b2f36eec024d058a16a1b4f2303d14daf9debc3929c",
+      "path": "artifacts/adoption204/vm346/finished.json"
+    },
+    {
+      "sha256": "dd762b0b8e728520376c490f481af5a023437c7c7abc75031ff106dd186f3323",
+      "path": "artifacts/adoption204/vm346/packaged-runtime.json"
+    },
+    {
+      "sha256": "e5ac3b6d54ab83a0c718e8fa08b5db69ba9b645cfb3bd7a78e62612703b47e36",
+      "path": "artifacts/adoption204/vm346/started.json"
+    },
+    {
+      "sha256": "eb220fce6181af8d653a64fa7ab432bbe4bf4e841a3847587a8a017a27174c95",
+      "path": "artifacts/adoption204/windows-amendment-approval-f3b4ff2.json"
+    },
+    {
+      "sha256": "be2877b7fe9e689961fb1c125a0d16e1cb115f3f95f1d494eef1108fd9e17f34",
+      "path": "artifacts/adoption204/windows-source-amendment-dor.json"
+    },
+    {
+      "sha256": "2ff7a3b585cdcdedfdfa1b4bd0f601fc953725764d4879af4488eb178d14093d",
+      "path": "artifacts/adoption204/windows-source-focused-result.json"
+    },
+    {
+      "sha256": "774597ae3f361927a4ac56d7a5758b589fdd9bcbeccde2f863115c717cba8a18",
+      "path": "artifacts/adoption204/windows-source-focused-v2-result.json"
+    },
+    {
+      "sha256": "3c872ed906bac10baf5d1b03f0d7a864bfa2456088f0acc45d081bd90b5111a4",
+      "path": "artifacts/adoption204/windows-source-focused-v3-result.json"
+    },
+    {
+      "sha256": "be2877b7fe9e689961fb1c125a0d16e1cb115f3f95f1d494eef1108fd9e17f34",
+      "path": "artifacts/adoption204/windows-source-fresh-dor-before-apply.json"
+    },
+    {
+      "sha256": "2ab733fa43fa5239902fbc72ec379cc14d69109670b88a097e7cf1c651f7d2df",
+      "path": "artifacts/adoption204/windows-source-independent-review.md"
+    },
+    {
+      "sha256": "ec86e4f939a8528c66d9c3881c00ecd04a6c7990c30dc6aff6dad248a6278d30",
+      "path": "artifacts/adoption204/windows-source-investigation-reconciliation.md"
+    },
+    {
+      "sha256": "a90dbffd724453c633ce16454c9aceb1d17268d4c256ff51e88c0d6c032c8694",
+      "path": "artifacts/adoption204/windows-source-manager-install-result.json"
+    },
+    {
+      "sha256": "d67484cba4286f61332187f75997d8ec5ed420b42c3fcdb1f18c948b1544936d",
+      "path": "artifacts/adoption204/windows-source-negative-v4-result.json"
+    },
+    {
+      "sha256": "09a65f7164a7cfacfeeca182badab1603299cf5ec175e69583f1de437ca5c6b3",
+      "path": "artifacts/adoption204/windows-source-packaging-result.json"
+    },
+    {
+      "sha256": "15c58adce68af16af81b3c9e9cb0268dad4e3378a5cd81409dffd9ce8d923d55",
+      "path": "artifacts/adoption204/windows-source-parent-temp-alias.json"
+    },
+    {
+      "sha256": "f8f43fdaa7b6b577ada2a706d89abbdb8ad6f060e5e41ca8510784dfd91daed6",
+      "path": "artifacts/adoption204/windows-source-positive-v4-result.json"
+    },
+    {
+      "sha256": "62e932d25d380d2e9b255eab76e3e1a7fea09e4d64e9fdbfa1e60957a9424cb0",
+      "path": "artifacts/adoption204/windows-source-pre-review-doc-checks.json"
+    },
+    {
+      "sha256": "85189ca48a0327925798531676dad112c21d78c53814872388abbf2d4f68e6d6",
+      "path": "artifacts/adoption204/windows-source-qa-freeze-v5.json"
+    },
+    {
+      "sha256": "233cab7d7a73103ed2d95509883f21e396b67b4e2634edb61ae21362057c3d3f",
+      "path": "artifacts/adoption204/windows-source-recovery-result.json"
+    },
+    {
+      "path": "artifacts/adoption204/candidate346/artifact-manifest.json",
+      "sha256": "9f485254db08d2449e3101f1ab01164d7fc823c6a9ff8a6e6ad56629d35245a7"
+    },
+    {
+      "path": "artifacts/adoption204/candidate346/SHA256SUMS",
+      "sha256": "7006f92468745204751a620831aaef3412ec1fe5136934750adab73bb245a798"
+    },
+    {
+      "path": "artifacts/adoption204/pre-archive-closure-checks.json",
+      "sha256": "42f4f827f0c6b755e0e9d86287f5630aaedd996461adb99a5f1cf0f9c49fb3eb"
+    },
+    {
+      "path": "artifacts/adoption204/official-archive-operations.json",
+      "sha256": "3325e44568b6d2f42babbd2bbfd04cf6537ce9cfe8305fb6159ffd014c3b715a"
+    }
+  ],
+  "limits": [
+    "Not an exhaustive security or secret audit",
+    "Single paired resource sample; no universal budget",
+    "No hostile-filesystem or power-loss guarantee",
+    "No two real apt channels; synthetic fixtures labelled",
+    "Native automated journeys do not replace human reading/visual acceptance;14unverified",
+    "No release/tag/public-download promotion or ola3 closure"
+  ],
+  "archive": {
+    "officialCli": "1.6.0",
+    "directory": "2026-11-12-adopt-reviewed-official-npm-distribution",
+    "readiness": {
+      "pass": 16,
+      "fail": 0,
+      "exceptions": 0
+    },
+    "performed": true,
+    "protectedIntegration": false
+  }
+}

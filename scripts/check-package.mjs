@@ -14,6 +14,12 @@ import path from 'node:path';
 import pathPosix from 'node:path/posix';
 import { fileURLToPath } from 'node:url';
 
+import {
+  isOptionalPeer,
+  packageNameFromKey,
+  productionPackages,
+  renderNotices,
+} from '../apps/companion/scripts/notices.mjs';
 import { readJson, resolveNpmCli } from './release-lib.mjs';
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -193,6 +199,138 @@ export function checkPackedFiles(files, declaredFiles, { requireDeclared = true 
     }
   }
   return failures;
+}
+
+function noticeRows(markdown) {
+  const rows = [];
+  for (const line of markdown.split(/\r?\n/)) {
+    if (!line.trimStart().startsWith('|')) continue;
+    const cells = line.split('|').slice(1, -1).map((cell) => cell.trim().replace(/^`|`$/g, ''));
+    if (cells.length >= 3 && cells[0] !== 'Package' && !/^[- :]+$/.test(cells[0])) {
+      rows.push({ name: cells[0], version: cells[1], license: cells[2] });
+    }
+  }
+  return rows;
+}
+
+export function checkCoreNoticeCoverage(lock, notices) {
+  const rows = noticeRows(notices);
+  const failures = [];
+  let packages;
+  try {
+    packages = productionPackages(lock, { windowsOnly: false });
+  } catch (error) {
+    return [`core production dependency inventory invalid: ${error.message}`];
+  }
+  for (const record of packages) {
+    const { name } = record;
+    if (typeof record.version !== 'string' || record.version.trim().length === 0) {
+      failures.push(`production dependency version missing: ${name}`);
+      continue;
+    }
+    const identity = `${name}@${record.version}`;
+    if (typeof record.license !== 'string' || record.license.trim().length === 0) {
+      failures.push(`production dependency license missing: ${identity}`);
+      continue;
+    }
+    const row = rows.find((candidate) => candidate.name === name && candidate.version === record.version);
+    if (!row) failures.push(`production dependency notice missing: ${identity} (${record.license})`);
+    else if (row.license !== record.license) {
+      failures.push(`production dependency notice license mismatch: ${identity} (${row.license} != ${record.license})`);
+    }
+  }
+  return failures;
+}
+
+function checkDeclaredProductionDependencies(manifest, lock, label, failures) {
+  const declaredRoot = lock.packages?.[''];
+  if (!declaredRoot || typeof declaredRoot !== 'object' || Array.isArray(declaredRoot)) {
+    failures.push(`${label} root lock entry missing or invalid`);
+    return;
+  }
+  for (const field of ['dependencies', 'optionalDependencies', 'peerDependencies']) {
+    const declarations = Object.hasOwn(manifest, field) ? manifest[field] : {};
+    const lockedDeclarations = Object.hasOwn(declaredRoot, field) ? declaredRoot[field] : {};
+    if (typeof declarations !== 'object' || declarations === null || Array.isArray(declarations)) {
+      failures.push(`${label} manifest ${field} invalid`);
+      continue;
+    }
+    if (typeof lockedDeclarations !== 'object' || lockedDeclarations === null || Array.isArray(lockedDeclarations)) {
+      failures.push(`${label} lock ${field} invalid`);
+      continue;
+    }
+    for (const name of new Set([...Object.keys(declarations), ...Object.keys(lockedDeclarations)])) {
+      if (declarations[name] !== lockedDeclarations[name]) {
+        failures.push(`${label} ${field} declaration differs from lock: ${name}`);
+      }
+    }
+    for (const name of Object.keys(declarations)) {
+      const record = lock.packages?.[`node_modules/${name}`];
+      if (!record || typeof record !== 'object' || Array.isArray(record)) {
+        if (field === 'peerDependencies' && isOptionalPeer(declaredRoot, name)) continue;
+        failures.push(`${label} production dependency lock entry missing: ${name}`);
+        continue;
+      }
+      if (record.dev === true) failures.push(`${label} production dependency marked development: ${name}`);
+      else if (Object.hasOwn(record, 'dev') && typeof record.dev !== 'boolean') {
+        failures.push(`${label} production dependency dev flag invalid: ${name}`);
+      }
+      if (typeof record.version !== 'string' || record.version.trim().length === 0) {
+        failures.push(`${label} production dependency version missing: ${name}`);
+      }
+      if (typeof record.license !== 'string' || record.license.trim().length === 0) {
+        failures.push(`${label} production dependency license missing: ${name}`);
+      }
+    }
+  }
+}
+
+async function checkRedistributionNotices(root, coreLock, failures) {
+  try {
+    const coreManifest = await readJson(path.join(root, 'package.json'));
+    const coreNotices = await readFile(path.join(root, 'THIRD_PARTY_NOTICES.md'), 'utf8');
+    checkDeclaredProductionDependencies(coreManifest, coreLock, 'core', failures);
+    failures.push(...checkCoreNoticeCoverage(coreLock, coreNotices));
+  } catch (error) {
+    failures.push(`core third-party notices: ${error.message}`);
+  }
+
+  const companionRoot = path.join(root, 'apps', 'companion');
+  try {
+    const [manifest, lock, committedNotices] = await Promise.all([
+      readJson(path.join(companionRoot, 'package.json')),
+      readJson(path.join(companionRoot, 'package-lock.json')),
+      readFile(path.join(companionRoot, 'THIRD-PARTY-NOTICES.md'), 'utf8'),
+    ]);
+    if (lock.name !== manifest.name || lock.version !== manifest.version
+      || lock.packages?.['']?.version !== manifest.version) {
+      failures.push('Companion package and lock identity differ');
+    }
+    checkDeclaredProductionDependencies(manifest, lock, 'Companion', failures);
+    for (const [key, record] of Object.entries(lock.packages ?? {})) {
+      if (!key.startsWith('node_modules/') || record?.dev === true) continue;
+      if (!record || typeof record !== 'object') {
+        failures.push(`Companion production dependency lock entry invalid: ${packageNameFromKey(key)}`);
+      } else if (Object.hasOwn(record, 'dev') && typeof record.dev !== 'boolean') {
+        failures.push(`Companion production dependency dev flag invalid: ${packageNameFromKey(key)}`);
+      }
+    }
+    const packages = productionPackages(lock);
+    for (const record of packages) {
+      if (typeof record.version !== 'string' || record.version.trim().length === 0) {
+        failures.push(`Companion production dependency version missing: ${record.name}`);
+      }
+      if (typeof record.license !== 'string' || record.license.trim().length === 0) {
+        failures.push(`Companion production dependency license missing: ${record.name}@${record.version}`);
+      }
+    }
+    const expectedNotices = renderNotices(packages, manifest.version);
+    if (committedNotices !== expectedNotices) {
+      failures.push('Companion third-party notices differ from its production lock inventory');
+    }
+  } catch (error) {
+    failures.push(`Companion third-party notices: ${error.message}`);
+  }
 }
 
 function markdownDestinations(markdown) {
@@ -432,6 +570,7 @@ export async function checkPackageRoot(root) {
       failures.push(`dependency license ${name}: ${record.license ?? 'missing'}`);
     }
   }
+  await checkRedistributionNotices(root, lock, failures);
   return failures;
 }
 

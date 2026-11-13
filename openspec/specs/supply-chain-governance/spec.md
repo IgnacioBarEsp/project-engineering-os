@@ -79,6 +79,12 @@ absolute workstation path. Any install-script permission SHALL be scoped to that
 OpenSpec SHALL NOT become a runtime dependency of the published package, and the packaged artifact SHALL
 continue to contain no duplicated OpenSpec source or generated dependency tree.
 
+Within the declared OpenSpec dependency range, both the upstream and consumer-blueprint lockfiles SHALL
+resolve an official Zod version at least `4.6.6`, outside the affected range of GHSA-mrhx-c7xc-m3w5.
+An isolated installation SHALL verify the reviewed artifact integrity and the pinned OpenSpec behavior;
+a compatible declared range alone SHALL NOT count as functional evidence. Refreshing this transitive
+dependency SHALL NOT silently upgrade OpenSpec, change unrelated locked dependencies or weaken audit policy.
+
 #### Scenario: A clean clone installs the SDD CLI
 
 - **WHEN** a contributor or agent runs `npm ci` in a clean clone or worktree
@@ -96,6 +102,19 @@ continue to contain no duplicated OpenSpec source or generated dependency tree.
 - **WHEN** the supply-chain gate evaluates the clean locked installation
 - **THEN** every high or critical advisory is either absent or governed by an exact unexpired exception
 - **AND** missing audit metadata cannot be interpreted as PASS
+
+#### Scenario: Both locked development graphs refresh Zod
+
+- **WHEN** the approved official Zod update is applied to the upstream and consumer-blueprint lockfiles
+- **THEN** both resolve the reviewed version at least 4.6.6 with its official integrity
+- **AND** the other locked dependencies, exact OpenSpec1.6.0 pin and audit policy remain unchanged
+- **AND** clean installation, OpenSpec behavior and all three audit scopes pass before adoption
+
+#### Scenario: The candidate introduces drift or a regression
+
+- **WHEN** candidate validation discovers an unexpected graph change, integrity mismatch, audit blocker or functional failure
+- **THEN** adoption stops and the original evidence and baseline remain available
+- **AND** no version substitution, policy relaxation or successful-integration claim is made without a reviewed change
 
 ### Requirement: A tooling change justified by supply-chain risk is measured before it is adopted
 
@@ -155,4 +174,24 @@ Public documentation SHALL identify install-script, release-age and origin contr
 #### Scenario: A consumer evaluates installation policy
 - **WHEN** the consumer reads the documentation index
 - **THEN** the hardening guide is reachable within two links and distinguishes configuration from guarantees
+
+### Requirement: Every redistributable package has a verified license notice
+
+The `check:package` gate SHALL fail closed when a production package redistributed by the core npm package or Companion artifact is missing license metadata or a notice entry matching its package identity, version and license. For Companion, the committed notice SHALL match the notice generated from the production package lock inventory, and SHALL retain the Electron-runtime and portable-tool notices.
+
+#### Scenario: A core production package is added without a notice
+
+- **WHEN** a production package appears in the core package lock but its name, version or license is absent or stale in `THIRD_PARTY_NOTICES.md`
+- **THEN** `check:package` fails and identifies the uncovered package
+
+#### Scenario: A Companion package notice drifts from its lockfile
+
+- **WHEN** the Companion production package inventory changes without a matching update to `apps/companion/THIRD-PARTY-NOTICES.md`
+- **THEN** `check:package` fails
+- **AND** the notice check does not treat missing license metadata as a declared license
+
+#### Scenario: Both redistributable inventories are declared
+
+- **WHEN** production package records have license metadata and their committed notices match the current inventories
+- **THEN** `check:package` passes the third-party notice checks
 

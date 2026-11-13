@@ -1,0 +1,252 @@
+{
+  "checks": [
+    {
+      "cause": "30 archivos externos encontrados.",
+      "evidence": {
+        "count": 30
+      },
+      "id": "opsx.generated-files",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "Las superficies OPSX configuradas existen."
+    },
+    {
+      "cause": "1 entrada(s) inspeccionadas.",
+      "evidence": {
+        "journalCount": 1
+      },
+      "id": "opsx.transactions",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "Las transacciones OPSX están en estados terminales."
+    },
+    {
+      "cause": "openspec/specs existe y no contiene capabilities.",
+      "evidence": {
+        "path": "openspec/specs"
+      },
+      "id": "opsx.spec-purpose",
+      "remediation": null,
+      "status": "SKIP",
+      "summary": "El repositorio aún no publica capabilities cuyo Purpose revisar."
+    },
+    {
+      "cause": "Ownership externo preservado.",
+      "evidence": {
+        "generatedGlobs": [
+          ".claude/commands/opsx/*.md",
+          ".codex/skills/openspec-*/SKILL.md",
+          ".cursor/commands/opsx-*.md",
+          ".github/prompts/opsx-*.prompt.md",
+          ".opencode/commands/opsx-*.md"
+        ]
+      },
+      "id": "opsx.ownership",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El state del constructor no reclama rutas OPSX."
+    },
+    {
+      "cause": "package=@fission-ai/openspec, version=1.6.0",
+      "evidence": {
+        "allowGlobalFallback": false,
+        "localOnly": true,
+        "version": "1.6.0"
+      },
+      "id": "opsx.local-cli-contract",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El contrato exige OpenSpec local y fijado."
+    },
+    {
+      "cause": "@fission-ai/openspec@1.6.0",
+      "evidence": {
+        "bin": "C:\\Users\\RITUAL~1\\AppData\\Local\\Temp\\project-constructor-empty-W8AR9N\\node_modules\\@fission-ai\\openspec\\bin\\openspec.js",
+        "location": ".",
+        "version": "1.6.0"
+      },
+      "id": "opsx.local-cli",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "OpenSpec local coincide con manifiesto, lockfile, instalación y entrada del paquete."
+    },
+    {
+      "cause": "No se detectó CLI bare.",
+      "evidence": {},
+      "id": "opsx.local-cli-references",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "Las referencias OPSX usan la CLI local fijada."
+    },
+    {
+      "cause": "Delimitadores únicos y hash compatible.",
+      "evidence": {
+        "hash": "ce584930298f5ac91243ca118de2c6dfb914a64072b3a8791523c04527edff00",
+        "path": ".claude/commands/opsx/propose.md"
+      },
+      "id": "opsx.block.project-os-propose..claude/commands/opsx/propose.md",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El bloque delimitado conserva su forma."
+    },
+    {
+      "cause": "Delimitadores únicos y hash compatible.",
+      "evidence": {
+        "hash": "ce584930298f5ac91243ca118de2c6dfb914a64072b3a8791523c04527edff00",
+        "path": ".codex/skills/openspec-propose/SKILL.md"
+      },
+      "id": "opsx.block.project-os-propose..codex/skills/openspec-propose/SKILL.md",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El bloque delimitado conserva su forma."
+    },
+    {
+      "cause": "Delimitadores únicos y hash compatible.",
+      "evidence": {
+        "hash": "ce584930298f5ac91243ca118de2c6dfb914a64072b3a8791523c04527edff00",
+        "path": ".cursor/commands/opsx-propose.md"
+      },
+      "id": "opsx.block.project-os-propose..cursor/commands/opsx-propose.md",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El bloque delimitado conserva su forma."
+    },
+    {
+      "cause": "Delimitadores únicos y hash compatible.",
+      "evidence": {
+        "hash": "ce584930298f5ac91243ca118de2c6dfb914a64072b3a8791523c04527edff00",
+        "path": ".github/prompts/opsx-propose.prompt.md"
+      },
+      "id": "opsx.block.project-os-propose..github/prompts/opsx-propose.prompt.md",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El bloque delimitado conserva su forma."
+    },
+    {
+      "cause": "Delimitadores únicos y hash compatible.",
+      "evidence": {
+        "hash": "ce584930298f5ac91243ca118de2c6dfb914a64072b3a8791523c04527edff00",
+        "path": ".opencode/commands/opsx-propose.md"
+      },
+      "id": "opsx.block.project-os-propose..opencode/commands/opsx-propose.md",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El bloque delimitado conserva su forma."
+    },
+    {
+      "cause": "Delimitadores únicos y hash compatible.",
+      "evidence": {
+        "hash": "d4528e875dd7c594d38c92bbbe5dbbc8268dab2628f446130c8d12306a8e1a73",
+        "path": ".claude/commands/opsx/apply.md"
+      },
+      "id": "opsx.block.project-os-apply..claude/commands/opsx/apply.md",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El bloque delimitado conserva su forma."
+    },
+    {
+      "cause": "Delimitadores únicos y hash compatible.",
+      "evidence": {
+        "hash": "d4528e875dd7c594d38c92bbbe5dbbc8268dab2628f446130c8d12306a8e1a73",
+        "path": ".codex/skills/openspec-apply-change/SKILL.md"
+      },
+      "id": "opsx.block.project-os-apply..codex/skills/openspec-apply-change/SKILL.md",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El bloque delimitado conserva su forma."
+    },
+    {
+      "cause": "Delimitadores únicos y hash compatible.",
+      "evidence": {
+        "hash": "d4528e875dd7c594d38c92bbbe5dbbc8268dab2628f446130c8d12306a8e1a73",
+        "path": ".cursor/commands/opsx-apply.md"
+      },
+      "id": "opsx.block.project-os-apply..cursor/commands/opsx-apply.md",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El bloque delimitado conserva su forma."
+    },
+    {
+      "cause": "Delimitadores únicos y hash compatible.",
+      "evidence": {
+        "hash": "d4528e875dd7c594d38c92bbbe5dbbc8268dab2628f446130c8d12306a8e1a73",
+        "path": ".github/prompts/opsx-apply.prompt.md"
+      },
+      "id": "opsx.block.project-os-apply..github/prompts/opsx-apply.prompt.md",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El bloque delimitado conserva su forma."
+    },
+    {
+      "cause": "Delimitadores únicos y hash compatible.",
+      "evidence": {
+        "hash": "d4528e875dd7c594d38c92bbbe5dbbc8268dab2628f446130c8d12306a8e1a73",
+        "path": ".opencode/commands/opsx-apply.md"
+      },
+      "id": "opsx.block.project-os-apply..opencode/commands/opsx-apply.md",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El bloque delimitado conserva su forma."
+    },
+    {
+      "cause": "Delimitadores únicos y hash compatible.",
+      "evidence": {
+        "hash": "c9fe66d1b064e2dd27bfa5491963d201532f6a0e29b87206110b08ace0974ac6",
+        "path": ".claude/commands/opsx/archive.md"
+      },
+      "id": "opsx.block.project-os-archive..claude/commands/opsx/archive.md",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El bloque delimitado conserva su forma."
+    },
+    {
+      "cause": "Delimitadores únicos y hash compatible.",
+      "evidence": {
+        "hash": "c9fe66d1b064e2dd27bfa5491963d201532f6a0e29b87206110b08ace0974ac6",
+        "path": ".codex/skills/openspec-archive-change/SKILL.md"
+      },
+      "id": "opsx.block.project-os-archive..codex/skills/openspec-archive-change/SKILL.md",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El bloque delimitado conserva su forma."
+    },
+    {
+      "cause": "Delimitadores únicos y hash compatible.",
+      "evidence": {
+        "hash": "c9fe66d1b064e2dd27bfa5491963d201532f6a0e29b87206110b08ace0974ac6",
+        "path": ".cursor/commands/opsx-archive.md"
+      },
+      "id": "opsx.block.project-os-archive..cursor/commands/opsx-archive.md",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El bloque delimitado conserva su forma."
+    },
+    {
+      "cause": "Delimitadores únicos y hash compatible.",
+      "evidence": {
+        "hash": "c9fe66d1b064e2dd27bfa5491963d201532f6a0e29b87206110b08ace0974ac6",
+        "path": ".github/prompts/opsx-archive.prompt.md"
+      },
+      "id": "opsx.block.project-os-archive..github/prompts/opsx-archive.prompt.md",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El bloque delimitado conserva su forma."
+    },
+    {
+      "cause": "Delimitadores únicos y hash compatible.",
+      "evidence": {
+        "hash": "c9fe66d1b064e2dd27bfa5491963d201532f6a0e29b87206110b08ace0974ac6",
+        "path": ".opencode/commands/opsx-archive.md"
+      },
+      "id": "opsx.block.project-os-archive..opencode/commands/opsx-archive.md",
+      "remediation": null,
+      "status": "PASS",
+      "summary": "El bloque delimitado conserva su forma."
+    }
+  ],
+  "command": "opsx-check",
+  "exitCode": 0,
+  "mutationPerformed": false,
+  "schemaVersion": "1.0.0",
+  "status": "PASS"
+}

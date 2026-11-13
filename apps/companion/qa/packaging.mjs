@@ -285,17 +285,17 @@ test('the sealed archive is declared as an extra resource, outside every file fi
     'El archivo sellado no debe depender de la lista de archivos empaquetados.');
 });
 
-test('the 0.3.6 release path is private, disposable and never replaces a prior release', async () => {
+test('the 0.3.7 candidate keeps the protected release path and historical 0.3.6 evidence separate', async () => {
   const manifest = JSON.parse(await read('package.json'));
   const lock = JSON.parse(await read('package-lock.json'));
-  assert.equal(manifest.version, '0.3.6');
+  assert.equal(manifest.version, '0.3.7');
   assert.equal(lock.version, manifest.version);
   assert.equal(lock.packages[''].version, manifest.version);
   assert.equal(manifest.dependencies['create-project-engineering-os'], '0.5.0',
     'La release de la app no debe publicar ni adelantar el núcleo.');
   assert.equal(manifest.scripts['evidence:release-install'], 'node scripts/verify-release-installation.mjs');
   assert.equal(manifest.scripts['evidence:published-release'], 'node scripts/verify-published-artifact.mjs');
-  const notes = await read('RELEASE_NOTES_0.3.6.md');
+  const notes = await read('RELEASE_NOTES_0.3.7.md');
   assert.match(notes, /Windows x64/);
   assert.match(notes, /no tiene certificado de editor/);
   assert.match(notes, /núcleo `create-project-engineering-os` 0\.5\.0/);
@@ -306,7 +306,7 @@ test('the 0.3.6 release path is private, disposable and never replaces a prior r
   assert.match(installEvidence, /PROJECT_OS_DISPOSABLE_WINDOWS === '1'/);
   assert.match(installEvidence, /NSIS per-user uninstall identity is shared by\s*\n?\/\/\s*every Companion install/);
   assert.match(installEvidence, /previous\.manifest\.version, '0\.1\.0'/);
-  assert.match(installEvidence, /candidate\.manifest\.version, '0\.3\.6'/);
+  assert.match(installEvidence, /candidate\.manifest\.version, '0\.3\.7'/);
   assert.match(installEvidence, /Keep the runner USERPROFILE/,
     'El Escritorio debe permanecer en el perfil real del runner mientras se aíslan los datos de la app.');
   assert.match(installEvidence, /ProjectEngineeringOS-Setup-\\d\+\\\.\\d\+\\\.\\d\+-x64\\\.exe/,

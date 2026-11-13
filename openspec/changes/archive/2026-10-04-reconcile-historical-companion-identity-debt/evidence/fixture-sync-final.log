@@ -1,0 +1,57 @@
+{
+  "command": "sync",
+  "dryRun": true,
+  "exitCode": 0,
+  "incompleteTransaction": null,
+  "mode": "check",
+  "mutationPerformed": false,
+  "plan": {
+    "adoptionCandidates": [],
+    "blueprintHash": "580be244a594696a8640adaaecffbfc34ee928dd9f836b758c3953f82d26071e",
+    "configurationHash": "3fc41ea72053531a4137c5612d9031089bcdb7751fc9bffb5f68d6ddb970075f",
+    "externalOwnership": {
+      "commands": {
+        "adapt": "project-os opsx-adapt --target .",
+        "check": "project-os opsx-check --target .",
+        "init": "npm run openspec:init",
+        "update": "npm run openspec:update"
+      },
+      "generatedGlobs": [
+        ".claude/commands/opsx/*.md",
+        ".codex/skills/openspec-*/SKILL.md",
+        ".cursor/commands/opsx-*.md",
+        ".github/prompts/opsx-*.prompt.md",
+        ".opencode/commands/opsx-*.md"
+      ],
+      "owner": "external-openspec"
+    },
+    "hasDrift": false,
+    "migrations": [],
+    "operations": [],
+    "rollbackPoint": "tx-2026-10-04T02-00-07-999Z-d51b16f5",
+    "stateChanges": [
+      {
+        "field": "packageHash",
+        "observed": "562dca5b952fdfbf8eb5fc0b1189123f435e0d25ef475eda59573d592b84a9a5",
+        "saved": "f3600da516c6f75a2fc6ab7a30e8392161e148aaf4dad00d4339f6eb554561aa"
+      }
+    ],
+    "summary": {
+      "adopts": 0,
+      "conflicts": 0,
+      "creates": 0,
+      "deletes": 0,
+      "preserves": 90,
+      "stateUpdate": false,
+      "updates": 0
+    },
+    "validations": [
+      "git-root-and-writability",
+      "blueprint-schema-and-sources",
+      "ownership-and-hashes",
+      "harness-capability-and-mcp-parity",
+      "transaction-journal-and-state-schema"
+    ]
+  },
+  "status": "PROVENANCE_MISMATCH"
+}

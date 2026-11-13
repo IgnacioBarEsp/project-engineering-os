@@ -1,0 +1,50 @@
+{
+  "recordedAt": "2026-10-04T02:22:17.596Z",
+  "phase": "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt",
+  "status": "PASS",
+  "tests": {
+    "command": [
+      "--test",
+      "--test-reporter=tap",
+      "test/debt/capture.test.mjs",
+      "test/debt/cli.test.mjs",
+      "test/debt/gates.test.mjs",
+      "test/debt/github.test.mjs",
+      "test/debt/handoff.test.mjs",
+      "test/debt/historical-reconciliation.test.mjs",
+      "test/debt/policy.test.mjs",
+      "test/debt/schema.test.mjs"
+    ],
+    "total": 62,
+    "passed": 62,
+    "failed": 0,
+    "log": "post-capture-debt-tests.log"
+  },
+  "verifier": {
+    "program": "C:\\Program Files\\nodejs\\node.exe",
+    "args": [
+      "scripts/verify-historical-debt-reconciliation.mjs",
+      "--verify",
+      "openspec/changes/archive/2026-10-04-reconcile-historical-companion-identity-debt/evidence"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"verdict\":\"PASS\",\"total\":50,\"open\":36,\"otherObjectsIdentical\":49,\"historicalAssessmentsUnchanged\":73}\n",
+    "stderr": ""
+  },
+  "whitespace": {
+    "program": "git",
+    "args": [
+      "diff",
+      "--check"
+    ],
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "independentReviewCodeUnchangedSince": "a6127ce039a86f27b7bfddce060a05a9b6423b73",
+  "reviewedFiles": [
+    "scripts/verify-historical-debt-reconciliation.mjs",
+    "test/debt/historical-reconciliation.test.mjs"
+  ],
+  "limits": "Author post-capture check, not an independent review of the later head, remote CI, current installed run or umbrella closure."
+}

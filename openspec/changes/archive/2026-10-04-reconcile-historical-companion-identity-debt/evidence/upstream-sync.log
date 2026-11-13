@@ -1,0 +1,9 @@
+{
+  "command": "sync",
+  "dryRun": true,
+  "exitCode": 0,
+  "mode": "check",
+  "mutationPerformed": false,
+  "skipReason": "El upstream no consume el layout gestionado; valida este check en un fixture consumidor.",
+  "status": "SKIP"
+}

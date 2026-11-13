@@ -1,0 +1,507 @@
+{
+  "recordedAt": "2026-10-04T02:04:06.563Z",
+  "provenance": "The QA orchestrator completed its checked commands and reached report formatting, then failed on checks/results field naming. This summary validates their retained logs; commands were not repeated to fix reporting. Log hashes identify the exact retained outputs.",
+  "core": {
+    "tests": 393,
+    "passed": 393,
+    "failed": 0
+  },
+  "fixture": {
+    "result": "PASS",
+    "commands": [
+      {
+        "id": "git-init",
+        "exitCode": 0
+      },
+      {
+        "id": "npm-pack",
+        "exitCode": 0
+      },
+      {
+        "id": "install-packed-runner",
+        "exitCode": 0
+      },
+      {
+        "id": "bootstrap-from-packed-tarball",
+        "exitCode": 0
+      },
+      {
+        "id": "bootstrap-second",
+        "exitCode": 0
+      },
+      {
+        "id": "sync-check",
+        "exitCode": 0
+      }
+    ],
+    "checks": {
+      "targetBeforeBootstrap": {
+        "nonGitEntries": []
+      },
+      "packageArtifact": {
+        "bytes": 278813,
+        "filename": "create-project-engineering-os-1.0.0.tgz",
+        "sha256": "014827a48cd3950605482fc93e1742e36a8693b33b012672b8856ea1fe12e7b5"
+      },
+      "packedRunnerInstall": {
+        "stderrLines": 0,
+        "stdoutLines": 1,
+        "warnings": []
+      },
+      "firstBootstrapRunner": {
+        "artifactSha256": "014827a48cd3950605482fc93e1742e36a8693b33b012672b8856ea1fe12e7b5",
+        "source": "temporary-runner-from-verified-tarball"
+      },
+      "firstBootstrap": {
+        "command": "bootstrap",
+        "exitCode": 0,
+        "incompleteTransaction": null,
+        "mode": "apply",
+        "mutationPerformed": true,
+        "plan": {
+          "adoptionCandidates": [],
+          "blueprintHash": "580be244a594696a8640adaaecffbfc34ee928dd9f836b758c3953f82d26071e",
+          "configurationHash": "3fc41ea72053531a4137c5612d9031089bcdb7751fc9bffb5f68d6ddb970075f",
+          "externalOwnership": {
+            "commands": {
+              "adapt": "project-os opsx-adapt --target .",
+              "check": "project-os opsx-check --target .",
+              "init": "npm run openspec:init",
+              "update": "npm run openspec:update"
+            },
+            "generatedGlobs": [
+              ".claude/commands/opsx/*.md",
+              ".codex/skills/openspec-*/SKILL.md",
+              ".cursor/commands/opsx-*.md",
+              ".github/prompts/opsx-*.prompt.md",
+              ".opencode/commands/opsx-*.md"
+            ],
+            "owner": "external-openspec"
+          },
+          "hasDrift": true,
+          "migrations": [],
+          "rollbackPoint": "pre-bootstrap",
+          "stateChanges": [
+            {
+              "field": "packageHash",
+              "observed": "f3600da516c6f75a2fc6ab7a30e8392161e148aaf4dad00d4339f6eb554561aa",
+              "saved": null
+            },
+            {
+              "field": "blueprintHash",
+              "observed": "580be244a594696a8640adaaecffbfc34ee928dd9f836b758c3953f82d26071e",
+              "saved": null
+            },
+            {
+              "field": "configurationHash",
+              "observed": "3fc41ea72053531a4137c5612d9031089bcdb7751fc9bffb5f68d6ddb970075f",
+              "saved": null
+            },
+            {
+              "field": "activeProfiles",
+              "observed": [
+                "documentation",
+                "harness-tooling"
+              ],
+              "saved": null
+            },
+            {
+              "field": "stateFormatVersion",
+              "observed": 2,
+              "saved": null
+            },
+            {
+              "field": "packageName",
+              "observed": "create-project-engineering-os",
+              "saved": null
+            },
+            {
+              "field": "packageVersion",
+              "observed": "1.0.0",
+              "saved": null
+            },
+            {
+              "field": "packageHashAlgorithm",
+              "observed": "sha256-tree-v1",
+              "saved": null
+            },
+            {
+              "field": "schemaVersion",
+              "observed": "1.0.0",
+              "saved": null
+            }
+          ],
+          "summary": {
+            "adopts": 0,
+            "conflicts": 0,
+            "creates": 90,
+            "deletes": 0,
+            "preserves": 0,
+            "stateUpdate": true,
+            "updates": 0
+          },
+          "validations": [
+            "git-root-and-writability",
+            "blueprint-schema-and-sources",
+            "ownership-and-hashes",
+            "harness-capability-and-mcp-parity",
+            "transaction-journal-and-state-schema"
+          ],
+          "operationCount": 90
+        },
+        "status": "APPLIED",
+        "transaction": {
+          "changes": 91,
+          "resumed": false,
+          "transactionId": "tx-2026-10-04T02-00-07-999Z-d51b16f5"
+        }
+      },
+      "installedRuntime": {
+        "entrypoint": null,
+        "path": ".project-constructor/runtime",
+        "exists": false,
+        "executionContract": "exact-package-dependency"
+      },
+      "secondBootstrap": {
+        "command": "bootstrap",
+        "exitCode": 0,
+        "incompleteTransaction": null,
+        "mode": "apply",
+        "mutationPerformed": false,
+        "plan": {
+          "adoptionCandidates": [],
+          "blueprintHash": "580be244a594696a8640adaaecffbfc34ee928dd9f836b758c3953f82d26071e",
+          "configurationHash": "3fc41ea72053531a4137c5612d9031089bcdb7751fc9bffb5f68d6ddb970075f",
+          "externalOwnership": {
+            "commands": {
+              "adapt": "project-os opsx-adapt --target .",
+              "check": "project-os opsx-check --target .",
+              "init": "npm run openspec:init",
+              "update": "npm run openspec:update"
+            },
+            "generatedGlobs": [
+              ".claude/commands/opsx/*.md",
+              ".codex/skills/openspec-*/SKILL.md",
+              ".cursor/commands/opsx-*.md",
+              ".github/prompts/opsx-*.prompt.md",
+              ".opencode/commands/opsx-*.md"
+            ],
+            "owner": "external-openspec"
+          },
+          "hasDrift": false,
+          "migrations": [],
+          "rollbackPoint": "tx-2026-10-04T02-00-07-999Z-d51b16f5",
+          "stateChanges": [],
+          "summary": {
+            "adopts": 0,
+            "conflicts": 0,
+            "creates": 0,
+            "deletes": 0,
+            "preserves": 90,
+            "stateUpdate": false,
+            "updates": 0
+          },
+          "validations": [
+            "git-root-and-writability",
+            "blueprint-schema-and-sources",
+            "ownership-and-hashes",
+            "harness-capability-and-mcp-parity",
+            "transaction-journal-and-state-schema"
+          ],
+          "operationCount": 90
+        },
+        "status": "IN_SYNC",
+        "transaction": {
+          "changes": 0,
+          "resumed": false,
+          "transactionId": null
+        }
+      },
+      "idempotence": {
+        "changedFiles": 0
+      },
+      "sync": {
+        "command": "sync",
+        "dryRun": true,
+        "exitCode": 0,
+        "incompleteTransaction": null,
+        "mode": "check",
+        "mutationPerformed": false,
+        "plan": {
+          "adoptionCandidates": [],
+          "blueprintHash": "580be244a594696a8640adaaecffbfc34ee928dd9f836b758c3953f82d26071e",
+          "configurationHash": "3fc41ea72053531a4137c5612d9031089bcdb7751fc9bffb5f68d6ddb970075f",
+          "externalOwnership": {
+            "commands": {
+              "adapt": "project-os opsx-adapt --target .",
+              "check": "project-os opsx-check --target .",
+              "init": "npm run openspec:init",
+              "update": "npm run openspec:update"
+            },
+            "generatedGlobs": [
+              ".claude/commands/opsx/*.md",
+              ".codex/skills/openspec-*/SKILL.md",
+              ".cursor/commands/opsx-*.md",
+              ".github/prompts/opsx-*.prompt.md",
+              ".opencode/commands/opsx-*.md"
+            ],
+            "owner": "external-openspec"
+          },
+          "hasDrift": false,
+          "migrations": [],
+          "rollbackPoint": "tx-2026-10-04T02-00-07-999Z-d51b16f5",
+          "stateChanges": [],
+          "summary": {
+            "adopts": 0,
+            "conflicts": 0,
+            "creates": 0,
+            "deletes": 0,
+            "preserves": 90,
+            "stateUpdate": false,
+            "updates": 0
+          },
+          "validations": [
+            "git-root-and-writability",
+            "blueprint-schema-and-sources",
+            "ownership-and-hashes",
+            "harness-capability-and-mcp-parity",
+            "transaction-journal-and-state-schema"
+          ],
+          "operationCount": 90
+        },
+        "status": "IN_SYNC"
+      },
+      "harnesses": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        ".cursor/rules/project-os.mdc",
+        ".codex/config.toml",
+        ".github/copilot-instructions.md",
+        "OPENCODE.md"
+      ],
+      "harnessContract": {
+        "adapters": [
+          ".agents/skills/project-os/SKILL.md",
+          ".claude/rules/project-os-documentation.md",
+          ".claude/rules/project-os-governance.md",
+          ".claude/rules/project-os-tests.md",
+          ".claude/rules/project-os-universal.md",
+          ".claude/rules/project-os.md",
+          ".claude/skills/project-os/SKILL.md",
+          ".codex/config.toml",
+          ".cursor/mcp.json",
+          ".cursor/rules/project-os-documentation.mdc",
+          ".cursor/rules/project-os-governance.mdc",
+          ".cursor/rules/project-os-tests.mdc",
+          ".cursor/rules/project-os-universal.mdc",
+          ".cursor/rules/project-os.mdc",
+          ".github/copilot-instructions.md",
+          ".github/instructions/project-os-documentation.instructions.md",
+          ".github/instructions/project-os-governance.instructions.md",
+          ".github/instructions/project-os-tests.instructions.md",
+          ".github/instructions/project-os-universal.instructions.md",
+          ".github/instructions/project-os.instructions.md",
+          ".mcp.json",
+          ".opencode/project-os.md",
+          ".project-os/path-rules.json",
+          "AGENTS.md",
+          "CLAUDE.md",
+          "opencode.json"
+        ],
+        "cells": 30,
+        "runtimeSignalsVerifiedByBootstrap": 0
+      },
+      "seededIdentity": {
+        "pinned": "1.0.0"
+      },
+      "discovery": {
+        "relative": ".project-os/github/discovery-issues.json",
+        "count": 10
+      },
+      "neutrality": {
+        "forbiddenPatterns": 5,
+        "productDependencies": 0
+      },
+      "findability": {
+        "expected": 9,
+        "missing": 0
+      },
+      "doctor": {
+        "skipped": true,
+        "cause": "--skip-install"
+      }
+    }
+  },
+  "fixtureOpsx": {
+    "status": "PASS",
+    "mutationPerformed": false
+  },
+  "fixtureDoctor": {
+    "counts": {
+      "PASS": 12,
+      "FAIL": 0,
+      "WARN": 4,
+      "SKIP": 13
+    },
+    "warnings": [
+      {
+        "id": "git.working-tree",
+        "summary": "Working tree contiene cambios",
+        "evidence": {
+          "paths": [
+            ".agents/",
+            ".claude/",
+            ".codex/",
+            ".cursor/",
+            ".github/",
+            ".gitignore",
+            ".mcp.json",
+            ".opencode/",
+            ".project-constructor/",
+            ".project-os/",
+            "AGENTS.md",
+            "CLAUDE.md",
+            "OPENCODE.md",
+            "README.md",
+            "docs/",
+            "opencode.json",
+            "openspec/",
+            "package-lock.json",
+            "package.json"
+          ],
+          "category": "published-obligation",
+          "applicability": "applicable"
+        }
+      },
+      {
+        "id": "debt.github",
+        "summary": "El doctor no ejecuta sincronización GitHub",
+        "evidence": {
+          "mode": "auto",
+          "category": "published-obligation",
+          "applicability": "applicable"
+        }
+      },
+      {
+        "id": "github.project",
+        "summary": "GitHub Project no ejecutado por el doctor",
+        "evidence": {
+          "expectedReceipt": ".project-os/evidence/github-project.json",
+          "category": "published-obligation",
+          "applicability": "applicable"
+        }
+      },
+      {
+        "id": "ci.execution",
+        "summary": "Ejecución CI local no ejecutado por el doctor",
+        "evidence": {
+          "expectedReceipt": ".project-os/evidence/ci-local.json",
+          "category": "published-obligation",
+          "applicability": "applicable"
+        }
+      }
+    ]
+  },
+  "upstreamDoctor": {
+    "verdict": "FAIL",
+    "counts": {
+      "PASS": 9,
+      "FAIL": 3,
+      "WARN": 2,
+      "SKIP": 15
+    },
+    "failures": [
+      "profile.auth-security",
+      "profile.library-cli",
+      "profile.ui"
+    ],
+    "expectedBaseline": {
+      "schemaVersion": "1.0.0",
+      "entries": [
+        {
+          "id": "profile.auth-security",
+          "profile": "auth-security",
+          "issue": 115
+        },
+        {
+          "id": "profile.library-cli",
+          "profile": "library-cli",
+          "issue": 115
+        },
+        {
+          "id": "profile.ui",
+          "profile": "ui",
+          "issue": 115
+        }
+      ]
+    }
+  },
+  "commands": [
+    {
+      "id": "core-check",
+      "log": "core-check.log",
+      "sha256": "fdbd75dc9323a60d73b5b615ca2a7c548199856669038e82ef837cb985ddf80b",
+      "completedCheckedCommand": true,
+      "note": "Command completion was checked by orchestrator before formatting error"
+    },
+    {
+      "id": "fixture-base",
+      "log": "fixture-base.log",
+      "sha256": "5beefb8c1fa132b7c9d245f13714b2b4bc2aeaef728f7b6ff16b709aa2288678",
+      "completedCheckedCommand": true,
+      "note": "Command completion was checked by orchestrator before formatting error"
+    },
+    {
+      "id": "upstream-doctor",
+      "log": "upstream-doctor.log",
+      "sha256": "199e97e698fd9e744123ffaedf43d14fca80509d52ed860b4c0e5f2db247eca9",
+      "completedCheckedCommand": true,
+      "note": "FAIL retained and matched exactly to existing #115 baseline, not reported as PASS"
+    },
+    {
+      "id": "upstream-sync",
+      "log": "upstream-sync.log",
+      "sha256": "e0102bbe8b14bf57de4bd0d6c2c3f83ffe88255f6add12e14c9c213e88138913",
+      "completedCheckedCommand": true,
+      "note": "Command completion was checked by orchestrator before formatting error"
+    },
+    {
+      "id": "fixture-openspec-init",
+      "log": "fixture-openspec-init.log",
+      "sha256": "9a4dc205a051a1e314fbab4ee953b566b423d2f5e679594f3b30602cb5d2421e",
+      "completedCheckedCommand": true,
+      "note": "Command completion was checked by orchestrator before formatting error"
+    },
+    {
+      "id": "fixture-opsx-adapt",
+      "log": "fixture-opsx-adapt.log",
+      "sha256": "bc56647bcc1969dede479f2427fdab2e6e6f63425836bfb8c531b28eeeac71cb",
+      "completedCheckedCommand": true,
+      "note": "Command completion was checked by orchestrator before formatting error"
+    },
+    {
+      "id": "fixture-opsx-check",
+      "log": "fixture-opsx-check.log",
+      "sha256": "aa3767793ea54369f579c68b2d30d031a039cd52a6328b8dd3fe91488d5decc2",
+      "completedCheckedCommand": true,
+      "note": "Command completion was checked by orchestrator before formatting error"
+    },
+    {
+      "id": "fixture-doctor",
+      "log": "fixture-doctor.log",
+      "sha256": "838ae22a741304d20ae5eb09c7fd53731ff210feae33afe292b5d5e0a119f6ff",
+      "completedCheckedCommand": true,
+      "note": "Command completion was checked by orchestrator before formatting error"
+    },
+    {
+      "id": "fixture-sync-final",
+      "log": "fixture-sync-final.log",
+      "sha256": "1a4936600c306497b92716243ab36b8a14d33811cd56bdef391ef6ab9d4e76d9",
+      "completedCheckedCommand": true,
+      "note": "Command completion was checked by orchestrator before formatting error"
+    }
+  ],
+  "noNewDependencyInstallation": true,
+  "fixedOpenSpecReused": "1.6.0",
+  "scope": "Core/package and temporary consumer; no installed Companion, runtime, npm candidate audit or human session"
+}

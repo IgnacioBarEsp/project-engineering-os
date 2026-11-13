@@ -1,0 +1,51 @@
+{
+  "command": "check",
+  "ok": true,
+  "verdict": "PASS",
+  "counts": {
+    "PASS": 2,
+    "FAIL": 0,
+    "WARN": 0,
+    "SKIP": 0
+  },
+  "checks": [
+    {
+      "id": "debt-config",
+      "status": "PASS",
+      "summary": "Politica y registro validos (50 item(s)).",
+      "recovery": null
+    },
+    {
+      "id": "plan-upstream-core",
+      "status": "PASS",
+      "summary": "Plan activo: 4/5 unidades, 3 flujo(s) con deuda abierta.",
+      "recovery": null
+    }
+  ],
+  "evaluation": {
+    "plans": {
+      "upstream-core": {
+        "id": "upstream-core",
+        "title": "Upstream engineering controls",
+        "budget": 4,
+        "threshold": 5,
+        "remaining": 1,
+        "openItems": [
+          "debt-9e0738544eb1",
+          "debt-1e4dcea05e47",
+          "debt-bd1d39bb57fe",
+          "debt-ddb82e8fd48e"
+        ],
+        "flowsWithResidualDebt": 3,
+        "triggers": [],
+        "paused": false,
+        "pausedBy": []
+      }
+    },
+    "globalTriggers": [],
+    "pausedPlans": [],
+    "openDebtCount": 4,
+    "expiredExceptionIds": [],
+    "criticalTransversalIds": []
+  }
+}

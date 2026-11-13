@@ -1,0 +1,1327 @@
+{
+  "schemaVersion": 1,
+  "mainCommit": "9751c301976fe27e9bbad33e69f39372b69f901e",
+  "recordedAt": "2026-10-04T01:58:52.034Z",
+  "source": {
+    "comment": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/206#issuecomment-5967265523",
+    "originalCommentSha256": "d55f8d224eb04b510cdad5ea216993a3277a2b69395ee925e87b18ccf1fef1ac",
+    "diagnosticDate": "2026-10-03"
+  },
+  "scope": "Versioned pre-capture diagnostic; labels are not CLI categories/status changes or new case reproductions",
+  "registrySha256": "2711f41198011fa04434a3ded8c6b805a2fe5de9102140ecbedb85c54914d6d3",
+  "total": 50,
+  "openAtStart": 37,
+  "classificationCounts": {
+    "V": 6,
+    "L": 12,
+    "P": 6,
+    "H": 6,
+    "I": 7
+  },
+  "rows": [
+    {
+      "id": "debt-9e0738544eb1",
+      "sourceIssue": 87,
+      "title": "La aplicación local se abre con un entorno reducido que no incluye PATH",
+      "originalCategory": "decision-required",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "V",
+      "diagnostic": "El allowlist de cleanEnvironment sigue sin PATH. No se probó una app externa nueva; falta decidir si conservar el aislamiento o incorporar rutas revisadas. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/independent-final.md).",
+      "followup": "#206: decisión de lanzamiento, no apertura automática de más aplicaciones.",
+      "references": [
+        {
+          "original": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "path": "openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/independent-final.md",
+          "sha256": "e5072cd8795f2ba206a810a73ab9e71df86ee306b074378cd3122cf563d06642",
+          "bytes": 5599,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/independent-final.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/desktop/local-apps.mjs",
+          "path": "apps/companion/desktop/local-apps.mjs",
+          "sha256": "352ae2e718da2597eb601363cae794bdb5a767cf48be1f199f3118c36fec6755",
+          "bytes": 17725,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/desktop/local-apps.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-11-activate-companion-environment/readiness.json",
+          "issue": 87,
+          "change": "activate-companion-environment"
+        }
+      ]
+    },
+    {
+      "id": "debt-1e4dcea05e47",
+      "sourceIssue": 87,
+      "title": "La frescura del contexto documental usa la fecha de modificación además del contenido",
+      "originalCategory": "technical-debt",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "L",
+      "diagnostic": "El inventario incluye mtimeMs en su fingerprint además del contenido; puede invalidarse al tocar fechas. No confundirlo con el testigo de estado posterior, que compara bytes. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/validation.md).",
+      "followup": "#206: conservar la comprobación conservadora salvo decisión/spec distinta.",
+      "references": [
+        {
+          "original": "openspec/changes/activate-companion-environment/evidence/validation.md",
+          "path": "openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/validation.md",
+          "sha256": "1db900b72769f75595467b414b5200d206848608d4682587747477cd2a9383be",
+          "bytes": 6728,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/validation.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/engine/inventory.mjs",
+          "path": "apps/companion/engine/inventory.mjs",
+          "sha256": "d839a4cffa7dda6801f689628bf6ce6c81967fab26f643068dbb1678a2d50ad4",
+          "bytes": 6188,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/engine/inventory.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-11-activate-companion-environment/readiness.json",
+          "issue": 87,
+          "change": "activate-companion-environment"
+        }
+      ]
+    },
+    {
+      "id": "debt-d1f04de40687",
+      "sourceIssue": 87,
+      "title": "Cada invocación de la entrada local vuelve a leer unos 200 MB de árboles fijados, incluso para consultar símbolos",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "V",
+      "diagnostic": "agent-entry llama a verifyAgentEnvironment y este recorre Node/Git/toolchain con inspectTree. Los ~200 MB son una medición antigua, no una cifra nueva. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/independent-final.md).",
+      "followup": "#206: medir latencia/bytes actuales antes de diseñar cache sin debilitar integridad.",
+      "references": [
+        {
+          "original": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "path": "openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/independent-final.md",
+          "sha256": "e5072cd8795f2ba206a810a73ab9e71df86ee306b074378cd3122cf563d06642",
+          "bytes": 5599,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/independent-final.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/runtime/agent-entry.mjs",
+          "path": "apps/companion/runtime/agent-entry.mjs",
+          "sha256": "92c97e4d50962aff0bdacf6f2cfea93f21681cf3fcda5fbb086a55a602537015",
+          "bytes": 6454,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/runtime/agent-entry.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-11-activate-companion-environment/readiness.json",
+          "issue": 87,
+          "change": "activate-companion-environment"
+        }
+      ]
+    },
+    {
+      "id": "debt-4ae6535a87e5",
+      "sourceIssue": 87,
+      "title": "Un archivo preexistente sin UTF-8 válido en una ruta generada aborta todo el plan de activación",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "L",
+      "diagnostic": "activation convierte los bytes con TextDecoder fatal y rechaza codificación no admitida. El rechazo evita sobrescribir un original que no puede representar; no se reprodujo el caso ahora. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/independent-final.md).",
+      "followup": "#206: decidir mejora del mensaje/plan por conflicto, no aceptar bytes a ciegas.",
+      "references": [
+        {
+          "original": "openspec/changes/activate-companion-environment/evidence/independent-final.md",
+          "path": "openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/independent-final.md",
+          "sha256": "e5072cd8795f2ba206a810a73ab9e71df86ee306b074378cd3122cf563d06642",
+          "bytes": 5599,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-activate-companion-environment/evidence/independent-final.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/runtime/activation.mjs",
+          "path": "apps/companion/runtime/activation.mjs",
+          "sha256": "50ae6a37a74ecabe4650de74211f1cfa006947fd9a14cb3cdd9b1a6e9784a5f7",
+          "bytes": 17967,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/runtime/activation.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-11-activate-companion-environment/readiness.json",
+          "issue": 87,
+          "change": "activate-companion-environment"
+        }
+      ]
+    },
+    {
+      "id": "debt-d6b356608fa5",
+      "sourceIssue": 80,
+      "title": "Los bytes del instalador no son reproducibles entre construcciones del mismo árbol",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "L",
+      "diagnostic": "La doble construcción histórica obtuvo contenido igual e instaladores distintos. Comparar el artefacto canónico descargado no convierte una reconstrucción en determinista. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-package-companion-windows/evidence/build-idempotence.json).",
+      "followup": "#206: conservar SHA por construcción; reproducibilidad binaria sería alcance nuevo.",
+      "references": [
+        {
+          "original": "openspec/changes/package-companion-windows/evidence/build-idempotence.json",
+          "path": "openspec/changes/archive/2026-09-11-package-companion-windows/evidence/build-idempotence.json",
+          "sha256": "205c61f9fc4a6752309f0b13ce71fbeb908f7e48d2d83c06590730a161309278",
+          "bytes": 938,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-package-companion-windows/evidence/build-idempotence.json"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/scripts/pack-app.mjs",
+          "path": "apps/companion/scripts/pack-app.mjs",
+          "sha256": "b4f55c342021f29f19cbbe4b30eacacc52141b43a01c8df0170c4c8820813f09",
+          "bytes": 4966,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/scripts/pack-app.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-11-package-companion-windows/readiness.json",
+          "issue": 80,
+          "change": "package-companion-windows"
+        }
+      ]
+    },
+    {
+      "id": "debt-5987ee39d1be",
+      "sourceIssue": 80,
+      "title": "CI no construye ni instala el artefacto: solo comprueba el contrato de empaquetado",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "P",
+      "diagnostic": "companion-release.yml ya construye y verifica candidato e instalación/actualización/desinstalación. El CI de PR mantiene otro alcance: no construye ese instalador. Existencia de workflow no equivale a una corrida nueva exitosa. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-package-companion-windows/evidence/validation.md).",
+      "followup": "#204 desbloquea ejecución; #150 cubre harness. No dar por resuelto CI de PR + release como si fueran iguales.",
+      "references": [
+        {
+          "original": "openspec/changes/package-companion-windows/evidence/validation.md",
+          "path": "openspec/changes/archive/2026-09-11-package-companion-windows/evidence/validation.md",
+          "sha256": "3269ef65dd57368ac8884cf763f4da2321827c244fccb9c3b78bd858abebd685",
+          "bytes": 6385,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-package-companion-windows/evidence/validation.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": ".github/workflows/ci.yml",
+          "path": ".github/workflows/ci.yml",
+          "sha256": "d48d0d96c257c2f533d2b34efb5d078f59b8bb8e32dcace4f38de5f5f1663c5a",
+          "bytes": 5489,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/.github/workflows/ci.yml"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-11-package-companion-windows/readiness.json",
+          "issue": 80,
+          "change": "package-companion-windows"
+        }
+      ]
+    },
+    {
+      "id": "debt-0a40d51b50bc",
+      "sourceIssue": 80,
+      "title": "La aplicación se empaqueta sin asar, lo que aumenta tamaño y tiempo de arranque",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "L",
+      "diagnostic": "asar:false sigue fijado porque el Node administrado externo ejecuta/copia fuentes; activar asar sin rediseño rompería esa propiedad. Tamaño/arranque no se midieron ahora. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-package-companion-windows/evidence/validation.md).",
+      "followup": "#206: decisión arquitectónica; optimización futura con comparación medible.",
+      "references": [
+        {
+          "original": "openspec/changes/package-companion-windows/evidence/validation.md",
+          "path": "openspec/changes/archive/2026-09-11-package-companion-windows/evidence/validation.md",
+          "sha256": "3269ef65dd57368ac8884cf763f4da2321827c244fccb9c3b78bd858abebd685",
+          "bytes": 6385,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-package-companion-windows/evidence/validation.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/electron-builder.yml",
+          "path": "apps/companion/electron-builder.yml",
+          "sha256": "8807ddd73dcbb0711bde489b7888f71226b36e785e2b525da8f6300885be58ec",
+          "bytes": 3124,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/electron-builder.yml"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-11-package-companion-windows/readiness.json",
+          "issue": 80,
+          "change": "package-companion-windows"
+        }
+      ]
+    },
+    {
+      "id": "debt-8a9b74c15a3b",
+      "sourceIssue": 81,
+      "title": "El primer criterio del issue pide evidencia desde el instalador y ninguna comprobación recorre sus páginas",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "P",
+      "diagnostic": "#168 aporta después pruebas asistidas específicas de 0.3.6. No prueba todas las páginas/recorridos de una candidata 0.4 aún no construida. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/journeys.json).",
+      "followup": "#168 como evidencia histórica; #150/#204 para la candidata nueva. No repetir aprobaciones de 0.3.6 como nuevas.",
+      "references": [
+        {
+          "original": "openspec/changes/validate-companion-journeys/evidence/journeys.json",
+          "path": "openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/journeys.json",
+          "sha256": "2ef468e09c53b4ac2109c529effc534596fbe799dfeb36f0180357e9c0303261",
+          "bytes": 14884,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/journeys.json"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/scripts/verify-journeys.mjs",
+          "path": "apps/companion/scripts/verify-journeys.mjs",
+          "sha256": "f93ac44a396704329b782b12033903302d86e48ec0e3f115d222b4a2c316221d",
+          "bytes": 21500,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/scripts/verify-journeys.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-11-validate-companion-journeys/readiness.json",
+          "issue": 81,
+          "change": "validate-companion-journeys"
+        }
+      ]
+    },
+    {
+      "id": "debt-fc4309bcddbf",
+      "sourceIssue": 81,
+      "title": "Los recorridos conducen la capa de servicio instalada, no la interfaz ni a una persona usuaria",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "H",
+      "diagnostic": "Existen recorridos nativos posteriores; los originales de servicio no fueron una persona ni el flujo actual completo en un artefacto instalado. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/journeys.json).",
+      "followup": "#146/#147/#150: recorrer el build identificado una vez desbloqueado #204; conservar alcance humano real.",
+      "references": [
+        {
+          "original": "openspec/changes/validate-companion-journeys/evidence/journeys.json",
+          "path": "openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/journeys.json",
+          "sha256": "2ef468e09c53b4ac2109c529effc534596fbe799dfeb36f0180357e9c0303261",
+          "bytes": 14884,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/journeys.json"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "openspec/changes/validate-companion-journeys/evidence/validation.md",
+          "path": "openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/validation.md",
+          "sha256": "2d816476411a96399501f1b863674afa388ef0a34df73e329b5b2febbd87121c",
+          "bytes": 11552,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/validation.md"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-11-validate-companion-journeys/readiness.json",
+          "issue": 81,
+          "change": "validate-companion-journeys"
+        }
+      ]
+    },
+    {
+      "id": "debt-64538bb1a725",
+      "sourceIssue": 81,
+      "title": "El corpus medido es sintético y pequeño, y su PDF lleva el texto sin comprimir: otro corpus da otro resultado",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "I",
+      "diagnostic": "El corpus inicial pequeño sigue siendo evidencia de ese corpus. #105/#166 incorporaron repositorios reales con resultado adverso, no una mejora general del producto. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/benchmark.json).",
+      "followup": "#205 para cobertura; #173 solo después de las siete olas, sin ejecutar ahora otro experimento.",
+      "references": [
+        {
+          "original": "openspec/changes/validate-companion-journeys/evidence/benchmark.json",
+          "path": "openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/benchmark.json",
+          "sha256": "bfc0528f5359576cab06a228a33ff9036a001b24bd450bc311448bf66484d54c",
+          "bytes": 12808,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/benchmark.json"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/scripts/verify-benchmark.mjs",
+          "path": "apps/companion/scripts/verify-benchmark.mjs",
+          "sha256": "24b3daa296331a6564033541fa08f8a6db48286cb11cb0e36af55aff400ce3ff",
+          "bytes": 17510,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/scripts/verify-benchmark.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-11-validate-companion-journeys/readiness.json",
+          "issue": 81,
+          "change": "validate-companion-journeys"
+        }
+      ]
+    },
+    {
+      "id": "debt-0f4ed704728a",
+      "sourceIssue": 81,
+      "title": "La comprobación de la landing no es una auditoría de accesibilidad ni se probó con lector de pantalla",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "H",
+      "diagnostic": "La validación automática histórica de la landing no demuestra uso con lector de pantalla ni auditoría de accesibilidad completa. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/landing.json).",
+      "followup": "#206: límite de validación; relacionar con #118 al abordar landing, sin iniciar esa ola ahora.",
+      "references": [
+        {
+          "original": "openspec/changes/validate-companion-journeys/evidence/landing.json",
+          "path": "openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/landing.json",
+          "sha256": "8201e03e80b32d32de0c0a62106b8d06843db0d0bbd596528d105dfe11e39844",
+          "bytes": 4719,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/landing.json"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/scripts/verify-landing.mjs",
+          "path": "apps/companion/scripts/verify-landing.mjs",
+          "sha256": "fd3f0ab11fe74f3b7f64ff7a3a3dda93c214ab39801d895b4240a810997e9269",
+          "bytes": 20346,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/scripts/verify-landing.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-11-validate-companion-journeys/readiness.json",
+          "issue": 81,
+          "change": "validate-companion-journeys"
+        }
+      ]
+    },
+    {
+      "id": "debt-ae9412074b30",
+      "sourceIssue": 81,
+      "title": "Los recorridos y la medición no pueden correr en CI porque necesitan la aplicación instalada desde un artefacto",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "P",
+      "diagnostic": "El workflow de release actual obtiene el artefacto y conduce instalación y recorridos nativos. El CI ordinario aún excluye esos arneses y no se comprobó una corrida nueva de benchmark instalado. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/independent-review.md).",
+      "followup": "#150/#204 para evidencias de candidata; reconciliar por subcriterio, no resolver todo por la presencia de YAML.",
+      "references": [
+        {
+          "original": "openspec/changes/validate-companion-journeys/evidence/independent-review.md",
+          "path": "openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/independent-review.md",
+          "sha256": "ee41a86cdeea107197c7a792c05c14d516e25016ade956299e79779703d0b728",
+          "bytes": 8003,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-11-validate-companion-journeys/evidence/independent-review.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": ".github/workflows/ci.yml",
+          "path": ".github/workflows/ci.yml",
+          "sha256": "d48d0d96c257c2f533d2b34efb5d078f59b8bb8e32dcace4f38de5f5f1663c5a",
+          "bytes": 5489,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/.github/workflows/ci.yml"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-11-validate-companion-journeys/readiness.json",
+          "issue": 81,
+          "change": "validate-companion-journeys"
+        }
+      ]
+    },
+    {
+      "id": "debt-49914ab4fee0",
+      "sourceIssue": 94,
+      "title": "De las cinco IA imprescindibles, solo Cursor tiene apertura local verificada; Antigravity llega sin firma y Claude y OpenCode no exponen forma comprobada de recibir una carpeta",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "P",
+      "diagnostic": "#106 amplió contratos observados y el código actual reconoce Codex/Cursor/VS Code/Claude; Antigravity/OpenCode siguen sin contrato de carpeta verificado. Reconocer/verificar no significa que la IA leyó la carpeta. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-complete-companion-program/evidence/local-launches.json).",
+      "followup": "#106 histórico; #147/#150 para observar entrega real cuando corresponda. No inventar contratos.",
+      "references": [
+        {
+          "original": "openspec/changes/complete-companion-program/evidence/local-launches.json",
+          "path": "openspec/changes/archive/2026-09-12-complete-companion-program/evidence/local-launches.json",
+          "sha256": "1467253ba8a18b9956f9d44d77d194cea716b874fab1730d0a3ba5f80049d9c2",
+          "bytes": 1884,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-complete-companion-program/evidence/local-launches.json"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/desktop/local-apps.mjs",
+          "path": "apps/companion/desktop/local-apps.mjs",
+          "sha256": "352ae2e718da2597eb601363cae794bdb5a767cf48be1f199f3118c36fec6755",
+          "bytes": 17725,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/desktop/local-apps.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-12-complete-companion-program/readiness.json",
+          "issue": 94,
+          "change": "complete-companion-program"
+        }
+      ]
+    },
+    {
+      "id": "debt-eac137c63b3c",
+      "sourceIssue": 94,
+      "title": "Elegir carpeta y las páginas del instalador requieren una persona: ninguna comprobación automática puede cubrirlas",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "H",
+      "diagnostic": "El diálogo de carpeta tuvo participación humana histórica y #168 recorrió páginas específicas; ese testimonio no acepta la nueva candidata ni todos los perfiles. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-complete-companion-program/evidence/native-acceptance.md).",
+      "followup": "#146/#150: solamente pasos humanos exigidos en el build actual; no automatizar una aceptación humana.",
+      "references": [
+        {
+          "original": "openspec/changes/complete-companion-program/evidence/native-acceptance.md",
+          "path": "openspec/changes/archive/2026-09-12-complete-companion-program/evidence/native-acceptance.md",
+          "sha256": "d9c7754ee34be5442bffb87af44a5b1e49ce4c5b4d0b03ad3388f4137d423f2c",
+          "bytes": 13669,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-complete-companion-program/evidence/native-acceptance.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/scripts/observe-folder-dialog.ps1",
+          "path": "apps/companion/scripts/observe-folder-dialog.ps1",
+          "sha256": "82f5e8ece1ed2cfa4affe539df70b0dc84167c82a8530a175ad955b2d7562d3b",
+          "bytes": 3806,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/scripts/observe-folder-dialog.ps1"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-12-complete-companion-program/readiness.json",
+          "issue": 94,
+          "change": "complete-companion-program"
+        }
+      ]
+    },
+    {
+      "id": "debt-6d7898c76dd0",
+      "sourceIssue": 94,
+      "title": "Una pregunta de abstención no numérica queda condicionada por la instrucción numérica global",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "I",
+      "diagnostic": "El protocolo antiguo conserva una pregunta no numérica condicionada por instrucción numérica. No es corregible retroactivamente cambiando resultados. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-complete-companion-program/evidence/model-experiment.md).",
+      "followup": "#173: separar esa confusión en un protocolo nuevo después de siete olas. No ejecutarlo en ola 3.",
+      "references": [
+        {
+          "original": "openspec/changes/complete-companion-program/evidence/model-experiment.md",
+          "path": "openspec/changes/archive/2026-09-12-complete-companion-program/evidence/model-experiment.md",
+          "sha256": "c47a0520860f1b52bfac68ce0f66098b6d374a9a9a465506465070a50e2973f5",
+          "bytes": 11594,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-complete-companion-program/evidence/model-experiment.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/scripts/verify-model-benchmark.mjs",
+          "path": "apps/companion/scripts/verify-model-benchmark.mjs",
+          "sha256": "d18be8d5450091f437fece0d8e614327f73ce603a1311cc9eba192361c77e61f",
+          "bytes": 13973,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/scripts/verify-model-benchmark.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-12-complete-companion-program/readiness.json",
+          "issue": 94,
+          "change": "complete-companion-program"
+        }
+      ]
+    },
+    {
+      "id": "debt-6cb925491f6b",
+      "sourceIssue": 94,
+      "title": "El corpus medido es sintético y con relleno, las consultas se eligieron de antemano, y la medición corrió sobre una versión anterior a la entregada",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "I",
+      "diagnostic": "Preguntas preseleccionadas, corpus sintético y módulos de versión anterior delimitan el ensayo original. Las mediciones reales posteriores no borran esas restricciones. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-complete-companion-program/evidence/model-benchmark.json).",
+      "followup": "#173 futuro; mantener todos los datos anteriores y no extrapolar mejor calidad de IA.",
+      "references": [
+        {
+          "original": "openspec/changes/complete-companion-program/evidence/model-benchmark.json",
+          "path": "openspec/changes/archive/2026-09-12-complete-companion-program/evidence/model-benchmark.json",
+          "sha256": "ef53d175cc07b8f0a78b1996efea01d69dd5af03718a621a202b7a18113d8114",
+          "bytes": 57893,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-complete-companion-program/evidence/model-benchmark.json"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "openspec/changes/complete-companion-program/evidence/protocol.json",
+          "path": "openspec/changes/archive/2026-09-12-complete-companion-program/evidence/protocol.json",
+          "sha256": "faa86ae453eac37ea3eebe3f44cecae1ce9f9bdb6784dabc523e60d6d581d160",
+          "bytes": 29099,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-complete-companion-program/evidence/protocol.json"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-12-complete-companion-program/readiness.json",
+          "issue": 94,
+          "change": "complete-companion-program"
+        }
+      ]
+    },
+    {
+      "id": "debt-5549b45ce5a5",
+      "sourceIssue": 94,
+      "title": "El arnés nativo no completa activación, ingeniería ni mapa de código en la ventana instalada",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "H",
+      "diagnostic": "La evidencia archivada declara diez etapas nativas sin alcanzar; la recurrencia consta en dos flujos. La implementación de #150 sin artefacto aceptado no sustituye completar la ventana instalada. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-complete-companion-program/evidence/native-acceptance.md).",
+      "followup": "#147/#150/#204: prueba identificada de activación/ingeniería/mapa, no duplicar este registro.",
+      "references": [
+        {
+          "original": "openspec/changes/complete-companion-program/evidence/native-acceptance.md",
+          "path": "openspec/changes/archive/2026-09-12-complete-companion-program/evidence/native-acceptance.md",
+          "sha256": "d9c7754ee34be5442bffb87af44a5b1e49ce4c5b4d0b03ad3388f4137d423f2c",
+          "bytes": 13669,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-complete-companion-program/evidence/native-acceptance.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/scripts/verify-native-journeys.mjs",
+          "path": "apps/companion/scripts/verify-native-journeys.mjs",
+          "sha256": "e1d35a40ff2fda7948ff3b660b97a019ad9f807ee3c6acc9316af8110a8a70c5",
+          "bytes": 57716,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/scripts/verify-native-journeys.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-12-complete-companion-program/readiness.json",
+          "issue": 94,
+          "change": "complete-companion-program"
+        }
+      ]
+    },
+    {
+      "id": "debt-b1d0e4086495",
+      "sourceIssue": 97,
+      "title": "Dos criterios del issue exigen una lectura en frío por una persona que no conoce la aplicación, y nadie la ha hecho; no se sustituyó por un agente ni por una heurística",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "P",
+      "diagnostic": "Hay dos lectores reales nuevos de Inicio/paso 1 y una respuesta humana propia para el botón renombrado, preservados en #149/#150. Son evidencias de fuente/capturas aún no integradas; no unanimidad sobre todos los detalles. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/docs/companion/COLD_READING.md).",
+      "followup": "#149/#150: conservar aprobación y límites; NO pedir otra ronda de dos personas por el mero triage.",
+      "references": [
+        {
+          "original": "docs/companion/COLD_READING.md",
+          "path": "docs/companion/COLD_READING.md",
+          "sha256": "f94220d34ed56cf1a2597c958a473b6b761b75da7a241f2444a42204d3897c42",
+          "bytes": 3260,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/docs/companion/COLD_READING.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "docs/companion/COLD_READING.md",
+          "path": "docs/companion/COLD_READING.md",
+          "sha256": "f94220d34ed56cf1a2597c958a473b6b761b75da7a241f2444a42204d3897c42",
+          "bytes": 3260,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/docs/companion/COLD_READING.md"
+        }
+      ],
+      "readinessSources": []
+    },
+    {
+      "id": "debt-3357b1fa1b44",
+      "sourceIssue": 97,
+      "title": "La mitad observable por máquina de la accesibilidad está verificada en 29 pantallas, pero no se condujo ningún lector de pantalla ni participó una persona usuaria de tecnología asistiva",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "H",
+      "diagnostic": "La revisión histórica verificó la mitad observable por máquina; no hubo persona usuaria de tecnología asistiva ni lector de pantalla. El criterio original de #97 no pedía eso: no convertir el límite en incumplimiento inventado. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/keyboard-and-assistive-technology.md).",
+      "followup": "#206: evaluación de accesibilidad humana separada si se aprueba su alcance, no nuevo gate ficticio.",
+      "references": [
+        {
+          "original": "openspec/changes/restructure-companion-navigation/evidence/keyboard-and-assistive-technology.md",
+          "path": "openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/keyboard-and-assistive-technology.md",
+          "sha256": "e15d5c260080c5badde78c05e9cf1f1d0a6f65f116e9a669952f74ba81899bcc",
+          "bytes": 5481,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/keyboard-and-assistive-technology.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/scripts/interface-contract.mjs",
+          "path": "apps/companion/scripts/interface-contract.mjs",
+          "sha256": "210a0460536e8e693afca1d2b88dafb1a7dd3d3c08d7e8db811e7ae558940415",
+          "bytes": 36752,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/scripts/interface-contract.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-12-restructure-companion-navigation/readiness.json",
+          "issue": 97,
+          "change": "restructure-companion-navigation"
+        }
+      ]
+    },
+    {
+      "id": "debt-bee2fa0c0549",
+      "sourceIssue": 97,
+      "title": "El guarda de identidad de la aplicación instalada no compara el runtime de Electron ni los paquetes de node_modules distintos del núcleo fijado, y lo declara en lugar de cubrirlo",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "P",
+      "diagnostic": "El expediente demuestra 68 archivos de runtime y 137 cargables de la closure comparados, y doce bypasses rechazados; el código de main conserva esas comprobaciones. La resolución histórica coincide con debt-53f4fcdb6a67, no con este título/ID original. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/validation.md).",
+      "followup": "#206: candidato a reconciliación por ID original con assessment nuevo y límites expresos; no volver a implementar lo que ya existe.",
+      "references": [
+        {
+          "original": "openspec/changes/restructure-companion-navigation/evidence/validation.md",
+          "path": "openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/validation.md",
+          "sha256": "65c35ac299be1d5743593c2f8d8d3574c74efcd827dfae788925ae70ee89040e",
+          "bytes": 17166,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/validation.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/scripts/verify-native-journeys.mjs",
+          "path": "apps/companion/scripts/verify-native-journeys.mjs",
+          "sha256": "e1d35a40ff2fda7948ff3b660b97a019ad9f807ee3c6acc9316af8110a8a70c5",
+          "bytes": 57716,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/scripts/verify-native-journeys.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-12-restructure-companion-navigation/readiness.json",
+          "issue": 97,
+          "change": "restructure-companion-navigation"
+        }
+      ]
+    },
+    {
+      "id": "debt-7a5becc4cd20",
+      "sourceIssue": 97,
+      "title": "El listado relee los recibos en cada visita con un límite fijo de 1500 ms, así que una carpeta lenta pero sana aparece como que no respondió hasta que se abre; el estado habla de la lectura y no del proyecto, y abrirlo verifica sin límite",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "V",
+      "diagnostic": "SUMMARY_BUDGET_MS sigue en 1500 ms. El mensaje habla de una lectura sin respuesta, no de proyecto roto; abrir comprueba sin ese presupuesto. No se midió ahora una carpeta de nube lenta. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/qa/project-list.mjs).",
+      "followup": "#206: medir el caso antes de proponer lectura progresiva/presupuesto; no retirar el límite.",
+      "references": [
+        {
+          "original": "apps/companion/qa/project-list.mjs",
+          "path": "apps/companion/qa/project-list.mjs",
+          "sha256": "7159af1902435d3db3d4b53228e116c4e6686f2f59e50fa210223dacc9cd7b05",
+          "bytes": 26156,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/qa/project-list.mjs"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/desktop/service.mjs",
+          "path": "apps/companion/desktop/service.mjs",
+          "sha256": "8a9137cbd00a5f1af1d6441835cb35d90c3f77630ea3db5e864ac5260e9b55a4",
+          "bytes": 66936,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/desktop/service.mjs"
+        }
+      ],
+      "readinessSources": []
+    },
+    {
+      "id": "debt-b98b078fd930",
+      "sourceIssue": 97,
+      "title": "El texto de las recetas conserva su vocabulario porque se entrega a un modelo además de mostrarse, así que su jerga llega a la pantalla mitigada por un panel de definiciones en vez de reescrita",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "L",
+      "diagnostic": "El léxico de las recetas se conserva por su uso como instrucciones al modelo. #148 reorganiza la entrada a herramientas opcionales, pero no reescribe las recetas. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/states-and-degradations.md).",
+      "followup": "#148/#149 como mitigación de UI no integrada; cualquier cambio semántico requiere decisión/spec.",
+      "references": [
+        {
+          "original": "openspec/changes/restructure-companion-navigation/evidence/states-and-degradations.md",
+          "path": "openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/states-and-degradations.md",
+          "sha256": "060139d954647833abf3444f6b70b2999981260678bc3e7c2cec38f14c252e8b",
+          "bytes": 11887,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-12-restructure-companion-navigation/evidence/states-and-degradations.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/context/recipes.mjs",
+          "path": "apps/companion/context/recipes.mjs",
+          "sha256": "5b5b289d302ee7580e5475d79ac6d28b9479575b744ebaa9f4998ab2bd3bdef7",
+          "bytes": 5437,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/context/recipes.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-12-restructure-companion-navigation/readiness.json",
+          "issue": 97,
+          "change": "restructure-companion-navigation"
+        }
+      ]
+    },
+    {
+      "id": "debt-5608a07e98a3",
+      "sourceIssue": 97,
+      "title": "La identidad entre una etiqueta y la intención de la persona no es derivable por máquina: dos intenciones pueden compartir implementación y se declaran como dos acciones, así que esa correspondencia la declara quien escribe y la revisa una persona",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "L",
+      "diagnostic": "La intención humana no se deduce de un test de etiquetas. Los tests estructurales y algunas lecturas reales son complementarios, no certificación semántica global. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/test/companion-language.test.mjs).",
+      "followup": "#149/#150: preservar observaciones reales, sin afirmar comprensión de cada control.",
+      "references": [
+        {
+          "original": "test/companion-language.test.mjs",
+          "path": "test/companion-language.test.mjs",
+          "sha256": "1ca8deddbb1fbf686355b4729f13e8974df408d55ab87833a693d588d9e764ad",
+          "bytes": 15130,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/test/companion-language.test.mjs"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/ui/app.mjs",
+          "path": "apps/companion/ui/app.mjs",
+          "sha256": "c6999840b9958f51dcc47a91a21122853dce125e91fc4aee358a674f1f209dc3",
+          "bytes": 103736,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/ui/app.mjs"
+        }
+      ],
+      "readinessSources": []
+    },
+    {
+      "id": "debt-210d9c0fcca8",
+      "sourceIssue": 98,
+      "title": "Cualquier archivo nuevo en la carpeta deja al proyecto fuera del estado listo hasta que se revisa la preparacion otra vez, y ese paso lo tiene que iniciar la persona",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "L",
+      "diagnostic": "Un archivo nuevo invalida la mirada/inventario previo por diseño; revisar reutiliza las respuestas guardadas. Ese cambio no demuestra por sí solo que el proyecto esté mal. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-show-verified-project-state/design.md).",
+      "followup": "#148: gestión y causa explícita; #206 para evaluar frescura sin rebajar comprobaciones.",
+      "references": [
+        {
+          "original": "openspec/changes/show-verified-project-state/design.md",
+          "path": "openspec/changes/archive/2026-09-13-show-verified-project-state/design.md",
+          "sha256": "94aa770337efdf4843191465ec71394329910a2f87c1d62942a5c78e91411227",
+          "bytes": 13921,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-show-verified-project-state/design.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/desktop/service.mjs",
+          "path": "apps/companion/desktop/service.mjs",
+          "sha256": "8a9137cbd00a5f1af1d6441835cb35d90c3f77630ea3db5e864ac5260e9b55a4",
+          "bytes": 66936,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/desktop/service.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-13-show-verified-project-state/readiness.json",
+          "issue": 98,
+          "change": "show-verified-project-state"
+        }
+      ]
+    },
+    {
+      "id": "debt-6ec4205b019a",
+      "sourceIssue": 98,
+      "title": "El resumen que respalda la marca no cubre la cadena de herramientas administrada, porque vive fuera de la carpeta del proyecto",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "L",
+      "diagnostic": "witnessPaths del entorno contiene el recibo, no árboles externos; resolveEnvironment/inspect verifican las herramientas aparte. Un resumen de lista no es una verificación integral. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-show-verified-project-state/evidence/states-and-degradations.md).",
+      "followup": "#148/#150: mantener esa distinción; no declarar ausencia total de controles de toolchain.",
+      "references": [
+        {
+          "original": "openspec/changes/show-verified-project-state/evidence/states-and-degradations.md",
+          "path": "openspec/changes/archive/2026-09-13-show-verified-project-state/evidence/states-and-degradations.md",
+          "sha256": "1e8a7d2e24e457aaabf71dd26097cd7e2c4f17f1215f94cc503f6521cb5cba88",
+          "bytes": 7534,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-show-verified-project-state/evidence/states-and-degradations.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/runtime/environment.mjs",
+          "path": "apps/companion/runtime/environment.mjs",
+          "sha256": "05884c7b325b56e41429273daf0b2dedba1f403f55a06bc2fe57a47b580737ac",
+          "bytes": 12120,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/runtime/environment.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-13-show-verified-project-state/readiness.json",
+          "issue": 98,
+          "change": "show-verified-project-state"
+        }
+      ]
+    },
+    {
+      "id": "debt-f3a4a5105436",
+      "sourceIssue": 99,
+      "title": "Un modelo compatible que escuche en un puerto distinto del 1234 no se detecta",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "L",
+      "diagnostic": "LOCAL_ORIGINS sigue limitado a localhost/127.0.0.1:1234. Configurar otro puerto sería una mejora de allowlist, no escanear red o aceptar destinos arbitrarios. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-compose-project-specific-prompts/evidence/states-and-degradations.md).",
+      "followup": "#206: mejora opcional futura; las plantillas locales no dependen de un modelo.",
+      "references": [
+        {
+          "original": "openspec/changes/compose-project-specific-prompts/evidence/states-and-degradations.md",
+          "path": "openspec/changes/archive/2026-09-13-compose-project-specific-prompts/evidence/states-and-degradations.md",
+          "sha256": "718373b1a25ea495ff9d51b51e05c5e2655c95a301e060d58414a0af2275a7d0",
+          "bytes": 4364,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-compose-project-specific-prompts/evidence/states-and-degradations.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/runtime/inference.mjs",
+          "path": "apps/companion/runtime/inference.mjs",
+          "sha256": "3cb72b83a46141d09749d745e6ec38fa82cefe4143c7c511d0ee96fe24632975",
+          "bytes": 18635,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/runtime/inference.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-13-compose-project-specific-prompts/readiness.json",
+          "issue": 99,
+          "change": "compose-project-specific-prompts"
+        }
+      ]
+    },
+    {
+      "id": "debt-8b1db48fe147",
+      "sourceIssue": 99,
+      "title": "Los niveles con proveedor solo se midieron contra servidores locales que imitan sus fallas, nunca contra Cerebras ni Groq",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "I",
+      "diagnostic": "Los ensayos de caída/lentitud/respuestas de proveedores usaron servidores locales. No hay aquí prueba nueva contra cuentas reales ni política vigente de esos proveedores. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-compose-project-specific-prompts/evidence/validation.md).",
+      "followup": "#206: validar contratos externos solo si se define el alcance; no gastar ni usar claves para rellenar evidencia.",
+      "references": [
+        {
+          "original": "openspec/changes/compose-project-specific-prompts/evidence/validation.md",
+          "path": "openspec/changes/archive/2026-09-13-compose-project-specific-prompts/evidence/validation.md",
+          "sha256": "368d76c0d38e0af3a5d8ef3bb13fa236a5a3e45658c6059d80b12ec6b1cb1f17",
+          "bytes": 8406,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-compose-project-specific-prompts/evidence/validation.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/scripts/verify-prompts.mjs",
+          "path": "apps/companion/scripts/verify-prompts.mjs",
+          "sha256": "d6fcacdea28e292e79f7ed5083791562a0a3b0c2991c8502751f635a158f8aa0",
+          "bytes": 10454,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/scripts/verify-prompts.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-13-compose-project-specific-prompts/readiness.json",
+          "issue": 99,
+          "change": "compose-project-specific-prompts"
+        }
+      ]
+    },
+    {
+      "id": "debt-f504c38512a8",
+      "sourceIssue": 106,
+      "title": "Que la ventana de Claude muestre la carpeta entregada no se observa desde aqui: hace falta que una persona lo mire",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "H",
+      "diagnostic": "La declaración del protocolo y el resultado de spawn no observan que la ventana de Claude recibió/leyó el proyecto. Hace falta observación real para esa afirmación. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-open-claude-and-opencode-when-they-declare-it/evidence/local-launches.json).",
+      "followup": "#147/#150 si el caso usa Claude; no sustituir el criterio con launcher PASS.",
+      "references": [
+        {
+          "original": "openspec/changes/open-claude-and-opencode-when-they-declare-it/evidence/local-launches.json",
+          "path": "openspec/changes/archive/2026-09-13-open-claude-and-opencode-when-they-declare-it/evidence/local-launches.json",
+          "sha256": "aa1a6946f15eb5aa6b979fa4199e632ac377d3d882d07eea502a94154281d147",
+          "bytes": 3316,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-open-claude-and-opencode-when-they-declare-it/evidence/local-launches.json"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/scripts/verify-local-launches.mjs",
+          "path": "apps/companion/scripts/verify-local-launches.mjs",
+          "sha256": "cdebda60d0183a0b07577a2df6f5246bbaf3242b2ab06a4cfb864e579e5bb97c",
+          "bytes": 16688,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/scripts/verify-local-launches.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-13-open-claude-and-opencode-when-they-declare-it/readiness.json",
+          "issue": 106,
+          "change": "open-claude-and-opencode-when-they-declare-it"
+        }
+      ]
+    },
+    {
+      "id": "debt-97dbe5f7b412",
+      "sourceIssue": 106,
+      "title": "Dos de las seis comprobaciones que habilitan una apertura viven en rutas que la propia cuenta puede escribir y no estan ancladas a ninguna firma",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "L",
+      "diagnostic": "SECURITY.md declara que app.asar y HKCU no están anclados a Authenticode; son observaciones de contrato, no una barrera frente a alguien que ya controla la cuenta. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/docs/companion/SECURITY.md).",
+      "followup": "#206: límite del modelo de confianza, no cubierto por firmar el instalador ni autorización para debilitarlo.",
+      "references": [
+        {
+          "original": "docs/companion/SECURITY.md",
+          "path": "docs/companion/SECURITY.md",
+          "sha256": "9bad0a36f3d623b7b9aaf766dfacc7e44f0a46e3178057a2c7bb274b18d1a6ea",
+          "bytes": 12044,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/docs/companion/SECURITY.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/desktop/local-apps.mjs",
+          "path": "apps/companion/desktop/local-apps.mjs",
+          "sha256": "352ae2e718da2597eb601363cae794bdb5a767cf48be1f199f3118c36fec6755",
+          "bytes": 17725,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/desktop/local-apps.mjs"
+        }
+      ],
+      "readinessSources": []
+    },
+    {
+      "id": "debt-9c3d2fe4527c",
+      "sourceIssue": 100,
+      "title": "El digesto que ancla cada tecnologia se midio en un solo sistema operativo, no en los tres que el repositorio soporta",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "I",
+      "diagnostic": "Los pins de tecnologías se midieron en un SO. El núcleo soporta tres SO, pero el runtime administrado de Companion es win32-x64; pruebas unitarias multiplataforma no demuestran tres instalaciones reales iguales. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md).",
+      "followup": "#206: delimitar soporte y medir antes de extenderlo; no expandir plataforma en ola 3.",
+      "references": [
+        {
+          "original": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+          "path": "openspec/changes/archive/2026-09-13-open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md",
+          "sha256": "fa3fa11a0c9467335614a0c370809a0e8a5fc2b60026bbe2e720473f39509322",
+          "bytes": 16438,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-open-the-desktop-ai-you-chose-and-install-what-fits/evidence/validation.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/runtime/stack-catalog.mjs",
+          "path": "apps/companion/runtime/stack-catalog.mjs",
+          "sha256": "b162a0c73ab4e0462252396f79154cd0b679d09afc49bef7940dca146289f8c2",
+          "bytes": 7033,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/runtime/stack-catalog.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-13-open-the-desktop-ai-you-chose-and-install-what-fits/readiness.json",
+          "issue": 100,
+          "change": "open-the-desktop-ai-you-chose-and-install-what-fits"
+        }
+      ]
+    },
+    {
+      "id": "debt-52d247a5c7c5",
+      "sourceIssue": 100,
+      "title": "La deriva del catalogo solo la detectan arneses de maquina real, no la suite que corre en CI",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "V",
+      "diagnostic": "pin-stack/verify-stack-install miden e instalan; CI no los ejecuta para detectar deriva real del catálogo. No se descargaron ni reinstalaron stacks en este diagnóstico. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-open-the-desktop-ai-you-chose-and-install-what-fits/design.md).",
+      "followup": "#206: diseñar validación de deriva con política de instalación intacta, separada de las pruebas de mocks.",
+      "references": [
+        {
+          "original": "openspec/changes/open-the-desktop-ai-you-chose-and-install-what-fits/design.md",
+          "path": "openspec/changes/archive/2026-09-13-open-the-desktop-ai-you-chose-and-install-what-fits/design.md",
+          "sha256": "24ee582ca05e8ec2be8cbf32a416b6d0037a561b81c5951d9ef070dbee937440",
+          "bytes": 14496,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-open-the-desktop-ai-you-chose-and-install-what-fits/design.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/scripts/pin-stack.mjs",
+          "path": "apps/companion/scripts/pin-stack.mjs",
+          "sha256": "f6e72b801ba66e5aa10f4b33c6a910d383a816bd385d5792eca37d6096a6a4da",
+          "bytes": 6630,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/scripts/pin-stack.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-13-open-the-desktop-ai-you-chose-and-install-what-fits/readiness.json",
+          "issue": 100,
+          "change": "open-the-desktop-ai-you-chose-and-install-what-fits"
+        }
+      ]
+    },
+    {
+      "id": "debt-1f9c6c08b897",
+      "sourceIssue": 100,
+      "title": "Los paquetes instalados quedan verificados y ubicados, pero nada conecta el proyecto de la persona con ellos",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "L",
+      "diagnostic": "stack verifica y ubica paquetes propios sin escribir package.json de la persona. Esto no conecta automáticamente cualquier proyecto existente con las tecnologías. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/docs/companion/ENVIRONMENT.md).",
+      "followup": "#147 para comportamiento Software A/B específico; no convertir aprobación del flujo en configuración universal.",
+      "references": [
+        {
+          "original": "docs/companion/ENVIRONMENT.md",
+          "path": "docs/companion/ENVIRONMENT.md",
+          "sha256": "daad6897261211b8f3879e24e2eccf112e9e3ab7f0dc7deb382537214359f58b",
+          "bytes": 15994,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/docs/companion/ENVIRONMENT.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/runtime/stack.mjs",
+          "path": "apps/companion/runtime/stack.mjs",
+          "sha256": "878ba7b9b67b2bf0154ae6fda2c8c5487d9d8b55a7e4b6047b8600e4bd02a53b",
+          "bytes": 12381,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/runtime/stack.mjs"
+        }
+      ],
+      "readinessSources": []
+    },
+    {
+      "id": "debt-bd1d39bb57fe",
+      "sourceIssue": 105,
+      "title": "El contexto preparado cubre solo un prefijo pequeño en repositorios grandes y no recuperó ninguna de las veinte respuestas congeladas",
+      "originalCategory": "technical-debt",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "I",
+      "diagnostic": "El 0/20 histórico y el prefijo pequeño quedan conservados; no se repitió la medición en main ahora. Los límites de selección/chunks siguen existiendo, sin inferir una puntuación nueva. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-measure-prepared-context-on-real-repositories/evidence/run-01/measurement.json).",
+      "followup": "#205 ya existe para reproducir y diseñar selección/paginación: NO duplicar issue ni quitar límites.",
+      "references": [
+        {
+          "original": "openspec/changes/measure-prepared-context-on-real-repositories/evidence/run-01/measurement.json",
+          "path": "openspec/changes/archive/2026-09-13-measure-prepared-context-on-real-repositories/evidence/run-01/measurement.json",
+          "sha256": "8287f5529501255a1b3223e3febaac488a0b110feacf5d524eb61ac8e6638305",
+          "bytes": 94906,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-measure-prepared-context-on-real-repositories/evidence/run-01/measurement.json"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/engine/inventory.mjs",
+          "path": "apps/companion/engine/inventory.mjs",
+          "sha256": "d839a4cffa7dda6801f689628bf6ce6c81967fab26f643068dbb1678a2d50ad4",
+          "bytes": 6188,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/engine/inventory.mjs"
+        },
+        {
+          "original": "apps/companion/context/sources.mjs",
+          "path": "apps/companion/context/sources.mjs",
+          "sha256": "cb3621285022aa0db4ed7bd7b5bce352a40c5dfe26f8f422972aead6dc774dba",
+          "bytes": 9380,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/context/sources.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-13-measure-prepared-context-on-real-repositories/readiness.json",
+          "issue": 105,
+          "change": "measure-prepared-context-on-real-repositories"
+        }
+      ]
+    },
+    {
+      "id": "debt-ddb82e8fd48e",
+      "sourceIssue": 107,
+      "title": "La decision de no ofrecer un gateway depende de que dos proveedores externos sigan emitiendo claves gratuitas, y eso no se verifico",
+      "originalCategory": "external-risk",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "I",
+      "diagnostic": "La condición externa de claves gratuitas no fue comprobada aquí. Un resultado local no prueba políticas comerciales vigentes ni autoriza introducir gateway. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-decide-on-a-hosted-inference-gateway/evidence/validation.md).",
+      "followup": "#206: vigilar condición de reapertura; #164 si su estrategia futura lo abarca. Sin reabrir #107 ni crear servicio.",
+      "references": [
+        {
+          "original": "openspec/changes/decide-on-a-hosted-inference-gateway/evidence/validation.md",
+          "path": "openspec/changes/archive/2026-09-13-decide-on-a-hosted-inference-gateway/evidence/validation.md",
+          "sha256": "df53f737d70c6a690d0ec4f755c875d5e12dabd567c5eff50009ed4f7613e8cc",
+          "bytes": 10135,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-13-decide-on-a-hosted-inference-gateway/evidence/validation.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "docs/companion/HOSTED_INFERENCE.md",
+          "path": "docs/companion/HOSTED_INFERENCE.md",
+          "sha256": "b21ba88e927b76019e95dd71e5da995a575543ab896a219a767e4c14a80811df",
+          "bytes": 18691,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/docs/companion/HOSTED_INFERENCE.md"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-13-decide-on-a-hosted-inference-gateway/readiness.json",
+          "issue": 107,
+          "change": "decide-on-a-hosted-inference-gateway"
+        }
+      ]
+    },
+    {
+      "id": "debt-cb6e469cd84f",
+      "sourceIssue": 117,
+      "title": "Las guardas que impiden volver al host heredado son regex sobre el fuente del verificador, no sobre su comportamiento: un verificador que conserve el literal pero sondee con otra variable las pasaría",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "V",
+      "diagnostic": "qa/packaging sigue comprobando literales/regex pwsh/Import-Module/WindowsPowerShell del verificador; no demuestra que la ejecución use ese host por comportamiento. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-15-correct-companion-authenticode-probe/evidence/adversarial-review.md).",
+      "followup": "#206: agrupar mejora de pruebas de comportamiento con el siguiente registro, sin crear dos tickets iguales.",
+      "references": [
+        {
+          "original": "openspec/changes/correct-companion-authenticode-probe/evidence/adversarial-review.md",
+          "path": "openspec/changes/archive/2026-09-15-correct-companion-authenticode-probe/evidence/adversarial-review.md",
+          "sha256": "3965cc9fcd4f45151a4fd62c201f89ea152cbe7e88d0dea7fd65b29a9a17d4af",
+          "bytes": 2723,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-15-correct-companion-authenticode-probe/evidence/adversarial-review.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/qa/packaging.mjs",
+          "path": "apps/companion/qa/packaging.mjs",
+          "sha256": "02641d137434f0f5fad1fd3f822c3c84d894b8a1fd203c7ed3c740bfded2c73f",
+          "bytes": 30549,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/qa/packaging.mjs"
+        }
+      ],
+      "readinessSources": []
+    },
+    {
+      "id": "debt-018320fa77f0",
+      "sourceIssue": 117,
+      "title": "verify-engineering-runtime.mjs conserva el host Windows PowerShell heredado que falló en el runner: funciona localmente pero repite la clase de fallo corregida en el verificador de publicación",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "V",
+      "diagnostic": "verify-engineering-runtime todavía usa System32/WindowsPowerShell/v1.0/powershell.exe directamente. Se constató el código, NO se reprodujo un fallo nuevo de ese arnés. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-15-correct-companion-authenticode-probe/evidence/adversarial-review.md).",
+      "followup": "#206: misma línea de validación Windows; reproducir antes de modificar el host.",
+      "references": [
+        {
+          "original": "openspec/changes/correct-companion-authenticode-probe/evidence/adversarial-review.md",
+          "path": "openspec/changes/archive/2026-09-15-correct-companion-authenticode-probe/evidence/adversarial-review.md",
+          "sha256": "3965cc9fcd4f45151a4fd62c201f89ea152cbe7e88d0dea7fd65b29a9a17d4af",
+          "bytes": 2723,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-15-correct-companion-authenticode-probe/evidence/adversarial-review.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "apps/companion/scripts/verify-engineering-runtime.mjs",
+          "path": "apps/companion/scripts/verify-engineering-runtime.mjs",
+          "sha256": "18ae8ae9a333dff37a31b2c9548bd0bd871dd91884364f83f6f8aafc6661623d",
+          "bytes": 7703,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/apps/companion/scripts/verify-engineering-runtime.mjs"
+        }
+      ],
+      "readinessSources": []
+    },
+    {
+      "id": "debt-ad5d4b93ff84",
+      "sourceIssue": 165,
+      "title": "El generador del mazo transcribe el guion a mano: las cifras quedan comprobadas, el texto no",
+      "originalCategory": "optional-improvement",
+      "originalSeverity": "minor",
+      "statusAtInventory": "open",
+      "classification": "L",
+      "diagnostic": "El generador del mazo copia texto y sus verificadores atan cifras/estructura, no toda frase. La revisión alineó divergencias concretas; no eliminó ese límite de mantenimiento. [Original](https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-20-congress-presentation-with-measured-evidence/evidence/adversarial-review.md).",
+      "followup": "#173 después de todas las olas; no reconstruir la presentación histórica ni llamarla reproducible en texto completo.",
+      "references": [
+        {
+          "original": "openspec/changes/congress-presentation-with-measured-evidence/evidence/adversarial-review.md",
+          "path": "openspec/changes/archive/2026-09-20-congress-presentation-with-measured-evidence/evidence/adversarial-review.md",
+          "sha256": "745d333081534c71b8368c948bc17b3e73d8b0221f556022af4cd6a11ce4e5da",
+          "bytes": 9081,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-20-congress-presentation-with-measured-evidence/evidence/adversarial-review.md"
+        }
+      ],
+      "artifacts": [
+        {
+          "original": "openspec/changes/congress-presentation-with-measured-evidence/evidence/build-deck.mjs",
+          "path": "openspec/changes/archive/2026-09-20-congress-presentation-with-measured-evidence/evidence/build-deck.mjs",
+          "sha256": "9ad04e40f8df3813d89d27058e833df764a50c53f64e5476910069cf96818b5e",
+          "bytes": 29937,
+          "url": "https://github.com/IgnacioBarEsp/project-engineering-os/blob/9751c301976fe27e9bbad33e69f39372b69f901e/openspec/changes/archive/2026-09-20-congress-presentation-with-measured-evidence/evidence/build-deck.mjs"
+        }
+      ],
+      "readinessSources": [
+        {
+          "path": "openspec/changes/archive/2026-09-20-congress-presentation-with-measured-evidence/readiness.json",
+          "issue": 165,
+          "change": "congress-presentation-with-measured-evidence"
+        }
+      ]
+    }
+  ],
+  "separation": {
+    "unmergedWave3": "658e505031b195ed2d088447eec5c5d841c7c319",
+    "noNewHumanReading": true,
+    "noCurrentInstallerRun": true,
+    "noNpmInstallation": true,
+    "noNewProviderTest": true
+  }
+}

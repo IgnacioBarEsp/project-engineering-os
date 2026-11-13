@@ -2,13 +2,18 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { execFile } from 'node:child_process';
 import { createReadStream } from 'node:fs';
-import { mkdtemp, readFile, writeFile, stat } from 'node:fs/promises';
+import { mkdtemp, readFile, writeFile, stat, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import { sealNpm } from './seal-npm.mjs';
 import { productionPackages, renderNotices } from './notices.mjs';
+import { inspectTree } from '../runtime/tree.mjs';
+import { RUNTIME_CATALOG } from '../runtime/catalog.mjs';
+import { identityOf, distributionKey, prepareNpmDevelopmentSource } from '../runtime/distribution-identity.mjs';
+import { realpath } from 'node:fs/promises';
+import { canonicalFolder } from '../engine/files.mjs';
 
 // Builds the Windows artifact for the private app. It writes the third-party notices from the
 // lockfile, runs the pinned packager and records what was produced. It never signs, never
@@ -29,7 +34,31 @@ async function digest(file) {
 // tools. One file is opaque to every filter, and the application extracts it with the same reviewed
 // extractor it uses for downloads, checking the same pinned tree digest afterwards.
 const npmArchive = path.join(app, 'build', 'npm-dist.zip');
-const sealed = await sealNpm(path.join(app, 'node_modules', 'npm'), npmArchive);
+const npmTemporaryBase = await realpath(tmpdir());
+const npmStage = await mkdtemp(path.join(npmTemporaryBase,'companion-npm-canonical-'));
+const canonicalNpm = path.join(npmStage,'payload');
+let developmentSource, npmTree, sealed, preparationError;
+try {
+  developmentSource = await prepareNpmDevelopmentSource(path.join(app,'node_modules','npm'),canonicalNpm);
+  npmTree = await inspectTree(await canonicalFolder(canonicalNpm));
+  assert.equal(manifest.dependencies.npm,RUNTIME_CATALOG.npm.version);
+  assert.equal(npmTree.sha256,RUNTIME_CATALOG.npm.treeHash);
+  assert.equal(npmTree.bytes,RUNTIME_CATALOG.npm.installedBytes);
+  sealed = await sealNpm(canonicalNpm, npmArchive);
+  assert.equal((await inspectTree(await canonicalFolder(canonicalNpm))).sha256,npmTree.sha256);
+} catch (error) { preparationError = error; throw error; }
+finally {
+  try {
+    const owned = await canonicalFolder(npmStage);
+    assert.equal(owned,npmStage);
+    assert.equal(path.dirname(owned),npmTemporaryBase);
+    await rm(owned,{recursive:true,force:false});
+  } catch (error) {
+    if (!preparationError) throw error;
+    console.error(`No se pudo limpiar la copia temporal de npm; se conserva para revisión: ${error.message}`);
+  }
+}
+const npmArchiveHash = await digest(npmArchive);
 
 const packages = productionPackages(lock);
 assert.ok(packages.length > 0, 'The lockfile declares no production packages.');
@@ -71,7 +100,9 @@ const record = {
   electron: manifest.devDependencies.electron,
   packager: `electron-builder ${manifest.devDependencies['electron-builder']}`,
   packages: packages.length,
-  bundledNpm: { files: sealed.files, archiveBytes: sealed.bytes },
+  bundledNpm: { files: sealed.files, archiveBytes: sealed.bytes, archiveSha256:npmArchiveHash,
+    identity:identityOf(RUNTIME_CATALOG.npm),distribution:distributionKey(identityOf(RUNTIME_CATALOG.npm)),
+    treeHash:npmTree.sha256,installedBytes:npmTree.bytes,developmentSource },
   signed: false,
   signingNote: 'Sin certificado de editor. Windows advertirá al ejecutarlo; esa advertencia es correcta y no se evita.',
   built: new Date().toISOString(),
