@@ -12,6 +12,14 @@ también fue aprobada: «Sí, apruebo la enmienda 2d2d28c». Continúa únicamen
 Apply acotado con ese protocolo; no se añade presupuesto ni se repite investigación.
 Ninguna de las dos aprobaciones vuelve a estar pendiente.
 
+**Resultado de la variante1ba: blocked.** Instalación oficial/SRI/ZIP/73archivos
+verificados; el baseline agotó120s sin recibo de casos. La revisión independiente
+confirmó un ciclo de arranque en el verificador, no un fallo TLS de44.9.1.
+[Fallo conservado](evidence/bootstrap-failure.md).
+La [enmienda de un solo archivo y presupuesto adicional](verifier-bootstrap-amendment.md)
+está preparada, todavía sin aprobación ni Apply. Variante1/1 consumida; no se
+repite el intento ni se modifica el helper congelado sin esa nueva decisión.
+
 El instalador candidato0.3.7 empaqueta Electron44.1.1, incluido en el
 [aviso primario](https://github.com/electron/electron/security/advisories/GHSA-jr5w-w6x2-84p9).
 La etiqueta devDependency no excluye el runtime entregado. La triage estática

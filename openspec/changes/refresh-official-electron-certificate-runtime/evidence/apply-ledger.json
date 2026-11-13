@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "issue": 218,
-  "status": "FROZEN_NOT_EXECUTED",
+  "status": "BLOCKED_BASELINE_BOOTSTRAP_TIMEOUT",
   "approvals": {
     "original": "7af8a2a298e1281b1c7230539a7472550ba94d9b",
     "originalWords": "Sí, apruebo #218 en 7af8a2a",
@@ -99,23 +99,50 @@
     "keysGenerated": 2,
     "certificateIssuances": 3,
     "preFreezeTrustedCertificateCorrectionRetained": true,
-    "baselineExecutions": 0,
+    "baselineExecutions": 1,
     "candidateExecutions": 0,
-    "postpatchReviews": 0,
+    "postpatchReviews": 1,
     "builds": 0,
     "correctedCanonicalVm": 0
   },
-  "focusedBaseline": "PENDING",
+  "focusedBaseline": {
+    "outcome": "PROCESS_TIMEOUT120s; report:null; no certificate cases credited",
+    "raw": "owner-contrast.json",
+    "sha256": "8d9c4652b32b94a9c88ea3e63a74c8ae05d786e48283f33c22578ef905fd6e84",
+    "baselineReceipt": "baseline-contrast/baseline-certificate-boundary.json",
+    "baselineReceiptSha256": "9f494c09fa1cc40e2defa8ac93c2b3ae5c03b46171df43e220a2a3db474b1fef",
+    "allTenFrozenSourceInputsUnchanged": true,
+    "electronProcessesRemainingAfterGuard": 0
+  },
   "whitespaceCheck": {
     "fullDiffCheck": "One blank-at-EOF finding in the exact approved public certificate; not reported as blanket PASS",
     "path": "apps/companion/qa/fixtures/electron-certificates/blocked-intermediate.pem",
     "frozenSha256": "4fff198fb2c913407a63f13a6884bfe5781ced50f6b129e83a6595180a4fcb3c",
     "disposition": "Preserve the supplier-data bytes and frozen hash. No Git whitespace configuration, security policy or fixture is changed. All other paths must pass the same check."
   },
-  "focusedCandidate": "PENDING",
-  "nativeScreensAndClipboard": "PENDING",
+  "focusedCandidate": "NOT_RUN_BASELINE_GATE_FAILED",
+  "nativeScreensAndClipboard": "NOT_RUN_BASELINE_GATE_FAILED",
   "owningChecks": "PENDING",
-  "postpatchIndependentReview": "PENDING",
+  "postpatchIndependentReview": {
+    "completedOnSource": "1ba2933dbeb4d2d2fcbe93f7514953ffe073e8c5",
+    "finding": "F1 Medium qualification blocker: ESM readiness dependency cycle",
+    "report": "independent-candidate-review.md",
+    "sha256": "9f4d45d980a48c8e479dfd5b259425a1cee6e95dd19321ba50c3ef1b68440545",
+    "parentConfirmed": true,
+    "reviewerExecutedTests": false,
+    "postFixApproval": false
+  },
+  "nextDecision": {
+    "amendment": "verifier-bootstrap-amendment.md",
+    "approved": false,
+    "proposedSourceFile": "apps/companion/scripts/electron-certificate-boundary.mjs",
+    "proposedPostimage": "6695b1dcc2f4d6b2079b2c0d4b37614ed8a0e90884e2ff92a045131fc2486089",
+    "patchSha256": "51b30f0679650791e57ee32a19fbf8a27b2b196c7ed4ec382427dbb08a11cf98",
+    "additionalFrozenVariants": 1,
+    "additionalBaselineAttempts": 1,
+    "sameReviewerIncremental": 1,
+    "applied": false
+  },
   "debtAssessment": "PENDING_WHEN_ELIGIBLE",
   "installedQualification": "PENDING_0_OF_1",
   "human146And147": "PENDING_ON_APT_CANDIDATE",

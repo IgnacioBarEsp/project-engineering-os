@@ -122,6 +122,13 @@ fix and a binary hash alone do not substitute this declared production witness.
 
 ## Apply, qualification, cost and bounded budget
 
+Current execution result: frozen1ba consumed the single variant and baseline
+attempt, ending in120s PROCESS_TIMEOUT without a child case report. Independent
+review F1 confirms a startup lifecycle defect in the verifier. STOP is in effect.
+The concrete verifier-bootstrap-amendment.md is pending approval; do not change
+the frozen helper or repeat the attempt under either old approval. Remaining
+candidate execution/build/VM allowances are not proof that this failed gate passed.
+
 Actual immutable-revision approval is required before any allowlisted source,
 lock or new test-fixture generation. Then one fresh readonly investigation
 subagent checks the proposed boundary/protocol before freeze; one fresh readonly

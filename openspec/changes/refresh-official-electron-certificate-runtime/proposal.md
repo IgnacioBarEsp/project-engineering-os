@@ -33,6 +33,11 @@ None. Existing app/product capabilities and human acceptance boundaries remain.
 
 ## Impact
 
+The first bounded frozen implementation1ba is blocked by an actual120s baseline
+startup timeout and independent F1. evidence/bootstrap-failure.md retains it.
+verifier-bootstrap-amendment.md proposes a separate one-file repair and explicit
+additional allowance, not yet approved/applied; original approvals stay resolved.
+
 Exact files and budget are in design.md. No renderer, IPC, service, NSIS, CI,
 managed Node/npm/Git/CodeGraph/core/OpenSpec pin or audit-policy change.
 Test data stays outside the shipped app. Docs/evidence and one eligible official

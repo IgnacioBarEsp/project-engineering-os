@@ -52,6 +52,12 @@ development dependency label alone SHALL NOT certify the installed application.
 - **THEN** qualification fails visibly, original receipts remain and affected artifacts are not promoted as safe fallback
 
 ### Requirement: Budgeted independent and human closure
+
+Current frozen1ba is rejected at its bootstrap gate; evidence/bootstrap-failure.md
+retains the actual timeout and independent F1. verifier-bootstrap-amendment.md
+contains a concrete one-file repair and additional cumulative allowance, not yet
+approved/applied. Its prepared diff must not replace the frozen source or permit
+a retry by inference from either resolved earlier approval.
 The phase SHALL preserve prior failed evidence and use its single frozen variant
 and bounded review/qualification protocol without resetting other budgets. The
 still-unconsumed corrected canonical cycle SHALL qualify the final combined

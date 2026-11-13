@@ -3,6 +3,7 @@
 - [x] 1.2 Pass fresh DoR13/13, create this change through fixed local OpenSpec1.6.0 and record baseline/official identities/protocol.
 - [x] 1.3 Obtain actual approval of this immutable revision before runtime/lock/harness/fixture Apply; record literal words and cost scope in evidence/spec-approval.md.
 - [x] 1.4 Obtain actual approval of the concrete production-chain-witness amendment2d2d28c: «Sí, apruebo la enmienda 2d2d28c»; do not reopen original approval or reset budgets.
+- [ ] 1.5 Obtain actual approval of the separate verifier-bootstrap amendment and explicit cumulative extra variant/attempt/reconciliation before repair or retry.
 
 ## 2. Approved bounded Apply only
 - [x] 2.1 Receive one fresh readonly boundary investigation; verify source preimages, declared supplier/runtime metadata and generation tool identity. Result: static STOP before freeze, see evidence/prepatch-stop.md; payload integrity/execution remain unknown.
