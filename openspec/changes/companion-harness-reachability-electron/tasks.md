@@ -70,5 +70,5 @@ pass or treat it as installed/human/security-wide approval.
 - [x] 9.2 Record literal approval of fa15e432d1d69571a9f527692a75fb320ecf06ac before source changes; evidence/recovery-qa-spawn-approval-fa15.md.
 - [x] 9.3 After approval,freeze the one additional variant and run ten focused targets once:9PASS/1CANCELLED at90s in the original repair case,200117ms. STOP;budget consumed,no retry. See evidence/recovery-qa-spawn-result-fa15.md.
 - [ ] 9.4 Complete the same original independent review plus new-delta reconciliation and full currentCI; keep build/VM/human/debt/archive/merge gates separate.
-  - [x] 9.4a Same reviewer finished the original cycle and approved continuation scope:originalP2 resolved by source,no other actionable finding;actual report retained,no test execution by reviewer.
+  - [x] 9.4a Same reviewer finished the original cycle within the maintainer-approved continuation scope:originalP2 resolved by source,no other actionable finding;actual report retained,no test execution by reviewer.
   - [ ] 9.4b Receive fullCI3OS/required on the new head;9PASS/1CANCELLED local qualification remains failed regardless of CI or source review.

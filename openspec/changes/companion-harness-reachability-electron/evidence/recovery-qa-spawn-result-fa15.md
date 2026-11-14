@@ -5,8 +5,8 @@ fa15e432d1d69571a9f527692a75fb320ecf06ac antes de cambiar fuentes.
 Una variante adicional y una invocación consumidas,cero restantes. Sin reset
 de5013/d812/e978/218. Preparación3876ms,DoR13/13,sintaxis2/2.
 
-Solo helper/unit QA cambiaron. Principal a97ac1e8 y los otros221archivos de app
-permanecieron exactos;223archivos comparados entre copia y fuente.
+Solo helper/unit QA cambiaron. Los221archivos de app restantes,incluido el
+principal a97ac1e8,permanecieron exactos;223comparados entre copia y fuente.
 Helper990166fcc3ad1b6237edc8a2710007be8125f0ac9aaa5a06074317318afb2306;
 unit c7942e9e8efbaa03ef28a1296e880abec818b9b4b3319182fd3f5266de38f125.
 La copia conserva su gitHEAD5013+overlay aprobada;su inventario completo de app
