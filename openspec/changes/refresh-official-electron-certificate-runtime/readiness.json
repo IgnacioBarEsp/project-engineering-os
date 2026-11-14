@@ -195,10 +195,10 @@
     "justification": null
   },
   "adversarialReview": {
-    "status": "failed",
-    "ref": "evidence/bootstrap-failure.md",
+    "status": "passed",
+    "ref": "evidence/independent-incremental-review-variant2.md",
     "blockers": 0,
-    "majors": 1
+    "majors": 0
   },
   "exceptions": []
 }

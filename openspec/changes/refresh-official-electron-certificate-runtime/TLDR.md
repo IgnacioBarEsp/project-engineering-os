@@ -1,64 +1,25 @@
-# #218 — Electron oficial con la mitigación de certificados
+# #218 — Electron official certificate runtime
 
-**Revisión7af8a2a aprobada; Apply acotado iniciado, todavía sin candidata apta.**
-[Respuesta literal y alcance](evidence/spec-approval.md). C8cd8d5 y los anteriores
-cambios del harness ya están aprobados/aplicados; esta decisión es independiente.
+**All decisions7af/2d2/1cb are actually approved. Do not ask again.**
+[Original approval](evidence/spec-approval.md),
+[bootstrap approval](evidence/bootstrap-amendment-approval.md).
 
-**STOP antes de generar fixtures o congelar variante:** la investigación previa
-confirmó un desacuerdo estático en el testigo TLS propuesto, no un fallo medido de
-Electron44.9.1. [Evidencia y presupuestos intactos](evidence/prepatch-stop.md).
-La [enmienda concreta del testigo](production-chain-witness-amendment.md)2d2d28c
-también fue aprobada: «Sí, apruebo la enmienda 2d2d28c». Continúa únicamente el
-Apply acotado con ese protocolo; no se añade presupuesto ni se repite investigación.
-Ninguna de las dos aprobaciones vuelve a estar pendiente.
+Variant2 applies the exact approved one-file bootstrap/deadline patch. The real
+production-main contrast passed9/9cases per runtime: baseline44.1.1 returned
+CERT_SIGNATURE_FAILURE and corrected44.9.1 returned CERT_REVOKED across TLS/HTTPS/
+fetch. Trusted controls and unrelated untrusted peers stayed distinct. Full native
+verification completed18screens/12copies. [Actual result](evidence/bootstrap-variant2-result.md).
 
-**Resultado de la variante1ba: blocked.** Instalación oficial/SRI/ZIP/73archivos
-verificados; el baseline agotó120s sin recibo de casos. La revisión independiente
-confirmó un ciclo de arranque en el verificador, no un fallo TLS de44.9.1.
-[Fallo conservado](evidence/bootstrap-failure.md).
-La [enmienda de un solo archivo y presupuesto adicional](verifier-bootstrap-amendment.md)
-está preparada, todavía sin aprobación ni Apply. Variante1/1 consumida; no se
-repite el intento ni se modifica el helper congelado sin esa nueva decisión.
+This does not yet qualify the installer or close #218/ola3. Same-reviewer incremental,
+owning checks/current requiredCI, two builds, artifact/licenses/resources, existing
+corrected VM, debt/official archive and real humans146/147 remain gates.
+No human acceptance, release, host install or ola4 is inferred.
 
-El instalador candidato0.3.7 empaqueta Electron44.1.1, incluido en el
-[aviso primario](https://github.com/electron/electron/security/advisories/GHSA-jr5w-w6x2-84p9).
-La etiqueta devDependency no excluye el runtime entregado. La triage estática
-encontró una configuración soportada con TLS remoto; no explotación del proyecto.
+Official SRI/ZIP/73runtime files were verified once and reused with the same six
+frozen fixtures. No dependency, managed toolchain, CI/policy, TLS or cap change.
+[Design](design.md), [ledger](evidence/apply-ledger.json), [manifest](evidence/manifest.json).
 
-Se propone **Electron oficial44.9.1**, primera corregida de la rama44, conservando
-la app candidata0.3.7. Sus Node/Chromium embebidos cambiarán con el binario y se
-medirán; Node gestionado, npm11.21.2, Git, CodeGraph y OpenSpec1.6.0 no cambian.
-[Diseño, allowlist e identidades](design.md); [baseline y límites](brownfield-baseline.md).
-
-La decisión incluye:
-- Solo pin/entrada Electron del lock; ninguna otra dependencia.
-- Una comprobación nueva de TLS/HTTPS/fetch en Electron real, conectada al
-  verificador Windows ya requerido, preservando18capturas/12copias y su timeout.
-- Datos públicos de certificado fijados por hash y dos identidades localhost de
-  prueba vigentes, generadas una vez con el OpenSSL ya existente y congeladas.
-  No entran en la aplicación distribuida ni en el almacén de confianza del sistema.
-- Una variante, una comprobación de contraste, dos builds con fuentes/fixtures
-  congelados, una revisión previa y una adversarial posterior acotadas. Se
-  reutiliza el único ciclo instalado corregido todavía sin consumir de #150:
-  se cambia su candidata por la final44.9.1, no se añade otro ciclo.
-- Suites/auditorías/recuperación/recursos/archivo y PR protegido con CI vigente.
-  Humanos146 y SoftwareA/B147 siguen separados en candidata realmente apta.
-
-El ZIP Windows declarado pesa158389896bytes (~151MiB), más dependencias ya
-existentes; las medidas reales de descarga/build/instalación/memoria deben
-registrarse contra el artefacto e713 retenido. No hay servicio de pago,
-dependencia nueva, rebuild de Electron ni parche de certificados propio.
-
-Los tests oficiales usan hooks de depuración y sus certificados de ejemplo
-caducaron en abril2026. Esos skips o fixtures inválidos no acreditan el arreglo.
-El protocolo propuesto usa el binario oficial de producción y la verificación
-TLS estricta. Si no demuestra su testigo y controles, se detiene; no se cambia
-la expectativa, el reloj, el trust del host o las protecciones para lograr verde.
-
-DoR de preparación13/13 sin excepciones; OpenSpec local1.6.0 strict29/29,
-docs/neutralidad/deuda read-only/diffcheck PASS. Readiness de archivo9PASS/6FAIL,
-13tareas pendientes,mutationPerformed:false; ningún archive.
-[Evidencia e identidades](evidence/manifest.json).
-La integridad del ZIP y el wrapper todavía es declarada, no medida por descarga.
-No pin/lock/runtime nuevo aplicado, installer nuevo, archive, merge, tag o release.
-Ola3 sigue abierta y ola4 no se inicia.
+First disagreement and120s failure stay immutable:
+[prepatch stop](evidence/prepatch-stop.md), [bootstrap failure](evidence/bootstrap-failure.md).
+Variants2/2,baseline owner2/2,candidate owner1/1 are consumed. No more variants or
+owner repeats. Builds0/2 and same corrected VM0/1 remain unused.

@@ -10,7 +10,7 @@ explicit provider connection runs in main and relies on that runtime's TLS trust
 Revision7af8a2a is actually approved; see evidence/spec-approval.md. Its prepatch
 investigation stopped before freeze on the concrete static witness disagreement
 in evidence/prepatch-stop.md. The replacement fixture/expected-error protocol in
-production-chain-witness-amendment.md is PROPOSED, NOT APPROVED OR APPLIED.
+production-chain-witness-amendment.md is actually approved in2d2 and applied. The later bootstrap amendment1cb is also actually approved and applied; see evidence/bootstrap-variant2-result.md.
 The original approval remains valid for its scope; no new protocol is inferred.
 
 Subject to approval of this exact proposal, update only Electron to official44.9.1
@@ -35,8 +35,7 @@ None. Existing app/product capabilities and human acceptance boundaries remain.
 
 The first bounded frozen implementation1ba is blocked by an actual120s baseline
 startup timeout and independent F1. evidence/bootstrap-failure.md retains it.
-verifier-bootstrap-amendment.md proposes a separate one-file repair and explicit
-additional allowance, not yet approved/applied; original approvals stay resolved.
+verifier-bootstrap-amendment.md is approved1cb and applied as variant2. Actual baseline/candidate contrast9/9 and native18/12 completed; other qualification gates remain. Original approvals stay resolved.
 
 Exact files and budget are in design.md. No renderer, IPC, service, NSIS, CI,
 managed Node/npm/Git/CodeGraph/core/OpenSpec pin or audit-policy change.

@@ -55,8 +55,7 @@ development dependency label alone SHALL NOT certify the installed application.
 
 Current frozen1ba is rejected at its bootstrap gate; evidence/bootstrap-failure.md
 retains the actual timeout and independent F1. verifier-bootstrap-amendment.md
-contains a concrete one-file repair and additional cumulative allowance, not yet
-approved/applied. Its prepared diff must not replace the frozen source or permit
+contains a concrete one-file repair and additional cumulative allowance actually approved in1cb and applied as variant2; see evidence/bootstrap-variant2-result.md. Its prepared diff must not replace the frozen source or permit
 a retry by inference from either resolved earlier approval.
 The phase SHALL preserve prior failed evidence and use its single frozen variant
 and bounded review/qualification protocol without resetting other budgets. The

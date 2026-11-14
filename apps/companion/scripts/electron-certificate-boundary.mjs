@@ -109,90 +109,109 @@ async function exercise(transport, condition, data) {
     ? Buffer.concat([data['untrusted.pem'], data['blocked-intermediate.pem']]) : data['untrusted.pem'];
   const key = data[trusted ? 'trusted.key' : 'untrusted.key'];
   const sockets = new Set(), controller = new AbortController();
-  let server, timer, phase = 'server-setup';
-  try {
+  let server, timer, outcome, phase = 'server-setup';
+  const deadline = new Promise((_resolve, reject) => {
+    timer = setTimeout(() => {
+      const error = Object.assign(new Error('Certificate case exceeded20s'), {code: 'CASE_TIMEOUT'});
+      controller.abort(error);
+      for (const socket of sockets) socket.destroy();
+      reject(error);
+    }, CASE_MS);
+  });
+  // Observe the deadline immediately, including setup and final cleanup.
+  const operation = (async () => {
     server = transport === 'tls'
       ? tls.createServer({key, cert: certificate}, socket => socket.end(BODY))
       : https.createServer({key, cert: certificate}, (_request, response) => response.end(BODY));
     server.on('connection', socket => { sockets.add(socket); socket.once('close', () => sockets.delete(socket)); });
     server.on('tlsClientError', (_error, socket) => socket.destroy());
-    await new Promise((resolve, reject) => { server.once('error', reject); server.listen(0, '127.0.0.1', resolve); });
+    await new Promise((resolve, reject) => {
+      server.on('error', reject);
+      server.listen({port: 0, host: '127.0.0.1', signal: controller.signal}, resolve);
+    });
+    controller.signal.throwIfAborted();
     assert.equal(server.address().address, '127.0.0.1');
     const port = server.address().port;
     phase = 'client-certificate-verification';
-    const request = (async () => {
-      if (transport === 'fetch') {
-        const response = await globalThis.fetch('https://127.0.0.1:' + port + '/', {
-          signal: controller.signal, redirect: 'error',
-        });
-        assert.equal(response.status, 200);
-        const body = await response.text();
-        assert.ok(Buffer.byteLength(body) <= 256);
-        return {body, authenticated: true};
-      }
-      if (transport === 'https') {
-        return await new Promise((resolve, reject) => {
-          const request = https.get({hostname: '127.0.0.1', port, servername: 'localhost', path: '/',
-            rejectUnauthorized: true, ...(trusted ? {ca: data['trusted.pem']} : {}),
-            agent: false, signal: controller.signal}, response => {
-            const authenticated = response.socket.authorized;
-            void boundedBody(response).then(body => resolve({body, authenticated}), reject);
-          });
-          request.once('error', reject);
-        });
-      }
-      return await new Promise((resolve, reject) => {
-        const socket = tls.connect({host: '127.0.0.1', port, servername: 'localhost',
-          rejectUnauthorized: true, ...(trusted ? {ca: data['trusted.pem']} : {}), signal: controller.signal});
-        let body = '';
-        socket.on('data', chunk => { body += chunk.toString('utf8'); if (Buffer.byteLength(body) > 256) socket.destroy(new Error('Oversized loopback response')); });
-        socket.once('end', () => resolve({body, authenticated: socket.authorized}));
-        socket.once('error', reject);
+    if (transport === 'fetch') {
+      const response = await globalThis.fetch('https://127.0.0.1:' + port + '/', {
+        signal: controller.signal, redirect: 'error',
       });
-    })();
-    const timeout = new Promise((_resolve, reject) => {
-      timer = setTimeout(() => { const error = Object.assign(new Error('Certificate case exceeded20s'), {code: 'CASE_TIMEOUT'}); controller.abort(error); reject(error); }, CASE_MS);
+      assert.equal(response.status, 200);
+      const body = await response.text();
+      assert.ok(Buffer.byteLength(body) <= 256);
+      return {body, authenticated: true};
+    }
+    if (transport === 'https') {
+      return await new Promise((resolve, reject) => {
+        const request = https.get({hostname: '127.0.0.1', port, servername: 'localhost', path: '/',
+          rejectUnauthorized: true, ...(trusted ? {ca: data['trusted.pem']} : {}),
+          agent: false, signal: controller.signal}, response => {
+          const authenticated = response.socket.authorized;
+          void boundedBody(response).then(body => resolve({body, authenticated}), reject);
+        });
+        request.on('error', reject);
+      });
+    }
+    return await new Promise((resolve, reject) => {
+      const socket = tls.connect({host: '127.0.0.1', port, servername: 'localhost',
+        rejectUnauthorized: true, ...(trusted ? {ca: data['trusted.pem']} : {}), signal: controller.signal});
+      let body = '';
+      socket.on('data', chunk => { body += chunk.toString('utf8'); if (Buffer.byteLength(body) > 256) socket.destroy(new Error('Oversized loopback response')); });
+      socket.once('end', () => resolve({body, authenticated: socket.authorized}));
+      socket.on('error', reject);
     });
-    const value = await Promise.race([request, timeout]);
+  })();
+  try {
+    const value = await Promise.race([operation, deadline]);
     assert.equal(value.body, BODY);
     assert.equal(value.authenticated, true);
-    return {ok: true, phase, error: null};
-  } catch (error) {
-    return {ok: false, phase, error: errorRecord(error)};
-  } finally {
-    clearTimeout(timer);
+    outcome = {ok: true, phase, error: null};
+  } catch (error) { outcome = {ok: false, phase, error: errorRecord(error)}; }
+  finally {
     controller.abort();
     for (const socket of sockets) socket.destroy();
-    if (server?.listening) await new Promise(resolve => server.close(resolve));
+    try {
+      const closed = server?.listening ? new Promise(resolve => server.close(resolve)) : Promise.resolve();
+      await Promise.race([closed, deadline]);
+    } catch (error) { outcome = {ok: false, phase: 'cleanup', error: errorRecord(error)}; }
+    clearTimeout(timer);
   }
+  return outcome;
 }
-async function childProbe() {
+function probeInvocation() {
   assert.equal(process.argv.filter(value => value === PROBE).length, 1);
   const args = process.argv.slice(process.argv.indexOf(PROBE) + 1);
   assert.equal(args.length, 4);
   const [mode, home, nonce, sourceSha256] = args;
   assert.ok(Object.hasOwn(IDENTITIES, mode));
   assert.match(nonce, /^[a-f0-9]{64}$/);
+  assert.match(sourceSha256, /^[a-f0-9]{64}$/);
+  assert.ok(path.isAbsolute(home));
   assert.equal(process.type, 'browser', 'A production Electron main process is required');
   assert.equal(process.versions.electron, IDENTITIES[mode].version);
   assert.ok(!process.env.ELECTRON_RUN_AS_NODE && !process.env.NODE_TLS_REJECT_UNAUTHORIZED);
-  const {app, BrowserWindow} = await import('electron');
-  app.setPath('userData', path.join(home, 'userdata'));
-  app.disableHardwareAcceleration();
+  return {mode, home, nonce, sourceSha256};
+}
+async function childProbe({app, BrowserWindow}, {mode, home, nonce, sourceSha256}) {
   const record = {schemaVersion: 1, mode, nonce, completed: false, declaredCases: 9, cases: [],
-    sourceSha256, versions: {...process.versions}, executable: process.execPath,
-    heapLimitBytes: getHeapStatistics().heap_size_limit,
-    executableSha256: await digest(await regular(process.execPath)), fixtureHashes: FIXTURES,
+    phase: 'bootstrap', sourceSha256, versions: {...process.versions}, executable: process.execPath,
+    heapLimitBytes: getHeapStatistics().heap_size_limit, executableSha256: null, fixtureHashes: FIXTURES,
     scope: 'Production Electron main; loopback only; strict Node TLS/HTTPS/fetch; no Chromium-network or exploit claim'};
   const target = path.join(home, 'probe-report.json');
   let exitCode = 1;
   try {
+    await writeFile(target, JSON.stringify(record, null, 2) + '\n');
+    record.executableSha256 = await digest(await regular(process.execPath));
     assert.equal(record.executableSha256, IDENTITIES[mode].sha256);
     assert.ok(record.heapLimitBytes <= 256 * 1024 * 1024, 'Probe JS heap exceeds256MiB');
     assert.equal(await digest(await regular(SELF)), sourceSha256);
     const directory = path.join(home, 'fixtures'), data = await fixtureData(directory);
     assert.equal(process.env.NODE_EXTRA_CA_CERTS, path.join(directory, 'trusted.pem'));
+    record.phase = 'waiting-for-ready';
+    await writeFile(target, JSON.stringify(record, null, 2) + '\n');
     await app.whenReady();
+    record.phase = 'certificate-cases';
     assert.equal(BrowserWindow.getAllWindows().length, 0);
     for (const transport of TRANSPORTS) for (const condition of CONDITIONS) {
       const started = Date.now(), observed = await exercise(transport, condition, data);
@@ -207,6 +226,7 @@ async function childProbe() {
     }
     assert.equal(record.cases.length, 9);
     assert.equal(BrowserWindow.getAllWindows().length, 0);
+    record.phase = 'complete';
     record.completed = true; exitCode = 0;
   } catch (error) { record.failure = errorRecord(error); }
   await writeFile(target, JSON.stringify(record, null, 2) + '\n');
@@ -264,4 +284,20 @@ export async function verifyElectronCertificateBoundary({executablePath, output,
     await rm(home, {recursive: true, force: true});
   }
 }
-if (process.versions.electron && process.argv.includes(PROBE)) await childProbe();
+if (process.versions.electron && process.argv.includes(PROBE)) {
+  // Only the intrinsic API import and synchronous pre-ready setup are awaited
+  // during entrypoint evaluation. Readiness-dependent work must not join it.
+  const electron = await import('electron');
+  try {
+    const invocation = probeInvocation();
+    electron.app.setPath('userData', path.join(invocation.home, 'userdata'));
+    electron.app.disableHardwareAcceleration();
+    void childProbe(electron, invocation).catch(error => {
+      process.stderr.write(JSON.stringify(errorRecord(error)) + '\n');
+      electron.app.exit(1);
+    });
+  } catch (error) {
+    process.stderr.write(JSON.stringify(errorRecord(error)) + '\n');
+    electron.app.exit(1);
+  }
+}

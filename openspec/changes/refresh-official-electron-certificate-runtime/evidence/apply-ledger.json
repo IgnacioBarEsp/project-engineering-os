@@ -1,12 +1,14 @@
 {
   "schemaVersion": 1,
   "issue": 218,
-  "status": "BLOCKED_BASELINE_BOOTSTRAP_TIMEOUT",
+  "status": "APPROVED_1CB_VARIANT2_FOCUSED_PASS_QUALIFICATION_PENDING",
   "approvals": {
     "original": "7af8a2a298e1281b1c7230539a7472550ba94d9b",
     "originalWords": "Sí, apruebo #218 en 7af8a2a",
     "amendment": "2d2d28cd6a8d270d23f6920177b7d45a4c713bd3",
-    "amendmentWords": "Sí, apruebo la enmienda 2d2d28c"
+    "amendmentWords": "Sí, apruebo la enmienda 2d2d28c",
+    "bootstrapAmendment": "1cbfe2a7a7f1e89990d0e3ad27d30dd257275f9a",
+    "bootstrapAmendmentWords": "Sí, apruebo la enmienda 1cbfe2a"
   },
   "targetPath": "C:/Users/RitualDesktop/.codex/worktrees/wave3-current-source-verification/project-engineering-os",
   "storage": "persistent",
@@ -92,18 +94,21 @@
   },
   "budget": {
     "prepatchInvestigations": 1,
-    "sourceVariantsFrozen": 1,
-    "maximumSourceVariants": 1,
+    "sourceVariantsFrozen": 2,
+    "maximumSourceVariants": 2,
     "remainingSourceVariants": 0,
     "keyGenerationSets": 1,
     "keysGenerated": 2,
     "certificateIssuances": 3,
     "preFreezeTrustedCertificateCorrectionRetained": true,
-    "baselineExecutions": 1,
-    "candidateExecutions": 0,
+    "baselineExecutions": 2,
+    "candidateExecutions": 1,
     "postpatchReviews": 1,
     "builds": 0,
-    "correctedCanonicalVm": 0
+    "correctedCanonicalVm": 0,
+    "maximumBaselineExecutions": 2,
+    "sameReviewerIncremental": 1,
+    "maximumSameReviewerIncremental": 1
   },
   "focusedBaseline": {
     "outcome": "PROCESS_TIMEOUT120s; report:null; no certificate cases credited",
@@ -120,8 +125,8 @@
     "frozenSha256": "4fff198fb2c913407a63f13a6884bfe5781ced50f6b129e83a6595180a4fcb3c",
     "disposition": "Preserve the supplier-data bytes and frozen hash. No Git whitespace configuration, security policy or fixture is changed. All other paths must pass the same check."
   },
-  "focusedCandidate": "NOT_RUN_BASELINE_GATE_FAILED",
-  "nativeScreensAndClipboard": "NOT_RUN_BASELINE_GATE_FAILED",
+  "focusedCandidate": "VARIANT2_9_OF_9_PASS",
+  "nativeScreensAndClipboard": "VARIANT2_18_SCREENS_12_MATCHES",
   "owningChecks": "PENDING",
   "postpatchIndependentReview": {
     "completedOnSource": "1ba2933dbeb4d2d2fcbe93f7514953ffe073e8c5",
@@ -134,14 +139,15 @@
   },
   "nextDecision": {
     "amendment": "verifier-bootstrap-amendment.md",
-    "approved": false,
+    "approved": true,
     "proposedSourceFile": "apps/companion/scripts/electron-certificate-boundary.mjs",
     "proposedPostimage": "6695b1dcc2f4d6b2079b2c0d4b37614ed8a0e90884e2ff92a045131fc2486089",
     "patchSha256": "51b30f0679650791e57ee32a19fbf8a27b2b196c7ed4ec382427dbb08a11cf98",
     "additionalFrozenVariants": 1,
     "additionalBaselineAttempts": 1,
     "sameReviewerIncremental": 1,
-    "applied": false
+    "applied": true,
+    "actualWords": "Sí, apruebo la enmienda 1cbfe2a"
   },
   "debtAssessment": "PENDING_WHEN_ELIGIBLE",
   "installedQualification": "PENDING_0_OF_1",
@@ -149,5 +155,187 @@
   "archivePerformed": false,
   "merged": false,
   "released": false,
-  "wave4Started": false
+  "wave4Started": false,
+  "variant2": {
+    "frozen": {
+      "storage": "persistent",
+      "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+      "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\electron218\\frozen-variant2.json",
+      "relativePath": "artifacts/wave3-current/electron218/frozen-variant2.json",
+      "sha256": "45d10333f018915ab9b07a384173c1f92fb95fc07be735d442d9ccc621fd898e"
+    },
+    "recipeSha256": "0b979f38812f7c25afd683169e98b46bd1e8a41902648ffb335a78a13cf1fd95",
+    "postimages": {
+      "apps/companion/package.json": {
+        "bytes": 2637,
+        "sha256": "7759b52a563f0181da2bbc4cc2b096474117412e362438b99dcad3163895d04b"
+      },
+      "apps/companion/package-lock.json": {
+        "bytes": 185307,
+        "sha256": "af535831614fe783283848cbecdc2e05dc675e3dc86df65e2b955c7115c5609c"
+      },
+      "apps/companion/scripts/electron-certificate-boundary.mjs": {
+        "bytes": 16252,
+        "sha256": "6695b1dcc2f4d6b2079b2c0d4b37614ed8a0e90884e2ff92a045131fc2486089"
+      },
+      "apps/companion/scripts/verify-electron.mjs": {
+        "bytes": 8573,
+        "sha256": "12e6e8c24f344252013186176ce0d133aca5ce67880ee4453bc997b5db0bc5ec"
+      },
+      "apps/companion/qa/fixtures/electron-certificates/trusted.pem": {
+        "bytes": 1220,
+        "sha256": "d139e5cb2c945d4daa0467396c09ce92f38e5b09a5cc40bf0f62c1277d83eb0b"
+      },
+      "apps/companion/qa/fixtures/electron-certificates/trusted.key": {
+        "bytes": 1704,
+        "sha256": "37b95aa0fc33e8b675f96bdd593ccfe68d27b2078a5bbfad53a8bbb75d31c8e0"
+      },
+      "apps/companion/qa/fixtures/electron-certificates/untrusted.pem": {
+        "bytes": 1233,
+        "sha256": "0b2e9d2125696fb13f079c74aa8d6b87778b4fefc420fe3d2933ecd1a9d834fd"
+      },
+      "apps/companion/qa/fixtures/electron-certificates/untrusted.key": {
+        "bytes": 1708,
+        "sha256": "0011e17be7e8e8776def4213253cc9763483c7b46a556aa06a5ca23b9db1396d"
+      },
+      "apps/companion/qa/fixtures/electron-certificates/blocked-intermediate.pem": {
+        "bytes": 1242,
+        "sha256": "4fff198fb2c913407a63f13a6884bfe5781ced50f6b129e83a6595180a4fcb3c"
+      },
+      "apps/companion/qa/fixtures/electron-certificates/provenance.json": {
+        "bytes": 4480,
+        "sha256": "5d90560a13e54efbd4c1b63b47abdb48646273043eca076c924e067201d9cdbd"
+      }
+    },
+    "actual": {
+      "startedAt": "2026-11-14T07:23:00.669Z",
+      "finishedAt": "2026-11-14T07:23:34.898Z",
+      "baseline": {
+        "passed": true,
+        "mode": "baseline",
+        "cases": 9,
+        "reportFile": "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\codex-security-artifacts-0087aeee0b2378d0145d65d1da7d565338913379588a04cabe2e60c186b1dd36\\artifacts\\wave3-current\\electron218\\bootstrap-v2\\baseline-contrast\\baseline-certificate-boundary.json",
+        "reportSha256": "ce46c7fbf779f047d4e37d1ccbfe1d5b5f88e0292723f500ccccc6671c36c0b1",
+        "executableSha256": "11246b242f4fb967283b6d50d5800fa30e7c3f43d47353a6d20fc8d6ac07b87f",
+        "sourceSha256": "6695b1dcc2f4d6b2079b2c0d4b37614ed8a0e90884e2ff92a045131fc2486089",
+        "versions": {
+          "node": "24.19.0",
+          "acorn": "8.17.0",
+          "ada": "3.4.4",
+          "amaro": "1.1.10",
+          "ares": "1.34.6",
+          "brotli": "1.2.0",
+          "cldr": "48.0",
+          "icu": "78.2",
+          "llhttp": "9.4.3",
+          "merve": "1.2.2",
+          "modules": "149",
+          "napi": "10",
+          "nbytes": "0.1.4",
+          "ncrypto": "0.0.1",
+          "nghttp2": "1.69.0",
+          "nghttp3": "",
+          "ngtcp2": "",
+          "openssl": "0.0.0",
+          "simdjson": "4.6.4",
+          "simdutf": "7.7.0",
+          "sqlite": "3.53.3",
+          "tz": "2025c",
+          "undici": "7.29.0",
+          "unicode": "17.0",
+          "uv": "1.52.1",
+          "uvwasi": "0.0.23",
+          "v8": "15.2.124.18-electron.0",
+          "zlib": "1.3.2.1-motley",
+          "zstd": "1.6.0",
+          "electron": "44.1.1",
+          "chrome": "152.0.7977.65"
+        }
+      },
+      "candidate": {
+        "passed": true,
+        "mode": "candidate",
+        "cases": 9,
+        "reportFile": "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\codex-security-artifacts-0087aeee0b2378d0145d65d1da7d565338913379588a04cabe2e60c186b1dd36\\artifacts\\wave3-current\\electron218\\bootstrap-v2\\candidate-native\\certificate-boundary\\candidate-certificate-boundary.json",
+        "reportSha256": "fc4fc036d96b2565f1db846559a81b72750b737fe3684e24a56f5102429ef0e7",
+        "executableSha256": "1432afee01d6a788f11cb6649efd271923e1e490beef688c24d31f47965013aa",
+        "sourceSha256": "6695b1dcc2f4d6b2079b2c0d4b37614ed8a0e90884e2ff92a045131fc2486089",
+        "versions": {
+          "node": "24.22.0",
+          "acorn": "8.18.0",
+          "ada": "4.0.0",
+          "amaro": "1.1.11",
+          "ares": "1.34.8",
+          "brotli": "1.2.0",
+          "cldr": "48.0",
+          "icu": "78.2",
+          "llhttp": "9.4.3",
+          "merve": "1.2.2",
+          "modules": "149",
+          "napi": "10",
+          "nbytes": "0.1.4",
+          "ncrypto": "0.0.1",
+          "nghttp2": "1.70.0",
+          "nghttp3": "",
+          "ngtcp2": "",
+          "openssl": "0.0.0",
+          "simdjson": "4.6.11",
+          "simdutf": "7.7.0",
+          "sqlite": "3.53.4",
+          "tz": "2026d",
+          "undici": "7.29.1",
+          "unicode": "17.0",
+          "uv": "1.52.1",
+          "uvwasi": "0.0.23",
+          "v8": "15.2.124.43-electron.0",
+          "zlib": "1.3.2.1-motley",
+          "zstd": "1.6.0",
+          "electron": "44.9.1",
+          "chrome": "152.0.7977.167"
+        }
+      },
+      "screens": 18,
+      "clipboard": 12,
+      "aggregate": "90e066f637bba6bb1b7b470c57b7568d5fa626c1d34c18146c1421c08724e9a7",
+      "commit": "1ba2933dbeb4d2d2fcbe93f7514953ffe073e8c5",
+      "dirty": true,
+      "allSourcesUnchanged": true
+    },
+    "artifacts": {
+      "bootstrap-v2/owner-contrast.json": {
+        "storage": "persistent",
+        "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+        "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\electron218\\bootstrap-v2\\owner-contrast.json",
+        "relativePath": "artifacts/wave3-current/electron218/bootstrap-v2/owner-contrast.json",
+        "sha256": "38189b0d5a86df42da45c95475a74ab15893f9c824951618ea048f8cc80c3a4c"
+      },
+      "bootstrap-v2/baseline-contrast/baseline-certificate-boundary.json": {
+        "storage": "persistent",
+        "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+        "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\electron218\\bootstrap-v2\\baseline-contrast\\baseline-certificate-boundary.json",
+        "relativePath": "artifacts/wave3-current/electron218/bootstrap-v2/baseline-contrast/baseline-certificate-boundary.json",
+        "sha256": "ce46c7fbf779f047d4e37d1ccbfe1d5b5f88e0292723f500ccccc6671c36c0b1"
+      },
+      "bootstrap-v2/candidate-native/certificate-boundary/candidate-certificate-boundary.json": {
+        "storage": "persistent",
+        "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+        "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\electron218\\bootstrap-v2\\candidate-native\\certificate-boundary\\candidate-certificate-boundary.json",
+        "relativePath": "artifacts/wave3-current/electron218/bootstrap-v2/candidate-native/certificate-boundary/candidate-certificate-boundary.json",
+        "sha256": "fc4fc036d96b2565f1db846559a81b72750b737fe3684e24a56f5102429ef0e7"
+      },
+      "bootstrap-v2/candidate-native/electron-evidence.json": {
+        "storage": "persistent",
+        "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+        "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\electron218\\bootstrap-v2\\candidate-native\\electron-evidence.json",
+        "relativePath": "artifacts/wave3-current/electron218/bootstrap-v2/candidate-native/electron-evidence.json",
+        "sha256": "f59a5f5577cc0405765c3fcd3e4a6a5ed6ac22a9993bd41c1f039ae2417cec17"
+      }
+    }
+  },
+  "sameReviewerIncremental": {
+    "status": "COMPLETED_F1_RESOLVED_NO_NEW_CONCRETE_FINDINGS",
+    "scope": "Postimage6695 plus direct caller and retained real results; no tests/edits/delegation by reviewer; no global/installed/human approval",
+    "path": "bootstrap-v2/independent-incremental-review.md",
+    "sha256": "45dace94c7373a43504abbfae01f73a683408aa854948bb92b1793acc23a6868"
+  }
 }

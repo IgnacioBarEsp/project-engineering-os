@@ -1,6 +1,6 @@
-# Pending amendment — verifier bootstrap and one bounded retry
+# Approved amendment — verifier bootstrap and one bounded retry
 
-**Prepared, not approved or applied.** Original7af8a2a and witness amendment2d2d28c
+**Approved1cbfe2a: «Sí, apruebo la enmienda 1cbfe2a».** See evidence/bootstrap-amendment-approval.md and evidence/bootstrap-variant2-result.md. Exact patch applied/frozen; future gates remain. Original7af8a2a and witness amendment2d2d28c
 were both actually approved. Their decisions stay resolved. This is a new,
 concrete one-file repair and explicit cumulative budget decision after a retained
 failure; continuing or a previous approval does not approve it.
