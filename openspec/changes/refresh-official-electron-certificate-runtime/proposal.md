@@ -43,3 +43,11 @@ Test data stays outside the shipped app. Docs/evidence and one eligible official
 debt assessment are append-only. Production Apply is blocked until actual approval
 of the immutable proposal. Archive and protected PR are later gates, not approval
 side effects.
+
+## New concrete verification decision, pending approval
+
+Local owning QA remains FAIL after a retained temporary-path correction.
+local-qa-resource-amendment.md proposes one bounded sequential invocation of
+four unchanged existing tests and explicit reconciliation with full required CI.
+No source, limits or consumed owner/reviewer budgets are reset. Apply of this
+new protocol requires actual approval of its immutable revision.

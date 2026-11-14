@@ -2,7 +2,7 @@
   "schemaVersion": "1.0.0",
   "issue": 218,
   "change": "refresh-official-electron-certificate-runtime",
-  "status": "APPROVED_1CB_VARIANT2_FOCUSED_PASS_QUALIFICATION_PENDING",
+  "status": "BLOCKED_LOCAL_OWNING_QA_RESOURCE_FAILURE",
   "approval": {
     "revision": "7af8a2a298e1281b1c7230539a7472550ba94d9b",
     "literalResponse": "Sí, apruebo #218 en 7af8a2a",
@@ -374,5 +374,86 @@
       "relativePath": "artifacts/wave3-current/electron218/bootstrap-v2/qualification-docs.json",
       "sha256": "e26eaf8af1a83efa45aa79051875217a7cf6a06e824bc9f971fe290c1db8c586"
     }
+  },
+  "localQaStop": {
+    "at": "2026-11-14 07:51:48 UTC",
+    "source": "eaf2dd21a24261ce28a74623a3fa6bfe6a9e255f",
+    "frozenRecipe": "0b979f38812f7c25afd683169e98b46bd1e8a41902648ffb335a78a13cf1fd95",
+    "sourcePostimage": "6695b1dcc2f4d6b2079b2c0d4b37614ed8a0e90884e2ff92a045131fc2486089",
+    "approvedAmendment": "1cbfe2a7a7f1e89990d0e3ad27d30dd257275f9a",
+    "actualApproval": "Sí, apruebo la enmienda 1cbfe2a",
+    "focusedContrast": {
+      "baseline": "9/9 PASS",
+      "candidate": "9/9 PASS",
+      "native": "18 captures /12 clipboard matches",
+      "repeatPerformed": false
+    },
+    "sameReviewerIncremental": {
+      "completed": true,
+      "F1": "resolved",
+      "newConcreteFindings": 0,
+      "sha256": "45dace94c7373a43504abbfae01f73a683408aa854948bb92b1793acc23a6868"
+    },
+    "firstQa": {
+      "tests": 261,
+      "pass": 241,
+      "fail": 16,
+      "cancelled": 3,
+      "skipped": 1,
+      "artifact": "bootstrap-v2/qualification-app-v2b.json",
+      "sha256": "b1243ebe468f91b15a76875d4f1fd9f25b67a315464ec9ff575cf2d754a95d6b"
+    },
+    "correctedEnvironmentQa": {
+      "artifact": "artifacts/wave3-current/electron218/bootstrap-v2/qualification-app-short-home.json",
+      "sha256": "fb72b62f21b95f7c203109fa761aac49f9c10af7dcf537acd0259ecbf920f0db",
+      "startedAt": "2026-11-14T07:42:44.809Z",
+      "finishedAt": "2026-11-14T07:49:57.029Z",
+      "stats": [
+        "ℹ tests 261",
+        "ℹ suites 0",
+        "ℹ pass 256",
+        "ℹ fail 1",
+        "ℹ cancelled 3",
+        "ℹ skipped 1",
+        "ℹ todo 0",
+        "ℹ duration_ms 431380.0992"
+      ],
+      "tests": 261,
+      "pass": 256,
+      "fail": 1,
+      "cancelled": 3,
+      "skipped": 1,
+      "exitCode": 1,
+      "resourceTimeoutsPreserved": true,
+      "failures": [
+        "test at qa\\distribution-identity.mjs:75:1\n✖ interrupted repair restores only the journal-owned unchanged quarantine, and retains project/history bytes (91010.3123ms)\n  'test timed out after 90000ms'\n\n",
+        "test at qa\\distribution-identity.mjs:89:1\n✖ real process interruption at publication and selector-write rolls back journal-owned selection on restart (91588.7396ms)\n  'test timed out after 90000ms'\n\n",
+        "test at qa\\npm-development-source.mjs:29:1\n✖ official fixture and exact 27 auxiliaries preserve the official tree and deterministic sealed bytes (90845.8682ms)\n  'test timed out after 90000ms'\n\n",
+        "test at qa\\npm-pack-preparation.mjs:14:35\n✖ actual npm pack preparation cleans its owned temporary copy on success (80866.8168ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  'SIGKILL' !== null\n  \n      at TestContext.<anonymous> (file:///C:/Users/RitualDesktop/AppData/Local/Temp/codex-security-artifacts-0087aeee0b2378d0145d65d1da7d565338913379588a04cabe2e60c186b1dd36/k218b/repo/apps/companion/qa/npm-pack-preparation.mjs:30:10)\n      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n      at async Test.run (node:internal/test_runner/test:1332:7)\n      at async startSubtestAfterBoots"
+      ],
+      "pathFailuresObserved": 0
+    },
+    "outcome": "blocked",
+    "cause": "Local owning suite still fails resource/time bounds after routine path geometry correction; preserve real failures without changing source/tests/caps or crediting cancelled cases.",
+    "stoppedFurtherLocalQa": true,
+    "buildsExecuted": 0,
+    "correctedVmExecuted": 0,
+    "sourceVariantsConsumed": 2,
+    "maximumSourceVariants": 2,
+    "baselineOwnerConsumed": 2,
+    "maximumBaselineOwner": 2,
+    "candidateOwnerConsumed": 1,
+    "maximumCandidateOwner": 1,
+    "sourceChangedAfterMeasurement": false,
+    "archivePerformed": false,
+    "merged": false,
+    "wave4Started": false
+  },
+  "pendingLocalQaResourceAmendment": {
+    "path": "local-qa-resource-amendment.md",
+    "approved": false,
+    "applied": false,
+    "maximumTargetedInvocations": 1,
+    "sourceVariantChange": false
   }
 }

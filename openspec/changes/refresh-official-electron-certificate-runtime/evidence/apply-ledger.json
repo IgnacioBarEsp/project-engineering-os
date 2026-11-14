@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "issue": 218,
-  "status": "APPROVED_1CB_VARIANT2_FOCUSED_PASS_QUALIFICATION_PENDING",
+  "status": "BLOCKED_LOCAL_OWNING_QA_RESOURCE_FAILURE",
   "approvals": {
     "original": "7af8a2a298e1281b1c7230539a7472550ba94d9b",
     "originalWords": "Sí, apruebo #218 en 7af8a2a",
@@ -127,7 +127,20 @@
   },
   "focusedCandidate": "VARIANT2_9_OF_9_PASS",
   "nativeScreensAndClipboard": "VARIANT2_18_SCREENS_12_MATCHES",
-  "owningChecks": "PENDING",
+  "owningChecks": {
+    "status": "FAILED_LOCAL_RESOURCE_GATES",
+    "stop": "evidence/local-qa-qualification-stop.json",
+    "fullSuitesExecuted": 2,
+    "latest": {
+      "pass": 256,
+      "fail": 1,
+      "cancelled": 3,
+      "skipped": 1
+    },
+    "nextProtocol": "local-qa-resource-amendment.md",
+    "nextProtocolApproved": false,
+    "targetedRuns": 0
+  },
   "postpatchIndependentReview": {
     "completedOnSource": "1ba2933dbeb4d2d2fcbe93f7514953ffe073e8c5",
     "finding": "F1 Medium qualification blocker: ESM readiness dependency cycle",

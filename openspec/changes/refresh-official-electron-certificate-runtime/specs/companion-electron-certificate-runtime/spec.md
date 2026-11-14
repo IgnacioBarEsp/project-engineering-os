@@ -65,3 +65,12 @@ candidate with six profiles and seven scenarios before required human reports.
 #### Scenario: Technical success does not imply human or release approval
 - **WHEN** runtime tests or source/CI checks pass but an installed, independent, human, debt, archive or protected-delivery gate is missing
 - **THEN** the phase and wave remain open, and no new release, issue closure or wave4 work is inferred
+
+### Requirement: Preserve failed owning QA qualification
+The phase SHALL retain actual failed/cancelled owning QA results and SHALL NOT
+credit them through a passing focused TLS probe. Any changed qualification
+protocol SHALL be concretely presented and actually approved before execution.
+
+#### Scenario: Proposed resource reconciliation is not authorization
+- **WHEN** local-qa-resource-amendment.md remains unapproved or its conditions fail
+- **THEN** qualification stays blocked, prior failures remain, and no extra test run, source variant, timeout increase or installer promotion is inferred

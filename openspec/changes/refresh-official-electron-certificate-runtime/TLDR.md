@@ -1,5 +1,11 @@
 # #218 — Electron official certificate runtime
 
+**Current qualification: blocked by local QA resource failures.** Original decisions
+7af/2d2/1cb are resolved; no new source variant is proposed. See
+[actual stop](evidence/local-qa-qualification-stop.json) and
+[pending bounded verification amendment](local-qa-resource-amendment.md).
+One targeted sequential QA invocation is proposed, not approved or executed.
+
 **All decisions7af/2d2/1cb are actually approved. Do not ask again.**
 [Original approval](evidence/spec-approval.md),
 [bootstrap approval](evidence/bootstrap-amendment-approval.md).

@@ -195,3 +195,11 @@ their scope, while real146 and SoftwareA/B147 on an apt candidate remain require
 Do not archive incomplete work, close218/150, publish/tag/change download0.3.6
 or start wave4 by approval of this proposal. Future changed inputs need a new
 concrete decision; no automatic rebase/variant budget reset.
+
+## Local QA qualification stop and pending resource amendment
+
+See evidence/local-qa-qualification-stop.json for both failed full suites.
+local-qa-resource-amendment.md is the exact pending protocol/cost boundary for
+one additional targeted sequential QA invocation, unchanged tests/timeouts and
+full CI requirement. It is not approved/applied. No further measurement, build
+or VM proceeds until this gate has an actual accepted resolution.
