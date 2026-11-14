@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-26",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Harness #150: cobertura por identidades, 72 celdas de perfiles y 120 de rutas, guard CSSOM/tokens y copia IPC, comparación histórica y CI Electron requerido. Sin dependencias nuevas, ampliación de IPC ni migración. Corregidos hueco vacío, transición de layout y literales alpha; revisión propia documentada. Revisión independiente, aceptación visual y merge protegido quedan pendientes; no se archiva.",
+  "flow": "companion-harness-reachability-electron"
+}

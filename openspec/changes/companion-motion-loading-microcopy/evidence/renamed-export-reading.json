@@ -1,0 +1,27 @@
+{
+  "receivedDate": "2026-09-30",
+  "interviewDate": null,
+  "application": "files-tasks-browser-1180.png from peos-project-management-final-v5; renderer and real service with synthetic folder and native transport injected",
+  "observedControlLabel": "Revisar texto de mis archivos para mi IA",
+  "status": "reported-human-observation-minimum-action-understood",
+  "protocol": {
+    "requestedProcedureVerbatim": "Para comprobar únicamente el botón renombrado «Revisar texto de mis archivos para mi IA», muéstrale la captura de Archivos a una persona que no conozca la app, señala ese botón sin abrirlo ni explicar su función y pregunta «¿Qué crees que hace este botón?». ¿Cuál fue su respuesta literal? Basta una persona; no necesitas repetir Inicio ni el primer paso.",
+    "source": "Maintainer reply to this explicit procedure request, not an agent response or an inference from a prior round.",
+    "reportedAsRequested": true,
+    "independentlyObserved": false,
+    "separatelyReconfirmed": false,
+    "note": "The user supplied the requested answer; no exact interview date, recording, reader identity, hesitation timing or separate procedure reconfirmation was supplied. Do not invent those fields or count this as two readers."
+  },
+  "reader": {
+    "anonymousId": "reader-9",
+    "questionPrompt": "¿Qué crees que hace este botón?",
+    "answerVerbatim": "Supongo que lo que hace el boton es recopilar informacion de los archivos que hay en mi carpeta para que una IA sepa donde estan o los analice",
+    "hesitated": null,
+    "askedFirst": null
+  },
+  "assessment": {
+    "minimumAction": "Recognizes gathering information from the folder's files for an AI, rather than merely locating a file. This is recognition, in the reader's own words, of obtaining file information with an external AI as the intended destination; the literal words copiar or texto are not required tokens. It supports the original minimum name-comprehension criterion of #97, not detailed comprehension of the complete export workflow.",
+    "limits": "The answer does not explicitly identify review, manual clipboard transfer, snippets versus file locations, or the distinction between this app and an AI's analysis. Do not claim those were understood, that the button sends data automatically, that the AI reads the folder, or that a real copy was performed. Those product behaviors have separate automated evidence.",
+    "conclusion": "One actual human answer for the renamed control is preserved, with the requested cold procedure reported by the maintainer and its limits stated. Do not demand a second reader or unanimity added to #97; do not reuse the earlier label's answers as evidence for this label. No independent review, installer, CI-green or Wave 3 closure is claimed."
+  }
+}

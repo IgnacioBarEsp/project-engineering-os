@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "approval": {
+    "schemaVersion": 1,
+    "at": "2026-11-14 09:53:55 UTC",
+    "issue": 150,
+    "revision": "e978e4a6ce7994dc99a6b4bd2c5133606af987dd",
+    "literalResponse": "Sí, apruebo la enmienda e978e4a",
+    "questionItemId": "[\"request_user_input_async\",\"call_efebf4d9f51a4c918fab8d41424cb083\",0]",
+    "allowance": {
+      "qaObservationVariants": 1,
+      "diagnosticInvocations": 1,
+      "targets": 2,
+      "preparationMs": 180000,
+      "processMs": 240000,
+      "caseMs": 90000,
+      "traceBytes": 1048576
+    },
+    "productFixApproved": false,
+    "buildsApprovedByThisDecision": false,
+    "vmApprovedByThisDecision": false,
+    "budgetsReset": false
+  },
+  "approvalReceipt": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\recovery-diagnostic-e978\\approval.json",
+    "relativePath": "artifacts/wave3-current/recovery-diagnostic-e978/approval.json",
+    "sha256": "db739f4ee4ecac7ee3cfc2f5b6518c0f97d57cc1cea5fcbad9892ad006d03e00"
+  },
+  "frozen": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\recovery-diagnostic-e978\\frozen.json",
+    "relativePath": "artifacts/wave3-current/recovery-diagnostic-e978/frozen.json",
+    "sha256": "5a0258c1d29d5e47cf0eebf6aa90b7a526bf665aebf0a661241d76f4db2a6b8c"
+  },
+  "result": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\recovery-diagnostic-e978\\result.json",
+    "relativePath": "artifacts/wave3-current/recovery-diagnostic-e978/result.json",
+    "sha256": "31a1431ea86937f8102bf79d6f555ce79e3227f9fe919690ad24d57120cfaca5"
+  },
+  "tap": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\recovery-diagnostic-e978\\stdout.tap",
+    "relativePath": "artifacts/wave3-current/recovery-diagnostic-e978/stdout.tap",
+    "sha256": "bf9a2551a95e3ff4768ccc5535439c981a03f9892592f942c43ebdec06798046"
+  },
+  "trace": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\recovery-diagnostic-e978\\trace.jsonl",
+    "relativePath": "artifacts/wave3-current/recovery-diagnostic-e978/trace.jsonl",
+    "sha256": "fa976d86459e0ac886b0500e621b3f2565fcf10f7a0618800a06f442f3346975"
+  },
+  "analysis": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\recovery-diagnostic-e978\\analysis.json",
+    "relativePath": "artifacts/wave3-current/recovery-diagnostic-e978/analysis.json",
+    "sha256": "e37e388c71c4e93a5fca5bb7aeba82edeaf43b23f063fa322aad75b0c08b8e5d"
+  },
+  "postchecks": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\recovery-diagnostic-e978\\postchecks-processes-home.json",
+    "relativePath": "artifacts/wave3-current/recovery-diagnostic-e978/postchecks-processes-home.json",
+    "sha256": "d228625b6c784cba302655804b4617226fcde38986fbf5ad913af9eebba01ca5"
+  },
+  "outcome": "DIAGNOSTIC_ONLY_BLOCKED",
+  "counts": {
+    "tests": 2,
+    "pass": 1,
+    "fail": 0,
+    "cancelled": 1,
+    "skipped": 0
+  },
+  "measuredMs": {
+    "preparation": 2145,
+    "invocation": 178799
+  },
+  "budget": {
+    "qaObservationVariants": 1,
+    "maximumQaObservationVariants": 1,
+    "diagnosticRuns": 1,
+    "maximumRuns": 1,
+    "remainingRuns": 0
+  },
+  "remainingUncertainty": [
+    "Underlying host speed/antivirus/disk cause is unmeasured.",
+    "Exact last child exception is unknown: original QA captures its stderr in a local variable and no separate child-stderr record was added.",
+    "No production recovery defect, data loss or Companion exploit is demonstrated.",
+    "Original t.after cleanup remained active and removed some owned roots; selector/journal snapshots are retained in trace, not a claim that every payload root was physically preserved."
+  ],
+  "qualificationCredit": false,
+  "originalFailuresRetained": true,
+  "newRepairProposalPrepared": true,
+  "newRepairApproved": false,
+  "newRepairApplied": false,
+  "builds": 0,
+  "correctedVm": 0,
+  "archived": false,
+  "merged": false,
+  "wave4": false
+}

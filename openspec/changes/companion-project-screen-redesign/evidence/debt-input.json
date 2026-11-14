@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-26",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Renderer y pruebas solamente; API/formatos/dependencias intactos. Extracción de pestañas y componentes sin duplicar lógica. Se corrigieron foco, carga/error y overflow con ensayos explícitos. Gates humanos e independientes pendientes; #149 y #150 siguen en alcance posterior.",
+  "flow": "companion-project-screen-redesign"
+}

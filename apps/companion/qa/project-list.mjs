@@ -59,7 +59,7 @@ async function fixture(t) {
     await writeFile(path.join(root, 'notas.txt'), contents);
     chosen = root;
     const project = await service.chooseFolder();
-    const selection = { name, role: 'general', goal: 'Comprobar el listado', profile,
+    const selection = { name, goal: 'Comprobar el listado', profile,
       experience: 'guided', agents: ['web'] };
     const plan = await service.previewBase({ id: project.id, selection });
     await service.applyBase({ plan: plan.id });
@@ -92,14 +92,14 @@ async function tree(root) {
 
 test('the list shows the verdict of the last real check, and one broken row does not take the rest', async t => {
   const f = await fixture(t);
-  const live = await f.add('Proyecto vivo', 'general');
+  const live = await f.add('Proyecto vivo', 'personal');
   const gone = await f.add('Proyecto borrado', 'research');
 
   // Nothing has been read yet, so both rows say a stage is missing and neither claims to be ready.
   const before = await f.service.listProjects();
   assert.equal(before.length, 2);
   assert.deepEqual(before.map(entry => entry.state).sort(), ['incomplete', 'incomplete']);
-  assert.deepEqual(before.map(entry => entry.profile).sort(), ['general', 'research']);
+  assert.deepEqual(before.map(entry => entry.profile).sort(), ['personal', 'research']);
   assert.deepEqual(row(before, 'Proyecto vivo').missing, [{ id: 'context', state: 'not-prepared' }],
     'La fila lleva la etapa y por qué no está lista, porque la palabra que se muestra depende del motivo.');
   assert.ok(before.every(entry => entry.checkedAt), 'La fila lleva cuándo se comprobó.');
@@ -127,7 +127,7 @@ test('the list shows the verdict of the last real check, and one broken row does
 
 test('a ready row stops being ready when a file the check depended on changes, and says which stage', async t => {
   const f = await fixture(t);
-  const project = await f.add('Proyecto comprobado', 'general');
+  const project = await f.add('Proyecto comprobado', 'personal');
   await f.read(project.id);
   assert.equal(row(await f.service.listProjects(), 'Proyecto comprobado').state, 'verified');
 
@@ -149,7 +149,7 @@ test('a ready row stops being ready when a file the check depended on changes, a
 
 test('a verdict does not travel to another folder and a truncated witness is never ready', async t => {
   const f = await fixture(t);
-  const project = await f.add('Proyecto mudado', 'general');
+  const project = await f.add('Proyecto mudado', 'personal');
   await f.read(project.id);
   assert.equal(row(await f.service.listProjects(), 'Proyecto mudado').state, 'verified');
 
@@ -176,7 +176,7 @@ test('a verdict does not travel to another folder and a truncated witness is nev
 
 test('removing a project from the list drops its verdict and leaves every file byte-identical', async t => {
   const f = await fixture(t);
-  const project = await f.add('Proyecto que se quita', 'general');
+  const project = await f.add('Proyecto que se quita', 'personal');
   await f.read(project.id);
   const before = await tree(project.root);
   assert.ok(before.size >= 5, `Se comparan ${before.size} archivos.`);
@@ -196,7 +196,7 @@ test('removing a project from the list drops its verdict and leaves every file b
 
 test('duplicating reuses the answers and carries none of the original preparation', async t => {
   const f = await fixture(t);
-  const original = await f.add('Proyecto original', 'general');
+  const original = await f.add('Proyecto original', 'personal');
   await f.read(original.id);
 
   // What the interface does to duplicate: choose a folder and reuse the answers. There is no service call
@@ -223,7 +223,7 @@ test('duplicating reuses the answers and carries none of the original preparatio
 
 test('the guidance says what is missing, differs between projects, and refuses a stale copy', async t => {
   const f = await fixture(t);
-  const pending = await f.add('Proyecto pendiente', 'general');
+  const pending = await f.add('Proyecto pendiente', 'personal');
   const done = await f.add('Proyecto al día', 'research');
   await f.read(done.id);
 
@@ -287,7 +287,7 @@ test('the composed guidance carries no forbidden word and declares the terms it 
 
 test('a verdict that could never be disproved, or that is missing a required stage, is refused', async t => {
   const f = await fixture(t);
-  const project = await f.add('Proyecto con veredicto raro', 'general');
+  const project = await f.add('Proyecto con veredicto raro', 'personal');
   await f.read(project.id);
   const saved = await f.verdicts.read();
   const entry = saved.items.find(item => item.id === project.id);
@@ -312,7 +312,7 @@ test('a verdict that could never be disproved, or that is missing a required sta
 
 test('a verdict store that cannot be read degrades instead of taking the list and the project with it', async t => {
   const f = await fixture(t);
-  const project = await f.add('Proyecto con registro roto', 'general');
+  const project = await f.add('Proyecto con registro roto', 'personal');
   await f.read(project.id);
 
   // Larger than the bound the reader accepts: the read throws, and it used to throw from outside the
@@ -329,7 +329,7 @@ test('a verdict store that cannot be read degrades instead of taking the list an
 
 test('a check still answers when this application cannot write its own record', async t => {
   const f = await fixture(t);
-  const project = await f.add('Proyecto con candado', 'general');
+  const project = await f.add('Proyecto con candado', 'personal');
   // An abandoned lock in Companion's own data directory, left by a crash. Writing the verdict from inside
   // the check used to turn opening any project into BUSY, with no way out from the interface.
   await mkdir(path.join(f.dataRoot, '.project-os/companion'), { recursive: true });
@@ -348,11 +348,11 @@ test('a check still answers when this application cannot write its own record', 
 
 test('the list stays inside its budget with several projects, one of them unreadable', async t => {
   const f = await fixture(t);
-  for (const [name, profile] of [['Uno', 'general'], ['Dos', 'research'], ['Tres', 'media'], ['Cuatro', 'general']]) {
+  for (const [name, profile] of [['Uno', 'personal'], ['Dos', 'research'], ['Tres', 'content'], ['Cuatro', 'personal']]) {
     const project = await f.add(name, profile);
     await f.read(project.id);
   }
-  const gone = await f.add('Cinco', 'general');
+  const gone = await f.add('Cinco', 'personal');
   await rm(gone.root, { recursive: true, force: true });
   const started = performance.now();
   const listed = await f.service.listProjects();
@@ -369,7 +369,7 @@ test('the list stays inside its budget with several projects, one of them unread
 
 test('a project whose answers are already saved is never sent to a blank wizard', async t => {
   const f = await fixture(t);
-  const project = await f.add('Proyecto con carpeta cambiada', 'general');
+  const project = await f.add('Proyecto con carpeta cambiada', 'personal');
   await f.read(project.id);
   assert.equal(row(await f.service.listProjects(), 'Proyecto con carpeta cambiada').state, 'verified');
 
@@ -390,7 +390,7 @@ test('a project whose answers are already saved is never sent to a blank wizard'
 
   // Only a project that never had answers starts the wizard.
   const blank = guideSteps({ profile: null, required: ['base', 'context'],
-    stages: [{ id: 'base', state: 'not-prepared' }, { id: 'context', state: 'not-prepared' }] }, recipesFor('general'));
+    stages: [{ id: 'base', state: 'not-prepared' }, { id: 'context', state: 'not-prepared' }] }, recipesFor('personal'));
   assert.equal(blank[0].action, 'prepare-project');
   assert.match(blank[0].title, /Falta guardar tus elecciones/);
 });

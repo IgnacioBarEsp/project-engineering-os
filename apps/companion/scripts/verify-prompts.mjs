@@ -9,7 +9,7 @@ import { clearsTheFloor, createInferenceClient, projectDataIn, shareableFacts,
 
 // What the four levels actually do on this machine, written down instead of asserted.
 //
-// The level that needs no model is measured for the five profiles and kept whole, so "the application is
+// The level that needs no model is measured for the six profiles and kept whole, so "the application is
 // complete without a model" can be read rather than believed. The level that uses a model on this machine is
 // measured against whatever is actually answering here: the model, the elapsed time, and whether what it
 // wrote cleared the floor. A provider that is dead or slow is measured against a real server that behaves
@@ -25,12 +25,14 @@ const SELECTIONS = {
     goal: 'Comparar cómo se midió el resultado en cada fuente', agents: ['web'] },
   software: { name: 'Servicio de presupuesto', profile: 'software', experience: 'familiar', role: 'developer',
     goal: 'Entender cómo se calcula el presupuesto antes de cambiarlo', agents: ['codex'] },
-  unity: { name: 'Prototipo de juego', profile: 'unity', experience: 'guided', role: 'developer',
-    goal: 'Localizar cómo se calcula el puntaje antes de ajustarlo', agents: ['cursor'] },
-  media: { name: 'Serie de imágenes', profile: 'media', experience: 'guided', role: 'creator',
+  studies: { name: 'Presentación de clase', profile: 'studies', focus: 'presentation', experience: 'guided',
+    goal: 'Explicar los resultados en clase', agents: ['web'] },
+  content: { name: 'Serie de imágenes', profile: 'content', focus: 'creative', experience: 'guided',
     goal: 'Conservar la receta que produjo cada pieza', agents: ['web'] },
-  general: { name: 'Trabajo de la semana', profile: 'general', experience: 'guided', role: 'general',
+  business: { name: 'Trabajo de la semana', profile: 'business', focus: 'report', experience: 'guided',
     goal: 'Entregar el informe del mes con sus datos comprobados', agents: ['web'] },
+  personal: { name: 'Notas', profile: 'personal', focus: 'notes', experience: 'guided',
+    goal: 'Ordenar las notas del mes', agents: ['web'] },
 };
 // A fixture with a file whose NAME is sensitive, which is the point: it may not appear anywhere.
 const INVENTORY = { files: [
@@ -48,7 +50,7 @@ const record = { date: new Date().toISOString(), bounds: { detectMs: DETECT_TIME
   providerMs: PROVIDER_TIMEOUT_MS, maxOutputTokens: MAX_OUTPUT_TOKENS }, levels: {}, findings: [] };
 const complain = value => record.findings.push(value);
 
-// Level 0, for the five profiles, kept whole.
+// Level 0, for the six profiles, kept whole.
 record.levels.templates = { profiles: {} };
 for (const [profile, selection] of Object.entries(SELECTIONS)) {
   const composed = projectPromptFor({ selection, inventory: INVENTORY,
@@ -62,7 +64,7 @@ for (const [profile, selection] of Object.entries(SELECTIONS)) {
 const texts = Object.values(record.levels.templates.profiles).map(entry => entry.characters);
 record.levels.templates.distinct = new Set(Object.entries(SELECTIONS)
   .map(([, selection]) => projectPromptFor({ selection, inventory: INVENTORY }).text)).size;
-if (record.levels.templates.distinct !== 5) complain(`Solo ${record.levels.templates.distinct} de 5 textos son distintos`);
+if (record.levels.templates.distinct !== Object.keys(SELECTIONS).length) complain(`Solo ${record.levels.templates.distinct} de ${Object.keys(SELECTIONS).length} textos son distintos`);
 record.levels.templates.shortest = Math.min(...texts);
 record.levels.templates.investigation = investigationPrompt(SELECTIONS.software).length;
 

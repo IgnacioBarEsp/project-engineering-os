@@ -3,12 +3,12 @@ import assert from 'node:assert/strict';
 import { mkdir, mkdtemp, realpath, rm, writeFile, readFile, readdir, symlink, link } from 'node:fs/promises';
 import path from 'node:path';
 import { tmpdir } from 'node:os';
-import { spawn } from 'node:child_process';
 import { rmSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { RUNTIME_CATALOG, NPM_DISTRIBUTIONS } from '../runtime/catalog.mjs';
 import { json, hash, withLock } from '../engine/files.mjs';
 import { createRuntimeManager } from '../runtime/manager.mjs';
+import { ownedCrashFixture } from './helpers/owned-crash-fixture.mjs';
 import { distributionIdentity, distributionKey, distributionSlot, identityOf, npmDistribution,
   defaultNpmKey, readNpmSelection, npmReceipt, checkNpmReceipt, beginNpmOperation,
   commitNpmSelection, rollbackNpmSelection, finishNpmOperation, NPM_SELECTION, NPM_OPERATION } from '../runtime/distribution-identity.mjs';
@@ -73,33 +73,40 @@ test('manager installs only official full identity, preserves legacy slot and re
 });
 
 test('interrupted repair restores only the journal-owned unchanged quarantine, and retains project/history bytes', {skip:process.platform!=='win32'||process.arch!=='x64',timeout:90000},async t=>{
-  const root=await fixture(t),manager=await createRuntimeManager({root}),installed=await manager.install('npm');
-  await writeFile(path.join(root,'project.txt'),'user project');await writeFile(path.join(installed.root,'bin/npm-cli.js'),'corrupt original retained');
-  const before=await readFile(path.join(root,NPM_SELECTION));
+  const owned=await ownedCrashFixture(t),root=owned.root;
+  const manager=await owned.run(()=>createRuntimeManager({root})),installed=await owned.run(()=>manager.install('npm'));
+  await owned.run(()=>writeFile(path.join(root,'project.txt'),'user project'));await owned.run(()=>writeFile(path.join(installed.root,'bin/npm-cli.js'),'corrupt original retained'));
+  const before=await owned.run(()=>readFile(path.join(root,NPM_SELECTION)));
   const module=fileURLToPath(new URL('../runtime/manager.mjs',import.meta.url));
-  const child=spawn(process.execPath,['--input-type=module','-e',`import {pathToFileURL} from 'node:url';const {createRuntimeManager}=await import(pathToFileURL(process.argv[1]));const m=await createRuntimeManager({root:process.argv[2]});const p=await m.planRepair('npm');await m.repair(p.id,{onProgress(e){if(e.stage==='npm-quarantined')process.kill(process.pid,'SIGKILL');}});`,module,root],{windowsHide:true,stdio:['ignore','pipe','pipe']});
-  let error='';child.stderr.on('data',b=>error+=b);const exit=await new Promise(resolve=>child.once('exit',(code,signal)=>resolve({code,signal})));assert.ok(exit.code!==0||exit.signal,error);
-  assert.ok((await readdir(root)).includes(NPM_OPERATION));const restarted=await createRuntimeManager({root});
-  assert.equal((await restarted.inspect('npm')).status,'requires-action');assert.deepEqual(await readFile(path.join(root,NPM_SELECTION)),before);
-  assert.equal(await readFile(path.join(installed.root,'bin/npm-cli.js'),'utf8'),'corrupt original retained');
-  assert.equal(await readFile(path.join(root,'project.txt'),'utf8'),'user project');
-  const repair=await restarted.planRepair('npm');await restarted.repair(repair.id);assert.equal((await restarted.inspect('npm')).status,'verified');
+  const child=owned.start(`import {pathToFileURL} from 'node:url';const {createRuntimeManager}=await import(pathToFileURL(process.argv[1]));const m=await createRuntimeManager({root:process.argv[2]});const p=await m.planRepair('npm');await m.repair(p.id,{onProgress(e){if(e.stage==='npm-quarantined'){recordCrashPoint(e.stage);process.kill(process.pid,'SIGKILL');}}});`,[module,root],{point:'npm-quarantined'});
+  const exit=await owned.waitForCrash(child);assert.ok(exit.code!==0||exit.signal,exit.stderr);
+  t.signal.throwIfAborted();
+  assert.ok((await owned.run(()=>readdir(root))).includes(NPM_OPERATION));const restarted=await owned.run(()=>createRuntimeManager({root}));
+  assert.equal((await owned.run(()=>restarted.inspect('npm'))).status,'requires-action');assert.deepEqual(await owned.run(()=>readFile(path.join(root,NPM_SELECTION))),before);
+  assert.equal(await owned.run(()=>readFile(path.join(installed.root,'bin/npm-cli.js'),'utf8')),'corrupt original retained');
+  assert.equal(await owned.run(()=>readFile(path.join(root,'project.txt'),'utf8')),'user project');
+  const repair=await owned.run(()=>restarted.planRepair('npm'));await owned.run(()=>restarted.repair(repair.id));assert.equal((await owned.run(()=>restarted.inspect('npm'))).status,'verified');
 });
 
-test('real process interruption at publication and selector-write rolls back journal-owned selection on restart', {skip:process.platform!=='win32'||process.arch!=='x64',timeout:90000},async t=>{
-  for(const point of ['npm-published','npm-selection-written','npm-confirmed']) {
-    const root=await fixture(t),managerFile=fileURLToPath(new URL('../runtime/manager.mjs',import.meta.url));
-    const child=spawn(process.execPath,['--input-type=module','-e',`import {pathToFileURL} from 'node:url';const {createRuntimeManager}=await import(pathToFileURL(process.argv[1]));const m=await createRuntimeManager({root:process.argv[2]});await m.install('npm',{onProgress(e){if(e.stage===process.argv[3])process.kill(process.pid,'SIGKILL');}});`,managerFile,root,point],{windowsHide:true,stdio:['ignore','pipe','pipe']});
-    let error='';child.stderr.on('data',b=>error+=b);const ended=await new Promise(resolve=>child.once('exit',(code,signal)=>resolve({code,signal})));assert.ok(ended.code!==0||ended.signal,error);
-    if(point!=='npm-confirmed')assert.ok((await readdir(root)).includes(NPM_OPERATION));
-    const restarted=await createRuntimeManager({root});
-    if(point==='npm-confirmed')assert.equal((await readNpmSelection(root)).value.generation,1);
-    else assert.equal((await readNpmSelection(root)).hash,null);
-    assert.equal((await restarted.inspect('npm')).status,'verified');
-    assert.equal((await restarted.install('npm')).status,'verified','The archived completed journal must not strand the shared lock.');
-    assert.ok((await readdir(root)).some(n=>n.startsWith('npm-operation-')));assert.ok(!(await readdir(root)).includes(NPM_OPERATION));
-  }
-});
+for(const [point,name] of [
+  ['npm-published','real process interruption at npm-published rolls back journal-owned selection on restart'],
+  ['npm-selection-written','real process interruption at npm-selection-written rolls back journal-owned selection on restart'],
+  ['npm-confirmed','real process interruption at npm-confirmed preserves confirmed selection on restart']
+]) {
+  test(name, {skip:process.platform!=='win32'||process.arch!=='x64',timeout:90000},async t=>{
+    const owned=await ownedCrashFixture(t),root=owned.root,managerFile=fileURLToPath(new URL('../runtime/manager.mjs',import.meta.url));
+    const child=owned.start(`import {pathToFileURL} from 'node:url';const {createRuntimeManager}=await import(pathToFileURL(process.argv[1]));const m=await createRuntimeManager({root:process.argv[2]});await m.install('npm',{onProgress(e){if(e.stage===process.argv[3]){recordCrashPoint(e.stage);process.kill(process.pid,'SIGKILL');}}});`,[managerFile,root,point],{point});
+    const ended=await owned.waitForCrash(child);assert.ok(ended.code!==0||ended.signal,ended.stderr);
+    t.signal.throwIfAborted();
+    if(point!=='npm-confirmed')assert.ok((await owned.run(()=>readdir(root))).includes(NPM_OPERATION));
+    const restarted=await owned.run(()=>createRuntimeManager({root}));
+    if(point==='npm-confirmed')assert.equal((await owned.run(()=>readNpmSelection(root))).value.generation,1);
+    else assert.equal((await owned.run(()=>readNpmSelection(root))).hash,null);
+    assert.equal((await owned.run(()=>restarted.inspect('npm'))).status,'verified');
+    assert.equal((await owned.run(()=>restarted.install('npm'))).status,'verified','The archived completed journal must not strand the shared lock.');
+    assert.ok((await owned.run(()=>readdir(root))).some(n=>n.startsWith('npm-operation-')));assert.ok(!(await owned.run(()=>readdir(root))).includes(NPM_OPERATION));
+  });
+}
 
 test('removing a published slot before confirmation rejects without advancing selection',{skip:process.platform!=='win32'||process.arch!=='x64',timeout:60000},async t=>{
   const root=await fixture(t),manager=await createRuntimeManager({root});

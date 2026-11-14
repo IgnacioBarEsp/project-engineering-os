@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "companion-management-first-refinement",
+  "date": "2026-09-30",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Scoped technical assessment of management-first renderer and disclosure-test migration. Existing service capabilities, ownership, hashes, reviewed copy and recovery remain unchanged; normalized profile/focus are passed when reusing preparation from detail, and folding navigation preserves current-project identity, busy and focus boundaries. No new technical defect deferred in this bounded change. Not visual acceptance, independent review or a clean-wave/merge claim: complete integration and final evidence remain required; npm official-release-only blocker #204 and human gates remain open. Preserve prior immutable assessments; see management-validation.md for observed tree and test scopes."
+}

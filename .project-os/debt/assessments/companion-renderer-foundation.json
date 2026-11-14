@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-24",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "No se introducen dependencias de runtime ni servicios de pago. El código y CSS de las pantallas transitorias permanece por alcance explícito hasta #145–#149, no como deuda nueva sin dueño. Se retiraron 250 líneas de estilos de prototipo sin consumidores y se añadieron pruebas de correspondencia exacta de assets, rutas, CSP, interacción y mutaciones. La revisión adversarial y el CI del PR se registran aparte y no se atribuyen aquí a una persona independiente.",
+  "flow": "companion-renderer-foundation"
+}

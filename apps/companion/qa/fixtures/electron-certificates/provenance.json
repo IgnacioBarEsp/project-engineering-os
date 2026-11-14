@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "issue": 218,
+  "approval": "7af8a2a298e1281b1c7230539a7472550ba94d9b",
+  "amendment": "2d2d28cd6a8d270d23f6920177b7d45a4c713bd3",
+  "generatedAt": "2026-11-13T18:19:47.749Z",
+  "intendedLifetimeDays": 365,
+  "scope": "PUBLIC TEST DATA: two localhost keys generated once. No service/account use, real CA private key or host trust mutation.",
+  "generator": {
+    "tool": "C:/Program Files/Git/usr/bin/openssl.exe",
+    "sha256": "78340fb01dea2df5caab73dcf28833b31329226a4c9e02f717f1d399592265b9",
+    "initialHelperSha256": "b28862097455c92398508940a1ed0ab53e0c71d6c5a66882da6e182a9751055d",
+    "initialConfigSha256": "becfdb1fbb5e4ae290ed5c0fa6ae547bab43bec22baf205fec808401b15a6921",
+    "completionHelperSha256": "c21f30f701ec0b76d88c53145b101003349eb702c5bb65497ab345b725416250",
+    "completionConfigSha256": "774f8d830e7e5ab4e6e6c1c853d8457cfaebb5fd8987b4df382d8105a59d521b",
+    "completionArgs": [
+      "x509",
+      "-new",
+      "-key",
+      "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\codex-security-artifacts-0087aeee0b2378d0145d65d1da7d565338913379588a04cabe2e60c186b1dd36\\artifacts\\wave3-current\\electron218\\fixtures\\trusted.key",
+      "-set_subject",
+      "/CN=localhost/O=PEOS TEST ONLY TRUSTED",
+      "-days",
+      "365",
+      "-sha256",
+      "-set_serial",
+      "1",
+      "-extfile",
+      "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\codex-security-artifacts-0087aeee0b2378d0145d65d1da7d565338913379588a04cabe2e60c186b1dd36\\artifacts\\wave3-current\\electron218\\trusted-fixture-completion.conf",
+      "-extensions",
+      "trusted",
+      "-out",
+      "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\codex-security-artifacts-0087aeee0b2378d0145d65d1da7d565338913379588a04cabe2e60c186b1dd36\\artifacts\\wave3-current\\electron218\\fixtures\\trusted.pem"
+    ]
+  },
+  "files": {
+    "blocked-intermediate.pem": {
+      "sha256": "4fff198fb2c913407a63f13a6884bfe5781ced50f6b129e83a6595180a4fcb3c",
+      "bytes": 1242
+    },
+    "trusted.key": {
+      "sha256": "37b95aa0fc33e8b675f96bdd593ccfe68d27b2078a5bbfad53a8bbb75d31c8e0",
+      "bytes": 1704
+    },
+    "trusted.pem": {
+      "sha256": "d139e5cb2c945d4daa0467396c09ce92f38e5b09a5cc40bf0f62c1277d83eb0b",
+      "bytes": 1220
+    },
+    "untrusted.key": {
+      "sha256": "0011e17be7e8e8776def4213253cc9763483c7b46a556aa06a5ca23b9db1396d",
+      "bytes": 1708
+    },
+    "untrusted.pem": {
+      "sha256": "0b2e9d2125696fb13f079c74aa8d6b87778b4fefc420fe3d2933ecd1a9d834fd",
+      "bytes": 1233
+    }
+  },
+  "certs": {
+    "trusted": {
+      "subject": "CN=localhost\nO=PEOS TEST ONLY TRUSTED",
+      "issuer": "CN=localhost\nO=PEOS TEST ONLY TRUSTED",
+      "validFrom": "Nov 13 18:19:47 2026 GMT",
+      "validTo": "Nov 13 18:19:47 2027 GMT",
+      "ca": true,
+      "publicKeyType": "rsa",
+      "spki": "a07bfb6a56b9fb643dedcc272ef9ddb58c2bf39c560d5b7d84156526425f51ff",
+      "ownSignatureValid": true,
+      "authorityKeyIdentifierPresent": false
+    },
+    "untrusted": {
+      "subject": "CN=localhost\nO=PEOS TEST ONLY UNTRUSTED",
+      "issuer": "C=US\nO=eMudhra Inc\nCN=EM DV TLS CA - G3C",
+      "validFrom": "Nov 13 18:15:39 2026 GMT",
+      "validTo": "Nov 13 18:15:39 2027 GMT",
+      "ca": false,
+      "publicKeyType": "rsa",
+      "spki": "fea97949f8ed18b642db34696aa1f7dcb94643778ec1c839eabd618babbd3a7d",
+      "ownSignatureValid": true,
+      "authorityKeyIdentifierPresent": false
+    }
+  },
+  "preFreezeCompletion": {
+    "keyGenerationSets": 1,
+    "keysGenerated": 2,
+    "certificateIssuances": 3,
+    "initialTrustedCertificateSha256": "a0b0f47e6fb8b21f202dada0fcece21a3f16ec9e0f4c64b45b34715d27a928f4",
+    "initialRetained": true,
+    "reason": "Before freeze, complete the same fixture set using the SAME trusted key: trusted explicit anchor requires CA/keyCertSign usage. No extra random key or runtime execution. Preserve initial certificate and generator exit1.",
+    "hostCheckerIssue": "Host OpenSSL3.5 checkIssued rejects RSA signature vs EC issuer algorithm; exact target BoringSSL issuer selection does not check that algorithm at selection. Original check was an inappropriate host-library oracle; target9-case expectations unchanged."
+  },
+  "publicCertificate": {
+    "url": "https://repository.emsign.com/certs/EMDVTLSCAG3C.crt",
+    "sha256": "4fff198fb2c913407a63f13a6884bfe5781ced50f6b129e83a6595180a4fcb3c",
+    "license": "Public certificate data only; no invented grant"
+  },
+  "runtimeExecuted": false
+}

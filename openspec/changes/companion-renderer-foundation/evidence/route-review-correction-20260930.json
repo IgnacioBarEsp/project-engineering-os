@@ -1,0 +1,933 @@
+[
+  {
+    "stage": "before-cleanup",
+    "raw": "C:/Users/RitualDesktop/AppData/Local/Temp/peos-144-route-guard-before-cleanup/interface-contract.json",
+    "sha256": "cda8e4d60cdd1a2bda679ecefc9dcbcd129764091cc883c12d034d94016991b4",
+    "date": "2026-10-01T04:43:48.516Z",
+    "provenance": null,
+    "summary": {
+      "mutations": 46,
+      "detected": 46,
+      "constructionProbes": 1,
+      "constructionHeld": 1,
+      "findings": 1,
+      "screens": 11,
+      "screensCounted": [
+        "inicio",
+        "ayuda",
+        "asistente",
+        "tus proyectos",
+        "mi proyecto",
+        "tu IA",
+        "tecnología",
+        "diálogo de un término",
+        "ancho mínimo",
+        "lista vacía",
+        "lista con error"
+      ],
+      "routes": {
+        "declared": 23,
+        "rendered": 21,
+        "missing": [
+          "stack-choice",
+          "ready"
+        ],
+        "problems": []
+      },
+      "wizard": {
+        "runs": 6,
+        "screensMeasured": 36,
+        "controlsMeasured": 318,
+        "controlsReachable": 318
+      },
+      "copies": {
+        "ok": 2,
+        "refused": 2,
+        "transport": 2,
+        "ok-then-refused": 2
+      },
+      "denominators": {
+        "inicio": {
+          "contrast": 36,
+          "vocabularyChars": 1818,
+          "controls": 9
+        },
+        "ayuda": {
+          "contrast": 88,
+          "vocabularyChars": 1998,
+          "controls": 7
+        },
+        "asistente": {
+          "contrast": 68,
+          "vocabularyChars": 2423,
+          "controls": 33
+        },
+        "tus proyectos": {
+          "contrast": 36,
+          "vocabularyChars": 1026,
+          "controls": 16
+        },
+        "mi proyecto": {
+          "contrast": 69,
+          "vocabularyChars": 2368,
+          "controls": 31
+        },
+        "tu IA": {
+          "contrast": 52,
+          "vocabularyChars": 2325,
+          "controls": 23
+        },
+        "tecnología": {
+          "contrast": 23,
+          "vocabularyChars": 1037,
+          "controls": 7
+        }
+      }
+    },
+    "declared": [
+      "start",
+      "projects",
+      "help",
+      "setup",
+      "folder",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "stack-choice",
+      "ready",
+      "base-review",
+      "stack-review",
+      "repair-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "code-review",
+      "workspace",
+      "connection-error"
+    ],
+    "rendered": [
+      "start",
+      "setup",
+      "folder",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "help",
+      "projects",
+      "workspace",
+      "base-review",
+      "stack-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "repair-review",
+      "code-review",
+      "connection-error"
+    ],
+    "missing": [
+      "stack-choice",
+      "ready"
+    ],
+    "runs": [
+      {
+        "kind": "fixed-service",
+        "observations": [
+          {
+            "id": "start",
+            "heading": "Dale a tu IAun buen punto de partida.",
+            "breadcrumb": "INICIO",
+            "active": [
+              "open-start"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "setup",
+            "heading": "Empecemos por lo que quieres lograr.",
+            "breadcrumb": "PREPARAR PROYECTO / TU PROYECTO",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "folder",
+            "heading": "Tu trabajo empieza en una carpeta.",
+            "breadcrumb": "PREPARAR PROYECTO / CARPETA",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "delimitation",
+            "heading": "¿Cuál es el enfoque principal de tu proyecto?",
+            "breadcrumb": "PREPARAR PROYECTO / ENFOQUE",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "vision",
+            "heading": "Cuéntanos en tus palabras: ¿qué quieres lograr?",
+            "breadcrumb": "PREPARAR PROYECTO / VISIÓN",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "install",
+            "heading": "Tu espacio está listo. ¿Cómo prefieres equiparlo?",
+            "breadcrumb": "PREPARAR PROYECTO / PREPARAR",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "finished",
+            "heading": "¡Tu proyecto está listo para cobrar vida!",
+            "breadcrumb": "PREPARAR PROYECTO / LISTO",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "help",
+            "heading": "Ayuda",
+            "breadcrumb": "AYUDA",
+            "active": [
+              "open-help"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "projects",
+            "heading": "Tus proyectos",
+            "breadcrumb": "TUS PROYECTOS",
+            "active": [
+              "open-project-list"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "workspace",
+            "heading": "Carpeta de prueba",
+            "breadcrumb": "TU PROYECTO / ESTADO",
+            "active": [
+              "open-project-list"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "base-review",
+            "heading": "Esto es lo que se va a escribir.",
+            "breadcrumb": "PREPARAR PROYECTO / REVISAR PREPARACIÓN",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "stack-review",
+            "heading": "Esto es lo que tu proyecto parece necesitar.",
+            "breadcrumb": "PREPARAR PROYECTO / TECNOLOGÍA",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "environment-review",
+            "heading": "Tus herramientas, listas en este equipo.",
+            "breadcrumb": "PREPARAR PROYECTO / HERRAMIENTAS",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "engineering-review",
+            "heading": "Un proceso claro para desarrollar.",
+            "breadcrumb": "PREPARAR PROYECTO / DESARROLLO",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "activation-review",
+            "heading": "Un método de trabajo para tu IA.",
+            "breadcrumb": "PREPARAR PROYECTO / MÉTODO",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "context-review",
+            "heading": "Tus archivos, leídos y ubicables.",
+            "breadcrumb": "PREPARAR PROYECTO / ARCHIVOS",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "sync-review",
+            "heading": "Conectemos lo leído con las instrucciones.",
+            "breadcrumb": "PREPARAR PROYECTO / INSTRUCCIONES",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "context-final",
+            "heading": "Una última pasada al resumen.",
+            "breadcrumb": "PREPARAR PROYECTO / ÚLTIMA PASADA",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "workspace",
+            "heading": "Carpeta de prueba",
+            "breadcrumb": "TU PROYECTO / ESTADO",
+            "active": [
+              "open-project-list"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "repair-review",
+            "heading": "Recuperemos tus herramientas.",
+            "breadcrumb": "PREPARAR PROYECTO / HERRAMIENTAS",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "workspace",
+            "heading": "Carpeta de prueba",
+            "breadcrumb": "TU PROYECTO / ESTADO",
+            "active": [
+              "open-project-list"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "code-review",
+            "heading": "Encuentra las piezas de tu código.",
+            "breadcrumb": "PREPARAR PROYECTO / MAPA DE CÓDIGO",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "workspace",
+            "heading": "Carpeta de prueba",
+            "breadcrumb": "TU PROYECTO / ESTADO",
+            "active": [
+              "open-project-list"
+            ],
+            "visited": true,
+            "busy": "false"
+          }
+        ],
+        "problems": []
+      },
+      {
+        "kind": "missing-native-api",
+        "observations": [
+          {
+            "id": "connection-error",
+            "heading": "No se pudo conectar con la aplicación.",
+            "breadcrumb": "INICIO",
+            "active": [
+              "open-start"
+            ],
+            "visited": true,
+            "busy": "false"
+          }
+        ],
+        "problems": []
+      }
+    ],
+    "negative": {
+      "id": "a-declared-route-never-rendered-by-the-journey",
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "declared": [
+        "reviewer-unvisited-route",
+        "start",
+        "projects",
+        "help",
+        "setup",
+        "folder",
+        "delimitation",
+        "vision",
+        "install",
+        "finished",
+        "stack-choice",
+        "ready",
+        "base-review",
+        "stack-review",
+        "repair-review",
+        "environment-review",
+        "engineering-review",
+        "activation-review",
+        "context-review",
+        "sync-review",
+        "context-final",
+        "code-review",
+        "workspace",
+        "connection-error"
+      ],
+      "rendered": [
+        "start",
+        "setup",
+        "folder",
+        "delimitation",
+        "vision",
+        "install",
+        "finished",
+        "help",
+        "projects",
+        "workspace",
+        "base-review",
+        "stack-review",
+        "environment-review",
+        "engineering-review",
+        "activation-review",
+        "context-review",
+        "sync-review",
+        "context-final",
+        "repair-review",
+        "code-review",
+        "connection-error"
+      ],
+      "missing": [
+        "reviewer-unvisited-route",
+        "stack-choice",
+        "ready"
+      ],
+      "problems": [
+        "Rutas declaradas no renderizadas: reviewer-unvisited-route, stack-choice, ready"
+      ],
+      "runProblems": []
+    },
+    "findings": [
+      "Rutas declaradas no renderizadas: stack-choice, ready"
+    ]
+  },
+  {
+    "stage": "final",
+    "raw": "C:/Users/RitualDesktop/AppData/Local/Temp/peos-144-route-guard-final/interface-contract.json",
+    "sha256": "499a9566489a01aa36636ca42f765455e5c2dddd161c5f29ee469dabf08b926f",
+    "date": "2026-10-01T04:47:33.911Z",
+    "provenance": {
+      "commit": "49378d70a89302fa0be347d4e6e71fd9a9179c07",
+      "dirty": true,
+      "rendererHashes": {
+        "index.html": "98d14d0a373e41b3ecc8af558a3eec288bd1c5bfafa0c3eaa16eb3cea1beca01",
+        "app.css": "3cff3cc14d2fffb3f1aef0b743ba7258113b93e4a95e7edd79e88d663e575607",
+        "tokens.css": "14abdae1119244a7a24a8c78b5e6212880c4e5c55d918288286ffda37ef14a17",
+        "layout.css": "5d86b5ebd2c892238ef681bb27507695b50fb4dbd41e3bb0b501bd0ddd57c709",
+        "components.css": "c8cddb93fd9e9552e130a8e3d68262600f8d0cde29e6435d60b8e0067b0b904c",
+        "pages.css": "f376cad0e4916ba1fe993ff8dee466be735a82347eab0af13a37acc71d330d64",
+        "icons.svg": "3200ad64a9a30eb35d55e5fd43a44e7e1a54e19f417c0c7baee47368aa3ad26f",
+        "favicon.svg": "fb1e7bd02a3f7c343403a05dfcc31671770b07583829508ee258f8216c96adca",
+        "app.mjs": "a884611bbcced98d09e21a4b30aeb9b4ac3b17f944f602ab171121b710c998d3",
+        "glossary.mjs": "d8147d778179302b453f17c2fd0cf35e359eceee3c1ae86fce2e7806653b4980",
+        "lib/bridge.mjs": "35e4115fcab2ca07eef9d74c57cf831f9c86a2375761cc542c3302b8ee6dbbec",
+        "lib/core.mjs": "e4ec4cca83157c1a079eb983e932fc9b44754776cab1f71bc3eb16306ab68e70",
+        "lib/dom.mjs": "fc7520bece4ce7bbc7280ae322ab588ec934b943d0e74510a34fdb7b152d525d",
+        "lib/router.mjs": "c0905cb3be0a0b2bc67214953eecfbd9820d72a6d5979f3c7fd3becec93c70f9",
+        "lib/state.mjs": "d5e3f0d281ff697b39aafa534f5429c35801ab9cd0a456c14e79e63d35017ca7",
+        "components/actions-bar.mjs": "4355f3e75b215c99e7d1c59795c3fdf8a4f8cc73ffb530f67ccd5ab049b88387",
+        "components/step-rail.mjs": "84d91193fec15dc96779ba1b9be00ea88d4571c7030c5a7c081eef371497c34b",
+        "screens/home.mjs": "b154f305cbbb3d213b343854f29a872c4e43e1f85bf1984489cd4a0b071b9259",
+        "screens/setup.mjs": "c01393344a7bba9ebeac9c2f743d4e8a8974c8f30eea4a492b4614b949cff1eb",
+        "screens/flow.mjs": "bad7ef125d433fc36e8fd86be7d01927e15732b39133aeb58f859faa0d1bede1",
+        "screens/reviews.mjs": "770eea9aab4b7ee979593c4cac108e8fd56b243978e4b1ac826af928ae27e22a",
+        "screens/workspace.mjs": "7a449b96be131ae4879e90d877bc9febfe4d23fc8dc85b858645381b3cfc1575"
+      },
+      "harnessSha256": "c85b820d37fe4adda219bc1878c1b54110088f256c714cf62966fc9a429d7303",
+      "routeGateSha256": "23f1f17cf546abeafd312ca706b6351d2153a3474807d30c6351635ac709eb30"
+    },
+    "summary": {
+      "mutations": 46,
+      "detected": 46,
+      "constructionProbes": 1,
+      "constructionHeld": 1,
+      "findings": 0,
+      "screens": 11,
+      "screensCounted": [
+        "inicio",
+        "ayuda",
+        "asistente",
+        "tus proyectos",
+        "mi proyecto",
+        "tu IA",
+        "tecnología",
+        "diálogo de un término",
+        "ancho mínimo",
+        "lista vacía",
+        "lista con error"
+      ],
+      "routes": {
+        "declared": 21,
+        "rendered": 21,
+        "missing": [],
+        "problems": []
+      },
+      "wizard": {
+        "runs": 6,
+        "screensMeasured": 36,
+        "controlsMeasured": 318,
+        "controlsReachable": 318
+      },
+      "copies": {
+        "ok": 2,
+        "refused": 2,
+        "transport": 2,
+        "ok-then-refused": 2
+      },
+      "denominators": {
+        "inicio": {
+          "contrast": 36,
+          "vocabularyChars": 1818,
+          "controls": 9
+        },
+        "ayuda": {
+          "contrast": 88,
+          "vocabularyChars": 1998,
+          "controls": 7
+        },
+        "asistente": {
+          "contrast": 68,
+          "vocabularyChars": 2423,
+          "controls": 33
+        },
+        "tus proyectos": {
+          "contrast": 36,
+          "vocabularyChars": 1026,
+          "controls": 16
+        },
+        "mi proyecto": {
+          "contrast": 69,
+          "vocabularyChars": 2368,
+          "controls": 31
+        },
+        "tu IA": {
+          "contrast": 52,
+          "vocabularyChars": 2325,
+          "controls": 23
+        },
+        "tecnología": {
+          "contrast": 23,
+          "vocabularyChars": 1037,
+          "controls": 7
+        }
+      }
+    },
+    "declared": [
+      "start",
+      "projects",
+      "help",
+      "setup",
+      "folder",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "base-review",
+      "stack-review",
+      "repair-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "code-review",
+      "workspace",
+      "connection-error"
+    ],
+    "rendered": [
+      "start",
+      "setup",
+      "folder",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "help",
+      "projects",
+      "workspace",
+      "base-review",
+      "stack-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "repair-review",
+      "code-review",
+      "connection-error"
+    ],
+    "missing": [],
+    "runs": [
+      {
+        "kind": "fixed-service",
+        "observations": [
+          {
+            "id": "start",
+            "heading": "Dale a tu IAun buen punto de partida.",
+            "breadcrumb": "INICIO",
+            "active": [
+              "open-start"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "setup",
+            "heading": "Empecemos por lo que quieres lograr.",
+            "breadcrumb": "PREPARAR PROYECTO / TU PROYECTO",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "folder",
+            "heading": "Tu trabajo empieza en una carpeta.",
+            "breadcrumb": "PREPARAR PROYECTO / CARPETA",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "delimitation",
+            "heading": "¿Cuál es el enfoque principal de tu proyecto?",
+            "breadcrumb": "PREPARAR PROYECTO / ENFOQUE",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "vision",
+            "heading": "Cuéntanos en tus palabras: ¿qué quieres lograr?",
+            "breadcrumb": "PREPARAR PROYECTO / VISIÓN",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "install",
+            "heading": "Tu espacio está listo. ¿Cómo prefieres equiparlo?",
+            "breadcrumb": "PREPARAR PROYECTO / PREPARAR",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "finished",
+            "heading": "¡Tu proyecto está listo para cobrar vida!",
+            "breadcrumb": "PREPARAR PROYECTO / LISTO",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "help",
+            "heading": "Ayuda",
+            "breadcrumb": "AYUDA",
+            "active": [
+              "open-help"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "projects",
+            "heading": "Tus proyectos",
+            "breadcrumb": "TUS PROYECTOS",
+            "active": [
+              "open-project-list"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "workspace",
+            "heading": "Carpeta de prueba",
+            "breadcrumb": "TU PROYECTO / ESTADO",
+            "active": [
+              "open-project-list"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "base-review",
+            "heading": "Esto es lo que se va a escribir.",
+            "breadcrumb": "PREPARAR PROYECTO / REVISAR PREPARACIÓN",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "stack-review",
+            "heading": "Esto es lo que tu proyecto parece necesitar.",
+            "breadcrumb": "PREPARAR PROYECTO / TECNOLOGÍA",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "environment-review",
+            "heading": "Tus herramientas, listas en este equipo.",
+            "breadcrumb": "PREPARAR PROYECTO / HERRAMIENTAS",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "engineering-review",
+            "heading": "Un proceso claro para desarrollar.",
+            "breadcrumb": "PREPARAR PROYECTO / DESARROLLO",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "activation-review",
+            "heading": "Un método de trabajo para tu IA.",
+            "breadcrumb": "PREPARAR PROYECTO / MÉTODO",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "context-review",
+            "heading": "Tus archivos, leídos y ubicables.",
+            "breadcrumb": "PREPARAR PROYECTO / ARCHIVOS",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "sync-review",
+            "heading": "Conectemos lo leído con las instrucciones.",
+            "breadcrumb": "PREPARAR PROYECTO / INSTRUCCIONES",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "context-final",
+            "heading": "Una última pasada al resumen.",
+            "breadcrumb": "PREPARAR PROYECTO / ÚLTIMA PASADA",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "workspace",
+            "heading": "Carpeta de prueba",
+            "breadcrumb": "TU PROYECTO / ESTADO",
+            "active": [
+              "open-project-list"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "repair-review",
+            "heading": "Recuperemos tus herramientas.",
+            "breadcrumb": "PREPARAR PROYECTO / HERRAMIENTAS",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "workspace",
+            "heading": "Carpeta de prueba",
+            "breadcrumb": "TU PROYECTO / ESTADO",
+            "active": [
+              "open-project-list"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "code-review",
+            "heading": "Encuentra las piezas de tu código.",
+            "breadcrumb": "PREPARAR PROYECTO / MAPA DE CÓDIGO",
+            "active": [
+              "prepare-project"
+            ],
+            "visited": true,
+            "busy": "false"
+          },
+          {
+            "id": "workspace",
+            "heading": "Carpeta de prueba",
+            "breadcrumb": "TU PROYECTO / ESTADO",
+            "active": [
+              "open-project-list"
+            ],
+            "visited": true,
+            "busy": "false"
+          }
+        ],
+        "problems": []
+      },
+      {
+        "kind": "missing-native-api",
+        "observations": [
+          {
+            "id": "connection-error",
+            "heading": "No se pudo conectar con la aplicación.",
+            "breadcrumb": "INICIO",
+            "active": [
+              "open-start"
+            ],
+            "visited": true,
+            "busy": "false"
+          }
+        ],
+        "problems": []
+      }
+    ],
+    "negative": {
+      "id": "a-declared-route-never-rendered-by-the-journey",
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "declared": [
+        "reviewer-unvisited-route",
+        "start",
+        "projects",
+        "help",
+        "setup",
+        "folder",
+        "delimitation",
+        "vision",
+        "install",
+        "finished",
+        "base-review",
+        "stack-review",
+        "repair-review",
+        "environment-review",
+        "engineering-review",
+        "activation-review",
+        "context-review",
+        "sync-review",
+        "context-final",
+        "code-review",
+        "workspace",
+        "connection-error"
+      ],
+      "rendered": [
+        "start",
+        "setup",
+        "folder",
+        "delimitation",
+        "vision",
+        "install",
+        "finished",
+        "help",
+        "projects",
+        "workspace",
+        "base-review",
+        "stack-review",
+        "environment-review",
+        "engineering-review",
+        "activation-review",
+        "context-review",
+        "sync-review",
+        "context-final",
+        "repair-review",
+        "code-review",
+        "connection-error"
+      ],
+      "missing": [
+        "reviewer-unvisited-route"
+      ],
+      "problems": [
+        "Rutas declaradas no renderizadas: reviewer-unvisited-route"
+      ],
+      "runProblems": []
+    },
+    "findings": []
+  }
+]

@@ -1,0 +1,239 @@
+{
+  "date": "2026-09-30",
+  "scope": "Own complete browser UI runs on the two named intermediate heads. No native installer, independent review, production audit or maintainer approval is certified.",
+  "failureRecord": {
+    "date": "2026-09-30",
+    "failures": [
+      {
+        "run": 36820222712,
+        "job": 110233995012,
+        "exitCode": 0,
+        "excerpt": "\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9755167Z locator.click: Timeout 30000ms exceeded.\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9755476Z Call log:\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9755856Z   - waiting for \r\nlocator('[data-action=\"review-stack\"]')\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9756723Z     - locator resolved to <button \r\ntype=\"button\" class=\"secondary\" data-action=\"review-stack\">Revisar tecnología del proyecto</button>\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9757277Z   - attempting click action\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9758130Z       - element is not visible\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9758417Z     - retrying click action\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9758678Z     - waiting 20ms\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9759469Z       - element is not visible\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9759795Z     - retrying click action\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9760097Z       - waiting 100ms\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9761013Z        - element is not visible\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9761460Z      - retrying click action\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9761951Z        - waiting 500ms\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9762939Z     at \r\n/home/runner/work/project-engineering-os/project-engineering-os/apps/companion/scripts/verify-ui.mjs:500:80 {\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9763803Z   log: [\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9764489Z     `  - waiting for \r\nlocator('[data-action=\"review-stack\"]')`,\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9765677Z     '    - locator resolved to <button \r\ntype=\"button\" class=\"secondary\" data-action=\"review-stack\">Revisar tecnología del proyecto</button>',\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9766490Z     '  - attempting click action',\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9767624Z     '      - element is not visible',\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9768083Z     '    - retrying click action',\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9768539Z     '    - waiting 20ms',\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9769628Z     '      - element is not visible',\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9770273Z     '    - retrying click action',\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9770792Z     '      - waiting 100ms',\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9772047Z     '       - element is not visible',\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9772469Z     '     - retrying click action',\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:24.9772940Z     '       - waiting 500ms'\r\n\r\n",
+        "scope": "Original CI failure, not counted as a detected negative. Direct click in a closed project disclosure."
+      },
+      {
+        "run": 36820222529,
+        "job": 110233994210,
+        "exitCode": 0,
+        "excerpt": "\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4639624Z locator.click: Timeout 30000ms exceeded.\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4640056Z Call log:\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4640563Z   - waiting for \r\nlocator('[data-action=\"review-stack\"]')\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4642296Z     - locator resolved to <button \r\ntype=\"button\" class=\"secondary\" data-action=\"review-stack\">Revisar tecnología del proyecto</button>\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4643182Z   - attempting click action\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4644278Z       - element is not visible\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4644556Z     - retrying click action\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4644795Z     - waiting 20ms\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4645529Z       - element is not visible\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4645777Z     - retrying click action\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4646363Z       - waiting 100ms\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4647085Z        - element is not visible\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4647337Z      - retrying click action\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4647615Z        - waiting 500ms\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4648194Z     at \r\n/home/runner/work/project-engineering-os/project-engineering-os/apps/companion/scripts/verify-ui.mjs:466:80 {\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4648717Z   log: [\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4649022Z     `  - waiting for \r\nlocator('[data-action=\"review-stack\"]')`,\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4649834Z     '    - locator resolved to <button \r\ntype=\"button\" class=\"secondary\" data-action=\"review-stack\">Revisar tecnología del proyecto</button>',\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4650446Z     '  - attempting click action',\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4651254Z     '      - element is not visible',\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4652053Z     '    - retrying click action',\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4652417Z     '    - waiting 20ms',\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4653189Z     '      - element is not visible',\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4653701Z     '    - retrying click action',\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4653983Z     '      - waiting 100ms',\r\n> CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4654912Z     '       - element is not visible',\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4655201Z     '     - retrying click action',\r\n  CI / Companion / ubuntu-latest\tUNKNOWN STEP\t2026-10-01T05:36:11.4655469Z     '       - waiting 500ms'\r\n\r\n",
+        "scope": "Original CI failure, not counted as a detected negative. Direct click in a closed project disclosure."
+      }
+    ],
+    "fix": "Reuse the already-shipping #150 accessible-name click helper, which activates ancestor summaries normally before the ordinary click. No force, writing details.open, UI change or reduction of probes.",
+    "issue148Before": "8da240470dfa2fd5e019bea6104595445abde5b4",
+    "issue149Before": "4b5429b4b066f732e7a42da7a4820e80351ebef9",
+    "firstFixCommit": "2798be0",
+    "dorArgumentAttempt": "Initial propose invocation used --change and failed arguments without evaluating DoR; retry --issue 148 returned 13 PASS/0 FAIL. This was a one-line harness correction within the already-approved spec, not a new spec approval."
+  },
+  "runs": [
+    {
+      "issue": 148,
+      "sourceCommit": "2798be077b5522a86079651b39ac2495b1fff441",
+      "sourceDirty": false,
+      "command": "node apps/companion/scripts/verify-ui.mjs C:/Users/RitualDesktop/AppData/Local/Temp/peos-148-disclosure-ui-20260930",
+      "runtime": "Node 24.18.0",
+      "exitCode": 0,
+      "records": [
+        {
+          "path": "browser-evidence.json",
+          "sha256": "3F79E67CBB3341F0E22A8E66155E9966674234240411FEF99AB5FF8DADC93106",
+          "scope": "Real renderer and engines in browser; native transport/picker/clipboard/provider injected",
+          "date": "2026-10-01T05:43:30.234Z",
+          "completed": null,
+          "failures": null,
+          "problems": null,
+          "summary": null,
+          "cases": null,
+          "checks": [
+            "Asistente vigente: 20 recorridos (5 ventanas × 2 preferencias de movimiento × 2 formas de instalar), 120 pantallas, 1360 de 1360 controles alcanzables al tocar su centro, 40 de 40 copias con el texto exacto, y una visión sin texto que conserva el objetivo del primer paso en 3 de 3 casos PASS",
+            "research: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+            "software: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+            "studies: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+            "business: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+            "unity: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+            "media: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+            "general: rollback restores prior current context and originals; a subsequent source change removes the ready mark, names missing stages and adds guidance PASS",
+            "general: duplicating reuses the answers, writes nothing into the new folder before the plan is approved, and copies none of the original preparation PASS",
+            "general: recovery rehearsal for one transaction — the file reading was undone from the interface, the application then refused to claim it, the original documents were byte-identical, and reading again restored the state PASS",
+            "general: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+            "La guía difiere entre los 7 perfiles, comparada por sus pasos PASS",
+            "Estado mostrado por fila en la lista: research=verified, software=incomplete, studies=verified, business=verified, unity=incomplete, media=verified, general=verified",
+            "Contraste, orden de encabezados, teclado, nombres accesibles y la regla de vocabulario comprobados en 56 pantallas de las siete variantes de prueba: 0 hallazgos PASS",
+            "788 controles de definición comprobados contra el término que abren: 0 desajustes PASS",
+            "Denominadores: 18–102 elementos medidos para contraste por pantalla, 467–4450 caracteres leídos para vocabulario, 6–38 controles inspeccionados PASS",
+            "One name per action across 11 navigable actions: open-start=\"Inicio\", open-project-list=\"Tus proyectos\", prepare-project=\"Preparar proyecto\", open-help=\"Ayuda\", privacy-scope=\"Privacidad y alcance\", recheck-project=\"Comprobar de nuevo\", resave-base=\"Revisar tus elecciones otra vez\", read-files=\"Leer mis archivos\", review-stack=\"Revisar tecnología del proyecto\", open-workspace=\"Ver mi proyecto\", review-development=\"Revisar desarrollo\" PASS",
+            "No renderer exceptions across five journeys; source markup rendered as text; original documents preserved."
+          ],
+          "screenshots": [
+            "wizard-1180x820-setup-final.png",
+            "wizard-1180x820-install-final.png",
+            "wizard-1160x810-setup-final.png",
+            "wizard-1160x810-install-final.png",
+            "wizard-1040x700-setup-final.png",
+            "wizard-1040x700-install-final.png",
+            "wizard-582x377-setup-final.png",
+            "wizard-582x377-install-final.png",
+            "wizard-464x475-setup-final.png",
+            "wizard-464x475-install-final.png",
+            "home-desktop.png",
+            "research-sources.png",
+            "minimum-equivalent-200-percent.png"
+          ]
+        },
+        {
+          "path": "wizard-reach.json",
+          "sha256": "50768075A914CEEC9DE3AD8FDADCA4D50AB11B0915F1B9015DF779A946A2C842",
+          "scope": "Renderer real y servicio real en el navegador; selector de carpeta, portapapeles y apertura externa inyectados. Asistente vigente en las tres ventanas del informe y en las dos ventanas pequeñas de la aplicación real (por defecto con zoom al 200 % y mínima), con movimiento normal y reducido y con las dos formas de instalar.",
+          "date": "2026-10-01T05:43:30.234Z",
+          "completed": null,
+          "failures": null,
+          "problems": [],
+          "summary": {
+            "runs": 20,
+            "screensExpected": 120,
+            "screensVisited": 120,
+            "controlsMeasured": 1360,
+            "controlsReachable": 1360,
+            "copies": 40,
+            "copiesEqual": 40,
+            "problems": 0
+          },
+          "cases": null,
+          "checks": null,
+          "screenshots": null
+        },
+        {
+          "path": "profile-compatibility/profile-compatibility.json",
+          "sha256": "48BF24238A22D60E36AC74A817E88B6F29131A2DF220C0FACFD12CD9F794F0C2",
+          "scope": "Historical persisted selections with real renderer/service; native boundary injected; no plan applied.",
+          "date": null,
+          "completed": true,
+          "failures": null,
+          "problems": null,
+          "summary": null,
+          "cases": 22,
+          "checks": null,
+          "screenshots": null
+        },
+        {
+          "path": "wizard-isolation/wizard-isolation.json",
+          "sha256": "3224E2BBFA5729DEB0962E045705F2B5217540903241A1965D3397EA83176419",
+          "scope": "Real renderer and service; native boundary injected; synthetic folders.",
+          "date": null,
+          "completed": true,
+          "failures": [],
+          "problems": null,
+          "summary": null,
+          "cases": 10,
+          "checks": null,
+          "screenshots": null
+        }
+      ]
+    },
+    {
+      "issue": 149,
+      "sourceCommit": "576fe028c4d76d32d5e8cd260b96f54ce60aa362",
+      "sourceDirty": false,
+      "command": "node apps/companion/scripts/verify-ui.mjs C:/Users/RitualDesktop/AppData/Local/Temp/peos-149-disclosure-ui-20260930",
+      "runtime": "Node 24.18.0",
+      "exitCode": 0,
+      "records": [
+        {
+          "path": "browser-evidence.json",
+          "sha256": "6068623C0AC2DF004C10050894E09097B0587D586EFBF42FDF21FE31A031C668",
+          "scope": "Real renderer and engines in browser; native transport/picker/clipboard/provider injected",
+          "date": "2026-10-01T05:43:41.104Z",
+          "completed": null,
+          "failures": null,
+          "problems": null,
+          "summary": null,
+          "cases": null,
+          "checks": [
+            "Asistente vigente: 20 recorridos (5 ventanas × 2 preferencias de movimiento × 2 formas de instalar), 120 pantallas, 1340 de 1340 controles alcanzables al tocar su centro, 40 de 40 copias con el texto exacto, y una visión sin texto que conserva el objetivo del primer paso en 3 de 3 casos PASS",
+            "research: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+            "software: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+            "studies: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+            "business: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+            "unity: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+            "media: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+            "general: rollback restores prior current context and originals; a subsequent source change removes the ready mark, names missing stages and adds guidance PASS",
+            "general: duplicating reuses the answers, writes nothing into the new folder before the plan is approved, and copies none of the original preparation PASS",
+            "general: recovery rehearsal for one transaction — the file reading was undone from the interface, the application then refused to claim it, the original documents were byte-identical, and reading again restored the state PASS",
+            "general: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected",
+            "La guía difiere entre los 7 perfiles, comparada por sus pasos PASS",
+            "Estado mostrado por fila en la lista: research=verified, software=incomplete, studies=verified, business=verified, unity=incomplete, media=verified, general=verified",
+            "Contraste, orden de encabezados, teclado, nombres accesibles y la regla de vocabulario comprobados en 56 pantallas de las siete variantes de prueba: 0 hallazgos PASS",
+            "773 controles de definición comprobados contra el término que abren: 0 desajustes PASS",
+            "Denominadores: 18–102 elementos medidos para contraste por pantalla, 492–4475 caracteres leídos para vocabulario, 6–38 controles inspeccionados PASS",
+            "One name per action across 11 navigable actions: open-start=\"Inicio\", open-project-list=\"Tus proyectos\", prepare-project=\"Preparar proyecto\", open-help=\"Ayuda\", privacy-scope=\"Privacidad y alcance\", recheck-project=\"Comprobar de nuevo\", resave-base=\"Revisar tus elecciones otra vez\", read-files=\"Leer mis archivos\", review-stack=\"Revisar tecnología del proyecto\", open-workspace=\"Ver mi proyecto\", review-development=\"Revisar desarrollo\" PASS",
+            "No renderer exceptions across five journeys; source markup rendered as text; original documents preserved."
+          ],
+          "screenshots": [
+            "wizard-1180x820-setup-final.png",
+            "wizard-1180x820-install-final.png",
+            "wizard-1160x810-setup-final.png",
+            "wizard-1160x810-install-final.png",
+            "wizard-1040x700-setup-final.png",
+            "wizard-1040x700-install-final.png",
+            "wizard-582x377-setup-final.png",
+            "wizard-582x377-install-final.png",
+            "wizard-464x475-setup-final.png",
+            "wizard-464x475-install-final.png",
+            "help-faq-desktop.png",
+            "home-desktop.png",
+            "research-sources.png",
+            "minimum-equivalent-200-percent.png"
+          ]
+        },
+        {
+          "path": "wizard-reach.json",
+          "sha256": "580DAFA333EBB0758D5F41688E9ACCC1DDC733010BE6E3FDF5F8F23584DFBC9C",
+          "scope": "Renderer real y servicio real en el navegador; selector de carpeta, portapapeles y apertura externa inyectados. Asistente vigente en las tres ventanas del informe y en las dos ventanas pequeñas de la aplicación real (por defecto con zoom al 200 % y mínima), con movimiento normal y reducido y con las dos formas de instalar.",
+          "date": "2026-10-01T05:43:41.105Z",
+          "completed": null,
+          "failures": null,
+          "problems": [],
+          "summary": {
+            "runs": 20,
+            "screensExpected": 120,
+            "screensVisited": 120,
+            "controlsMeasured": 1340,
+            "controlsReachable": 1340,
+            "copies": 40,
+            "copiesEqual": 40,
+            "problems": 0
+          },
+          "cases": null,
+          "checks": null,
+          "screenshots": null
+        },
+        {
+          "path": "profile-compatibility/profile-compatibility.json",
+          "sha256": "48BF24238A22D60E36AC74A817E88B6F29131A2DF220C0FACFD12CD9F794F0C2",
+          "scope": "Historical persisted selections with real renderer/service; native boundary injected; no plan applied.",
+          "date": null,
+          "completed": true,
+          "failures": null,
+          "problems": null,
+          "summary": null,
+          "cases": 22,
+          "checks": null,
+          "screenshots": null
+        },
+        {
+          "path": "wizard-isolation/wizard-isolation.json",
+          "sha256": "3224E2BBFA5729DEB0962E045705F2B5217540903241A1965D3397EA83176419",
+          "scope": "Real renderer and service; native boundary injected; synthetic folders.",
+          "date": null,
+          "completed": true,
+          "failures": [],
+          "problems": null,
+          "summary": null,
+          "cases": 10,
+          "checks": null,
+          "screenshots": null
+        }
+      ]
+    }
+  ]
+}

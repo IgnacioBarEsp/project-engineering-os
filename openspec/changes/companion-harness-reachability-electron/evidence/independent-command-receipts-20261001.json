@@ -1,0 +1,194 @@
+{
+  "date": "2026-10-01",
+  "compiledBy": "/root, receipts recovered from separate reviewer; this compilation is not an independent verdict.",
+  "sourceCommit": "5706b026200c2f6833bf8561c3b201a3b44f404b",
+  "sourceDirty": false,
+  "sourceSha256": "64f0494cf87577492a88ff2d16fe25cc4e9b5a91cdc82b6db505aa877613a974",
+  "originalDirectory": "C:/Users/RitualDesktop/AppData/Local/Temp/peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c",
+  "independentFinalReport": "Not found in the recovered directory; no complete approval is inferred.",
+  "scope": "Persisted command receipts only. Earlier reviewer-authored reports retain their own SHA and scope. Does not certify installer, production audit, human checks or wave closure.",
+  "receipts": [
+    {
+      "id": "checkout",
+      "reviewer": "/root/wave3_closeout_review — separate Codex agent, not Bugbot",
+      "startedAt": "2026-10-01T05:39:38.902Z",
+      "endedAt": "2026-10-01T05:39:41.205Z",
+      "exe": "git",
+      "args": [
+        "-c",
+        "core.longpaths=true",
+        "checkout",
+        "--detach",
+        "5706b026200c2f6833bf8561c3b201a3b44f404b"
+      ],
+      "cwd": "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\checkout",
+      "exit": 0,
+      "signal": null,
+      "sha256": "A68B019B0CE02D82D689939866F5969CC0F5CD729CCC0AA12E225F2E22DBBA5C"
+    },
+    {
+      "id": "ci-app",
+      "reviewer": "/root/wave3_closeout_review — separate Codex agent, not Bugbot",
+      "startedAt": "2026-10-01T05:40:01.075Z",
+      "endedAt": "2026-10-01T05:40:13.515Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "C:\\Users\\RitualDesktop\\.codex\\worktrees\\wave3-harness\\project-engineering-os\\apps\\companion\\node_modules\\npm\\bin\\npm-cli.js",
+        "ci",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "cwd": "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\checkout\\apps\\companion",
+      "exit": 0,
+      "signal": null,
+      "sha256": "E5BA5BC1DE03FB55D68284B77B95F6F43FEEE3C3DD2738C01C6FC38D3F417AF3"
+    },
+    {
+      "id": "ci-root",
+      "reviewer": "/root/wave3_closeout_review — separate Codex agent, not Bugbot",
+      "startedAt": "2026-10-01T05:39:50.662Z",
+      "endedAt": "2026-10-01T05:40:02.594Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "C:\\Users\\RitualDesktop\\.codex\\worktrees\\wave3-harness\\project-engineering-os\\apps\\companion\\node_modules\\npm\\bin\\npm-cli.js",
+        "ci",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "cwd": "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\checkout",
+      "exit": 0,
+      "signal": null,
+      "sha256": "02A3A3985BB734E59B15A20C4136D5927E6250AF833073445DD8907921E47B2E"
+    },
+    {
+      "id": "clone",
+      "reviewer": "/root/wave3_closeout_review — separate Codex agent, not Bugbot",
+      "startedAt": "2026-10-01T05:39:32.27Z",
+      "endedAt": "2026-10-01T05:39:32.927Z",
+      "exe": "git",
+      "args": [
+        "-c",
+        "core.longpaths=true",
+        "-c",
+        "core.autocrlf=false",
+        "clone",
+        "--no-hardlinks",
+        "--no-checkout",
+        "C:/Users/RitualDesktop/.codex/worktrees/wave3-harness/project-engineering-os",
+        "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\checkout"
+      ],
+      "cwd": "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c",
+      "exit": 0,
+      "signal": null,
+      "sha256": "127FEEDEEE3AD5A453A744367C95DFDA0E3806F023EB0188F9A15C7F23386F60"
+    },
+    {
+      "id": "contract",
+      "reviewer": "/root/wave3_closeout_review — separate Codex agent, not Bugbot",
+      "startedAt": "2026-10-01T05:46:34.861Z",
+      "endedAt": "2026-10-01T05:50:27.477Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "scripts/verify-interface-contract.mjs",
+        "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\contract"
+      ],
+      "cwd": "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\checkout\\apps\\companion",
+      "exit": 0,
+      "signal": null,
+      "sha256": "500B19B11A504ABC93F4B7CF1629F7F63EF3F6E59166ADF45B7407EA7E9BB772"
+    },
+    {
+      "id": "native",
+      "reviewer": "/root/wave3_closeout_review — separate Codex agent, not Bugbot",
+      "startedAt": "2026-10-01T05:42:14.009Z",
+      "endedAt": "2026-10-01T05:42:48.654Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "scripts/verify-electron.mjs",
+        "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\native"
+      ],
+      "cwd": "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\checkout\\apps\\companion",
+      "exit": 0,
+      "signal": null,
+      "sha256": "6205DD72F7750F7B7DD38D7465B7C1AFB99CEB33B3DAD627A03FA9D15DB4BB43"
+    },
+    {
+      "id": "runtime",
+      "reviewer": "/root/wave3_closeout_review — separate Codex agent, not Bugbot",
+      "startedAt": "2026-10-01T05:41:02.323Z",
+      "endedAt": "2026-10-01T05:41:12.485Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\checkout\\apps\\companion\\node_modules\\npm\\bin\\npm-cli.js",
+        "run",
+        "runtime:install"
+      ],
+      "cwd": "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\checkout\\apps\\companion",
+      "exit": 0,
+      "signal": null,
+      "sha256": "BDC0C7579FE2019558A344048BB2104820BA1DE3DD38751F80102C4D3B3417B7"
+    },
+    {
+      "id": "source-after",
+      "reviewer": "/root/wave3_closeout_review — separate Codex agent, not Bugbot",
+      "startedAt": "2026-10-01T05:54:31.39Z",
+      "endedAt": "2026-10-01T05:54:32.488Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\check-source.mjs",
+        "source-after.json"
+      ],
+      "cwd": "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c",
+      "exit": 0,
+      "signal": null,
+      "sha256": "74DBB0404573829669841C5729AC4F6CB292C79DD266FB3420237A880E5FBEF2"
+    },
+    {
+      "id": "test",
+      "reviewer": "/root/wave3_closeout_review — separate Codex agent, not Bugbot",
+      "startedAt": "2026-10-01T05:41:35.381Z",
+      "endedAt": "2026-10-01T05:43:18.594Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\checkout\\apps\\companion\\node_modules\\npm\\bin\\npm-cli.js",
+        "test"
+      ],
+      "cwd": "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\checkout\\apps\\companion",
+      "exit": 0,
+      "signal": null,
+      "sha256": "F81279773D87138D76B3E04D0B708FB9921203E86394DA8A0E0797F25E2C3EEB"
+    },
+    {
+      "id": "ui",
+      "reviewer": "/root/wave3_closeout_review — separate Codex agent, not Bugbot",
+      "startedAt": "2026-10-01T05:43:32.268Z",
+      "endedAt": "2026-10-01T05:55:34.353Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "scripts/verify-ui.mjs",
+        "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\browser"
+      ],
+      "cwd": "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\checkout\\apps\\companion",
+      "exit": 0,
+      "signal": null,
+      "sha256": "26EC6447EAEC4F84CDCCAC64B8B58FCBCA3F89D8AFB2CE031ABDA69084F973EC"
+    },
+    {
+      "id": "wizard",
+      "reviewer": "/root/wave3_closeout_review — separate Codex agent, not Bugbot",
+      "startedAt": "2026-10-01T05:41:24.927Z",
+      "endedAt": "2026-10-01T05:51:34.782Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "scripts/verify-wizard-flow.mjs",
+        "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\browser"
+      ],
+      "cwd": "C:\\Users\\RitualDesktop\\AppData\\Local\\Temp\\peos-wave3-fresh-independent-d8aecb7a-ac1d-4a88-a2c9-23b1ee04d39c\\checkout\\apps\\companion",
+      "exit": 0,
+      "signal": null,
+      "sha256": "1A3E0901471A68E426D712632F79F70F896C07F22166CEDFE778C4A44ECE601B"
+    }
+  ]
+}

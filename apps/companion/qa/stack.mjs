@@ -173,7 +173,10 @@ test('each refusal says the check that actually failed, driving the real launche
   assert.equal(nothingFound.detected, null);
 
   // Every reason the launcher can produce has its own sentence, and no two share one.
-  const reasons = ['signature', 'no-desktop-app', 'no-help-contract', 'no-declaration', 'no-handler', 'no-contract', 'not-measured', 'not-installed'];
+  const reasons = ['signature', 'no-desktop-app', 'no-help-contract', 'no-declaration', 'no-handler', 'no-contract', 'not-measured', 'not-installed','route-only'];
+  // The service (not the launcher) supplies this cause for route-only destinations;
+  // preparation-flow.mjs drives the real handoff and proves it opens nothing.
+  assert.match(MANUAL_CAUSES['route-only'],/no hay una apertura local verificada/);
   for (const reason of reasons) assert.ok(MANUAL_CAUSES[reason], `falta la frase de ${reason}`);
   assert.equal(new Set(Object.values(MANUAL_CAUSES)).size, Object.keys(MANUAL_CAUSES).length, 'dos causas comparten frase');
   assert.deepEqual(Object.keys(MANUAL_CAUSES).sort(), [...reasons].sort());

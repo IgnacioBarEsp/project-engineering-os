@@ -1,0 +1,1187 @@
+{
+  "scope": "Immutable historical renderer bytes via git show; fixed service envelopes, not historical native installation. Same current reachability/containing-block and IPC copy assertions. New taxonomy/motion-token rules are not retroactively asserted against the hotfix.",
+  "runs": [
+    {
+      "commit": "a3b1efda6a53501a2a06e277cf0b7f18f11c6bed",
+      "motion": "no-preference",
+      "window": "1180x820",
+      "screens": [
+        {
+          "screen": "setup",
+          "controls": 28,
+          "blocked": 1,
+          "positioned": 4,
+          "issues": [
+            "«¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions",
+            "la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+            "al final del recorrido la barra tapa contenido: div.field termina en 700 px y la barra empieza en 617 px",
+            "unsafe-containing-block:DIV.actions"
+          ]
+        },
+        {
+          "screen": "folder",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+            "al final del recorrido la barra tapa contenido: p.subtle termina en 700 px y la barra empieza en 617 px",
+            "unsafe-containing-block:DIV.actions"
+          ]
+        },
+        {
+          "screen": "delimitation",
+          "controls": 6,
+          "blocked": 1,
+          "positioned": 4,
+          "issues": [
+            "«Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+            "la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+            "al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 700 px y la barra empieza en 617 px",
+            "unsafe-containing-block:DIV.actions"
+          ]
+        },
+        {
+          "screen": "vision",
+          "controls": 6,
+          "blocked": 3,
+          "positioned": 4,
+          "issues": [
+            "«Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+            "«Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+            "«Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+            "la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+            "al final del recorrido la barra tapa contenido: div.vision-container termina en 700 px y la barra empieza en 617 px",
+            "unsafe-containing-block:DIV.actions"
+          ]
+        },
+        {
+          "screen": "install",
+          "controls": 3,
+          "blocked": 2,
+          "positioned": 4,
+          "issues": [
+            "«Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions",
+            "«Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+            "la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+            "al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 677 px y la barra empieza en 594 px",
+            "unsafe-containing-block:DIV.actions"
+          ]
+        }
+      ],
+      "copies": [],
+      "issues": [
+        "setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions",
+        "setup: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+        "setup: al final del recorrido la barra tapa contenido: div.field termina en 700 px y la barra empieza en 617 px",
+        "setup: unsafe-containing-block:DIV.actions",
+        "folder: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+        "folder: al final del recorrido la barra tapa contenido: p.subtle termina en 700 px y la barra empieza en 617 px",
+        "folder: unsafe-containing-block:DIV.actions",
+        "delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+        "delimitation: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+        "delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 700 px y la barra empieza en 617 px",
+        "delimitation: unsafe-containing-block:DIV.actions",
+        "vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+        "vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+        "vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+        "vision: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+        "vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 700 px y la barra empieza en 617 px",
+        "vision: unsafe-containing-block:DIV.actions",
+        "install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions",
+        "install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+        "install: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+        "install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 677 px y la barra empieza en 594 px",
+        "install: unsafe-containing-block:DIV.actions",
+        "journey stopped: locator.click: Timeout 5000ms exceeded."
+      ],
+      "errors": [],
+      "bytes": [
+        {
+          "file": "/app.css",
+          "sha256": "fc05629417759e83760868dd9f03eec8a3fadb7e52538782e1fd72c8b278fb7d"
+        },
+        {
+          "file": "/app.mjs",
+          "sha256": "1069e1841dfdff6833bc8ee3121b29e9500a436cc9281c1207b9eea4fb7f16da"
+        },
+        {
+          "file": "/glossary.mjs",
+          "sha256": "d8147d778179302b453f17c2fd0cf35e359eceee3c1ae86fce2e7806653b4980"
+        },
+        {
+          "file": "/index.html",
+          "sha256": "31d67271328ac6e261bbe07380218ed9c212b0b9f0f642e62d3c8bf823a89e76"
+        }
+      ]
+    },
+    {
+      "commit": "a3b1efda6a53501a2a06e277cf0b7f18f11c6bed",
+      "motion": "no-preference",
+      "window": "1024x700",
+      "screens": [
+        {
+          "screen": "setup",
+          "controls": 28,
+          "blocked": 1,
+          "positioned": 4,
+          "issues": [
+            "«¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions",
+            "la barra final no es sticky (fixed) en una ventana de 1024 × 700 px",
+            "al final del recorrido la barra tapa contenido: div.field termina en 580 px y la barra empieza en 497 px",
+            "unsafe-containing-block:DIV.actions"
+          ]
+        },
+        {
+          "screen": "folder",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 1024 × 700 px",
+            "al final del recorrido la barra tapa contenido: p.subtle termina en 580 px y la barra empieza en 497 px",
+            "unsafe-containing-block:DIV.actions"
+          ]
+        },
+        {
+          "screen": "delimitation",
+          "controls": 6,
+          "blocked": 1,
+          "positioned": 4,
+          "issues": [
+            "«Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+            "la barra final no es sticky (fixed) en una ventana de 1024 × 700 px",
+            "al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 580 px y la barra empieza en 497 px",
+            "unsafe-containing-block:DIV.actions"
+          ]
+        },
+        {
+          "screen": "vision",
+          "controls": 6,
+          "blocked": 3,
+          "positioned": 4,
+          "issues": [
+            "«Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+            "«Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+            "«Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+            "la barra final no es sticky (fixed) en una ventana de 1024 × 700 px",
+            "al final del recorrido la barra tapa contenido: div.vision-container termina en 580 px y la barra empieza en 497 px",
+            "unsafe-containing-block:DIV.actions"
+          ]
+        },
+        {
+          "screen": "install",
+          "controls": 3,
+          "blocked": 2,
+          "positioned": 4,
+          "issues": [
+            "«Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions",
+            "«Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+            "la barra final no es sticky (fixed) en una ventana de 1024 × 700 px",
+            "al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 580 px y la barra empieza en 497 px",
+            "unsafe-containing-block:DIV.actions"
+          ]
+        }
+      ],
+      "copies": [],
+      "issues": [
+        "setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está div.actions",
+        "setup: la barra final no es sticky (fixed) en una ventana de 1024 × 700 px",
+        "setup: al final del recorrido la barra tapa contenido: div.field termina en 580 px y la barra empieza en 497 px",
+        "setup: unsafe-containing-block:DIV.actions",
+        "folder: la barra final no es sticky (fixed) en una ventana de 1024 × 700 px",
+        "folder: al final del recorrido la barra tapa contenido: p.subtle termina en 580 px y la barra empieza en 497 px",
+        "folder: unsafe-containing-block:DIV.actions",
+        "delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+        "delimitation: la barra final no es sticky (fixed) en una ventana de 1024 × 700 px",
+        "delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 580 px y la barra empieza en 497 px",
+        "delimitation: unsafe-containing-block:DIV.actions",
+        "vision: «Público Objetivo Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+        "vision: «Problema Principal Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+        "vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está div.actions",
+        "vision: la barra final no es sticky (fixed) en una ventana de 1024 × 700 px",
+        "vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 580 px y la barra empieza en 497 px",
+        "vision: unsafe-containing-block:DIV.actions",
+        "install: «Instalar stack base y obtener prompt →» no se puede pulsar: en su centro está div.actions",
+        "install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+        "install: la barra final no es sticky (fixed) en una ventana de 1024 × 700 px",
+        "install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 580 px y la barra empieza en 497 px",
+        "install: unsafe-containing-block:DIV.actions",
+        "journey stopped: locator.click: Timeout 5000ms exceeded."
+      ],
+      "errors": [],
+      "bytes": [
+        {
+          "file": "/app.css",
+          "sha256": "fc05629417759e83760868dd9f03eec8a3fadb7e52538782e1fd72c8b278fb7d"
+        },
+        {
+          "file": "/app.mjs",
+          "sha256": "1069e1841dfdff6833bc8ee3121b29e9500a436cc9281c1207b9eea4fb7f16da"
+        },
+        {
+          "file": "/glossary.mjs",
+          "sha256": "d8147d778179302b453f17c2fd0cf35e359eceee3c1ae86fce2e7806653b4980"
+        },
+        {
+          "file": "/index.html",
+          "sha256": "31d67271328ac6e261bbe07380218ed9c212b0b9f0f642e62d3c8bf823a89e76"
+        }
+      ]
+    },
+    {
+      "commit": "a3b1efda6a53501a2a06e277cf0b7f18f11c6bed",
+      "motion": "no-preference",
+      "window": "480x540",
+      "screens": [
+        {
+          "screen": "setup",
+          "controls": 28,
+          "blocked": 1,
+          "positioned": 3,
+          "issues": [
+            "«¿Cuánta guía prefieres?» no se puede pulsar: en su centro está button.primary",
+            "la barra final no es sticky (fixed) en una ventana de 480 × 540 px",
+            "al final del recorrido la barra tapa contenido: div.field termina en 450 px y la barra empieza en 367 px",
+            "unsafe-containing-block:DIV.actions"
+          ]
+        },
+        {
+          "screen": "folder",
+          "controls": 6,
+          "blocked": 1,
+          "positioned": 3,
+          "issues": [
+            "«Ver mi proyecto» no se puede pulsar: en su centro está button.secondary",
+            "la barra final no es sticky (fixed) en una ventana de 480 × 540 px",
+            "al final del recorrido la barra tapa contenido: p.subtle termina en 450 px y la barra empieza en 309 px",
+            "unsafe-containing-block:DIV.actions"
+          ]
+        },
+        {
+          "screen": "delimitation",
+          "controls": 6,
+          "blocked": 1,
+          "positioned": 3,
+          "issues": [
+            "«Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+            "la barra final no es sticky (fixed) en una ventana de 480 × 540 px",
+            "al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 450 px y la barra empieza en 367 px",
+            "unsafe-containing-block:DIV.actions"
+          ]
+        },
+        {
+          "screen": "vision",
+          "controls": 6,
+          "blocked": 1,
+          "positioned": 3,
+          "issues": [
+            "«Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+            "la barra final no es sticky (fixed) en una ventana de 480 × 540 px",
+            "al final del recorrido la barra tapa contenido: div.vision-container termina en 450 px y la barra empieza en 367 px",
+            "unsafe-containing-block:DIV.actions"
+          ]
+        },
+        {
+          "screen": "install",
+          "controls": 3,
+          "blocked": 1,
+          "positioned": 3,
+          "issues": [
+            "«Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+            "la barra final no es sticky (fixed) en una ventana de 480 × 540 px",
+            "al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 450 px y la barra empieza en 367 px",
+            "unsafe-containing-block:DIV.actions"
+          ]
+        },
+        {
+          "screen": "finished",
+          "controls": 4,
+          "blocked": 0,
+          "positioned": 2,
+          "issues": []
+        }
+      ],
+      "copies": [
+        {
+          "label": "Copiar ruta",
+          "passed": false,
+          "ipcCalls": 0,
+          "fallback": 0,
+          "notice": ""
+        },
+        {
+          "label": "Copiar Prompt Maestro",
+          "passed": false,
+          "ipcCalls": 0,
+          "fallback": 0,
+          "notice": ""
+        }
+      ],
+      "issues": [
+        "setup: «¿Cuánta guía prefieres?» no se puede pulsar: en su centro está button.primary",
+        "setup: la barra final no es sticky (fixed) en una ventana de 480 × 540 px",
+        "setup: al final del recorrido la barra tapa contenido: div.field termina en 450 px y la barra empieza en 367 px",
+        "setup: unsafe-containing-block:DIV.actions",
+        "folder: «Ver mi proyecto» no se puede pulsar: en su centro está button.secondary",
+        "folder: la barra final no es sticky (fixed) en una ventana de 480 × 540 px",
+        "folder: al final del recorrido la barra tapa contenido: p.subtle termina en 450 px y la barra empieza en 309 px",
+        "folder: unsafe-containing-block:DIV.actions",
+        "delimitation: «Flexible Prototipo o Arquitectura Propia Tu IA te orientará para elegir la mejor» no se puede pulsar: en su centro está div.actions",
+        "delimitation: la barra final no es sticky (fixed) en una ventana de 480 × 540 px",
+        "delimitation: al final del recorrido la barra tapa contenido: div.delimitation-grid termina en 450 px y la barra empieza en 367 px",
+        "delimitation: unsafe-containing-block:DIV.actions",
+        "vision: «Alcance Inicial Clic para agregar al borrador» no se puede pulsar: en su centro está button.primary",
+        "vision: la barra final no es sticky (fixed) en una ventana de 480 × 540 px",
+        "vision: al final del recorrido la barra tapa contenido: div.vision-container termina en 450 px y la barra empieza en 367 px",
+        "vision: unsafe-containing-block:DIV.actions",
+        "install: «Preparar carpeta y generar prompt maestro →» no se puede pulsar: en su centro está div.actions",
+        "install: la barra final no es sticky (fixed) en una ventana de 480 × 540 px",
+        "install: al final del recorrido la barra tapa contenido: div.bifurcation-grid termina en 450 px y la barra empieza en 367 px",
+        "install: unsafe-containing-block:DIV.actions",
+        "copy: Copiar ruta did not confirm exact native IPC success",
+        "copy: Copiar Prompt Maestro did not confirm exact native IPC success"
+      ],
+      "errors": [],
+      "bytes": [
+        {
+          "file": "/app.css",
+          "sha256": "fc05629417759e83760868dd9f03eec8a3fadb7e52538782e1fd72c8b278fb7d"
+        },
+        {
+          "file": "/app.mjs",
+          "sha256": "1069e1841dfdff6833bc8ee3121b29e9500a436cc9281c1207b9eea4fb7f16da"
+        },
+        {
+          "file": "/glossary.mjs",
+          "sha256": "d8147d778179302b453f17c2fd0cf35e359eceee3c1ae86fce2e7806653b4980"
+        },
+        {
+          "file": "/index.html",
+          "sha256": "31d67271328ac6e261bbe07380218ed9c212b0b9f0f642e62d3c8bf823a89e76"
+        }
+      ]
+    },
+    {
+      "commit": "a3b1efda6a53501a2a06e277cf0b7f18f11c6bed",
+      "motion": "reduce",
+      "window": "1180x820",
+      "screens": [
+        {
+          "screen": "setup",
+          "controls": 28,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 1180 × 820 px"
+          ]
+        },
+        {
+          "screen": "folder",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 1180 × 820 px"
+          ]
+        },
+        {
+          "screen": "delimitation",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 1180 × 820 px"
+          ]
+        },
+        {
+          "screen": "vision",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 1180 × 820 px"
+          ]
+        },
+        {
+          "screen": "install",
+          "controls": 3,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 1180 × 820 px"
+          ]
+        },
+        {
+          "screen": "finished",
+          "controls": 4,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": []
+        }
+      ],
+      "copies": [
+        {
+          "label": "Copiar ruta",
+          "passed": false,
+          "ipcCalls": 0,
+          "fallback": 0,
+          "notice": ""
+        },
+        {
+          "label": "Copiar Prompt Maestro",
+          "passed": false,
+          "ipcCalls": 0,
+          "fallback": 0,
+          "notice": ""
+        }
+      ],
+      "issues": [
+        "setup: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+        "folder: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+        "delimitation: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+        "vision: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+        "install: la barra final no es sticky (fixed) en una ventana de 1180 × 820 px",
+        "copy: Copiar ruta did not confirm exact native IPC success",
+        "copy: Copiar Prompt Maestro did not confirm exact native IPC success"
+      ],
+      "errors": [],
+      "bytes": [
+        {
+          "file": "/app.css",
+          "sha256": "fc05629417759e83760868dd9f03eec8a3fadb7e52538782e1fd72c8b278fb7d"
+        },
+        {
+          "file": "/app.mjs",
+          "sha256": "1069e1841dfdff6833bc8ee3121b29e9500a436cc9281c1207b9eea4fb7f16da"
+        },
+        {
+          "file": "/glossary.mjs",
+          "sha256": "d8147d778179302b453f17c2fd0cf35e359eceee3c1ae86fce2e7806653b4980"
+        },
+        {
+          "file": "/index.html",
+          "sha256": "31d67271328ac6e261bbe07380218ed9c212b0b9f0f642e62d3c8bf823a89e76"
+        }
+      ]
+    },
+    {
+      "commit": "a3b1efda6a53501a2a06e277cf0b7f18f11c6bed",
+      "motion": "reduce",
+      "window": "1024x700",
+      "screens": [
+        {
+          "screen": "setup",
+          "controls": 28,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 1024 × 700 px"
+          ]
+        },
+        {
+          "screen": "folder",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 1024 × 700 px"
+          ]
+        },
+        {
+          "screen": "delimitation",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 1024 × 700 px"
+          ]
+        },
+        {
+          "screen": "vision",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 1024 × 700 px"
+          ]
+        },
+        {
+          "screen": "install",
+          "controls": 3,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 1024 × 700 px"
+          ]
+        },
+        {
+          "screen": "finished",
+          "controls": 4,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": []
+        }
+      ],
+      "copies": [
+        {
+          "label": "Copiar ruta",
+          "passed": false,
+          "ipcCalls": 0,
+          "fallback": 0,
+          "notice": ""
+        },
+        {
+          "label": "Copiar Prompt Maestro",
+          "passed": false,
+          "ipcCalls": 0,
+          "fallback": 0,
+          "notice": ""
+        }
+      ],
+      "issues": [
+        "setup: la barra final no es sticky (fixed) en una ventana de 1024 × 700 px",
+        "folder: la barra final no es sticky (fixed) en una ventana de 1024 × 700 px",
+        "delimitation: la barra final no es sticky (fixed) en una ventana de 1024 × 700 px",
+        "vision: la barra final no es sticky (fixed) en una ventana de 1024 × 700 px",
+        "install: la barra final no es sticky (fixed) en una ventana de 1024 × 700 px",
+        "copy: Copiar ruta did not confirm exact native IPC success",
+        "copy: Copiar Prompt Maestro did not confirm exact native IPC success"
+      ],
+      "errors": [],
+      "bytes": [
+        {
+          "file": "/app.css",
+          "sha256": "fc05629417759e83760868dd9f03eec8a3fadb7e52538782e1fd72c8b278fb7d"
+        },
+        {
+          "file": "/app.mjs",
+          "sha256": "1069e1841dfdff6833bc8ee3121b29e9500a436cc9281c1207b9eea4fb7f16da"
+        },
+        {
+          "file": "/glossary.mjs",
+          "sha256": "d8147d778179302b453f17c2fd0cf35e359eceee3c1ae86fce2e7806653b4980"
+        },
+        {
+          "file": "/index.html",
+          "sha256": "31d67271328ac6e261bbe07380218ed9c212b0b9f0f642e62d3c8bf823a89e76"
+        }
+      ]
+    },
+    {
+      "commit": "a3b1efda6a53501a2a06e277cf0b7f18f11c6bed",
+      "motion": "reduce",
+      "window": "480x540",
+      "screens": [
+        {
+          "screen": "setup",
+          "controls": 28,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 480 × 540 px"
+          ]
+        },
+        {
+          "screen": "folder",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 480 × 540 px",
+            "al final del recorrido la barra tapa contenido: p.subtle termina en 450 px y la barra empieza en 399 px"
+          ]
+        },
+        {
+          "screen": "delimitation",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 480 × 540 px"
+          ]
+        },
+        {
+          "screen": "vision",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 480 × 540 px"
+          ]
+        },
+        {
+          "screen": "install",
+          "controls": 3,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": [
+            "la barra final no es sticky (fixed) en una ventana de 480 × 540 px"
+          ]
+        },
+        {
+          "screen": "finished",
+          "controls": 4,
+          "blocked": 0,
+          "positioned": 2,
+          "issues": []
+        }
+      ],
+      "copies": [
+        {
+          "label": "Copiar ruta",
+          "passed": false,
+          "ipcCalls": 0,
+          "fallback": 0,
+          "notice": ""
+        },
+        {
+          "label": "Copiar Prompt Maestro",
+          "passed": false,
+          "ipcCalls": 0,
+          "fallback": 0,
+          "notice": ""
+        }
+      ],
+      "issues": [
+        "setup: la barra final no es sticky (fixed) en una ventana de 480 × 540 px",
+        "folder: la barra final no es sticky (fixed) en una ventana de 480 × 540 px",
+        "folder: al final del recorrido la barra tapa contenido: p.subtle termina en 450 px y la barra empieza en 399 px",
+        "delimitation: la barra final no es sticky (fixed) en una ventana de 480 × 540 px",
+        "vision: la barra final no es sticky (fixed) en una ventana de 480 × 540 px",
+        "install: la barra final no es sticky (fixed) en una ventana de 480 × 540 px",
+        "copy: Copiar ruta did not confirm exact native IPC success",
+        "copy: Copiar Prompt Maestro did not confirm exact native IPC success"
+      ],
+      "errors": [],
+      "bytes": [
+        {
+          "file": "/app.css",
+          "sha256": "fc05629417759e83760868dd9f03eec8a3fadb7e52538782e1fd72c8b278fb7d"
+        },
+        {
+          "file": "/app.mjs",
+          "sha256": "1069e1841dfdff6833bc8ee3121b29e9500a436cc9281c1207b9eea4fb7f16da"
+        },
+        {
+          "file": "/glossary.mjs",
+          "sha256": "d8147d778179302b453f17c2fd0cf35e359eceee3c1ae86fce2e7806653b4980"
+        },
+        {
+          "file": "/index.html",
+          "sha256": "31d67271328ac6e261bbe07380218ed9c212b0b9f0f642e62d3c8bf823a89e76"
+        }
+      ]
+    },
+    {
+      "commit": "c044d2d241db152e9d14efaee15595aab494d448",
+      "motion": "no-preference",
+      "window": "1180x820",
+      "screens": [
+        {
+          "screen": "setup",
+          "controls": 28,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "folder",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "delimitation",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "vision",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "install",
+          "controls": 3,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "finished",
+          "controls": 4,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": []
+        }
+      ],
+      "copies": [
+        {
+          "label": "Copiar ruta",
+          "passed": true,
+          "ipcCalls": 1,
+          "fallback": 0,
+          "notice": "Ruta copiada. Pégala donde abras tu proyecto."
+        },
+        {
+          "label": "Copiar Prompt Maestro",
+          "passed": true,
+          "ipcCalls": 1,
+          "fallback": 0,
+          "notice": "Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna."
+        }
+      ],
+      "issues": [],
+      "errors": [],
+      "bytes": [
+        {
+          "file": "/app.css",
+          "sha256": "f005c0d45540d898d3a95c39fa5019171167868a0aaf61ee792f5a81672caece"
+        },
+        {
+          "file": "/app.mjs",
+          "sha256": "c6999840b9958f51dcc47a91a21122853dce125e91fc4aee358a674f1f209dc3"
+        },
+        {
+          "file": "/glossary.mjs",
+          "sha256": "d8147d778179302b453f17c2fd0cf35e359eceee3c1ae86fce2e7806653b4980"
+        },
+        {
+          "file": "/index.html",
+          "sha256": "31d67271328ac6e261bbe07380218ed9c212b0b9f0f642e62d3c8bf823a89e76"
+        }
+      ]
+    },
+    {
+      "commit": "c044d2d241db152e9d14efaee15595aab494d448",
+      "motion": "no-preference",
+      "window": "1024x700",
+      "screens": [
+        {
+          "screen": "setup",
+          "controls": 28,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "folder",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "delimitation",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "vision",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "install",
+          "controls": 3,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "finished",
+          "controls": 4,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": []
+        }
+      ],
+      "copies": [
+        {
+          "label": "Copiar ruta",
+          "passed": true,
+          "ipcCalls": 1,
+          "fallback": 0,
+          "notice": "Ruta copiada. Pégala donde abras tu proyecto."
+        },
+        {
+          "label": "Copiar Prompt Maestro",
+          "passed": true,
+          "ipcCalls": 1,
+          "fallback": 0,
+          "notice": "Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna."
+        }
+      ],
+      "issues": [],
+      "errors": [],
+      "bytes": [
+        {
+          "file": "/app.css",
+          "sha256": "f005c0d45540d898d3a95c39fa5019171167868a0aaf61ee792f5a81672caece"
+        },
+        {
+          "file": "/app.mjs",
+          "sha256": "c6999840b9958f51dcc47a91a21122853dce125e91fc4aee358a674f1f209dc3"
+        },
+        {
+          "file": "/glossary.mjs",
+          "sha256": "d8147d778179302b453f17c2fd0cf35e359eceee3c1ae86fce2e7806653b4980"
+        },
+        {
+          "file": "/index.html",
+          "sha256": "31d67271328ac6e261bbe07380218ed9c212b0b9f0f642e62d3c8bf823a89e76"
+        }
+      ]
+    },
+    {
+      "commit": "c044d2d241db152e9d14efaee15595aab494d448",
+      "motion": "no-preference",
+      "window": "480x540",
+      "screens": [
+        {
+          "screen": "setup",
+          "controls": 28,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": []
+        },
+        {
+          "screen": "folder",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": []
+        },
+        {
+          "screen": "delimitation",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": []
+        },
+        {
+          "screen": "vision",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": []
+        },
+        {
+          "screen": "install",
+          "controls": 3,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": []
+        },
+        {
+          "screen": "finished",
+          "controls": 4,
+          "blocked": 0,
+          "positioned": 2,
+          "issues": []
+        }
+      ],
+      "copies": [
+        {
+          "label": "Copiar ruta",
+          "passed": true,
+          "ipcCalls": 1,
+          "fallback": 0,
+          "notice": "Ruta copiada. Pégala donde abras tu proyecto."
+        },
+        {
+          "label": "Copiar Prompt Maestro",
+          "passed": true,
+          "ipcCalls": 1,
+          "fallback": 0,
+          "notice": "Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna."
+        }
+      ],
+      "issues": [],
+      "errors": [],
+      "bytes": [
+        {
+          "file": "/app.css",
+          "sha256": "f005c0d45540d898d3a95c39fa5019171167868a0aaf61ee792f5a81672caece"
+        },
+        {
+          "file": "/app.mjs",
+          "sha256": "c6999840b9958f51dcc47a91a21122853dce125e91fc4aee358a674f1f209dc3"
+        },
+        {
+          "file": "/glossary.mjs",
+          "sha256": "d8147d778179302b453f17c2fd0cf35e359eceee3c1ae86fce2e7806653b4980"
+        },
+        {
+          "file": "/index.html",
+          "sha256": "31d67271328ac6e261bbe07380218ed9c212b0b9f0f642e62d3c8bf823a89e76"
+        }
+      ]
+    },
+    {
+      "commit": "c044d2d241db152e9d14efaee15595aab494d448",
+      "motion": "reduce",
+      "window": "1180x820",
+      "screens": [
+        {
+          "screen": "setup",
+          "controls": 28,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "folder",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "delimitation",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "vision",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "install",
+          "controls": 3,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "finished",
+          "controls": 4,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": []
+        }
+      ],
+      "copies": [
+        {
+          "label": "Copiar ruta",
+          "passed": true,
+          "ipcCalls": 1,
+          "fallback": 0,
+          "notice": "Ruta copiada. Pégala donde abras tu proyecto."
+        },
+        {
+          "label": "Copiar Prompt Maestro",
+          "passed": true,
+          "ipcCalls": 1,
+          "fallback": 0,
+          "notice": "Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna."
+        }
+      ],
+      "issues": [],
+      "errors": [],
+      "bytes": [
+        {
+          "file": "/app.css",
+          "sha256": "f005c0d45540d898d3a95c39fa5019171167868a0aaf61ee792f5a81672caece"
+        },
+        {
+          "file": "/app.mjs",
+          "sha256": "c6999840b9958f51dcc47a91a21122853dce125e91fc4aee358a674f1f209dc3"
+        },
+        {
+          "file": "/glossary.mjs",
+          "sha256": "d8147d778179302b453f17c2fd0cf35e359eceee3c1ae86fce2e7806653b4980"
+        },
+        {
+          "file": "/index.html",
+          "sha256": "31d67271328ac6e261bbe07380218ed9c212b0b9f0f642e62d3c8bf823a89e76"
+        }
+      ]
+    },
+    {
+      "commit": "c044d2d241db152e9d14efaee15595aab494d448",
+      "motion": "reduce",
+      "window": "1024x700",
+      "screens": [
+        {
+          "screen": "setup",
+          "controls": 28,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "folder",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "delimitation",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "vision",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "install",
+          "controls": 3,
+          "blocked": 0,
+          "positioned": 4,
+          "issues": []
+        },
+        {
+          "screen": "finished",
+          "controls": 4,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": []
+        }
+      ],
+      "copies": [
+        {
+          "label": "Copiar ruta",
+          "passed": true,
+          "ipcCalls": 1,
+          "fallback": 0,
+          "notice": "Ruta copiada. Pégala donde abras tu proyecto."
+        },
+        {
+          "label": "Copiar Prompt Maestro",
+          "passed": true,
+          "ipcCalls": 1,
+          "fallback": 0,
+          "notice": "Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna."
+        }
+      ],
+      "issues": [],
+      "errors": [],
+      "bytes": [
+        {
+          "file": "/app.css",
+          "sha256": "f005c0d45540d898d3a95c39fa5019171167868a0aaf61ee792f5a81672caece"
+        },
+        {
+          "file": "/app.mjs",
+          "sha256": "c6999840b9958f51dcc47a91a21122853dce125e91fc4aee358a674f1f209dc3"
+        },
+        {
+          "file": "/glossary.mjs",
+          "sha256": "d8147d778179302b453f17c2fd0cf35e359eceee3c1ae86fce2e7806653b4980"
+        },
+        {
+          "file": "/index.html",
+          "sha256": "31d67271328ac6e261bbe07380218ed9c212b0b9f0f642e62d3c8bf823a89e76"
+        }
+      ]
+    },
+    {
+      "commit": "c044d2d241db152e9d14efaee15595aab494d448",
+      "motion": "reduce",
+      "window": "480x540",
+      "screens": [
+        {
+          "screen": "setup",
+          "controls": 28,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": []
+        },
+        {
+          "screen": "folder",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": []
+        },
+        {
+          "screen": "delimitation",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": []
+        },
+        {
+          "screen": "vision",
+          "controls": 6,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": []
+        },
+        {
+          "screen": "install",
+          "controls": 3,
+          "blocked": 0,
+          "positioned": 3,
+          "issues": []
+        },
+        {
+          "screen": "finished",
+          "controls": 4,
+          "blocked": 0,
+          "positioned": 2,
+          "issues": []
+        }
+      ],
+      "copies": [
+        {
+          "label": "Copiar ruta",
+          "passed": true,
+          "ipcCalls": 1,
+          "fallback": 0,
+          "notice": "Ruta copiada. Pégala donde abras tu proyecto."
+        },
+        {
+          "label": "Copiar Prompt Maestro",
+          "passed": true,
+          "ipcCalls": 1,
+          "fallback": 0,
+          "notice": "Prompt Maestro copiado. Pégalo en tu IA: todavía no se ha enviado a ninguna."
+        }
+      ],
+      "issues": [],
+      "errors": [],
+      "bytes": [
+        {
+          "file": "/app.css",
+          "sha256": "f005c0d45540d898d3a95c39fa5019171167868a0aaf61ee792f5a81672caece"
+        },
+        {
+          "file": "/app.mjs",
+          "sha256": "c6999840b9958f51dcc47a91a21122853dce125e91fc4aee358a674f1f209dc3"
+        },
+        {
+          "file": "/glossary.mjs",
+          "sha256": "d8147d778179302b453f17c2fd0cf35e359eceee3c1ae86fce2e7806653b4980"
+        },
+        {
+          "file": "/index.html",
+          "sha256": "31d67271328ac6e261bbe07380218ed9c212b0b9f0f642e62d3c8bf823a89e76"
+        }
+      ]
+    }
+  ]
+}

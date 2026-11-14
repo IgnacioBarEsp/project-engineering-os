@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "companion-renderer-foundation-route-closeout",
+  "date": "2026-09-30",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Assessment acotado a los dos P2 de docs/companion/reviews/WAVE3_CLOSEOUT_20260930.md: el cierre de rutas ahora compara declaraciones del renderer servido con vistas DOM observadas; retira solo stack-choice/ready, sin consumidores. El primer pase falla 23/21 y nombra esos huérfanos; el segundo pasa 21/21 y detecta la ruta nueva sin recorrido por su nombre. Las 45 mutaciones anteriores más la nueva pasan 46/46; 151 pruebas Companion pasan. visual-check permanece pending. No se difieren defectos nuevos de esta corrección ni se cambian motor, IPC, dependencias, hashes de distribución o protecciones. Se conserva el assessment histórico. No declara cerrado #144 ni la ola3: la reprueba independiente, aprobaciones humanas y auditoría de npm #204 siguen siendo gates separados; la deuda previa y el riesgo de npm no se contabilizan de nuevo."
+}

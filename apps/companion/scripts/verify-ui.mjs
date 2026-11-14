@@ -1,10 +1,19 @@
 import assert from 'node:assert/strict';
+import {finishPreparation} from './wizard-journey.mjs';
+import {AMBIENT} from './ambient-contract.mjs';
 import { createServer } from 'node:http';
 import { mkdir, mkdtemp, readFile, writeFile, realpath, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { execFileSync } from 'node:child_process';
+import {ASSETS, CSP} from '../desktop/assets.mjs';
+import {revealDetails,expandProjectDetails} from './project-disclosures.mjs';
+import {routeFor} from '../ui/lib/router.mjs';
+import {QUALITY} from './interface-contract.mjs';
+import {verifyRouteCoverage} from './verify-route-coverage.mjs';
+import {verifyProfileCompatibility} from './verify-profile-compatibility.mjs';
+import {verifyWizardIsolation} from './verify-wizard-isolation.mjs';
 import { zipSync, strToU8 } from 'fflate';
 import * as core from 'create-project-engineering-os';
 import { createDesktopService, publicError } from '../desktop/service.mjs';
@@ -26,21 +35,48 @@ const runtimeRoot=process.argv[3];
 const manager=runtimeRoot?await createRuntimeManager({root:runtimeRoot}):null;
 if(manager)for(const id of ['node','npm','git','codegraph'])assert.equal((await manager.inspect(id)).status,'verified','Real browser runtime cache must be preverified; no downloads during this probe.');
 const temp=await realpath(await mkdtemp(path.join(tmpdir(),'peos-desktop-ui-'))),ui=fileURLToPath(new URL('../ui/',import.meta.url));
-const files={'/':'index.html','/app.css':'app.css','/app.mjs':'app.mjs','/glossary.mjs':'glossary.mjs'};
+const files=new Map([['/',ASSETS.get('/index.html')],...ASSETS]);
 const server=createServer(async(req,res)=>{
-  if(req.method!=='GET'||!Object.hasOwn(files,req.url)){res.writeHead(404);res.end();return;}
-  const f=files[req.url];res.setHeader('Content-Type',f.endsWith('.mjs')?'text/javascript':f.endsWith('.css')?'text/css':'text/html');res.end(await readFile(path.join(ui,f)));
+  if(req.method!=='GET'||!files.has(req.url)){res.writeHead(404);res.end();return;}
+  const file=req.url==='/'?'/index.html':req.url;
+  res.setHeader('Content-Type',files.get(req.url));res.setHeader('Content-Security-Policy',CSP);
+  res.end(await readFile(path.join(ui,file.slice(1))));
 });
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const url=`http://127.0.0.1:${server.address().port}`;
+function watchRenderer(page,errors){
+  page.on('pageerror',error=>errors.push(error.message));
+  page.on('console',message=>{
+    if(message.type()==='error'&&/Content Security Policy|Refused to|Failed to load resource|Loading module/.test(message.text()))
+      errors.push(message.text());
+  });
+  page.on('request',request=>{if(!request.url().startsWith(url+'/'))errors.push(`Unexpected network request: ${request.url()}`);});
+  page.on('response',response=>{if(response.status()>=400)errors.push(`Asset response ${response.status()}: ${response.url()}`);});
+}
 const evidence={date:new Date().toISOString(),scope:'Real renderer and engines in browser; native transport/picker/clipboard/provider injected',checks:[],screenshots:[]};
+const FIXED_CONTAINMENT=()=>{
+  const fixed=[...document.querySelectorAll('*')].filter(node=>getComputedStyle(node).position==='fixed');
+  const unsafe=[];
+  for(const node of fixed)for(let ancestor=node.parentElement;ancestor;ancestor=ancestor.parentElement){
+    const style=getComputedStyle(ancestor);
+    if(style.transform!=='none'||style.filter!=='none'||style.perspective!=='none'){
+      unsafe.push(`${node.tagName.toLowerCase()}.${node.className} under ${ancestor.tagName.toLowerCase()}.${ancestor.className}`);break;
+    }
+  }
+  return {measured:fixed.length,unsafe};
+};
 let browser;
 function pdf(){const stream='BT /F1 12 Tf 40 700 Td (Evidence: tokens must be measured with the same model.) Tj ET';const objects=['<< /Type /Catalog /Pages 2 0 R >>','<< /Type /Pages /Kids [4 0 R] /Count 1 >>','<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>','<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>',`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`];let out='%PDF-1.4\n',offsets=[];objects.forEach((v,i)=>{offsets.push(Buffer.byteLength(out));out+=`${i+1} 0 obj\n${v}\nendobj\n`;});const start=Buffer.byteLength(out);out+=`xref\n0 6\n0000000000 65535 f \n${offsets.map(n=>`${String(n).padStart(10,'0')} 00000 n \n`).join('')}trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${start}\n%%EOF`;return out;}
-const heading=async(page,name)=>page.getByRole('heading',{name,exact:true}).waitFor();
+const heading=async(page,name)=>{const node=page.getByRole('heading',{name,exact:true,includeHidden:true});await revealDetails(node);await node.waitFor();};
 // Every click probes the screen it lands on, so coverage is not a list of screens someone remembered to
 // check. The label is the screen's own h1, which is also what a person would call it.
-const click=async(page,name)=>{await page.getByRole('button',{name,exact:true}).click();await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')!=='true');await checkAccessibility(page,await page.locator('#view h1').first().innerText().catch(()=>'(pantalla sin encabezado)'));};
-async function capture(page,name){const target=path.join(output,name+'.png');await page.screenshot({path:target,fullPage:true,mask:[page.locator('.path')],maskColor:'#e7eee4'});evidence.screenshots.push(name+'.png');}
-async function noOverflow(page,label){const size=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth}));assert(size.scroll<=size.width+1,`${label}: ${JSON.stringify(size)}`);}
+const click=async(page,name)=>{const node=page.getByRole('button',{name,exact:true,includeHidden:true});await revealDetails(node);await node.click();await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')!=='true');await checkAccessibility(page,await page.locator('#view h1').first().innerText().catch(()=>'(pantalla sin encabezado)'));};
+async function capture(page,name){const motion=await page.evaluate(()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'reduce':'no-preference');const file=name+'-'+motion+'.png',target=path.join(output,file);await page.screenshot({path:target,fullPage:true,mask:[page.locator('.path')],maskColor:'#e7eee4'});evidence.screenshots.push(file);}
+async function noOverflow(page,label){
+  const size=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,
+    navClient:document.getElementById('nav').clientWidth,navScroll:document.getElementById('nav').scrollWidth}));
+  assert(size.scroll<=size.width+1,`${label}: ${JSON.stringify(size)}`);
+  if(size.width===480)assert(size.navScroll<=size.navClient+1,`${label}: the four destinations must remain visible: ${JSON.stringify(size)}`);
+}
 // Every structural property, on every screen a click lands on. The probes live in `interface-contract.mjs`
 // so the mutation harness exercises this same code.
 //
@@ -61,6 +97,14 @@ async function collectActions(page,where){
 // fails instead of stopping at the first.
 const a11y=new Set(),screensSeen=new Set(),screenDenominators=[],listStates=[],guideSignatures=[];
 async function checkScreen(page,where){
+  await page.evaluate(()=>Promise.all(document.getAnimations().filter(a=>Number.isFinite(a.effect.getComputedTiming().iterations)).map(a=>a.finished.catch(()=>{}))));
+  const modal=await page.locator('dialog[open]').count();
+  if(!modal){
+    const current=await page.evaluate(async()=>{const {state}=await import('/lib/core.mjs');return {page:state.page,tab:state.tab};});
+    const quality=await page.evaluate(QUALITY,routeFor(current.page,current));
+    assert.deepEqual(quality.issues,[],where+': '+JSON.stringify(quality));
+    (evidence.quality??=[]).push({where,motion:await page.evaluate(()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'reduce':'no-preference'),quality});
+  }else (evidence.modalChecks??=[]).push({where,scope:'Modal accessibility and explicit focus/copy assertions; background route occlusion not applicable while modal is open'});
   screensSeen.add(where);
   await collectActions(page,where);
   const result=await page.evaluate(ACCESSIBILITY);
@@ -80,8 +124,13 @@ async function checkScreen(page,where){
   if(!names.navigationLabelled)a11y.add(`${where}: la navegación no tiene nombre accesible`);
   if(!names.liveRegions)a11y.add(`${where}: no hay región en vivo para anunciar progreso o errores`);
   if(!names.pressedTabs)a11y.add(`${where}: una pestaña no declara si está activa`);
+  const fixed=await page.evaluate(FIXED_CONTAINMENT);
+  if(!fixed.measured)a11y.add(`${where}: no se midió ningún elemento fixed`);
+  for(const item of fixed.unsafe)a11y.add(`${where}: fixed bajo transform/filter/perspective: ${item}`);
+  const ambient=await page.evaluate(AMBIENT);
+  for(const problem of ambient.problems)a11y.add(`${where}: ${problem}`);
   screenDenominators.push({screen:where,contrastMeasured:result.measured,vocabularyChars:vocabulary.examinedChars,
-    attributes:vocabulary.attributes,controls:names.controls,focusable:result.focusable,terms:result.terms});
+    attributes:vocabulary.attributes,controls:names.controls,focusable:result.focusable,terms:result.terms,ambient});
   return result;
 }
 const checkAccessibility=checkScreen;
@@ -92,12 +141,11 @@ const checkAccessibility=checkScreen;
 // The two small windows are the viewports the real window gives, measured in Electron 44 on Windows 11: the default
 // 1180 × 820 window leaves 1164 × 755 CSS px, so at 200 % zoom 582 × 377, and the minimum 480 × 540 window leaves
 // 464 × 475. At 500 px of height and below the bar is static by design, and everything still has to be reachable.
-const WIZARD_VIEWPORTS=[[1180,820],[1160,810],[1040,700],[582,377],[464,475]],MOTIONS=['no-preference','reduce'];
-const INSTALL={quick:'Instalar stack base y obtener prompt →',ai:'Preparar carpeta y generar prompt maestro →'};
-const PRIMARY={setup:['Inicio','Elegir carpeta →'],'folder-empty':['Volver','Buscar carpeta en este equipo'],
-  folder:['Cambiar carpeta','Ver mi proyecto','Volver','Continuar a delimitación →','Revisar preparación →'],
-  delimitation:['Volver','Paso 3: Visión y Descripción →'],vision:['Volver','Paso 4: Instalación →'],
-  install:['Volver',...Object.values(INSTALL)],finished:['Copiar ruta','Copiar Prompt Maestro','Ver mi proyecto','Tus proyectos']};
+const WIZARD_VIEWPORTS=[[1180,820],[1024,700],[480,540],[1160,810],[1040,700],[582,377],[464,475]],MOTIONS=['no-preference','reduce'];
+const INSTALL={quick:'Guardar la preparación revisada →',ai:'Guardar la preparación revisada →'};
+const PRIMARY={setup:['Inicio','Elegir carpeta','Continuar a Enfoque →'],
+  delimitation:['Volver','Continuar a Visión →'],vision:['Volver','Continuar a Preparar →'],
+  install:['Volver','Guardar la preparación revisada →'],context:['Aplicar este plan y continuar →'],finished:['Copiar ruta','Copiar instrucción','Ver mi proyecto','Tus proyectos']};
 const WIZARD_SCREENS=Object.keys(PRIMARY),WITH_BAR=new Set(WIZARD_SCREENS.filter(screen=>screen!=='finished'));
 const wizard={date:new Date().toISOString(),
   scope:'Renderer real y servicio real en el navegador; selector de carpeta, portapapeles y apertura externa inyectados. Asistente vigente en las tres ventanas del informe y en las dos ventanas pequeñas de la aplicación real (por defecto con zoom al 200 % y mínima), con movimiento normal y reducido y con las dos formas de instalar.',
@@ -114,7 +162,7 @@ async function walkWizard(width,height,motion,branch){
   const copied=[],errors=[],visited=[],problems=[],screens={};
   const service=await createDesktopService({dataRoot:root+'-history',core,environment:null,chooseFolder:async()=>root,copyText:v=>copied.push(v),openExternal:()=>{}});
   const context=await browser.newContext({viewport:{width,height},reducedMotion:motion}),page=await context.newPage();
-  page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(30000);
+  watchRenderer(page,errors);page.setDefaultTimeout(30000);
   await page.exposeFunction('qaCall',async(name,input)=>{
     if(!Object.hasOwn(service,name))return {ok:false,error:{message:'Unknown method'}};
     try{return {ok:true,value:await service[name](input)};}catch(e){return {ok:false,error:publicError(e)};}
@@ -132,6 +180,11 @@ async function walkWizard(width,height,motion,branch){
       accessibility:{contrastMeasured:a11y.measured,contrast:a11y.contrast,headingOrder:a11y.headingOrder,focusable:a11y.focusable,unnamed:names.unnamed},
       header:{brokenWords:a11y.brokenWords}};
     for(const problem of reachProblems(report,{primary:PRIMARY[screen],bar:WITH_BAR.has(screen)}))problems.push(`${screen}: ${problem}`);
+    const fixed=await page.evaluate(FIXED_CONTAINMENT);
+    const ambient=await page.evaluate(AMBIENT);screens[screen].ambient=ambient;
+    for(const problem of ambient.problems)problems.push(`${screen}: ${problem}`);
+    if(!fixed.measured)problems.push(`${screen}: no se midió ningún elemento fixed`);
+    for(const item of fixed.unsafe)problems.push(`${screen}: fixed bajo transform/filter/perspective: ${item}`);
     for(const entry of a11y.contrast)problems.push(`${screen}: contraste ${entry.ratio}:1 (requerido ${entry.required}:1) en ${entry.tag}.${entry.class} "${entry.text}"`);
     for(const entry of a11y.headingOrder)problems.push(`${screen}: encabezados ${entry}`);
     for(const control of names.unnamed)problems.push(`${screen}: control sin nombre accesible ${control}`);
@@ -143,6 +196,20 @@ async function walkWizard(width,height,motion,branch){
     for(const [action,value] of Object.entries(report.nav)){
       if(value!==String(action==='prepare-project'))problems.push(`${screen}: la navegación «${action}» declara aria-pressed="${value}"`);
     }
+    const route=routeFor(screen==='context'?'install':screen);
+    const routeView=await page.evaluate(()=>{
+      const main=document.getElementById('content'),rail=document.querySelector('.wizard-rail'),steps=rail?.querySelector('.steps');
+      const previous=main.scrollTop;main.scrollTop=main.scrollHeight;
+      const mainBox=main.getBoundingClientRect(),railBox=rail?.getBoundingClientRect();
+      const result={breadcrumb:document.getElementById('breadcrumb').textContent,
+        step:steps?[...steps.children].findIndex(item=>item.getAttribute('aria-current')==='step'):null,
+        sticky:getComputedStyle(rail).position==='sticky',
+        railVisible:!!railBox&&railBox.top>=mainBox.top-1&&railBox.bottom<=mainBox.bottom+1};
+      main.scrollTop=previous;return result;
+    });
+    if(routeView.breadcrumb!==route.breadcrumb)problems.push(`${screen}: breadcrumb no coincide con la ruta declarada`);
+    if(routeView.step!==route.step)problems.push(`${screen}: riel no coincide con el paso ${route.step} de la ruta`);
+    if(routeView.sticky&&!routeView.railVisible)problems.push(`${screen}: el riel desaparece al desplazarse hasta el final`);
     if(motion==='no-preference'&&branch==='ai'&&['setup','install'].includes(screen)){
       await page.screenshot({path:path.join(output,`wizard-${width}x${height}-${screen}-final.png`),mask:[page.locator('.path')],maskColor:'#e7eee4'});
       evidence.screenshots.push(`wizard-${width}x${height}-${screen}-final.png`);
@@ -163,9 +230,26 @@ async function walkWizard(width,height,motion,branch){
     return false;
   };
   try{
-    await page.goto(url);await reached('Dale a tu IA un buen punto de partida.','inicio');
+    await page.goto(url);await reached('Prepara tus proyectos con Project Engineering OS','inicio');
+    const homeCopy=await page.locator('#view .intro').innerText();
+    for(const phrase of ['¿Cansado de repetirle a tu IA', 'Prepara la carpeta donde trabajas con instrucciones y un método claro.']){
+      if(!homeCopy.includes(phrase))problems.push(`inicio: falta instrucción visible: ${phrase}`);
+    }
+    if(await page.locator('#view .home-copy > .eyebrow, #view > .enter > .eyebrow, #view .feature-row, #view .panel').count())
+      problems.push('inicio: la portada vuelve a incluir bloques informativos ajenos a la acción principal');
+    if(await page.locator('.home-benefits[aria-labelledby="home-benefits-title"]').count()!==1)
+      problems.push('inicio: faltan los beneficios de preparación claramente identificados');
     await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
-    if(!await reached('Empecemos por lo que quieres lograr.','inicio'))return;
+    if(!await reached('¿Qué vas a preparar?','inicio'))return;
+    if(await page.locator('#view .wizard-purpose').textContent()!=='Herramienta de preparación de proyectos para tu IA')
+      problems.push('setup: falta la breve descripción de la herramienta');
+    if(await page.locator('#view .wizard-content > .intro').count())problems.push('setup: volvió el subtítulo redundante retirado por el mantenedor');
+    if(await page.getByLabel('Nombre de tu proyecto',{exact:true}).count()!==1||await page.locator('#wizard-project-form input[name="profile"]').count()!==6)
+      problems.push('setup: el formulario perdió el nombre o los seis tipos de trabajo');
+    if(await page.locator('#wizard-project-form legend').innerText()!=='¿Qué vas a preparar?')problems.push('setup: el grupo de perfiles perdió su título original');
+    const folderChoice=page.getByRole('group',{name:'Elige la carpeta del proyecto'});
+    if(!await folderChoice.isVisible()||!await folderChoice.locator('svg').isVisible())
+      problems.push('setup: la elección obligatoria de carpeta no es visible con su icono');
     await measure('setup');
     if(branch==='ai'){
       // Keyboard, on the longest screen: every stop Tab reaches has to stay at least partly visible, never wholly
@@ -185,73 +269,72 @@ async function walkWizard(width,height,motion,branch){
         if(stop)stops.push(stop);
       }
       screens.setup.keyboard={stops:stops.length,underBar:stops.filter(stop=>stop.underBar).map(stop=>stop.name),outside:stops.filter(stop=>stop.outside).map(stop=>stop.name),reachedSubmit:!!stops.at(-1)?.submit};
-      if(stops.length<10||!screens.setup.keyboard.reachedSubmit)problems.push(`setup: con Tab no se recorrió el formulario hasta «Elegir carpeta →» (${stops.length} paradas)`);
+      if(stops.length<10||!screens.setup.keyboard.reachedSubmit)problems.push(`setup: con Tab no se recorrió el formulario hasta «Continuar a Enfoque →» (${stops.length} paradas)`);
       for(const name of screens.setup.keyboard.underBar)problems.push(`setup: al tabular, «${name}» queda oculto bajo la barra`);
       for(const name of screens.setup.keyboard.outside)problems.push(`setup: al tabular, «${name}» recibe el foco fuera de la ventana`);
       await page.evaluate(()=>window.scrollTo(0,0));
     }
-    // A required field keeps the wizard where it is, by click and by Enter; valid answers advance by either.
+    // Required name, through click and Enter. Folder selection belongs to this same first step.
+    await press('Elegir carpeta','setup');await page.locator('.wizard-folder .path').waitFor();
     await page.getByLabel('Nombre de tu proyecto').fill('');
-    await page.getByLabel('¿Qué quieres lograr?').fill('Terminar el asistente con la animación activa');
-    await press('Elegir carpeta →','setup');
-    await page.getByLabel('¿Qué quieres lograr?').press('Enter');
-    const refused=await page.evaluate(()=>({screen:document.querySelector('#view h1')?.textContent,missing:document.getElementById('name')?.validity.valueMissing}));
-    if(refused.screen!=='Empecemos por lo que quieres lograr.'||!refused.missing)problems.push(`setup: un nombre vacío no detuvo el asistente ${JSON.stringify(refused)}`);
+    await press('Continuar a Enfoque →','setup');
+    await page.getByLabel('Nombre de tu proyecto').press('Enter');
+    const refused=await page.evaluate(()=>({screen:document.querySelector('#view h1')?.textContent,missing:document.getElementById('wizard-name')?.validity.valueMissing}));
+    if(refused.screen!=='¿Qué vas a preparar?'||!refused.missing)problems.push(`setup: un nombre vacío no detuvo el asistente ${JSON.stringify(refused)}`);
     await page.getByLabel('Nombre de tu proyecto').fill('Asistente con animación');
-    if(branch==='quick')await page.getByLabel('¿Qué quieres lograr?').press('Enter');else await press('Elegir carpeta →','setup');
-    if(!await reached('Tu trabajo empieza en una carpeta.','setup'))return;
+    if(branch==='quick')await page.getByLabel('Nombre de tu proyecto').press('Enter');else await press('Continuar a Enfoque →','setup');
+    if(!await reached('¿Qué tipo de trabajo harás?','setup'))return;
     if(branch==='quick'){
-      // Going back keeps what was answered.
       await settle(page);
-      if(!await press('Volver','folder-empty')||!await reached('Empecemos por lo que quieres lograr.','folder-empty'))return;
-      const kept={name:await page.getByLabel('Nombre de tu proyecto').inputValue(),goal:await page.getByLabel('¿Qué quieres lograr?').inputValue()};
-      if(kept.name!=='Asistente con animación'||kept.goal!=='Terminar el asistente con la animación activa')problems.push(`setup: al volver se perdieron las respuestas ${JSON.stringify(kept)}`);
-      await settle(page);
-      if(!await press('Elegir carpeta →','setup')||!await reached('Tu trabajo empieza en una carpeta.','setup'))return;
+      if(!await press('Volver','delimitation')||!await reached('¿Qué vas a preparar?','delimitation'))return;
+      if(await page.getByLabel('Nombre de tu proyecto').inputValue()!=='Asistente con animación')problems.push('setup: al volver se perdió el nombre');
+      if(!await press('Continuar a Enfoque →','setup')||!await reached('¿Qué tipo de trabajo harás?','setup'))return;
     }
-    await measure('folder-empty');
-    if(!await press('Buscar carpeta en este equipo','folder-empty'))return;
-    await page.locator('.folder-card .path').waitFor();
-    await measure('folder');
-    if(!await press('Continuar a delimitación →','folder')||!await reached('¿Cuál es el enfoque principal de tu proyecto?','folder'))return;
     await measure('delimitation');
-    // The last card is the one the bar covered in the maintainer's report.
-    const cards=page.locator('.delimitation-card'),last=cards.nth(await cards.count()-1),title=await last.locator('h3').innerText();
-    await last.click({timeout:5000}).catch(()=>problems.push(`delimitation: un clic normal no pudo elegir «${title}»`));
-    await settle(page);
-    if(await page.locator('.delimitation-card.selected h3').innerText().catch(()=>null)!==title)problems.push(`delimitation: «${title}» no quedó elegida`);
-    if(!await press('Paso 3: Visión y Descripción →','delimitation')||!await reached('Cuéntanos en tus palabras: ¿qué quieres lograr?','delimitation'))return;
+    const radios=page.locator('input[name="focus"]'),last=radios.nth(await radios.count()-1),focus=await last.getAttribute('value');
+    await last.check({timeout:5000}).catch(()=>problems.push(`delimitation: no se pudo elegir ${focus}`));await settle(page);
+    if(!await page.locator(`input[name="focus"][value="${focus}"]`).isChecked())problems.push('delimitation: no quedó elegido el enfoque');
+    if(!await press('Continuar a Visión →','delimitation')||!await reached('Cuéntalo en tus palabras','delimitation'))return;
     await measure('vision');
-    // A screen reader needs the editor's name from something other than its placeholder, which goes away as soon as
-    // the person types. The name is read from the accessibility tree with the placeholder removed for the moment.
-    const placeholder=await page.locator('#vision-input').getAttribute('placeholder');
-    await page.locator('#vision-input').evaluate(node=>node.removeAttribute('placeholder'));
-    const named=await page.getByRole('textbox',{name:'Tu visión del proyecto',exact:true}).count();
-    if(named!==1)problems.push('vision: el editor no tiene nombre accesible sin su placeholder');
-    // The same reading with the aria-label gone too has to find nothing, or it could not tell a named editor apart.
-    const label=await page.locator('#vision-input').getAttribute('aria-label');
-    await page.locator('#vision-input').evaluate(node=>node.removeAttribute('aria-label'));
-    const withoutLabel=await page.getByRole('textbox',{name:'Tu visión del proyecto',exact:true}).count();
-    await page.locator('#vision-input').evaluate((node,value)=>{if(value!==null)node.setAttribute('aria-label',value);},label);
-    if(withoutLabel!==0)problems.push('vision: la lectura del nombre no distingue un editor sin aria-label');
-    screens.vision.name={withoutPlaceholder:named,withoutPlaceholderOrLabel:withoutLabel};
-    await page.locator('#vision-input').evaluate((node,value)=>{if(value!==null)node.setAttribute('placeholder',value);},placeholder);
-    // The suggestions are the last content of this screen, and each one adds a paragraph. With the quick branch a
-    // line break is also typed by hand: both are ordinary ways to write a vision.
-    for(const chip of await page.locator('.prompt-chip strong').allInnerTexts()){
-      await page.locator('.prompt-chip').filter({hasText:chip}).click({timeout:5000}).catch(()=>problems.push(`vision: un clic normal no pudo pulsar la sugerencia «${chip}»`));
+    await press('Continuar a Preparar →','vision');await settle(page);
+    if(await page.locator('#view h1').innerText()!=='Cuéntalo en tus palabras')problems.push('vision: un objetivo vacío permitió avanzar');
+    await page.getByLabel('¿Qué quieres lograr?').fill('Terminar el asistente con la animación activa');
+    // A real label, not the disappearing placeholder. Removing both is the negative control.
+    const area=page.locator('#vision-free'),placeholder=await area.getAttribute('placeholder');
+    await area.evaluate(node=>node.removeAttribute('placeholder'));
+    const named=await page.getByRole('textbox',{name:'Descripción libre (opcional)',exact:true}).count();
+    await page.locator('label[for="vision-free"]').evaluate(node=>node.removeAttribute('for'));
+    const unnamed=await page.getByRole('textbox',{name:'Descripción libre (opcional)',exact:true}).count();
+    await page.locator('.field label').filter({hasText:'Descripción libre (opcional)'}).evaluate(node=>node.setAttribute('for','vision-free'));
+    await area.evaluate((node,value)=>{if(value!==null)node.setAttribute('placeholder',value);},placeholder);
+    screens.vision.name={withoutPlaceholder:named,withoutPlaceholderOrLabel:unnamed};
+    if(named!==1||unnamed!==0)problems.push('vision: la lectura del nombre no distingue un editor sin etiqueta');
+    for(const label of ['Pregunta sobre audiencia','Pregunta sobre materiales','Pregunta sobre límites'])await press(label,'vision');
+    if(branch==='quick'){await area.press('End');await page.keyboard.press('Enter');await page.keyboard.type('Una línea escrita a mano.');}
+    const draft=await area.inputValue();
+    for(const question of ['¿Para quién es este proyecto?','¿Qué materiales o avances existen ya?','¿Qué no entra en este primer resultado?']){
+      if(!draft.includes(question))problems.push(`vision: falta la pregunta ${question}`);
     }
-    if(branch==='quick'){await page.locator('#vision-input').press('End');await page.keyboard.press('Enter');await page.keyboard.type('Una línea escrita a mano.');}
-    const draft=await page.locator('#vision-input').inputValue();
-    for(const added of ['### Público Objetivo','### Problema Principal a Resolver','### Alcance del Primer Incremento']){
-      if(!draft.includes(added))problems.push(`vision: la sugerencia «${added}» no llegó al borrador`);
-    }
-    if(!await press('Paso 4: Instalación →','vision')||!await reached('Tu espacio está listo. ¿Cómo prefieres equiparlo?','vision'))return;
+    await press('Ver PROJECT_VISION.md antes de guardar','vision');await settle(page);
+    const preview=await page.locator('.wizard-preview').textContent();
+    if(!await press('Continuar a Preparar →','vision')||!await reached('Cómo quieres continuar','vision'))return;
+    await page.locator(`input[name="install-mode"][value="${branch}"]`).check();await settle(page);
     await measure('install');
-    if(!await press(INSTALL[branch],'install')||!await reached('¡Tu proyecto está listo para cobrar vida!','install'))return;
+    if(!await press(INSTALL[branch],'install'))return;
+    // This renderer fixture deliberately has environment:null. The chosen/default
+    // Software profile must survive folder selection, so quick mode reaches the
+    // unavailable native stage instead of silently becoming a personal project.
+    const preparationStages=await finishPreparation(page,{allowUnavailable:true,
+      measure:async id=>{if(id==='context')await measure('context');}});
+    assert.equal(preparationStages.includes('environment-unavailable'),branch==='quick');
+    if(!await reached('Resultado de la preparación','install'))return;
+    const report=await page.evaluate(async()=>(await import('/lib/core.mjs')).state.preparationResult.report);
+    assert.ok(report.stages.some(item=>item.id==='environment'&&item.state!=='ready'));
+    assert.equal(await page.getByRole('heading',{name:'Qué queda pendiente',exact:true}).count(),1);
     await measure('finished');
     // The vision keeps its paragraphs in the folder, and the objective the preparation recorded is one line.
     const written=await readFile(path.join(root,'PROJECT_VISION.md'),'utf8').catch(()=>'');
+    if(written!==preview)problems.push('finished: la vista previa no coincide byte a byte con PROJECT_VISION.md');
     for(const line of draft.split('\n').filter(line=>line.trim())){
       if(!written.includes(line.trim()))problems.push(`finished: PROJECT_VISION.md no conserva «${line.trim().slice(0,60)}»`);
     }
@@ -259,8 +342,8 @@ async function walkWizard(width,height,motion,branch){
     if(!recorded||/[\r\n]/.test(recorded)||recorded.length>500)problems.push(`finished: el objetivo registrado no es una línea de hasta 500 caracteres ${JSON.stringify(recorded.slice(0,80))}`);
     // Both copy controls, through the service and never through the page's own clipboard, with the exact text the
     // screen shows, and a confirmation in the status region only after the copy succeeded.
-    const shown={'Copiar ruta':await page.locator('.finished-path-bar code').evaluate(node=>node.textContent),
-      'Copiar Prompt Maestro':await page.locator('.prompt-box pre').evaluate(node=>node.textContent)};
+    const shown={'Copiar ruta':await page.locator('#view .path').evaluate(node=>node.textContent),
+      'Copiar instrucción':await page.locator('#view pre.prompt').evaluate(node=>node.textContent)};
     for(const [control,expected] of Object.entries(shown)){
       const before=copied.length;
       // With the ai branch the copy is made from the keyboard, and where focus is afterwards is recorded: the
@@ -277,10 +360,10 @@ async function walkWizard(width,height,motion,branch){
     }
     // The quick prompt says what happened: the folder was prepared and nothing was installed. 0.3.1 told the AI
     // that the base dependencies were already provisioned.
-    if(branch==='quick'&&(/aprovisionad/i.test(shown['Copiar Prompt Maestro'])||!shown['Copiar Prompt Maestro'].includes('no instaló ninguna dependencia'))){
+    if(branch==='quick'&&(/aprovisionad/i.test(shown['Copiar instrucción'])||!shown['Copiar instrucción'].includes('Qué ya preparó Companion'))){
       problems.push('finished: el prompt de instalación rápida afirma dependencias que no se instalaron');
     }
-    await page.locator('#nav [data-action="open-start"]').click();await reached('Dale a tu IA un buen punto de partida.','finished');
+    await page.locator('#nav [data-action="open-start"]').click();await reached('Prepara tus proyectos con Project Engineering OS','finished');
     const outside=await page.locator('#nav [data-action="prepare-project"]').getAttribute('aria-pressed');
     if(outside!=='false')problems.push(`inicio: «Preparar proyecto» sigue con aria-pressed="${outside}" fuera del asistente`);
   }finally{
@@ -301,7 +384,7 @@ async function walkVisionWithoutText(tag,drafts){
   const service=await createDesktopService({dataRoot:root+'-history',core,environment:null,chooseFolder:async()=>root,copyText:()=>{},openExternal:()=>{}});
   const context=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'}),page=await context.newPage();
   const problems=[],errors=[],goal='Un objetivo elegido en el primer paso';
-  page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(30000);
+  watchRenderer(page,errors);page.setDefaultTimeout(30000);
   await page.exposeFunction('qaCall',async(name,input)=>{
     if(!Object.hasOwn(service,name))return {ok:false,error:{message:'Unknown method'}};
     try{return {ok:true,value:await service[name](input)};}catch(e){return {ok:false,error:publicError(e)};}
@@ -311,17 +394,17 @@ async function walkVisionWithoutText(tag,drafts){
   try{
     await page.goto(url);
     await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
-    await page.getByLabel('Nombre de tu proyecto').fill('Visión sin texto');await page.getByLabel('¿Qué quieres lograr?').fill(goal);
-    await go('Elegir carpeta →','Tu trabajo empieza en una carpeta.');
-    await page.getByRole('button',{name:'Buscar carpeta en este equipo',exact:true}).click();await page.locator('.folder-card .path').waitFor();
-    await go('Continuar a delimitación →','¿Cuál es el enfoque principal de tu proyecto?');
-    await go('Paso 3: Visión y Descripción →','Cuéntanos en tus palabras: ¿qué quieres lograr?');
+    await page.getByLabel('Nombre de tu proyecto').fill('Visión sin texto');
+    await page.getByRole('button',{name:'Elegir carpeta',exact:true}).click();await page.locator('.wizard-folder .path').waitFor();
+    await go('Continuar a Enfoque →','¿Qué tipo de trabajo harás?');
+    await go('Continuar a Visión →','Cuéntalo en tus palabras');
+    await page.getByLabel('¿Qué quieres lograr?').fill(goal);
     for(const [index,draft] of drafts.entries()){
-      await page.locator('#vision-input').fill(draft);
-      await go('Paso 4: Instalación →','Tu espacio está listo. ¿Cómo prefieres equiparlo?');
-      if(index<drafts.length-1)await go('Volver','Cuéntanos en tus palabras: ¿qué quieres lograr?');
+      await page.locator('#vision-free').fill(draft);
+      await go('Continuar a Preparar →','Cómo quieres continuar');
+      if(index<drafts.length-1)await go('Volver','Cuéntalo en tus palabras');
     }
-    await go(INSTALL.ai,'¡Tu proyecto está listo para cobrar vida!');
+    await go(INSTALL.ai,'Preparar tu proyecto');await finishPreparation(page);
     const recorded=(await service.listProjects())[0]?.selection?.goal;
     if(recorded!==goal)problems.push(`el objetivo registrado es ${JSON.stringify(recorded)} y no el del primer paso`);
     const written=await readFile(path.join(root,'PROJECT_VISION.md'),'utf8').catch(()=>'');
@@ -349,8 +432,9 @@ try {
   assert.deepEqual(wizard.problems,[],'Every control of the current wizard has to be reachable with and without motion, and both copies have to go through the service');
   assert.equal(wizard.summary.screensVisited,wizard.summary.screensExpected,'Every screen of every run has to be visited');
   evidence.checks.push(`Asistente vigente: ${runs.length} recorridos (${WIZARD_VIEWPORTS.length} ventanas × 2 preferencias de movimiento × 2 formas de instalar), ${wizard.summary.screensVisited} pantallas, ${wizard.summary.controlsReachable} de ${wizard.summary.controlsMeasured} controles alcanzables al tocar su centro, ${wizard.summary.copiesEqual} de ${wizard.summary.copies} copias con el texto exacto, y una visión sin texto que conserva el objetivo del primer paso en ${wizard.withoutText.length} de ${wizard.withoutText.length} casos PASS`);
-  for(const profile of ['research','software','unity','media','general']){
-    const root=path.join(temp,profile);await mkdir(root);
+  for(const motion of MOTIONS)for(const profile of ['research','software','studies','business','unity','media','general']){
+    const selectedProfile={unity:'software',media:'content',general:'personal'}[profile]??profile;
+    const root=path.join(temp,profile+'-'+motion);await mkdir(root);
     await writeFile(path.join(root,'notes.txt'),'Evidence: tokens must be measured. A byte budget is not an observed token reduction.');
     await writeFile(path.join(root,'private-notes.txt'),'Confidential excluded material.');
     if(profile==='research'){
@@ -359,7 +443,7 @@ try {
     }
     if(profile==='unity'){await mkdir(path.join(root,'ProjectSettings'));await writeFile(path.join(root,'ProjectSettings/ProjectVersion.txt'),'m_EditorVersion: 6000.0.0f1');}
     if(profile==='media')await writeFile(path.join(root,'workflow.json'),JSON.stringify({prompt:'An original image',seed:42}));
-    const engineeringProfile=['software','unity'].includes(profile);
+    const engineeringProfile=selectedProfile==='software';
     if(engineeringProfile){
       await writeFile(path.join(root,profile==='unity'?'Game.cs':'budget.js'),profile==='unity'?'public class ResearchGame { public int Points() { return 2; } }':'export function calculateBudget(hours) { return hours * 2; }');
       await writeFile(path.join(root,'package.json'),'{"name":"existing-product","scripts":{"postinstall":"exit 99"}}');
@@ -367,18 +451,30 @@ try {
     }
     const originals=new Map();for(const file of ['notes.txt','private-notes.txt'])originals.set(file,await readFile(path.join(root,file)));
     let pickFolder=root;
-    const context=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'}),page=await context.newPage(),errors=[],opened=[],copied=[];
-    page.on('pageerror',e=>errors.push(e.message));
-    const service=await createDesktopService({dataRoot:path.join(temp,profile+'-history'),core,environment:manager&&engineeringProfile?createEnvironmentEngine(manager):null,chooseFolder:async()=>pickFolder,copyText:v=>copied.push(v),openExternal:v=>opened.push(v)});
+    const context=await browser.newContext({viewport:{width:1180,height:820},reducedMotion:motion}),page=await context.newPage(),errors=[],opened=[],copied=[];
+    watchRenderer(page,errors);
+    const service=await createDesktopService({dataRoot:path.join(temp,profile+'-'+motion+'-history'),core,environment:manager&&engineeringProfile?createEnvironmentEngine(manager):null,chooseFolder:async()=>pickFolder,copyText:v=>copied.push(v),openExternal:v=>opened.push(v)});
     page.setDefaultTimeout(manager?240000:30000);
     await page.exposeFunction('qaCall',async(name,input)=>{
       if(!Object.hasOwn(service,name))return {ok:false,error:{message:'Unknown method'}};
       try{return {ok:true,value:await service[name](input)};}catch(e){return {ok:false,error:publicError(e)};}
     });
     await page.addInitScript(methods=>{window.companion=Object.fromEntries(methods.map(name=>[name,input=>window.qaCall(name,input??{})]));window.companion.onProgress=()=>()=>{};},Object.keys(service));
-    await page.goto(url);await heading(page,'Dale a tu IA un buen punto de partida.');
+    await page.goto(url);await heading(page,'Prepara tus proyectos con Project Engineering OS');
     await checkScreen(page,`${profile} inicio`);
+    assert.equal(await page.locator('.home-benefits .home-benefit-list > li').count(),3,
+      'Home labels three concrete preparation benefits without performance promises');
     await click(page,'Ayuda');await heading(page,'Ayuda');
+    if(profile==='research')await capture(page,'help-faq-desktop');
+    const faq=page.locator('#view .help-faq');
+    assert.equal(await faq.locator('details').count(),3,'Help keeps the method, downloads and privacy in short disclosures');
+    for(const question of ['¿Cómo funciona?','¿Qué se descarga?','¿Qué pasa con mis archivos?']){
+      const disclosure=faq.locator('details').filter({has:page.getByText(question,{exact:true})});
+      assert.equal(await disclosure.count(),1,`Help has a unique answer to ${question}`);
+      await disclosure.locator('summary').click();
+      assert.equal(await disclosure.getAttribute('open'),'','FAQ opens by its native disclosure control');
+      await disclosure.locator('summary').click();
+    }
     assert.equal(await page.locator('#glosario dt').count(),GLOSSARY.length,'The glossary must list every defined term');
     // The property, not the spelling: whichever term control comes first, the dialog it opens is that
     // term's own definition. Pinning one label made the check depend on the order of the help screen.
@@ -388,24 +484,30 @@ try {
     assert((await page.evaluate(ACCESSIBLE_NAMES)).dialogNamed,'The dialog has to carry an accessible name');
     assert.equal(await page.locator('#dialog-title').innerText(),byId.get(firstTerm).term,'A term opens its own definition where it appears');
     await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.getElementById('dialog').open);
-    await click(page,'Inicio');await heading(page,'Dale a tu IA un buen punto de partida.');
-    assert.equal(await page.locator('.enter').evaluate(n=>getComputedStyle(n).animationName),'none');
+    await click(page,'Inicio');await heading(page,'Prepara tus proyectos con Project Engineering OS');
+    assert.equal(await page.locator('.enter').evaluate(n=>getComputedStyle(n).animationName),motion==='reduce'?'none':'enter');
     if(profile==='research')await capture(page,'home-desktop');
     await page.locator('#view').getByRole('button',{name:'Preparar proyecto',exact:true}).click();
     const name=profile==='general'?'Estudio'.repeat(14):profile==='research'?'<img src=x onerror=alert(1)>':'Proyecto '+profile;
-    await page.getByLabel('Nombre de tu proyecto').fill(name);await page.getByLabel('¿Qué quieres lograr?').fill('Comparar evidencia sobre tokens medidos');
-    await page.locator(`input[name="profile"][value="${profile}"]`).check();
-    assert(await page.locator('input[name="agent"][value="web"]').isChecked(),'Default AI should be reflected in the form');
-    // The technology answer, and for a software project the first of the three, so the screen that shows what
-    // would be installed is visited by a journey instead of only by a unit test. Nothing is installed here: the
-    // journey reads the identity, the licence, the sizes and the destination and then declines.
-    assert(await page.locator('input[name="stack-decision"][value="too-early"]').isChecked(),'The third answer is the one a form with no choice records');
-    if(profile==='software'){await page.locator('input[name="stack-decision"][value="chosen"]').check();
-      await page.locator('input[name="stack"][value="typed-code"]').check();}
-    await noOverflow(page,profile+' setup');
-    await checkScreen(page,`${profile} asistente`);
-    await click(page,'Elegir carpeta →');await click(page,'Buscar carpeta en este equipo');
-    await click(page,'Revisar preparación →');await click(page,'Guardar esta preparación →');
+    await page.getByLabel('Nombre de tu proyecto').fill(name);
+    await click(page,'Elegir carpeta');await page.locator('.wizard-folder .path').waitFor();
+    await page.locator(`input[name="profile"][value="${selectedProfile}"]`).check();
+    await noOverflow(page,profile+' setup');await checkScreen(page,`${profile} asistente`);
+    await click(page,'Continuar a Enfoque →');
+    if(engineeringProfile){
+      assert(await page.locator('input[name="stack-decision"][value="too-early"]').isChecked());
+      if(profile==='unity')await page.locator('input[name="focus"][value="game"]').check();
+      if(profile==='software'){await page.locator('input[name="stack-decision"][value="chosen"]').check();
+        await page.locator('input[name="stack"][value="typed-code"]').check();}
+    }else assert.equal(await page.locator('input[name="stack-decision"]').count(),0);
+    await click(page,'Continuar a Visión →');
+    await page.getByLabel('¿Qué quieres lograr?').fill('Comparar evidencia sobre tokens medidos');
+    await click(page,'Continuar a Preparar →');
+    assert(await page.locator('input[name="agent"][value="web"]').isChecked());
+    await click(page,INSTALL.ai);await finishPreparation(page);await heading(page,'Resultado de la preparación');
+    await click(page,'Ver mi proyecto');await heading(page,name);
+    // The old review route is now project maintenance, not a second onboarding path.
+    if(profile==='software')await click(page,'Revisar tecnología del proyecto');
     if(profile==='software'){
       await heading(page,'Esto es lo que pediste instalar.');
       const shown=await page.locator('#view').innerText();
@@ -422,14 +524,16 @@ try {
       await click(page,'Volver');
     }
     if(engineeringProfile){
+      await click(page,'Revisar desarrollo');
       if(manager){await heading(page,'Tus herramientas, listas en este equipo.');await click(page,'Preparar herramientas y continuar →');}
       await heading(page,'Un proceso claro para desarrollar.');await click(page,'Guardar estas instrucciones →');
       if(manager){await heading(page,'Un método de trabajo para tu IA.');await click(page,'Activar y continuar →');}
     }
+    if(!engineeringProfile)await click(page,'Leer mis archivos');
     await heading(page,'Tus archivos, leídos y ubicables.');
     await page.getByText('Dejar materiales fuera',{exact:true}).click();await page.getByLabel('Una ruta relativa por línea').fill('private-notes.txt');await click(page,'Revisar con estas exclusiones');
     await click(page,'Guardar y continuar →');
-    if(['software','unity'].includes(profile)){await heading(page,'Conectemos lo leído con las instrucciones.');await click(page,'Actualizar las instrucciones');await heading(page,'Una última pasada al resumen.');await click(page,'Guardar y ver mi proyecto');}
+    if(engineeringProfile){await heading(page,'Conectemos lo leído con las instrucciones.');await click(page,'Actualizar las instrucciones');await heading(page,'Una última pasada al resumen.');await click(page,'Guardar y ver mi proyecto');}
     await heading(page,name);assert.equal(await page.locator('#view img').count(),0);
     if(manager&&engineeringProfile){
       await heading(page,'Mapa de código · No preparado');await click(page,'Revisar mapa de código');await click(page,'Crear mapa de código');
@@ -439,14 +543,15 @@ try {
       await capture(page,profile+'-verified-code-search');
       evidence.checks.push(`${profile}: reviewed tools → constructor/adoption → official OpenSpec → context → real CodeGraph → symbol search PASS`);
     }
-    await click(page,'Buscar en mis archivos');await page.getByLabel('¿Qué necesitas encontrar?').fill('tokens');await click(page,'Buscar');
+    await click(page,'Archivos');await page.getByLabel('¿Qué necesitas encontrar?').fill('tokens');await click(page,'Buscar');
     await page.locator('.result').first().waitFor();const resultText=await page.locator('#search-results').innerText();assert(resultText.includes('notes.txt'));assert(!resultText.includes('private-notes.txt'));
     if(profile==='research'){assert(resultText.includes('paper.pdf · página 1'));assert(resultText.includes('protocol.docx · párrafo 1'));await capture(page,'research-sources');}
-    await click(page,'Preparar un texto para pegar en tu chat');await page.getByRole('dialog').waitFor();assert.equal(copied.length,0);await page.keyboard.press('Escape');
-    await page.waitForFunction(()=>document.activeElement.textContent==='Preparar un texto para pegar en tu chat');
-    await click(page,'Preparar un texto para pegar en tu chat');await click(page,'Copiar este texto');assert.equal(copied.length,1);assert(copied[0].includes('notes.txt'));assert.equal(opened.length,0);
-    await click(page,'Recetas');await page.locator('.recipe').first().waitFor();assert.equal(await page.locator('.recipe').count(),3);
-    await click(page,'Continuar con mi IA');await click(page,'Continuar con ChatGPT u otro chat web');await page.getByRole('dialog').waitFor();
+    await click(page,'Revisar texto de mis archivos para mi IA');await page.getByRole('dialog').waitFor();assert.equal(copied.length,0);await page.keyboard.press('Escape');
+    await page.waitForFunction(()=>document.activeElement.textContent==='Revisar texto de mis archivos para mi IA');
+    await click(page,'Revisar texto de mis archivos para mi IA');await click(page,'Copiar este texto');assert.equal(copied.length,1);assert(copied[0].includes('notes.txt'));assert.equal(opened.length,0);
+    await click(page,'Recetas');await page.locator('.recipe').first().waitFor();
+    assert.equal(await page.locator('.recipe').count(),(await service.workspace({id:(await service.listProjects())[0].id})).recipes.length);
+    await click(page,'Tu IA');await click(page,'Abrir en ChatGPT u otro chat web');await page.getByRole('dialog').waitFor();
     assert(!/^(null|undefined)$/m.test(await page.getByRole('dialog').innerText()),'Absent optional handoff content must not render as literal text');
     const shown=await page.getByLabel('Instrucción inicial').innerText();await click(page,'Copiar instrucción y abrir');assert.equal(copied[1],shown);assert.equal(opened.length,1);
     await click(page,'Tus proyectos');await heading(page,'Tus proyectos');await collectActions(page,'tus proyectos');
@@ -475,6 +580,8 @@ try {
     await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')!=='true');
     await heading(page,name);
     await checkScreen(page,`${profile} mi proyecto`);
+    assert.equal(await page.locator('#project-tools').evaluate(node=>node.open),false,'Management opens without compulsory tools');
+    await expandProjectDetails(page);await checkScreen(page,`${profile} opciones del proyecto abiertas`);
     // The guidance for THIS project: no step without a reason, no step without either text for an AI or a
     // control that does the work here, and no internal token.
     const guide=await page.evaluate(GUIDE);
@@ -488,14 +595,14 @@ try {
       assert.equal(copied.length,before+1,'Copying a step has to put that step on the clipboard');
       assert.equal(copied.at(-1).includes(root),false,'The text handed to an AI names no absolute path');
     }
-    for(const width of [1180,768,480,240]){await page.setViewportSize({width,height:width===240?410:820});await noOverflow(page,`${profile} ${width}px`);}
+    for(const width of [1180,1024,768,480,240]){await page.setViewportSize({width,height:width===240?410:820});await noOverflow(page,`${profile} ${width}px`);}
     if(profile==='general')await capture(page,'minimum-equivalent-200-percent');
     await page.setViewportSize({width:480,height:820});await click(page,'Privacidad y alcance');await page.keyboard.press('Escape');await page.waitForFunction(()=>document.activeElement.dataset?.action==='privacy-scope');
     if(manager&&engineeringProfile){
       // Last in the journey: touching a source deliberately invalidates the document context too.
       await page.setViewportSize({width:1180,height:820});
       const source=path.join(root,profile==='unity'?'Game.cs':'budget.js'),prior=await readFile(source);
-      await writeFile(source,Buffer.concat([prior,Buffer.from('\n// changed source')]));await click(page,'Estado');await click(page,'Comprobar de nuevo');await heading(page,'Mapa de código · Desactualizado');
+      await writeFile(source,Buffer.concat([prior,Buffer.from('\n// changed source')]));await click(page,'Preparación');await click(page,'Comprobar de nuevo');await heading(page,'Mapa de código · Desactualizado');
       await writeFile(source,prior);await click(page,'Comprobar de nuevo');await heading(page,'Mapa de código · Verificado');
       const index=path.join(root,'.project-os/companion/code/index.json'),saved=await readFile(index);
       await writeFile(index,'corrupt');await click(page,'Comprobar de nuevo');await heading(page,'Mapa de código · Corrupto');
@@ -503,51 +610,51 @@ try {
       assert.deepEqual(await readFile(index),saved);
       evidence.checks.push(`${profile}: code map stale and corrupt states are refused and recover without replacing the saved map PASS`);
     }
-    // A recovery rehearsal for one transaction, driven from the interface rather than asserted from the
-    // engine: undo the file reading, confirm the application refuses to claim the context afterwards, and
-    // confirm the person's own files came through it untouched. This is the one stage a journey without the
-    // managed toolchain can undo end to end.
+    // The wizard already prepared context. Undoing the later exclusion update restores that previous
+    // valid context; it must not falsely become unprepared. Then change a source deliberately to exercise
+    // the negative readiness/guide checks separately, still through the real interface.
     if(profile==='general'){
       await page.setViewportSize({width:1180,height:820});
-      await click(page,'Estado');
+      await click(page,'Preparación');
       await page.getByText('Continuar o deshacer una operación',{exact:true}).click();
       await click(page,'Deshacer la lectura de archivos');
       await page.getByRole('dialog').waitFor();
       assert(/deshace la última operación registrada/.test(await page.getByRole('dialog').innerText()),
         'The dialog has to say what undoing this stage does before it is done');
       await click(page,'Deshacer etapa');
-      await page.getByRole('heading',{name:'Archivos leídos · Por revisar',exact:true}).waitFor();
+      await heading(page,'Archivos leídos · Preparado');
       for(const [file,content] of originals)assert.deepEqual(await readFile(path.join(root,file)),content,
         `Recovery must not touch ${file}`);
-      // A stage of a verified project broken on purpose, from the interface: the guidance gains the step that
-      // is now missing, and the list stops showing the project as ready and names the stage.
+      const notes=path.join(root,'notes.txt');await writeFile(notes,Buffer.concat([await readFile(notes),Buffer.from('\nCambio deliberado de la fuente de prueba.')]));
+      await click(page,'Comprobar de nuevo');await heading(page,'Archivos leídos · Por revisar');
       const undone=await page.evaluate(GUIDE);
       assert.notEqual(guideSignature(undone),guideSignatures.at(-1)[1],
         'Undoing a stage has to change the guidance for this project');
-      assert.match(undone.steps[0].title,/Falta leer tus archivos/,JSON.stringify(undone.steps[0]));
+      assert.ok(undone.steps.some(step=>/Falta leer tus archivos/.test(step.title)),JSON.stringify(undone.steps));
       await click(page,'Tus proyectos');await heading(page,'Tus proyectos');
       const broken=(await page.evaluate(READY_CLAIMS))[0];
       assert.doesNotMatch(broken.className,/state-verified/,`${broken.className}: ${broken.text}`);
       assert.notEqual(broken.mark,'✓','A project with a stage undone may not carry the mark');
       assert.match(broken.text,/la lectura de tus archivos/,broken.text);
       assert.deepEqual(readyProblems([broken]),[]);
-      evidence.checks.push('general: a stage of a verified project undone from the interface removes the ready mark, names the stage in the list, and adds the step to the guidance PASS');
+      evidence.checks.push('general: rollback restores prior current context and originals; a subsequent source change removes the ready mark, names missing stages and adds guidance PASS');
+      await writeFile(notes,originals.get('notes.txt'));
       // Duplicating: the answers are reused, the new folder is chosen, and nothing of the original travels
       // with it. Measured on disk before anything is written, which is the only place it can be measured.
-      const copyRoot=path.join(temp,'general-copia');await mkdir(copyRoot);
+      const copyRoot=path.join(temp,'general-copia-'+motion);await mkdir(copyRoot);
       await writeFile(path.join(copyRoot,'otras-notas.txt'),'Otro acuerdo, en otra carpeta.');
       pickFolder=copyRoot;
       await page.locator('article.project details.more > summary').first().click();
       await page.locator('[data-row-action="duplicate-project"]').first().click();
       await page.waitForFunction(()=>document.getElementById('content').getAttribute('aria-busy')!=='true');
-      await heading(page,'Tu trabajo empieza en una carpeta.');
+      await heading(page,'¿Qué vas a preparar?');
       await checkScreen(page,'general duplicar carpeta');
-      assert.equal(await page.locator('.folder-card h2').innerText(),path.basename(copyRoot));
+      assert.equal(await page.locator('.wizard-folder .path').innerText(),copyRoot);
       await assert.rejects(readFile(path.join(copyRoot,'.project-os/companion/receipt.json')),{code:'ENOENT'},
         'Duplicating writes nothing into the new folder before the plan is approved');
-      await click(page,'Volver');await heading(page,'Empecemos por lo que quieres lograr.');
       assert.equal(await page.getByLabel('Nombre de tu proyecto').inputValue(),name,
-        'Duplicating arrives with the original answers already filled in and editable');
+        'Duplicating reuses the editable answers');
+      await click(page,'Continuar a Enfoque →');await click(page,'Continuar a Visión →');
       assert.equal(await page.getByLabel('¿Qué quieres lograr?').inputValue(),'Comparar evidencia sobre tokens medidos');
       pickFolder=root;
       evidence.checks.push('general: duplicating reuses the answers, writes nothing into the new folder before the plan is approved, and copies none of the original preparation PASS');
@@ -557,11 +664,11 @@ try {
       await heading(page,name);
       await click(page,'Leer mis archivos');await heading(page,'Tus archivos, leídos y ubicables.');
       await click(page,'Guardar y continuar →');await heading(page,name);
-      await page.getByRole('heading',{name:'Archivos leídos · Preparado',exact:true}).waitFor();
+      await heading(page,'Archivos leídos · Preparado');
       evidence.checks.push('general: recovery rehearsal for one transaction — the file reading was undone from the interface, the application then refused to claim it, the original documents were byte-identical, and reading again restored the state PASS');
     }
     for(const [file,content] of originals)assert.deepEqual(await readFile(path.join(root,file)),content);
-    assert.deepEqual(errors,[]);evidence.checks.push(`${profile}: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/768/480/240 CSS widths PASS; native capabilities injected`);
+    assert.deepEqual(errors,[]);evidence.checks.push(`${profile}: onboarding, reviewed real base/context writes, citations/search, exclusions, recipes, reviewed copy/handoff, reopen, keyboard dialog focus, 1180/1024/768/480/240 CSS widths PASS; native capabilities injected`);
     await context.close();
   }
   assert.deepEqual([...a11y],[],'Contrast, heading order, keyboard reach, accessible names and the vocabulary rule must hold on every screen walked');
@@ -581,7 +688,7 @@ try {
   evidence.checks.push(`La guía difiere entre los ${signatures.size} perfiles, comparada por sus pasos PASS`);
   evidence.checks.push(`Estado mostrado por fila en la lista: ${listStates.map(e=>`${e.profile}=${e.state}`).join(', ')}`);
   evidence.listStates=listStates;
-  evidence.checks.push(`Contraste, orden de encabezados, teclado, nombres accesibles y la regla de vocabulario comprobados en ${screensSeen.size} pantallas de los cinco perfiles: 0 hallazgos PASS`);
+  evidence.checks.push(`Contraste, orden de encabezados, teclado, nombres accesibles y la regla de vocabulario comprobados en ${screensSeen.size} pantallas de las siete variantes de prueba: 0 hallazgos PASS`);
   evidence.checks.push(`${termsSeen.length} controles de definición comprobados contra el término que abren: 0 desajustes PASS`);
   const thin=screenDenominators.filter(entry=>!entry.contrastMeasured||!entry.vocabularyChars||!entry.controls);
   assert.deepEqual(thin,[],'Every screen has to report a non-zero denominator, or the pass is vacuous');
@@ -595,7 +702,13 @@ try {
   assert.deepEqual([...actionsSeen.keys()].sort(),[...expected].sort(),'The closed set of navigable actions is part of the contract');
   assert.deepEqual(duplicated,[],'An action offered under two different names is the defect this change removes');
   evidence.checks.push(`One name per action across ${actionsSeen.size} navigable actions: ${[...actionsSeen].map(([a,n])=>`${a}="${[...n.keys()][0]}"`).join(', ')} PASS`);
-  evidence.checks.push('No renderer exceptions across five journeys; source markup rendered as text; original documents preserved.');
+  evidence.checks.push('No renderer exceptions across the seven legacy variants in both motion modes; source markup rendered as text; original documents preserved.');
   await writeFile(path.join(output,'browser-evidence.json'),JSON.stringify(evidence,null,2)+'\n');console.log(JSON.stringify(evidence,null,2));
 }catch(error){if(browser){const pages=browser.contexts().flatMap(c=>c.pages());if(pages.length){await capture(pages.at(-1),'failure');console.error((await pages.at(-1).locator('body').innerText()).slice(-6000));}}throw error;}
 finally{await browser?.close();await new Promise(r=>server.close(r));assert(path.dirname(temp)===await realpath(tmpdir())&&path.basename(temp).startsWith('peos-desktop-ui-'));await rm(temp,{recursive:true,force:true});}
+
+
+const routeReport=await verifyRouteCoverage(path.join(output,'declared-routes'));
+console.log(JSON.stringify({declaredRoutes:routeReport.routes,routeCells:routeReport.cells,negativeControls:routeReport.negatives.length}));
+await verifyProfileCompatibility(path.join(output,'profile-compatibility'));
+await verifyWizardIsolation(path.join(output,'wizard-isolation'));

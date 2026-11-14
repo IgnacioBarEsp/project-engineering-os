@@ -1,0 +1,13 @@
+# Revisión adversarial de implementación — #144
+
+Autor de esta revisión: el mismo agente que implementó el cambio. Es una revisión adversarial propia, **no** una revisión independiente ni una aprobación humana. La revisión independiente del layout en tres tamaños y la aprobación visual del mantenedor son gates del PR todavía pendientes.
+
+## Ataques realizados y resultado
+
+1. **Asset omitido o escapado de `peos://`.** La prueba coteja recursivamente el directorio `ui/` con la allowlist exacta, verifica cada tipo MIME, símbolos SVG y rechaza host, protocolo, método, query, fragmento y ruta desconocidos. En el smoke real de Electron se descubrió que el fragmento del sprite era bloqueado por `webRequest`; se corrigió centralizando la resolución en `localAsset`. No quedan fallos observados.
+2. **Interfaz que aparenta pasar con un harness vacío.** Se compararon acciones cerradas, controles de glosario y denominadores por pantalla; 45 mutaciones se detectaron por su propiedad, no por excepciones. El browser llegó a 140 pantallas y 1100/1100 controles del asistente. La prueba estructural rechaza módulos grandes, colores fuera de tokens, emoji e inyección HTML/estilos inline.
+3. **Layout oculto por movimiento, tamaño o scroll.** El browser recorrió cinco ventanas por dos modos de movimiento y dos vías vigentes. Un probe nuevo para las cuatro pastillas a 480 px falló inicialmente: 398 px de contenido en 370 px disponibles. Se corrigió compactando la navegación y convirtiendo Privacidad en un icono con nombre accesible completo. Repetición PASS; la captura a 464 px muestra los cuatro destinos y Privacidad. No se observó un `fixed` bajo ancestro transformado, desbordamiento horizontal ni controles tapados.
+4. **Estado o vocabulario engañoso.** Se conservó una sola etiqueta por acción, los términos abren su definición y las palabras de la persona permanecen marcadas. Inicio no reclama un entorno listo sin comprobación y no promete mejorar la calidad de la respuesta de la IA. La revisión visual encontró un alias CSS autorreferencial que ocultaba la marca y la lista de Ayuda demasiado compacta; ambos se corrigieron y se repitió Electron.
+5. **Regresión del motor o datos.** El diff funcional se limita a renderer, assets del protocolo, harnesses, avisos y documentación; no cambia `engine/`, recibos ni IPC. Un recorrido deshizo una operación y verificó originales byte a byte. Rollback por revert del PR, sin migración de datos.
+
+Resultado propio: cero Blockers o Majors abiertos. Pendientes separados: revisión independiente elegida por el mantenedor, su revisión visual de Inicio/Ayuda y CI multiplataforma del PR. No se cuentan como aprobados aquí.

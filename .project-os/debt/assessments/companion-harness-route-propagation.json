@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "flow": "companion-harness-route-propagation",
+  "date": "2026-09-30",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Assessment acotado a la propagación de la corrección de #144 y migración de sus pruebas por #145–#150. Cada cabeza tiene contrato propio PASS: 21/21 o20/20 rutas y46/46 o47/47 negativos; ningún negativo anterior eliminado. Se corrigió fase context dentro de install, acceso por summary real a tecnología plegada y negativo de definición real en149. Se conservan los FAIL originales. En b4 limpio npm run check391/391 y Companion225/225 PASS, OpenSpec7/7strict; delta independiente estático sin nuevos hallazgos. UI/engine/context/runtime/desktop/package/lock no cambian frente al integrado799. No se difiere un defecto nuevo de este delta ni se cambian dependencias/protecciones; no equivale a cero deuda global o revisión integral de todos los heads. Gates humanos, protocolo final, CI e instalación y el riesgo ya registrado de npm#204 permanecen pendientes por separado, sin duplicar deuda ni alterar assessments anteriores."
+}

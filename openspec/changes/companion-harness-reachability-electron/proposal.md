@@ -1,0 +1,87 @@
+## Why
+
+Issue #150 completes Wave 3 verification. Existing tests already cover many regressions from #142 and #144–#149, but do not cross all six profiles, both preparation choices, both motion preferences and the required three window sizes. Native Electron source-app captures need a required Windows CI job.
+
+## What Changes
+
+- Extend existing journeys and measure visited routes against the authoritative renderer table.
+- Add explicit bounded-motion, route/rail/nav, occlusion, scroll and transformed-ancestor probes with measured denominators and targeted mutations.
+- Run real Electron Windows source app in CI, verify IPC clipboard from the main process and emit provenance-bound captures.
+- Reproduce historical #141 defects at a3b1efd and the #142 fix using isolated snapshots, without mutating product checkouts.
+- Document the independent adversarial review protocol; keep human/independent gates pending until actual evidence.
+
+## Capabilities
+
+### Approved coordination amendment — f9ed23c
+
+The [final-head amendment](coordinated-final-head-amendment.md) proposes qualifying
+all seven existing phases on one identified final source, then archiving them in
+their original order and integrating through one protected PR. It preserves every
+phase criterion, scoped human receipt, independent review and debt history.
+It does not approve historical intermediate layouts or replace the real #146/#147
+maintainer journeys. Explicit approval of f9ed23c is recorded in
+[the receipt](evidence/coordinated-final-head-approval.md); the protocol may begin.
+Current local timeouts remain failures, not qualification.
+
+### New Capabilities
+- `companion-harness-coverage`: complete route/motion/window coverage, non-vacuous probes, negative controls and Electron source-app provenance.
+
+### Modified Capabilities
+None.
+
+## Impact
+
+### Approved installed-evidence harness amendment — 2667452
+
+Qualification of e713e9a exposed two verifier defects, documented by the independent
+review and a real failed installed cycle. The [new concrete amendment](installed-evidence-harness-amendment.md)
+proposes an exact five-file harness/fixture/QA allowlist, one bounded correction
+and incremental reconciliation; no product/CI/policy changes. The maintainer
+approved2667452 separately; the literal receipt is in evidence/installed-harness-approval.md.
+Apply may begin within that scope. Original qualification/human gates remain.
+
+### Approved fixture-role budget decision after the bounded Apply
+
+The correction frozen at662fc27 failed2/7 regressions because its business fixture
+uses an unrecognized optional role. The product guard is correct. The original
+approval and consumed one-variant budget remain recorded. The
+[new concrete decision](fixture-role-correction-amendment.md) proposes only
+analyst-to-freelancer in that fixture and one changed-input regression execution.
+The maintainer approved c8cd8d5 with «CONTINUA DONDE TE QUEDASTE, apruebo».
+It is applied in716f9e2, with the unchanged seven regressions7/7 and the actual
+same-reviewer incremental report retained. No budget reset or mutation rerun.
+Installed qualification remains0/1. Electron218 approvals7af/2d2/1cb/d812
+are now resolved; TLS/native checks passed in their scope, but the actual
+d812 local QA2PASS/2CANCELLED blocks qualification.
+
+### Observation-only diagnostic — e978 approved and consumed
+
+The [bounded diagnostic](bounded-recovery-qa-diagnostic-amendment.md) requests
+one instrumented QA-copy variant and one two-target invocation, retaining90s
+per case and240s process/180s preparation caps. No runtime/test expectation,
+dependency, guard or previous allowance changes. Its phase/process evidence
+cannot qualify the candidate or authorize a future fix/build/VM.
+Actual e978 approval was recorded before execution. The single diagnostic
+returned1PASS/1CANCELLED and identified aggregate90s allocation/child-cleanup overlap;
+see evidence/recovery-diagnostic-result-e978.md. No qualification credit or retry.
+
+### QA lifecycle correction —5013 approved/applied; blocked
+
+The [three-file QA proposal](recovery-qa-lifecycle-amendment.md) separates the
+three interruption points into independent90s cases, preserves every real manager
+assertion, and owns child close/error/fault witnesses before root cleanup.
+It requests one frozen QA variant,one four-real/five-helper focused execution
+under420s,one fresh scoped readonly review and full current requiredCI3OS.
+This explicit qualification-protocol change received actual5013 approval.
+No product/runtime/guard/dependency/CI changes or previous budget reset.
+
+The one frozen variant and focused invocation returned9/9PASS in172725ms.
+The one fresh independent reviewer sent a partial P2 then errored at a service
+usage limit; the review is incomplete. Parent static confirmation establishes
+missing stderr on EMFILE/ENFILE can reject completion before close registration.
+See evidence/recovery-qa-lifecycle-result-5013.md. No post-freeze QA edits or retry.
+The separate recovery-qa-spawn-error-amendment.md proposes only two QA files,
+one additional changed-input variant/run and continuation of that same review.
+It is NOT approved or applied. No product or old-budget authority is inferred.
+
+Companion test harnesses, CI, EVALUATION documentation. No dependencies, release, installed-app mutation, product data migration or Wave 4. Existing live-service and stubbed native-capability evidence remain explicitly distinct.

@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 147,
+  "change": "companion-step-4-real-preparation",
+  "surfaces": [
+    "ui"
+  ],
+  "validations": [
+    {
+      "id": "openspec-strict",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-step-4-real-preparation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "component-or-interaction-tests",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-step-4-real-preparation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "accessibility-check",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-step-4-real-preparation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "visual-check-when-configured",
+      "status": "pending",
+      "evidence": null,
+      "justification": "Falta la sesión real del mantenedor con dos carpetas Software A/B, el prompt pegado en su IA y las comprobaciones observadas. Las lecturas finales de Inicio/paso1 están registradas en #149; #147 no exige repetirlas ni un lector nuevo adicional. Este gate no se sustituye por pruebas de agente o fixtures.",
+      "profileCondition": null
+    },
+    {
+      "id": "responsive-check-when-configured",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-step-4-real-preparation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "issue-link",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/147",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "adversarial-review",
+      "kind": "manual",
+      "status": "pending",
+      "ref": "openspec/changes/companion-step-4-real-preparation/evidence/adversarial-review.md",
+      "justification": "La revisión propia no sustituye a la independiente.",
+      "profileCondition": null
+    },
+    {
+      "id": "ground-truth-comparison",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-step-4-real-preparation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "keyboard-and-assistive-technology-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-step-4-real-preparation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "loading-empty-error-and-constrained-connectivity-states",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-step-4-real-preparation/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "rollback": {
+    "strategy": "Revertir el PR; los recibos antiguos siguen intactos y no se migran por lectura.",
+    "status": "verified",
+    "evidence": "openspec/changes/companion-step-4-real-preparation/evidence/validation.md",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "pending",
+    "ref": "openspec/changes/companion-step-4-real-preparation/evidence/adversarial-review.md",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}

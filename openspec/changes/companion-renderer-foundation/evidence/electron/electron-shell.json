@@ -1,0 +1,28 @@
+{
+  "date": "2026-09-25T01:42:06.078Z",
+  "source": "local worktree Electron 44 with isolated userData and LOCALAPPDATA",
+  "boundaries": [
+    "no installer or native picker tested",
+    "no user project files touched"
+  ],
+  "shell": {
+    "url": "peos://app/index.html",
+    "headerHeight": 56,
+    "mainScroll": "auto",
+    "brandWidth": 13.333333015441895,
+    "brandHeight": 11.666666030883789,
+    "active": [
+      "open-start"
+    ],
+    "breadcrumb": "INICIO"
+  },
+  "help": {
+    "heading": "Ayuda",
+    "breadcrumb": "AYUDA",
+    "active": [
+      "open-help"
+    ],
+    "glossaryTerms": 18
+  },
+  "failures": []
+}

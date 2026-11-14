@@ -63,7 +63,7 @@ jobs:
   companion:
     name: CI / Companion / ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 15
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -89,9 +89,9 @@ jobs:
       - name: Install browser for app verification
         if: matrix.os == 'ubuntu-latest'
         run: node node_modules/playwright/cli.js install --with-deps chromium
-      # The current wizard with the entry animation running and with reduced motion, then the five project
+      # The current wizard with the entry animation running and with reduced motion, then the project
       # journeys. Reduced motion alone is how the action bar of 0.3.1 passed while covering the install buttons.
-      - name: Verify the wizard and five visual project journeys
+      - name: Verify all profiles, routes and both motion modes
         if: matrix.os == 'ubuntu-latest'
         run: npm run test:ui -- "${{ runner.temp }}/companion-ui-evidence"
       # The journeys above run without the managed toolchain, which is win32-x64 only, so the screens that
@@ -111,11 +111,52 @@ jobs:
         run: npm run evidence:landing -- ../../site/index.html "${{ runner.temp }}/companion-landing-evidence"
       - name: Audit app dependencies
         run: npm run audit
+      - name: Preserve browser matrices and negative controls
+        if: ${{ always() && matrix.os == 'ubuntu-latest' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: companion-browser-evidence
+          path: |
+            ${{ runner.temp }}/companion-ui-evidence
+            ${{ runner.temp }}/companion-contract-evidence
+          if-no-files-found: error
+
+  companion-electron:
+    name: CI / Companion Electron / windows-latest
+    runs-on: windows-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: apps/companion
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: App Node runtime
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.18.0
+          cache: npm
+          cache-dependency-path: apps/companion/package-lock.json
+      - name: Use reviewed npm
+        run: npm install --global --ignore-scripts npm@11.19.1
+      - name: Install app dependencies without lifecycle hooks
+        run: npm ci --ignore-scripts
+      - name: Install the pinned Electron runtime explicitly
+        run: npm run runtime:install
+      - name: Verify real Electron and native clipboard
+        run: npm run evidence:electron -- "${{ runner.temp }}/companion-electron-evidence"
+      - name: Preserve native captures, provenance and measurements
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: companion-electron-evidence
+          path: ${{ runner.temp }}/companion-electron-evidence
+          if-no-files-found: error
 
   required:
     name: CI / required
     if: ${{ always() }}
-    needs: [matrix, dependency-audit, companion]
+    needs: [matrix, dependency-audit, companion, companion-electron]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -125,6 +166,7 @@ jobs:
           MATRIX_RESULT: ${{ needs.matrix.result }}
           AUDIT_RESULT: ${{ needs.dependency-audit.result }}
           COMPANION_RESULT: ${{ needs.companion.result }}
+          ELECTRON_RESULT: ${{ needs.companion-electron.result }}
         run: |
           test "$MATRIX_RESULT" = "success" || {
             echo "Required matrix result is $MATRIX_RESULT"
@@ -136,5 +178,9 @@ jobs:
           }
           test "$COMPANION_RESULT" = "success" || {
             echo "Companion result is $COMPANION_RESULT"
+            exit 1
+          }
+          test "$ELECTRON_RESULT" = "success" || {
+            echo "Companion Electron result is $ELECTRON_RESULT"
             exit 1
           }
