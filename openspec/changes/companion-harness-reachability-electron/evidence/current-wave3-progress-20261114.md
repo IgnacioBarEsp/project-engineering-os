@@ -56,12 +56,22 @@ No se cualificó la candidata o modificó producto. Los roots propios se limpiar
 por el código original;se conservan snapshots de journal/selector,no todos
 los payloads físicos. El diagnóstico queda consumido sin réplica.
 
-## Siguiente decisión
+## Actualización posterior:5013 aprobada y9/9 enfocados
 
-[Corrección acotada de QA propuesta](../recovery-qa-lifecycle-amendment.md).
-Todavía sin aprobación o Apply. Tres archivos solo de QA,cuatro puntos reales
-de90s y cinco controles de propiedad/cancelación/testigo,una ejecución y un review
-scoped más fullCI3SO. Sin cambio de app/runtime/deps/política o reset anterior.
+[5013](../recovery-qa-lifecycle-amendment.md) fue aprobada y aplicada a solo3QA.
+Una variante/una invocación consumidas:9/9PASS,172725ms,producto intacto.
+[Resultado,hashes y límites](recovery-qa-lifecycle-result-5013.md).
+Las casillas8.2/8.3 están cumplidas;8.4 permanece abierta. La revisión fresh
+quedó incompleta por límite del servicio después de una notaP2. El padre
+confirmó el error estáticamente:stderr ausente en EMFILE/ENFILE se desreferencia
+antes de registrar close;9PASS no cubren esa rama. No se modificó la variante
+congelada o repitieron controles. La CI43585134556SUCCESS es del dochead5013,
+no de estas fuentes nuevas. No builds/VM/deuda clean/archivo/merge por9PASS.
+
+La [nueva propuesta de dos QA](../recovery-qa-spawn-error-amendment.md) contiene
+los preimages exactos,un control sintético explícito,un nuevo presupuesto
+1variante/1focused10targets y continuación del mismo reviewer. Todavía sin
+aprobación o Apply. No app/runtime/deps/política o reset anterior.
 
 Después, solo con autoridad y gates reales: completar cualificación, dos builds,
 VM corregida, humanos146/147, assessment/archivo218 y144→150 en orden,

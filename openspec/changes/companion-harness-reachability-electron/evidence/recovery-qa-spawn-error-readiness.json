@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "issue": 150,
+  "amendment": "recovery-qa-spawn-error-amendment.md",
+  "proposalOnly": true,
+  "approved": false,
+  "sourceMutationForNewProposal": false,
+  "focusedInvocationForNewProposal": false,
+  "previousApproval": "5013e0c44cd8f0bcf54c2e4170269103aafee237",
+  "previousResult": "9/9PASS; review incomplete; confirmed static P2",
+  "dor": {
+    "counts": {
+      "PASS": 13,
+      "FAIL": 0,
+      "EXCEPTION": 0
+    }
+  },
+  "strict": {
+    "fixedLocalVersion": "1.6.0",
+    "passed": 29,
+    "failed": 0
+  },
+  "documentChecks": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-lifecycle-5013\\publication-document-checks.json",
+    "relativePath": "artifacts/wave3-current/qa-lifecycle-5013/publication-document-checks.json",
+    "sha256": "985fdb4446bf035adad65e2f169f230b5d98fa996bc9106f9f863d703594aa3a"
+  },
+  "helper": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-lifecycle-5013\\publication-document-checks.mjs",
+    "relativePath": "artifacts/wave3-current/qa-lifecycle-5013/publication-document-checks.mjs",
+    "sha256": "e5882b69f75bab52421803acb439fcfcf3dd72a65024e15d19bf150cbf45d893"
+  },
+  "priorDebtFiles": 97,
+  "debtUnchanged": true,
+  "all223FrozenAppFilesUnchanged": true,
+  "pendingDecision": {
+    "qaFiles": 2,
+    "additionalVariants": 1,
+    "additionalFocusedInvocations": 1,
+    "topLevelTargets": 10,
+    "syntheticInternalControls": 2,
+    "realMs": 90000,
+    "unitMs": 3000,
+    "processMs": 420000,
+    "prepareMs": 180000,
+    "sameReviewerContinuation": 1,
+    "newFreshReviewers": 0
+  },
+  "archivePerformed": false,
+  "merged": false
+}

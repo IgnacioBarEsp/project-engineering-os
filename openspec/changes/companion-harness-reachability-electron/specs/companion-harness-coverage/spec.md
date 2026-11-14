@@ -96,3 +96,18 @@ Before approval this corrective expansion SHALL remain unapplied.
 #### Scenario: Invalid fixture input after consuming a frozen variant
 - **WHEN** a frozen fixture fails the unchanged product selection validator and its approved variant budget is consumed
 - **THEN** the failure and budget remain recorded, no VM or product success is inferred, and any additional source variant requires a concrete approved decision rather than a silent reset
+
+### Requirement: Bounded recovery QA authority and lifecycle
+Recovery QA SHALL retain actual held-child ownership,exact fault witnesses,
+per-scenario limits and close-before-cleanup. The5013 approval and its9/9 focused
+result SHALL remain immutable. A partial reviewer message SHALL NOT count as a
+completed independent review. The proposed spawn-error amendment SHALL remain
+unapplied until its exact revision receives actual maintainer approval.
+
+#### Scenario: Spawn failure without stderr
+- **WHEN** an approved corrected QA observer receives a child error without a stderr stream
+- **THEN** it preserves the first actual cause,observes close before any valid cleanup,and does not substitute a TypeError or infer a successful interruption
+
+#### Scenario: Synthetic control or unavailable reviewer
+- **WHEN** event-only controls verify the observer,or the independent review is interrupted by a service limit
+- **THEN** synthetic evidence is identified separately from native execution,the review remains incomplete,and qualification/build/VM/human/archive/integration gates stay open

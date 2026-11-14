@@ -116,7 +116,7 @@ third iteration;cleanup overlapped the still-active child. See the retained
 result/analysis for facts,unknowns and physical-root-retention limitation.
 No product patch,ownerTLS/native/review cycle,fullsuite,build,VM or CI change occurred.
 
-## Proposed QA lifecycle correction — not approved
+## QA lifecycle correction —5013 approved/applied; blocked
 
 recovery-qa-lifecycle-amendment.md defines the exact three-file QA allowlist,
 four real90s cases and five3s helper regressions. Start from original QA6382307b,
@@ -132,8 +132,24 @@ After close and before new recovery,check actual test cancellation so a timed-ou
 body does not continue recovery. Do not use TestContext.signal alone to skip
 cleanup;the actual trace also emitted it after a passing case.
 
-One proposed QA variant/focused run/scoped fresh review does not reset any prior
+One approved QA variant/focused run/scoped fresh review does not reset any prior
 budget. Only focused9/9 plus full current requiredCI3OS and review without
 unresolved findings can reconcile these corrected QA gates. Unchanged d812
 copy/pack controls remain retained by source/input hashes. Builds/VM/humans,
 debt/archives and protected integration keep their separate original requirements.
+
+5013 approval and frozen-source/result receipts are indexed in
+evidence/recovery-qa-lifecycle-result-5013.json. The one focused run passed9/9;
+the independent cycle is incomplete after a service usage-limit error. Its
+partial P2 is parent-confirmed statically from exact Node24.18.0 source,not
+runtime-reproduced: absent stderr on EMFILE/ENFILE rejects completion before
+close registration. Preserve the frozen QA,all failures and consumed budgets.
+
+The concrete recovery-qa-spawn-error-amendment.md is a NEW pending decision.
+Only helper and unit QA may change after its real approval. Install close/error
+observation before optional stderr,record first cause and wait close on either
+failure. A pure observation seam grants no spawn/kill/root/ownership authority;
+synthetic absence/stream-error controls cannot be counted as real process tests.
+Preserve the existing nine controls and add one explicitly synthetic test with
+two controls;proposed focused denominator10,not9. Additional variant/run and
+same-reviewer continuation are explicit,not a reset or a second fresh review.

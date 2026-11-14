@@ -97,9 +97,9 @@
     {
       "id": "adversarial-review",
       "kind": "manual",
-      "status": "verified",
-      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-incremental-review-716f9e2.md",
-      "justification": "Mismo revisor independiente recibió una sola reconciliación aprobada sobre cinco archivos de716f9e2: F1 corregido en fuente/contrato7/7; F2 corregido con37/37 retenido por entradas idénticas. Sin nuevos P0-P3 accionables en ese delta. No revisó Electron218 ni certificó ciclo instalado0/1, futuros heads, humanos o release. Informe e713 original intacto.",
+      "status": "pending",
+      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/recovery-qa-lifecycle-result-5013.md",
+      "justification": "El review716f9e2 permanece válido para su delta histórico. El nuevo review5013 quedó incompleto por límite del servicio y envió P2 parcial confirmado estáticamente por el padre.9/9focused no cierran el review ni cualifican producto/VM/humanos. No segundo ciclo o fuentes congeladas retocadas.",
       "profileCondition": null
     },
     {
@@ -150,9 +150,9 @@
     "justification": null
   },
   "adversarialReview": {
-    "status": "passed",
-    "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-incremental-review-716f9e2.md",
-    "blockers": 0,
+    "status": "pending",
+    "ref": "openspec/changes/companion-harness-reachability-electron/evidence/recovery-qa-lifecycle-result-5013.md",
+    "blockers": 1,
     "majors": 0
   },
   "exceptions": []

@@ -55,9 +55,18 @@ pass or treat it as installed/human/security-wide approval.
 - [x] 7.3 After approval, freeze the one QA copy/supervisor and execute exactly once:1PASS/1CANCELLED,178799ms,DIAGNOSTIC_ONLY.
 - [x] 7.4 Retain98events/72752bytes and raw hashes; classify aggregate90s budget and cleanup/child overlap,unknown host latency and missing last child exception. No qualification or fix inferred.
 
-## 8. New QA lifecycle correction — not approved
+## 8. QA lifecycle correction —5013 approved/applied; qualification blocked
 
 - [x] 8.1 Prepare a concrete three-file QA correction/protocol proposal from the actual e978 trace; preserve all original failures and budgets.
-- [ ] 8.2 Obtain actual approval of the immutable recovery-qa-lifecycle-amendment revision before changing QA sources or using its new budget.
-- [ ] 8.3 Only after approval, freeze one QA variant and execute the exact four-real/five-helper focused controls once under its bounds.
+- [x] 8.2 Record literal approval of5013e0c before Apply; receipt in evidence/recovery-qa-lifecycle-approval-5013.md.
+- [x] 8.3 Freeze the one QA variant and execute the exact four-real/five-helper controls once:9/9PASS,172725ms,unchanged inputs; zero variants/runs remaining.
 - [ ] 8.4 Receive the one scoped fresh readonly review and current full requiredCI3OS; reconcile only if every gate passes.
+  - [x] 8.4a Retain the partial reviewer message and parent static confirmation of P2 missing-stderr/close registration. No additional execution or source edits.
+  - [ ] 8.4b Finish the interrupted same-reviewer cycle,resolve P2 under new actual authority and obtain current full CI. Service usage limit is not completed review.
+
+## 9. Proposed QA spawn/stdio correction — not approved or applied
+
+- [x] 9.1 Present the concrete two-file amendment with exact preimages,additional one-variant/one10-target budget and same-reviewer continuation; retain5013 freeze/9PASS.
+- [ ] 9.2 Record approval of the immutable spawn/stdio amendment before changing frozen sources or consuming its proposed budget.
+- [ ] 9.3 Only after approval,freeze the one additional variant and run ten focused targets once under the documented bounds.
+- [ ] 9.4 Complete the same original independent review plus new-delta reconciliation and full currentCI; keep build/VM/human/debt/archive/merge gates separate.

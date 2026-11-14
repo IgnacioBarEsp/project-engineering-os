@@ -25,18 +25,31 @@ consumieron64.535s y el cleanup empezó con el último hijo aún activo.
 [Hechos,trazas y límites](evidence/recovery-diagnostic-result-e978.md).
 No cualifica la candidata,borra D812 o demuestra un fallo de producto.
 
-## Próxima decisión concreta, todavía sin aprobación
+## 5013 aprobada/aplicada:9/9; revisión incompleta y P2 abierto
 
-[Corrección del ciclo de vida de QA](recovery-qa-lifecycle-amendment.md):
-tres archivos exclusivos de QA,un90s por punto real,hijos poseídos/cerrados
-antes de borrar y testigo del punto de inyección. Propone una variante,
-una ejecución enfocada de cuatro casos reales/cinco regresiones y una revisión
-independiente acotada más toda la CI3SO. No cambia producto o dependencias.
-No aplicada;presupuestos anteriores consumidos,no otra aprobación pendiente e978.
+[Corrección del ciclo de vida de QA](recovery-qa-lifecycle-amendment.md)
+aprobada literalmente en5013e0c. Una variante/una ejecución consumidas:9/9PASS,
+172725ms,0cancel/SKIP y producto intacto. La primera reparación tardó87.400s.
+[Resultado y fuentes congeladas](evidence/recovery-qa-lifecycle-result-5013.md).
+No repetir estos inputs;la aprobación5013 ya está resuelta.
 
-DoR de esta corrección propuesta:13/13,sin excepciones;OpenSpec fijo1.6.0strict29/29,
-docs,neutralidad,deuda read-only y diffcheck PASS.
-[Readiness y hashes de esta revisión](evidence/recovery-qa-lifecycle-readiness.json).
+El único reviewer fresh envió un P2 y se interrumpió por límite del servicio:
+su revisión NO está completa. El padre confirmó estáticamente que un error
+EMFILE/ENFILE puede dejar stderr ausente y el helper accede antes de registrar
+close,perdiendo la causa. No se reprodujo por agotamiento de recursos ni se
+demostró fallo de producto. La cualificación sigue bloqueada,CI del nuevo head
+pendiente;43585134556SUCCESS acredita solo el head documental5013.
+
+## Nueva decisión concreta, todavía sin aprobación
+
+[Corrección mínima de spawn/stdio](recovery-qa-spawn-error-amendment.md):solo
+helper y unit QA,preimages exactas,una variante adicional y una invocación de
+10targets(9actuales+1sintético con2controles),mismos90s/3s/420s/180s.
+Continuación del MISMO reviewer tras recuperar disponibilidad,no un segundo
+ciclo. No aplicada ni aprobada;no reset de5013,d812/e978/218.
+[DoR13/13,strict29/29 y comprobaciones documentales actuales](evidence/recovery-qa-spawn-error-readiness.json).
+Los97archivos de deuda y los223archivos de app congelada siguieron idénticos;
+no hubo nueva ejecución QA al preparar esta propuesta.
 
 Después de una candidata realmente apta siguen humanos #146/Software A-B #147,
 assessment/archivos #218 y #144→#150 en orden, CI requerida del head final y merge protegido.

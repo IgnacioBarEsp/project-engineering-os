@@ -65,14 +65,23 @@ Actual e978 approval was recorded before execution. The single diagnostic
 returned1PASS/1CANCELLED and identified aggregate90s allocation/child-cleanup overlap;
 see evidence/recovery-diagnostic-result-e978.md. No qualification credit or retry.
 
-### New QA lifecycle correction — not approved
+### QA lifecycle correction —5013 approved/applied; blocked
 
 The [three-file QA proposal](recovery-qa-lifecycle-amendment.md) separates the
 three interruption points into independent90s cases, preserves every real manager
 assertion, and owns child close/error/fault witnesses before root cleanup.
 It requests one frozen QA variant,one four-real/five-helper focused execution
 under420s,one fresh scoped readonly review and full current requiredCI3OS.
-This explicit qualification-protocol change needs approval of its real revision.
+This explicit qualification-protocol change received actual5013 approval.
 No product/runtime/guard/dependency/CI changes or previous budget reset.
+
+The one frozen variant and focused invocation returned9/9PASS in172725ms.
+The one fresh independent reviewer sent a partial P2 then errored at a service
+usage limit; the review is incomplete. Parent static confirmation establishes
+missing stderr on EMFILE/ENFILE can reject completion before close registration.
+See evidence/recovery-qa-lifecycle-result-5013.md. No post-freeze QA edits or retry.
+The separate recovery-qa-spawn-error-amendment.md proposes only two QA files,
+one additional changed-input variant/run and continuation of that same review.
+It is NOT approved or applied. No product or old-budget authority is inferred.
 
 Companion test harnesses, CI, EVALUATION documentation. No dependencies, release, installed-app mutation, product data migration or Wave 4. Existing live-service and stubbed native-capability evidence remain explicitly distinct.

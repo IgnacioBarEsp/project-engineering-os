@@ -1,6 +1,11 @@
 # Propuesta — aislar escenarios y poseer hijos en las pruebas de recuperación
 
-**Nueva decisión pendiente de aprobación de esta revisión real. No aplicada.**
+**Aprobada en5013e0c y aplicada. Una variante/una ejecución consumidas:9/9PASS.**
+[Aprobación literal](evidence/recovery-qa-lifecycle-approval-5013.md) y
+[resultado con límites](evidence/recovery-qa-lifecycle-result-5013.md).
+La revisión independiente quedó incompleta por límite del servicio y dejó un
+P2 confirmado estáticamente. Cualificación bloqueada;no editar esta variante
+congelada ni volver a ejecutar inputs iguales. La aprobación histórica no falta.
 Issue[#150](https://github.com/IgnacioBarEsp/project-engineering-os/issues/150).
 Owner:IgnacioBarEsp. Es una corrección de QA; no de npm,Electron o la app.
 
