@@ -1,5 +1,23 @@
 ## ADDED Requirements
 
+### Requirement: Recovery QA owns children and certifies the requested interruption
+The QA fixture SHALL hold its spawned ChildProcess handles until close, reject spawn errors or missing/wrong nonce/point witnesses, and terminate or await only its owned children before deleting its proven root. A timed-out test SHALL NOT continue new manager recovery after the awaited child closes. The production runtime and every original recovery assertion SHALL remain unchanged.
+
+#### Scenario: Test timeout with a live child
+- **WHEN** a recovery test times out while its owned child remains active
+- **THEN** bounded cleanup terminates and awaits that child before removing its proven root, or retains the root and fails if ownership or close cannot be established
+
+#### Scenario: Unrelated nonzero child exit
+- **WHEN** a child exits nonzero without the exact fixture nonce and intended fault-point witness
+- **THEN** the QA rejects that result instead of crediting the requested interruption
+
+### Requirement: Recovery points have independent unchanged case limits
+The harness SHALL execute npm-published, npm-selection-written and npm-confirmed as independent real90s tests, retaining all original stage-specific selection, journal, generation, history and payload assertions. The separately approved increase in aggregate QA cost SHALL be recorded; original failed runs SHALL remain failed.
+
+#### Scenario: Focused result alone is green
+- **WHEN** the four real scenarios and five fixture controls pass in the proposed focused run
+- **THEN** qualification remains pending until the new source's full requiredCI3OS and scoped independent review also pass, with installer, human, debt and integration gates still separate
+
 ### Requirement: Diagnostic observation remains separate from qualification
 The harness SHALL require actual approval of the immutable bounded recovery diagnostic amendment before preparing its one instrumented QA copy or invoking the two existing interrupted-recovery targets. It SHALL retain original90s case limits, existing assertions and fault points, original source hashes and separate diagnostic hashes, and SHALL never treat diagnostic completion as candidate qualification.
 

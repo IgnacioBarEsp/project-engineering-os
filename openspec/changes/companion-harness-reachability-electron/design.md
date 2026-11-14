@@ -110,6 +110,30 @@ selector bytes without invoking extra recovery. Terminate only owned diagnostic
 children after recording failure, never to manufacture PASS. No new qualification
 credit or automatic fix follows even if both observed cases pass.
 
-This new proposal remains unapproved. One QA-observation variant/invocation would
-be an additional explicit allowance, not a reset of150 or218 budgets. No product
-patch, ownerTLS/native/review cycle, full-suite repetition, build, VM or CI change.
+Actual e978 approval preceded the one observation variant/invocation,now consumed:
+1PASS/1CANCELLED,178799ms,98events. The three-point test spent64.535s before its
+third iteration;cleanup overlapped the still-active child. See the retained
+result/analysis for facts,unknowns and physical-root-retention limitation.
+No product patch,ownerTLS/native/review cycle,fullsuite,build,VM or CI change occurred.
+
+## Proposed QA lifecycle correction — not approved
+
+recovery-qa-lifecycle-amendment.md defines the exact three-file QA allowlist,
+four real90s cases and five3s helper regressions. Start from original QA6382307b,
+not the instrumented copy. Preserve the runtime and every original recovery,
+selection,generation,history and project assertion. Each fault point becomes an
+independent test;the greater aggregate cost is explicit,not a hidden cap increase.
+
+The new test-only fixture holds ChildProcess handles and installs error/close
+listeners before waiting. It checks a bounded exclusive nonce/point witness,
+rejects unrelated exits,and terminates/awaits only its active children before
+deleting its proven root. On unresolved ownership/close,retain root and fail.
+After close and before new recovery,check actual test cancellation so a timed-out
+body does not continue recovery. Do not use TestContext.signal alone to skip
+cleanup;the actual trace also emitted it after a passing case.
+
+One proposed QA variant/focused run/scoped fresh review does not reset any prior
+budget. Only focused9/9 plus full current requiredCI3OS and review without
+unresolved findings can reconcile these corrected QA gates. Unchanged d812
+copy/pack controls remain retained by source/input hashes. Builds/VM/humans,
+debt/archives and protected integration keep their separate original requirements.

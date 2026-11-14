@@ -54,13 +54,25 @@ Installed qualification remains0/1. Electron218 approvals7af/2d2/1cb/d812
 are now resolved; TLS/native checks passed in their scope, but the actual
 d812 local QA2PASS/2CANCELLED blocks qualification.
 
-### New observation-only diagnostic proposal — not approved
+### Observation-only diagnostic — e978 approved and consumed
 
 The [bounded diagnostic](bounded-recovery-qa-diagnostic-amendment.md) requests
 one instrumented QA-copy variant and one two-target invocation, retaining90s
 per case and240s process/180s preparation caps. No runtime/test expectation,
 dependency, guard or previous allowance changes. Its phase/process evidence
 cannot qualify the candidate or authorize a future fix/build/VM.
-Actual approval of this immutable new revision is required before execution.
+Actual e978 approval was recorded before execution. The single diagnostic
+returned1PASS/1CANCELLED and identified aggregate90s allocation/child-cleanup overlap;
+see evidence/recovery-diagnostic-result-e978.md. No qualification credit or retry.
+
+### New QA lifecycle correction — not approved
+
+The [three-file QA proposal](recovery-qa-lifecycle-amendment.md) separates the
+three interruption points into independent90s cases, preserves every real manager
+assertion, and owns child close/error/fault witnesses before root cleanup.
+It requests one frozen QA variant,one four-real/five-helper focused execution
+under420s,one fresh scoped readonly review and full current requiredCI3OS.
+This explicit qualification-protocol change needs approval of its real revision.
+No product/runtime/guard/dependency/CI changes or previous budget reset.
 
 Companion test harnesses, CI, EVALUATION documentation. No dependencies, release, installed-app mutation, product data migration or Wave 4. Existing live-service and stubbed native-capability evidence remain explicitly distinct.

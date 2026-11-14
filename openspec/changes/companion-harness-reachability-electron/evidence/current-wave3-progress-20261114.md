@@ -46,12 +46,22 @@ CI03f seguía in_progress en la consulta; no se acredita required final todavía
 
 Lectura estática: qa/distribution-identity.mjs:75 reúne instalación, corrupción, hijo interrumpido, restart y nueva reparación bajo un90s; :89 reúne tres puntos de interrupción bajo otro90s. Ambos esperan exit del hijo. El TAP local no dice en qué fase se consumió el tiempo. Copias e inventarios completos están en runtime/manager.mjs:150–160 y distribution-identity.mjs:66–124. No hay evidencia suficiente para afirmar deadlock, fallo del producto o solo disco lento.
 
+## Actualización posterior: diagnóstico e978 completado
+
+E978 fue realmente aprobado y ejecutado una vez:1PASS/1CANCELLED,178799ms.
+La reparación pasó87.232s;el caso de tres puntos consumió64.535s antes del
+tercero y su cleanup empezó con el hijo aún activo.
+[Informe y límites](recovery-diagnostic-result-e978.md).
+No se cualificó la candidata o modificó producto. Los roots propios se limpiaron
+por el código original;se conservan snapshots de journal/selector,no todos
+los payloads físicos. El diagnóstico queda consumido sin réplica.
+
 ## Siguiente decisión
 
-[Diagnóstico instrumentado propuesto](../bounded-recovery-qa-diagnostic-amendment.md).
-Todavía sin aprobación ni ejecución. Solo observación de los dos casos en una copia propia,
-con los mismos90s y sin cambiar runtime, criterios o guardas.
-Su resultado no cualifica la candidata ni autoriza una reparación futura.
+[Corrección acotada de QA propuesta](../recovery-qa-lifecycle-amendment.md).
+Todavía sin aprobación o Apply. Tres archivos solo de QA,cuatro puntos reales
+de90s y cinco controles de propiedad/cancelación/testigo,una ejecución y un review
+scoped más fullCI3SO. Sin cambio de app/runtime/deps/política o reset anterior.
 
 Después, solo con autoridad y gates reales: completar cualificación, dos builds,
 VM corregida, humanos146/147, assessment/archivo218 y144→150 en orden,

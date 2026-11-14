@@ -4,7 +4,7 @@
 Hay **7 implementaciones de UI** en la composición de PR217 y **0/7 issues de ola 3 cerrados**.
 Npm/Zod, #152 y fase 1 de #206 sí están integrados en main7073033.
 
-Aprobaciones f9ed23c/2667452/c8 y #218 7af/2d2/1cb/d812 resueltas.
+Aprobaciones f9ed23c/2667452/c8/e978 y #218 7af/2d2/1cb/d812 resueltas.
 C8 dejó 7/7 regresiones, 37/37 mutaciones de servicio retenidas y reconciliación
 independiente recibida. El padre de tasks compuestos permanece abierto cuando
 queda VM/deuda/integración; sus subpasos terminados ahora se muestran marcados.
@@ -16,13 +16,27 @@ de la distribución npm. Builds 0/2 y mismo ciclo VM corregido 0/1 no iniciados.
 La evidencia local y los fallos originales se conservan; no son una regresión
 TLS o pérdida de datos demostrada.
 
+## Diagnóstico e978 aprobado y completado
+
+El [diagnóstico aprobado](bounded-recovery-qa-diagnostic-amendment.md) se ejecutó
+una vez: **1 PASS/1 CANCELLED**,178799ms,98eventos. La primera recuperación pasó
+87.232s. La segunda agrupaba tres puntos bajo un90s;las dos primeras iteraciones
+consumieron64.535s y el cleanup empezó con el último hijo aún activo.
+[Hechos,trazas y límites](evidence/recovery-diagnostic-result-e978.md).
+No cualifica la candidata,borra D812 o demuestra un fallo de producto.
+
 ## Próxima decisión concreta, todavía sin aprobación
 
-[Diagnóstico instrumentado acotado](bounded-recovery-qa-diagnostic-amendment.md):
-una copia de observación, dos targets existentes, mismos 90s y una sola invocación
-de 240s, preparación 180s; sin cambios de app/npm/Electron/guardas o criterios.
-No se ejecutó, no cualifica la candidata, no autoriza una reparación o builds/VM.
-Los presupuestos anteriores siguen consumidos.
+[Corrección del ciclo de vida de QA](recovery-qa-lifecycle-amendment.md):
+tres archivos exclusivos de QA,un90s por punto real,hijos poseídos/cerrados
+antes de borrar y testigo del punto de inyección. Propone una variante,
+una ejecución enfocada de cuatro casos reales/cinco regresiones y una revisión
+independiente acotada más toda la CI3SO. No cambia producto o dependencias.
+No aplicada;presupuestos anteriores consumidos,no otra aprobación pendiente e978.
+
+DoR de esta corrección propuesta:13/13,sin excepciones;OpenSpec fijo1.6.0strict29/29,
+docs,neutralidad,deuda read-only y diffcheck PASS.
+[Readiness y hashes de esta revisión](evidence/recovery-qa-lifecycle-readiness.json).
 
 Después de una candidata realmente apta siguen humanos #146/Software A-B #147,
 assessment/archivos #218 y #144→#150 en orden, CI requerida del head final y merge protegido.

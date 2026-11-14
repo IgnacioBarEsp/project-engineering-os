@@ -1,6 +1,8 @@
 # Propuesta — diagnóstico acotado de los dos timeouts de recuperación
 
-**Pendiente de aprobación de esta revisión real. No ejecutada.**
+**Aprobada en revisión e978e4a:** «Sí, apruebo la enmienda e978e4a».
+[Recibo literal](evidence/recovery-diagnostic-approval-e978.md).
+El protocolo siguiente conserva el alcance aprobado; sus resultados se registran por separado.
 Issue existente[#150](https://github.com/IgnacioBarEsp/project-engineering-os/issues/150).
 Owner:IgnacioBarEsp. No se crea otro issue o fork. D812/7af/2d2/1cb/f9ed/266/c8 siguen aprobadas y sus presupuestos consumidos no se reinician.
 

@@ -48,9 +48,16 @@ its focused TLS/native checks passed, while d812 owning QA is2PASS/2CANCELLED
 and blocks qualification. Preserve the reviewer report and do not perform another incremental
 pass or treat it as installed/human/security-wide approval.
 
-## 7. New diagnostic proposal after d812 STOP — not approved
+## 7. Observation-only diagnostic after d812 STOP — e978 approved
 
 - [x] 7.1 Reconcile actual issues/PRs/tasks and retained local/CI evidence without executing another test; publish the progress matrix and preserve the previous handoff.
-- [ ] 7.2 Receive actual approval of the immutable bounded-recovery-qa-diagnostic-amendment revision before any diagnostic instrumentation or invocation.
-- [ ] 7.3 Only after that approval, freeze the one observation-only QA copy and supervisor, then execute exactly the proposed single bounded diagnostic.
-- [ ] 7.4 Retain phase/process/raw evidence and classify facts/unknowns; no qualification, runtime fix, build, VM or budget reset inferred.
+- [x] 7.2 Receive actual approval of immutable e978e4a before diagnostic instrumentation or invocation: «Sí, apruebo la enmienda e978e4a». Receipt in evidence/recovery-diagnostic-approval-e978.md; no old budget reset.
+- [x] 7.3 After approval, freeze the one QA copy/supervisor and execute exactly once:1PASS/1CANCELLED,178799ms,DIAGNOSTIC_ONLY.
+- [x] 7.4 Retain98events/72752bytes and raw hashes; classify aggregate90s budget and cleanup/child overlap,unknown host latency and missing last child exception. No qualification or fix inferred.
+
+## 8. New QA lifecycle correction — not approved
+
+- [x] 8.1 Prepare a concrete three-file QA correction/protocol proposal from the actual e978 trace; preserve all original failures and budgets.
+- [ ] 8.2 Obtain actual approval of the immutable recovery-qa-lifecycle-amendment revision before changing QA sources or using its new budget.
+- [ ] 8.3 Only after approval, freeze one QA variant and execute the exact four-real/five-helper focused controls once under its bounds.
+- [ ] 8.4 Receive the one scoped fresh readonly review and current full requiredCI3OS; reconcile only if every gate passes.
