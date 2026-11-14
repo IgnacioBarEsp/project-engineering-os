@@ -8,7 +8,10 @@ The single authorized sequential QA invocation completed with2PASS/2CANCELLED,
 90000ms; canonical copying/sealing and pack-prefix cleanup passed. The4/4 gate
 was not met. [Exact result, raw hashes and stop](evidence/local-qa-resource-result.md).
 No further targeted/full local suite, owner probe, variant, review or timeout
-increase is authorized by this exhausted decision. No alternate proposal exists.
+increase is authorized by this exhausted decision. A new observation-only proposal
+is now prepared under150, still unapproved:
+[bounded diagnostic](../companion-harness-reachability-electron/bounded-recovery-qa-diagnostic-amendment.md).
+It does not change these consumed budgets or authorize qualification.
 
 Source/tests/executable/ten frozen inputs stayed unchanged. The strict Electron
 contrast9/9per runtime, native18screens/12copies, F1 reconciliation and prior full

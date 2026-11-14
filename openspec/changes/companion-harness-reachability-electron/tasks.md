@@ -28,7 +28,12 @@
 - [x] 5.1 Record approval of the exact installed-evidence harness amendment before changing its five allowlisted files. Literal response and revision in evidence/installed-harness-approval.md; fresh DoR13/13, no exceptions.
 - [x] 5.2 Freeze and apply the bounded correction; original266 variant failed5/7 and the separately approved c8 literal fixes it in716f9e2 with7/7. Negative controls and unique targets retained; product unchanged.
 - [ ] 5.3 Run the approved regressions/full mutation runner and one corrected canonical installed cycle, retain failures and verify restored sources.
+  - [x] 5.3a Retain actual corrected7/7 regressions and restored source hashes; original5/7 remains FAIL.
+  - [x] 5.3b Retain the single37/37 behavior mutation execution; same-input reconciliation received, no rerun.
+  - [ ] 5.3c Complete the still-unused corrected canonical installed cycle0/1 on a qualified candidate.
 - [ ] 5.4 Receive actual same-reviewer incremental reconciliation and assess remaining scope/debt; keep human/closure gates open until satisfied.
+  - [x] 5.4a Receive the actual same-reviewer incremental F1/F2 report for716f9e2; no new actionable finding within five-file scope.
+  - [ ] 5.4b Capture eligible final debt/qualification evidence after remaining gates; do not infer closure from the review alone.
 
 ## 6. Fixture-role decision after failed bounded Apply — c8cd8d5 approved
 
@@ -38,6 +43,14 @@
 
 Incremental reconciliation is now actually received: no new actionable findings
 in five-file scope, F1 source/contract fixed and F2 execution37/37 reconciled.
-The installed0/1 gate remains, together with the separate unapproved Electron218
-remediation. Preserve the reviewer report and do not perform another incremental
+The installed0/1 gate remains. Electron218 approvals7af/2d2/1cb/d812 are resolved;
+its focused TLS/native checks passed, while d812 owning QA is2PASS/2CANCELLED
+and blocks qualification. Preserve the reviewer report and do not perform another incremental
 pass or treat it as installed/human/security-wide approval.
+
+## 7. New diagnostic proposal after d812 STOP — not approved
+
+- [x] 7.1 Reconcile actual issues/PRs/tasks and retained local/CI evidence without executing another test; publish the progress matrix and preserve the previous handoff.
+- [ ] 7.2 Receive actual approval of the immutable bounded-recovery-qa-diagnostic-amendment revision before any diagnostic instrumentation or invocation.
+- [ ] 7.3 Only after that approval, freeze the one observation-only QA copy and supervisor, then execute exactly the proposed single bounded diagnostic.
+- [ ] 7.4 Retain phase/process/raw evidence and classify facts/unknowns; no qualification, runtime fix, build, VM or budget reset inferred.

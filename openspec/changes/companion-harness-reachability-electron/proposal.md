@@ -50,7 +50,17 @@ analyst-to-freelancer in that fixture and one changed-input regression execution
 The maintainer approved c8cd8d5 with «CONTINUA DONDE TE QUEDASTE, apruebo».
 It is applied in716f9e2, with the unchanged seven regressions7/7 and the actual
 same-reviewer incremental report retained. No budget reset or mutation rerun.
-Installed qualification remains0/1 and Electron remediation is a separate218
-proposal, not approval inferred from this literal correction.
+Installed qualification remains0/1. Electron218 approvals7af/2d2/1cb/d812
+are now resolved; TLS/native checks passed in their scope, but the actual
+d812 local QA2PASS/2CANCELLED blocks qualification.
+
+### New observation-only diagnostic proposal — not approved
+
+The [bounded diagnostic](bounded-recovery-qa-diagnostic-amendment.md) requests
+one instrumented QA-copy variant and one two-target invocation, retaining90s
+per case and240s process/180s preparation caps. No runtime/test expectation,
+dependency, guard or previous allowance changes. Its phase/process evidence
+cannot qualify the candidate or authorize a future fix/build/VM.
+Actual approval of this immutable new revision is required before execution.
 
 Companion test harnesses, CI, EVALUATION documentation. No dependencies, release, installed-app mutation, product data migration or Wave 4. Existing live-service and stubbed native-capability evidence remain explicitly distinct.

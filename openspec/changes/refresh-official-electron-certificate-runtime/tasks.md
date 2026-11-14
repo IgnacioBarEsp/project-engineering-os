@@ -17,11 +17,16 @@
 
 ## 3. Candidate qualification
 - [ ] 3.1 Complete owning suites/runtime matrix/original raw audits and hostile-input controls under unchanged limits; preserve other findings.
+  - [x] 3.1a Retain the actual9/9 baseline/candidate TLS contrast and18screens/12copies native checks within their declared scope.
+  - [x] 3.1b Retain original raw audit counts and exact source/lock correspondences without exceptions.
+  - [ ] 3.1c Resolve the local owning qualification gate: d812 ended2PASS/2CANCELLED; current CI does not erase it.
 - [ ] 3.2 Build twice from frozen inputs; compare inventories/licenses, official runtime/npm and honest byte/resource measurements.
 - [ ] 3.3 Verify the actual installer and complete the one still-unused canonical corrected VM cycle with six profiles/seven scenarios, recovery and uninstall.
 
 ## 4. Independent and human gates
 - [ ] 4.1 Receive one fresh bounded postpatch readonly review, reconcile its real findings and perform official append-only debt assessment.
+  - [x] 4.1a Receive the one fresh review and actual same-reviewer bootstrap incremental reconciliation; F1 resolved, original report retained.
+  - [ ] 4.1b Capture the eligible append-only final debt assessment after qualification; no closure assessment exists yet.
 - [ ] 4.2 Preserve scoped existing human receipts and receive outstanding real146 and SoftwareA/B147 reports on the qualified candidate; no agent substitution.
 
 ## 5. Official closure

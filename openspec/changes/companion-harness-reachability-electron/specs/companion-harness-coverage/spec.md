@@ -1,5 +1,16 @@
 ## ADDED Requirements
 
+### Requirement: Diagnostic observation remains separate from qualification
+The harness SHALL require actual approval of the immutable bounded recovery diagnostic amendment before preparing its one instrumented QA copy or invoking the two existing interrupted-recovery targets. It SHALL retain original90s case limits, existing assertions and fault points, original source hashes and separate diagnostic hashes, and SHALL never treat diagnostic completion as candidate qualification.
+
+#### Scenario: Timeout during the proposed diagnostic
+- **WHEN** an approved diagnostic target times out or leaves its last phase unknown
+- **THEN** the report preserves the cancellation and available phase/process evidence, stops without retry or runtime modification, and leaves qualification, builds, VM and closure pending
+
+#### Scenario: Both observed targets complete
+- **WHEN** both targets finish in the approved observation-only copy
+- **THEN** their result is labeled diagnostic-only and does not erase previous failures, certify the original full suite or authorize a future product correction
+
 ### Requirement: Complete observable coverage
 The harness SHALL exercise six canonical profiles and two preparation choices in both motion modes at 1180x820, 1024x700 and 480x540, retain existing journeys and fail when any declared route is unvisited.
 

@@ -1,53 +1,38 @@
-# #150 — harness de producto y Electron
+# #150 — ola 3 implementada en rama, entrega aún bloqueada
 
-Ampliar pruebas existentes sin duplicar motores: matriz completa, cobertura de rutas, probes con denominador, mutaciones y evidencia nativa Windows con procedencia. Ejecución histórica sobre a3b1efd y hotfix #142. Revisión independiente y aceptación humana no se simulan. Último issue de ola 3; no entrar en ola 4.
+[Progreso por fase y tareas cumplidas](evidence/current-wave3-progress-20261114.md).
+Hay **7 implementaciones de UI** en la composición de PR217 y **0/7 issues de ola 3 cerrados**.
+Npm/Zod, #152 y fase 1 de #206 sí están integrados en main7073033.
 
-## Nueva decisión preparada — 13 de noviembre de 2026
+Aprobaciones f9ed23c/2667452/c8 y #218 7af/2d2/1cb/d812 resueltas.
+C8 dejó 7/7 regresiones, 37/37 mutaciones de servicio retenidas y reconciliación
+independiente recibida. El padre de tasks compuestos permanece abierto cuando
+queda VM/deuda/integración; sus subpasos terminados ahora se muestran marcados.
+No repetir revisiones o aceptaciones humanas ya recibidas.
 
-[Enmienda propuesta](coordinated-final-head-amendment.md): comprobar las siete fases
-sobre una fuente final identificada, conservar sus criterios y recibos y, solo tras
-todos sus gates, archivarlas en orden y presentar un PR protegido conjunto.
-**El mantenedor aprobó f9ed23c:** «Sí, apruebo la enmienda f9ed23c».
-[Recibo exacto](evidence/coordinated-final-head-approval.md).
-Comienza el protocolo; [matriz por fase](evidence/coordinated-final-head-matrix.md).
-No atribuye aceptación a layouts
-históricos ni sustituye los recorridos humanos de #146 y Software A/B de #147.
+Electron oficial 44.9.1 pasó el contraste real 9/9 por runtime y nativo 18 capturas/12 copias.
+D812 se ejecutó una vez y falló el gate 4/4: 2 PASS/2 CANCELLED a los 90s en recuperación
+de la distribución npm. Builds 0/2 y mismo ciclo VM corregido 0/1 no iniciados.
+La evidencia local y los fallos originales se conservan; no son una regresión
+TLS o pérdida de datos demostrada.
 
-Npm/Zod, #152 y la fase 1 de #206 ya están integrados en main `7073033`.
-La composición local `332a261` conserva la UI de la pila, pero **no es apta todavía**:
-strict 28/28 pasa; núcleo y Companion mantienen timeouts reales conservados.
-No hay CI actual o instalador calificado de esa UI, archive de las siete fases
-ni merge. [Resultados y límites](evidence/coordinated-final-head-preflight.json).
+## Próxima decisión concreta, todavía sin aprobación
 
-## Resultado de la cualificación de e713e9a
+[Diagnóstico instrumentado acotado](bounded-recovery-qa-diagnostic-amendment.md):
+una copia de observación, dos targets existentes, mismos 90s y una sola invocación
+de 240s, preparación 180s; sin cambios de app/npm/Electron/guardas o criterios.
+No se ejecutó, no cualifica la candidata, no autoriza una reparación o builds/VM.
+Los presupuestos anteriores siguen consumidos.
 
-PR #217 abierto/draft: CI43364174800 pasó12jobs, incluido Electron Windows.
-El instalador actual se construyó y verificó; el ciclo canónico en VM falló
-PROFILE_INVALID en el harness de perfiles retirados. Una revisión independiente
-concluyó con dos P2 de verificadores (fixtures y anclas de mutaciones), no una
-regresión de UI demostrada. Fallos y revisiones originales se conservan.
+Después de una candidata realmente apta siguen humanos #146/Software A-B #147,
+assessment/archivos #218 y #144→#150 en orden, CI requerida del head final y merge protegido.
+PR217 permanece OPEN/DRAFT; no release ni ola 4.
 
-[Ampliación concreta propuesta](installed-evidence-harness-amendment.md) para
-corregir solo verificadores/fixtures/QA y reconciliar ese diff. **Aprobada2667452**:
-«Sí, apruebo la enmienda 2667452». [Recibo](evidence/installed-harness-approval.md).
-El Apply se congeló en662fc27; las regresiones dieron5/7 y dos fallos por el rol
-`analyst` del fixture de Negocio. La app conserva su guarda correcta. Se retienen
-los fallos, el presupuesto y las fuentes originales. El runner completo terminó
-PASS37/37 por comportamiento, con tres baselines aptos y fuentes restauradas.
-[Resultado y evidencia](evidence/harness-apply-result-662fc27.json).
-La VM y reconciliación incremental no se han usado.
+DoR fresca: **13 PASS/0 FAIL/0 excepciones**. OpenSpec local fijo 1.6.0 strict
+**29/29**, docs, neutralidad, deuda read-only y diffcheck PASS.
+[Recibos, hashes y límites](evidence/status-reconciliation-20261114.json).
+Estas comprobaciones documentales no son aprobación de la enmienda ni ejecución QA.
 
-[Decisión adicional concreta](fixture-role-correction-amendment.md): cambiar solo
-ese literal por `freelancer`. **c8cd8d5 aprobada** con «CONTINUA DONDE TE QUEDASTE,
-apruebo» e implementada en716f9e2: mismas regresiones7/7PASS,0SKIP/cancelación.
-[Recibo](evidence/fixture-role-approval.md) y [resultado](evidence/fixture-role-c8-result.json).
-El MISMO revisor reconcilió F1/F2 sin nuevos hallazgos accionables en los cinco
-archivos; no certifica el ciclo instalado que sigue0/1. Dos variantes consumidas,
-0restantes; runner37/37 retenido por entradas idénticas, sin repetición.
-
-Electron44.1.1 empaquetado mantiene un bloqueo distinto; la propuesta oficial44.9.1
-vive en [#218](https://github.com/IgnacioBarEsp/project-engineering-os/issues/218),
-change refresh-official-electron-certificate-runtime, aún sin aprobación/Apply.
-No iniciar el ciclo final con una candidata insegura ni pedir humanos sobre ella.
-2667452,f9ed23c y c8cd8d5 están resueltas. Humanos146/147, instalación final,
-CI del nuevo head, deuda y archivo siguen pendientes. No merge/release u ola4.
+[Handoff anterior íntegro](evidence/handoff-167-snapshot-20261114T0920.md).
+La [matriz histórica](evidence/coordinated-final-head-matrix.md), fallos,
+aprobaciones y reportes independientes conservan sus autores, fuentes y alcances.

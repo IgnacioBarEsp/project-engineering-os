@@ -91,5 +91,25 @@ budget. Actual c8cd8d5 approval is recorded in evidence/fixture-role-approval.md
 716f9e2 applies only that literal, with7/7 real regressions. The same reviewer
 completed the approved single incremental reconciliation; its scope/remaining
 installed gate are recorded in evidence/fixture-role-c8-result.json. Original
-failure/budget remain; unchanged mutation sources were not rerun. Electron's
-separate issue218 proposal does not authorize its Apply or certify installed UI.
+failure/budget remain; unchanged mutation sources were not rerun. Electron218
+approvals7af/2d2/1cb/d812 are resolved, with focused TLS/native checks retained.
+Its local owning gate failed2PASS/2CANCELLED; installed UI remains unqualified.
+
+## Observation-only diagnostic proposed after d812 STOP
+
+See bounded-recovery-qa-diagnostic-amendment.md for the exact two names, copied
+QA-file allowlist, trace points, unchanged assertions/fault points/timeouts,
+180s preparation/240s process limits and single invocation. Only the copied
+QA observer and a managed supervisor may differ; production sources remain exact.
+Freeze original and diagnostic hashes separately before execution. Do not
+attribute the original app fingerprint to an instrumented QA tree.
+
+Record parent/child monotonic phases and existing progress events to at most1MiB,
+preserve the90s cancellation and all raw failures, and inspect only owned journal/
+selector bytes without invoking extra recovery. Terminate only owned diagnostic
+children after recording failure, never to manufacture PASS. No new qualification
+credit or automatic fix follows even if both observed cases pass.
+
+This new proposal remains unapproved. One QA-observation variant/invocation would
+be an additional explicit allowance, not a reset of150 or218 budgets. No product
+patch, ownerTLS/native/review cycle, full-suite repetition, build, VM or CI change.
