@@ -1,31 +1,22 @@
-# #218 — Electron official certificate runtime
+# #218 — qualification blocked after approved d812f92
 
-**Current qualification: blocked by local QA resource failures.** Original decisions
-7af/2d2/1cb are resolved; no new source variant is proposed. See
-[actual stop](evidence/local-qa-qualification-stop.json) and
-[pending bounded verification amendment](local-qa-resource-amendment.md).
-One targeted sequential QA invocation is proposed, not approved or executed.
+**Approvals7af/2d2/1cb/d812 are all actually resolved. Do not ask again.**
+[Latest approval](evidence/local-qa-resource-approval.md).
 
-**All decisions7af/2d2/1cb are actually approved. Do not ask again.**
-[Original approval](evidence/spec-approval.md),
-[bootstrap approval](evidence/bootstrap-amendment-approval.md).
+The single authorized sequential QA invocation completed with2PASS/2CANCELLED,
+0SKIP and exit1. The two journal interruption/recovery controls again exhausted
+90000ms; canonical copying/sealing and pack-prefix cleanup passed. The4/4 gate
+was not met. [Exact result, raw hashes and stop](evidence/local-qa-resource-result.md).
+No further targeted/full local suite, owner probe, variant, review or timeout
+increase is authorized by this exhausted decision. No alternate proposal exists.
 
-Variant2 applies the exact approved one-file bootstrap/deadline patch. The real
-production-main contrast passed9/9cases per runtime: baseline44.1.1 returned
-CERT_SIGNATURE_FAILURE and corrected44.9.1 returned CERT_REVOKED across TLS/HTTPS/
-fetch. Trusted controls and unrelated untrusted peers stayed distinct. Full native
-verification completed18screens/12copies. [Actual result](evidence/bootstrap-variant2-result.md).
+Source/tests/executable/ten frozen inputs stayed unchanged. The strict Electron
+contrast9/9per runtime, native18screens/12copies, F1 reconciliation and prior full
+CI12/12 on d812 retain their measured scope; they do not erase local failures.
+The first two local full-suite FAILs and original bootstrap timeout are preserved.
 
-This does not yet qualify the installer or close #218/ola3. Same-reviewer incremental,
-owning checks/current requiredCI, two builds, artifact/licenses/resources, existing
-corrected VM, debt/official archive and real humans146/147 remain gates.
-No human acceptance, release, host install or ola4 is inferred.
-
-Official SRI/ZIP/73runtime files were verified once and reused with the same six
-frozen fixtures. No dependency, managed toolchain, CI/policy, TLS or cap change.
-[Design](design.md), [ledger](evidence/apply-ledger.json), [manifest](evidence/manifest.json).
-
-First disagreement and120s failure stay immutable:
-[prepatch stop](evidence/prepatch-stop.md), [bootstrap failure](evidence/bootstrap-failure.md).
-Variants2/2,baseline owner2/2,candidate owner1/1 are consumed. No more variants or
-owner repeats. Builds0/2 and same corrected VM0/1 remain unused.
+Targeted1/1,variants2/2,baseline owner2/2,candidate owner1/1 and both review budgets
+are consumed. Builds0/2 and same corrected VM0/1 remain unused. Stop before them,
+archive, integration or release. Human146/147, debt and all final gates remain.
+No host installation, project/history change or ola4.
+[Ledger](evidence/apply-ledger.json), [manifest](evidence/manifest.json).

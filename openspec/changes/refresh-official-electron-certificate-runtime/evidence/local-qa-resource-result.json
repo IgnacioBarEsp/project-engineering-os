@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "approval": {
+    "at": "2026-11-14 09:00:58 UTC",
+    "revision": "d812f92ff98db80ebaeb462ada92c327c701944f",
+    "issue": 218,
+    "literalResponse": "Sí, apruebo la enmienda d812f92",
+    "questionItemId": "[\"request_user_input_async\",\"call_732d5cf285aa4c989f5347e5a6f1a6c0\",0]",
+    "maximumInvocations": 1,
+    "maximumProcessMs": 600000,
+    "perTestMs": 90000,
+    "packFixtureSubprocessMs": 80000,
+    "sourceChanges": false,
+    "variantBudgetReset": false,
+    "buildBudgetChanged": false,
+    "vmBudgetChanged": false,
+    "futureResultsApproved": false
+  },
+  "approvalReceipt": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\electron218\\serial-local-qa\\approval-d812f92.json",
+    "relativePath": "artifacts/wave3-current/electron218/serial-local-qa/approval-d812f92.json",
+    "sha256": "cb5bc87f9c6fcbcfc26babf00ad99b914c9a7f963b12ca439d9b395987ffe025"
+  },
+  "source": "d812f92ff98db80ebaeb462ada92c327c701944f",
+  "sourceFingerprint": "90e066f637bba6bb1b7b470c57b7568d5fa626c1d34c18146c1421c08724e9a7",
+  "startedAt": "2026-11-14T09:04:14.252Z",
+  "completedAt": "2026-11-14T09:09:06.273Z",
+  "targetResults": [
+    {
+      "file": "qa/distribution-identity.mjs",
+      "name": "interrupted repair restores only the journal-owned unchanged quarantine, and retains project/history bytes",
+      "observed": [
+        {
+          "ok": false,
+          "ordinal": 1,
+          "name": "interrupted repair restores only the journal-owned unchanged quarantine, and retains project/history bytes",
+          "skip": false,
+          "todo": false
+        }
+      ]
+    },
+    {
+      "file": "qa/distribution-identity.mjs",
+      "name": "real process interruption at publication and selector-write rolls back journal-owned selection on restart",
+      "observed": [
+        {
+          "ok": false,
+          "ordinal": 2,
+          "name": "real process interruption at publication and selector-write rolls back journal-owned selection on restart",
+          "skip": false,
+          "todo": false
+        }
+      ]
+    },
+    {
+      "file": "qa/npm-development-source.mjs",
+      "name": "official fixture and exact 27 auxiliaries preserve the official tree and deterministic sealed bytes",
+      "observed": [
+        {
+          "ok": true,
+          "ordinal": 3,
+          "name": "official fixture and exact 27 auxiliaries preserve the official tree and deterministic sealed bytes",
+          "skip": false,
+          "todo": false
+        }
+      ]
+    },
+    {
+      "file": "qa/npm-pack-preparation.mjs",
+      "name": "actual npm pack preparation cleans its owned temporary copy on success",
+      "observed": [
+        {
+          "ok": true,
+          "ordinal": 4,
+          "name": "actual npm pack preparation cleans its owned temporary copy on success",
+          "skip": false,
+          "todo": false
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "tests": 4,
+    "pass": 2,
+    "fail": 0,
+    "cancelled": 2,
+    "skipped": 0
+  },
+  "targetPassed": 2,
+  "targetExpected": 4,
+  "processExit": 1,
+  "outcome": "blocked",
+  "raw": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\electron218\\serial-local-qa\\result.json",
+    "relativePath": "artifacts/wave3-current/electron218/serial-local-qa/result.json",
+    "sha256": "7de927cad5e87bf8a899e0982dcb1e6eba6320313d377c9561d078ef41e3d361"
+  },
+  "stdout": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\electron218\\serial-local-qa\\stdout.tap",
+    "relativePath": "artifacts/wave3-current/electron218/serial-local-qa/stdout.tap",
+    "sha256": "661fd4d7066ffe79d3126dd663ab881ebb66b9d6727eda5930813fca45787c68"
+  },
+  "postchecks": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\electron218\\serial-local-qa\\postchecks.json",
+    "relativePath": "artifacts/wave3-current/electron218/serial-local-qa/postchecks.json",
+    "sha256": "f8ab90d246a8d3250f2e695808c6a3d004745b1aa9ae47d7281fe6611d98f0ba"
+  },
+  "resources": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\electron218\\serial-local-qa\\resource-observation.json",
+    "relativePath": "artifacts/wave3-current/electron218/serial-local-qa/resource-observation.json",
+    "sha256": "ae1628ae4280994cc2b0358490e027f01725817d1669f39713893b8945bba277"
+  },
+  "invocationsConsumed": 1,
+  "maximumInvocations": 1,
+  "remainingInvocations": 0,
+  "sourceVariantChange": false,
+  "sourceAndQaHashesUnchanged": true,
+  "ownedTestDirectoryRetained": "npm-identity-53PS3B",
+  "builds": 0,
+  "correctedVm": 0,
+  "archivePerformed": false,
+  "merged": false,
+  "wave4Started": false
+}

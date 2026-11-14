@@ -5,7 +5,9 @@
 - [x] 1.4 Obtain actual approval of the concrete production-chain-witness amendment2d2d28c: «Sí, apruebo la enmienda 2d2d28c»; do not reopen original approval or reset budgets.
 - [x] 1.5 Obtain actual approval of the separate verifier-bootstrap amendment and explicit cumulative extra variant/attempt/reconciliation before repair or retry.
 
-- [ ] 1.6 Obtain actual approval of the concrete local-QA resource amendment before its one targeted run; preserve the two full-suite FAILs, frozen source/budgets and CI requirement.
+- [x] 1.6 Obtain actual approval of the concrete local-QA resource amendment before its one targeted run; preserve the two full-suite FAILs, frozen source/budgets and CI requirement.
+
+- [x] 1.7 Execute the approved d812 single sequential invocation and retain its actual2PASS/2CANCELLED/exit1 STOP; no further local execution or budget reset. Qualification remains incomplete.
 
 ## 2. Approved bounded Apply only
 - [x] 2.1 Receive one fresh readonly boundary investigation; verify source preimages, declared supplier/runtime metadata and generation tool identity. Result: static STOP before freeze, see evidence/prepatch-stop.md; payload integrity/execution remain unknown.

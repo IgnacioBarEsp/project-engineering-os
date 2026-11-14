@@ -199,7 +199,4 @@ concrete decision; no automatic rebase/variant budget reset.
 ## Local QA qualification stop and pending resource amendment
 
 See evidence/local-qa-qualification-stop.json for both failed full suites.
-local-qa-resource-amendment.md is the exact pending protocol/cost boundary for
-one additional targeted sequential QA invocation, unchanged tests/timeouts and
-full CI requirement. It is not approved/applied. No further measurement, build
-or VM proceeds until this gate has an actual accepted resolution.
+local-qa-resource-amendment.md was actually approved in revisiond812 and executed once with unchanged tests/timeouts. Actual2PASS/2CANCELLED failed its4/4gate; evidence/local-qa-resource-result.md preserves the result. Its allowance is exhausted. No further measurement/build/VM proceeds under this failed gate.

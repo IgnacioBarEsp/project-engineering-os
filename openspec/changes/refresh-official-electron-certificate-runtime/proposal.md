@@ -44,10 +44,7 @@ debt assessment are append-only. Production Apply is blocked until actual approv
 of the immutable proposal. Archive and protected PR are later gates, not approval
 side effects.
 
-## New concrete verification decision, pending approval
+## Verification decision d812 — approved, applied and failed its gate
 
 Local owning QA remains FAIL after a retained temporary-path correction.
-local-qa-resource-amendment.md proposes one bounded sequential invocation of
-four unchanged existing tests and explicit reconciliation with full required CI.
-No source, limits or consumed owner/reviewer budgets are reset. Apply of this
-new protocol requires actual approval of its immutable revision.
+local-qa-resource-amendment.md was actually approved with «Sí, apruebo la enmienda d812f92» and executed once. Result2PASS/2CANCELLED failed the4/4gate; see evidence/local-qa-resource-result.md. No source/limits or consumed budgets changed. No further attempt/variant is authorized and no old approval remains pending.

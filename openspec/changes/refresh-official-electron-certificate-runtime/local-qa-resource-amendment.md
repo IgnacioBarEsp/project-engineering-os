@@ -1,6 +1,6 @@
-# Pending amendment — bounded reconciliation of local QA resources
+# Approved amendment — bounded reconciliation of local QA resources
 
-**Prepared, not approved or applied.** Approvals7af/2d2/1cb and their exact Apply
+**Approved in revisiond812f92: «Sí, apruebo la enmienda d812f92».** See evidence/local-qa-resource-approval.md. The one authorized invocation completed2PASS/2CANCELLED; the4/4gate failed. See evidence/local-qa-resource-result.md. STOP; no further attempt is authorized. Approvals7af/2d2/1cb and their exact Apply
 remain resolved. The approved bootstrap repair passed its real18-case contrast
 and18screens/12copies; its same-reviewer incremental resolved F1. No new source
 variant, owner contrast, native execution or review cycle is requested.
