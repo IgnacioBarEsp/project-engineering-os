@@ -68,10 +68,15 @@ antes de registrar close;9PASS no cubren esa rama. No se modificó la variante
 congelada o repitieron controles. La CI43585134556SUCCESS es del dochead5013,
 no de estas fuentes nuevas. No builds/VM/deuda clean/archivo/merge por9PASS.
 
-La [nueva propuesta de dos QA](../recovery-qa-spawn-error-amendment.md) contiene
-los preimages exactos,un control sintético explícito,un nuevo presupuesto
-1variante/1focused10targets y continuación del mismo reviewer. Todavía sin
-aprobación o Apply. No app/runtime/deps/política o reset anterior.
+La [enmienda de dos QA](../recovery-qa-spawn-error-amendment.md) fue aprobada
+enfa15 y aplicada. Una variante/una invocación consumidas:9PASS/1CANCELLED,
+200117ms,timeout90s en reparación. El nuevo control sintético y los otros ocho
+pasaron. [Resultado y retención](recovery-qa-spawn-result-fa15.md).
+El mismo reviewer comunicó revisión de fuente completa yP2resuelto,sin otros
+hallazgos concretos;no es cualificación,instalador o aceptación humana.
+Root propio retenido y registros acotados guardados;sin procesos propios
+restantes. No retry,nueva variante,fullsuite local,build/VM o producto cambiado.
+No hay otra enmienda preparada/aprobada por inferencia del fallo.
 
 Después, solo con autoridad y gates reales: completar cualificación, dos builds,
 VM corregida, humanos146/147, assessment/archivo218 y144→150 en orden,

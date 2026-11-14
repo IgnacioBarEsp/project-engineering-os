@@ -58,9 +58,9 @@
     },
     {
       "id": "component-or-interaction-tests",
-      "status": "pending",
-      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/fixture-role-c8-result.json",
-      "justification": "Aprobación c8 aplicada en716f9e2 y regresiones7/7 reales. Se conserva5/7 anterior y runner37/37 sin rerun. Falta CI completa del head final y ciclo instalado0/1; Electron218 pendiente separado. No se atribuye verde a un head futuro.",
+        "status": "failed",
+        "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/recovery-qa-spawn-result-fa15.md",
+        "justification": "fa15 aprobada/aplicada:9PASS/1CANCELLED por90s en reparación real. No10/10 ni retry. C8regresiones7/7 y37/37runner históricos intactos. Faltan cualificación,CI vigente y ciclo instalado;review de fuente no borra timeout.",
       "profileCondition": null
     },
     {
@@ -97,9 +97,9 @@
     {
       "id": "adversarial-review",
       "kind": "manual",
-      "status": "pending",
-      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/recovery-qa-lifecycle-result-5013.md",
-      "justification": "El review716f9e2 permanece válido para su delta histórico. El nuevo review5013 quedó incompleto por límite del servicio y envió P2 parcial confirmado estáticamente por el padre.9/9focused no cierran el review ni cualifican producto/VM/humanos. No segundo ciclo o fuentes congeladas retocadas.",
+      "status": "verified",
+      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-recovery-qa-review-fa15.md",
+      "justification": "El MISMO reviewer completó su ciclo5013 mediante la continuaciónfa15 aprobada:leyó los tres QA completos y delta de dos,P2 resuelto por fuente,sin otro hallazgo accionable. No tests/reproducciones o segundo agente.9PASS/1CANCELLED sigue fallo de cualificación;no aprobación humana/producto/VM o futuros heads.",
       "profileCondition": null
     },
     {
@@ -150,9 +150,9 @@
     "justification": null
   },
   "adversarialReview": {
-    "status": "pending",
-    "ref": "openspec/changes/companion-harness-reachability-electron/evidence/recovery-qa-lifecycle-result-5013.md",
-    "blockers": 1,
+    "status": "passed",
+    "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-recovery-qa-review-fa15.md",
+    "blockers": 0,
     "majors": 0
   },
   "exceptions": []

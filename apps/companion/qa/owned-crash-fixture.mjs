@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { writeFile, readFile, access } from 'node:fs/promises';
 import path from 'node:path';
-import { ownedCrashFixture } from './helpers/owned-crash-fixture.mjs';
+import { EventEmitter } from 'node:events';
+import { ownedCrashFixture, observeChildExit } from './helpers/owned-crash-fixture.mjs';
 
 const point = 'npm-quarantined';
 const missing = error => error.code === 'ENOENT';
@@ -79,4 +80,37 @@ test('owned fixture accepts the exact witness and preserves project history unti
   await fixture.cleanup();
   assert.equal(child.closed, true);
   await assert.rejects(access(fixture.root), missing);
+});
+
+test('synthetic child observations preserve missing-stderr and stream-error causes until close', { timeout: 3000 }, async () => {
+  // These two event-only controls do not spawn children, join fixture ownership
+  // or reproduce native resource exhaustion. The five real-child tests remain.
+  const child = new EventEmitter(), cause = Object.assign(new Error('synthetic EMFILE'), { code: 'EMFILE' });
+  const observed = observeChildExit(child);
+  let completed = false;
+  observed.completion.then(() => { completed = true; });
+  child.emit('error', cause);
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(completed, false);
+  assert.equal(observed.closed, false);
+  assert.strictEqual(observed.failure, cause);
+  child.emit('close', -1, null);
+  assert.deepEqual(await observed.completion, { code: -1, signal: null, stderr: '' });
+  assert.equal(observed.closed, true);
+  assert.strictEqual(observed.failure, cause);
+
+  const piped = new EventEmitter(); piped.stderr = new EventEmitter();
+  const streamCause = new Error('synthetic stderr read failure'), pipedObserved = observeChildExit(piped);
+  let pipedCompleted = false;
+  pipedObserved.completion.then(() => { pipedCompleted = true; });
+  piped.stderr.emit('error', streamCause);
+  piped.emit('error', new Error('later child error must not replace the first cause'));
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(pipedCompleted, false);
+  assert.equal(pipedObserved.closed, false);
+  assert.strictEqual(pipedObserved.failure, streamCause);
+  piped.emit('close', 0, null);
+  assert.deepEqual(await pipedObserved.completion, { code: 0, signal: null, stderr: '' });
+  assert.equal(pipedObserved.closed, true);
+  assert.strictEqual(pipedObserved.failure, streamCause);
 });

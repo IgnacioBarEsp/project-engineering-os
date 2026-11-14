@@ -25,7 +25,7 @@ consumieron64.535s y el cleanup empezó con el último hijo aún activo.
 [Hechos,trazas y límites](evidence/recovery-diagnostic-result-e978.md).
 No cualifica la candidata,borra D812 o demuestra un fallo de producto.
 
-## 5013 aprobada/aplicada:9/9; revisión incompleta y P2 abierto
+## Historia5013:9/9 y P2 detectado;continuaciónfa15 abajo
 
 [Corrección del ciclo de vida de QA](recovery-qa-lifecycle-amendment.md)
 aprobada literalmente en5013e0c. Una variante/una ejecución consumidas:9/9PASS,
@@ -34,22 +34,39 @@ aprobada literalmente en5013e0c. Una variante/una ejecución consumidas:9/9PASS,
 No repetir estos inputs;la aprobación5013 ya está resuelta.
 
 El único reviewer fresh envió un P2 y se interrumpió por límite del servicio:
-su revisión NO está completa. El padre confirmó estáticamente que un error
+su revisión quedó entonces incompleta. El padre confirmó estáticamente que un error
 EMFILE/ENFILE puede dejar stderr ausente y el helper accede antes de registrar
 close,perdiendo la causa. No se reprodujo por agotamiento de recursos ni se
-demostró fallo de producto. La cualificación sigue bloqueada,CI del nuevo head
-pendiente;43585134556SUCCESS acredita solo el head documental5013.
+demostró fallo de producto. EseP2 y ciclo de fuente se resolvieron mediante la
+continuaciónfa15 siguiente;no cambian el resultado histórico5013. La cualificación
+sigue bloqueada.43585134556SUCCESS acredita solo el head documental5013.
 
-## Nueva decisión concreta, todavía sin aprobación
+## fa15 aprobada/aplicada:9PASS/1CANCELLED;STOP
 
-[Corrección mínima de spawn/stdio](recovery-qa-spawn-error-amendment.md):solo
-helper y unit QA,preimages exactas,una variante adicional y una invocación de
-10targets(9actuales+1sintético con2controles),mismos90s/3s/420s/180s.
-Continuación del MISMO reviewer tras recuperar disponibilidad,no un segundo
-ciclo. No aplicada ni aprobada;no reset de5013,d812/e978/218.
+[Corrección mínima de spawn/stdio](recovery-qa-spawn-error-amendment.md)
+aprobada literalmente enfa15e43 y aplicada solo a helper/unit QA. Una variante
+adicional y una invocación consumidas,cero restantes. El test sintético nuevo,
+los cinco helper originales y tres interrupciones separadas pasaron. La primera
+reparación volvió a agotar90s:9PASS/1CANCELLED,200117ms,exit1. No retry,capraise,
+producto o inputs externos cambiados. [Resultado y hashes](evidence/recovery-qa-spawn-result-fa15.md).
+Se conserva físicamente su root con journals/selección/proyecto y snapshots
+acotados;sin procesos propios restantes. El supervisor exit0 solo recogió el
+resultado,el proceso de tests dioexit1. No se cualificó la candidata.
+
+El MISMO reviewer terminó el ciclo de fuente y resolvióP2,
+sin otro hallazgo concreto dentro de tresQA;[informe real](evidence/independent-recovery-qa-review-fa15.md).
+Ese resultado no borra la cancelación ni acredita producto,VM o humanos.
 [DoR13/13,strict29/29 y comprobaciones documentales actuales](evidence/recovery-qa-spawn-error-readiness.json).
-Los97archivos de deuda y los223archivos de app congelada siguieron idénticos;
-no hubo nueva ejecución QA al preparar esta propuesta.
+Ese recibo corresponde a la preparación de la propuesta original. La evidencia
+actual distingue las dosQA modificadas,la invocación fallida y los gates abiertos.
+
+No queda autorización para otra variante,invocación o diagnóstico instrumentado.
+Cualquier nuevo protocolo requiere una propuesta concreta distinta;no hay una
+nueva pendiente de aprobación preparada automáticamente por este fallo.
+[Comprobaciones documentales actuales](evidence/recovery-qa-spawn-publication-checks-fa15.json):
+DoR13/13,strict fijo1.6.0 29/29,docs/neutralidad/deuda read-only/diffPASS,
+97archivosdeuda y fuentes congeladas intactos. Archive readiness14PASS/2FAIL,
+sin mutación:tasks y cualificación pendientes. No esCI ni archivo oficial.
 
 Después de una candidata realmente apta siguen humanos #146/Software A-B #147,
 assessment/archivos #218 y #144→#150 en orden, CI requerida del head final y merge protegido.

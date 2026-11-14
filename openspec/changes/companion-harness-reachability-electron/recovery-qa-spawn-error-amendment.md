@@ -1,6 +1,9 @@
 # Nueva decisión — observar errores de arranque sin perder close o causa
 
-**Propuesta concreta pendiente de aprobación de esta revisión. No aplicada.**
+**Aprobada enfa15e43 y aplicada/congelada. No falta esta aprobación.**
+[Respuesta literal y presupuesto](evidence/recovery-qa-spawn-approval-fa15.md).
+Una variante adicional/una invocación autorizadas;el resultado se registra en
+la evidencia de esta revisión. No reset de5013 ni resultados futuros aprobados.
 Issue[#150](https://github.com/IgnacioBarEsp/project-engineering-os/issues/150),
 ownerIgnacioBarEsp.5013 ya está aprobada/aplicada y dio9/9PASS;no se pide de nuevo.
 [Resultado y P2 confirmado estáticamente](evidence/recovery-qa-lifecycle-result-5013.md).

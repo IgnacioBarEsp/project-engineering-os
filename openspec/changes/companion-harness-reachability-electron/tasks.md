@@ -64,9 +64,11 @@ pass or treat it as installed/human/security-wide approval.
   - [x] 8.4a Retain the partial reviewer message and parent static confirmation of P2 missing-stderr/close registration. No additional execution or source edits.
   - [ ] 8.4b Finish the interrupted same-reviewer cycle,resolve P2 under new actual authority and obtain current full CI. Service usage limit is not completed review.
 
-## 9. Proposed QA spawn/stdio correction — not approved or applied
+## 9. QA spawn/stdio correction —fa15 approved; frozen execution
 
 - [x] 9.1 Present the concrete two-file amendment with exact preimages,additional one-variant/one10-target budget and same-reviewer continuation; retain5013 freeze/9PASS.
-- [ ] 9.2 Record approval of the immutable spawn/stdio amendment before changing frozen sources or consuming its proposed budget.
-- [ ] 9.3 Only after approval,freeze the one additional variant and run ten focused targets once under the documented bounds.
+- [x] 9.2 Record literal approval of fa15e432d1d69571a9f527692a75fb320ecf06ac before source changes; evidence/recovery-qa-spawn-approval-fa15.md.
+- [x] 9.3 After approval,freeze the one additional variant and run ten focused targets once:9PASS/1CANCELLED at90s in the original repair case,200117ms. STOP;budget consumed,no retry. See evidence/recovery-qa-spawn-result-fa15.md.
 - [ ] 9.4 Complete the same original independent review plus new-delta reconciliation and full currentCI; keep build/VM/human/debt/archive/merge gates separate.
+  - [x] 9.4a Same reviewer finished the original cycle and approved continuation scope:originalP2 resolved by source,no other actionable finding;actual report retained,no test execution by reviewer.
+  - [ ] 9.4b Receive fullCI3OS/required on the new head;9PASS/1CANCELLED local qualification remains failed regardless of CI or source review.

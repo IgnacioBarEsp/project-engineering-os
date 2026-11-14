@@ -80,8 +80,13 @@ The one fresh independent reviewer sent a partial P2 then errored at a service
 usage limit; the review is incomplete. Parent static confirmation establishes
 missing stderr on EMFILE/ENFILE can reject completion before close registration.
 See evidence/recovery-qa-lifecycle-result-5013.md. No post-freeze QA edits or retry.
-The separate recovery-qa-spawn-error-amendment.md proposes only two QA files,
-one additional changed-input variant/run and continuation of that same review.
-It is NOT approved or applied. No product or old-budget authority is inferred.
+The separate recovery-qa-spawn-error-amendment.md received literal fa15 approval
+and was applied to only two QA files. Its additional variant/run are consumed:
+9PASS/1CANCELLED,200117ms,the original repair exceeded90s again. No retry or
+product/old-budget authority is inferred. The same reviewer completed the
+source review and reported P2 resolved without another concrete finding;the
+actual report retains its bounded scope and does not erase failed qualification.
+See evidence/recovery-qa-spawn-result-fa15.md. No new amendment is implicitly
+approved or pending just because the bounded invocation failed.
 
 Companion test harnesses, CI, EVALUATION documentation. No dependencies, release, installed-app mutation, product data migration or Wave 4. Existing live-service and stubbed native-capability evidence remain explicitly distinct.

@@ -34,6 +34,38 @@ async function beforeDeadline(promise, deadline) {
   } finally { clearTimeout(timer); }
 }
 
+// Observation only: this function cannot acquire fixture ownership, spawn/kill
+// a process or remove a directory. Only the fixture handles an overflow signal.
+export function observeChildExit(child, onStderrOverflow = () => {}) {
+  const record = { closed: false, failure: null, stderr: [], stderrBytes: 0 };
+  let stderr, overflowReported = false;
+  record.completion = new Promise(resolve => {
+    child.on('error', cause => { record.failure ??= cause; });
+    child.once('close', (code, signal) => {
+      record.closed = true;
+      if (!stderr) record.failure ??= error('QA_STDERR_MISSING', 'Fixture child closed without stderr or a spawn error.');
+      resolve({ code, signal, stderr: Buffer.concat(record.stderr).toString('utf8') });
+    });
+    // Node can return a ChildProcess without streams on EMFILE/ENFILE. Its
+    // error arrives later; wait for close and preserve that original cause.
+    stderr = child.stderr;
+    if (!stderr) return;
+    stderr.on('error', cause => { record.failure ??= cause; });
+    stderr.on('data', chunk => {
+      record.stderrBytes += chunk.length;
+      if (record.stderrBytes > STDERR_LIMIT) {
+        record.failure ??= error('QA_STDERR_LIMIT', 'Fixture child stderr exceeded64KiB.');
+        if (!overflowReported) {
+          overflowReported = true;
+          try { onStderrOverflow(); }
+          catch (cause) { record.failure ??= cause; }
+        }
+      } else record.stderr.push(chunk);
+    });
+  });
+  return record;
+}
+
 export async function ownedCrashFixture(t) {
   const parent = await realpath(tmpdir()), root = await realpath(await mkdtemp(path.join(parent, 'npm-identity-')));
   const identity = await lstat(root, { bigint: true }), nonce = randomUUID();
@@ -70,22 +102,11 @@ export async function ownedCrashFixture(t) {
       "function recordCrashPoint(point) { __writeWitness(__witness.file, JSON.stringify({format:1,nonce:__witness.nonce,pid:process.pid,point})+'\\n',{flag:'wx',mode:0o600}); }\n";
     const child = spawn(process.execPath, ['--input-type=module', '-e', prelude + script, ...args],
       { cwd, windowsHide: true, shell: false, stdio: ['ignore', 'ignore', 'pipe'] });
-    const record = { child, point, witnessFile, expected, closed: false, failure: null, stderr: [], stderrBytes: 0, killRequests: 0 };
-    children.add(record);
-    record.completion = new Promise(resolve => {
-      child.on('error', cause => { record.failure ??= cause; });
-      child.stderr.on('data', chunk => {
-        record.stderrBytes += chunk.length;
-        if (record.stderrBytes > STDERR_LIMIT) {
-          record.failure ??= error('QA_STDERR_LIMIT', 'Fixture child stderr exceeded64KiB.');
-          if (child.exitCode === null && child.signalCode === null) { record.killRequests++; child.kill('SIGKILL'); }
-        } else record.stderr.push(chunk);
-      });
-      child.once('close', (code, signal) => {
-        record.closed = true;
-        resolve({ code, signal, stderr: Buffer.concat(record.stderr).toString('utf8') });
-      });
+    const record = observeChildExit(child, () => {
+      if (child.exitCode === null && child.signalCode === null) { record.killRequests++; child.kill('SIGKILL'); }
     });
+    Object.assign(record, { child, point, witnessFile, expected, killRequests: 0 });
+    children.add(record);
     return record;
   }
 

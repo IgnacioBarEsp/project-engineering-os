@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "issue": 150,
+  "revision": "fa15e432d1d69571a9f527692a75fb320ecf06ac",
+  "approval": {
+    "literal": "Sí, apruebo la enmienda fa15e43",
+    "receipt": {
+      "storage": "persistent",
+      "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+      "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-spawn-fa15\\approval.json",
+      "relativePath": "artifacts/wave3-current/qa-spawn-fa15/approval.json",
+      "sha256": "a3545ffc1a164c401d8cdc18771c2fe4b598d909a8a91968fdec48938817f541"
+    }
+  },
+  "status": "BLOCKED_FOCUSED_TIMEOUT",
+  "result": {
+    "schemaVersion": 1,
+    "startedAt": "2026-11-14T16:22:57.151Z",
+    "completedAt": "2026-11-14T16:26:17.269Z",
+    "elapsedMs": 200117,
+    "approvalRevision": "fa15e432d1d69571a9f527692a75fb320ecf06ac",
+    "sourceVariants": 1,
+    "maximumVariants": 1,
+    "focusedRuns": 1,
+    "maximumRuns": 1,
+    "remainingRuns": 0,
+    "outcome": "BLOCKED_FOCUSED_FAILURE",
+    "execution": {
+      "code": 1,
+      "signal": null,
+      "closed": true,
+      "failure": null,
+      "outputBytes": 2839
+    },
+    "counts": {
+      "tests": 10,
+      "pass": 9,
+      "fail": 0,
+      "cancelled": 1,
+      "skipped": 0
+    },
+    "observed": [
+      {
+        "ok": false,
+        "name": "interrupted repair restores only the journal-owned unchanged quarantine, and retains project/history bytes",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "real process interruption at npm-published rolls back journal-owned selection on restart",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "real process interruption at npm-selection-written rolls back journal-owned selection on restart",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "real process interruption at npm-confirmed preserves confirmed selection on restart",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "owned fixture closes an active child before deleting its root",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "owned fixture never kills an already closed child",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "owned fixture rejects spawn error without hanging or deleting a foreign directory",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "owned fixture rejects missing and mismatched crash witnesses on nonzero exit",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "owned fixture accepts the exact witness and preserves project history until cleanup; cancellation blocks recovery",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "synthetic child observations preserve missing-stderr and stream-error causes until close",
+        "skip": null
+      }
+    ],
+    "targetsExact": true,
+    "sourceUnchangedSinceFreeze": true,
+    "homeChildren": [
+      "AppData",
+      "npm-identity-0aG2kt"
+    ],
+    "sameReviewerContinuationComplete": false,
+    "fullCurrentCiComplete": false,
+    "qualificationComplete": false,
+    "builds": 0,
+    "correctedVm": 0,
+    "archive": false,
+    "merged": false,
+    "noRetry": true
+  },
+  "preimages": {
+    "apps/companion/qa/helpers/owned-crash-fixture.mjs": "ab6ca641b23c349e2a2b6824ba599416bf2c0711e7cc5ec8f85649ac5ef691a7",
+    "apps/companion/qa/owned-crash-fixture.mjs": "e3dc0e679add8ed442ff781df08de4213d333650a0ffe0a9615cd9a8b885976f"
+  },
+  "postimages": {
+    "apps/companion/qa/helpers/owned-crash-fixture.mjs": "990166fcc3ad1b6237edc8a2710007be8125f0ac9aaa5a06074317318afb2306",
+    "apps/companion/qa/owned-crash-fixture.mjs": "c7942e9e8efbaa03ef28a1296e880abec818b9b4b3319182fd3f5266de38f125"
+  },
+  "unchangedMain": {
+    "file": "apps/companion/qa/distribution-identity.mjs",
+    "sha256": "a97ac1e84cddda5fb4e9b05a0170a905ee8a126cc1cf8fd993decc1ecaa9565c"
+  },
+  "other221AppFilesUnchanged": true,
+  "artifacts": {
+    "frozen.json": {
+      "storage": "persistent",
+      "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+      "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-spawn-fa15\\frozen.json",
+      "relativePath": "artifacts/wave3-current/qa-spawn-fa15/frozen.json",
+      "sha256": "40737dc23451e217e199f635b79568b560118d6a4978b3422e27e2459fc56e91"
+    },
+    "candidate.patch": {
+      "storage": "persistent",
+      "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+      "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-spawn-fa15\\candidate.patch",
+      "relativePath": "artifacts/wave3-current/qa-spawn-fa15/candidate.patch",
+      "sha256": "0760398f9eaec5bb55a15bddfa9a83ee5510258e271bf5aeae8062f9642bee1e"
+    },
+    "result.json": {
+      "storage": "persistent",
+      "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+      "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-spawn-fa15\\result.json",
+      "relativePath": "artifacts/wave3-current/qa-spawn-fa15/result.json",
+      "sha256": "3107935476271785010cbc5bf298ee9eae83b375b72ecc1a6f83d1b96976fe55"
+    },
+    "stdout.tap": {
+      "storage": "persistent",
+      "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+      "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-spawn-fa15\\stdout.tap",
+      "relativePath": "artifacts/wave3-current/qa-spawn-fa15/stdout.tap",
+      "sha256": "dae320a1175c7f05ae20828fa96aefd605b719d89a4981bb5e9810f9ee718f9c"
+    },
+    "stderr.log": {
+      "storage": "persistent",
+      "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+      "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-spawn-fa15\\stderr.log",
+      "relativePath": "artifacts/wave3-current/qa-spawn-fa15/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "preimage-0.mjs": {
+      "storage": "persistent",
+      "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+      "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-spawn-fa15\\preimage-0.mjs",
+      "relativePath": "artifacts/wave3-current/qa-spawn-fa15/preimage-0.mjs",
+      "sha256": "ab6ca641b23c349e2a2b6824ba599416bf2c0711e7cc5ec8f85649ac5ef691a7"
+    },
+    "preimage-1.mjs": {
+      "storage": "persistent",
+      "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+      "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-spawn-fa15\\preimage-1.mjs",
+      "relativePath": "artifacts/wave3-current/qa-spawn-fa15/preimage-1.mjs",
+      "sha256": "e3dc0e679add8ed442ff781df08de4213d333650a0ffe0a9615cd9a8b885976f"
+    },
+    "source-0.mjs": {
+      "storage": "persistent",
+      "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+      "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-spawn-fa15\\source-0.mjs",
+      "relativePath": "artifacts/wave3-current/qa-spawn-fa15/source-0.mjs",
+      "sha256": "990166fcc3ad1b6237edc8a2710007be8125f0ac9aaa5a06074317318afb2306"
+    },
+    "source-1.mjs": {
+      "storage": "persistent",
+      "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+      "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-spawn-fa15\\source-1.mjs",
+      "relativePath": "artifacts/wave3-current/qa-spawn-fa15/source-1.mjs",
+      "sha256": "c7942e9e8efbaa03ef28a1296e880abec818b9b4b3319182fd3f5266de38f125"
+    }
+  },
+  "runner": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-spawn-fa15\\prepare-run.mjs",
+    "relativePath": "artifacts/wave3-current/qa-spawn-fa15/prepare-run.mjs",
+    "sha256": "1a7b5109cb3c06346d055ad89ef49d459a1b4ecd81afdc7155f5920a7700f7fa"
+  },
+  "postcheck": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-spawn-fa15\\postchecks.json",
+    "relativePath": "artifacts/wave3-current/qa-spawn-fa15/postchecks.json",
+    "sha256": "0062cad8963d2be563a197b404d6d4c5cc6945d4edda070d3f3d54c1359ace4d"
+  },
+  "retainedRecords": [
+    {
+      "name": ".qa-crash-4372e554-3eb2-4168-8763-38d0a0bda61a.json",
+      "sha256": "401fd2e4fbc1e47273af7db028714f4a270bce43f4cfafbdd19e89bc0c1fc896",
+      "path": "artifacts/wave3-current/qa-spawn-fa15/retained-records/.qa-crash-4372e554-3eb2-4168-8763-38d0a0bda61a.json"
+    },
+    {
+      "name": ".qa-crash-owner.json",
+      "sha256": "59f28cf96845152abaa6747fcba4c5b351ac703f2ff3a8aa8d780f4d2ceca2ff",
+      "path": "artifacts/wave3-current/qa-spawn-fa15/retained-records/.qa-crash-owner.json"
+    },
+    {
+      "name": "npm-operation-1f2d77e8-3cbc-4f70-aace-0bbc118b34a6.json",
+      "sha256": "c22e5c8f86d51da93ad445b0f47f7cccef4292c69b31df1378c81d3d67e9e115",
+      "path": "artifacts/wave3-current/qa-spawn-fa15/retained-records/npm-operation-1f2d77e8-3cbc-4f70-aace-0bbc118b34a6.json"
+    },
+    {
+      "name": "npm-operation-87527b25-eb18-4ed1-a80c-4d13cf4951ef.json",
+      "sha256": "0e8db9fbae21caf62420530d20c3e3155f32d249ea4da3400e04d9a4c03f5089",
+      "path": "artifacts/wave3-current/qa-spawn-fa15/retained-records/npm-operation-87527b25-eb18-4ed1-a80c-4d13cf4951ef.json"
+    },
+    {
+      "name": "npm-operation-ecd10360-cbfe-43fc-8c96-ffa17cf481d2.json",
+      "sha256": "af49b84017995fb0ab256b22d0fe534c738f9b674fcde1daf691034758e5bb43",
+      "path": "artifacts/wave3-current/qa-spawn-fa15/retained-records/npm-operation-ecd10360-cbfe-43fc-8c96-ffa17cf481d2.json"
+    },
+    {
+      "name": "npm-selection.json",
+      "sha256": "88b4859415f3c24729ef764974eafdb2b1153e74e5f807d9bba5fcc8a5470a7d",
+      "path": "artifacts/wave3-current/qa-spawn-fa15/retained-records/npm-selection.json"
+    },
+    {
+      "name": "project.txt",
+      "sha256": "0b78f6ed7e710a9893b1d64ed7771c3190a4fb8c18a3a074747ba46d7d293bf0",
+      "path": "artifacts/wave3-current/qa-spawn-fa15/retained-records/project.txt"
+    }
+  ],
+  "reusedD812Inputs": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-spawn-fa15\\d812-reused-source-inputs.jsonl",
+    "relativePath": "artifacts/wave3-current/qa-spawn-fa15/d812-reused-source-inputs.jsonl",
+    "sha256": "85af6cf31280e7f60d42a6c56f9611c1ecfbb375f399caafe0ae9cbfba87133f"
+  },
+  "sameReviewer": {
+    "agent": "/root/qa5013_candidate_review",
+    "continuationRequested": true,
+    "complete": true,
+    "originalP2": "RESOLVED_BY_SOURCE_REVIEW",
+    "newActionableFindings": 0,
+    "executedTests": false,
+    "report": {
+      "path": "artifacts/wave3-current/qa-spawn-fa15/independent-continuation-review.md",
+      "sha256": "73ba87f3970036d2ed33378343e80382180cb583b61a6d7b690a790e4474bd8b"
+    },
+    "secondFreshCycle": false
+  },
+  "budget": {
+    "additionalVariants": 1,
+    "variantsConsumed": 1,
+    "additionalFocusedInvocations": 1,
+    "focusedConsumed": 1,
+    "remaining": 0,
+    "oldBudgetsReset": false
+  },
+  "qualificationComplete": false,
+  "newCleanDebtAssessmentCaptured": false,
+  "builds": 0,
+  "correctedVm": 0,
+  "archivePerformed": false,
+  "merged": false,
+  "wave4Started": false
+}

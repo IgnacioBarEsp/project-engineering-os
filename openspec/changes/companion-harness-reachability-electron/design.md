@@ -145,11 +145,13 @@ partial P2 is parent-confirmed statically from exact Node24.18.0 source,not
 runtime-reproduced: absent stderr on EMFILE/ENFILE rejects completion before
 close registration. Preserve the frozen QA,all failures and consumed budgets.
 
-The concrete recovery-qa-spawn-error-amendment.md is a NEW pending decision.
-Only helper and unit QA may change after its real approval. Install close/error
+The concrete recovery-qa-spawn-error-amendment.md received actual fa15 approval.
+Only helper and unit QA changed in its one additional frozen variant. Install close/error
 observation before optional stderr,record first cause and wait close on either
 failure. A pure observation seam grants no spawn/kill/root/ownership authority;
 synthetic absence/stream-error controls cannot be counted as real process tests.
-Preserve the existing nine controls and add one explicitly synthetic test with
-two controls;proposed focused denominator10,not9. Additional variant/run and
-same-reviewer continuation are explicit,not a reset or a second fresh review.
+The existing nine controls remain and one explicitly synthetic test has two
+internal controls;actual focused denominator10,not9. Additional variant/run
+are consumed,not reset:9PASS/1CANCELLED at90s in repair,200117ms. Same-reviewer
+source completion and P2 resolution do not qualify that timeout or permit a
+second run. Preserve the failed root and original evidence;no product changes.
