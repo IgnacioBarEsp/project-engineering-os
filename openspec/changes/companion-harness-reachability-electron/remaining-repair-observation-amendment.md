@@ -1,5 +1,12 @@
 # Nueva decisión de #150: observar únicamente la reparación que sigue fallando
 
+**Estado posterior:**revisión0999922 aprobada literalmente ypresupuesto consumido.
+[Recibo](evidence/remaining-repair-observation-approval-0999922.md) y
+[resultado0PASS/1FAIL de preparación](evidence/remaining-repair-observation-result-0999922.md).
+El texto siguiente conserva la propuesta presentada,no una aprobación pendiente.
+La [corrección de transporte físico](physical-source-observation-amendment.md)
+es una decisión adicional distinta,todavía sin aprobar ni aplicar.
+
 **Propuesta, todavía sin aprobar ni ejecutar.** Owner: IgnacioBarEsp.
 La petición de continuar permite preparar esta revisión; no se interpreta como
 aprobación de un presupuesto nuevo que aún no se había presentado.

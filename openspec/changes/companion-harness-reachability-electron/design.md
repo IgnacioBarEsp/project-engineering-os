@@ -158,6 +158,16 @@ second run. Preserve the failed root and original evidence;no product changes.
 
 ## Proposed observation of the remaining repair —26 November2026
 
+Current outcome:0999922 actually approved,DoR13/13,andthe one invocation consumed
+with LINK_REJECTED at initial install because the agent used a dependency junction.
+The fixture closed/cleaned normally;the repair child was never spawned. This is
+a preparation failure,not a cause of the original timeout. Preserve result/raws.
+The separately proposed physical-source-observation-amendment.md changes only
+dependency transport to an exclusively created regular copy of the same1944-file
+npm source,with exact before/after inventories;no guard,QA observer or runtime edit.
+One additional preparation/variant/invocation requires actual new approval.
+No retry under the consumed0999922 budget andno future fix/qualification implied.
+
 See remaining-repair-observation-amendment.md for the new one-target decision.
 No budget remains under fa15. Its current source review and CI are complete,
 while the sole repair cancellation remains unresolved. Only actual approval

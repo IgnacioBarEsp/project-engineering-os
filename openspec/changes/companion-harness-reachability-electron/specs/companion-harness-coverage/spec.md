@@ -3,6 +3,10 @@
 ### Requirement: Remaining repair observation has separate explicit authority
 The remaining-repair-observation amendment SHALL require actual approval of its immutable revision before one copied-case instrumentation variant and one exact-target invocation. It SHALL preserve the90s case limit,120s process cap,180s preparation cap,unchanged product/helper/assertions and all consumed historical budgets. Its evidence SHALL always be labeled DIAGNOSTIC_ONLY and SHALL NOT qualify the original local gate or authorize a future correction.
 
+#### Scenario: Dependency transport violates the unchanged source guard
+- **WHEN** the diagnostic copy's npm origin passes through a linked ancestor
+- **THEN** LINK_REJECTED remains a failed consumed attempt,the guard is preserved,andany regular physical-source copy plus another invocation requires actual approval of the separate physical-source-observation amendment andexact complete source inventories
+
 #### Scenario: Already green CI and completed source review
 - **WHEN** the source CI and scoped independent review pass but the repair target previously cancelled
 - **THEN** those completed steps are marked truthfully,the cancelled local gate remains open,and another execution requires the new concrete approval

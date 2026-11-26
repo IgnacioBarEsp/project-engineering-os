@@ -74,9 +74,16 @@ pass or treat it as installed/human/security-wide approval.
   - [x] 9.4b Receive fullCI3OS/required on077a5f8:43616684145SUCCESS12/12,read back26nov.9PASS/1CANCELLED local qualification remains failed regardless of CI or source review. A subsequent head needs its own CI.
 - [ ] 9.5 Qualify the cancelled repair with the agreed criteria and actual new authority;no diagnostic or source-review PASS substitutes for that local gate.
 
-## 10. Remaining repair observation — proposed, not approved
+## 10. Remaining repair observation —0999922 approved/consumed;setup failed
 
 - [x] 10.1 Reconcile current source/CI/issues and prepare the concrete one-target observation amendment, preserving failed runs and all consumed budgets. See remaining-repair-observation-amendment.md.
-- [ ] 10.2 Obtain actual approval of the immutable new observation revision and record literal words before instrumenting or invoking anything. Continuing the project does not approve this unpresented budget.
-- [ ] 10.3 Only after that approval, freeze one observation copy and invoke the exact repair target once under unchanged90s/120s process/180s preparation limits; retain raw evidence and STOP without retry.
-- [ ] 10.4 Report DIAGNOSTIC_ONLY and the next evidence-backed decision. Do not qualify, fix, archive, build, use VM or infer a new budget from the observation.
+- [x] 10.2 Record literal approval «Sí, apruebo la enmienda 0999922» of09999229d61c285efb872a160e50b383d5982d70;freshDoR13/13 before preparation.
+- [x] 10.3 Freeze one observation copy and invoke the exact target once:0PASS/1FAIL,LINK_REJECTED at initial install because the agent used a dependency junction. Preparation3963ms/run189ms;remaining0,no retry.
+- [x] 10.4 Report DIAGNOSTIC_ONLY/setup failure honestly;original fa15 timeout stillUNKNOWN,no qualification/fix/build/VM credit. See evidence/remaining-repair-observation-result-0999922.md.
+
+## 11. Physical source transport —proposed,not approved
+
+- [x] 11.1 Retain0999922 approval/freeze/setupFAIL andprepare a concrete physical-source transport correction using a readonly1944-file inventory of the identical npm11.21.2 source. No copy or new invocation yet.
+- [ ] 11.2 Receive actual approval of the new immutable physical-source-observation amendment andpass freshDoR before any additional preparation.
+- [ ] 11.3 Only then,freeze one regular physical copy with exact source/destination inventories andinvoke the same observed target once,under unchanged90s/120s/180s limits. Stop onfailure without retry.
+- [ ] 11.4 Report DIAGNOSTIC_ONLY andany remainingUNKNOWN;no qualification,repair,review,build,VM orfuture budget inferred.

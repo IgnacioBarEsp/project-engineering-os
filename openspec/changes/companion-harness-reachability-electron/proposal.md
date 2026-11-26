@@ -31,6 +31,16 @@ None.
 
 ## Impact
 
+### Physical source transport proposed after0999922 setup failure
+
+0999922 received actual approval andits one observation failed before repair:
+the agent's dependency junction was rejected by the unchanged canonicalFolder.
+See evidence/remaining-repair-observation-result-0999922.md. The original timeout
+remainsUNKNOWN. The new physical-source-observation-amendment.md proposes only
+regular physical copying of the same1944-file npm source,complete inventory
+verification andone explicitly additional attempt with all limits unchanged.
+It remains unapplied until its own immutable revision is actually approved.
+
 ### Remaining repair observation proposed —26 November 2026
 
 The [one-target observation amendment](remaining-repair-observation-amendment.md)

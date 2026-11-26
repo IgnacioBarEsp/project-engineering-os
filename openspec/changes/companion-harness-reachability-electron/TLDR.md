@@ -2,6 +2,23 @@
 
 ## Siguiente paso preparado — 26 de noviembre de 2026
 
+El siguiente paso real es la [corrección del transporte en la copia](physical-source-observation-amendment.md):
+copiar físicamente el MISMO npm11.21.2(1944archivos/12296462bytes),sin enlaces,
+con inventarios iguales antes/después,ypedir un único intento adicional.
+**Esta nueva revisión no está aprobada ni aplicada.** No cambia runtime,guardas,
+instrumentación,assertions o límites;no autoriza una reparación futura.
+0999922 sí fue aprobada yconsumida con el fallo de preparación siguiente.
+[DoR12/13 por nueva aprobación pendiente;strict29/29 ycontroles documentalesPASS](evidence/physical-source-proposal-checks-20261126.json).
+
+**Actualización posterior a la respuesta:**0999922 recibió «Sí, apruebo la enmienda 0999922»
+([recibo literal](evidence/remaining-repair-observation-approval-0999922.md)).
+DoR13/13 y única copia/invocación consumidas:0PASS/1FAIL porLINK_REJECTED en
+instalación inicial.El agente introdujo una junction para dependencias;la guarda
+la rechazó correctamente antes de alcanzar reparación.No retry o cambio de guardas.
+[Resultado,causa de setup y límites](evidence/remaining-repair-observation-result-0999922.md).
+El timeout original continúaUNKNOWN;no falta aprobación de0999922 ni queda presupuesto.
+La descripción de preparación siguiente es el snapshot anterior a esa respuesta.
+
 La CI de077a5f8 está **12/12SUCCESS**, incluida required;se comprobó nuevamente
 en GitHub. La revisión original de fuente está completa. El bloqueo sigue
 siendo9PASS/1CANCELLED local por90s en una reparación real,sin causa demostrada.
