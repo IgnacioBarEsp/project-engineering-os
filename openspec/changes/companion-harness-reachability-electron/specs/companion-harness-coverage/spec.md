@@ -1,5 +1,16 @@
 ## ADDED Requirements
 
+### Requirement: Remaining repair observation has separate explicit authority
+The remaining-repair-observation amendment SHALL require actual approval of its immutable revision before one copied-case instrumentation variant and one exact-target invocation. It SHALL preserve the90s case limit,120s process cap,180s preparation cap,unchanged product/helper/assertions and all consumed historical budgets. Its evidence SHALL always be labeled DIAGNOSTIC_ONLY and SHALL NOT qualify the original local gate or authorize a future correction.
+
+#### Scenario: Already green CI and completed source review
+- **WHEN** the source CI and scoped independent review pass but the repair target previously cancelled
+- **THEN** those completed steps are marked truthfully,the cancelled local gate remains open,and another execution requires the new concrete approval
+
+#### Scenario: Observed target passes or the trace is incomplete
+- **WHEN** the approved one-target observation passes,times out,hits an output cap or cannot observe the last operation
+- **THEN** the exact TAP and trace limits are retained,no retry or inferred cause is introduced,and qualification,build,VM,human,archive and integration gates remain pending
+
 ### Requirement: Recovery QA owns children and certifies the requested interruption
 The QA fixture SHALL hold its spawned ChildProcess handles until close, reject spawn errors or missing/wrong nonce/point witnesses, and terminate or await only its owned children before deleting its proven root. A timed-out test SHALL NOT continue new manager recovery after the awaited child closes. The production runtime and every original recovery assertion SHALL remain unchanged.
 

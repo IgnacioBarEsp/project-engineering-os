@@ -31,6 +31,17 @@ None.
 
 ## Impact
 
+### Remaining repair observation proposed —26 November 2026
+
+The [one-target observation amendment](remaining-repair-observation-amendment.md)
+is a separate concrete decision after fa15 consumed its budget with9PASS/1CANCELLED.
+Current source CI43616684145 is12/12SUCCESS;the original scoped review is complete.
+Neither resolves the local90s repair timeout. The proposed one instrumented copy
+and one exact-target invocation preserve90s/120s process/180s preparation limits
+and all runtime/helper/assertion bytes. No instrumentation or invocation is
+authorized before actual approval of this revision. The result is always
+DIAGNOSTIC_ONLY and approves no future correction or qualification.
+
 ### Approved installed-evidence harness amendment — 2667452
 
 Qualification of e713e9a exposed two verifier defects, documented by the independent

@@ -1,5 +1,28 @@
 # #150 — ola 3 implementada en rama, entrega aún bloqueada
 
+## Siguiente paso preparado — 26 de noviembre de 2026
+
+La CI de077a5f8 está **12/12SUCCESS**, incluida required;se comprobó nuevamente
+en GitHub. La revisión original de fuente está completa. El bloqueo sigue
+siendo9PASS/1CANCELLED local por90s en una reparación real,sin causa demostrada.
+
+Está preparada una [nueva decisión concreta de observación](remaining-repair-observation-amendment.md),
+**todavía sin aprobar ni ejecutar**:una copia temporal,solo el caso fallido,
+entrada/salida de sus APIs,90s por caso y120s de proceso,180s de preparación.
+No cambia producto/helper/expectativas,ni repite otros nueve controles.
+Su resultado será DIAGNOSTIC_ONLY,incluso con PASS;no habilita builds o VM.
+Los presupuestos anteriores siguen consumidos. Esta propuesta debe recibir
+aprobación de su revisión real antes de instrumentar o ejecutar.
+La DoR actual es12PASS/1FAIL por esa intervención humana pendiente;se conserva
+abierta y debe pasar sin excepciones tras registrar la decisión,antes de Apply.
+
+[Readback,fuentes y límites de esta preparación](evidence/remaining-repair-proposal-readback-20261126.json).
+[Controles nuevos y DoR pendiente](evidence/remaining-repair-proposal-checks-20261126.json):
+strict local1.6.0 29/29,docs/neutralidad/deuda read-only/diffPASS;
+223archivos de app y97deuda intactos.Archive14PASS/2FAIL,sin mutación.
+Las secciones siguientes conservan la historia y sus fechas;los recibos
+antiguos no son ejecuciones nuevas ni aprobación de esta propuesta.
+
 [Progreso por fase y tareas cumplidas](evidence/current-wave3-progress-20261114.md).
 Hay **7 implementaciones de UI** en la composición de PR217 y **0/7 issues de ola 3 cerrados**.
 Npm/Zod, #152 y fase 1 de #206 sí están integrados en main7073033.
@@ -60,9 +83,9 @@ Ese resultado no borra la cancelación ni acredita producto,VM o humanos.
 Ese recibo corresponde a la preparación de la propuesta original. La evidencia
 actual distingue las dosQA modificadas,la invocación fallida y los gates abiertos.
 
-No queda autorización para otra variante,invocación o diagnóstico instrumentado.
-Cualquier nuevo protocolo requiere una propuesta concreta distinta;no hay una
-nueva pendiente de aprobación preparada automáticamente por este fallo.
+No queda autorización de fa15 para otra variante,invocación o diagnóstico instrumentado.
+La propuesta distinta de observación preparada26nov figura arriba;su revisión
+real todavía requiere aprobación,no la obtiene automáticamente por este fallo.
 [Comprobaciones documentales actuales](evidence/recovery-qa-spawn-publication-checks-fa15.json):
 DoR13/13,strict fijo1.6.0 29/29,docs/neutralidad/deuda read-only/diffPASS,
 97archivosdeuda y fuentes congeladas intactos. Archive readiness14PASS/2FAIL,

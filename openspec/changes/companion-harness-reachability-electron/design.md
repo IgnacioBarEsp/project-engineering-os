@@ -155,3 +155,18 @@ internal controls;actual focused denominator10,not9. Additional variant/run
 are consumed,not reset:9PASS/1CANCELLED at90s in repair,200117ms. Same-reviewer
 source completion and P2 resolution do not qualify that timeout or permit a
 second run. Preserve the failed root and original evidence;no product changes.
+
+## Proposed observation of the remaining repair —26 November2026
+
+See remaining-repair-observation-amendment.md for the new one-target decision.
+No budget remains under fa15. Its current source review and CI are complete,
+while the sole repair cancellation remains unresolved. Only actual approval
+of the new immutable revision allows one observed QA copy and one invocation.
+Instrument only the named case in the copied QA and its embedded child script,
+using existing API boundaries/progress without modifying manager or helper.
+Preserve90000ms case,5000ms helper cleanup,120s total process and180s preparation;
+retain at most256 events/1MiB and distinguish per-process clocks and TAP outcome.
+The observer has no ownership/kill/delete/lock authority;all original cancellation,
+held-child and close-before-cleanup requirements stay intact. Any partial trace,
+instrumentation exception or cap remains explicit. Original roots/results are
+untouched. Even diagnostic PASS grants no qualification,fix,budget,build or VM.

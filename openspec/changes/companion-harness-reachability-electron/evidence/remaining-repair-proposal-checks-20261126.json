@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-11-26T19:18:23.998Z",
+  "proposalOnly": true,
+  "approved": false,
+  "readyForApply": false,
+  "dor": {
+    "PASS": 12,
+    "FAIL": 1,
+    "EXCEPTION": 0,
+    "failedGate": "metadata.manual-interventions",
+    "cause": "The actual new one-target observation decision has not been approved; no waiver or status substitution.",
+    "raw": "artifacts/wave3-current/remaining-repair-proposal-20261126/initial/dor.stdout",
+    "sha256": "3685385fa5a9e4280f2491650ab72ff58d1216549b9fb9925e0546c6e65b2cc3"
+  },
+  "strict": {
+    "fixedLocalVersion": "1.6.0",
+    "passed": 29,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "name": "strict",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "stdoutSha256": "ca61c9021c3fc0096deddb14981d8e803a7a85d344502f82c575299e6702c7e1",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "docs",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "stdoutSha256": "e2a4c3e337d7e3c18cb31299ac91aec4018ff87f148fef729b019a0972541a50",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "neutrality",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "stdoutSha256": "878bdfb9e10cec014f3f6196f27072801d28c0436f48d70d4b55b637214569dd",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "debt-read-only",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "stdoutSha256": "a9273809e69bbe0073b2b31fc0d8b8e7ee5ed2cbb58658d7af76b988e9bd6312",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "archiveReadiness": {
+    "code": 1,
+    "counts": {
+      "EXCEPTION": 0,
+      "FAIL": 2,
+      "PASS": 14
+    },
+    "mutationPerformed": false
+  },
+  "appFiles": 223,
+  "appUnchanged": true,
+  "debtFiles": 97,
+  "debtUnchanged": true,
+  "additionalQAInvocations": 0,
+  "diagnosticInstrumentationPrepared": false,
+  "productMutation": false,
+  "newReviewCycle": false,
+  "newDebtCapture": false,
+  "helper": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\remaining-repair-proposal-20261126\\remaining-docs\\checks.mjs",
+    "relativePath": "artifacts/wave3-current/remaining-repair-proposal-20261126/remaining-docs/checks.mjs",
+    "sha256": "cbfbe86090d62a34ce30a9bad0442a5b2d4fee4e0fcb8343b5ab45be5719e8a2"
+  },
+  "artifacts": {
+    "document-checks-result.json": {
+      "path": "artifacts/wave3-current/remaining-repair-proposal-20261126/remaining-docs/document-checks-result.json",
+      "sha256": "99baf1ab4c33fd4669b7ce64ba85690583fde63463065de2d5f5e27ab974c8d5"
+    },
+    "strict.stdout": {
+      "path": "artifacts/wave3-current/remaining-repair-proposal-20261126/remaining-docs/strict.stdout",
+      "sha256": "ca61c9021c3fc0096deddb14981d8e803a7a85d344502f82c575299e6702c7e1"
+    },
+    "strict.stderr": {
+      "path": "artifacts/wave3-current/remaining-repair-proposal-20261126/remaining-docs/strict.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs.stdout": {
+      "path": "artifacts/wave3-current/remaining-repair-proposal-20261126/remaining-docs/docs.stdout",
+      "sha256": "e2a4c3e337d7e3c18cb31299ac91aec4018ff87f148fef729b019a0972541a50"
+    },
+    "docs.stderr": {
+      "path": "artifacts/wave3-current/remaining-repair-proposal-20261126/remaining-docs/docs.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "neutrality.stdout": {
+      "path": "artifacts/wave3-current/remaining-repair-proposal-20261126/remaining-docs/neutrality.stdout",
+      "sha256": "878bdfb9e10cec014f3f6196f27072801d28c0436f48d70d4b55b637214569dd"
+    },
+    "neutrality.stderr": {
+      "path": "artifacts/wave3-current/remaining-repair-proposal-20261126/remaining-docs/neutrality.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "debt-read-only.stdout": {
+      "path": "artifacts/wave3-current/remaining-repair-proposal-20261126/remaining-docs/debt-read-only.stdout",
+      "sha256": "a9273809e69bbe0073b2b31fc0d8b8e7ee5ed2cbb58658d7af76b988e9bd6312"
+    },
+    "debt-read-only.stderr": {
+      "path": "artifacts/wave3-current/remaining-repair-proposal-20261126/remaining-docs/debt-read-only.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "archive-readonly.stdout": {
+      "path": "artifacts/wave3-current/remaining-repair-proposal-20261126/remaining-docs/archive-readonly.stdout",
+      "sha256": "774a4b2fbe2aae12861853bc3ca02f0cbc8b24e5854695f52604ae1cc22ccce1"
+    },
+    "archive-readonly.stderr": {
+      "path": "artifacts/wave3-current/remaining-repair-proposal-20261126/remaining-docs/archive-readonly.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "diffcheck.stdout": {
+      "path": "artifacts/wave3-current/remaining-repair-proposal-20261126/remaining-docs/diffcheck.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "diffcheck.stderr": {
+      "path": "artifacts/wave3-current/remaining-repair-proposal-20261126/remaining-docs/diffcheck.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "app-inventory-before.json": {
+      "path": "artifacts/wave3-current/remaining-repair-proposal-20261126/remaining-docs/app-inventory-before.json",
+      "sha256": "7ee448d6afc98e6719aff2b8cd86d8ff212ff5f90515518b4bdfefca92f874cf"
+    },
+    "debt-inventory-before.json": {
+      "path": "artifacts/wave3-current/remaining-repair-proposal-20261126/remaining-docs/debt-inventory-before.json",
+      "sha256": "344c395e001dfef1d381608eda6784bcc75c3970c16569215088d0766a9edf8a"
+    }
+  }
+}
