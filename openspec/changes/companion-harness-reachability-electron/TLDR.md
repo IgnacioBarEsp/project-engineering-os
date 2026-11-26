@@ -1,6 +1,37 @@
-# #150 — ola 3 implementada en rama, entrega aún bloqueada
+# #150 — ola 3 implementada en rama, cualificación local de recuperación completada
 
-## Siguiente paso preparado — 26 de noviembre de 2026
+## Cualificación local f41af24 completada — 26 de noviembre de 2026
+
+- **Diagnóstico físico `4a88216` (consumido, `DIAGNOSTIC_ONLY`)**: aprobación literal
+  registrada, DoR `13/13`, copia física de los `1,944` archivos de `npm 11.21.2` verificada.
+  El único caso observado pasó en `64,865 ms` TAP (`64,999 ms` proceso, `54` eventos); causa
+  del timeout histórico sigue `UNKNOWN`. CI `45885753453`: `12/12 SUCCESS`.
+  [Aprobación](evidence/physical-source-observation-approval-4a88216.md),
+  [resultado](evidence/physical-source-observation-result-4a88216.md).
+- **Cualificación `f41af24` (aprobada y consumida, `1/1`)**: la revisión
+  [remaining-repair-qualification-proposal.md](remaining-repair-qualification-proposal.md)
+  recibió aprobación literal («apruebo») y DoR fresca `13/13`. La copia **sin instrumentación**
+  (`changed: []`, `40,436 ms`, `1,944` archivos físicos de `npm 11.21.2`) ejecutó una sola vez
+  el caso original `interrupted repair restores only the journal-owned unchanged quarantine, and retains project/history bytes`:
+  **1 PASS / 0 FAIL / 0 CANCELLED / 0 SKIP** en `69,049.573 ms` TAP (`69,197 ms` proceso,
+  `exit 0`, `0` trazas, limpieza del helper completa, `0` procesos restantes).
+- **Equivalencia verificada (recibos separados, sin declarar 10/10 en una sola corrida)**:
+  `223/223` archivos de `apps/companion`, Node `v24.18.0` (`9a4eb5f1...`), `1,944` archivos de
+  `npm 11.21.2` (`6265d0c8...`) y `9/9` entradas de `d812` coinciden byte a byte entre `fa15`,
+  `f41af24` y el árbol actual. Se presentan juntos los `9 PASS` de `fa15`, el `1 PASS` de
+  `f41af24` y los `2 PASS` de copia/pack de `d812`, conservando todos los fallos históricos
+  (`d812`, `e978`, `fa15` + root retenido, `0999922`) y `4a88216` (`DIAGNOSTIC_ONLY`).
+  [Aprobación](evidence/remaining-repair-qualification-approval-f41af24.md),
+  [resultado y hashes](evidence/remaining-repair-qualification-result-f41af24.md),
+  [recibo JSON](evidence/remaining-repair-qualification-result-f41af24.json).
+- **CI y gates abiertos**: CI `45902071618` de `f41af24` terminó `12/12 SUCCESS`. Quedan
+  pendientes la CI del nuevo head documental de evidencia y la revisión del mantenedor sobre
+  esta evidencia antes de autorizar los gates posteriores: builds `0/2`, ciclo VM corregido
+  `0/1`, recorridos humanos `#146` y Software A/B `#147`, assessment final de deuda, archivos
+  oficiales `#218` y `#144`→`#150` en orden y merge protegido de PR `#217`. Sin cambios de
+  producto/QA/locks/CI ni inicio de ola 4.
+
+## Historial anterior — 26 de noviembre de 2026 (propuesta 4a88216)
 
 El siguiente paso real es la [corrección del transporte en la copia](physical-source-observation-amendment.md):
 copiar físicamente el MISMO npm11.21.2(1944archivos/12296462bytes),sin enlaces,

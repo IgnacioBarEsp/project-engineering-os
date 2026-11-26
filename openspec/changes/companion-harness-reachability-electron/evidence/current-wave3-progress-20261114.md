@@ -81,3 +81,24 @@ No hay otra enmienda preparada/aprobada por inferencia del fallo.
 Después, solo con autoridad y gates reales: completar cualificación, dos builds,
 VM corregida, humanos146/147, assessment/archivo218 y144→150 en orden,
 CI requerida del head final y merge protegido. Detenerse antes de ola4.
+
+## Actualización posterior (26 de noviembre de 2026): 0999922, 4a88216 y cualificación f41af24
+
+- **0999922 (aprobado y consumido, `DIAGNOSTIC_ONLY`)**: falló en preparación por
+  `LINK_REJECTED` al usar una junction para `node_modules` (`0 PASS / 1 FAIL`, `189 ms`);
+  guarda intacta y fallo conservado ([resultado](remaining-repair-observation-result-0999922.md)).
+- **4a88216 (aprobado y consumido, `DIAGNOSTIC_ONLY`)**: copia física regular de los `1,944`
+  archivos de `npm 11.21.2` verificada; el caso instrumentado pasó en `64,865 ms` TAP
+  (`64,999 ms` proceso, `54` eventos). Causa del timeout histórico sigue `UNKNOWN`. CI
+  `45885753453` `12/12 SUCCESS` ([resultado](physical-source-observation-result-4a88216.md)).
+- **f41af24 (aprobado y consumido, `1/1`)**: la única ejecución **sin instrumentación** del
+  caso original de reparación interrumpida pasó en `69,049.573 ms` TAP (`69,197 ms` proceso,
+  `exit 0`, `0` trazas). Equivalencia byte a byte verificada frente a `fa15` (`9 PASS`) y
+  `d812` (`2 PASS`) en `223/223` archivos de app, Node `v24.18.0`, `1,944` archivos físicos
+  de `npm 11.21.2` y `9/9` entradas de `d812`, sin declarar un `10/10` de la misma corrida.
+  CI `45902071618` de `f41af24` terminó `12/12 SUCCESS`
+  ([resultado](remaining-repair-qualification-result-f41af24.md)).
+- **Pendientes antes de cerrar ola 3**: CI verde de este head documental y revisión de la
+  evidencia por el mantenedor antes de autorizar builds `0/2`, VM corregida `0/1`, humanos
+  `#146`/`#147`, assessment final de deuda, archivos oficiales `#218` y `#144`→`#150` en orden
+  y merge protegido de PR `#217`. Sin cambios de producto/QA ni inicio de ola 4.

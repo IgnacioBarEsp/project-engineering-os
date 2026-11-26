@@ -1,5 +1,12 @@
 # Nueva decisión: corregir el transporte del origen en la copia diagnóstica
 
+**Estado posterior:** revisión `4a8821642bd87e41c94da613e6f4adffb77611a3` aprobada
+literalmente («apruebo, como vas con la ola 3 o el demas trabajo?»), DoR `13/13` y
+presupuesto consumido (`1/1`): `1 PASS / 0 FAIL` en `64,865 ms` TAP (`64,999 ms` proceso,
+`54` eventos), resultado estrictamente `DIAGNOSTIC_ONLY`. [Aprobación](evidence/physical-source-observation-approval-4a88216.md)
+y [resultado completo](evidence/physical-source-observation-result-4a88216.md). El texto
+siguiente conserva la propuesta presentada originalmente.
+
 **Propuesta sin aprobar ni aplicar.** Issue #150;owner IgnacioBarEsp.
 La aprobación0999922 está resuelta y su intento está consumido.
 [Resultado original](evidence/remaining-repair-observation-result-0999922.md):

@@ -180,3 +180,24 @@ The observer has no ownership/kill/delete/lock authority;all original cancellati
 held-child and close-before-cleanup requirements stay intact. Any partial trace,
 instrumentation exception or cap remains explicit. Original roots/results are
 untouched. Even diagnostic PASS grants no qualification,fix,budget,build or VM.
+
+## Physical-source observation (4a88216) and uninstrumented qualification (f41af24)
+
+Revision `4a88216` received literal approval and fresh DoR `13/13`, copied all `1,944`
+regular files of `npm 11.21.2` with matching source/destination inventories, and ran the
+instrumented repair target once (`64,865 ms` TAP, `54` events, `DIAGNOSTIC_ONLY`; historical
+timeout cause remains `UNKNOWN`).
+
+Revision `f41af24` (`remaining-repair-qualification-proposal.md`) received literal approval
+(«apruebo») and fresh DoR `13/13`, froze an uninstrumented copy (`changed: []`, `40,436 ms`)
+with the same verified physical `npm 11.21.2` copy and isolated Windows x64 / Node `24.18.0`
+environment, and executed the exact single target once under unchanged `90 s` case / `5 s`
+cleanup / `120 s` process limits: `1 PASS / 0 FAIL / 0 CANCELLED / 0 SKIP` in `69,049.573 ms`
+TAP (`69,197 ms` process, `exit 0`, zero traces, clean helper cleanup). Equivalence verification
+(`equivalence-verified.json`) confirmed byte-identical `223/223` app files, Node `24.18.0`
+binary, `1,944`-file `npm 11.21.2` inventory, and `9/9` `d812` inputs, authorizing conditional
+presentation of the `9 PASS` `fa15` receipts alongside the independent `1 PASS` `f41af24`
+receipt (and `2 PASS` `d812` copy/pack receipts) without claiming a single-run `10/10`.
+CI `45902071618` on `f41af24` passed `12/12`. Prior failures remain immutable; current CI on
+this evidence head and maintainer review precede any build (`0/2`), VM (`0/1`), human, debt,
+archive or merge gate.

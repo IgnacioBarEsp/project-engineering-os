@@ -31,6 +31,23 @@ None.
 
 ## Impact
 
+### Remaining repair qualification — f41af24 approved and executed
+
+Following the approved `4a88216` physical-source diagnostic (`1 PASS` in `64,865 ms` TAP,
+`DIAGNOSTIC_ONLY`, historical cause `UNKNOWN`), the separate
+[remaining-repair-qualification-proposal.md](remaining-repair-qualification-proposal.md)
+(`f41af24`) received literal maintainer approval («apruebo») and fresh DoR `13/13`.
+Its single authorized preparation (`40,436 ms`, uninstrumented `223/223` app files,
+verified `1,944`-file physical copy of `npm 11.21.2`) and single invocation passed
+(`1 PASS / 0 FAIL / 0 CANCELLED / 0 SKIP`, `69,049.573 ms` TAP, `69,197 ms` process,
+`exit 0`, zero traces). Byte equivalence with `fa15` (`9 PASS`) and `d812` (`2 PASS`) is
+verified across code, Node `24.18.0`, physical npm and `9/9` `d812` inputs without claiming
+a single-run `10/10`. CI `45902071618` on `f41af24` succeeded `12/12`. All prior failures
+and `DIAGNOSTIC_ONLY` records remain intact; no product/QA/policy/dependency edits occurred.
+Current CI on this evidence head and maintainer evidence review remain required before
+authorizing builds (`0/2`), corrected VM (`0/1`), human `#146`/`#147`, debt/archives or merge.
+See `evidence/remaining-repair-qualification-result-f41af24.md`.
+
 ### Physical source transport proposed after0999922 setup failure
 
 0999922 received actual approval andits one observation failed before repair:

@@ -19,7 +19,9 @@
 - [ ] 3.1 Complete owning suites/runtime matrix/original raw audits and hostile-input controls under unchanged limits; preserve other findings.
   - [x] 3.1a Retain the actual9/9 baseline/candidate TLS contrast and18screens/12copies native checks within their declared scope.
   - [x] 3.1b Retain original raw audit counts and exact source/lock correspondences without exceptions.
-  - [ ] 3.1c Resolve the local owning qualification gate: d812 ended2PASS/2CANCELLED; current CI does not erase it.
+  - [ ] 3.1c Resolve the local owning qualification gate: d812 ended 2PASS/2CANCELLED; current CI does not erase it.
+    - [x] 3.1c.i Complete the approved uninstrumented remaining-repair execution (`f41af24`, 1 PASS in `69.05 s` TAP) and verify exact byte equivalence across all `223/223` app files, Node `24.18.0`, physical `npm 11.21.2` (`1,944` files) and `9/9` `d812` inputs, presenting separate receipts (`d812` 2 PASS copy/pack + `fa15` 9 PASS + `f41af24` 1 PASS) while preserving all prior FAILs and `DIAGNOSTIC_ONLY` records.
+    - [ ] 3.1c.ii Confirm green required CI on this evidence head and maintainer review of the qualification evidence before starting `3.2` (builds `0/2`) and `3.3` (corrected VM `0/1`).
 - [ ] 3.2 Build twice from frozen inputs; compare inventories/licenses, official runtime/npm and honest byte/resource measurements.
 - [ ] 3.3 Verify the actual installer and complete the one still-unused canonical corrected VM cycle with six profiles/seven scenarios, recovery and uninstall.
 

@@ -1,5 +1,16 @@
 ## ADDED Requirements
 
+### Requirement: Uninstrumented remaining-repair qualification and conditional fa15 reuse
+The remaining-repair-qualification decision SHALL require literal maintainer approval and fresh DoR before one uninstrumented preparation and one exact-target invocation under unchanged 90 s case, 5 s cleanup and 120 s process limits using the verified physical npm 11.21.2 copy and Node 24.18.0 runtime. Reuse of the nine passing fa15 receipts SHALL be permitted only when code, runtime, dependency and relevant input hashes match byte for byte, SHALL be presented as separate receipts rather than a single-run 10/10, and SHALL keep current CI, evidence review, builds, VM, human journeys, debt, archive and merge as separate subsequent gates while preserving all historical failures and DIAGNOSTIC_ONLY records.
+
+#### Scenario: Uninstrumented repair case passes with verified hash equivalence
+- **WHEN** the single approved uninstrumented invocation passes within unchanged limits and code, runtime, physical npm and d812 input hashes match fa15 and d812 byte for byte
+- **THEN** the independent qualification receipt is recorded alongside the nine fa15 receipts and two d812 copy/pack receipts without declaring a single-run 10/10, historical failures remain intact, and downstream build, VM, human, archive and integration gates wait for current CI and evidence review
+
+#### Scenario: Input drift or failure during qualification
+- **WHEN** any frozen input drifts before execution or the single qualification invocation fails or cancels
+- **THEN** execution stops without retry, equivalence reuse is not claimed, and local qualification remains open
+
 ### Requirement: Remaining repair observation has separate explicit authority
 The remaining-repair-observation amendment SHALL require actual approval of its immutable revision before one copied-case instrumentation variant and one exact-target invocation. It SHALL preserve the90s case limit,120s process cap,180s preparation cap,unchanged product/helper/assertions and all consumed historical budgets. Its evidence SHALL always be labeled DIAGNOSTIC_ONLY and SHALL NOT qualify the original local gate or authorize a future correction.
 

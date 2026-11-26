@@ -1,4 +1,17 @@
-# #218 — qualification blocked after approved d812f92
+# #218 — local recovery QA receipts complete via f41af24; builds and VM still gated
+
+**Update 2026-11-26:** Under `#150` approved revisions `5013`/`fa15` and `f41af24`, the
+remaining local interrupted-repair case passed uninstrumented in `69,049.573 ms` TAP
+(`69,197 ms` process, `1 PASS / 0 FAIL / 0 CANCELLED / 0 SKIP`) on verified physical
+`npm 11.21.2` (`1,944` files) and Node `v24.18.0`, with byte-exact equivalence confirmed
+against `fa15` (`9 PASS`) and `d812` (`2 PASS` copy/pack, `9/9` inputs unchanged) across all
+`223/223` `apps/companion` files. All historical failures (`d812` `2 PASS / 2 CANCELLED`,
+`e978`, `fa15` `9 PASS / 1 CANCELLED`, `0999922`) and `4a88216` (`DIAGNOSTIC_ONLY`) remain
+preserved, and no single-run `10/10` is claimed. CI `45902071618` on `f41af24` succeeded
+`12/12`. See [qualification result](../companion-harness-reachability-electron/evidence/remaining-repair-qualification-result-f41af24.md).
+Current CI on this evidence commit and maintainer review of the qualification evidence
+remain required before authorizing builds (`0/2`), corrected VM (`0/1`), human `#146`/`#147`,
+final debt assessment, official archives (`#218`, `#144`→`#150`) and protected integration.
 
 **Approvals7af/2d2/1cb/d812 are all actually resolved. Do not ask again.**
 [Latest approval](evidence/local-qa-resource-approval.md).

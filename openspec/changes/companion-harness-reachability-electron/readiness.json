@@ -58,9 +58,9 @@
     },
     {
       "id": "component-or-interaction-tests",
-        "status": "failed",
-        "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/recovery-qa-spawn-result-fa15.md",
-        "justification": "fa15 aprobada/aplicada:9PASS/1CANCELLED por90s en reparación real. No10/10 ni retry. C8regresiones7/7 y37/37runner históricos intactos. Faltan cualificación,CI vigente y ciclo instalado;review de fuente no borra timeout.",
+      "status": "pending",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/remaining-repair-qualification-result-f41af24.md",
+      "justification": "Cualificación f41af24 aprobada y ejecutada sin instrumentación: 1 PASS en 69.05 s TAP con equivalencia verificada frente a 9 PASS de fa15 y 2 PASS de d812 (recibos separados, sin declarar 10/10 en una corrida; fallos históricos conservados). CI 45902071618 de f41af24 12/12 SUCCESS. Siguen pendientes CI de este head documental, revisión de evidencia, builds 0/2 y ciclo instalado VM 0/1.",
       "profileCondition": null
     },
     {

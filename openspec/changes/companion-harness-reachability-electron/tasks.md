@@ -73,6 +73,8 @@ pass or treat it as installed/human/security-wide approval.
   - [x] 9.4a Same reviewer finished the original cycle within the maintainer-approved continuation scope:originalP2 resolved by source,no other actionable finding;actual report retained,no test execution by reviewer.
   - [x] 9.4b Receive fullCI3OS/required on077a5f8:43616684145SUCCESS12/12,read back26nov.9PASS/1CANCELLED local qualification remains failed regardless of CI or source review. A subsequent head needs its own CI.
 - [ ] 9.5 Qualify the cancelled repair with the agreed criteria and actual new authority;no diagnostic or source-review PASS substitutes for that local gate.
+  - [x] 9.5a Execute the single approved uninstrumented qualification case (f41af24) and verify exact hash equivalence with fa15 (9 PASS) and d812 (2 PASS): 1 PASS in 69.05 s TAP (`69,197 ms` process), zero source/runtime/dependency drift; historical FAILs preserved.
+  - [ ] 9.5b Confirm green required CI on this evidence head and maintainer review of the qualification evidence before authorizing builds 0/2 and corrected VM 0/1.
 
 ## 10. Remaining repair observation —0999922 approved/consumed;setup failed
 
@@ -81,9 +83,17 @@ pass or treat it as installed/human/security-wide approval.
 - [x] 10.3 Freeze one observation copy and invoke the exact target once:0PASS/1FAIL,LINK_REJECTED at initial install because the agent used a dependency junction. Preparation3963ms/run189ms;remaining0,no retry.
 - [x] 10.4 Report DIAGNOSTIC_ONLY/setup failure honestly;original fa15 timeout stillUNKNOWN,no qualification/fix/build/VM credit. See evidence/remaining-repair-observation-result-0999922.md.
 
-## 11. Physical source transport —proposed,not approved
+## 11. Physical source transport —4a88216 approved and consumed (DIAGNOSTIC_ONLY)
 
 - [x] 11.1 Retain0999922 approval/freeze/setupFAIL andprepare a concrete physical-source transport correction using a readonly1944-file inventory of the identical npm11.21.2 source. No copy or new invocation yet.
-- [ ] 11.2 Receive actual approval of the new immutable physical-source-observation amendment andpass freshDoR before any additional preparation.
-- [ ] 11.3 Only then,freeze one regular physical copy with exact source/destination inventories andinvoke the same observed target once,under unchanged90s/120s/180s limits. Stop onfailure without retry.
-- [ ] 11.4 Report DIAGNOSTIC_ONLY andany remainingUNKNOWN;no qualification,repair,review,build,VM orfuture budget inferred.
+- [x] 11.2 Receive actual approval («apruebo, como vas con la ola 3 o el demas trabajo?») of 4a88216 and pass fresh DoR 13/13 before preparation. See evidence/physical-source-observation-approval-4a88216.md.
+- [x] 11.3 Freeze one regular physical copy (`39,329 ms`, 1,944 npm 11.21.2 files verified) and invoke the observed target once under unchanged 90s/120s/180s limits: 1 PASS (`64,865 ms` TAP, `64,999 ms` process, 54 events).
+- [x] 11.4 Report DIAGNOSTIC_ONLY and retain UNKNOWN historical timeout cause without inferring qualification, repair, build, VM or future budget. See evidence/physical-source-observation-result-4a88216.md.
+
+## 12. Remaining repair qualification —f41af24 approved and executed
+
+- [x] 12.1 Present concrete qualification proposal (`remaining-repair-qualification-proposal.md`, f41af24) with uninstrumented QA, verified physical npm copy, exact single-case filter, conditional reuse of fa15 9 PASS by hash equivalence, unchanged limits and no implicit build/VM/closure authority.
+- [x] 12.2 Record literal approval «apruebo» of f41af246138fcfbae8d528f71fa933e99f9c1820 and pass fresh DoR 13/13 before preparation. See evidence/remaining-repair-qualification-approval-f41af24.md.
+- [x] 12.3 Freeze uninstrumented copy (`40,436 ms`, `changed: []`, 1,944 physical npm 11.21.2 files verified) and execute the exact target once: 1 PASS / 0 FAIL / 0 CANCELLED / 0 SKIP (`69,049.573 ms` TAP, `69,197 ms` process, exit 0, zero traces, clean helper cleanup); budget 1/1 consumed, 0 remaining, no retry.
+- [x] 12.4 Verify exact byte equivalence with fa15 (223/223 app files, Node v24.18.0 binary, 1,944 npm 11.21.2 files) and d812 (9/9 inputs), plus CI 45902071618 12/12 SUCCESS on f41af24; present separate receipts without declaring a single-run 10/10 and preserve all historical FAILs and DIAGNOSTIC_ONLY records. See evidence/remaining-repair-qualification-result-f41af24.md.
+- [ ] 12.5 Confirm green required CI on this evidence commit and maintainer review of the qualification evidence before authorizing subsequent gates (builds 0/2, corrected VM 0/1, real #146/#147, final debt/review, ordered official archives #218 and #144->#150, protected PR integration).

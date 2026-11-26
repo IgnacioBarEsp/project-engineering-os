@@ -1,5 +1,18 @@
 # #150 — Propuesta de cualificación de la reparación pendiente
 
+**Estado posterior:** revisión `f41af246138fcfbae8d528f71fa933e99f9c1820` aprobada literalmente
+(«apruebo»), DoR `13/13` y único presupuesto consumido (`1/1` preparación en `40,436 ms`,
+`1/1` ejecución sin instrumentación con `1 PASS / 0 FAIL / 0 CANCELLED / 0 SKIP` en
+`69,049.573 ms` TAP / `69,197 ms` proceso). Equivalencia exacta verificada con los 9 `PASS`
+de `fa15` y los 2 `PASS` de `d812` (`223/223` archivos de app, Node `v24.18.0`, `1,944`
+archivos de `npm 11.21.2`, `9/9` entradas de `d812`), sin declarar un `10/10` de la misma
+corrida. [Aprobación](evidence/remaining-repair-qualification-approval-f41af24.md) y
+[resultado con hashes](evidence/remaining-repair-qualification-result-f41af24.md).
+CI `45902071618` de `f41af24` terminó `12/12 SUCCESS`; quedan pendientes la CI del nuevo head
+documental y la revisión de la evidencia antes de autorizar builds (`0/2`), VM (`0/1`),
+recorridos humanos `#146`/`#147`, deuda, archivos oficiales y merge protegido. El texto
+siguiente conserva la propuesta presentada originalmente.
+
 Pendiente de aprobación. El diagnóstico aprobado en 4a88216 consumió su único
 intento. El caso instrumentado pasó en 64,865 ms (TAP), con los 1.944 archivos
 de npm 11.21.2 verificados en una copia física. El registro persistente
