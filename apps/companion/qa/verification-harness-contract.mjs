@@ -80,3 +80,13 @@ test('parse, load, timeout, cancelled and setup failures never credit a detectio
     assert.equal(detectedByBehavior({...failure,...inspectTestResult(failure)},baseline),false);
   }
 });
+
+test('installed journey harness synchronizes on renderer busy state and captures anchored failure diagnostics',async()=>{
+  const source=await readFile(fileURLToPath(new URL('../scripts/verify-native-journeys.mjs',import.meta.url)),'utf8');
+  assert.match(source,/getAttribute\('aria-busy'\)\s*===\s*'false'/);
+  assert.match(source,/#project-panel\[data-project-tab="\$\{tab\}"\]/);
+  assert.doesNotMatch(source,/await reviewContext\.click\(\);\s*await page\.waitForTimeout\(1500\);/);
+  assert.match(source,/await reviewContext\.click\(\);\s*if\s*\(!await notBusy\(\)\)/);
+  assert.match(source,/capture\('native-tu-ia'[\s\S]*article\.project[\s\S]*waitWorkspaceTab\('overview'\)[\s\S]*revealDetails\(ai\)/);
+  assert.match(source,/catch\s*\(failure\)[\s\S]*anchor\(\)[\s\S]*failure\.png[\s\S]*failure-state\.json[\s\S]*throw failure;/);
+});

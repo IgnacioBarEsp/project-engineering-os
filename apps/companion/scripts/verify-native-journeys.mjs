@@ -433,6 +433,33 @@ app.unref();
 
 const { chromium } = await import('playwright');
 let browser;
+let activePage = null;
+let currentScenario = null;
+let currentStage = 'startup';
+// The window shows absolute paths, which carry the account name of whoever ran this. Every text record
+// here is anchored through portable(), but no check reads an image, so a screenshot is the one place that
+// discipline silently does not apply — and an image is exactly what gets looked at. So the anchoring is
+// done in the page before each capture, on EVERY path element rather than the first one: the project list
+// shows several of them, and anchoring only one is the same failure with a smaller radius.
+const anchor = async () => activePage.evaluate(({ raw, anchored }) => {
+  const forms = [raw, raw.replace(/\//g, '\\')];
+  const nodes = [...document.querySelectorAll('.path')];
+  let replaced = 0;
+  for (const node of nodes) {
+    const before = node.textContent;
+    for (const form of forms) {
+      while (node.textContent.toLowerCase().includes(form.toLowerCase())) {
+        const at = node.textContent.toLowerCase().indexOf(form.toLowerCase());
+        node.textContent = node.textContent.slice(0, at) + anchored + node.textContent.slice(at + form.length);
+      }
+    }
+    if (node.textContent !== before) replaced += 1;
+  }
+  // What matters is the state after: no element may still carry a drive letter or a users directory.
+  const leaking = nodes.filter(node => /^[a-z]:[\\/]/i.test(node.textContent.trim())
+    || /users[\\/]/i.test(node.textContent)).map(node => node.textContent.trim());
+  return { nodes: nodes.length, replaced, leaking };
+}, { raw: workspace, anchored: portable(workspace) });
 try {
   // The window needs a moment before the protocol answers; retry rather than guess a sleep.
   for (let attempt = 0; attempt < 30 && !browser; attempt += 1) {
@@ -441,31 +468,46 @@ try {
   }
   assert.ok(browser, `La aplicación instalada no respondió en el puerto ${port}.`);
   const page = browser.contexts()[0].pages()[0] ?? await browser.contexts()[0].waitForEvent('page');
+  activePage = page;
   await page.waitForLoadState('domcontentloaded');
   page.setDefaultTimeout(180000);
   // Every control is disabled while an operation runs, so a click that arrives early fails on a disabled
   // element rather than on a missing one, and a stall has to be recorded as a finding rather than end the
   // run with a timeout that explains neither.
   //
-  // Two different questions, and conflating them cost a spurious finding. `notBusy` asks whether the
-  // application is busy right now, and is what a click needs before it lands. `settle` asks whether the
-  // operation a click just started has finished — and that one has to wait for the busy indicator to
-  // APPEAR first: an operation takes a moment to start, so asking only "is it hidden" answers yes about
-  // the instant before the work began and returns while the screen is still the previous one.
-  const stop = page.getByRole('button', { name: /^Detener$/ });
-  const notBusy = (timeout = 180000) => stop.waitFor({ state: 'hidden', timeout }).then(() => true, () => false);
-  const settle = async (timeout = 180000) => {
-    await stop.waitFor({ state: 'visible', timeout: 4000 }).catch(() => {});
-    return notBusy(timeout);
+  // The renderer's `run()` sets `#content[aria-busy="true"]` synchronously inside each click handler and
+  // clears it to `"false"` only after every awaited IPC call and `state.renderReady` (including view
+  // transitions) have settled. Waiting on `Detener` alone missed operations under 1000 ms (where the
+  // progress bar stays hidden by design) and gaps between consecutive IPC calls before `showWorkspace()`.
+  const notBusy = (timeout = 180000) => page.waitForFunction(() => {
+    const content = document.getElementById('content');
+    const activity = document.getElementById('activity');
+    const cancel = document.getElementById('cancel');
+    return !!content && content.getAttribute('aria-busy') === 'false'
+      && (!activity || activity.hidden) && (!cancel || cancel.offsetParent === null);
+  }, undefined, { timeout }).then(() => true, () => false);
+  const settle = (timeout = 180000) => notBusy(timeout);
+  const waitWorkspaceTab = async (tab, timeout = 180000) => {
+    const settled = await notBusy(timeout);
+    const arrived = await page.locator(`#project-panel[data-project-tab="${tab}"]`)
+      .waitFor({ state: 'visible', timeout: Math.min(timeout, 30000) })
+      .then(() => true, () => false);
+    return settled && arrived;
   };
+  await notBusy();
 
   for (const [id, definition] of Object.entries(PROFILES)) {
+    currentScenario = id;
+    currentStage = 'open-history';
     const started = performance.now();
     const steps = [];
     const step = (name, result) => { steps.push({ name, result }); return result; };
     const body = () => page.locator('body').innerText();
 
+    await notBusy();
     await page.getByRole('button', { name: /Tus proyectos/ }).click();
+    await notBusy();
+    await page.locator('.project-list[aria-busy="false"]').waitFor({ timeout: 60000 });
     await page.locator('article.project .card-open').first().waitFor();
     step('open history', { entries: await page.locator('article.project').count() });
 
@@ -481,13 +523,14 @@ try {
     if (!rowClaims.length) finding(id, 'list', 'la comprobación de lo que afirma una fila no examinó ninguna fila');
     step('row state', { states: rowClaims.map(entry => entry.className.replace(/^.*state-/, '')),
       named: rowClaims.map(entry => entry.namedStages) });
+    currentStage = 'open-project';
     await card.locator('.card-open').click();
     // Waiting for a heading with this name would pass without navigating: the history card carries the
     // same heading. Wait for the list itself to go, and for the application to stop being busy — opening
     // a project verifies its stages, and for a software profile that includes the managed tools.
     await page.locator('article.project').first().waitFor({ state: 'detached', timeout: 120000 });
-    await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 180000 })
-      .catch(() => finding(id, 'open', 'la aplicación siguió ocupada tres minutos después de abrir el proyecto'));
+    if (!await notBusy()) finding(id, 'open', 'la aplicación siguió ocupada tres minutos después de abrir el proyecto');
+    await page.locator('#project-panel[data-project-tab="overview"]').waitFor({ timeout: 60000 });
     step('opened from history', { project: definition.name, heading: await page.locator('h1,h2').first().innerText() });
     // The guidance for this project, in the installed window: every step with its reason, and either text to
     // hand an AI or the control that does the work here.
@@ -498,11 +541,12 @@ try {
       terms: guide?.terms ?? [] });
 
     // Context preparation, reviewed and then applied, in the interface.
+    currentStage = 'prepare-context';
     const reviewContext = page.getByRole('button', { name: /^Leer mis archivos$/,includeHidden:true }).first();
     if (await reviewContext.count()) {
       await revealDetails(reviewContext);
       await reviewContext.click();
-      await page.waitForTimeout(1500);
+      if (!await notBusy()) finding(id, 'context', 'la aplicación siguió ocupada tres minutos al revisar el contexto');
       const save = page.getByRole('button', { name: /Guardar y continuar|Revisar con estas exclusiones/ }).first();
       if (await save.count()) {
         await save.click();
@@ -512,17 +556,20 @@ try {
     } else finding(id, 'context', `la interfaz no ofreció preparar el contexto. Botones visibles: ${(await page.locator('button:visible').allTextContents()).join(' | ')}`);
 
     // Context and a search whose answer is known in advance.
+    currentStage = 'search-files';
+    if (!await notBusy()) finding(id, 'search', 'la aplicación siguió ocupada al ir a buscar en los archivos');
+    await page.locator('#project-panel[data-project-tab="overview"]').waitFor({ timeout: 60000 }).catch(() => {});
     const sources = page.getByRole('button', { name: 'Archivos', exact: true,includeHidden:true });
-    await revealDetails(sources.first());
-    await sources.first().waitFor({ timeout: 180000 }).catch(() => {});
     if (await sources.count()) {
-      if (!await notBusy()) finding(id, 'search', 'la aplicación siguió ocupada al ir a buscar en los archivos');
+      await revealDetails(sources.first());
+      await sources.first().waitFor({ state: 'visible', timeout: 30000 });
       await sources.first().click();
-      await page.waitForTimeout(1200);
+      await waitWorkspaceTab('search');
       const field = page.locator('input[type="search"], input[type="text"]:visible').last();
       await field.fill(definition.query);
       await field.press('Enter');
-      await page.waitForTimeout(2500);
+      await notBusy();
+      await page.locator('#search-results .result, #search-results p').first().waitFor({ timeout: 15000 }).catch(() => {});
       const text = await body();
       // A citation is path plus a position inside it; a hit without one cannot be checked.
       const citation = text.match(/([\w.\-/]+\.(?:txt|md|json|js|pdf|docx))\s*·\s*(línea|página|párrafo)\s*(\d+)/);
@@ -562,24 +609,27 @@ try {
     // be verified for software and Unity. They are driven here, in the window, and a profile that cannot
     // reach a stage records why rather than skipping quietly.
     if (isEngineering(definition.profile)) {
+      currentStage = 'engineering-stages';
       const stages = {};
       const press = async (pattern, wait = 120000) => {
+        if (!await notBusy(wait)) return false;
         const control = page.getByRole('button', { name: pattern,includeHidden:true }).first();
-        if (!await control.count()) return false;
-        await notBusy(wait);
         if (!await control.count()) return false;
         await revealDetails(control);
         await control.click();
-        await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: wait }).catch(() => {});
-        await page.waitForTimeout(800);
+        await notBusy(wait);
         return true;
       };
       // The stages are on the project's status tab; the search left the sources tab open, so a run that
       // never navigates back would report every stage as absent and blame the product for it.
+      await notBusy();
       const status = page.getByRole('button', { name: /^Preparación$/,includeHidden:true });
-      await revealDetails(status.first());
-      if (await status.count()) { await status.first().click(); await page.waitForTimeout(1500); }
-      else finding(id, 'engineering', 'la interfaz no ofreció volver a la preparación del proyecto');
+      if (await status.count()) {
+        await revealDetails(status.first());
+        await status.first().waitFor({ state: 'visible', timeout: 30000 });
+        await status.first().click();
+        await waitWorkspaceTab('overview');
+      } else finding(id, 'engineering', 'la interfaz no ofreció volver a la preparación del proyecto');
       stages.visibleControls = await page.locator('button:visible').allTextContents();
       // The interface does not offer one fixed sequence: each stage changes which control appears next, so
       // a hard-coded chain reports "not offered" for stages that simply had not been reached yet. This
@@ -638,11 +688,12 @@ try {
       const symbols = page.getByRole('button', { name: /Buscar símbolos/ });
       if (await symbols.count()) {
         await symbols.first().click();
-        await page.waitForTimeout(1500);
+        await waitWorkspaceTab('search');
         const field = page.locator('input[type="search"], input[type="text"]:visible').last();
         await field.fill(definition.symbol ?? '');
         await field.press('Enter');
-        await page.waitForTimeout(2500);
+        await notBusy();
+        await page.waitForTimeout(500);
         const shown = await page.locator('body').innerText();
         stages.foundSymbol = definition.symbol ? shown.includes(definition.symbol) : null;
         if (definition.symbol && !stages.foundSymbol) {
@@ -656,7 +707,11 @@ try {
     // The scenario requires source preservation after **closing and reopening**. Leaving the project open
     // and asserting the same screen would prove nothing, so the project view is closed back to the history
     // and opened again, and the citation has to survive the round trip.
+    currentStage = 'reopen-check';
+    await notBusy();
     await page.getByRole('button', { name: /Tus proyectos/ }).click();
+    await notBusy();
+    await page.locator('.project-list[aria-busy="false"]').waitFor({ timeout: 60000 });
     await page.locator('article.project').first().waitFor({ timeout: 60000 });
     // The same rows, now that this journey has read the files: this is where the mark can appear, and where a
     // mark that appeared without the stages behind it would be visible in the installed window.
@@ -667,19 +722,20 @@ try {
     const reopened = page.locator('article.project').filter({ has: page.getByRole('heading', { name: definition.name }) });
     await reopened.locator('.card-open').click();
     await page.locator('article.project').first().waitFor({ state: 'detached', timeout: 120000 });
-    await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 180000 }).catch(() => {});
+    if (!await notBusy()) finding(id, 'reopen', 'la aplicación siguió ocupada tras reabrir el proyecto');
+    await page.locator('#project-panel[data-project-tab="overview"]').waitFor({ timeout: 60000 }).catch(() => {});
     const afterReopen = page.getByRole('button', { name: 'Archivos', exact: true,includeHidden:true });
-    await revealDetails(afterReopen.first());
-    await afterReopen.first().waitFor({ timeout: 180000 }).catch(() => {});
     let survived = null;
     if (await afterReopen.count()) {
-      if (!await notBusy()) finding(id, 'reopen', 'la aplicación siguió ocupada tras reabrir el proyecto');
+      await revealDetails(afterReopen.first());
+      await afterReopen.first().waitFor({ state: 'visible', timeout: 30000 });
       await afterReopen.first().click();
-      await page.waitForTimeout(1200);
+      await waitWorkspaceTab('search');
       const field = page.locator('input[type="search"], input[type="text"]:visible').last();
       await field.fill(definition.query);
       await field.press('Enter');
-      await page.waitForTimeout(2500);
+      await notBusy();
+      await page.locator('#search-results .result, #search-results p').first().waitFor({ timeout: 15000 }).catch(() => {});
       const screen = await body();
       survived = /·\s*(línea|página|párrafo)\s*\d+/.test(screen);
       if (!survived) {
@@ -713,10 +769,13 @@ try {
     // The panel lives on the project's state tab, and by this point the journey has been searching. Read where
     // the thing being read actually is: the first version of this check looked from the search tab and reported
     // the panel as missing, which is a finding about the check and not about the window.
+    currentStage = 'technology-check';
+    await notBusy();
     const preparation=page.getByRole('button', { name: 'Preparación', exact: true,includeHidden:true });
     await revealDetails(preparation);
+    await preparation.waitFor({ state: 'visible', timeout: 30000 });
     await preparation.click();
-    await page.waitForTimeout(500);
+    await waitWorkspaceTab('overview');
     await expandProjectDetails(page);
     const technology = await page.evaluate(() => {
       const heading = [...document.querySelectorAll('#view h2')].find(node => node.textContent.includes('Tecnología de este proyecto'));
@@ -739,34 +798,11 @@ try {
     console.log(`${id}: ${steps.length} pasos, ${record.findings.filter(f => f.profile === id).length} hallazgos`);
   }
 
-  // The window shows absolute paths, which carry the account name of whoever ran this. Every text record
-  // here is anchored through portable(), but no check reads an image, so a screenshot is the one place that
-  // discipline silently does not apply — and an image is exactly what gets looked at. So the anchoring is
-  // done in the page before each capture, on EVERY path element rather than the first one: the project list
-  // shows several of them, and anchoring only one is the same failure with a smaller radius.
-  const anchor = async () => page.evaluate(({ raw, anchored }) => {
-    const forms = [raw, raw.replace(/\//g, '\\')];
-    const nodes = [...document.querySelectorAll('.path')];
-    let replaced = 0;
-    for (const node of nodes) {
-      const before = node.textContent;
-      for (const form of forms) {
-        while (node.textContent.toLowerCase().includes(form.toLowerCase())) {
-          const at = node.textContent.toLowerCase().indexOf(form.toLowerCase());
-          node.textContent = node.textContent.slice(0, at) + anchored + node.textContent.slice(at + form.length);
-        }
-      }
-      if (node.textContent !== before) replaced += 1;
-    }
-    // What matters is the state after: no element may still carry a drive letter or a users directory.
-    const leaking = nodes.filter(node => /^[a-z]:[\\/]/i.test(node.textContent.trim())
-      || /users[\\/]/i.test(node.textContent)).map(node => node.textContent.trim());
-    return { nodes: nodes.length, replaced, leaking };
-  }, { raw: workspace, anchored: portable(workspace) });
-
+  currentScenario = 'captures';
   const captures = [];
   const capture = async (name, before) => {
-    if (before) { await before(); await page.waitForTimeout(900); }
+    currentStage = `capture:${name}`;
+    if (before) { await before(); await notBusy(); }
     const anchored = await anchor();
     // The property is the state after anchoring, not how many elements were rewritten: a screen that shows
     // no path at all is a screen with nothing to leak, and reporting that as a finding would be the same
@@ -777,17 +813,26 @@ try {
   };
   await capture('native-window');
   await capture('native-inicio', () => page.getByRole('button', { name: 'Inicio', exact: true }).click());
-  await capture('native-proyectos', () => page.getByRole('button', { name: 'Tus proyectos', exact: true }).click());
+  await capture('native-proyectos', async () => {
+    await page.getByRole('button', { name: 'Tus proyectos', exact: true }).click();
+    await notBusy();
+    await page.locator('.project-list[aria-busy="false"]').waitFor({ timeout: 60000 });
+  });
   await capture('native-ayuda', () => page.getByRole('button', { name: 'Ayuda', exact: true }).click());
   // The screen that says what each level sends, which is the criterion this change lives or dies by. Reached
   // by opening the last project of the run and switching to its handover tab.
   await capture('native-tu-ia', async () => {
     await page.getByRole('button', { name: 'Tus proyectos', exact: true }).click();
+    await notBusy();
+    await page.locator('.project-list[aria-busy="false"]').waitFor({ timeout: 60000 });
     await page.locator('article.project .card-open').first().click();
-    await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 180000 }).catch(() => {});
+    await page.locator('article.project').first().waitFor({ state: 'detached', timeout: 120000 });
+    await waitWorkspaceTab('overview');
     const ai=page.getByRole('button', { name: 'Tu IA', exact: true,includeHidden:true });
     await revealDetails(ai);
+    await ai.waitFor({ state: 'visible', timeout: 30000 });
     await ai.click();
+    await waitWorkspaceTab('handoff');
     await page.getByRole('heading', { name: 'Quién escribe estas instrucciones', exact: true })
       .waitFor({ timeout: 60000 }).catch(() => finding('personal', 'captura', 'no se alcanzó la pantalla de tu IA'));
   });
@@ -797,6 +842,39 @@ try {
   if (record.navigation.length !== 4) finding('personal', 'navegacion', `la ventana no muestra cuatro destinos: ${JSON.stringify(record.navigation)}`);
   record.screenshots = captures;
   record.screenshotPathAnchored = captures.every(entry => entry.leaking === 0);
+} catch (failure) {
+  try {
+    if (activePage) {
+      const diag = await activePage.evaluate(() => ({
+        hash: location.hash,
+        ariaBusy: document.getElementById('content')?.getAttribute('aria-busy') ?? null,
+        activityHidden: document.getElementById('activity')?.hidden ?? null,
+        panelTab: document.getElementById('project-panel')?.getAttribute('data-project-tab') ?? null,
+        toolsOpen: document.getElementById('project-tools')?.open ?? null,
+        heading: document.querySelector('#view h1, #view h2')?.textContent?.replace(/\s+/g, ' ').trim() ?? null,
+        feedback: document.getElementById('feedback')?.hidden === false
+          ? document.getElementById('feedback').innerText.replace(/\s+/g, ' ').trim().slice(0, 400) : null,
+        visibleButtons: [...document.querySelectorAll('button')]
+          .filter(node => node.offsetParent !== null)
+          .map(node => node.textContent.replace(/\s+/g, ' ').trim())
+          .filter(Boolean).slice(0, 30),
+      })).catch(err => ({ evaluateError: String(err?.message ?? err) }));
+      const anchored = await anchor().catch(() => null);
+      await activePage.screenshot({ path: path.join(output, 'failure.png') }).catch(() => {});
+      await writeFile(path.join(output, 'failure-state.json'), JSON.stringify({
+        at: new Date().toISOString(),
+        scenario: currentScenario,
+        stage: currentStage,
+        completedScenarios: record.profiles.map(entry => entry.scenario),
+        findingsSoFar: record.findings,
+        unverifiedSoFar: record.unverified,
+        error: { name: failure?.name ?? 'Error', message: String(failure?.message ?? failure) },
+        page: diag,
+        anchored,
+      }, null, 2) + '\n').catch(() => {});
+    }
+  } catch { /* Preserve original failure below. */ }
+  throw failure;
 } finally {
   await browser?.close().catch(() => {});
   // Electron's children keep the data directory open, so end the whole tree rather than the wrapper.
