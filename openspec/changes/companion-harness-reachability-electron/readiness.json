@@ -59,8 +59,8 @@
     {
       "id": "component-or-interaction-tests",
       "status": "pending",
-      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/corrected-vm-cycle-20fbe4c.md",
-      "justification": "Cualificación local f41af24 completada, CI 45906034881 de 20fbe4c 12/12 SUCCESS y builds reproducibles 2/2 PASS (win-unpacked 2,662 archivos byte-idénticos d8ea18bb..., NotSigned). El ciclo VM corregido 1/1 sobre 20fbe4c pasó Fase 1 (packaged-runtime.json PASS) pero FALLÓ en Fase 2 (verify-native-journeys.mjs:520:29 Timeout 180000ms en Archivos por carrera de sincronización del harness; 0/1 restante, sin reintento). Permanece pendiente hasta aprobar y completar native-journeys-sync-amendment.md.",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/native-journeys-sync-result-b022eb2.md",
+      "justification": "Ciclo VM adicional PASS en b022eb2 (156.6 s, 0.1.0->0.3.7 en instalador verificado 20fbe4c, 6 perfiles/7 escenarios, 0 hallazgos, 14 etapas offline unverified, 5/5 capturas ancladas, desinstalación limpia) y CI 45920686534 12/12 SUCCESS. Permanece pendiente hasta reconciliar los 3 hallazgos Major y 3 Minor (incluido native-proyectos.png a mitad de fade) de la revisión independiente sobre b022eb2 mediante native-journeys-review-reconciliation-amendment.md.",
       "profileCondition": null
     },
     {
@@ -150,10 +150,10 @@
     "justification": null
   },
   "adversarialReview": {
-    "status": "passed",
-    "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-recovery-qa-review-fa15.md",
+    "status": "failed",
+    "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-harness-sync-review-b022eb2.md",
     "blockers": 0,
-    "majors": 0
+    "majors": 3
   },
   "exceptions": []
 }

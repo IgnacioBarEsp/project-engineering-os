@@ -131,3 +131,27 @@ CI requerida del head final y merge protegido. Detenerse antes de ola4.
   Build 1 `20fbe4c` (`0` builds adicionales) y ejecutar `1` ciclo VM adicional de
   `verify-release-installation.mjs` + revisión acotada + CI. Humanos `#146`/`#147`, deuda final,
   archivos oficiales (`#218`, `#144`→`#150`) y merge protegido de PR `#217` siguen pendientes.
+
+## Actualización posterior (27 de noviembre de 2026): `b022eb2` VM PASS + CI 12/12; reconciliación de revisión pendiente
+
+- **Aprobación y Apply `8443595` → `b022eb2` (`1/1` consumido)**: aprobación literal («apruebo»),
+  CI `45915562393` `12/12 SUCCESS`, DoR `13/13` en `#150` y `#218`. Variante congelada de solo
+  `2` archivos de harness/QA (`0` archivos de producto; `5` directorios empaquetados idénticos a
+  `20fbe4c`). Regresión local `qa/verification-harness-contract.mjs`: **`8/8 PASS`** (`167 ms`).
+- **Ciclo adicional de Windows Sandbox offline (`1/1 PASS`)**: sobre el instalador reutilizado
+  Build 1 `20fbe4c` (`3b6410b4...`, `0` builds extra) + harness `b022eb2` (`156.6 s`, sandbox
+  `109a11db-...` detenido limpiamente): actualización `0.1.0 -> 0.3.7`, **`6` perfiles canónicos /
+  `7` escenarios (`0` hallazgos, `100/100` fuentes coincidentes, `7/7` citas tras reapertura,
+  `17/17` originales intactos, `14` etapas offline de ingeniería honestamente `unverified`, `5/5`
+  capturas ancladas con `0` fugas, desinstalación limpia con `3` centinelas conservados)**.
+  ([resultado](native-journeys-sync-result-b022eb2.md)).
+- **CI `45920686534` sobre `b022eb2`**: **`12/12 SUCCESS`** (incluido `CI / required`).
+- **Revisión independiente acotada**: **`CHANGES_REQUESTED`** (`0` Blocker, `3` Major en
+  `catch`/redacción/timeouts y `press()`, `3` Minor incluido Minor 5 confirmado visualmente en
+  `native-proyectos.png`; [informe](independent-harness-sync-review-b022eb2.md)).
+- **Siguiente paso concreto (pendiente de aprobación literal)**:
+  [native-journeys-review-reconciliation-amendment.md](../native-journeys-review-reconciliation-amendment.md)
+  reconcilia esos `3` Major + `3` Minor en los mismos `2` archivos (`0` producto, `0` builds extra)
+  con reconciliación incremental del mismo revisor + `1` ciclo VM corto + CI. Después quedan los
+  recorridos humanos reales `#146` y Software A/B `#147`, assessment final de deuda, archivos
+  oficiales (`#218`, luego `#144`→`#150`) y merge protegido de PR `#217`.

@@ -231,3 +231,21 @@ unapplied**. It proposes only `verify-native-journeys.mjs` and `qa/verification-
 installer (`3b6410b4...`, `0` additional builds) for `1` explicitly additional offline VM cycle
 of `verify-release-installation.mjs`, plus `1` bounded read-only review and required CI. All
 historical failures (`e713`, `20fbe4c` Phase 2, `d812`, `e978`, `fa15`, `0999922`) remain preserved.
+
+## Harness sync execution (`b022eb2`) and pending independent-review reconciliation
+
+Revision `8443595` was approved literally (`evidence/native-journeys-sync-approval-8443595.md`,
+fresh DoR `13/13`, CI `45915562393` `12/12`). Commit `b022eb221ef796a632bba9158bdebd29c86521e9`
+modified only `verify-native-journeys.mjs` and `qa/verification-harness-contract.mjs` (`0` product
+changes; `5` packaged directories byte-identical to `20fbe4c`). Its single regression (`8/8 PASS`),
+single additional offline Windows Sandbox cycle (`109a11db-...`, `156.6 s`, `0.1.0 -> 0.3.7` on
+reused Build 1 `20fbe4c`, `6` profiles / `7` scenarios, `0` findings, `14` offline `unverified`,
+`5/5` anchored captures, clean uninstall) and full CI `45920686534` (`12/12 SUCCESS`) all passed
+(`evidence/native-journeys-sync-result-b022eb2.md`). The single bounded read-only independent
+review (`evidence/independent-harness-sync-review-b022eb2.md`) confirmed the core sync fix and
+zero product drift, but returned `CHANGES_REQUESTED` (`0` Blocker, `3` Major on `catch` redaction/gating,
+`catch` teardown bounds and engineering `press()` stall handling; `3` Minor including `native-proyectos.png`
+mid-stagger capture visually confirmed). [native-journeys-review-reconciliation-amendment.md](native-journeys-review-reconciliation-amendment.md)
+remains **unapproved and unapplied**, proposing a minimal reconciliation of those `2` harness/QA
+files (`0` product changes, `0` builds), same-reviewer incremental verification, one short offline
+VM verification and CI.

@@ -1,5 +1,16 @@
 ## ADDED Requirements
 
+### Requirement: Installed journey failure diagnostics bound teardown, redact paths and wait for finite animations
+Subject to literal maintainer approval of the unapplied native-journeys-review-reconciliation amendment, `verify-native-journeys.mjs` SHALL redact host/account paths (`workspace`, `output`, `LOCALAPPDATA`, `APPDATA`, `tmpdir()`, `homedir()`) across both `failure-state.json` and `anchor()`, SHALL withhold `failure.png` unless `anchor()` succeeds with zero leaks, SHALL bound diagnostic evaluation and screenshots in `catch` so Electron teardown never hangs, SHALL detect and abort stalled engineering `press()` steps without amplifying timeouts across `STAGES`, and SHALL wait for finite CSS animations in `capture()` before screenshotting.
+
+#### Scenario: Uncaught failure on a screen showing managed runtime paths or a hung renderer
+- **WHEN** `verify-native-journeys.mjs` catches an error while a managed tool path is displayed or the renderer stops responding
+- **THEN** diagnostic evaluation and screenshot time out cleanly within bounded limits, host paths are redacted before writing `failure-state.json`, `failure.png` is written only when `anchor()` confirms zero leaks, Electron is terminated in `finally`, and the original failure is rethrown
+
+#### Scenario: Capturing the project list after staggered card render
+- **WHEN** `capture('native-proyectos')` runs after `notBusy()` completes
+- **THEN** the harness waits for all finite page animations to finish before taking the screenshot so every visible project card is rendered at full opacity
+
 ### Requirement: Installed native journey harness synchronizes on renderer busy state and captures failure state
 Subject to literal maintainer approval of the unapplied native-journeys-sync amendment, `verify-native-journeys.mjs` SHALL synchronize screen transitions on `#content[aria-busy="false"]` and destination panel readiness before invoking `revealDetails(...)` or clicking controls, replacing fixed post-action sleeps that race cold parser worker startup, while retaining unchanged assertions, findings, timeouts and product code. On uncaught failure, the harness SHALL capture bounded path-anchored diagnostic state (`failure-state.json` and `failure.png`) and still exit non-zero without retrying or softening failures.
 

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "amendmentRevision": "8443595b8702fb96f6e9a09a8a313779024054fe",
+  "variantCommit": "b022eb221ef796a632bba9158bdebd29c86521e9",
+  "reusedInstallerCommit": "20fbe4cc685023a3bf27a9483d592c94cb0cf307",
+  "reusedInstallerSha256": "3b6410b47da3e141ee00786aedc91ac673f28faed31e3a36a2aae474581d8197",
+  "electron": "44.9.1",
+  "npm": "11.21.2",
+  "productFilesChanged": 0,
+  "additionalBuilds": 0,
+  "approval": {
+    "owner": "IgnacioBarEsp",
+    "at": "2026-11-27T01:02:39Z",
+    "literal": "apruebo",
+    "sha256": "a4b34f8b37fc4d13b9d925ca941115eb6d86abd469d641e3ccb4b22d24e0d14a"
+  },
+  "regression": {
+    "tests": 8,
+    "pass": 8,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "elapsedMs": 232,
+    "tapSha256": "34c0bf0e862aea42d1beddd8c60cd862991719dcc2abeb6402c9bcc3bc6a715d"
+  },
+  "vmCycle": {
+    "status": "PASS",
+    "sandboxId": "109a11db-0ea2-4221-a1fe-5e4a2bee5504",
+    "elapsedMs": 156640,
+    "verifyReleaseMs": 142754,
+    "update": "0.1.0 -> 0.3.7",
+    "profiles": 6,
+    "scenarios": 7,
+    "findings": 0,
+    "unverified": 14,
+    "comparedFiles": 100,
+    "matchedFiles": 100,
+    "runtimeMatches": true,
+    "sealedArchiveMatches": true,
+    "screenshotPathAnchored": true,
+    "visualObservation": "native-inicio, native-ayuda, native-window, native-tu-ia crisp; native-proyectos captured 3rd card mid-stagger fade (confirming reviewer Minor 5).",
+    "uninstalledCleanly": true,
+    "sentinelsPreserved": [
+      "project-sentinel.txt",
+      "history-sentinel.txt",
+      "runtime-sentinel.txt"
+    ],
+    "vmSummarySha256": "fa1e93e32bffd0024192eacb81174a841f916864e8f86dcd5f5d53b68958c57b",
+    "nativeJourneysSha256": "27837a9bd2615eab525c0b92338d641eabf4f63430362e340c5192b399809ef2",
+    "installerCycleSha256": "3f9bfe9ed077859ae8dcd40f321586d786bcd2b9594b9fb0690bf06aa7588d43"
+  },
+  "ciRun": {
+    "runId": 45920686534,
+    "status": "completed",
+    "conclusion": "success",
+    "jobsPassed": 12,
+    "jobsTotal": 12
+  },
+  "independentReview": {
+    "reviewer": "c4e8612c-998e-4803-8d7a-cbcdc0384eba",
+    "verdict": "CHANGES_REQUESTED",
+    "blockers": 0,
+    "majors": 3,
+    "minors": 3,
+    "notes": 3,
+    "reportSha256": "ffaa875617a486a088e596ccb41379e15a53ad9ece69d8e9f4b9345ecfaa54ad"
+  },
+  "reconciliationPending": "openspec/changes/companion-harness-reachability-electron/native-journeys-review-reconciliation-amendment.md"
+}

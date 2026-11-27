@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "issue": 218,
-  "status": "BLOCKED_VM_PHASE2_VERIFY_NATIVE_JOURNEYS_LINE_520",
+  "status": "VM_CANONICAL_PASS_PENDING_150_HARNESS_REVIEW_RECONCILIATION_AND_HUMAN_GATES",
   "approvals": {
     "original": "7af8a2a298e1281b1c7230539a7472550ba94d9b",
     "originalWords": "Sí, apruebo #218 en 7af8a2a",
@@ -175,7 +175,7 @@
     "actualWords": "Sí, apruebo la enmienda 1cbfe2a"
   },
   "debtAssessment": "PENDING_WHEN_ELIGIBLE",
-  "installedQualification": "FAILED_1_OF_1_PHASE2_VERIFY_NATIVE_JOURNEYS_LINE_520",
+  "installedQualification": "PASSED_ON_20FBE4C_INSTALLER_WITH_B022EB2_HARNESS_PENDING_150_REVIEW_RECONCILIATION",
   "human146And147": "PENDING_ON_APT_CANDIDATE",
   "archivePerformed": false,
   "merged": false,
@@ -560,6 +560,45 @@
       "vmSummarySha256": "89ea6f67ecd0595f1960cda28da6212d95b9f83240a3b4f6abe15d8f2928b03b"
     },
     "nextPendingDecision": "openspec/changes/companion-harness-reachability-electron/native-journeys-sync-amendment.md",
+    "nextPendingDecisionApproved": true
+  },
+  "additionalCanonicalVmB022eb2": {
+    "schemaVersion": 1,
+    "amendmentRevision": "8443595b8702fb96f6e9a09a8a313779024054fe",
+    "approvalLiteral": "apruebo",
+    "approvalSha256": "a4b34f8b37fc4d13b9d925ca941115eb6d86abd469d641e3ccb4b22d24e0d14a",
+    "harnessCommit": "b022eb221ef796a632bba9158bdebd29c86521e9",
+    "reusedInstallerCommit": "20fbe4cc685023a3bf27a9483d592c94cb0cf307",
+    "reusedInstallerSha256": "3b6410b47da3e141ee00786aedc91ac673f28faed31e3a36a2aae474581d8197",
+    "additionalBuilds": 0,
+    "productFilesChanged": 0,
+    "regression": {
+      "tests": 8,
+      "pass": 8,
+      "fail": 0,
+      "elapsedMs": 232
+    },
+    "vmCycle": {
+      "status": "PASS",
+      "sandboxId": "109a11db-0ea2-4221-a1fe-5e4a2bee5504",
+      "elapsedMs": 156640,
+      "update": "0.1.0 -> 0.3.7",
+      "profiles": 6,
+      "scenarios": 7,
+      "findings": 0,
+      "unverified": 14,
+      "screenshotPathAnchored": true,
+      "uninstalledCleanly": true,
+      "vmSummarySha256": "fa1e93e32bffd0024192eacb81174a841f916864e8f86dcd5f5d53b68958c57b"
+    },
+    "ciRunId": 45920686534,
+    "ciConclusion": "success",
+    "ciJobs": 12,
+    "independentReviewVerdict": "CHANGES_REQUESTED",
+    "independentReviewMajors": 3,
+    "independentReviewMinors": 3,
+    "independentReviewSha256": "ffaa875617a486a088e596ccb41379e15a53ad9ece69d8e9f4b9345ecfaa54ad",
+    "nextPendingDecision": "openspec/changes/companion-harness-reachability-electron/native-journeys-review-reconciliation-amendment.md",
     "nextPendingDecisionApproved": false
   }
 }
