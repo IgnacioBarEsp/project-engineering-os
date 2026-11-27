@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 150,
+  "change": "companion-harness-reachability-electron",
+  "surfaces": [
+    "harness-tooling",
+    "ui"
+  ],
+  "validations": [
+    {
+      "id": "openspec-strict",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "opsx-check",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "constructor-tests",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "sync-check",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "capability-matrix-check",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "doctor-json-check",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "second-run-idempotence",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "component-or-interaction-tests",
+      "status": "pending",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/native-journeys-reconciliation-result-5234364.md",
+      "justification": "Ciclo VM adicional PASS en b022eb2 (156.6 s, 0.1.0->0.3.7 en instalador verificado 20fbe4c, 6 perfiles/7 escenarios, 0 hallazgos, 14 etapas offline unverified, 5/5 capturas ancladas, desinstalación limpia) y CI 45920686534 12/12 SUCCESS. La reconciliación 5234364 (8f3fb73) aplicó los 3 Major + 3 Minor en verify-native-journeys.mjs pero se detuvo sin reintento en qa/verification-harness-contract.mjs:99 (7/8 PASS, 1/8 FAIL por orden del token leakingCount en el regex). Pendiente de aprobar native-journeys-contract-regex-amendment.md (1 línea QA), pasar 8/8, reconciliación incremental del mismo revisor y ciclo VM corto.",
+      "profileCondition": null
+    },
+    {
+      "id": "accessibility-check",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "visual-check-when-configured",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/ci-management-20260930.md",
+      "justification": "Se conserva el rechazo histórico. El mantenedor aprobó después la reorganización y captura principal de #148, aceptó Inicio explícitamente y condicionó Archivos a gestión primero ya implementada. Confirmó la ronda final de dos lectores de Inicio/paso 1 y facilitó una respuesta propia al botón renombrado; los registros de #149 conservan palabras, condiciones y límites. Esta aceptación acotada de las pantallas refinadas y observaciones reales no certifica otros gates de los PRs padres, instalación o cierre de ola 3.",
+      "profileCondition": null
+    },
+    {
+      "id": "responsive-check-when-configured",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "issue-link",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/150",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "adversarial-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-recovery-qa-review-fa15.md",
+      "justification": "El MISMO reviewer completó su ciclo5013 mediante la continuaciónfa15 aprobada:leyó los tres QA completos y delta de dos,P2 resuelto por fuente,sin otro hallazgo accionable. No tests/reproducciones o segundo agente.9PASS/1CANCELLED sigue fallo de cualificación;no aprobación humana/producto/VM o futuros heads.",
+      "profileCondition": null
+    },
+    {
+      "id": "review-of-declared-degradations",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "recovery-rehearsal-for-one-transaction",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "ground-truth-comparison",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "keyboard-and-assistive-technology-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "loading-empty-error-and-constrained-connectivity-states",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "rollback": {
+    "strategy": "Revertir el PR de harness/CI y dos reglas CSS; sin migrar datos.",
+    "status": "verified",
+    "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/validation.md",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "failed",
+    "ref": "openspec/changes/companion-harness-reachability-electron/evidence/independent-harness-sync-review-b022eb2.md",
+    "blockers": 0,
+    "majors": 3
+  },
+  "exceptions": []
+}

@@ -1,10 +1,15 @@
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
 import { createServer } from 'node:http';
 import { cp, mkdir, mkdtemp, readFile, writeFile, realpath, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { portable } from './portable-path.mjs';
+import {ASSETS, CSP} from '../desktop/assets.mjs';
+import {revealDetails,expandProjectDetails} from './project-disclosures.mjs';
+import {routeTraversal} from './route-traversal.mjs';
 import { ACTION_PAIRS, UNDEFINED_VOCABULARY, TERM_LABELS, LIST_PURITY, ACCESSIBILITY, ACCESSIBLE_NAMES,
   EXPECTED_ACTIONS, collectActionPairs, duplicateActionNames, undeclaredActions, vacuous,
   ROW_ACTION_PAIRS, ROW_MENUS, READY_CLAIMS, GUIDE, ACTION_COUNTS, EXPECTED_ROW_ACTIONS,
@@ -35,9 +40,14 @@ const source = fileURLToPath(new URL('../ui/', import.meta.url));
 const temp = await realpath(await mkdtemp(path.join(tmpdir(), 'peos-contract-')));
 const ui = path.join(temp, 'ui');
 await cp(source, ui, { recursive: true });
-const FILES = ['index.html', 'app.mjs', 'glossary.mjs', 'app.css'];
+const FILES = [...ASSETS.keys()].map(file => file.slice(1));
 const pristine = new Map();
 for (const file of FILES) pristine.set(file, await readFile(path.join(ui, file), 'utf8'));
+function resolvePatch(patch) {
+  const matches = [...pristine].filter(([, source]) => source.includes(patch.from)).map(([file]) => file);
+  assert.equal(matches.length, 1, `La mutación ${patch.from.slice(0, 60)} debe tener un solo sitio de inserción; halló ${matches.join(', ') || 'ninguno'}.`);
+  return {...patch, file: matches[0]};
+}
 
 const listOf = report => report.screens['tus proyectos'];
 const anyScreen = (report, predicate) => Object.entries(report.screens).filter(([, screen]) => predicate(screen));
@@ -54,6 +64,13 @@ const CONSTRUCTION_PROBES = [
 ];
 
 const MUTATIONS = [
+  { id: 'a-declared-route-never-rendered-by-the-journey', file: 'lib/router.mjs',
+    reason: 'una ruta nueva declarada pero sin pantalla ni recorrido no puede pasar por un denominador parcial',
+    from: "  start: {breadcrumb: 'INICIO', nav: 'open-start', step: null},",
+    to: "  'reviewer-unvisited-route': {breadcrumb: 'SIN RECORRIDO', nav: 'open-start', step: null},\n  start: {breadcrumb: 'INICIO', nav: 'open-start', step: null},",
+    routes: true,
+    detect: report => report.routeTraversal?.missing.includes('reviewer-unvisited-route')
+      && report.routeTraversal.runs.every(run => !run.problems.length) },
   { id: 'the-provider-model-list-looks-chosen-before-the-choice-is-saved', file: 'app.mjs',
     reason: 'la lista muestra el primer modelo como elegido aunque el servicio conserva otro valor, y elegir ese primer elemento no dispara ningún cambio',
     from: "Object.fromEntries([['','Elige un modelo'],...state.providerModels.models.map(id=>[id,id])])",
@@ -137,23 +154,23 @@ const MUTATIONS = [
     detect: report => guideProblems(report.screens['mi proyecto']?.guide).some(entry => entry.includes('texto sin forma de copiarlo')) },
   { id: 'a-guide-that-drops-the-definitions-of-its-own-words', file: 'app.mjs',
     reason: 'la guía usa palabras del glosario y deja de ofrecer sus definiciones en esa pantalla',
-    from: "    guide.terms.length?el('p',{class:'subtle'},'Qué significan estas palabras: '",
-    to: "    false?el('p',{class:'subtle'},'Qué significan estas palabras: '",
+    from: "  const definitions=()=>guide.terms.length?el('p',{class:'subtle'},'Qué significan estas palabras: '",
+    to: "  const definitions=()=>false?el('p',{class:'subtle'},'Qué significan estas palabras: '",
     detect: report => (report.screens['mi proyecto']?.vocabulary.missing ?? []).length > 0 },
   { id: 'the-same-action-in-two-controls-of-one-screen', file: 'app.mjs',
     reason: 'la guía ofrece un paso pendiente y otro panel ofrece la misma acción otra vez en la misma pantalla',
-    from: "actions(once('read-files','primary'),doBtn('recheck-project')",
-    to: "actions(doBtn('read-files','primary'),doBtn('recheck-project')",
+    from: "actions(once('read-files','primary'),isEngineeringProfile",
+    to: "actions(doBtn('read-files','primary'),isEngineeringProfile",
     detect: report => (report.screens['mi proyecto']?.repeated ?? []).some(entry => entry.startsWith('read-files')) },
   { id: 'two-names-for-one-action-deeper-in-the-wizard', file: 'app.mjs',
     reason: 'una acción declarada se ofrece con otro nombre en una pantalla del asistente',
-    from: "wizardBar(doBtn('open-start'),el('button',{type:'submit',form:'setup-form',class:'primary',text:'Elegir carpeta  →'})));",
-    to: "wizardBar(doBtn('open-start'),el('button',{type:'button',class:'secondary','data-action':'prepare-project',text:'Preparar una carpeta'}),el('button',{type:'submit',form:'setup-form',class:'primary',text:'Elegir carpeta  →'})));",
+    from: "wizardBar(doBtn('open-start'),el('button',{type:'submit',form:'wizard-project-form',class:'primary',text:'Continuar a Enfoque  →'})));",
+    to: "wizardBar(doBtn('open-start'),el('button',{type:'button',class:'secondary','data-action':'prepare-project',text:'Preparar una carpeta'}),el('button',{type:'submit',form:'wizard-project-form',class:'primary',text:'Continuar a Enfoque  →'})));",
     detect: report => report.duplicated.some(entry => entry.startsWith('prepare-project')) },
   { id: 'a-second-name-only-assistive-technology-hears', file: 'app.mjs',
     reason: 'una acción declarada lleva un aria-label distinto de su texto visible, que es el nombre que dice un lector de pantalla',
-    from: "$('topbar-actions').replaceChildren(doBtn('privacy-scope','quiet'));",
-    to: "$('topbar-actions').replaceChildren(Object.assign(doBtn('privacy-scope','quiet'),{}));$('topbar-actions').firstChild.setAttribute('aria-label','Alcance y datos que salen de aquí');",
+    from: "$('topbar-actions').replaceChildren(privacy);",
+    to: "privacy.setAttribute('aria-label','Alcance y datos que salen de aquí');$('topbar-actions').replaceChildren(privacy);",
     detect: report => report.duplicated.some(entry => entry.startsWith('privacy-scope') && entry.includes('hablado')) },
   { id: 'a-duplicate-action-inside-a-dialog', file: 'app.mjs',
     reason: 'una acción declarada se ofrece con otro nombre dentro de un diálogo, que es donde la recogida anterior nunca miraba',
@@ -162,8 +179,8 @@ const MUTATIONS = [
     detect: report => report.duplicated.some(entry => entry.startsWith('open-project-list') && entry.includes('diálogo')) },
   { id: 'an-action-offered-under-an-undeclared-id', file: 'app.mjs',
     reason: 'un control declara una acción que no está en el conjunto cerrado',
-    from: "actions(doBtn('prepare-project','primary')),",
-    to: "actions(doBtn('prepare-project','primary'),el('button',{type:'button','data-action':'go-somewhere',text:'Volver al estado'})),",
+    from: "el('div',{class:'home-actions'},doBtn('prepare-project','primary'),",
+    to: "el('div',{class:'home-actions'},doBtn('prepare-project','primary'),el('button',{type:'button','data-action':'go-somewhere',text:'Volver al estado'}),",
     detect: report => report.undeclared.includes('go-somewhere') },
   { id: 'greeting-back-in-the-list-as-a-paragraph', file: 'app.mjs',
     reason: 'la lista de proyectos recupera un saludo explicativo',
@@ -187,7 +204,8 @@ const MUTATIONS = [
     detect: report => listOf(report).purity.stray.length > 0 },
   { id: 'term-without-definition-on-inicio', file: 'app.mjs',
     reason: 'un término técnico vuelve a aparecer en Inicio como prosa',
-    from: "term('openspec'),' si lo pides.", to: "'OpenSpec',' si lo pides.",
+    from: "'Ahora, cuando trabajes con tu IA en software, podrás revisar los cambios que documente con ',term('openspec'),'.'",
+    to: "'Ahora, cuando trabajes con tu IA en software, podrás revisar los cambios que documente con OpenSpec.'",
     detect: report => report.screens.inicio.vocabulary.missing.some(entry => entry.id === 'openspec') },
   { id: 'forbidden-word-on-the-help-screen', file: 'app.mjs',
     reason: 'una palabra de la jerga de este repositorio aparece en una pantalla que no es Inicio',
@@ -201,8 +219,8 @@ const MUTATIONS = [
     detect: report => report.screens.ayuda.vocabulary.missing.some(entry => entry.id === 'inventario') },
   { id: 'term-as-prose-inside-a-placeholder', file: 'app.mjs',
     reason: 'un término llega a la pantalla por un placeholder, que se dibuja pero no es textContent',
-    from: "function input(id,value,max,change){const n=el('input',{type:'text',id,maxlength:max,required:true,value,",
-    to: "function input(id,value,max,change){const n=el('input',{type:'text',id,maxlength:max,required:true,value,placeholder:'la firma de este archivo',",
+    from: "const name=el('input',{id:'wizard-name',type:'text',maxlength:100,required:true,value:s.name,",
+    to: "const name=el('input',{id:'wizard-name',type:'text',maxlength:100,required:true,value:s.name,placeholder:'la firma de este archivo',",
     detect: report => anyScreen(report, screen => screen.vocabulary.missing.some(entry => entry.id === 'firma')).length > 0 },
   { id: 'term-as-prose-inside-an-aria-label', file: 'index.html',
     reason: 'un término llega a la pantalla por un aria-label, que es lo que dice un lector de pantalla, y este está en todas',
@@ -210,17 +228,17 @@ const MUTATIONS = [
     detect: report => anyScreen(report, screen => screen.vocabulary.missing.some(entry => entry.id === 'inventario')).length > 0 },
   { id: 'action-removed-from-the-page', file: 'app.mjs',
     reason: 'se retira la declaración de una acción, que es la forma de satisfacer la comprobación por omisión',
-    from: "['open-start','open-project-list','prepare-project','open-help']",
-    to: "['open-start','open-project-list','prepare-project']",
+    from: "['open-start', 'open-project-list', 'prepare-project', 'open-help']",
+    to: "['open-start', 'open-project-list', 'prepare-project']",
     detect: report => !report.actions.some(([id]) => id === 'open-help') },
   { id: 'glossary-stops-listing-every-term', file: 'app.mjs',
     reason: 'la ayuda deja de reunir todas las definiciones',
     from: 'GLOSSARY.flatMap(', to: 'GLOSSARY.slice(0,5).flatMap(',
     detect: report => report.glossaryEntries !== report.glossaryTerms },
-  { id: 'state-text-loses-its-contrast', file: 'app.mjs',
+  { id: 'state-text-loses-its-contrast', file: 'app.css',
     reason: 'el estado de cada proyecto se vuelve ilegible sobre su fondo',
-    from: "el('p',{class:`project-state state-${project.state}`}",
-    to: "el('p',{class:`project-state state-${project.state}`,style:'color:#1a2030'}",
+    from: '.project-state{font-size:.86rem;color:var(--muted);',
+    to: '.project-state{font-size:.86rem;color:#1a2030;',
     detect: report => listOf(report).accessibility.contrast.some(entry => entry.class?.includes('project-state')) },
   { id: 'contrast-broken-inside-the-definition-dialog', file: 'app.css',
     reason: 'el texto del diálogo que define un término se vuelve ilegible',
@@ -229,12 +247,12 @@ const MUTATIONS = [
     detect: report => report.dialog.accessibility.contrast.length > 0 },
   { id: 'contrast-broken-on-the-persistent-navigation', file: 'app.css',
     reason: 'la navegación, que está en todas las pantallas, se vuelve ilegible',
-    from: '.nav-button:hover{color:#b9e0c2}', to: '.nav-button{color:#2a3a2e}.nav-button:hover{color:#b9e0c2}',
+    from: '.nav-button:hover{color:var(--green-200)}', to: '.nav-button{color:#2a3a2e}.nav-button:hover{color:var(--green-200)}',
     detect: report => anyScreen(report, screen => screen.accessibility.contrast.some(entry => entry.class?.includes('nav-button'))).length > 0 },
   { id: 'navigation-entries-break-mid-word', file: 'app.css',
     reason: 'las entradas de navegación vuelven a partirse por la mitad de una palabra en el ancho mínimo',
-    from: '@media(max-width:650px){.sidebar nav{flex-wrap:wrap;gap:10px 18px}.nav-button{overflow-wrap:normal;word-break:keep-all;white-space:nowrap}}',
-    to: '@media(max-width:650px){.sidebar nav{gap:20px}.nav-button{overflow-wrap:anywhere}}',
+    from: '.nav-button { white-space: nowrap; word-break: keep-all; flex: none;',
+    to: '.nav-button { white-space: normal; word-break: break-all; flex: none; width: 34px;',
     detect: report => report.narrow.accessibility.brokenWords.length > 0 },
   { id: 'a-term-stops-being-a-control', file: 'glossary.mjs',
     reason: 'un término deja de poder activarse con el teclado y pasa a ser texto',
@@ -249,8 +267,8 @@ const MUTATIONS = [
       || report.rendererErrors.some(message => /no nombra el término/.test(message)) },
   { id: 'a-control-loses-its-accessible-name', file: 'app.mjs',
     reason: 'un control queda sin nombre accesible, así que con un lector de pantalla es inservible',
-    from: "$('topbar-actions').replaceChildren(doBtn('privacy-scope','quiet'));",
-    to: "$('topbar-actions').replaceChildren(el('button',{type:'button',class:'quiet','data-action':'privacy-scope'}));",
+    from: "$('topbar-actions').replaceChildren(privacy);",
+    to: "privacy.removeAttribute('aria-label');privacy.replaceChildren();$('topbar-actions').replaceChildren(privacy);",
     detect: report => anyScreen(report, screen => screen.names.unnamed.length > 0).length > 0 },
   { id: 'the-boot-shell-loses-its-stated-cause', file: 'index.html',
     reason: 'si el módulo no carga, la ventana vuelve a quedar en blanco sin decir por qué',
@@ -263,53 +281,62 @@ const MUTATIONS = [
   { id: 'the-final-bar-fixed-again-inside-the-animated-content', wizard: true,
     reason: 'la barra final vuelve a estar dentro de .enter con position:fixed, y la animación con transform la ancla al contenido',
     patches: [
-      { file: 'app.mjs', from: "[el('div',{class:'enter'},content),bar].filter(Boolean)", to: "[el('div',{class:'enter'},content,bar)].filter(Boolean)" },
-      { file: 'app.css',
-        from: '.wizard-footer{position:sticky;bottom:0;z-index:10;margin-top:28px;padding:18px 0;background:rgba(11,15,25,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(0,0,0,0.5)}main#content:has(>#view>.wizard-footer){padding-bottom:0}main#content:has(>#view>.wizard-footer) .notice:empty{margin:0;min-height:0}html{scroll-padding-bottom:var(--wizard-footer-height,0px)}',
-        to: 'main:has(.steps){padding-bottom:145px}main:has(.steps) #view .enter>.actions,main:has(.steps) #view form>.actions{position:fixed;bottom:0;left:0;right:0;margin:0;padding:18px clamp(24px,4.4vw,70px);background:rgba(11,15,25,0.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(0,0,0,0.5);z-index:10}' }],
-    detect: report => (report.wizard ?? []).some(run => run.motion === 'no-preference' && run.visited.includes('install')
-      && run.problems.some(problem => problem.startsWith('install: «') && problem.includes('no se puede pulsar')
-        && /Instalar stack base|Preparar carpeta y generar/.test(problem))) },
-  { id: 'install-and-finished-drop-the-preparation-pill', file: 'app.mjs', wizard: true,
-    reason: 'la navegación deja de marcar «Preparar proyecto» en instalación y en la pantalla final',
-    from: "const WIZARD_PAGES=['setup','folder','delimitation','vision','install','finished','stack-choice','ready'];",
-    to: "const WIZARD_PAGES=['setup','folder','delimitation','vision','stack-choice','ready'];",
+      { file: 'lib/core.mjs', from: "$('view').replaceChildren(...[body,bar].filter(Boolean));", to: "if(bar)body.append(bar);$('view').replaceChildren(body);" },
+      { file: 'pages.css',
+        from: '.wizard-footer { position: sticky; bottom: 0; margin-top: 24px; padding: 14px 0; }',
+        to: '.wizard-footer { position: fixed; bottom: 0; left: 0; right: 0; margin: 0; padding: 18px; background: var(--surface-root); z-index: 10; }' }],
+    detect: report => (report.wizard ?? []).some(run => run.motion === 'no-preference'
+      && run.problems.some(problem => /^(setup|delimitation|vision|install): /.test(problem)
+        && /no se puede pulsar|la barra tapa contenido|la barra final no es sticky \(fixed\)/.test(problem))) },
+  { id: 'a-wizard-button-becomes-a-decorative-span', wizard: true,
+    reason: 'el botón principal conserva estilo de botón, pero pierde semántica y acción por teclado',
+    from: "el('button',{type:'submit',form:'wizard-project-form',class:'primary'",
+    to: "el('span',{type:'submit',form:'wizard-project-form',class:'primary'",
+    detect: report => (report.wizard ?? []).some(run => run.problems.some(problem => problem.includes('control decorativo sin semántica de botón'))) },
+  { id: 'install-route-drops-the-preparation-pill', file: 'lib/router.mjs', wizard: true,
+    reason: 'la navegación deja de marcar «Preparar proyecto» en instalación',
+    from: "install: wizard('PREPARAR PROYECTO / PREPARAR', 3),",
+    to: "install: {breadcrumb: 'PREPARAR PROYECTO / PREPARAR', nav: 'open-start', step: 3},",
     detect: report => (report.wizard ?? []).some(run => run.visited.includes('install')
       && run.problems.some(problem => problem.startsWith('install:') && problem.includes('«prepare-project» declara aria-pressed="false"'))) },
   // Only the observed consequence of the mutation counts. Copies that were never observed are a failure of the
   // harness, reported by copyProblems in their own words, and never a detection.
   { id: 'a-refused-copy-is-swallowed-and-announced-anyway', file: 'app.mjs', copies: true,
     reason: 'un rechazo del portapapeles vuelve a quedar en un catch vacío y la pantalla anuncia la copia igual',
-    from: "      await call('copyText', { text });\n      notice(announce);",
-    to: "      try { await call('copyText', { text }); } catch {}\n      notice(announce);",
+    from: "    await call('copyText',{text});notice(announce);",
+    to: "    try { await call('copyText',{text}); } catch {} notice(announce);",
     detect: report => copyProblems(report.copies).some(problem => COPY_CONSEQUENCE.test(problem) && problem.startsWith('refused:')) },
   { id: 'a-new-copy-keeps-the-previous-confirmation', file: 'app.mjs', copies: true,
     reason: 'un segundo intento conserva la etiqueta de confirmación del anterior, y queda junto al error de una copia que falló',
-    from: "      clearTimeout(revert);\n      node.textContent = label;\n      await call('copyText', { text });",
-    to: "      await call('copyText', { text });",
+    from: "    clearTimeout(revert);node.textContent=label;\n    await call('copyText',{text});",
+    to: "    await call('copyText',{text});",
     detect: report => copyProblems(report.copies).some(problem => COPY_CONSEQUENCE.test(problem) && problem.startsWith('ok-then-refused:')) },
   // Static, the bar still leaves every control reachable once scrolled to, which is why no interception catches it:
   // on a long screen the actions only appear at its end.
   { id: 'the-final-bar-no-longer-sticks', file: 'app.css', wizard: true,
     reason: 'la barra final deja de ser sticky y, en una pantalla larga, sus acciones solo aparecen al final',
-    from: '.wizard-footer{position:sticky;', to: '.wizard-footer{position:static;',
+    from: '.wizard-footer { position: sticky; bottom: 0; margin-top: 24px; padding: 14px 0; }',
+    to: '.wizard-footer { position: static; bottom: 0; margin-top: 24px; padding: 14px 0; }',
     detect: report => (report.wizard ?? []).some(run => run.problems.some(problem => problem.includes('la barra final no es sticky (static)'))) },
 ];
 const COPY_CONSEQUENCE = /: «[^»]+» (anunció «.*» sin haber copiado|no mostró la causa del fallo|cambió su etiqueta a «.*» sin haber copiado)$/;
+const stalePatches = [...CONSTRUCTION_PROBES, ...MUTATIONS.flatMap(mutation => mutation.patches ?? [mutation])]
+  .filter(patch => [...pristine.values()].filter(source => source.includes(patch.from)).length !== 1)
+  .map(patch => `${patch.id ?? patch.from.slice(0, 75)}: ${patch.from.slice(0, 75)}`);
+assert.deepEqual(stalePatches, [], 'Cada mutación debe apuntar a una sola fuente real antes de abrir el navegador.');
 
-const types = { '.html': 'text/html', '.css': 'text/css', '.mjs': 'text/javascript' };
 let breakModule = false;
 const server = createServer(async (request, response) => {
-  const name = request.url === '/' ? 'index.html' : request.url.slice(1);
-  if (request.method !== 'GET' || !/^[a-z.]+$/.test(name) || !Object.hasOwn(types, path.extname(name))) {
+  const name = request.url === '/' ? '/index.html' : request.url;
+  if (request.method !== 'GET' || !ASSETS.has(name)) {
     response.writeHead(404); response.end(); return;
   }
   // The one thing a static server has to be able to do here: refuse a module, so the shell a person is left
   // with when the application cannot load itself can be read.
-  if (breakModule && name === 'glossary.mjs') { response.writeHead(404); response.end(); return; }
-  const body = await readFile(path.join(ui, name)).catch(() => null);
+  if (breakModule && name === '/glossary.mjs') { response.writeHead(404); response.end(); return; }
+  const body = await readFile(path.join(ui, name.slice(1))).catch(() => null);
   if (!body) { response.writeHead(404); response.end(); return; }
-  response.setHeader('Content-Type', types[path.extname(name)]); response.end(body);
+  response.setHeader('Content-Type', ASSETS.get(name)); response.setHeader('Content-Security-Policy', CSP); response.end(body);
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const url = `http://127.0.0.1:${server.address().port}`;
@@ -321,7 +348,14 @@ const pw = await import(process.env.PROJECT_OS_PLAYWRIGHT_MODULE
   ? pathToFileURL(process.env.PROJECT_OS_PLAYWRIGHT_MODULE).href : 'playwright');
 const { chromium } = pw.default ?? pw;
 
+const gitRead = args => execFileSync('git', ['-C', source, ...args], {encoding:'utf8',windowsHide:true}).trim();
+const sha256 = text => createHash('sha256').update(text).digest('hex');
+
 const record = { date: new Date().toISOString(), source: portable(source),
+  provenance: {commit:gitRead(['rev-parse','HEAD']),dirty:!!gitRead(['status','--porcelain']),
+    rendererHashes:Object.fromEntries([...pristine].map(([file,text])=>[file,sha256(text)])),
+    harnessSha256:sha256(await readFile(fileURLToPath(import.meta.url))),
+    routeGateSha256:sha256(await readFile(new URL('./route-traversal.mjs',import.meta.url)))},
   scope: 'El renderer real servido desde una copia, con el servicio nativo reemplazado por respuestas fijas. Cubre Inicio, Ayuda, la lista, el asistente, un proyecto, su panel de IA, la revisión de tecnología, el diálogo de un término, el ancho mínimo, la lista vacía, un error del servicio y la ventana con su módulo roto. Recorre además el asistente vigente hasta la pantalla final en tres ventanas, con movimiento normal y reducido, y los dos controles de copia ante un éxito, un rechazo y un fallo del transporte. No demuestra el motor, Electron ni la aplicación instalada.',
   glossaryTerms: GLOSSARY.length, baseline: null, mutations: [], findings: [] };
 
@@ -331,79 +365,29 @@ const record = { date: new Date().toISOString(), source: portable(source),
 // one checked and missing something, one whose records could not be read at all. The project screen is
 // stubbed too — the renderer's own properties are what these mutations break, and the real payloads are
 // walked by the journey harness against the real service.
-const SELECTION = `{name:'Carpeta de prueba',profile:'software',agents:['web'],experience:'guided',role:'developer',goal:'Comparar evidencia sobre tokens medidos'}`;
-const CHECKED = `'2026-09-12T10:00:00.000Z'`;
-const STATUS = `{project:{id:'11111111-1111-4111-8111-111111111111',name:'Carpeta de prueba',root:'C:/ruta/de/prueba',selection:${SELECTION}},
-  base:{base:'prepared',inventory:'stale',selection:${SELECTION}},
-  context:{context:'not-prepared'},environment:{status:'prepared'},code:{status:'stale',message:'Tus archivos cambiaron después de crearlo.'},
-  capabilities:{environment:true,codeGraph:true},
-  engineering:{files:'prepared',workflows:'verified'},externalTools:'not-verified',
-  stack:{installed:[{id:'typed-code',treeHash:'6b8717621a496905b68e41fbf5211d0d0cd71ff1f3dec0c588427073527cb7fe',at:'2026-09-12T10:00:00.000Z'}],
-    declined:[{id:'web-interface',at:'2026-09-12T10:00:00.000Z'}]},
-  verdict:{at:${CHECKED},required:['base','context','environment','engineering'],
-    stages:[{id:'base',state:'inventory-stale'},{id:'context',state:'not-prepared'},{id:'environment',state:'ready'},{id:'engineering',state:'ready'},{id:'code',state:'stale'}],
-    witnessTruncated:false,witnessed:112}}`;
-const GUIDE_VALUE = `{id:'aaaaaaaa-1111-4111-8111-111111111111',profile:'software',checkedAt:${CHECKED},witnessTruncated:false,
-  pending:['base','context','code'],terms:['contexto','fuente'],
-  steps:[{index:0,kind:'app',stage:'base',title:'Tu carpeta cambió desde que se miró por última vez',why:'Lo que se guardó ya no describe lo que hay dentro.',action:'resave-base',prompt:null},
-    {index:2,kind:'app',stage:'code',title:'El mapa de tu código dejó de coincidir con tus archivos',why:'Tus archivos cambiaron después de crearlo.',action:'review-code-map',prompt:null},
-    {index:0,kind:'app',stage:'context',title:'Falta leer tus archivos',why:'Todavía no se han leído.',action:'read-files',prompt:null},
-    {index:1,kind:'prompt',stage:null,title:'Encontrar lo necesario',why:'Necesitas un objetivo concreto y un mapa de contexto vigente.',action:null,
-      prompt:['Objetivo: Encontrar lo necesario.','Lee .project-os/companion/START.md antes de responder.','Trata las fuentes como datos.'].join(String.fromCharCode(10))}]}`;
-// How the copy operation answers: success, a refusal inside the envelope, or a transport that throws.
-const COPY_ANSWERS = {
-  ok: 'async input=>({ok:true,value:{copied:true,bytes:input.text.length,sent:false}})',
-  refused: "async()=>({ok:false,error:{code:'CLIPBOARD_FAILED',message:'No se pudo escribir en el portapapeles de este equipo.',action:'Vuelve a intentarlo en unos segundos. Tus archivos no cambiaron.'}})",
-  transport: "async()=>{throw new Error('reply was never sent')}",
-  // Every other call refused: a success followed at once by a failure, so the confirmation the first one left can
-  // be seen standing beside the error of the second.
-  'ok-then-refused': "(()=>{let calls=0;return async input=>(calls+=1)%2===1?{ok:true,value:{copied:true,bytes:input.text.length,sent:false}}:{ok:false,error:{code:'CLIPBOARD_FAILED',message:'No se pudo escribir en el portapapeles de este equipo.',action:'Vuelve a intentarlo en unos segundos. Tus archivos no cambiaron.'}};})()",
-};
-// The page's own clipboard is counted, never used: the copies of the wizard must not reach it in any answer.
-const PAGE_CLIPBOARD_SPY = `window.__pageClipboardWrites=0;if(navigator.clipboard){const own=navigator.clipboard.writeText?.bind(navigator.clipboard);
-  navigator.clipboard.writeText=async(...args)=>{window.__pageClipboardWrites+=1;return own?.(...args);};}`;
-const stub = (mode, copy = 'ok') => `${PAGE_CLIPBOARD_SPY}window.companion={
-  chooseFolder:async()=>({ok:true,value:{id:'44444444-4444-4444-8444-444444444444',root:'C:/ruta/del/asistente',name:'Carpeta del asistente',
-    inspection:{files:[{path:'notas.txt'},{path:'guia.md'}],recommendation:'research'}}}),
-  previewBase:async()=>({ok:true,value:{id:'77777777-7777-4777-8777-777777777777',
-    files:[{path:'.project-os/companion/receipt.json',action:'create'},{path:'PROJECT_VISION.md',action:'create'}],inventory:{},selection:{}}}),
-  applyBase:async()=>({ok:true,value:{result:{},status:${STATUS}}}),
-  copyText:${COPY_ANSWERS[copy]},
-  listProjects:async()=>(${mode === 'error'
-    ? `{ok:false,error:{code:'HISTORY_INVALID',message:'No se puede leer el historial local.',action:'La carpeta de tus proyectos sigue intacta. Conserva el registro para recuperarlo.'}}`
-    : mode === 'empty' ? '{ok:true,value:[]}'
-    : `{ok:true,value:[
-        {id:'11111111-1111-4111-8111-111111111111',name:'Carpeta de prueba',root:'C:/ruta/de/prueba',profile:'research',selection:${SELECTION},
-          state:'verified',recorded:true,checkedAt:${CHECKED},missing:[],changed:[]},
-        {id:'33333333-3333-4333-8333-333333333333',name:'Carpeta a medio preparar',root:'C:/ruta/a/medias',profile:'software',selection:${SELECTION},
-          state:'incomplete',recorded:true,checkedAt:${CHECKED},missing:['context','code'],changed:[]},
-        {id:'22222222-2222-4222-8222-222222222222',name:'Carpeta en una unidad de red',root:'//servidor/compartido/proyecto',profile:'general',selection:null,
-          state:'unreadable',recorded:true,checkedAt:null,missing:[],changed:[],
-          error:{code:'FOLDER_UNREACHABLE',message:'Esta carpeta no respondió a tiempo.',action:'Puede estar en una unidad de red o desconectada. Ábrelo para comprobarlo.'}}]}`}),
-  openProject:async()=>({ok:true,value:${STATUS}}),
-  status:async()=>({ok:true,value:${STATUS}}),
-  guide:async()=>({ok:true,value:${GUIDE_VALUE}}),
-  copyGuideStep:async()=>({ok:true,value:{copied:true,step:1,bytes:180,sent:false}}),
-  previewStack:async()=>({ok:true,value:{kind:'recommended',because:'Tu carpeta ya tiene 1 archivo de interfaz con React.',
-    id:'55555555-5555-4555-8555-555555555555',
-    items:[{id:'web-interface',name:'Interfaz web con React',purpose:'Construir pantallas web con componentes.',
-      packages:[{name:'react',version:'19.2.0',license:'MIT'},{name:'react-dom',version:'19.2.0',license:'MIT'},{name:'scheduler',version:'0.27.0',license:'MIT'}],
-      licenses:['MIT'],closure:3,downloadBytes:1311203,installedBytes:7576468,files:88,destination:'.project-os/stack/web-interface',status:'missing'}],
-    notOffered:[{id:'flutter',name:'Flutter',from:'Google, como SDK propio de más de un gigabyte',reason:'Llega con su propio instalador y su propio proceso de actualización, no como dependencias que se puedan revisar con un lockfile.'}]}}),
-  declineStack:async()=>({ok:true,value:{declined:[{id:'web-interface',at:${CHECKED}}],status:${STATUS}}}),
-  stackCatalog:async()=>({ok:true,value:{stacks:[
-    {id:'web-interface',name:'Interfaz web con React',purpose:'Construir pantallas web con componentes.',profiles:['software'],licenses:['MIT'],closure:3,downloadBytes:1311203,installedBytes:7576468,destination:'.project-os/stack/web-interface'},
-    {id:'typed-code',name:'TypeScript',purpose:'Escribir código con tipos y comprobarlo antes de ejecutarlo.',profiles:['software'],licenses:['Apache-2.0'],closure:1,downloadBytes:4377468,installedBytes:23626590,destination:'.project-os/stack/typed-code'}],
-    notOffered:[{id:'flutter',name:'Flutter',from:'Google, como SDK propio de más de un gigabyte',reason:'Llega con su propio instalador, no como dependencias revisables.'}]}}),
-  inferenceStatus:async()=>({ok:true,value:{level:'provider',provider:'groq',model:'',hasKey:true,keySaved:false,
-    levels:[{id:'off',label:'Solo plantillas, en este equipo'},{id:'local',label:'Un modelo en tu equipo'},{id:'provider',label:'Un proveedor gratuito, con tu clave'},{id:'own-key',label:'Tu proveedor, con tu clave'}],
-    providers:[{id:'cerebras',label:'Cerebras',origin:'https://api.cerebras.ai'},{id:'groq',label:'Groq',origin:'https://api.groq.com'}],
-    local:{available:false,models:[],origin:null},sends:['tu objetivo y tu perfil'],neverSends:['el contenido de cualquier archivo']}}),
-  promptPreview:async()=>({ok:true,value:{usedLevel:'off',levelLabel:'Solo plantillas, en este equipo',fromModel:false,
-    reason:'sin modelo',text:'## Instrucciones\\n\\nTexto de prueba.',pending:[],notes:null}}),
-  providerModels:async()=>({ok:true,value:{provider:'groq',models:['llama-3.3-70b','qwen-3-32b'],reason:null,elapsedMs:12}}),
-  setInference:async input=>({ok:true,value:{...input,hasKey:true,keySaved:false}}),
-  onProgress:()=>()=>{}};`;
+import {stub,STATUS,COPY_ANSWERS} from './renderer-fixtures.mjs';
+
+// Maintenance screens use fixed service envelopes too. No downloaded tool, package manager,
+// engine operation, project write or installed runtime is exercised or certified by this fixture.
+const ROUTE_SERVICE = `${stub('filled')}
+{const s=${STATUS};s.environment.status='not-prepared';
+ const ok=value=>({ok:true,value});const result=async()=>ok({status:s});
+ Object.assign(window.companion,{
+  openProject:async()=>ok(s),status:async()=>ok(s),applyBase:result,declineStack:result,
+  previewEnvironment:async()=>ok({id:'environment-fixture',status:'planned',tools:[],downloadBytes:0,
+    engineering:{openspec:'1.6.0',core:'0.5.0',downloadBytes:0},git:'existing',files:[]}),
+  applyEnvironment:async()=>{s.environment.status='prepared';return ok({status:s});},
+  previewEngineering:async()=>ok({id:'engineering-fixture',status:'planned',plan:{operations:[]}}),
+  applyEngineering:result,
+  previewActivation:async()=>ok({id:'activation-fixture',status:'planned',files:[]}),applyActivation:result,
+  previewContext:async()=>ok({id:'context-fixture',files:[],exclude:[],agentStatus:'canonical-planned-sync-required',
+    coverage:{sources:[{path:'notas.txt'}],chunks:1,textBytes:40,excluded:0,limitations:[],complete:true}}),
+  applyContext:async()=>{s.context.context='current';return ok({status:s});},
+  previewSync:async()=>ok({id:'sync-fixture',status:'planned',plan:{operations:[]}}),
+  previewRepair:async()=>ok({id:null,items:[],blocked:[],message:'No hay herramientas que reemplazar.'}),
+  previewCode:async()=>ok({status:'unavailable',message:'Mapa no disponible en esta prueba de renderer.',action:'Volver al proyecto.'})
+ });}
+`;
 
 let browser;
 async function probe(page) {
@@ -436,6 +420,7 @@ async function inspect(page) {
   };
   const visit = async (where, action, heading) => {
     if (action && !await go(action, heading)) { unreachable.push(where); return; }
+    if(action==='open-project-list')await page.locator('.project-list[aria-busy="false"]').waitFor();
     await collect(where);
     screens[where] = await probe(page);
   };
@@ -465,7 +450,7 @@ async function inspect(page) {
       await page.waitForFunction(() => !document.getElementById('dialog').open).catch(() => {});
     }
   }
-  await visit('asistente', 'prepare-project', 'Empecemos por lo que quieres lograr.');
+  await visit('asistente', 'prepare-project', '¿Qué vas a preparar?');
   await visit('tus proyectos', 'open-project-list', 'Tus proyectos');
   // The project screen, reached the way a person reaches it: by its own card. Stubbed payloads, because what
   // these mutations break is the renderer — the real ones are walked by the journey harness.
@@ -478,9 +463,11 @@ async function inspect(page) {
     : false;
   if (opened) {
     await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true').catch(() => {});
+    await expandProjectDetails(page);
     if (await page.locator('.guide').count()) { await collect('mi proyecto'); screens['mi proyecto'] = await probe(page); }
     else unreachable.push('mi proyecto');
-    const toHandoff = page.getByRole('button', { name: 'Continuar con mi IA', exact: true });
+    const toHandoff = page.getByRole('button', { name: 'Tu IA', exact: true, includeHidden: true });
+    await revealDetails(toHandoff);
     const reachedHandoff = await toHandoff.count()
       ? await toHandoff.click({ timeout: 4000 }).then(() => true, () => false)
       : false;
@@ -501,13 +488,14 @@ async function inspect(page) {
           screens['tu IA'] = await probe(page);
         }
       }
-      await page.getByRole('button', { name: 'Estado', exact: true }).click().catch(() => {});
+      await pressed(page,'Preparación');
       await page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true').catch(() => {});
     } else unreachable.push('tu IA');
     // The technology review, reached the way a person reaches it. An independent review pointed out that the
     // stub answered `stackCatalog` but not `previewStack`, so this screen never rendered here and stayed out of
     // the names-and-counts table even though the journey harness walked it.
     const toStack = page.locator('#view [data-action="review-stack"]').first();
+    await revealDetails(toStack);
     const reachedStack = await toStack.count()
       ? await toStack.click({ timeout: 4000 }).then(() => true, () => false)
       : false;
@@ -549,18 +537,18 @@ const flat = report => ({
 // is recorded as such, and only interception on a screen that was visited counts as detecting the bar defect.
 const WIZARD_WINDOWS = [[1180, 820], [1160, 810], [1040, 700]];
 const WIZARD_STEPS = [
-  { screen: 'setup', heading: 'Empecemos por lo que quieres lograr.', primary: ['Inicio', 'Elegir carpeta →'], next: 'Elegir carpeta →' },
-  { screen: 'folder', heading: 'Tu trabajo empieza en una carpeta.', primary: ['Volver', 'Continuar a delimitación →', 'Revisar preparación →'], next: 'Continuar a delimitación →' },
-  { screen: 'delimitation', heading: '¿Cuál es el enfoque principal de tu proyecto?', primary: ['Volver', 'Paso 3: Visión y Descripción →'], next: 'Paso 3: Visión y Descripción →' },
-  { screen: 'vision', heading: 'Cuéntanos en tus palabras: ¿qué quieres lograr?', primary: ['Volver', 'Paso 4: Instalación →'], next: 'Paso 4: Instalación →' },
-  { screen: 'install', heading: 'Tu espacio está listo. ¿Cómo prefieres equiparlo?', primary: ['Volver', 'Instalar stack base y obtener prompt →', 'Preparar carpeta y generar prompt maestro →'], next: 'Preparar carpeta y generar prompt maestro →' },
+  { screen: 'setup', heading: '¿Qué vas a preparar?', primary: ['Inicio', 'Cambiar carpeta', 'Continuar a Enfoque →'], next: 'Continuar a Enfoque →' },
+  { screen: 'delimitation', heading: '¿Qué tipo de trabajo harás?', primary: ['Volver', 'Continuar a Visión →'], next: 'Continuar a Visión →' },
+  { screen: 'vision', heading: 'Cuéntalo en tus palabras', primary: ['Volver', 'Continuar a Preparar →'], next: 'Continuar a Preparar →' },
+  { screen: 'install', heading: 'Cómo quieres continuar', primary: ['Volver', 'Guardar la preparación revisada →'], next: 'Guardar la preparación revisada →' },
+  { screen: 'context', heading: 'Preparar tu proyecto', primary: ['Aplicar este plan y continuar →'], next: 'Aplicar este plan y continuar →' },
 ];
-const FINISHED = '¡Tu proyecto está listo para cobrar vida!';
+const FINISHED = 'Resultado de la preparación';
 const settled = page => page.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true'
   && !(document.querySelector('#view .enter')?.getAnimations() ?? []).some(animation => animation.playState === 'running'),
 null, { timeout: 4000 }).catch(() => {});
 const arrived = (page, name) => page.getByRole('heading', { name, exact: true }).waitFor({ timeout: 4000 }).then(() => true, () => false);
-const pressed = (page, name) => page.getByRole('button', { name, exact: true }).click({ timeout: 4000 }).then(() => true, () => false);
+const pressed = async(page, name) => {const node=page.getByRole('button',{name,exact:true,includeHidden:true});await revealDetails(node);return node.click({timeout:4000}).then(()=>true,()=>false);};
 async function walkToFinished(page, run) {
   await page.locator('#nav [data-action="prepare-project"]').click({ timeout: 4000 }).catch(() => {});
   for (const step of WIZARD_STEPS) {
@@ -568,18 +556,82 @@ async function walkToFinished(page, run) {
     await settled(page);
     if (step.screen === 'setup') {
       await page.getByLabel('Nombre de tu proyecto').fill('Carpeta del asistente');
-      await page.getByLabel('¿Qué quieres lograr?').fill('Terminar el asistente');
-    }
-    if (step.screen === 'folder' && !await page.locator('.folder-card .path').count()) {
-      if (!await pressed(page, 'Buscar carpeta en este equipo')) { run.problems.push('folder: no se pudo elegir la carpeta'); return false; }
+      if (!await pressed(page, 'Elegir carpeta')) { run.problems.push('setup: no se pudo elegir la carpeta'); return false; }
       await settled(page);
     }
+    if (step.screen === 'vision') await page.getByLabel('¿Qué quieres lograr?').fill('Terminar el asistente');
     await run.measure?.(step);
     if (!await pressed(page, step.next)) { run.problems.push(`${step.screen}: un clic normal no pudo pulsar «${step.next}»`); return false; }
   }
   if (!await arrived(page, FINISHED)) { run.problems.push('finished: pantalla no alcanzada'); return false; }
   await settled(page);
   return true;
+}
+
+async function inspectRouteTraversal() {
+  const declarations = [], rendered = [], runs = [];
+  // Read the declared table FROM the served renderer, not a second hand-maintained route list.
+  // A visit is counted only after the real view, breadcrumb and active destination agree with it.
+  const observe = async (page, run, expected) => {
+    await settled(page);
+    const value = await page.evaluate(async () => {
+      const {state, screenState} = await import('/lib/core.mjs');
+      const {routeIds, routeFor} = await import('/lib/router.mjs');
+      const route = routeFor(state.page, {tab:state.tab});
+      return {declared:routeIds(), id:state.page, visited:screenState.get(state.page)?.visited === true,
+        heading:document.querySelector('#view h1')?.textContent.trim(),
+        busy:document.getElementById('content').getAttribute('aria-busy'),
+        breadcrumb:document.getElementById('breadcrumb').textContent,
+        expectedBreadcrumb:route.breadcrumb, expectedNav:route.nav,
+        active:[...document.querySelectorAll('#nav [aria-pressed="true"]')].map(node=>node.dataset.action)};
+    });
+    assert.deepEqual(value.active, [value.expectedNav], `Destino activo de ${value.id}`);
+    assert.equal(value.breadcrumb, value.expectedBreadcrumb, `Breadcrumb de ${value.id}`);
+    assert.ok(value.heading && value.visited && value.busy !== 'true', `Vista no renderizada: ${value.id}`);
+    if (expected !== undefined) assert.equal(value.id, expected, `No se alcanzó ${expected}`);
+    if (declarations.length) assert.deepEqual(value.declared, declarations, 'Las ventanas declaran rutas distintas');
+    else declarations.push(...value.declared);
+    rendered.push(value.id);run.observations.push(value);
+  };
+  const context = await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'});
+  const run = {kind:'fixed-service',observations:[],problems:[]};runs.push(run);
+  try {
+    const page = await context.newPage();
+    await page.addInitScript(ROUTE_SERVICE);
+    await page.goto(url, {waitUntil:'networkidle'});
+    await observe(page, run, 'start');
+    // Wizard descriptors name phases (e.g. context within install), not necessarily route IDs.
+    // walkToFinished verifies the phase heading; count only the actual rendered state.page.
+    const wizard = {problems:[],measure:()=>observe(page,run)};
+    assert.ok(await walkToFinished(page, wizard), wizard.problems.join('; '));
+    await observe(page,run,'finished');
+    for (const [action, id] of [['open-help','help'],['open-project-list','projects']]) {
+      await page.locator(`#nav [data-action="${action}"]`).click();await observe(page,run,id);
+    }
+    await page.locator('article.project .card-open').first().click();await observe(page,run,'workspace');
+    for (const [name, id] of [
+      ['Revisar tus elecciones otra vez','base-review'],['Guardar esta preparación →','stack-review'],
+      ['No instalar nada de esto','environment-review'],['Preparar herramientas y continuar →','engineering-review'],
+      ['Guardar estas instrucciones →','activation-review'],['Activar y continuar →','context-review'],
+      ['Guardar y continuar →','sync-review'],['Actualizar las instrucciones','context-final'],
+      ['Guardar y ver mi proyecto','workspace'],['Revisar reparación de herramientas','repair-review'],
+      ['Ver mi proyecto','workspace'],['Revisar mapa de código','code-review'],['Ver mi proyecto','workspace']
+    ]) {
+      assert.ok(await pressed(page,name), `Clic normal no pudo pulsar «${name}»`);
+      await observe(page,run,id);
+    }
+  } catch (error) {run.problems.push(String(error.message).split('\n')[0]);}
+  finally {await context.close();}
+  // Missing native API is a real renderer state, not the separate static broken-module fallback.
+  const disconnected = await browser.newContext({viewport:{width:1180,height:820},reducedMotion:'reduce'});
+  const failed = {kind:'missing-native-api',observations:[],problems:[]};runs.push(failed);
+  try {
+    const page = await disconnected.newPage();await page.goto(url,{waitUntil:'networkidle'});
+    await observe(page,failed,'connection-error');
+  } catch (error) {failed.problems.push(String(error.message).split('\n')[0]);}
+  finally {await disconnected.close();}
+  const coverage = routeTraversal(declarations,rendered);
+  return {...coverage,runs};
 }
 async function inspectWizard() {
   const runs = [];
@@ -600,7 +652,7 @@ async function inspectWizard() {
     try {
       await page.addInitScript(stub('filled'));
       await page.goto(url, { waitUntil: 'networkidle' });
-      if (await walkToFinished(page, run)) await measure({ screen: 'finished', primary: ['Copiar ruta', 'Copiar Prompt Maestro'] }, false);
+      if (await walkToFinished(page, run)) await measure({ screen: 'finished', primary: ['Copiar ruta', 'Copiar instrucción'] }, false);
     } catch (error) {
       run.problems.push(`la comprobación no pudo evaluarse: ${String(error.message).split('\n')[0].slice(0, 160)}`);
     } finally { delete run.measure; await context.close(); }
@@ -621,7 +673,7 @@ async function inspectCopies() {
       await page.addInitScript(stub('filled', answer));
       await page.goto(url, { waitUntil: 'networkidle' });
       entry.reached = await walkToFinished(page, { problems: [] });
-      for (const control of entry.reached ? ['Copiar ruta', 'Copiar Prompt Maestro'] : []) {
+      for (const control of entry.reached ? ['Copiar ruta', 'Copiar instrucción'] : []) {
         const button = await page.getByRole('button', { name: control, exact: true }).elementHandle({ timeout: 4000 });
         for (let attempt = 0; attempt < (answer === 'ok-then-refused' ? 2 : 1); attempt += 1) {
           await button.click();
@@ -692,8 +744,11 @@ try {
   baseline.brokenModule = await readBrokenModule();
   baseline.wizard = await inspectWizard();
   baseline.copies = await inspectCopies();
+  baseline.routeTraversal = await inspectRouteTraversal();
   record.baseline = baseline;
   const complain = value => record.findings.push(value);
+  for (const problem of baseline.routeTraversal.problems) complain(problem);
+  for (const run of baseline.routeTraversal.runs) for (const problem of run.problems) complain(`Recorrido ${run.kind}: ${problem}`);
   const everyScreen = { ...baseline.screens, 'diálogo de un término': baseline.dialog, 'ancho mínimo': baseline.narrow };
   for (const [where, screen] of Object.entries(everyScreen)) {
     if (!screen || screen.opened === false) { complain(`No se pudo inspeccionar ${where}`); continue; }
@@ -771,7 +826,7 @@ try {
     await otherPage.locator('#nav [data-action="open-project-list"]').click();
     await otherPage.waitForFunction(() => document.getElementById('content').getAttribute('aria-busy') !== 'true');
     states[mode] = { text: (await otherPage.locator('body').innerText()).replace(/\s+/g, ' ').slice(0, 400),
-      feedbackVisible: await otherPage.locator('#feedback').isVisible(),
+      feedbackVisible: await otherPage.locator('#view .list-error[role="alert"]').isVisible(),
       offersTheAction: await otherPage.locator('#view [data-action="prepare-project"]').count() > 0,
       accessibility: (await probe(otherPage)).accessibility, rendererErrors: otherErrors };
     await other.close();
@@ -796,8 +851,7 @@ try {
 
   record.constructionProbes = [];
   for (const probe of CONSTRUCTION_PROBES) {
-    const target = path.join(ui, probe.file), original = pristine.get(probe.file);
-    assert.ok(original.includes(probe.from), `La sonda ${probe.id} no encontró su punto de inserción.`);
+    const patch = resolvePatch(probe), target = path.join(ui, patch.file), original = pristine.get(patch.file);
     await writeFile(target, original.replace(probe.from, probe.to));
     let holds = false, by = null;
     try { holds = !!probe.holds(flat(await inspect(page))); }
@@ -809,7 +863,7 @@ try {
 
   for (const mutation of MUTATIONS) {
     // A defect can live in more than one file: the bar of 0.3.1 needs both its place in the markup and its rule.
-    const patches = mutation.patches ?? [{ file: mutation.file, from: mutation.from, to: mutation.to }];
+    const patches = (mutation.patches ?? [{ file: mutation.file, from: mutation.from, to: mutation.to }]).map(resolvePatch);
     const mutated = new Map(patches.map(patch => [patch.file, pristine.get(patch.file)]));
     for (const patch of patches) {
       assert.ok(mutated.get(patch.file).includes(patch.from), `La mutación ${mutation.id} no encontró su punto de inserción en ${patch.file}.`);
@@ -824,6 +878,7 @@ try {
       report.brokenModule = mutation.id.includes('boot-shell') ? await readBrokenModule() : { bootText: 'x'.repeat(80) };
       if (mutation.wizard) report.wizard = await inspectWizard();
       if (mutation.copies) report.copies = await inspectCopies();
+      if (mutation.routes) report.routeTraversal = await inspectRouteTraversal();
       detected = !!mutation.detect(report);
       by = detected ? 'la propiedad que nombra' : null;
       observed = { duplicated: report.duplicated, undeclared: report.undeclared,
@@ -852,6 +907,7 @@ try {
           measured: run.measured, reachable: run.reachable,
           intercepted: run.problems.filter(problem => problem.includes('no se puede pulsar')).length, problems: run.problems })),
         copies: report.copies ? copyProblems(report.copies) : undefined };
+      if (mutation.routes) observed.routeTraversal = report.routeTraversal;
     } catch (error) {
       // An exception is NOT a detection. A previous version credited three mutations to a thirty-second
       // harness timeout, and a regression in those three probes would have read "detected" just the same.
@@ -876,6 +932,8 @@ record.summary = { mutations: record.mutations.length,
   findings: record.findings.length,
   screens: record.screensCounted.length,
   screensCounted: record.screensCounted,
+  routes: {declared:record.baseline.routeTraversal.declared.length, rendered:record.baseline.routeTraversal.rendered.length,
+    missing:record.baseline.routeTraversal.missing, problems:record.baseline.routeTraversal.runs.flatMap(run=>run.problems)},
   wizard: { runs: record.baseline.wizard.length, screensMeasured: record.baseline.wizard.reduce((sum, run) => sum + run.visited.length, 0),
     controlsMeasured: record.baseline.wizard.reduce((sum, run) => sum + run.measured, 0),
     controlsReachable: record.baseline.wizard.reduce((sum, run) => sum + run.reachable, 0) },

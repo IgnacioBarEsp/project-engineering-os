@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-11-26T23:21:16.759Z",
+  "commit": "20fbe4cc685023a3bf27a9483d592c94cb0cf307",
+  "ciRunId": 45906034881,
+  "ciConclusion": "success",
+  "ciJobs": 12,
+  "approval": {
+    "owner": "IgnacioBarEsp",
+    "at": "2026-11-26T23:12:50Z",
+    "literal": "continua donde te quedaste, autorizo",
+    "artifact": "artifacts/wave3-current/builds-and-vm-20fbe4c/approval.json",
+    "sha256": "50299de442d29d53074c05fa8542c4d552693ec7f39b61b086a2d26b3896258f"
+  },
+  "buildsCompleted": 2,
+  "buildsAuthorized": 2,
+  "remainingBuilds": 0,
+  "status": "PASS",
+  "electron": "44.9.1",
+  "electronExeSha256": "1432afee01d6a788f11cb6649efd271923e1e490beef688c24d31f47965013aa",
+  "packager": "electron-builder 26.15.3",
+  "core": "0.5.0",
+  "nodeVersion": "v24.18.0",
+  "nodeSha256": "9a4eb5f1c29c6a2e93852ead46b999e284a6a5ca8bab4d4e241d587d025a52de",
+  "bundledNpm": {
+    "version": "11.21.2",
+    "files": 1944,
+    "installedBytes": 12296462,
+    "archiveBytes": 4207812,
+    "archiveSha256": "fef16d4e55a97a22965ab51dd6dc2b670274a4d303d48e6b1da1d0f7a29803ef",
+    "treeHash": "5f3ed5146082cfcb794ebb8fe6c1d8cc58b336aec26e3df0f871823c1758ec82",
+    "distribution": "eac8d0556bad1da3835d0fd1376c546ce5840bc9191b5e92cd5ef1da02a0e835"
+  },
+  "unpacked": {
+    "identical": true,
+    "diffCount": 0,
+    "files": 2662,
+    "bytes": 458983230,
+    "digest": "d8ea18bb268bd209e6a058f8e2c43c5506821124568b8a9373e69f7ad80e9215"
+  },
+  "build1": {
+    "artifact": "ProjectEngineeringOS-Setup-0.3.7-x64.exe",
+    "bytes": 133698243,
+    "sha256": "3b6410b47da3e141ee00786aedc91ac673f28faed31e3a36a2aae474581d8197",
+    "packElapsedMs": 101294,
+    "verifyElapsedMs": 10637,
+    "verifyStatus": "PASS",
+    "observedSignature": "NotSigned",
+    "packagedFiles": 2590,
+    "packagedBytes": 69083820,
+    "dependencies": 151
+  },
+  "build2": {
+    "artifact": "ProjectEngineeringOS-Setup-0.3.7-x64.exe",
+    "bytes": 133698238,
+    "sha256": "e05bda0fbbc1bdc2f751cb12308c03162d6720fdb9c5feaf953fdb575740336d",
+    "packElapsedMs": 84020,
+    "verifyElapsedMs": 9714,
+    "verifyStatus": "PASS",
+    "observedSignature": "NotSigned",
+    "packagedFiles": 2590,
+    "packagedBytes": 69083820,
+    "dependencies": 151
+  },
+  "installerBytesIdentical": false,
+  "installerDiffBytes": 5,
+  "installerDiffReason": "NSIS installer container/PE timestamps differ between builds while win-unpacked (2,662 files / 458,983,230 bytes) and resources/npm-dist.zip are byte-identical.",
+  "comparisonVsE713": {
+    "e713Commit": "e713e9a6089b8bdc505660c03227bbab5b2829d1",
+    "e713Electron": "44.1.1",
+    "e713InstallerBytes": 133307422,
+    "deltaInstallerBytes": 390821,
+    "e713PackMs": 107782,
+    "e713VerifyMs": 15188,
+    "npmArchiveIdenticalToE713": true
+  },
+  "installedInHost": false,
+  "published": false,
+  "persistentPrefix": "artifacts/wave3-current/builds-and-vm-20fbe4c/",
+  "comparisonArtifactSha256": "1524a8c08f79213c2dede510d4d77453c8c61de9b9a07f2e5a651917a0decee6"
+}

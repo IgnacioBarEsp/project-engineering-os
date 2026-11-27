@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "issue": 150,
+  "relatedIssue": 218,
+  "approval": {
+    "revision": "f41af246138fcfbae8d528f71fa933e99f9c1820",
+    "literal": "apruebo",
+    "owner": "IgnacioBarEsp",
+    "scope": "One uninstrumented qualification invocation and conditional reuse of nine results",
+    "receiptPath": "artifacts/wave3-current/remaining-repair-qualification/approval.json",
+    "receiptSha256": "dcf103a483243f049cafc170305e9626796f853b1d4f40cf4890df97e3e576eb",
+    "dorBeforePreparation": {
+      "PASS": 13,
+      "FAIL": 0,
+      "EXCEPTION": 0,
+      "stdoutSha256": "00aa9865569281f4e7671f23b60c1de42503ed4b6a62b4dd176d0533b717044f"
+    }
+  },
+  "preparation": {
+    "at": "2026-11-26T22:03:27.595Z",
+    "ms": 40436,
+    "maximumMs": 180000,
+    "appFiles": 223,
+    "changedAppFiles": [],
+    "uninstrumented": true,
+    "npmVersion": "11.21.2",
+    "npmPhysicalFiles": 1944,
+    "npmPhysicalBytes": 12296462,
+    "npmInventoryDigest": "6265d0c895db1a5185ab99bea58611055572066754901ade9639edea59953ead",
+    "nodeVersion": "v24.18.0",
+    "nodeSha256": "9a4eb5f1c29c6a2e93852ead46b999e284a6a5ca8bab4d4e241d587d025a52de",
+    "recipeHash": "3a04f305f31e7981d16f820519ac5d77ba5218ed077c264fe04512622fed643f",
+    "frozenSha256": "84ff67c0c7ed5a591c20d917fa8738ce307fb0d57833de4afb34d441db933aec"
+  },
+  "result": {
+    "startedAt": "2026-11-26T22:30:40.693Z",
+    "completedAt": "2026-11-26T22:31:49.891Z",
+    "elapsedMs": 69197,
+    "tapCaseDurationMs": 69049.573,
+    "tapTotalDurationMs": 69132.2385,
+    "outcome": "QUALIFICATION_CASE_ONLY",
+    "execution": {
+      "code": 0,
+      "signal": null,
+      "closed": true,
+      "failure": null,
+      "outputBytes": 403
+    },
+    "counts": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "selectedTarget": "interrupted repair restores only the journal-owned unchanged quarantine, and retains project/history bytes",
+    "exactOneSelectedTarget": true,
+    "traceEvents": 0,
+    "sourceAppUnchanged": true,
+    "observedAppUnchangedSinceFreeze": true,
+    "homeChildren": [
+      "diag-trace"
+    ],
+    "diagTraceChildren": [],
+    "remainingOwnedProcesses": 0
+  },
+  "equivalence": {
+    "verifiedAt": "2026-11-26T22:33:21Z",
+    "receiptPath": "artifacts/wave3-current/remaining-repair-qualification/equivalence-verified.json",
+    "receiptSha256": "4903e9db6e884b26b32fec8a6b625db57008c211be5800000bc35f3eda40cf2a",
+    "codeMatch223Files": true,
+    "runtimeNode24180Match": true,
+    "npm11212PhysicalInventoryMatch": true,
+    "d812Reused9InputsMatch": true,
+    "fa15RetainedRootUntouched": true,
+    "singleRun10Of10Claimed": false,
+    "separateVerifiedReceipts": {
+      "fa15PassedControls": 9,
+      "f41af24PassedControl": 1,
+      "d812PassedCopyPackControls": 2
+    }
+  },
+  "priorDiagnostic4a88216": {
+    "revision": "4a8821642bd87e41c94da613e6f4adffb77611a3",
+    "outcome": "DIAGNOSTIC_ONLY",
+    "tapCaseDurationMs": 64865.1983,
+    "elapsedMs": 64999,
+    "traceEvents": 54,
+    "resultSha256": "f4a836dac72e3c43731316d757624a3e7cbc84c66c077047ab9786e5fc10a7f4",
+    "ciRunId": 45885753453,
+    "ciConclusion": "success"
+  },
+  "ciOnApprovedHead": {
+    "headSha": "f41af246138fcfbae8d528f71fa933e99f9c1820",
+    "runId": 45902071618,
+    "conclusion": "success",
+    "jobs": 12
+  },
+  "artifacts": {
+    "storage": "persistent",
+    "prefix": "artifacts/wave3-current/remaining-repair-qualification/",
+    "files": {
+      "approval.json": "dcf103a483243f049cafc170305e9626796f853b1d4f40cf4890df97e3e576eb",
+      "driver.mjs": "65b719a342c25ebcdf69d9a27d1ba5ecc93de37634c20f00470183edb305797b",
+      "preparation-start.json": "f218963fea4ffb0fc805a5871ca69fb2eb5c44951e0fd41db7ab635ff4f35cb6",
+      "dor.stdout": "00aa9865569281f4e7671f23b60c1de42503ed4b6a62b4dd176d0533b717044f",
+      "dor.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "physical-inventories.json": "0d634931a3b5e524ad5a3191cc501caf0a6aef03c38fbd3f6becf9fb95f41cb4",
+      "syntax.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "syntax.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "frozen.json": "84ff67c0c7ed5a591c20d917fa8738ce307fb0d57833de4afb34d441db933aec",
+      "invocation-start.json": "50f8129afbe65e6161bfaefa99c065a12da077b8ee8a78022e6f4ae1ce68a586",
+      "stdout.tap": "47ec4c437b442943098e251aa4490c8dd1357f0f4e4c2ed5eb928babb6cda296",
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "result.json": "cb187e822993520d6d0d8620e12a808a795275c1b5aceb84e4fe41edcf006d20",
+      "equivalence-verified.json": "4903e9db6e884b26b32fec8a6b625db57008c211be5800000bc35f3eda40cf2a"
+    }
+  },
+  "budget": {
+    "preparationsConsumed": 1,
+    "invocationsConsumed": 1,
+    "remaining": 0,
+    "noRetry": true,
+    "oldBudgetsReset": false
+  },
+  "preservedFailures": [
+    "d812: 2 PASS / 2 CANCELLED",
+    "e978: 1 PASS / 1 CANCELLED (DIAGNOSTIC_ONLY)",
+    "fa15: 9 PASS / 1 CANCELLED (retained root untouched)",
+    "0999922: 0 PASS / 1 FAIL LINK_REJECTED (DIAGNOSTIC_ONLY)",
+    "4a88216: 1 PASS / 0 FAIL (DIAGNOSTIC_ONLY; historical cause UNKNOWN)"
+  ],
+  "remainingGates": [
+    "Current CI on this evidence commit",
+    "Maintainer review of qualification evidence before downstream gates",
+    "Two reproducible candidate builds (0/2)",
+    "One corrected canonical VM cycle (0/1)",
+    "Real maintainer #146 and Software A/B #147 observations",
+    "Final eligible debt assessment and ordered official archives (#218, #144->#150)",
+    "Protected PR #217 integration and real issue/PR state readback"
+  ],
+  "builds": 0,
+  "correctedVm": 0,
+  "archivePerformed": false,
+  "merged": false,
+  "wave4Started": false
+}

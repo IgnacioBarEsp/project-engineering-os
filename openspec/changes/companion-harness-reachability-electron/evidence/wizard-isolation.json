@@ -1,0 +1,57 @@
+{
+  "scope": "Real renderer and service; native boundary injected; synthetic folders.",
+  "cases": [
+    {
+      "id": "draft-project-switch-step-2",
+      "motion": "no-preference",
+      "passed": true
+    },
+    {
+      "id": "draft-project-switch-step-3",
+      "motion": "no-preference",
+      "passed": true
+    },
+    {
+      "id": "draft-save-failure-keeps-active-project",
+      "motion": "no-preference",
+      "passed": true
+    },
+    {
+      "id": "known-folder-entry-preserves-draft",
+      "motion": "no-preference",
+      "passed": true
+    },
+    {
+      "id": "folder-never-overrides-explicit-answers",
+      "motion": "no-preference",
+      "passed": true
+    },
+    {
+      "id": "draft-project-switch-step-2",
+      "motion": "reduce",
+      "passed": true
+    },
+    {
+      "id": "draft-project-switch-step-3",
+      "motion": "reduce",
+      "passed": true
+    },
+    {
+      "id": "draft-save-failure-keeps-active-project",
+      "motion": "reduce",
+      "passed": true
+    },
+    {
+      "id": "known-folder-entry-preserves-draft",
+      "motion": "reduce",
+      "passed": true
+    },
+    {
+      "id": "folder-never-overrides-explicit-answers",
+      "motion": "reduce",
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "completed": true
+}

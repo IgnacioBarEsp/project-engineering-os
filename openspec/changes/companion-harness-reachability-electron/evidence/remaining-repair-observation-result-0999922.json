@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "approval": {
+    "schemaVersion": 1,
+    "issue": 150,
+    "revision": "09999229d61c285efb872a160e50b383d5982d70",
+    "literal": "Sí, apruebo la enmienda 0999922",
+    "questionId": "call_e0172e0c6c5844a7abbf329f87b33d94",
+    "source": "Direct human async answer in this chat; exact immutable revision presented before response.",
+    "scope": "One diagnostic copy and one exact-target observation;90s case/120s process/180s preparation;no product repair.",
+    "previousBudgetsReset": false
+  },
+  "approvalArtifact": {
+    "path": "artifacts/wave3-current/remaining-repair-observation/approval.json",
+    "sha256": "c12674942cb69b5f49f91ada2f330b252a861e978264891f7030421d34c8129b"
+  },
+  "result": {
+    "schemaVersion": 1,
+    "startedAt": "2026-11-26T19:26:40.670Z",
+    "completedAt": "2026-11-26T19:26:40.859Z",
+    "elapsedMs": 189,
+    "approvalRevision": "09999229d61c285efb872a160e50b383d5982d70",
+    "outcome": "DIAGNOSTIC_ONLY",
+    "execution": {
+      "code": 1,
+      "signal": null,
+      "closed": true,
+      "failure": null,
+      "outputBytes": 2601
+    },
+    "counts": {
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "selectedTarget": [
+      {
+        "ok": false,
+        "name": "interrupted repair restores only the journal-owned unchanged quarantine, and retains project/history bytes",
+        "filtered": false
+      }
+    ],
+    "filteredTargets": [],
+    "exactOneSelectedTarget": true,
+    "trace": {
+      "events": 10,
+      "bytes": 1350,
+      "files": [
+        {
+          "name": "trace-22892.jsonl",
+          "sha256": "6d8b7a9efafc66a1200e86b8d33f7e3f1b2eb9f87f96a9e12892849c18ec93d9",
+          "bytes": 1350,
+          "eventCount": 10
+        }
+      ]
+    },
+    "sourceAppUnchanged": true,
+    "observedAppUnchangedSinceFreeze": true,
+    "homeChildren": [
+      "diag-trace"
+    ],
+    "variantsConsumed": 1,
+    "invocationsConsumed": 1,
+    "remaining": 0,
+    "qualificationComplete": false,
+    "noRetry": true,
+    "builds": 0,
+    "vm": 0,
+    "sourceRepairAuthorized": false,
+    "oldFailuresPreserved": true
+  },
+  "preparation": {
+    "ms": 3963,
+    "appFiles": 223,
+    "sourceVariant": 1,
+    "changed": [
+      {
+        "path": "apps/companion/qa/distribution-identity.mjs",
+        "sha256": "ccaa13a46dc50bae657064e928f245b3563670fa33b334b0def69f59bcb9f546"
+      }
+    ],
+    "recipeHash": "e522ac1d9c421655f02c4f023d3359707268e4191217b9210b0e129075bc15f3",
+    "nodeSha256": "9a4eb5f1c29c6a2e93852ead46b999e284a6a5ca8bab4d4e241d587d025a52de"
+  },
+  "artifacts": {
+    "preparation-start.json": {
+      "path": "artifacts/wave3-current/remaining-repair-observation/preparation-start.json",
+      "sha256": "de038151c301b5ac4b40b88c7a12cd2f75f51c4adeebaa35dea6b7007c4af5a5"
+    },
+    "frozen.json": {
+      "path": "artifacts/wave3-current/remaining-repair-observation/frozen.json",
+      "sha256": "d0b9ebee8d8083099feb7ffc1e91b7a5c921a6e70948840ef600a0c162b13a1d"
+    },
+    "dor.stdout": {
+      "path": "artifacts/wave3-current/remaining-repair-observation/dor.stdout",
+      "sha256": "00aa9865569281f4e7671f23b60c1de42503ed4b6a62b4dd176d0533b717044f"
+    },
+    "dor.stderr": {
+      "path": "artifacts/wave3-current/remaining-repair-observation/dor.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "syntax.stdout": {
+      "path": "artifacts/wave3-current/remaining-repair-observation/syntax.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "syntax.stderr": {
+      "path": "artifacts/wave3-current/remaining-repair-observation/syntax.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "instrumentation.patch": {
+      "path": "artifacts/wave3-current/remaining-repair-observation/instrumentation.patch",
+      "sha256": "5e5d568704cae53d25447d915b0c01cd847ee1fdd562ae99442013fea57ccf9a"
+    },
+    "original-main.mjs": {
+      "path": "artifacts/wave3-current/remaining-repair-observation/original-main.mjs",
+      "sha256": "a97ac1e84cddda5fb4e9b05a0170a905ee8a126cc1cf8fd993decc1ecaa9565c"
+    },
+    "observed-main.mjs": {
+      "path": "artifacts/wave3-current/remaining-repair-observation/observed-main.mjs",
+      "sha256": "ccaa13a46dc50bae657064e928f245b3563670fa33b334b0def69f59bcb9f546"
+    },
+    "invocation-start.json": {
+      "path": "artifacts/wave3-current/remaining-repair-observation/invocation-start.json",
+      "sha256": "81c8f7b5d224b16a9f836d6ba37f041b1445f18414cecc4cd97cf7ccf081fbde"
+    },
+    "stdout.tap": {
+      "path": "artifacts/wave3-current/remaining-repair-observation/stdout.tap",
+      "sha256": "fb1d45c34730316c56e0b7d35be325279ce7d7fc7ce6e5481f8e8ed604b53e98"
+    },
+    "stderr.log": {
+      "path": "artifacts/wave3-current/remaining-repair-observation/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "trace-22892.jsonl": {
+      "path": "artifacts/wave3-current/remaining-repair-observation/trace-22892.jsonl",
+      "sha256": "6d8b7a9efafc66a1200e86b8d33f7e3f1b2eb9f87f96a9e12892849c18ec93d9"
+    },
+    "result.json": {
+      "path": "artifacts/wave3-current/remaining-repair-observation/result.json",
+      "sha256": "131007ddec983f78099632c0c008f1c2a2d9358d80e273d656748ec46f6f728a"
+    }
+  },
+  "classification": "DIAGNOSTIC_SETUP_FAILURE_LINK_REJECTED",
+  "causeOriginalTimeout": "UNKNOWN",
+  "retryPerformed": false,
+  "reviewPerformed": false,
+  "repairPerformed": false
+}

@@ -7,30 +7,28 @@ import { createDesktopService, publicError } from './service.mjs';
 import { createRuntimeManager } from '../runtime/manager.mjs';
 import { createEnvironmentEngine } from '../runtime/environment.mjs';
 import { createLocalAppLauncher } from './local-apps.mjs';
+import { CSP, localAsset } from './assets.mjs';
+import {APP_URL,isAppDocument} from './app-url.mjs';
 
-const APP_URL = 'peos://app/index.html';
 // An exact allowlist, extended one path at a time on purpose: a prefix or a glob here would serve whatever
 // happens to sit in the interface directory.
-const assets=new Map([['/index.html','text/html; charset=utf-8'],['/app.css','text/css; charset=utf-8'],['/app.mjs','text/javascript; charset=utf-8'],['/glossary.mjs','text/javascript; charset=utf-8']]);
 const staticRoot=fileURLToPath(new URL('../ui/',import.meta.url));
-const CSP="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'";
 protocol.registerSchemesAsPrivileged([{scheme:'peos',privileges:{standard:true,secure:true,supportFetchAPI:true}}]);
 app.setName('Project Engineering OS');
 if (!app.requestSingleInstanceLock()) app.quit();
 else void app.whenReady().then(async () => {
-  let window;
+  let window,closePending=false;
   app.on('second-instance',()=>{if(window){if(window.isMinimized())window.restore();window.show();window.focus();}});
   const ses=session.fromPartition('companion-local');
   ses.setPermissionRequestHandler((_contents,_permission,callback)=>callback(false));
   ses.setPermissionCheckHandler(()=>false);
   ses.webRequest.onBeforeRequest((details,callback)=>{
-    let valid=false;try{const u=new URL(details.url);valid=u.protocol==='peos:'&&u.host==='app'&&assets.has(u.pathname)&&!u.search&&!u.hash;}catch{}
-    callback({cancel:!valid});
+    callback({cancel:!localAsset(details.url,details.method)});
   });
   await ses.protocol.handle('peos',async request=>{
-    const u=new URL(request.url),type=assets.get(u.pathname);
-    if(request.method!=='GET'||u.host!=='app'||!type||u.search||u.hash)return new Response('Not found',{status:404});
-    return new Response(await readFile(path.join(staticRoot,u.pathname.slice(1))),{headers:{'Content-Type':type,'Content-Security-Policy':CSP,'X-Content-Type-Options':'nosniff'}});
+    const asset=localAsset(request.url,request.method);
+    if(!asset)return new Response('Not found',{status:404});
+    return new Response(await readFile(path.join(staticRoot,asset.pathname.slice(1))),{headers:{'Content-Type':asset.type,'Content-Security-Policy':CSP,'X-Content-Type-Options':'nosniff'}});
   });
   window=new BrowserWindow({width:1180,height:820,minWidth:480,minHeight:540,show:false,backgroundColor:'#0b0f19',title:'Project Engineering OS',
     webPreferences:{preload:fileURLToPath(new URL('./preload.cjs',import.meta.url)),partition:'companion-local',sandbox:true,contextIsolation:true,nodeIntegration:false,webSecurity:true,webviewTag:false,spellcheck:false}});
@@ -54,15 +52,24 @@ else void app.whenReady().then(async () => {
     onProgress:value=>{if(!window.isDestroyed())window.webContents.send('companion:progress',value);}});
   for(const [name,handler] of Object.entries(service))ipcMain.handle(`companion:${name}`,async(event,input)=>{
     try{
-      if(event.sender!==window.webContents||event.senderFrame!==window.webContents.mainFrame||event.senderFrame.url!==APP_URL)throw Error('Untrusted sender');
+      if(event.sender!==window.webContents||event.senderFrame!==window.webContents.mainFrame||!isAppDocument(event.senderFrame.url))throw Error('Untrusted sender');
       if(Buffer.byteLength(JSON.stringify(input??{}))>64000)throw Error('Oversized request');
       return {ok:true,value:await handler(input??{})};
     }catch(error){return {ok:false,error:publicError(error)};}
   });
   window.once('ready-to-show',()=>window.show());
-  window.on('close',event=>{if(window.__closing)return;event.preventDefault();void (async()=>{
-    const job=await service.job();if(job){await dialog.showMessageBox(window,{type:'info',message:'Hay una preparación en curso.',detail:'Usa Detener en la app y espera a que termine antes de cerrar.',buttons:['Volver al proyecto']});return;}
-    window.__closing=true;window.close();})();});
+  window.on('close',event=>{if(window.__closing)return;event.preventDefault();if(closePending)return;closePending=true;void (async()=>{
+    try{
+      const job=await service.job();if(job){await dialog.showMessageBox(window,{type:'info',message:'Hay una preparación en curso.',detail:'Usa Detener en la app y espera a que termine antes de cerrar.',buttons:['Volver al proyecto']});return;}
+      // No user text becomes code. Only the shipping main-frame hook is called; it has no new privilege.
+      if(isAppDocument(window.webContents.getURL())){
+        const saved=await window.webContents.executeJavaScript("typeof globalThis.companionBeforeClose !== 'function' || globalThis.companionBeforeClose()");
+        if(saved!==true)return;
+      }
+      window.__closing=true;window.close();
+    }catch{await dialog.showMessageBox(window,{type:'error',message:'No se pudo guardar el borrador antes de cerrar.',detail:'La ventana sigue abierta. Conserva tus respuestas y vuelve a intentarlo.',buttons:['Volver al proyecto']});}
+    finally{closePending=false;}
+  })();});
   await window.loadURL(APP_URL);
   app.on('window-all-closed',()=>app.quit());
 }).catch(error=>{

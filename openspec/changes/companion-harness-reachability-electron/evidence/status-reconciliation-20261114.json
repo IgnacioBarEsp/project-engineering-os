@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-14T09:40:46.822Z",
+  "source": "03f6a2e1206e0f8694ef07fa8d346bcefe64396b",
+  "scope": "Documentation/status reconciliation and a new unapproved observation-only proposal. No runtime/test Apply.",
+  "githubBefore": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\status-reconciliation-20261114\\github-before.json",
+    "relativePath": "artifacts/wave3-current/status-reconciliation-20261114/github-before.json",
+    "sha256": "0240b4aa4fc4c13240d4ade92aad9dfb1e3159627e7b1161eb95532585f8786c"
+  },
+  "windowsLog": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\status-reconciliation-20261114\\ci-windows-132401422413.log",
+    "relativePath": "artifacts/wave3-current/status-reconciliation-20261114/ci-windows-132401422413.log",
+    "sha256": "8da198b43fd59b7221f0d22004de9f39035c9f397e0ee04503961cdcae3d5bc8"
+  },
+  "checks": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\status-reconciliation-20261114\\documentation-checks-result.json",
+    "relativePath": "artifacts/wave3-current/status-reconciliation-20261114/documentation-checks-result.json",
+    "sha256": "a68c1cea60bccfb613ec6f9402b9bd2981ddd79e94adee63f19e970085184542"
+  },
+  "helper": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\status-reconciliation-20261114\\check-docs-proposal.mjs",
+    "relativePath": "artifacts/wave3-current/status-reconciliation-20261114/check-docs-proposal.mjs",
+    "sha256": "c69078bc8cb9f174a7f070609eef90df2137a209118d1f17810a05f4c1c661bc"
+  },
+  "dor": {
+    "verdict": "PASS",
+    "counts": {
+      "EXCEPTION": 0,
+      "FAIL": 0,
+      "PASS": 13
+    }
+  },
+  "originalD812Result": {
+    "path": "artifacts/wave3-current/electron218/serial-local-qa/result.json",
+    "sha256": "7de927cad5e87bf8a899e0982dcb1e6eba6320313d377c9561d078ef41e3d361"
+  },
+  "budget": {
+    "diagnosticProposed": {
+      "qaObservationVariants": 1,
+      "invocations": 1,
+      "targets": 2,
+      "preparationMs": 180000,
+      "processMs": 240000,
+      "caseMs": 90000,
+      "traceBytes": 1048576
+    },
+    "diagnosticApproved": false,
+    "diagnosticExecuted": 0,
+    "electronVariantsConsumed": 2,
+    "electronVariantsRemaining": 0,
+    "priorD812RunsConsumed": 1,
+    "priorD812RunsRemaining": 0,
+    "builds": 0,
+    "correctedVm": 0
+  },
+  "codeAndPolicyChanged": false,
+  "archivePerformed": false,
+  "merged": false,
+  "wave4": false
+}

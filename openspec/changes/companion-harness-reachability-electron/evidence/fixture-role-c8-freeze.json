@@ -1,0 +1,61 @@
+{
+  "frozenAt": "2026-11-13T15:48:13.617Z",
+  "recipe": {
+    "approval": "c8cd8d5a8a753c0dd10e48cf41361073aec0d752",
+    "approvalArtifactSha256": "3851dbebb1f7c843eb50e763ce4166bcff9fcc9f7495749c48075a8dc29dd842",
+    "previousRecipeHash": "20e24c44d4be0158d075f1858d371e1b7705d5dbf1ac096b0f29f905407b9e00",
+    "product": "e713e9a6089b8bdc505660c03227bbab5b2829d1",
+    "change": {
+      "file": "apps/companion/scripts/native-project-fixtures.mjs",
+      "from": "role:'analyst',profile:'business'",
+      "to": "role:'freelancer',profile:'business'",
+      "preimage": "11ec2daf6a4ff9a816c6dc1647c1fee42cd08037a8b0e111e6b370fb2047f117",
+      "postimage": "ce9106b2fb2ff04c139a3ac4c1a0755505a3b364bbaf1a15c00fc8580be65b61",
+      "bytes": 4626
+    },
+    "sourceFiles": [
+      {
+        "file": "apps/companion/scripts/verify-native-journeys.mjs",
+        "sha256": "91e0e9311fe731c40900582290ccdca280a6b04828185ad2360b04fb9050c01c",
+        "bytes": 56749
+      },
+      {
+        "file": "apps/companion/scripts/native-project-fixtures.mjs",
+        "sha256": "ce9106b2fb2ff04c139a3ac4c1a0755505a3b364bbaf1a15c00fc8580be65b61",
+        "bytes": 4626
+      },
+      {
+        "file": "apps/companion/scripts/verify-service-mutations.mjs",
+        "sha256": "feb9f6dab0ec5d948a9484930615e63008271b6bb15af4770450e1f4c2a5612d",
+        "bytes": 4735
+      },
+      {
+        "file": "apps/companion/scripts/service-mutation-cases.mjs",
+        "sha256": "3e59d3f6ac234dbe8bceca3cbb1c15356c4f25037cfa78544eac03c1a0b94240",
+        "bytes": 18543
+      },
+      {
+        "file": "apps/companion/qa/verification-harness-contract.mjs",
+        "sha256": "6b0eeb27edf955c073be3f3171604fa7b53b8122be40b40bc44a6db9f24384de",
+        "bytes": 5063
+      }
+    ],
+    "budget": {
+      "maximumVariantsCumulative": 2,
+      "variantsConsumedCumulative": 2,
+      "variantsRemaining": 0,
+      "additionalRegressionExecutionsAllowed": 1,
+      "additionalFullMutationExecutionsAllowed": 0,
+      "canonicalVmCyclesConsumed": 0,
+      "canonicalVmCyclesRemaining": 1,
+      "incrementalSameReviewerReconciliationsConsumed": 0,
+      "incrementalSameReviewerReconciliationsRemaining": 1
+    },
+    "previousFailuresPreserved": true
+  },
+  "recipeHash": "a59f4f7a2a68acfedcd89c1031910076edfb6d6d650ff7638fc324cdc5f9da6a",
+  "formalRegressionExecutionStatus": "NOT_STARTED",
+  "electronUnchanged": true,
+  "archivePerformed": false,
+  "merged": false
+}

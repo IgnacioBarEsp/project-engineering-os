@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "preparedAt": "2026-11-14T10:22:08.993Z",
+  "owner": "IgnacioBarEsp",
+  "issue": 150,
+  "amendment": "recovery-qa-lifecycle-amendment.md",
+  "dor": {
+    "verdict": "PASS",
+    "counts": {
+      "EXCEPTION": 0,
+      "FAIL": 0,
+      "PASS": 13
+    }
+  },
+  "fixedLocalOpenSpec": "1.6.0",
+  "strict": {
+    "passed": 29,
+    "failed": 0
+  },
+  "checks": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\recovery-diagnostic-e978\\lifecycle-proposal-checks-result.json",
+    "relativePath": "artifacts/wave3-current/recovery-diagnostic-e978/lifecycle-proposal-checks-result.json",
+    "sha256": "8e6f5deedbda7b7286159891456aca1e9597e11acec812a48f59610f2513af77"
+  },
+  "helper": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\recovery-diagnostic-e978\\lifecycle-proposal-checks.mjs",
+    "relativePath": "artifacts/wave3-current/recovery-diagnostic-e978/lifecycle-proposal-checks.mjs",
+    "sha256": "94596ecc0646d3fbca37c32ea6fba9b962677f28b676328bb9db0d5c094ecac5"
+  },
+  "evidence": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\recovery-diagnostic-e978\\result.json",
+    "relativePath": "artifacts/wave3-current/recovery-diagnostic-e978/result.json",
+    "sha256": "31a1431ea86937f8102bf79d6f555ce79e3227f9fe919690ad24d57120cfaca5"
+  },
+  "analysis": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\recovery-diagnostic-e978\\analysis.json",
+    "relativePath": "artifacts/wave3-current/recovery-diagnostic-e978/analysis.json",
+    "sha256": "e37e388c71c4e93a5fca5bb7aeba82edeaf43b23f063fa322aad75b0c08b8e5d"
+  },
+  "scope": {
+    "qaFiles": [
+      "apps/companion/qa/distribution-identity.mjs",
+      "apps/companion/qa/helpers/owned-crash-fixture.mjs",
+      "apps/companion/qa/owned-crash-fixture.mjs"
+    ],
+    "sourceVariantsProposed": 1,
+    "focusedRunsProposed": 1,
+    "realCases": 4,
+    "helperCases": 5,
+    "caseMs": 90000,
+    "helperCaseMs": 3000,
+    "cleanupMs": 5000,
+    "focusedProcessMs": 420000,
+    "preparationMs": 180000,
+    "freshReadonlyScopedReviews": 1
+  },
+  "approved": false,
+  "applied": false,
+  "newQaCodeWritten": false,
+  "oldApprovalE978Resolved": true,
+  "oldDiagnosticRuns": 1,
+  "oldDiagnosticRunsRemaining": 0,
+  "productChanged": false,
+  "builds": 0,
+  "correctedVm": 0,
+  "archived": false,
+  "merged": false,
+  "wave4": false
+}

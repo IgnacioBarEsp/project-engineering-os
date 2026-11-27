@@ -25,13 +25,16 @@ async function fixture(t, files = {}) {
   }
   return root;
 }
-const choice = profile => ({ profile, name: 'Proyecto de investigación ñ', agents: ['codex','web'], experience: 'guided' });
+const canonical = profile => ({unity:['software','game'],media:['content','creative'],general:['personal','open']}[profile]??[profile,null]);
+const choice = profile => {const [id,focus]=canonical(profile);return { profile:id,...(focus?{focus}:{}), name: 'Proyecto de investigación ñ', agents: ['codex','web'], experience: 'guided' };};
 const fixtures = {
   research: { 'fuentes/Artículo.pdf': '%PDF-1.7 fixture inventory only; not a valid extracted PDF', 'notas.md': 'Hallazgos con referencias.' },
   software: { 'src/index.js': 'export const answer = 42;' },
   unity: { 'ProjectSettings/ProjectVersion.txt': 'm_EditorVersion: 6000.0.1f1', 'Assets/Main.cs': 'class Main {}', 'Library/cache.txt': 'excluded' },
   media: { 'recetas/imagen.json': '{"recipe":"illustration"}', 'reference.png': Buffer.from([1,2,3]) },
   general: { 'agenda.txt': 'Reunión y próximos pasos.' },
+  studies: { 'slides.pptx': 'Presentación de clase.' },
+  business: { 'propuesta.docx': 'Propuesta de trabajo.' },
 };
 for (const [profile, originals] of Object.entries(fixtures)) {
   test(`Companion ${profile}: read-only preview, preservation, honest readiness, repeat and rollback`, async t => {
@@ -39,7 +42,7 @@ for (const [profile, originals] of Object.entries(fixtures)) {
     const before = await readdir(root);
     const plan = await engine.plan(root, choice(profile));
     assert.deepEqual(await readdir(root), before);
-    assert.equal(plan.inventory.recommendation, profile);
+    assert.equal(plan.inventory.recommendation, canonical(profile)[0]);
     assert.equal((await engine.apply(plan.id)).status, 'prepared');
     for (const [relative,value] of Object.entries(originals)) assert.deepEqual(await readFile(path.join(root,relative)), Buffer.from(value));
     const state = await engine.verify(root);
@@ -81,7 +84,7 @@ test('Companion rejects stale plans, mutable previews, collisions and edited own
   const plan = await engine.plan(root,choice('general'));
   plan.selection.profile = 'software'; plan.files[0].path='notes.txt';
   await engine.apply(plan.id);
-  assert.equal((await engine.verify(root)).selection.profile,'general');
+  assert.equal((await engine.verify(root)).selection.profile,'personal');
   assert.equal(await readFile(path.join(root,'notes.txt'),'utf8'),'a new original');
   await writeFile(path.join(root,'.project-os/companion/START.md'),'human edit');
   await assert.rejects(engine.plan(root,choice('general')),{code:'OWNED_FILE_CHANGED'});

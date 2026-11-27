@@ -144,13 +144,22 @@ tampoco sale de aquí, ni siquiera hacia un modelo.
 
 ### Cómo trabajar en este proyecto
 
-Dentro de cada proyecto hay una sección que dice qué hacer ahora: primero lo que falta, en el orden en que se
-puede hacer, y después las formas de trabajar que tiene ese tipo de proyecto. El paso que resuelve una carpeta
+La dirección aprobada para el código de ola 3 prioriza **administrar la preparación**: ver las elecciones
+guardadas, revisarlas, reutilizar la preparación en otra carpeta o quitar el proyecto del historial sin
+eliminar sus archivos. La recuperación deshace el último cambio de una etapa; no es una desconfiguración
+completa. No copia, mueve ni renombra la carpeta del proyecto.
+
+Las tareas locales pendientes aparecen con sus controles. Las guías para trabajar con una IA, los detalles
+de la comprobación y el selector de herramientas son opciones desplegables. Buscar fragmentos, consultar
+recetas o preparar texto para un chat no es un requisito para administrar una preparación. La aceptación
+visual final y la publicación de esta organización siguen separadas del código en revisión.
+
+El paso que resuelve una carpeta
 cambiada revisa **las respuestas ya guardadas contra esa misma carpeta**; no abre el asistente, porque abrirlo
 saldría del proyecto y dejaría los campos en blanco. Un paso que esta aplicación
 ejecuta — leer tus archivos, preparar las herramientas — lleva el control que lo hace y **ningún texto para dar
 a una IA**, porque entregar un prompt para pedirle eso describiría una capacidad que la IA no tiene. Un paso
-que sí es trabajo de la IA lleva el texto completo, compuesto por la aplicación, y se copia por un control que
+que sí es trabajo de la IA queda en la guía opcional, lleva el texto completo compuesto por la aplicación y se copia por un control que
 lo rechaza si el proyecto cambió después de componerlo. El contenido de esos textos es el
 [issue #99](https://github.com/IgnacioBarEsp/project-engineering-os/issues/99); esta composición viene de las
 recetas y de las etapas pendientes que ya existen.

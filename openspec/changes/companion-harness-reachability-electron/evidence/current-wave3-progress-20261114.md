@@ -1,0 +1,171 @@
+# Ola 3 — progreso real y gates de entrega (14 de noviembre de 2026)
+
+Reconciliación documental a petición del mantenedor. Fuente consultada:03f6a2e1206e0f8694ef07fa8d346bcefe64396b, producto eaf2dd21a24261ce28a74623a3fa6bfe6a9e255f, main7073033724a20ee60bb76bc1791a7c3ae7cfca34. No se ejecutaron nuevas pruebas, builds, recuperación o VM para esta reconciliación.
+
+DoR13/13 sin excepciones y OpenSpec local fijo1.6.0 strict29/29, docs,
+neutralidad, deuda read-only y diffcheck PASS. Inputs de producto/QA/policy
+sin cambios. [Resultado y referencias managed](status-reconciliation-20261114.json).
+
+## Cómo se marcan las tareas
+
+Una implementación en rama, una comprobación y una entrega integrada son hechos distintos.
+Los tasks compuestos ahora muestran sus subpasos ya completados; el padre sigue abierto cuando queda un gate.
+Las palomitas de cierre de issues requieren archivo aplicable, CI vigente e integración real.
+No se cambia una aceptación humana pendiente por evidencia de un agente.
+
+| Trabajo | Hecho comprobado | Sigue abierto |
+| --- | --- | --- |
+| #204 npm oficial y #214 Zod | Integrados por PR216/mainba31e06, issues CLOSED/COMPLETED; PR215 reconocido MERGED por ancestro | No son el bloqueo actual ni necesitan otra receta o aprobación |
+| #152 retirada del vendoring | PR192 integrado/maincde47a5, CLOSED/COMPLETED | Ola1 cerrada5/5 |
+| #206 deuda histórica, fase1 | PR207 integrado/main7073033; solo debt-bee2fa0c0549 reconciliado | Paraguas OPEN,36 registros restantes; sin recaptura |
+| #144 fundación | Implementación PR196 incluida en la composición de PR217 | Cualificación final, archivo e integración |
+| #145 taxonomía | Implementación PR197; decisiones humanas de nombres retenidas | Cualificación final, archivo e integración |
+| #146 cuatro pasos | Implementación PR198 y evidencia automática retenida | Recorrido real del mantenedor: cuatro pasos, volver, reanudar y carpeta existente sobre candidata apta |
+| #147 preparación real | Implementación PR199 y pruebas del servicio retenidas | Software A/B real con su propia IA y resultados de comandos sobre candidata apta |
+| #148 gestión de proyectos | Implementación PR200 y aceptación de la reorganización retenida | Cualificación final, archivo e integración |
+| #149 movimiento/microcopia | Implementación PR201; dos lectores y aceptaciones de superficies conservados | Cualificación final, archivo e integración; no repetir humanos ya recibidos |
+| #150 harness | Implementación PR202; matriz de rutas;47 mutaciones UI;37/37 servicio;7/7 regresiones del arreglo; reconciliación independiente recibida | Gate local de recuperación, instalador/VM final, deuda/archivos y merge protegido |
+| #218 Electron | Oficial44.9.1 instalado/verificado en staging; contraste9/9 por runtime;18 capturas/12 copias; review e incremental recibidos | Owning QA, dos builds, ciclo VM corregido, cierre de deuda, archivo e integración |
+
+Las siete implementaciones UI están en rama; **0/7 issues de ola3 cerrados**.
+PR196–202 siguen draft y PR217 es el PR conjunto OPEN/DRAFT. No se cierran los originales por preparar la composición.
+#208 permanece NOT_PLANNED por retirada del aviso, sin implementación inferida.
+
+## Bloqueo concreto de hoy
+
+D812 fue aprobada y ejecutada una vez:2PASS/2CANCELLED por90s;4/4no satisfecho.
+Los fallos locales no se borran. Builds0/2 y mismo ciclo VM corregido0/1 siguen sin iniciar.
+El contraste TLS pasó en su alcance; los dos timeouts restantes pertenecen a QA de interrupción/recuperación de la distribución npm.
+
+El job Windows132401422413 de CI43579647419, head03f, sí pasó esos dos tests:
+80.6165014s y58.5494537s. También pasaron copia oficial47.2088803s y pack cleanup32.4732856s.
+Log retenido artifacts/wave3-current/status-reconciliation-20261114/ci-windows-132401422413.log,
+SHA2568da198b43fd59b7221f0d22004de9f39035c9f397e0ee04503961cdcae3d5bc8.
+Esto demuestra una diferencia observable entre entornos, no la causa ni un verde local.
+CI03f seguía in_progress en la consulta; no se acredita required final todavía.
+
+Lectura estática: qa/distribution-identity.mjs:75 reúne instalación, corrupción, hijo interrumpido, restart y nueva reparación bajo un90s; :89 reúne tres puntos de interrupción bajo otro90s. Ambos esperan exit del hijo. El TAP local no dice en qué fase se consumió el tiempo. Copias e inventarios completos están en runtime/manager.mjs:150–160 y distribution-identity.mjs:66–124. No hay evidencia suficiente para afirmar deadlock, fallo del producto o solo disco lento.
+
+## Actualización posterior: diagnóstico e978 completado
+
+E978 fue realmente aprobado y ejecutado una vez:1PASS/1CANCELLED,178799ms.
+La reparación pasó87.232s;el caso de tres puntos consumió64.535s antes del
+tercero y su cleanup empezó con el hijo aún activo.
+[Informe y límites](recovery-diagnostic-result-e978.md).
+No se cualificó la candidata o modificó producto. Los roots propios se limpiaron
+por el código original;se conservan snapshots de journal/selector,no todos
+los payloads físicos. El diagnóstico queda consumido sin réplica.
+
+## Actualización posterior:5013 aprobada y9/9 enfocados
+
+[5013](../recovery-qa-lifecycle-amendment.md) fue aprobada y aplicada a solo3QA.
+Una variante/una invocación consumidas:9/9PASS,172725ms,producto intacto.
+[Resultado,hashes y límites](recovery-qa-lifecycle-result-5013.md).
+Las casillas8.2/8.3 están cumplidas;8.4 permanece abierta. La revisión fresh
+quedó incompleta por límite del servicio después de una notaP2. El padre
+confirmó el error estáticamente:stderr ausente en EMFILE/ENFILE se desreferencia
+antes de registrar close;9PASS no cubren esa rama. No se modificó la variante
+congelada o repitieron controles. La CI43585134556SUCCESS es del dochead5013,
+no de estas fuentes nuevas. No builds/VM/deuda clean/archivo/merge por9PASS.
+
+La [enmienda de dos QA](../recovery-qa-spawn-error-amendment.md) fue aprobada
+enfa15 y aplicada. Una variante/una invocación consumidas:9PASS/1CANCELLED,
+200117ms,timeout90s en reparación. El nuevo control sintético y los otros ocho
+pasaron. [Resultado y retención](recovery-qa-spawn-result-fa15.md).
+El mismo reviewer comunicó revisión de fuente completa yP2resuelto,sin otros
+hallazgos concretos;no es cualificación,instalador o aceptación humana.
+Root propio retenido y registros acotados guardados;sin procesos propios
+restantes. No retry,nueva variante,fullsuite local,build/VM o producto cambiado.
+No hay otra enmienda preparada/aprobada por inferencia del fallo.
+
+Después, solo con autoridad y gates reales: completar cualificación, dos builds,
+VM corregida, humanos146/147, assessment/archivo218 y144→150 en orden,
+CI requerida del head final y merge protegido. Detenerse antes de ola4.
+
+## Actualización posterior (26 de noviembre de 2026): 0999922, 4a88216 y cualificación f41af24
+
+- **0999922 (aprobado y consumido, `DIAGNOSTIC_ONLY`)**: falló en preparación por
+  `LINK_REJECTED` al usar una junction para `node_modules` (`0 PASS / 1 FAIL`, `189 ms`);
+  guarda intacta y fallo conservado ([resultado](remaining-repair-observation-result-0999922.md)).
+- **4a88216 (aprobado y consumido, `DIAGNOSTIC_ONLY`)**: copia física regular de los `1,944`
+  archivos de `npm 11.21.2` verificada; el caso instrumentado pasó en `64,865 ms` TAP
+  (`64,999 ms` proceso, `54` eventos). Causa del timeout histórico sigue `UNKNOWN`. CI
+  `45885753453` `12/12 SUCCESS` ([resultado](physical-source-observation-result-4a88216.md)).
+- **f41af24 (aprobado y consumido, `1/1`)**: la única ejecución **sin instrumentación** del
+  caso original de reparación interrumpida pasó en `69,049.573 ms` TAP (`69,197 ms` proceso,
+  `exit 0`, `0` trazas). Equivalencia byte a byte verificada frente a `fa15` (`9 PASS`) y
+  `d812` (`2 PASS`) en `223/223` archivos de app, Node `v24.18.0`, `1,944` archivos físicos
+  de `npm 11.21.2` y `9/9` entradas de `d812`, sin declarar un `10/10` de la misma corrida.
+  CI `45902071618` de `f41af24` terminó `12/12 SUCCESS`
+  ([resultado](remaining-repair-qualification-result-f41af24.md)).
+- **Pendientes antes de cerrar ola 3**: CI verde de este head documental y revisión de la
+  evidencia por el mantenedor antes de autorizar builds `0/2`, VM corregida `0/1`, humanos
+  `#146`/`#147`, assessment final de deuda, archivos oficiales `#218` y `#144`→`#150` en orden
+  y merge protegido de PR `#217`. Sin cambios de producto/QA ni inicio de ola 4.
+
+## Actualización posterior (26–27 de noviembre de 2026): builds 2/2 PASS, ciclo VM 1/1 FAIL en fase 2 y enmienda pendiente
+
+- **CI `45906034881` en `20fbe4c`**: `12/12 SUCCESS`. Aprobación literal registrada
+  («continua donde te quedaste, autorizo», DoR `13/13`; [recibo](builds-and-vm-approval-20fbe4c.md)).
+- **Builds reproducibles (`2/2 PASS`, `0` restantes)**: copias limpias de `20fbe4c`
+  (Electron `44.9.1`, `npm 11.21.2`, Node `v24.18.0`, sin descargas): `win-unpacked/` `100%`
+  byte-idéntico (`2,662` archivos / `458,983,230` B, `d8ea18bb...`), `resources/npm-dist.zip`
+  idéntico (`fef16d4e...`), `verify-app-artifact.mjs` `2/2 PASS` (`NotSigned`), diferencia
+  honesta de `5` bytes en contenedor NSIS y `+390,821` B frente a `e713`
+  ([resultado](reproducible-builds-20fbe4c.md)).
+- **Ciclo VM canónico corregido (`1/1` consumido, `0` restantes — dictamen final `FAIL`)**:
+  Windows Sandbox offline (`4 GiB`, entradas RO, `7fa7018d-...` detenido limpiamente) sobre
+  Build 1 `20fbe4c`:
+  - Fase 1 (`packaged-runtime.json`): `PASS` (`0.3.6 -> 0.3.7`, métricas emparejadas,
+    migración legacy, reparación cancelada y caída real recuperada, Node `22.22.0`/`24.18.0`/`24.20.0`,
+    desinstalación).
+  - Fase 2 (`canonical-0.1.0-update-native-uninstall`): `FAIL` (`exit 1`, `288,799 ms`, `stdout: ""`)
+    en `verify-native-journeys.mjs:520:29` (`Timeout 180000ms` en `Archivos`, `0` coincidencias
+    en el DOM). El diagnóstico estático demuestra carreras de sincronización del harness (`:505`
+    `waitForTimeout(1500)` compite con el arranque frío del worker `pdfjs-dist` en `research`,
+    `notBusy()`/`settle()` usan `Detener` en vez de `#content[aria-busy="false"]`, y `revealDetails`
+    corre antes del render destino; [resultado y límites](corrected-vm-cycle-20fbe4c.md)).
+- **Bloqueo concreto y siguiente paso pendiente**: [native-journeys-sync-amendment.md](../native-journeys-sync-amendment.md)
+  (**sin aprobar ni aplicar**) propone tocar solo `verify-native-journeys.mjs` y
+  `qa/verification-harness-contract.mjs` (`0` cambios de producto), reutilizar el instalador
+  Build 1 `20fbe4c` (`0` builds adicionales) y ejecutar `1` ciclo VM adicional de
+  `verify-release-installation.mjs` + revisión acotada + CI. Humanos `#146`/`#147`, deuda final,
+  archivos oficiales (`#218`, `#144`→`#150`) y merge protegido de PR `#217` siguen pendientes.
+
+## Actualización posterior (27 de noviembre de 2026): `b022eb2` VM PASS + CI 12/12; reconciliación de revisión pendiente
+
+- **Aprobación y Apply `8443595` → `b022eb2` (`1/1` consumido)**: aprobación literal («apruebo»),
+  CI `45915562393` `12/12 SUCCESS`, DoR `13/13` en `#150` y `#218`. Variante congelada de solo
+  `2` archivos de harness/QA (`0` archivos de producto; `5` directorios empaquetados idénticos a
+  `20fbe4c`). Regresión local `qa/verification-harness-contract.mjs`: **`8/8 PASS`** (`167 ms`).
+- **Ciclo adicional de Windows Sandbox offline (`1/1 PASS`)**: sobre el instalador reutilizado
+  Build 1 `20fbe4c` (`3b6410b4...`, `0` builds extra) + harness `b022eb2` (`156.6 s`, sandbox
+  `109a11db-...` detenido limpiamente): actualización `0.1.0 -> 0.3.7`, **`6` perfiles canónicos /
+  `7` escenarios (`0` hallazgos, `100/100` fuentes coincidentes, `7/7` citas tras reapertura,
+  `17/17` originales intactos, `14` etapas offline de ingeniería honestamente `unverified`, `5/5`
+  capturas ancladas con `0` fugas, desinstalación limpia con `3` centinelas conservados)**.
+  ([resultado](native-journeys-sync-result-b022eb2.md)).
+- **CI `45920686534` sobre `b022eb2`**: **`12/12 SUCCESS`** (incluido `CI / required`).
+- **Revisión independiente acotada**: **`CHANGES_REQUESTED`** (`0` Blocker, `3` Major en
+  `catch`/redacción/timeouts y `press()`, `3` Minor incluido Minor 5 confirmado visualmente en
+  `native-proyectos.png`; [informe](independent-harness-sync-review-b022eb2.md)).
+- **Siguiente paso concreto (pendiente de aprobación literal)**:
+  [native-journeys-review-reconciliation-amendment.md](../native-journeys-review-reconciliation-amendment.md)
+  reconcilia esos `3` Major + `3` Minor en los mismos `2` archivos (`0` producto, `0` builds extra)
+  con reconciliación incremental del mismo revisor + `1` ciclo VM corto + CI. Después quedan los
+  recorridos humanos reales `#146` y Software A/B `#147`, assessment final de deuda, archivos
+  oficiales (`#218`, luego `#144`→`#150`) y merge protegido de PR `#217`.
+
+## Actualización posterior (27 de noviembre de 2026): `8f3fb73` → `5234364` detenido en regex de contrato (`7/8 PASS`)
+
+- **Aprobación literal y parada en `5234364`**: tras aprobar `8f3fb73` («apruebo», DoR `13/13`),
+  se congeló `5234364` (`2` archivos del allowlist, `0` producto, `5` directorios empaquetados
+  idénticos a `20fbe4c`). La regresión local `qa/verification-harness-contract.mjs` devolvió
+  `7/8 PASS / 1/8 FAIL` (`exit 1`, `288 ms`) solo por el orden de `leakingCount` en el regex de
+  la línea `99` del propio test ([resultado](native-journeys-reconciliation-result-5234364.md)).
+  Se aplicó la regla de parada sin reintento (`0/1` revisor, `0/1` VM).
+- **Enmienda mínima de `1` línea pendiente de aprobación**:
+  [native-journeys-contract-regex-amendment.md](../native-journeys-contract-regex-amendment.md)
+  ajusta exclusivamente la línea `99` de `qa/verification-harness-contract.mjs` (`0` cambios en
+  `verify-native-journeys.mjs` ni en producto, `0` builds extra) para ejecutar `8/8`,
+  reconciliación incremental del mismo revisor (`b022eb2..<nuevoCommit>`), `1` ciclo VM corto y CI `12/12`.

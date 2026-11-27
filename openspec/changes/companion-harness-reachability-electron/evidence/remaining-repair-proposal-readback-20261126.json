@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-11-26T19:13:34Z",
+  "change": "companion-harness-reachability-electron",
+  "issue": 150,
+  "proposal": "remaining-repair-observation-amendment.md",
+  "proposalOnly": true,
+  "approved": false,
+  "diagnosticInstrumentationPrepared": false,
+  "diagnosticInvocations": 0,
+  "initialDocumentHead": "077a5f832c75ebe0a263807f5365288873b29f28",
+  "qaSource": "2a4c824dcec0eae4f6afef3e059c2fa0acc32570",
+  "main": "7073033724a20ee60bb76bc1791a7c3ae7cfca34",
+  "ci": {
+    "run": 43616684145,
+    "attempt": 1,
+    "head": "077a5f832c75ebe0a263807f5365288873b29f28",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": 12,
+    "successfulJobs": 12,
+    "requiredJob": 132518829466,
+    "subsequentHeadNeedsOwnCi": true
+  },
+  "localQualification": {
+    "tests": 10,
+    "pass": 9,
+    "fail": 0,
+    "cancelled": 1,
+    "skipped": 0,
+    "caseLimitMs": 90000,
+    "cause": "UNKNOWN",
+    "originalResult": "evidence/recovery-qa-spawn-result-fa15.json"
+  },
+  "originalReview": {
+    "complete": true,
+    "originalP2": "RESOLVED_BY_SOURCE_REVIEW",
+    "additionalConcreteFindings": 0,
+    "executedTests": false,
+    "secondCycle": false
+  },
+  "newDecision": {
+    "observationVariants": 1,
+    "exactTargets": 1,
+    "invocations": 1,
+    "caseMs": 90000,
+    "cleanupMs": 5000,
+    "processMs": 120000,
+    "preparationMs": 180000,
+    "events": 256,
+    "combinedOutputBytes": 1048576,
+    "outcomeAlways": "DIAGNOSTIC_ONLY",
+    "sourceRepairs": 0,
+    "additionalReviewers": 0,
+    "installs": 0,
+    "builds": 0,
+    "vm": 0
+  },
+  "history": {
+    "oldBudgetsReset": false,
+    "oldFailuresPreserved": true,
+    "historicalRootsUntouched": true,
+    "closureIssues": 0,
+    "wave4Started": false
+  },
+  "retainedRecordReadback": {
+    "storage": "persistent",
+    "targetPath": "C:/Users/RitualDesktop/.codex/worktrees/wave3-current-source-verification/project-engineering-os",
+    "prefix": "artifacts/wave3-current/qa-spawn-fa15/retained-records/",
+    "records": [
+      [
+        "npm-operation-1f2d77e8-3cbc-4f70-aace-0bbc118b34a6.json",
+        "c22e5c8f86d51da93ad445b0f47f7cccef4292c69b31df1378c81d3d67e9e115"
+      ],
+      [
+        "npm-operation-87527b25-eb18-4ed1-a80c-4d13cf4951ef.json",
+        "0e8db9fbae21caf62420530d20c3e3155f32d249ea4da3400e04d9a4c03f5089"
+      ],
+      [
+        "npm-operation-ecd10360-cbfe-43fc-8c96-ffa17cf481d2.json",
+        "af49b84017995fb0ab256b22d0fe534c738f9b674fcde1daf691034758e5bb43"
+      ]
+    ],
+    "causalInference": "None; bounded immutable records do not locate timeout or prove a full payload inventory."
+  }
+}

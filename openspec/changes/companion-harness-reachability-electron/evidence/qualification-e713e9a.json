@@ -1,0 +1,186 @@
+{
+  "schemaVersion": "1.0.0",
+  "productSource": "e713e9a6089b8bdc505660c03227bbab5b2829d1",
+  "baseMain": "7073033724a20ee60bb76bc1791a7c3ae7cfca34",
+  "ci": {
+    "run": 43364174800,
+    "head": "e713e9a6089b8bdc505660c03227bbab5b2829d1",
+    "testedMergeCommit": "09c34d24d2b4f89da33222ba27221bb101f5bbf2",
+    "headAndTestedTree": "4927fa6389e4ab6a6a3f48ce4f1fd819be694878",
+    "jobs": 12,
+    "conclusion": "success",
+    "coreWindows22": {
+      "tests": 409,
+      "pass": 409,
+      "fail": 0
+    },
+    "companionWindows": {
+      "tests": 254,
+      "pass": 253,
+      "fail": 0,
+      "cancelled": 0,
+      "skip": 1
+    },
+    "browser": {
+      "cells": 72,
+      "profiles": 6,
+      "mainScreens": 534,
+      "additionalEntries": 8,
+      "observationsWithAdditional": 564,
+      "routeCells": 120,
+      "routeObservations": 181,
+      "routeNegativeCases": 16,
+      "interfaceMutations": 47,
+      "interfaceDetected": 47
+    },
+    "electron": {
+      "screens": 18,
+      "clipboard": 12,
+      "allClipboardMatch": true,
+      "failures": 0,
+      "scope": "source app, native picker alone injected; not installed-app or human acceptance"
+    }
+  },
+  "artifact": {
+    "version": "0.3.7",
+    "productCommit": "e713e9a6089b8bdc505660c03227bbab5b2829d1",
+    "bytes": 133307422,
+    "sha256": "63754b6a9311ef45ecabe2968265cbb7bbb4a6ca58a3beb8a599934b89bec499",
+    "verification": "PASS",
+    "signature": "NotSigned",
+    "packagedFiles": 2590,
+    "installedFiles": 2662,
+    "dependencies": 151,
+    "npmTree": "5f3ed5146082cfcb794ebb8fe6c1d8cc58b336aec26e3df0f871823c1758ec82",
+    "publicRelease": false
+  },
+  "vm": {
+    "id": "fa81091a-6302-45bb-b0b1-228af81951c5",
+    "stopped": true,
+    "overall": "FAIL",
+    "packagedRuntime": "PASS_PARTIAL",
+    "canonical": {
+      "exitCode": 1,
+      "timedOut": false,
+      "elapsedMs": 77983,
+      "cause": "PROFILE_INVALID at verify-native-journeys.mjs:448 before native window journey; downstream uninstall not reached"
+    },
+    "evidenceZipSha256": "f685a2176f3e31dd1f14a07a7bf6867b9c09ca3de460750eea4a29fb58935eb7"
+  },
+  "review": {
+    "reviewer": "/root/wave3_final_integration_review",
+    "source": "e713e9a6089b8bdc505660c03227bbab5b2829d1",
+    "completed": true,
+    "verdict": "changes-required",
+    "findings": [
+      {
+        "id": "F1",
+        "priority": "P2",
+        "scope": "Native verifier retired write fixtures"
+      },
+      {
+        "id": "F2",
+        "priority": "P2",
+        "scope": "Service-mutation verifier absent anchors"
+      }
+    ],
+    "postFixApproval": false
+  },
+  "debt": {
+    "mainAssessments": 77,
+    "additionalHistoricalStackAssessments": 17,
+    "candidateAssessments": 94,
+    "items": 50,
+    "open": 36,
+    "newCapturePerformed": false
+  },
+  "gates": {
+    "f9ed23cApproval": "received",
+    "installedHarnessCorrectiveApproval": "pending",
+    "correctiveSourceApplied": false,
+    "human146": "pending-qualified-candidate",
+    "human147": "pending-qualified-candidate",
+    "archivePerformed": false,
+    "uiMerged": false,
+    "ola4Started": false
+  },
+  "standalone": {
+    "targetPath": "C:/Users/RitualDesktop/.codex/worktrees/wave3-current-source-verification/project-engineering-os",
+    "storage": "persistent",
+    "prefix": "artifacts/wave3-current/"
+  },
+  "artifacts": [
+    {
+      "path": "ci-run-43364174800.json",
+      "sha256": "685934bed006afee6ce3eb87f795a1abb0782c0774daa71dcfe7b55af53029e7"
+    },
+    {
+      "path": "ci-jobs-43364174800.json",
+      "sha256": "b02d9c1fa3d4039173908d342d0078f81b5a5b55cdebbd17d61b459ebead733f"
+    },
+    {
+      "path": "ci-artifacts-43364174800.json",
+      "sha256": "e6d3f53589ac1e2434b73fa8d10d32126b79639d98499b97fe6c21afff57cab4"
+    },
+    {
+      "path": "ci-browser-e713e9a.zip",
+      "sha256": "5f306c4721edf54d71086fd944501df77a4d7addd822592fea69a54665159868"
+    },
+    {
+      "path": "ci-electron-e713e9a.zip",
+      "sha256": "b210d089f584a70028802eb77e10f8ad89f5f7bcc69e2dc6bba3f41e96823b19"
+    },
+    {
+      "path": "ci-reconciliation-e713e9a.json",
+      "sha256": "5bfc5a41f3aad986827365658be6518a9bf17b458805a91a34ede3a85d54b8ec"
+    },
+    {
+      "path": "artifact-source-e713e9a.json",
+      "sha256": "adbca6ec56949e365d496e4ad88b1c73f333cf76b22906daa196a6706470e1ef"
+    },
+    {
+      "path": "artifact-verification-e713e9a.json",
+      "sha256": "159909c9776f941300cee6aebe02667df17411b01c00e9324e46ab28f960c9d6"
+    },
+    {
+      "path": "artifact-summary-e713e9a.json",
+      "sha256": "1dd63f25464b72c37e798f249c7c48fa8bb8a1d9703d33defaf70650e7d40c46"
+    },
+    {
+      "path": "independent-final-integration-review.md",
+      "sha256": "6e7169f7eed27729436cf5681ce1b3e6e88885bc59023b9c6045e2f30980e737"
+    },
+    {
+      "path": "independent-final-integration-probe.json",
+      "sha256": "b6c501e6942e63ecb63ab871d24080e9b86ab0882e20161b7149eb6776c3ad01"
+    },
+    {
+      "path": "vm-e713/final.json",
+      "sha256": "36178f6bb9cc3458e2dea92cd320eac10ee20093b3dd47ff3935ed75ee39a8bb"
+    },
+    {
+      "path": "vm-e713/commands.json",
+      "sha256": "3527cc01206dcaa09de39e4fe7e440a44bd27a2ad4b5ac4bf8bbb626815f57bd"
+    },
+    {
+      "path": "vm-e713/packaged-runtime.json",
+      "sha256": "b816b9f0822d2eca18fa1187378c9cefebb5c3fc6e7c9cde1106a0cc423da3ee"
+    },
+    {
+      "path": "vm-e713-evidence.zip",
+      "sha256": "f685a2176f3e31dd1f14a07a7bf6867b9c09ca3de460750eea4a29fb58935eb7"
+    },
+    {
+      "path": "harness-amendment-dor.json",
+      "sha256": "00aa9865569281f4e7671f23b60c1de42503ed4b6a62b4dd176d0533b717044f"
+    }
+  ],
+  "limitations": [
+    "Original local timeouts remain retained failures; no root cause proved by remote PASS",
+    "47 interface mutations do not certify the service-mutation runner",
+    "No installed native final denominator or downstream uninstall result",
+    "No human acceptance simulated",
+    "No independent post-fix approval",
+    "No further unchanged builds/installations requested"
+  ]
+}

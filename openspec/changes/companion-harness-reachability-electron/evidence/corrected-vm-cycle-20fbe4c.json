@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "commit": "20fbe4cc685023a3bf27a9483d592c94cb0cf307",
+  "installer": {
+    "artifact": "ProjectEngineeringOS-Setup-0.3.7-x64.exe",
+    "bytes": 133698243,
+    "sha256": "3b6410b47da3e141ee00786aedc91ac673f28faed31e3a36a2aae474581d8197",
+    "electron": "44.9.1",
+    "npm": "11.21.2",
+    "unpackedDigest": "d8ea18bb268bd209e6a058f8e2c43c5506821124568b8a9373e69f7ad80e9215"
+  },
+  "sandbox": {
+    "id": "7fa7018d-eded-40ed-81ee-86dbedfc8b5f",
+    "memoryMb": 4096,
+    "networking": "Disable",
+    "protectedClient": "Enable",
+    "readOnlyInputs": true,
+    "connectedAt": "2026-11-26T23:49:46.627Z",
+    "logonStartedAt": "2026-11-26T23:50:19.138Z",
+    "completedAt": "2026-11-27T00:00:46.823Z",
+    "elapsedMs": 657912,
+    "stopCode": 0
+  },
+  "budget": {
+    "correctedCanonicalVmConsumed": 1,
+    "correctedCanonicalVmAuthorized": 1,
+    "remaining": 0,
+    "retried": false
+  },
+  "overallStatus": "FAIL",
+  "phase1PackagedRuntime": {
+    "status": "PASS",
+    "artifact": "artifacts/wave3-current/builds-and-vm-20fbe4c/vm-evidence/packaged-runtime.json",
+    "sha256": "97fcc659079fcb6a4a4bdea0222e4df35935f8bf7f2e417c7ef687281232e329",
+    "upgrade036To037Ms": 46073,
+    "baseline036Ms": {
+      "cold": 17793.6325,
+      "warm": 9158.4505,
+      "repair": 31329.5516
+    },
+    "candidate037Ms": {
+      "cold": 10568.0398,
+      "warm": 3277.1798,
+      "repair": 24258.6326
+    },
+    "legacyTreeUnchanged": true,
+    "priorNpmNotExecuted": true,
+    "unfitFallbackRejected": true,
+    "projectHistoryPreserved": true,
+    "cancelledRepair": true,
+    "realCrashRepairRecovered": true,
+    "multiNodeVerified": [
+      "22.22.0",
+      "24.18.0",
+      "24.20.0"
+    ],
+    "uninstallPassed": true
+  },
+  "phase2CanonicalCycle": {
+    "status": "FAIL",
+    "label": "canonical-0.1.0-update-native-uninstall",
+    "exitCode": 1,
+    "elapsedMs": 288799,
+    "timedOut": false,
+    "stdoutBytes": 0,
+    "errorLocation": "apps/companion/scripts/verify-native-journeys.mjs:520:29",
+    "errorName": "TimeoutError",
+    "errorSummary": "locator.click: Timeout 180000ms exceeded. Call log: - waiting for getByRole('button', { name: 'Archivos', exact: true, includeHidden: true }).first()",
+    "profilesCompleted": 0,
+    "profilesExpected": 7,
+    "uninstallReached": false
+  },
+  "staticDiagnosis": {
+    "provenFacts": [
+      "Child stdout was 0 bytes, so profile #1 (research) never reached verify-native-journeys.mjs:739.",
+      "Total elapsed time 288,799 ms rules out a second 180,000 ms timeout at :517; sources.first().waitFor() resolved quickly and :518 sources.count() was truthy.",
+      "Playwright 1.62.1 coreBundle.js:23490-23520 logs 'locator resolved to' whenever any DOM element matches (even hidden under closed details); the single-line call log proves 0 matching 'Archivos' buttons existed in the DOM for all 180 s of :520.",
+      "verify-native-journeys.mjs:505 sleeps 1500 ms after clicking 'Leer mis archivos' (previewContext spawns a worker and dynamically imports pdfjs-dist for research/articulo.pdf, bounded by PARSER_STARTUP_MS=60000 in context/sources.mjs:77). Exceeding 1500 ms skips save.click(), opens #project-tools while still on workspace (summary is not disabled by setBusy), then notBusy() waits until showContextReview() replaces #view with context-review (which has no 'Archivos' button).",
+      "Co-located races exist in verify-native-journeys.mjs where notBusy()/settle() observe Detener (delayed 1000 ms and hidden on stage:idle before renderReady) instead of #content[aria-busy=\"false\"] and where revealDetails() runs before waiting for destination panel render (notably lines 516, 580, 672, 717, 789)."
+    ],
+    "unobservedLimits": [
+      "verify-native-journeys.mjs did not capture a DOM snapshot or screenshot at the moment of timeout.",
+      "Profiles 2-7 and Phase 2 uninstall/sentinel preservation were not executed."
+    ]
+  },
+  "nextDecisionPending": "openspec/changes/companion-harness-reachability-electron/native-journeys-sync-amendment.md",
+  "persistentPrefix": "artifacts/wave3-current/builds-and-vm-20fbe4c/",
+  "vmSummarySha256": "89ea6f67ecd0595f1960cda28da6212d95b9f83240a3b4f6abe15d8f2928b03b"
+}

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-27",
+  "kind": "remediation",
+  "result": "clean",
+  "candidates": [],
+  "notes": "R1/R4 corregidos con diez regresiones antes/después: aislamiento y guardado del borrador al navegar, bloqueo si falla el guardado y conservación de elecciones al cambiar carpeta. Sin dependencias ni cambios de formato. Revisión independiente final y gates humanos siguen pendientes; no se contabilizan como pases.",
+  "flow": "companion-single-preparation-flow-review-fixes"
+}

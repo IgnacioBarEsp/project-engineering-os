@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-11-14T16:34:09.602Z",
+  "sourceVariants": 1,
+  "focusedRuns": 1,
+  "additionalExecution": false,
+  "review": {
+    "report": "artifacts/wave3-current/qa-spawn-fa15/independent-continuation-review.md",
+    "sha256": "73ba87f3970036d2ed33378343e80382180cb583b61a6d7b690a790e4474bd8b"
+  },
+  "checks": [
+    {
+      "name": "dor",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "stdoutSha256": "00aa9865569281f4e7671f23b60c1de42503ed4b6a62b4dd176d0533b717044f",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "strict",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "stdoutSha256": "ca61c9021c3fc0096deddb14981d8e803a7a85d344502f82c575299e6702c7e1",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "docs",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "stdoutSha256": "e2a4c3e337d7e3c18cb31299ac91aec4018ff87f148fef729b019a0972541a50",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "neutrality",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "stdoutSha256": "878bdfb9e10cec014f3f6196f27072801d28c0436f48d70d4b55b637214569dd",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "debt-read-only",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "stdoutSha256": "a9273809e69bbe0073b2b31fc0d8b8e7ee5ed2cbb58658d7af76b988e9bd6312",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "dor": {
+    "EXCEPTION": 0,
+    "FAIL": 0,
+    "PASS": 13
+  },
+  "archiveReadiness": {
+    "code": 1,
+    "counts": {
+      "EXCEPTION": 0,
+      "FAIL": 2,
+      "PASS": 14
+    },
+    "mutationPerformed": false
+  },
+  "qualificationComplete": false,
+  "focusedCounts": {
+    "tests": 10,
+    "pass": 9,
+    "cancelled": 1
+  },
+  "diffcheck": 0,
+  "debtFiles": 97,
+  "debtUnchanged": true,
+  "appFiles": 223,
+  "allFrozenAppSourcesUnchanged": true,
+  "overall": true,
+  "helper": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-spawn-fa15\\publication-document-checks.mjs",
+    "relativePath": "artifacts/wave3-current/qa-spawn-fa15/publication-document-checks.mjs",
+    "sha256": "91f8a35817dcbb5e95823a15c80ba87deb696df72ce72c83f9facd18dc1d3cde"
+  },
+  "raw": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-spawn-fa15\\publication-document-checks.json",
+    "relativePath": "artifacts/wave3-current/qa-spawn-fa15/publication-document-checks.json",
+    "sha256": "c7023e81948b3f62ff76b09396c4099b06028f408d88234bcfc3f81027c25664"
+  },
+  "archiveRaw": {
+    "storage": "persistent",
+    "directory": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23",
+    "path": "C:\\Users\\RitualDesktop\\.codex\\state\\plugins\\codex-security\\scans\\project-engineering-os\\artifacts-ed0ff9ce0d3381ba94d563540170d33e751ccfbe6355a6db3a3238fdab49dd23\\artifacts\\wave3-current\\qa-spawn-fa15\\archive-current.json",
+    "relativePath": "artifacts/wave3-current/qa-spawn-fa15/archive-current.json",
+    "sha256": "5aae8ee9117da8c31ed011671b4868a001439d68f614380fa0d2c3ca3c299a5a"
+  },
+  "noNewCleanAssessment": true,
+  "builds": 0,
+  "correctedVm": 0,
+  "archivePerformed": false,
+  "merged": false
+}

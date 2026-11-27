@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "bounded-harness-apply-result",
+  "issue": 150,
+  "approval": "26674520d2a60fe6e56904b93b307e8ce5195d63",
+  "source": "662fc2786444ad32dec6a26d30ce3f604ca69d65",
+  "product": "e713e9a6089b8bdc505660c03227bbab5b2829d1",
+  "main": "7073033724a20ee60bb76bc1791a7c3ae7cfca34",
+  "recipeHash": "20e24c44d4be0158d075f1858d371e1b7705d5dbf1ac096b0f29f905407b9e00",
+  "targetPath": "C:/Users/RitualDesktop/.codex/worktrees/wave3-current-source-verification/project-engineering-os",
+  "storage": "persistent",
+  "result": "NOT_APT",
+  "regressions": {
+    "executions": 1,
+    "tests": 7,
+    "pass": 5,
+    "fail": 2,
+    "code": 1,
+    "timeout": false,
+    "cause": "Both failures encounter business.role=analyst rejected by unchanged normalizeSelection. Student is valid. The omitted-profile control fails before reaching its expected assertion.",
+    "raw": "artifacts/wave3-current/regressions-harness266.json",
+    "sha256": "89b9e35d3cbb0292a4b77eaf941e268ce05e554e799e9134be5914807e68478c"
+  },
+  "mutations": {
+    "executions": 1,
+    "started": "2026-11-13T07:22:01.070Z",
+    "finished": "2026-11-13T07:29:27.088Z",
+    "runtime": "Node24.18.0 / Windows only",
+    "code": 0,
+    "baselines": [
+      {
+        "suite": "qa/project-list.mjs",
+        "pass": 16,
+        "tests": 16
+      },
+      {
+        "suite": "qa/prompts.mjs",
+        "pass": 13,
+        "tests": 13
+      },
+      {
+        "suite": "qa/stack.mjs",
+        "pass": 13,
+        "tests": 13
+      }
+    ],
+    "uniqueTargets": 37,
+    "declared": 37,
+    "attempted": 37,
+    "detectedByKnownBehavior": 37,
+    "restored": true,
+    "copyClean": true,
+    "raw": "artifacts/wave3-current/service-mutations-266/service-mutations.json",
+    "sha256": "bd49c655e96d4eb6d6b8a02f0a11e0a07c407df3f2d0e31a4381a140a8d00303",
+    "executionRaw": "artifacts/wave3-current/full-mutations-harness266.json",
+    "executionSha256": "9790a9cb5279b092acf71351acb16c05e3197433caf9e0b3f74f05512ac6794e"
+  },
+  "budget": {
+    "approvedSourceVariants": 1,
+    "consumedSourceVariants": 1,
+    "remainingSourceVariants": 0,
+    "regressionRunsConsumed": 1,
+    "fullMutationRunsConsumed": 1,
+    "canonicalVmCyclesConsumed": 0,
+    "canonicalVmCyclesRemaining": 1,
+    "sameReviewerIncrementalReconciliationsConsumed": 0,
+    "sameReviewerIncrementalReconciliationsRemaining": 1,
+    "reset": false
+  },
+  "proposedCorrection": {
+    "status": "PREPARED_NOT_APPROVED_NOT_APPLIED",
+    "file": "apps/companion/scripts/native-project-fixtures.mjs",
+    "from": "role:'analyst',profile:'business'",
+    "to": "role:'freelancer',profile:'business'",
+    "preimage": "11ec2daf6a4ff9a816c6dc1647c1fee42cd08037a8b0e111e6b370fb2047f117",
+    "proposedPostimage": "ce9106b2fb2ff04c139a3ac4c1a0755505a3b364bbaf1a15c00fc8580be65b61",
+    "requestedAdditionalSourceVariants": 1,
+    "requestedAdditionalRegressionRuns": 1,
+    "requestedFullMutationReruns": 0,
+    "evidence": "artifacts/wave3-current/fixture-role-correction-proposed.json",
+    "sha256": "a991cead9228a5ab2cb7631c255ddde3e41871d7f33e9eb16b75ae7d9f9403f3"
+  },
+  "proposalChecks": {
+    "raw": "artifacts/wave3-current/fixture-role-proposal-checks.json",
+    "sha256": "c22954df277dfc50ddea6e76a09cdca04f0ce21eb213d6b16d79ce317540271b",
+    "dor": {
+      "pass": 13,
+      "fail": 0,
+      "exceptions": 0
+    },
+    "fixedOpenSpec": "1.6.0",
+    "strict": {
+      "pass": 28,
+      "fail": 0
+    },
+    "docs": true,
+    "neutrality": true,
+    "debtReadOnly": true,
+    "debtTrackedFilesUnchanged": 117,
+    "diffCheck": true
+  },
+  "newCanonicalVmStarted": false,
+  "newPostFixIndependentReviewReceived": false,
+  "productOutsideAllowlistUnchanged": true,
+  "debtCapturePerformed": false,
+  "archivePerformed": false,
+  "uiMerged": false,
+  "human146And147StillPending": true,
+  "wave4Started": false,
+  "archiveReadiness": {
+    "pass": 12,
+    "fail": 4,
+    "exceptions": 0,
+    "mutationPerformed": false,
+    "pendingTasks": 11,
+    "failedGates": [
+      "change.tasks",
+      "readiness.validations",
+      "readiness.evidence",
+      "readiness.adversarial-review"
+    ],
+    "raw": "artifacts/wave3-current/harness266-archive-readiness-v2.json",
+    "sha256": "52e8ebef1f50f90398c19059c58509c0fced53f514fd15ccf2f93ef095e5f700"
+  },
+  "instrumentationNote": "First archive-readiness invocation incorrectly included --issue; rejected arguments, no archive/evaluation performed. Raw harness266-final-readiness.json preserved. Corrected metadata-only invocation omitted --issue and --run-local; 12PASS/4FAIL above. Collector exit0 is not gate PASS."
+}

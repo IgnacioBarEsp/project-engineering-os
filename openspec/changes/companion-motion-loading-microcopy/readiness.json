@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": 149,
+  "change": "companion-motion-loading-microcopy",
+  "surfaces": [
+    "ui"
+  ],
+  "validations": [
+    {
+      "id": "openspec-strict",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-motion-loading-microcopy/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "component-or-interaction-tests",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-motion-loading-microcopy/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "accessibility-check",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-motion-loading-microcopy/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "visual-check-when-configured",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-motion-loading-microcopy/evidence/maintainer-visual-closeout.md",
+      "justification": "Inicio cuenta con aceptación visual explícita y la observación final de dos personas nuevas tiene protocolo confirmado en final-reading-round.json. Archivos cuenta con aceptación condicionada a gestión primero, implementada y verificada en #148; se conserva la condición literal. La respuesta humana propia del nombre renombrado está en renamed-export-reading.json: reconoce reunir información de archivos para IA, sin acreditar comprensión detallada de copia manual o análisis. No es aceptación global del asistente o instalador. Las rondas y respuestas previas conservan su alcance; no imponer unanimidad o palabras literales añadidas al mínimo original de exportación.",
+      "profileCondition": null
+    },
+    {
+      "id": "responsive-check-when-configured",
+      "status": "passed",
+      "evidence": "openspec/changes/companion-motion-loading-microcopy/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "issue-link",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "https://github.com/IgnacioBarEsp/project-engineering-os/issues/149",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "adversarial-review",
+      "kind": "manual",
+      "status": "pending",
+      "ref": "openspec/changes/companion-motion-loading-microcopy/evidence/adversarial-review.md",
+      "justification": "La revisión propia no sustituye a la independiente.",
+      "profileCondition": null
+    },
+    {
+      "id": "ground-truth-comparison",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-motion-loading-microcopy/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "keyboard-and-assistive-technology-review",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-motion-loading-microcopy/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    },
+    {
+      "id": "loading-empty-error-and-constrained-connectivity-states",
+      "kind": "manual",
+      "status": "verified",
+      "ref": "openspec/changes/companion-motion-loading-microcopy/evidence/validation.md",
+      "justification": null,
+      "profileCondition": null
+    }
+  ],
+  "rollback": {
+    "strategy": "Revertir el PR; solo renderer y pruebas, ningún formato de datos migra.",
+    "status": "verified",
+    "evidence": "openspec/changes/companion-motion-loading-microcopy/evidence/validation.md",
+    "justification": null
+  },
+  "adversarialReview": {
+    "status": "pending",
+    "ref": "openspec/changes/companion-motion-loading-microcopy/evidence/adversarial-review.md",
+    "blockers": 0,
+    "majors": 0
+  },
+  "exceptions": []
+}

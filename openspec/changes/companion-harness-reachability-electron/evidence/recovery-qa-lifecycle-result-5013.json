@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "approvalRevision": "5013e0c44cd8f0bcf54c2e4170269103aafee237",
+  "status": "BLOCKED_REVIEW_INCOMPLETE_P2",
+  "approvalLiteral": "Sí, apruebo la enmienda 5013e0c",
+  "focused": {
+    "schemaVersion": 1,
+    "startedAt": "2026-11-14T11:45:34.803Z",
+    "completedAt": "2026-11-14T11:48:27.529Z",
+    "elapsedMs": 172725,
+    "approvalRevision": "5013e0c44cd8f0bcf54c2e4170269103aafee237",
+    "sourceVariants": 1,
+    "maximumVariants": 1,
+    "focusedRuns": 1,
+    "maximumRuns": 1,
+    "remainingRuns": 0,
+    "outcome": "FOCUSED_PASS_REVIEW_AND_CI_PENDING",
+    "execution": {
+      "code": 0,
+      "signal": null,
+      "closed": true,
+      "failure": null,
+      "outputBytes": 2268
+    },
+    "counts": {
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "observed": [
+      {
+        "ok": true,
+        "name": "interrupted repair restores only the journal-owned unchanged quarantine, and retains project/history bytes",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "real process interruption at npm-published rolls back journal-owned selection on restart",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "real process interruption at npm-selection-written rolls back journal-owned selection on restart",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "real process interruption at npm-confirmed preserves confirmed selection on restart",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "owned fixture closes an active child before deleting its root",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "owned fixture never kills an already closed child",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "owned fixture rejects spawn error without hanging or deleting a foreign directory",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "owned fixture rejects missing and mismatched crash witnesses on nonzero exit",
+        "skip": null
+      },
+      {
+        "ok": true,
+        "name": "owned fixture accepts the exact witness and preserves project history until cleanup; cancellation blocks recovery",
+        "skip": null
+      }
+    ],
+    "targetsExact": true,
+    "sourceUnchangedSinceFreeze": true,
+    "homeChildren": [
+      "AppData"
+    ],
+    "newReviewComplete": false,
+    "fullCurrentCiComplete": false,
+    "qualificationComplete": false,
+    "builds": 0,
+    "correctedVm": 0,
+    "archive": false,
+    "merged": false,
+    "noRetry": true
+  },
+  "postimages": {
+    "apps/companion/qa/distribution-identity.mjs": "a97ac1e84cddda5fb4e9b05a0170a905ee8a126cc1cf8fd993decc1ecaa9565c",
+    "apps/companion/qa/helpers/owned-crash-fixture.mjs": "ab6ca641b23c349e2a2b6824ba599416bf2c0711e7cc5ec8f85649ac5ef691a7",
+    "apps/companion/qa/owned-crash-fixture.mjs": "e3dc0e679add8ed442ff781df08de4213d333650a0ffe0a9615cd9a8b885976f"
+  },
+  "otherAppSourcesUnchanged": true,
+  "review": {
+    "agent": "/root/qa5013_candidate_review",
+    "status": "INCOMPLETE_SERVICE_USAGE_LIMIT",
+    "parentConfirmedP2": "Missing stderr on EMFILE/ENFILE rejects completion before close listener is attached",
+    "staticOnly": true,
+    "newCycleStarted": false
+  },
+  "artifacts": {
+    "approval": {
+      "path": "artifacts/wave3-current/qa-lifecycle-5013/approval.json",
+      "sha256": "32019e67b7ab090cb3c1ce7ce9bfad55a06b843f91b264c06ed0865da7cf3788"
+    },
+    "frozen.json": {
+      "path": "artifacts/wave3-current/qa-lifecycle-5013/frozen.json",
+      "sha256": "b65758b3a32d7e8c560557a9ef67883ba29eb11dd5076c207119937a55b00e3c"
+    },
+    "candidate.patch": {
+      "path": "artifacts/wave3-current/qa-lifecycle-5013/candidate.patch",
+      "sha256": "d6b7220e1850328e4cf9487ba7e0650ba304e82351dc56e144b46a24d28eb3c7"
+    },
+    "result.json": {
+      "path": "artifacts/wave3-current/qa-lifecycle-5013/result.json",
+      "sha256": "9cd3e82a01a31b08264e1a5530f07b40601ec8a2446f5c51701191202ddb1fbd"
+    },
+    "stdout.tap": {
+      "path": "artifacts/wave3-current/qa-lifecycle-5013/stdout.tap",
+      "sha256": "9f3b277c78fd8b98bdd73820ce0eb18073646301ce2243284e9f43504a67b91b"
+    },
+    "stderr.log": {
+      "path": "artifacts/wave3-current/qa-lifecycle-5013/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "source-distribution-identity.mjs": {
+      "path": "artifacts/wave3-current/qa-lifecycle-5013/source-distribution-identity.mjs",
+      "sha256": "a97ac1e84cddda5fb4e9b05a0170a905ee8a126cc1cf8fd993decc1ecaa9565c"
+    },
+    "source-helper-owned-crash-fixture.mjs": {
+      "path": "artifacts/wave3-current/qa-lifecycle-5013/source-helper-owned-crash-fixture.mjs",
+      "sha256": "ab6ca641b23c349e2a2b6824ba599416bf2c0711e7cc5ec8f85649ac5ef691a7"
+    },
+    "source-unit-owned-crash-fixture.mjs": {
+      "path": "artifacts/wave3-current/qa-lifecycle-5013/source-unit-owned-crash-fixture.mjs",
+      "sha256": "e3dc0e679add8ed442ff781df08de4213d333650a0ffe0a9615cd9a8b885976f"
+    }
+  },
+  "reviewArtifact": {
+    "path": "artifacts/wave3-current/qa-lifecycle-5013/review-partial-and-parent-reconciliation.md",
+    "sha256": "292cd130c648215370ddfa3f008e39a9c1e59f43958696421366a9af97105397"
+  },
+  "builds": 0,
+  "correctedVm": 0,
+  "qualificationComplete": false,
+  "archivePerformed": false,
+  "merged": false,
+  "wave4Started": false
+}

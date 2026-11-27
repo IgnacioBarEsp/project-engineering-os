@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-26",
+  "kind": "feature",
+  "result": "clean",
+  "candidates": [],
+  "notes": "Renderer y harness de #149: transiciones con fallback/generaciones, espera finita, copia nativa y progreso real. Corregidas interactividad prematura y falso spill de control oculto. Companion179/179, raíz391/391, UI y46negativos verdes. Sin dependencias/servicio/formatos nuevos. Gates humanos/independiente pendientes; no archivo.",
+  "flow": "companion-motion-loading-microcopy"
+}

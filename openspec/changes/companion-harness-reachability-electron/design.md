@@ -1,0 +1,251 @@
+# ADR-150: prove the harness against real regressions
+
+**Status:** Accepted for implementation within issue and maintainer's delegated Wave 3 scope.
+**Date:** 2026-09-26.
+**Deciders:** IgnacioBarEsp (scope), implementer (bounded harness choices).
+
+## Context and baseline
+
+DoR 13/13. No equivalent #150 PR found. #142 already added reachability and clipboard negatives; #146/#147 introduced a genuine four-step preparation flow, #148 segmented projects, #149 destination transitions and timed feedback. Reuse these suites, not duplicate engines. The stack remains draft pending actual human/independent gates.
+
+## Decisions
+
+1. Extend existing real service journeys to six canonical profiles × two choices × two motion preferences × three required windows. Additional actual operations (existing prepared/unprepared folder, duplicate/remove, recovery, search, handoff) stay exercised by UI journeys. Record routes after settled actions; declared but unvisited routes fail. Native-only stages use explicitly labelled stubbed service fixtures for renderer coverage, not a claim of installing a toolchain in Chromium.
+2. Shared probes return denominators and facts; every targeted negative must fail its intended assertion. Exceptions/timeouts are never detections. Keep existing mutations and add missing profile/rail/nav/decorative/motion/coverage controls. Hidden nodes without painted boxes do not count as occluding content.
+3. Real Electron on Windows uses _electron.launch, firstWindow and main-process clipboard.readText. Official [Playwright Electron](https://playwright.dev/docs/api/class-electron) checked 2026-09-26 describes main-process evaluation and native-dialog stubbing. Only picker selection is injected into disposable folders. Source captures are labelled source captures and include hashes/commit/runtime, never installation/release evidence.
+4. Historical runs serve immutable Git bytes in memory with git show and inject only the service fixture through the browser harness. Assert old/fixed reachability, containment and copy defect signatures, preserving logs and source commits. New taxonomy/motion-token rules are not retroactive hotfix requirements. Do not change release assets or checkout historical code over user files.
+5. Independent report is mandatory before archive. Maintainer walkthrough and two-person cold reading remain separate; models cannot provide those observations.
+
+## Security, cost, compatibility and rollback
+
+No new runtime dependencies/services/secrets. CI permissions stay contents:read; pinned actions and existing npm policy. User projects untouched. Required aggregate includes the Windows job; absent/skipped tests cannot pass. Runtime installation uses the pinned Electron install script. Revert test/CI PR if infrastructure fails, without marking an unexecuted check green.
+
+## Risks
+
+Probes may expose bounded renderer defects: fix them in this change with a regression, documenting the
+specific expansion. First finding: empty notice reserved blank space at the scroll end outside the wizard;
+collapse only the empty region, retaining live notices and their accessible status behavior.
+
+The normal-motion resize journey exposed transient navigation clipping: transition:all animated padding
+and font size across breakpoints. Navigation now transitions only color/background/border/press transform;
+its layout snaps to the target size. A static regression asserts this bounded change. The harness also
+waits for the asynchronous agent-selection save/plan rebuild before measuring the replacement footer.
+Painted borders and direct text count as content at the scroll end; empty wrapper boxes do not.
+
+The previous color guard only rejected hex literals. The new CSSOM/source guard also rejects functional
+colors outside tokens.css. All 62 existing rgba declarations now reference 34 alpha tokens with the
+same exact channel/alpha values (39 layout, 7 components, 16 pages). No palette or contrast change.
+
+Full cross-product costs CI time: bounded fixtures and explicit timeout, no silent sampling. Motion readiness must precede hit-testing; virtual clocks must not freeze compositor transitions. Route coverage cannot be manufactured by merely assigning a route string; evidence identifies live versus stubbed paths. A historical defect unrelated to this scope remains reported rather than hidden.
+
+## Integration refinement — 2026-09-30
+
+The maintainer requested the #149 full-window ambient background and finite title/primary illumination.
+Integrate that parent without weakening the interaction limit: only the exact body pseudo-element may
+repeat (20 seconds, linear, alternate, opacity), and only the scoped one-pass title/primary sheen may
+last 900 ms. Reduced motion remains fully static. Import the parent's renderer probe and preserve all
+existing duration, route, containment, contrast and reachability negatives; add wrong-origin and
+repeating-sheen negatives. Journey settling waits for finite animations only, never for the ambient
+cycle; the property probe must reject other loops rather than accepting them by timeout.
+The earlier CI/native results do not cover this refinement. Repeat evidence on the integrated tree.
+
+## Final-head coordination — f9ed23c approved
+
+The original implementation authorization above remains historical and scoped.
+It does not approve the new [coordination protocol](coordinated-final-head-amendment.md).
+The [literal human approval](evidence/coordinated-final-head-approval.md) now
+authorizes that protocol. It validates the final composed product while preserving the
+seven-phase order, criteria, human receipt boundaries and individual official archives.
+It replaces neither failed checks nor human #146/#147 journeys with approval of a plan.
+
+Candidate `332a261` combines the stack with main `7073033`; owner byte comparisons
+and the raw failed qualification attempts are indexed in
+[the preflight manifest](evidence/coordinated-final-head-preflight.json).
+Only docs are added by this proposal. No source patch, CI/timeout change, readiness
+flag promotion, new debt capture, archive or integration is performed by recording
+approval. A draft joint PR may obtain current CI before archive; it remains unmerged
+until all applicable gates, ordered archives and final required CI are complete.
+Product changes outside this scope require a concrete owner/spec decision.
+Source snapshots and original failures remain.
+
+## Installed-evidence corrective scope — 2667452 approved
+
+The independent review of e713 found F1 (new native fixtures still use retired
+profile IDs) and F2 (two service-mutation anchors no longer exist). A real VM cycle
+failed with PROFILE_INVALID before its native window journey; runtime/installer
+steps that passed retain their narrower scope. The product guard is not weakened.
+The [installed-evidence amendment](installed-evidence-harness-amendment.md) fixes
+five named verifier/fixture/QA files. Explicit approval of2667452 is now recorded
+in evidence/installed-harness-approval.md.
+Its bounded regression/installed cycle and same-reviewer incremental reconciliation
+preserve the original source, failure, report and human gates. This is a separate
+decision from the approved f9ed23c protocol. A bounded source correction is being
+prepared/frozen; no future execution or post-fix review is inferred from approval.
+
+The actual freeze at662fc27 and first regression execution are retained separately:
+five passed and two failed on business.role=analyst. The unchanged product
+normalizer recognizes freelancer and rejects analyst. No validator or assertion
+will be relaxed. The [fixture-role decision](fixture-role-correction-amendment.md)
+contains the exact one-literal diff, preimage/postimage and explicitly additional
+budget. Actual c8cd8d5 approval is recorded in evidence/fixture-role-approval.md;
+716f9e2 applies only that literal, with7/7 real regressions. The same reviewer
+completed the approved single incremental reconciliation; its scope/remaining
+installed gate are recorded in evidence/fixture-role-c8-result.json. Original
+failure/budget remain; unchanged mutation sources were not rerun. Electron218
+approvals7af/2d2/1cb/d812 are resolved, with focused TLS/native checks retained.
+Its local owning gate failed2PASS/2CANCELLED; installed UI remains unqualified.
+
+## Observation-only diagnostic proposed after d812 STOP
+
+See bounded-recovery-qa-diagnostic-amendment.md for the exact two names, copied
+QA-file allowlist, trace points, unchanged assertions/fault points/timeouts,
+180s preparation/240s process limits and single invocation. Only the copied
+QA observer and a managed supervisor may differ; production sources remain exact.
+Freeze original and diagnostic hashes separately before execution. Do not
+attribute the original app fingerprint to an instrumented QA tree.
+
+Record parent/child monotonic phases and existing progress events to at most1MiB,
+preserve the90s cancellation and all raw failures, and inspect only owned journal/
+selector bytes without invoking extra recovery. Terminate only owned diagnostic
+children after recording failure, never to manufacture PASS. No new qualification
+credit or automatic fix follows even if both observed cases pass.
+
+Actual e978 approval preceded the one observation variant/invocation,now consumed:
+1PASS/1CANCELLED,178799ms,98events. The three-point test spent64.535s before its
+third iteration;cleanup overlapped the still-active child. See the retained
+result/analysis for facts,unknowns and physical-root-retention limitation.
+No product patch,ownerTLS/native/review cycle,fullsuite,build,VM or CI change occurred.
+
+## QA lifecycle correction —5013 approved/applied; blocked
+
+recovery-qa-lifecycle-amendment.md defines the exact three-file QA allowlist,
+four real90s cases and five3s helper regressions. Start from original QA6382307b,
+not the instrumented copy. Preserve the runtime and every original recovery,
+selection,generation,history and project assertion. Each fault point becomes an
+independent test;the greater aggregate cost is explicit,not a hidden cap increase.
+
+The new test-only fixture holds ChildProcess handles and installs error/close
+listeners before waiting. It checks a bounded exclusive nonce/point witness,
+rejects unrelated exits,and terminates/awaits only its active children before
+deleting its proven root. On unresolved ownership/close,retain root and fail.
+After close and before new recovery,check actual test cancellation so a timed-out
+body does not continue recovery. Do not use TestContext.signal alone to skip
+cleanup;the actual trace also emitted it after a passing case.
+
+One approved QA variant/focused run/scoped fresh review does not reset any prior
+budget. Only focused9/9 plus full current requiredCI3OS and review without
+unresolved findings can reconcile these corrected QA gates. Unchanged d812
+copy/pack controls remain retained by source/input hashes. Builds/VM/humans,
+debt/archives and protected integration keep their separate original requirements.
+
+5013 approval and frozen-source/result receipts are indexed in
+evidence/recovery-qa-lifecycle-result-5013.json. The one focused run passed9/9;
+the independent cycle is incomplete after a service usage-limit error. Its
+partial P2 is parent-confirmed statically from exact Node24.18.0 source,not
+runtime-reproduced: absent stderr on EMFILE/ENFILE rejects completion before
+close registration. Preserve the frozen QA,all failures and consumed budgets.
+
+The concrete recovery-qa-spawn-error-amendment.md received actual fa15 approval.
+Only helper and unit QA changed in its one additional frozen variant. Install close/error
+observation before optional stderr,record first cause and wait close on either
+failure. A pure observation seam grants no spawn/kill/root/ownership authority;
+synthetic absence/stream-error controls cannot be counted as real process tests.
+The existing nine controls remain and one explicitly synthetic test has two
+internal controls;actual focused denominator10,not9. Additional variant/run
+are consumed,not reset:9PASS/1CANCELLED at90s in repair,200117ms. Same-reviewer
+source completion and P2 resolution do not qualify that timeout or permit a
+second run. Preserve the failed root and original evidence;no product changes.
+
+## Proposed observation of the remaining repair —26 November2026
+
+Current outcome:0999922 actually approved,DoR13/13,andthe one invocation consumed
+with LINK_REJECTED at initial install because the agent used a dependency junction.
+The fixture closed/cleaned normally;the repair child was never spawned. This is
+a preparation failure,not a cause of the original timeout. Preserve result/raws.
+The separately proposed physical-source-observation-amendment.md changes only
+dependency transport to an exclusively created regular copy of the same1944-file
+npm source,with exact before/after inventories;no guard,QA observer or runtime edit.
+One additional preparation/variant/invocation requires actual new approval.
+No retry under the consumed0999922 budget andno future fix/qualification implied.
+
+See remaining-repair-observation-amendment.md for the new one-target decision.
+No budget remains under fa15. Its current source review and CI are complete,
+while the sole repair cancellation remains unresolved. Only actual approval
+of the new immutable revision allows one observed QA copy and one invocation.
+Instrument only the named case in the copied QA and its embedded child script,
+using existing API boundaries/progress without modifying manager or helper.
+Preserve90000ms case,5000ms helper cleanup,120s total process and180s preparation;
+retain at most256 events/1MiB and distinguish per-process clocks and TAP outcome.
+The observer has no ownership/kill/delete/lock authority;all original cancellation,
+held-child and close-before-cleanup requirements stay intact. Any partial trace,
+instrumentation exception or cap remains explicit. Original roots/results are
+untouched. Even diagnostic PASS grants no qualification,fix,budget,build or VM.
+
+## Physical-source observation (4a88216) and uninstrumented qualification (f41af24)
+
+Revision `4a88216` received literal approval and fresh DoR `13/13`, copied all `1,944`
+regular files of `npm 11.21.2` with matching source/destination inventories, and ran the
+instrumented repair target once (`64,865 ms` TAP, `54` events, `DIAGNOSTIC_ONLY`; historical
+timeout cause remains `UNKNOWN`).
+
+Revision `f41af24` (`remaining-repair-qualification-proposal.md`) received literal approval
+(«apruebo») and fresh DoR `13/13`, froze an uninstrumented copy (`changed: []`, `40,436 ms`)
+with the same verified physical `npm 11.21.2` copy and isolated Windows x64 / Node `24.18.0`
+environment, and executed the exact single target once under unchanged `90 s` case / `5 s`
+cleanup / `120 s` process limits: `1 PASS / 0 FAIL / 0 CANCELLED / 0 SKIP` in `69,049.573 ms`
+TAP (`69,197 ms` process, `exit 0`, zero traces, clean helper cleanup). Equivalence verification
+(`equivalence-verified.json`) confirmed byte-identical `223/223` app files, Node `24.18.0`
+binary, `1,944`-file `npm 11.21.2` inventory, and `9/9` `d812` inputs, authorizing conditional
+presentation of the `9 PASS` `fa15` receipts alongside the independent `1 PASS` `f41af24`
+receipt (and `2 PASS` `d812` copy/pack receipts) without claiming a single-run `10/10`.
+CI `45902071618` on `f41af24` passed `12/12`. Prior failures remain immutable; current CI on
+this evidence head and maintainer review precede any build (`0/2`), VM (`0/1`), human, debt,
+archive or merge gate.
+
+## Reproducible builds (2/2), corrected VM cycle (1/1 FAIL at Phase 2) and pending sync amendment
+
+CI `45906034881` on `20fbe4cc685023a3bf27a9483d592c94cb0cf307` succeeded `12/12`, followed by
+literal maintainer authorization (`evidence/builds-and-vm-approval-20fbe4c.md`) and fresh DoR
+`13/13` on `#150` and `#218`. Both clean builds (`o20f-1`, `o20f-2`, pinned Node `v24.18.0`,
+verified copied `node_modules`, zero downloads) passed `pack-app.mjs` and `verify-app-artifact.mjs`
+(`NotSigned`, `151` packages, `2,662` unpacked files / `458,983,230` bytes with `0` diffs,
+digest `d8ea18bb...`, identical `resources/npm-dist.zip` `fef16d4e...`, honest 5-byte NSIS
+container diff, `+390,821` bytes vs `e713`). See `evidence/reproducible-builds-20fbe4c.md`.
+
+The single authorized offline Windows Sandbox cycle (`7fa7018d-eded-40ed-81ee-86dbedfc8b5f`,
+`4 GiB`, `<Networking>Disable</Networking>`, RO inputs, cleanly stopped) consumed `1/1` (`0`
+remaining, no retry). Phase 1 (`packaged-runtime.json`) passed (`0.3.6 -> 0.3.7`, paired cold/warm/repair
+worker samples, legacy untouched & unfit fallback rejected, cancelled/crash repair recovery,
+Node `22.22.0`/`24.18.0`/`24.20.0`, uninstall). Phase 2 (`canonical-0.1.0-update-native-uninstall`)
+failed (`exit 1`, `288,799 ms`, `0` stdout bytes) at `verify-native-journeys.mjs:520:29`
+(`Timeout 180000ms` waiting for `Archivos` with `0` DOM matches per Playwright `1.62.1`
+`coreBundle.js:23490-23520`). Static diagnosis traces this to `verify-native-journeys.mjs:505`
+(`waitForTimeout(1500)` racing cold `pdfjs-dist` worker startup on `research/articulo.pdf`,
+bounded in product by `PARSER_STARTUP_MS = 60000`), combined with `Detener`-only `notBusy()`/`settle()`
+(hidden for the first `1,000 ms` and before `showWorkspace()` + `renderReady`) and pre-render
+`revealDetails(...)` calls. See `evidence/corrected-vm-cycle-20fbe4c.md`.
+
+[native-journeys-sync-amendment.md](native-journeys-sync-amendment.md) remains **unapproved and
+unapplied**. It proposes only `verify-native-journeys.mjs` and `qa/verification-harness-contract.mjs`
+(zero product/lock/CI/debt changes), reusing the byte-identical verified Build 1 `20fbe4c`
+installer (`3b6410b4...`, `0` additional builds) for `1` explicitly additional offline VM cycle
+of `verify-release-installation.mjs`, plus `1` bounded read-only review and required CI. All
+historical failures (`e713`, `20fbe4c` Phase 2, `d812`, `e978`, `fa15`, `0999922`) remain preserved.
+
+## Harness sync execution (`b022eb2`) and pending independent-review reconciliation
+
+Revision `8443595` was approved literally (`evidence/native-journeys-sync-approval-8443595.md`,
+fresh DoR `13/13`, CI `45915562393` `12/12`). Commit `b022eb221ef796a632bba9158bdebd29c86521e9`
+modified only `verify-native-journeys.mjs` and `qa/verification-harness-contract.mjs` (`0` product
+changes; `5` packaged directories byte-identical to `20fbe4c`). Its single regression (`8/8 PASS`),
+single additional offline Windows Sandbox cycle (`109a11db-...`, `156.6 s`, `0.1.0 -> 0.3.7` on
+reused Build 1 `20fbe4c`, `6` profiles / `7` scenarios, `0` findings, `14` offline `unverified`,
+`5/5` anchored captures, clean uninstall) and full CI `45920686534` (`12/12 SUCCESS`) all passed
+(`evidence/native-journeys-sync-result-b022eb2.md`). The single bounded read-only independent
+review (`evidence/independent-harness-sync-review-b022eb2.md`) confirmed the core sync fix and
+zero product drift, but returned `CHANGES_REQUESTED` (`0` Blocker, `3` Major on `catch` redaction/gating,
+`catch` teardown bounds and engineering `press()` stall handling; `3` Minor including `native-proyectos.png`
+mid-stagger capture visually confirmed). [native-journeys-review-reconciliation-amendment.md](native-journeys-review-reconciliation-amendment.md)
+remains **unapproved and unapplied**, proposing a minimal reconciliation of those `2` harness/QA
+files (`0` product changes, `0` builds), same-reviewer incremental verification, one short offline
+VM verification and CI.

@@ -1,0 +1,1006 @@
+[
+  {
+    "issue": 145,
+    "attempt": "peos-145-route-propagation",
+    "raw": "C:/Users/RitualDesktop/AppData/Local/Temp/peos-145-route-propagation/interface-contract.json",
+    "rawSha256": "ec2be55d82e34e58d8a41fff195b3fc1ac35cbf25cee066b3a05c179ce7abbe7",
+    "date": "2026-10-01T04:53:36.68Z",
+    "sourceCommit": "182aaa923acfc4e1bf9eb1d74698e98fd5f89d98",
+    "dirty": false,
+    "harnessSha256": "74705649e2f4692093b528522c6400d400d47ac01a42d90d5c2877431e4fcefb",
+    "routeGateSha256": "23f1f17cf546abeafd312ca706b6351d2153a3474807d30c6351635ac709eb30",
+    "routerSha256": "c0905cb3be0a0b2bc67214953eecfbd9820d72a6d5979f3c7fd3becec93c70f9",
+    "summary": {
+      "mutations": 46,
+      "detected": 46,
+      "constructionProbes": 1,
+      "constructionHeld": 1,
+      "findings": 0,
+      "routes": {
+        "declared": 21,
+        "rendered": 21,
+        "missing": [],
+        "problems": []
+      },
+      "wizard": {
+        "runs": 6,
+        "screensMeasured": 36,
+        "controlsMeasured": 312,
+        "controlsReachable": 312
+      },
+      "copies": {
+        "ok": 2,
+        "refused": 2,
+        "transport": 2,
+        "ok-then-refused": 2
+      }
+    },
+    "declared": [
+      "start",
+      "projects",
+      "help",
+      "setup",
+      "folder",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "base-review",
+      "stack-review",
+      "repair-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "code-review",
+      "workspace",
+      "connection-error"
+    ],
+    "rendered": [
+      "start",
+      "setup",
+      "folder",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "help",
+      "projects",
+      "workspace",
+      "base-review",
+      "stack-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "repair-review",
+      "code-review",
+      "connection-error"
+    ],
+    "negative": {
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "missing": [
+        "reviewer-unvisited-route"
+      ],
+      "runProblems": []
+    },
+    "findings": [],
+    "undetected": []
+  },
+  {
+    "issue": 146,
+    "attempt": "peos-146-route-propagation",
+    "raw": "C:/Users/RitualDesktop/AppData/Local/Temp/peos-146-route-propagation/interface-contract.json",
+    "rawSha256": "34a32bc056e1f79cc64876fdb4139fbfae9d3c1b2a8d364c800c938cc1cf064c",
+    "date": "2026-10-01T04:54:34.188Z",
+    "sourceCommit": "2d0690e5dbdedbddcfa5a8c1857df0224fb843d8",
+    "dirty": false,
+    "harnessSha256": "b10cc08e08e0c54b7da97c85a08259a34866f4928a71e93320673b4c5778b7d0",
+    "routeGateSha256": "23f1f17cf546abeafd312ca706b6351d2153a3474807d30c6351635ac709eb30",
+    "routerSha256": "70fffe5948ca0fb0d649987d50bd2720246585421a6f9868dbf127107b5fec3d",
+    "summary": {
+      "mutations": 47,
+      "detected": 47,
+      "constructionProbes": 1,
+      "constructionHeld": 1,
+      "findings": 0,
+      "routes": {
+        "declared": 20,
+        "rendered": 20,
+        "missing": [],
+        "problems": []
+      },
+      "wizard": {
+        "runs": 6,
+        "screensMeasured": 30,
+        "controlsMeasured": 342,
+        "controlsReachable": 342
+      },
+      "copies": {
+        "ok": 2,
+        "refused": 2,
+        "transport": 2,
+        "ok-then-refused": 2
+      }
+    },
+    "declared": [
+      "start",
+      "projects",
+      "help",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "base-review",
+      "stack-review",
+      "repair-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "code-review",
+      "workspace",
+      "connection-error"
+    ],
+    "rendered": [
+      "start",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "help",
+      "projects",
+      "workspace",
+      "base-review",
+      "stack-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "repair-review",
+      "code-review",
+      "connection-error"
+    ],
+    "negative": {
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "missing": [
+        "reviewer-unvisited-route"
+      ],
+      "runProblems": []
+    },
+    "findings": [],
+    "undetected": []
+  },
+  {
+    "issue": 147,
+    "attempt": "peos-147-route-propagation",
+    "raw": "C:/Users/RitualDesktop/AppData/Local/Temp/peos-147-route-propagation/interface-contract.json",
+    "rawSha256": "cf4d9396ed7484ae84a22265fa23cc08a6e067ed1950ebf209684815013fab6d",
+    "date": "2026-10-01T04:58:11.215Z",
+    "sourceCommit": "c549d6e896a48dc84cae8e4b1ea483f41b18390d",
+    "dirty": false,
+    "harnessSha256": "9dc72d63c0f81635d613f4bbb082142039b9023bef419ec6ad3f926f7d397a3e",
+    "routeGateSha256": "23f1f17cf546abeafd312ca706b6351d2153a3474807d30c6351635ac709eb30",
+    "routerSha256": "70fffe5948ca0fb0d649987d50bd2720246585421a6f9868dbf127107b5fec3d",
+    "summary": {
+      "mutations": 47,
+      "detected": 46,
+      "constructionProbes": 1,
+      "constructionHeld": 1,
+      "findings": 3,
+      "routes": {
+        "declared": 20,
+        "rendered": 6,
+        "missing": [
+          "projects",
+          "help",
+          "finished",
+          "base-review",
+          "stack-review",
+          "repair-review",
+          "environment-review",
+          "engineering-review",
+          "activation-review",
+          "context-review",
+          "sync-review",
+          "context-final",
+          "code-review",
+          "workspace"
+        ],
+        "problems": [
+          "No se alcanzó context"
+        ]
+      },
+      "wizard": {
+        "runs": 6,
+        "screensMeasured": 36,
+        "controlsMeasured": 408,
+        "controlsReachable": 408
+      },
+      "copies": {
+        "ok": 2,
+        "refused": 2,
+        "transport": 2,
+        "ok-then-refused": 2
+      }
+    },
+    "declared": [
+      "start",
+      "projects",
+      "help",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "base-review",
+      "stack-review",
+      "repair-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "code-review",
+      "workspace",
+      "connection-error"
+    ],
+    "rendered": [
+      "start",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "connection-error"
+    ],
+    "negative": {
+      "detected": false,
+      "by": null,
+      "missing": [
+        "reviewer-unvisited-route",
+        "projects",
+        "help",
+        "finished",
+        "base-review",
+        "stack-review",
+        "repair-review",
+        "environment-review",
+        "engineering-review",
+        "activation-review",
+        "context-review",
+        "sync-review",
+        "context-final",
+        "code-review",
+        "workspace"
+      ],
+      "runProblems": [
+        "No se alcanzó context"
+      ]
+    },
+    "findings": [
+      "Rutas declaradas no renderizadas: projects, help, finished, base-review, stack-review, repair-review, environment-review, engineering-review, activation-review, context-review, sync-review, context-final, code-review, workspace",
+      "Recorrido fixed-service: No se alcanzó context",
+      "La mutación a-declared-route-never-rendered-by-the-journey no fue detectada por su propiedad"
+    ],
+    "undetected": [
+      {
+        "id": "a-declared-route-never-rendered-by-the-journey",
+        "by": null
+      }
+    ]
+  },
+  {
+    "issue": 147,
+    "attempt": "peos-147-route-propagation-v2",
+    "raw": "C:/Users/RitualDesktop/AppData/Local/Temp/peos-147-route-propagation-v2/interface-contract.json",
+    "rawSha256": "0fd6cd50f2100b64bb188779c26162fa72cbced5bd90f9147c88745518f89f4b",
+    "date": "2026-10-01T05:02:40.205Z",
+    "sourceCommit": "8c68926e7f8898dce82fc0068e09910ea43935aa",
+    "dirty": false,
+    "harnessSha256": "695868be155c7239e2d7527fc8a2da82f05d418632edf2c784402372c11d3f98",
+    "routeGateSha256": "23f1f17cf546abeafd312ca706b6351d2153a3474807d30c6351635ac709eb30",
+    "routerSha256": "70fffe5948ca0fb0d649987d50bd2720246585421a6f9868dbf127107b5fec3d",
+    "summary": {
+      "mutations": 47,
+      "detected": 47,
+      "constructionProbes": 1,
+      "constructionHeld": 1,
+      "findings": 0,
+      "routes": {
+        "declared": 20,
+        "rendered": 20,
+        "missing": [],
+        "problems": []
+      },
+      "wizard": {
+        "runs": 6,
+        "screensMeasured": 36,
+        "controlsMeasured": 408,
+        "controlsReachable": 408
+      },
+      "copies": {
+        "ok": 2,
+        "refused": 2,
+        "transport": 2,
+        "ok-then-refused": 2
+      }
+    },
+    "declared": [
+      "start",
+      "projects",
+      "help",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "base-review",
+      "stack-review",
+      "repair-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "code-review",
+      "workspace",
+      "connection-error"
+    ],
+    "rendered": [
+      "start",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "help",
+      "projects",
+      "workspace",
+      "base-review",
+      "stack-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "repair-review",
+      "code-review",
+      "connection-error"
+    ],
+    "negative": {
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "missing": [
+        "reviewer-unvisited-route"
+      ],
+      "runProblems": []
+    },
+    "findings": [],
+    "undetected": []
+  },
+  {
+    "issue": 148,
+    "attempt": "peos-148-route-propagation",
+    "raw": "C:/Users/RitualDesktop/AppData/Local/Temp/peos-148-route-propagation/interface-contract.json",
+    "rawSha256": "9d259b1cca830782b43b0e3d61300f7c4350826eb0ebe391e942cde9045babee",
+    "date": "2026-10-01T04:58:21.586Z",
+    "sourceCommit": "685821d71393380176f46e609c5be22214425d97",
+    "dirty": false,
+    "harnessSha256": "9cb72df7834250929aae94bcaa71311259073b1b3b47e0a85c3d938bb058f768",
+    "routeGateSha256": "23f1f17cf546abeafd312ca706b6351d2153a3474807d30c6351635ac709eb30",
+    "routerSha256": "fa0adfa6511288b4046d1413992ae77951293e187288dc4c13ed6b30c82c2a37",
+    "summary": {
+      "mutations": 47,
+      "detected": 46,
+      "constructionProbes": 1,
+      "constructionHeld": 1,
+      "findings": 4,
+      "routes": {
+        "declared": 20,
+        "rendered": 6,
+        "missing": [
+          "projects",
+          "help",
+          "finished",
+          "base-review",
+          "stack-review",
+          "repair-review",
+          "environment-review",
+          "engineering-review",
+          "activation-review",
+          "context-review",
+          "sync-review",
+          "context-final",
+          "code-review",
+          "workspace"
+        ],
+        "problems": [
+          "No se alcanzó context"
+        ]
+      },
+      "wizard": {
+        "runs": 6,
+        "screensMeasured": 36,
+        "controlsMeasured": 408,
+        "controlsReachable": 408
+      },
+      "copies": {
+        "ok": 2,
+        "refused": 2,
+        "transport": 2,
+        "ok-then-refused": 2
+      }
+    },
+    "declared": [
+      "start",
+      "projects",
+      "help",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "base-review",
+      "stack-review",
+      "repair-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "code-review",
+      "workspace",
+      "connection-error"
+    ],
+    "rendered": [
+      "start",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "connection-error"
+    ],
+    "negative": {
+      "detected": false,
+      "by": null,
+      "missing": [
+        "reviewer-unvisited-route",
+        "projects",
+        "help",
+        "finished",
+        "base-review",
+        "stack-review",
+        "repair-review",
+        "environment-review",
+        "engineering-review",
+        "activation-review",
+        "context-review",
+        "sync-review",
+        "context-final",
+        "code-review",
+        "workspace"
+      ],
+      "runProblems": [
+        "No se alcanzó context"
+      ]
+    },
+    "findings": [
+      "Rutas declaradas no renderizadas: projects, help, finished, base-review, stack-review, repair-review, environment-review, engineering-review, activation-review, context-review, sync-review, context-final, code-review, workspace",
+      "Recorrido fixed-service: No se alcanzó context",
+      "Pantallas que no se pudieron alcanzar: tecnología",
+      "La mutación a-declared-route-never-rendered-by-the-journey no fue detectada por su propiedad"
+    ],
+    "undetected": [
+      {
+        "id": "a-declared-route-never-rendered-by-the-journey",
+        "by": null
+      }
+    ]
+  },
+  {
+    "issue": 148,
+    "attempt": "peos-148-route-propagation-v2",
+    "raw": "C:/Users/RitualDesktop/AppData/Local/Temp/peos-148-route-propagation-v2/interface-contract.json",
+    "rawSha256": "e71aad6c003ab8301af483db4df21646037d7b380659cc9035ba5b3a9768c6d0",
+    "date": "2026-10-01T05:05:29.268Z",
+    "sourceCommit": "94853b6dc717b572f0fb3f07e981faa61ebf2e88",
+    "dirty": false,
+    "harnessSha256": "3f696371c9930c71cfab7d3d6c45c60ceaf084d9073a6aa97f899e73b544efcd",
+    "routeGateSha256": "23f1f17cf546abeafd312ca706b6351d2153a3474807d30c6351635ac709eb30",
+    "routerSha256": "fa0adfa6511288b4046d1413992ae77951293e187288dc4c13ed6b30c82c2a37",
+    "summary": {
+      "mutations": 47,
+      "detected": 47,
+      "constructionProbes": 1,
+      "constructionHeld": 1,
+      "findings": 0,
+      "routes": {
+        "declared": 20,
+        "rendered": 20,
+        "missing": [],
+        "problems": []
+      },
+      "wizard": {
+        "runs": 6,
+        "screensMeasured": 36,
+        "controlsMeasured": 408,
+        "controlsReachable": 408
+      },
+      "copies": {
+        "ok": 2,
+        "refused": 2,
+        "transport": 2,
+        "ok-then-refused": 2
+      }
+    },
+    "declared": [
+      "start",
+      "projects",
+      "help",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "base-review",
+      "stack-review",
+      "repair-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "code-review",
+      "workspace",
+      "connection-error"
+    ],
+    "rendered": [
+      "start",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "help",
+      "projects",
+      "workspace",
+      "base-review",
+      "stack-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "repair-review",
+      "code-review",
+      "connection-error"
+    ],
+    "negative": {
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "missing": [
+        "reviewer-unvisited-route"
+      ],
+      "runProblems": []
+    },
+    "findings": [],
+    "undetected": []
+  },
+  {
+    "issue": 149,
+    "attempt": "peos-149-route-propagation-v2",
+    "raw": "C:/Users/RitualDesktop/AppData/Local/Temp/peos-149-route-propagation-v2/interface-contract.json",
+    "rawSha256": "715b4121e8eed559d7f3490b683dd1916bc79455b084532716009acfa8c4ee93",
+    "date": "2026-10-01T05:06:24.186Z",
+    "sourceCommit": "905213e0d3edd1739afa0c5af3fa12099a586304",
+    "dirty": false,
+    "harnessSha256": "287de0a920d9967083a2c4c17b9c0fab426a12baebb77c4344438f87eca4097c",
+    "routeGateSha256": "23f1f17cf546abeafd312ca706b6351d2153a3474807d30c6351635ac709eb30",
+    "routerSha256": "fa0adfa6511288b4046d1413992ae77951293e187288dc4c13ed6b30c82c2a37",
+    "summary": {
+      "mutations": 47,
+      "detected": 46,
+      "constructionProbes": 1,
+      "constructionHeld": 1,
+      "findings": 1,
+      "routes": {
+        "declared": 20,
+        "rendered": 20,
+        "missing": [],
+        "problems": []
+      },
+      "wizard": {
+        "runs": 6,
+        "screensMeasured": 36,
+        "controlsMeasured": 402,
+        "controlsReachable": 402
+      },
+      "copies": {
+        "ok": 2,
+        "refused": 2,
+        "transport": 2,
+        "ok-then-refused": 2
+      }
+    },
+    "declared": [
+      "start",
+      "projects",
+      "help",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "base-review",
+      "stack-review",
+      "repair-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "code-review",
+      "workspace",
+      "connection-error"
+    ],
+    "rendered": [
+      "start",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "help",
+      "projects",
+      "workspace",
+      "base-review",
+      "stack-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "repair-review",
+      "code-review",
+      "connection-error"
+    ],
+    "negative": {
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "missing": [
+        "reviewer-unvisited-route"
+      ],
+      "runProblems": []
+    },
+    "findings": [
+      "La mutación term-without-definition-on-inicio no fue detectada por su propiedad"
+    ],
+    "undetected": [
+      {
+        "id": "term-without-definition-on-inicio",
+        "by": null
+      }
+    ]
+  },
+  {
+    "issue": 149,
+    "attempt": "peos-149-route-propagation-v3",
+    "raw": "C:/Users/RitualDesktop/AppData/Local/Temp/peos-149-route-propagation-v3/interface-contract.json",
+    "rawSha256": "7a7304b4edc279d3ea61947e516d7e8d6a200295b8fe150d020e3b25cc59530e",
+    "date": "2026-10-01T05:13:05.634Z",
+    "sourceCommit": "e3c4543527ecb7eb0809c54aa3f8ec214f4cc249",
+    "dirty": false,
+    "harnessSha256": "8d2ae4262bd6d106bf4a633b4a072412317a8849ddc1d69b0b6d7d163ec66d1f",
+    "routeGateSha256": "23f1f17cf546abeafd312ca706b6351d2153a3474807d30c6351635ac709eb30",
+    "routerSha256": "fa0adfa6511288b4046d1413992ae77951293e187288dc4c13ed6b30c82c2a37",
+    "summary": {
+      "mutations": 47,
+      "detected": 47,
+      "constructionProbes": 1,
+      "constructionHeld": 1,
+      "findings": 0,
+      "routes": {
+        "declared": 20,
+        "rendered": 20,
+        "missing": [],
+        "problems": []
+      },
+      "wizard": {
+        "runs": 6,
+        "screensMeasured": 36,
+        "controlsMeasured": 402,
+        "controlsReachable": 402
+      },
+      "copies": {
+        "ok": 2,
+        "refused": 2,
+        "transport": 2,
+        "ok-then-refused": 2
+      }
+    },
+    "declared": [
+      "start",
+      "projects",
+      "help",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "base-review",
+      "stack-review",
+      "repair-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "code-review",
+      "workspace",
+      "connection-error"
+    ],
+    "rendered": [
+      "start",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "help",
+      "projects",
+      "workspace",
+      "base-review",
+      "stack-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "repair-review",
+      "code-review",
+      "connection-error"
+    ],
+    "negative": {
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "missing": [
+        "reviewer-unvisited-route"
+      ],
+      "runProblems": []
+    },
+    "findings": [],
+    "undetected": []
+  },
+  {
+    "issue": 150,
+    "attempt": "peos-150-route-propagation",
+    "raw": "C:/Users/RitualDesktop/AppData/Local/Temp/peos-150-route-propagation/interface-contract.json",
+    "rawSha256": "db2d88b5f9e823ae281ed7216a58dfc40c25b98485c8520e2c6432536936a508",
+    "date": "2026-10-01T04:55:43.961Z",
+    "sourceCommit": "342e7641850c98518b0bb48d797dd27b4e88ee2d",
+    "dirty": false,
+    "harnessSha256": "3dabf2e9a32317f9b79a415b21d444527a315ec296abf7bd486080cb5fb907c3",
+    "routeGateSha256": "23f1f17cf546abeafd312ca706b6351d2153a3474807d30c6351635ac709eb30",
+    "routerSha256": "fa0adfa6511288b4046d1413992ae77951293e187288dc4c13ed6b30c82c2a37",
+    "summary": {
+      "mutations": 47,
+      "detected": 46,
+      "constructionProbes": 1,
+      "constructionHeld": 1,
+      "findings": 3,
+      "routes": {
+        "declared": 20,
+        "rendered": 6,
+        "missing": [
+          "projects",
+          "help",
+          "finished",
+          "base-review",
+          "stack-review",
+          "repair-review",
+          "environment-review",
+          "engineering-review",
+          "activation-review",
+          "context-review",
+          "sync-review",
+          "context-final",
+          "code-review",
+          "workspace"
+        ],
+        "problems": [
+          "No se alcanzó context"
+        ]
+      },
+      "wizard": {
+        "runs": 6,
+        "screensMeasured": 36,
+        "controlsMeasured": 402,
+        "controlsReachable": 402
+      },
+      "copies": {
+        "ok": 2,
+        "refused": 2,
+        "transport": 2,
+        "ok-then-refused": 2
+      }
+    },
+    "declared": [
+      "start",
+      "projects",
+      "help",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "base-review",
+      "stack-review",
+      "repair-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "code-review",
+      "workspace",
+      "connection-error"
+    ],
+    "rendered": [
+      "start",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "connection-error"
+    ],
+    "negative": {
+      "detected": false,
+      "by": null,
+      "missing": [
+        "reviewer-unvisited-route",
+        "projects",
+        "help",
+        "finished",
+        "base-review",
+        "stack-review",
+        "repair-review",
+        "environment-review",
+        "engineering-review",
+        "activation-review",
+        "context-review",
+        "sync-review",
+        "context-final",
+        "code-review",
+        "workspace"
+      ],
+      "runProblems": [
+        "No se alcanzó context"
+      ]
+    },
+    "findings": [
+      "Rutas declaradas no renderizadas: projects, help, finished, base-review, stack-review, repair-review, environment-review, engineering-review, activation-review, context-review, sync-review, context-final, code-review, workspace",
+      "Recorrido fixed-service: No se alcanzó context",
+      "La mutación a-declared-route-never-rendered-by-the-journey no fue detectada por su propiedad"
+    ],
+    "undetected": [
+      {
+        "id": "a-declared-route-never-rendered-by-the-journey",
+        "by": null
+      }
+    ]
+  },
+  {
+    "issue": 150,
+    "attempt": "peos-150-route-propagation-v2",
+    "raw": "C:/Users/RitualDesktop/AppData/Local/Temp/peos-150-route-propagation-v2/interface-contract.json",
+    "rawSha256": "87bfe2623983322845df34dd46b9923f4b1c589e8494eef13477723f300cfb69",
+    "date": "2026-10-01T05:06:13.053Z",
+    "sourceCommit": "b4e3e2c61e872b34ba35d394252921a1f8b0d74e",
+    "dirty": false,
+    "harnessSha256": "7721d882d6fad8b0966f335ee160fa39e76cea2419ddb2eddfee43e58efb76e4",
+    "routeGateSha256": "23f1f17cf546abeafd312ca706b6351d2153a3474807d30c6351635ac709eb30",
+    "routerSha256": "fa0adfa6511288b4046d1413992ae77951293e187288dc4c13ed6b30c82c2a37",
+    "summary": {
+      "mutations": 47,
+      "detected": 47,
+      "constructionProbes": 1,
+      "constructionHeld": 1,
+      "findings": 0,
+      "routes": {
+        "declared": 20,
+        "rendered": 20,
+        "missing": [],
+        "problems": []
+      },
+      "wizard": {
+        "runs": 6,
+        "screensMeasured": 36,
+        "controlsMeasured": 402,
+        "controlsReachable": 402
+      },
+      "copies": {
+        "ok": 2,
+        "refused": 2,
+        "transport": 2,
+        "ok-then-refused": 2
+      }
+    },
+    "declared": [
+      "start",
+      "projects",
+      "help",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "base-review",
+      "stack-review",
+      "repair-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "code-review",
+      "workspace",
+      "connection-error"
+    ],
+    "rendered": [
+      "start",
+      "setup",
+      "delimitation",
+      "vision",
+      "install",
+      "finished",
+      "help",
+      "projects",
+      "workspace",
+      "base-review",
+      "stack-review",
+      "environment-review",
+      "engineering-review",
+      "activation-review",
+      "context-review",
+      "sync-review",
+      "context-final",
+      "repair-review",
+      "code-review",
+      "connection-error"
+    ],
+    "negative": {
+      "detected": true,
+      "by": "la propiedad que nombra",
+      "missing": [
+        "reviewer-unvisited-route"
+      ],
+      "runProblems": []
+    },
+    "findings": [],
+    "undetected": []
+  }
+]

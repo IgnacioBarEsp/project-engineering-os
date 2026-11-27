@@ -2,15 +2,18 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { copyFile, mkdir, mkdtemp, writeFile, readFile, readdir, stat, rm, realpath } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
+import { homedir, tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { portable } from './portable-path.mjs';
 import { READY_CLAIMS, ROW_MENUS, GUIDE, readyProblems, rowMenuProblems, guideProblems }
   from './interface-contract.mjs';
-import { pdf, docx } from './fixtures.mjs';
+import {NATIVE_PROJECT_FIXTURES,nativeSelection,validateNativeFixtures} from './native-project-fixtures.mjs';
+import {PROFILE_IDS,isEngineering} from '../engine/profiles.mjs';
+import {normalizeSelection} from '../engine/preparation.mjs';
+import {revealDetails,expandProjectDetails} from './project-disclosures.mjs';
 
-// Runs the five profiles through the INSTALLED application's own window: the packaged interface, driven
+// Runs the six canonical profiles (seven scenarios) through the INSTALLED application's own window: the packaged interface, driven
 // over its debugging port, against real folders on this machine.
 //
 // Two boundaries are stated here because they decide what this record does and does not prove.
@@ -47,36 +50,8 @@ const keep = flags.includes('--keep');
 await mkdir(output, { recursive: true });
 
 
-const PROFILES = {
-  // The profiles the product defines as documents and as creative work carry the formats it names. A
-  // fixture holding only the extensions the verifier can read would narrow the check to itself.
-  research: { name: 'Revisión de evidencia', role: 'researcher', profile: 'research',
-    goal: 'Comparar cómo se midió el resultado en cada fuente', query: 'instrumento',
-    files: { 'notas.txt': 'El protocolo exige registrar el instrumento antes de comparar resultados.\n',
-      'metodo.md': '# Método\n\nLa medición usa un instrumento calibrado cada semana.\n' },
-    binaryFiles: { 'articulo.pdf': () => pdf(['El grupo de control incluye treinta participantes.',
-      'La medición se repitió con el mismo instrumento calibrado cada semana.']) } },
-  software: { name: 'Servicio de presupuesto', role: 'developer', profile: 'software',
-    goal: 'Entender cómo se calcula el presupuesto antes de cambiarlo', query: 'presupuesto',
-    symbol: 'calculateProjectBudget',
-    files: { 'README.md': '# Servicio\n\nEl cálculo de presupuesto multiplica horas por tarifa.\n',
-      'src/budget.js': 'export function calculateProjectBudget(hours, rate) {\n  return hours * rate;\n}\n' } },
-  unity: { name: 'Prototipo de juego', role: 'developer', profile: 'unity',
-    goal: 'Localizar cómo se calcula el puntaje antes de ajustarlo', query: 'puntaje',
-    symbol: 'ComputeScore',
-    files: { 'ProjectSettings/ProjectVersion.txt': 'm_EditorVersion: 6000.0.0f1\n',
-      'notas.txt': 'El puntaje se calcula duplicando la evidencia recogida en la escena.\n' } },
-  media: { name: 'Serie de imágenes', role: 'creator', profile: 'media',
-    goal: 'Conservar la receta que produjo cada pieza', query: 'semilla',
-    files: { 'notas.txt': 'La receta conserva la semilla 42 para poder repetir la pieza.\n',
-      'workflow.json': '{"prompt":"Una ilustración original de un taller","seed":42}\n' },
-    binaryFiles: { 'ficha.docx': () => docx(['La ficha de la serie fija la semilla 42 para repetir la pieza.',
-      'Cada entrega conserva su receta junto al archivo final.']) } },
-  general: { name: 'Trabajo de la semana', role: 'general', profile: 'general',
-    goal: 'Encontrar los acuerdos tomados sin releer todo', query: 'acuerdo',
-    files: { 'acuerdos.md': '# Acuerdos\n\nSe acordó publicar el resumen antes del viernes.\n',
-      'notas.txt': 'Pendiente: confirmar el responsable de cada acuerdo.\n' } },
-};
+const PROFILES=NATIVE_PROJECT_FIXTURES;
+const fixtureCoverage=validateNativeFixtures(PROFILES,PROFILE_IDS,normalizeSelection);
 
 const digest = async file => createHash('sha256').update(await readFile(file)).digest('hex');
 async function hashesOf(root, relatives) {
@@ -410,6 +385,8 @@ const executable = path.join(installedRoot, '..', '..', `${installedManifest.pro
 const workspace = await realpath(await mkdtemp(path.join(tmpdir(), 'companion-native-')));
 const userData = path.join(workspace, 'userdata');
 const record = { date: new Date().toISOString(),
+  harness: { scriptSha256: await digest(fileURLToPath(import.meta.url)),
+    fixturesSha256: await digest(fileURLToPath(new URL('./native-project-fixtures.mjs', import.meta.url))) },
   application: { version: installedManifest.version, root: portable(installedRoot) },
   installedApplication: identity,
   machine: `${process.platform}-${process.arch}`,
@@ -444,9 +421,7 @@ for (const [id, definition] of Object.entries(PROFILES)) {
   const service = await createDesktopService({ dataRoot: path.join(userData, 'projects'), core,
     chooseFolder: async () => root, copyText: () => {}, openExternal: () => {} });
   const project = await service.chooseFolder();
-  const base = await service.previewBase({ id: project.id, selection: { name: definition.name,
-    role: definition.role, goal: definition.goal, profile: definition.profile,
-    experience: 'guided', agents: ['web'] } });
+  const base = await service.previewBase({ id: project.id, selection: nativeSelection(definition) });
   await service.applyBase({ plan: base.id });
   prepared[id] = { root, id: project.id, before };
 }
@@ -458,6 +433,75 @@ app.unref();
 
 const { chromium } = await import('playwright');
 let browser;
+let activePage = null;
+let currentScenario = null;
+let currentStage = 'startup';
+const PORTABLE_EXTRA = process.env.APPDATA ? [['<appdata>', process.env.APPDATA]] : [];
+const REDACT_ENTRIES = [
+  [workspace, portable(workspace, PORTABLE_EXTRA)],
+  [output, portable(output, PORTABLE_EXTRA)],
+  [process.env.LOCALAPPDATA, portable(process.env.LOCALAPPDATA ?? '', PORTABLE_EXTRA)],
+  [process.env.APPDATA, portable(process.env.APPDATA ?? '', PORTABLE_EXTRA)],
+  [tmpdir(), portable(tmpdir(), PORTABLE_EXTRA)],
+  [homedir(), portable(homedir(), PORTABLE_EXTRA)],
+].filter(([raw, label]) => typeof raw === 'string' && raw.length > 0 && typeof label === 'string' && label.length > 0)
+  .flatMap(([raw, label]) => [...new Set([raw, raw.replace(/\//g, '\\'), raw.replace(/\\/g, '/')])].map(form => [form, label]))
+  .sort((left, right) => right[0].length - left[0].length);
+const redactText = value => {
+  if (typeof value !== 'string') return value;
+  let out = value;
+  for (const [raw, label] of REDACT_ENTRIES) {
+    let idx = out.toLowerCase().indexOf(raw.toLowerCase());
+    while (idx !== -1) {
+      out = out.slice(0, idx) + label + out.slice(idx + raw.length);
+      idx = out.toLowerCase().indexOf(raw.toLowerCase(), idx + label.length);
+    }
+  }
+  return out
+    .replace(/[a-z]:[\\/]users[\\/][^\\/\s"']+/gi, '<user-home>')
+    .replace(/\/users\/[^/\s"']+/gi, '<user-home>');
+};
+const redactValue = value => {
+  if (typeof value === 'string') return redactText(value);
+  if (Array.isArray(value)) return value.map(redactValue);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, redactValue(item)]));
+  }
+  return value;
+};
+const withTimeout = (work, ms, label) => {
+  let timer;
+  return Promise.race([
+    Promise.resolve().then(work),
+    new Promise((_, reject) => {
+      timer = setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms);
+    }),
+  ]).finally(() => clearTimeout(timer));
+};
+// The window shows absolute paths, which carry the account name of whoever ran this. Every text record
+// here is anchored through portable(), but no check reads an image, so a screenshot is the one place that
+// discipline silently does not apply — and an image is exactly what gets looked at. So the anchoring is
+// done in the page before each capture, on EVERY path element rather than the first one: the project list
+// shows several of them, and anchoring only one is the same failure with a smaller radius.
+const anchor = async () => activePage.evaluate(entries => {
+  const nodes = [...document.querySelectorAll('.path')];
+  let replaced = 0;
+  for (const node of nodes) {
+    const before = node.textContent;
+    for (const [form, label] of entries) {
+      let at = node.textContent.toLowerCase().indexOf(form.toLowerCase());
+      while (at !== -1) {
+        node.textContent = node.textContent.slice(0, at) + label + node.textContent.slice(at + form.length);
+        at = node.textContent.toLowerCase().indexOf(form.toLowerCase(), at + label.length);
+      }
+    }
+    if (node.textContent !== before) replaced += 1;
+  }
+  // What matters is the state after: no element may still carry a drive letter or a users directory.
+  const leaking = nodes.filter(node => /^[a-z]:[\\/]/i.test(node.textContent.trim())
+    || /users[\\/]/i.test(node.textContent)).map(node => node.textContent.trim());
+  return { nodes: nodes.length, replaced, leaking };
+}, REDACT_ENTRIES);
 try {
   // The window needs a moment before the protocol answers; retry rather than guess a sleep.
   for (let attempt = 0; attempt < 30 && !browser; attempt += 1) {
@@ -466,36 +510,51 @@ try {
   }
   assert.ok(browser, `La aplicación instalada no respondió en el puerto ${port}.`);
   const page = browser.contexts()[0].pages()[0] ?? await browser.contexts()[0].waitForEvent('page');
+  activePage = page;
   await page.waitForLoadState('domcontentloaded');
   page.setDefaultTimeout(180000);
   // Every control is disabled while an operation runs, so a click that arrives early fails on a disabled
   // element rather than on a missing one, and a stall has to be recorded as a finding rather than end the
   // run with a timeout that explains neither.
   //
-  // Two different questions, and conflating them cost a spurious finding. `notBusy` asks whether the
-  // application is busy right now, and is what a click needs before it lands. `settle` asks whether the
-  // operation a click just started has finished — and that one has to wait for the busy indicator to
-  // APPEAR first: an operation takes a moment to start, so asking only "is it hidden" answers yes about
-  // the instant before the work began and returns while the screen is still the previous one.
-  const stop = page.getByRole('button', { name: /^Detener$/ });
-  const notBusy = (timeout = 180000) => stop.waitFor({ state: 'hidden', timeout }).then(() => true, () => false);
-  const settle = async (timeout = 180000) => {
-    await stop.waitFor({ state: 'visible', timeout: 4000 }).catch(() => {});
-    return notBusy(timeout);
+  // The renderer's `run()` sets `#content[aria-busy="true"]` synchronously inside each click handler and
+  // clears it to `"false"` only after every awaited IPC call and `state.renderReady` (including view
+  // transitions) have settled. Waiting on `Detener` alone missed operations under 1000 ms (where the
+  // progress bar stays hidden by design) and gaps between consecutive IPC calls before `showWorkspace()`.
+  const notBusy = (timeout = 180000) => page.waitForFunction(() => {
+    const content = document.getElementById('content');
+    const activity = document.getElementById('activity');
+    const cancel = document.getElementById('cancel');
+    return !!content && content.getAttribute('aria-busy') === 'false'
+      && (!activity || activity.hidden) && (!cancel || cancel.offsetParent === null);
+  }, undefined, { timeout }).then(() => true, () => false);
+  const settle = (timeout = 180000) => notBusy(timeout);
+  const waitWorkspaceTab = async (tab, timeout = 180000) => {
+    const settled = await notBusy(timeout);
+    if (!settled) return false;
+    return page.locator(`#project-panel[data-project-tab="${tab}"]`)
+      .waitFor({ state: 'visible', timeout: Math.min(timeout, 30000) })
+      .then(() => true, () => false);
   };
+  await notBusy();
 
   for (const [id, definition] of Object.entries(PROFILES)) {
+    currentScenario = id;
+    currentStage = 'open-history';
     const started = performance.now();
     const steps = [];
     const step = (name, result) => { steps.push({ name, result }); return result; };
     const body = () => page.locator('body').innerText();
 
+    await notBusy();
     await page.getByRole('button', { name: /Tus proyectos/ }).click();
+    await notBusy();
+    await page.locator('.project-list[aria-busy="false"]').waitFor({ timeout: 60000 });
     await page.locator('article.project .card-open').first().waitFor();
     step('open history', { entries: await page.locator('article.project').count() });
 
     // Open this profile's own card, matched on the name the engine registered, so a run cannot silently
-    // walk the same project five times.
+    // walk the same project repeatedly.
     const card = page.locator('article.project').filter({ has: page.getByRole('heading', { name: definition.name }) });
     assert.equal(await card.count(), 1, `El historial no muestra exactamente una tarjeta de "${definition.name}".`);
     // What the row claims about this project, read off the installed window before it is opened: the mark
@@ -506,13 +565,14 @@ try {
     if (!rowClaims.length) finding(id, 'list', 'la comprobación de lo que afirma una fila no examinó ninguna fila');
     step('row state', { states: rowClaims.map(entry => entry.className.replace(/^.*state-/, '')),
       named: rowClaims.map(entry => entry.namedStages) });
+    currentStage = 'open-project';
     await card.locator('.card-open').click();
     // Waiting for a heading with this name would pass without navigating: the history card carries the
     // same heading. Wait for the list itself to go, and for the application to stop being busy — opening
     // a project verifies its stages, and for a software profile that includes the managed tools.
     await page.locator('article.project').first().waitFor({ state: 'detached', timeout: 120000 });
-    await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 180000 })
-      .catch(() => finding(id, 'open', 'la aplicación siguió ocupada tres minutos después de abrir el proyecto'));
+    if (!await notBusy()) finding(id, 'open', 'la aplicación siguió ocupada tres minutos después de abrir el proyecto');
+    await page.locator('#project-panel[data-project-tab="overview"]').waitFor({ timeout: 60000 });
     step('opened from history', { project: definition.name, heading: await page.locator('h1,h2').first().innerText() });
     // The guidance for this project, in the installed window: every step with its reason, and either text to
     // hand an AI or the control that does the work here.
@@ -523,10 +583,12 @@ try {
       terms: guide?.terms ?? [] });
 
     // Context preparation, reviewed and then applied, in the interface.
-    const reviewContext = page.getByRole('button', { name: /^Leer mis archivos$/ }).first();
+    currentStage = 'prepare-context';
+    const reviewContext = page.getByRole('button', { name: /^Leer mis archivos$/,includeHidden:true }).first();
     if (await reviewContext.count()) {
+      await revealDetails(reviewContext);
       await reviewContext.click();
-      await page.waitForTimeout(1500);
+      if (!await notBusy()) finding(id, 'context', 'la aplicación siguió ocupada tres minutos al revisar el contexto');
       const save = page.getByRole('button', { name: /Guardar y continuar|Revisar con estas exclusiones/ }).first();
       if (await save.count()) {
         await save.click();
@@ -536,16 +598,20 @@ try {
     } else finding(id, 'context', `la interfaz no ofreció preparar el contexto. Botones visibles: ${(await page.locator('button:visible').allTextContents()).join(' | ')}`);
 
     // Context and a search whose answer is known in advance.
-    const sources = page.getByRole('button', { name: /Buscar en mis archivos/ });
-    await sources.first().waitFor({ timeout: 180000 }).catch(() => {});
+    currentStage = 'search-files';
+    if (!await notBusy()) finding(id, 'search', 'la aplicación siguió ocupada al ir a buscar en los archivos');
+    await page.locator('#project-panel[data-project-tab="overview"]').waitFor({ timeout: 60000 }).catch(() => {});
+    const sources = page.getByRole('button', { name: 'Archivos', exact: true,includeHidden:true });
     if (await sources.count()) {
-      if (!await notBusy()) finding(id, 'search', 'la aplicación siguió ocupada al ir a buscar en los archivos');
+      await revealDetails(sources.first());
+      await sources.first().waitFor({ state: 'visible', timeout: 30000 });
       await sources.first().click();
-      await page.waitForTimeout(1200);
+      if (!await waitWorkspaceTab('search')) finding(id, 'search', 'la interfaz no mostró la pestaña de archivos al abrirla');
       const field = page.locator('input[type="search"], input[type="text"]:visible').last();
       await field.fill(definition.query);
       await field.press('Enter');
-      await page.waitForTimeout(2500);
+      await notBusy();
+      await page.locator('#search-results .result, #search-results p').first().waitFor({ timeout: 15000 }).catch(() => {});
       const text = await body();
       // A citation is path plus a position inside it; a hit without one cannot be checked.
       const citation = text.match(/([\w.\-/]+\.(?:txt|md|json|js|pdf|docx))\s*·\s*(línea|página|párrafo)\s*(\d+)/);
@@ -584,23 +650,33 @@ try {
     // The scenario this change added requires engineering, official OpenSpec workflows and the code map to
     // be verified for software and Unity. They are driven here, in the window, and a profile that cannot
     // reach a stage records why rather than skipping quietly.
-    if (['software', 'unity'].includes(id)) {
+    if (isEngineering(definition.profile)) {
+      currentStage = 'engineering-stages';
       const stages = {};
       const press = async (pattern, wait = 120000) => {
-        const control = page.getByRole('button', { name: pattern }).first();
-        if (!await control.count()) return false;
-        await notBusy(wait);
-        if (!await control.count()) return false;
+        const control = page.getByRole('button', { name: pattern,includeHidden:true }).first();
+        if (!await control.count()) return 'absent';
+        await revealDetails(control);
         await control.click();
-        await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: wait }).catch(() => {});
-        await page.waitForTimeout(800);
-        return true;
+        const settled = await notBusy(wait);
+        if (!settled) {
+          finding(id, 'engineering', `la aplicación siguió ocupada al accionar ${pattern}`);
+          return 'stalled';
+        }
+        return 'pressed';
       };
       // The stages are on the project's status tab; the search left the sources tab open, so a run that
       // never navigates back would report every stage as absent and blame the product for it.
-      const status = page.getByRole('button', { name: /^Estado$/ });
-      if (await status.count()) { await status.first().click(); await page.waitForTimeout(1500); }
-      else finding(id, 'engineering', 'la interfaz no ofreció la pestaña de estado del proyecto');
+      await notBusy();
+      let overviewReady = false;
+      const status = page.getByRole('button', { name: /^Preparación$/,includeHidden:true });
+      if (await status.count()) {
+        await revealDetails(status.first());
+        await status.first().waitFor({ state: 'visible', timeout: 30000 });
+        await status.first().click();
+        overviewReady = await waitWorkspaceTab('overview');
+        if (!overviewReady) finding(id, 'engineering', 'la interfaz no volvió a la pestaña de preparación del proyecto');
+      } else finding(id, 'engineering', 'la interfaz no ofreció volver a la preparación del proyecto');
       stages.visibleControls = await page.locator('button:visible').allTextContents();
       // The interface does not offer one fixed sequence: each stage changes which control appears next, so
       // a hard-coded chain reports "not offered" for stages that simply had not been reached yet. This
@@ -625,13 +701,22 @@ try {
       // the same control again just gets the same refusal, so a repeated stage is set aside for a round and
       // the walk continues with the review steps, which is what a person would do.
       const walked = [], resting = new Set();
-      for (let step = 0; step < 20; step += 1) {
+      let stalled = false;
+      for (let step = 0; overviewReady && step < 20 && !stalled; step += 1) {
+        if (!await notBusy(900000)) {
+          finding(id, 'engineering', 'la aplicación siguió ocupada quince minutos durante las etapas de desarrollo');
+          stalled = true;
+          break;
+        }
         let advanced = null;
         for (const [name, pattern] of STAGES) {
           if (resting.has(name)) continue;
-          if (!await press(pattern, 900000)) continue;
+          const outcome = await press(pattern, 900000);
+          if (outcome === 'stalled') { stalled = true; break; }
+          if (outcome !== 'pressed') continue;
           walked.push(name); advanced = name; break;
         }
+        if (stalled) break;
         if (!advanced) { if (resting.size) { resting.clear(); continue; } break; }
         const tail = walked.slice(-2);
         if (tail.length === 2 && tail.every(name => name === advanced)) { resting.add(advanced); }
@@ -659,11 +744,11 @@ try {
       const symbols = page.getByRole('button', { name: /Buscar símbolos/ });
       if (await symbols.count()) {
         await symbols.first().click();
-        await page.waitForTimeout(1500);
+        if (!await waitWorkspaceTab('search')) finding(id, 'code map', 'la interfaz no mostró la pestaña de búsqueda de símbolos');
         const field = page.locator('input[type="search"], input[type="text"]:visible').last();
         await field.fill(definition.symbol ?? '');
         await field.press('Enter');
-        await page.waitForTimeout(2500);
+        await notBusy();
         const shown = await page.locator('body').innerText();
         stages.foundSymbol = definition.symbol ? shown.includes(definition.symbol) : null;
         if (definition.symbol && !stages.foundSymbol) {
@@ -677,7 +762,11 @@ try {
     // The scenario requires source preservation after **closing and reopening**. Leaving the project open
     // and asserting the same screen would prove nothing, so the project view is closed back to the history
     // and opened again, and the citation has to survive the round trip.
+    currentStage = 'reopen-check';
+    await notBusy();
     await page.getByRole('button', { name: /Tus proyectos/ }).click();
+    await notBusy();
+    await page.locator('.project-list[aria-busy="false"]').waitFor({ timeout: 60000 });
     await page.locator('article.project').first().waitFor({ timeout: 60000 });
     // The same rows, now that this journey has read the files: this is where the mark can appear, and where a
     // mark that appeared without the stages behind it would be visible in the installed window.
@@ -688,18 +777,20 @@ try {
     const reopened = page.locator('article.project').filter({ has: page.getByRole('heading', { name: definition.name }) });
     await reopened.locator('.card-open').click();
     await page.locator('article.project').first().waitFor({ state: 'detached', timeout: 120000 });
-    await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 180000 }).catch(() => {});
-    const afterReopen = page.getByRole('button', { name: /Buscar en mis archivos/ });
-    await afterReopen.first().waitFor({ timeout: 180000 }).catch(() => {});
+    if (!await notBusy()) finding(id, 'reopen', 'la aplicación siguió ocupada tras reabrir el proyecto');
+    await page.locator('#project-panel[data-project-tab="overview"]').waitFor({ timeout: 60000 }).catch(() => {});
+    const afterReopen = page.getByRole('button', { name: 'Archivos', exact: true,includeHidden:true });
     let survived = null;
     if (await afterReopen.count()) {
-      if (!await notBusy()) finding(id, 'reopen', 'la aplicación siguió ocupada tras reabrir el proyecto');
+      await revealDetails(afterReopen.first());
+      await afterReopen.first().waitFor({ state: 'visible', timeout: 30000 });
       await afterReopen.first().click();
-      await page.waitForTimeout(1200);
+      if (!await waitWorkspaceTab('search')) finding(id, 'reopen', 'tras reabrir, la interfaz no mostró la pestaña de archivos');
       const field = page.locator('input[type="search"], input[type="text"]:visible').last();
       await field.fill(definition.query);
       await field.press('Enter');
-      await page.waitForTimeout(2500);
+      await notBusy();
+      await page.locator('#search-results .result, #search-results p').first().waitFor({ timeout: 15000 }).catch(() => {});
       const screen = await body();
       survived = /·\s*(línea|página|párrafo)\s*\d+/.test(screen);
       if (!survived) {
@@ -719,6 +810,7 @@ try {
     step('closed and reopened', { citationSurvived: survived });
 
     // Reflow at the widths the desktop window can reach.
+    currentStage = 'reflow';
     for (const width of [1180, 900, 600]) {
       await page.setViewportSize({ width, height: 820 });
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1);
@@ -733,8 +825,14 @@ try {
     // The panel lives on the project's state tab, and by this point the journey has been searching. Read where
     // the thing being read actually is: the first version of this check looked from the search tab and reported
     // the panel as missing, which is a finding about the check and not about the window.
-    await page.getByRole('button', { name: 'Estado', exact: true }).click();
-    await page.waitForTimeout(500);
+    currentStage = 'technology-check';
+    await notBusy();
+    const preparation=page.getByRole('button', { name: 'Preparación', exact: true,includeHidden:true });
+    await revealDetails(preparation);
+    await preparation.waitFor({ state: 'visible', timeout: 30000 });
+    await preparation.click();
+    if (!await waitWorkspaceTab('overview')) finding(id, 'technology', 'la interfaz no volvió a la pestaña de preparación para leer la tecnología');
+    await expandProjectDetails(page);
     const technology = await page.evaluate(() => {
       const heading = [...document.querySelectorAll('#view h2')].find(node => node.textContent.includes('Tecnología de este proyecto'));
       return heading ? heading.closest('section').innerText.replace(/\s+/g, ' ').trim() : null;
@@ -746,72 +844,116 @@ try {
     step('technology reported with its reason', { said: (technology ?? '').slice(0, 160) });
 
     // The person's own files must be untouched by everything above.
+    currentStage = 'preservation';
     const after = await hashesOf(prepared[id].root, Object.keys(prepared[id].before));
     const changed = Object.keys(after).filter(relative => after[relative] !== prepared[id].before[relative]);
     if (changed.length) finding(id, 'preservation', `la aplicación modificó archivos de la persona: ${changed.join(', ')}`);
     step('original files preserved', { files: Object.keys(after).length, changed });
 
-    record.profiles.push({ profile: id, name: definition.name, steps,
+    record.profiles.push({ scenario: id, profile: definition.profile, focus: definition.focus, name: definition.name, steps,
       elapsedMs: Math.round(performance.now() - started) });
     console.log(`${id}: ${steps.length} pasos, ${record.findings.filter(f => f.profile === id).length} hallazgos`);
   }
 
-  // The window shows absolute paths, which carry the account name of whoever ran this. Every text record
-  // here is anchored through portable(), but no check reads an image, so a screenshot is the one place that
-  // discipline silently does not apply — and an image is exactly what gets looked at. So the anchoring is
-  // done in the page before each capture, on EVERY path element rather than the first one: the project list
-  // shows five of them, and anchoring one of five is the same failure with a smaller radius.
-  const anchor = async () => page.evaluate(({ raw, anchored }) => {
-    const forms = [raw, raw.replace(/\//g, '\\')];
-    const nodes = [...document.querySelectorAll('.path')];
-    let replaced = 0;
-    for (const node of nodes) {
-      const before = node.textContent;
-      for (const form of forms) {
-        while (node.textContent.toLowerCase().includes(form.toLowerCase())) {
-          const at = node.textContent.toLowerCase().indexOf(form.toLowerCase());
-          node.textContent = node.textContent.slice(0, at) + anchored + node.textContent.slice(at + form.length);
-        }
-      }
-      if (node.textContent !== before) replaced += 1;
-    }
-    // What matters is the state after: no element may still carry a drive letter or a users directory.
-    const leaking = nodes.filter(node => /^[a-z]:[\\/]/i.test(node.textContent.trim())
-      || /users[\\/]/i.test(node.textContent)).map(node => node.textContent.trim());
-    return { nodes: nodes.length, replaced, leaking };
-  }, { raw: workspace, anchored: portable(workspace) });
-
+  currentScenario = 'captures';
   const captures = [];
   const capture = async (name, before) => {
-    if (before) { await before(); await page.waitForTimeout(900); }
+    currentStage = `capture:${name}`;
+    if (before) { await before(); await notBusy(); }
+    await withTimeout(() => page.evaluate(() => Promise.all(
+      document.getAnimations()
+        .filter(animation => animation.playState !== 'paused' && Number.isFinite(animation.effect?.getComputedTiming().iterations))
+        .map(animation => animation.finished.catch(() => {}))
+    )), 5000, 'capture-animations').catch(() => {});
     const anchored = await anchor();
     // The property is the state after anchoring, not how many elements were rewritten: a screen that shows
     // no path at all is a screen with nothing to leak, and reporting that as a finding would be the same
     // mistake as concluding a defect from an absence.
-    if (anchored.leaking.length) finding('general', 'captura', `la captura ${name} habría mostrado una ruta sin anclar: ${anchored.leaking.join(' | ')}`);
+    if (anchored.leaking.length) finding('personal', 'captura', `la captura ${name} habría mostrado una ruta sin anclar: ${anchored.leaking.join(' | ')}`);
     await page.screenshot({ path: path.join(output, `${name}.png`) });
     captures.push({ file: `${name}.png`, pathElements: anchored.nodes, anchored: anchored.replaced, leaking: anchored.leaking.length });
   };
   await capture('native-window');
   await capture('native-inicio', () => page.getByRole('button', { name: 'Inicio', exact: true }).click());
-  await capture('native-proyectos', () => page.getByRole('button', { name: 'Tus proyectos', exact: true }).click());
+  await capture('native-proyectos', async () => {
+    await page.getByRole('button', { name: 'Tus proyectos', exact: true }).click();
+    await notBusy();
+    await page.locator('.project-list[aria-busy="false"]').waitFor({ timeout: 60000 });
+  });
   await capture('native-ayuda', () => page.getByRole('button', { name: 'Ayuda', exact: true }).click());
   // The screen that says what each level sends, which is the criterion this change lives or dies by. Reached
   // by opening the last project of the run and switching to its handover tab.
   await capture('native-tu-ia', async () => {
     await page.getByRole('button', { name: 'Tus proyectos', exact: true }).click();
+    await notBusy();
+    await page.locator('.project-list[aria-busy="false"]').waitFor({ timeout: 60000 });
     await page.locator('article.project .card-open').first().click();
-    await page.getByRole('button', { name: /^Detener$/ }).waitFor({ state: 'hidden', timeout: 180000 }).catch(() => {});
-    await page.getByRole('button', { name: 'Continuar con mi IA', exact: true }).click();
+    await page.locator('article.project').first().waitFor({ state: 'detached', timeout: 120000 });
+    if (!await waitWorkspaceTab('overview')) finding('personal', 'captura', 'no se abrió el proyecto para capturar tu IA');
+    const ai=page.getByRole('button', { name: 'Tu IA', exact: true,includeHidden:true });
+    await revealDetails(ai);
+    await ai.waitFor({ state: 'visible', timeout: 30000 });
+    await ai.click();
+    if (!await waitWorkspaceTab('handoff')) finding('personal', 'captura', 'no se mostró la pestaña de tu IA');
     await page.getByRole('heading', { name: 'Quién escribe estas instrucciones', exact: true })
-      .waitFor({ timeout: 60000 }).catch(() => finding('general', 'captura', 'no se alcanzó la pantalla de tu IA'));
+      .waitFor({ timeout: 60000 }).catch(() => finding('personal', 'captura', 'no se alcanzó la pantalla de tu IA'));
   });
   // The four destinations, read off the installed window rather than asserted from the source.
+  currentStage = 'navigation';
   record.navigation = await page.evaluate(() => [...document.querySelectorAll('nav [data-action]')]
     .map(node => [node.dataset.action, node.textContent.replace(/\s+/g, ' ').trim()]));
-  if (record.navigation.length !== 4) finding('general', 'navegacion', `la ventana no muestra cuatro destinos: ${JSON.stringify(record.navigation)}`);
+  if (record.navigation.length !== 4) finding('personal', 'navegacion', `la ventana no muestra cuatro destinos: ${JSON.stringify(record.navigation)}`);
   record.screenshots = captures;
   record.screenshotPathAnchored = captures.every(entry => entry.leaking === 0);
+} catch (failure) {
+  try {
+    let diag = null;
+    let anchoredSummary = null;
+    let screenshotWritten = false;
+    let screenshotWithheldReason = activePage ? null : 'no-active-page';
+    if (activePage) {
+      diag = await withTimeout(() => activePage.evaluate(() => ({
+        hash: location.hash,
+        ariaBusy: document.getElementById('content')?.getAttribute('aria-busy') ?? null,
+        activityHidden: document.getElementById('activity')?.hidden ?? null,
+        panelTab: document.getElementById('project-panel')?.getAttribute('data-project-tab') ?? null,
+        toolsOpen: document.getElementById('project-tools')?.open ?? null,
+        heading: document.querySelector('#view h1, #view h2')?.textContent?.replace(/\s+/g, ' ').trim() ?? null,
+        feedback: document.getElementById('feedback')?.hidden === false
+          ? document.getElementById('feedback').innerText.replace(/\s+/g, ' ').trim().slice(0, 400) : null,
+        visibleButtons: [...document.querySelectorAll('button')]
+          .filter(node => node.offsetParent !== null)
+          .map(node => node.textContent.replace(/\s+/g, ' ').trim())
+          .filter(Boolean).slice(0, 30),
+      })), 5000, 'diag-evaluate').catch(err => ({ evaluateError: redactText(String(err?.message ?? err)) }));
+      diag = redactValue(diag);
+      const anchored = await withTimeout(() => anchor(), 5000, 'diag-anchor').catch(() => null);
+      if (anchored) {
+        anchoredSummary = { nodes: anchored.nodes, replaced: anchored.replaced, leakingCount: anchored.leaking.length };
+      }
+      if (anchored && anchored.leaking.length === 0) {
+        await activePage.screenshot({ path: path.join(output, 'failure.png'), timeout: 10000 })
+          .then(() => { screenshotWritten = true; })
+          .catch(err => { screenshotWithheldReason = redactText(String(err?.message ?? err)); });
+      } else {
+        screenshotWithheldReason = anchored ? `unanchored-paths:${anchored.leaking.length}` : 'anchor-failed-or-timed-out';
+      }
+    }
+    await writeFile(path.join(output, 'failure-state.json'), JSON.stringify({
+      at: new Date().toISOString(),
+      scenario: currentScenario,
+      stage: currentStage,
+      completedScenarios: record.profiles.map(entry => entry.scenario),
+      findingsSoFar: record.findings.map(item => ({ ...item, detail: redactText(item.detail) })),
+      unverifiedSoFar: record.unverified.map(item => ({ ...item, cause: redactText(item.cause) })),
+      error: { name: failure?.name ?? 'Error', message: redactText(String(failure?.message ?? failure)) },
+      page: diag,
+      anchored: anchoredSummary,
+      screenshotWritten,
+      screenshotWithheldReason,
+    }, null, 2) + '\n').catch(() => {});
+  } catch { /* Preserve original failure below. */ }
+  throw failure;
 } finally {
   await browser?.close().catch(() => {});
   // Electron's children keep the data directory open, so end the whole tree rather than the wrapper.
@@ -822,7 +964,11 @@ try {
   await new Promise(resolve => setTimeout(resolve, 3000));
 }
 
-record.summary = { profiles: record.profiles.length, findings: record.findings.length,
+const completedProfiles=[...new Set(record.profiles.map(item=>item.profile))];
+if(record.profiles.length!==fixtureCoverage.scenarios||PROFILE_IDS.some(id=>!completedProfiles.includes(id)))
+  finding('personal','coverage','El recorrido instalado no completó todos los perfiles y escenarios declarados.');
+record.summary = { profiles: completedProfiles.length, canonicalProfiles: completedProfiles,
+  scenarios: record.profiles.length, expectedScenarios: fixtureCoverage.scenarios, findings: record.findings.length,
   unverified: record.unverified.length,
   scope: 'Cada perfil abierto y recorrido en la ventana de la aplicación instalada. El motor de la propia aplicación hizo dos pasos, elegir carpeta y aplicar la base, porque no se llega a ellos sin responder el selector del sistema. Contexto, búsqueda con cita, reflujo y conservación de archivos se comprobaron en la interfaz. No demuestra el asistente del instalador.' };
 await writeFile(path.join(output, 'native-journeys.json'), JSON.stringify(record, null, 2) + '\n');

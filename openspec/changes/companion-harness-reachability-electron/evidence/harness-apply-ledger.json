@@ -1,0 +1,99 @@
+{
+  "frozenAt": "2026-11-13T07:12:11.565Z",
+  "recipe": {
+    "approval": "26674520d2a60fe6e56904b93b307e8ce5195d63",
+    "base": "26674520d2a60fe6e56904b93b307e8ce5195d63",
+    "product": "e713e9a6089b8bdc505660c03227bbab5b2829d1",
+    "sourceFiles": [
+      {
+        "file": "apps/companion/scripts/verify-native-journeys.mjs",
+        "preimage": "77d7649b473945437056f030e6b9489a6e7d18c6514b754f6f00d733f62f4619",
+        "postimage": "91e0e9311fe731c40900582290ccdca280a6b04828185ad2360b04fb9050c01c",
+        "bytes": 56749
+      },
+      {
+        "file": "apps/companion/scripts/native-project-fixtures.mjs",
+        "preimage": null,
+        "postimage": "11ec2daf6a4ff9a816c6dc1647c1fee42cd08037a8b0e111e6b370fb2047f117",
+        "bytes": 4623
+      },
+      {
+        "file": "apps/companion/scripts/verify-service-mutations.mjs",
+        "preimage": "ef6c942af95a8e9343f21df0ae4f9d25c7e7f30d9d61ccc5d74b5d670ae6cdda",
+        "postimage": "feb9f6dab0ec5d948a9484930615e63008271b6bb15af4770450e1f4c2a5612d",
+        "bytes": 4735
+      },
+      {
+        "file": "apps/companion/scripts/service-mutation-cases.mjs",
+        "preimage": null,
+        "postimage": "3e59d3f6ac234dbe8bceca3cbb1c15356c4f25037cfa78544eac03c1a0b94240",
+        "bytes": 18543
+      },
+      {
+        "file": "apps/companion/qa/verification-harness-contract.mjs",
+        "preimage": null,
+        "postimage": "6b0eeb27edf955c073be3f3171604fa7b53b8122be40b40bc44a6db9f24384de",
+        "bytes": 5063
+      }
+    ],
+    "budget": {
+      "variants": 1,
+      "consumed": 1,
+      "remaining": 0,
+      "regressionRuns": 1,
+      "fullMutationRuns": 1,
+      "canonicalVmCycles": 1,
+      "incrementalSameReviewerReconciliations": 1
+    }
+  },
+  "recipeHash": "20e24c44d4be0158d075f1858d371e1b7705d5dbf1ac096b0f29f905407b9e00",
+  "syntax": [
+    {
+      "file": "apps/companion/scripts/verify-native-journeys.mjs",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "apps/companion/scripts/native-project-fixtures.mjs",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "apps/companion/scripts/verify-service-mutations.mjs",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "apps/companion/scripts/service-mutation-cases.mjs",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "apps/companion/qa/verification-harness-contract.mjs",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "changed": [
+    "apps/companion/scripts/verify-native-journeys.mjs",
+    "apps/companion/scripts/verify-service-mutations.mjs",
+    "openspec/changes/companion-harness-reachability-electron/TLDR.md",
+    "openspec/changes/companion-harness-reachability-electron/design.md",
+    "openspec/changes/companion-harness-reachability-electron/installed-evidence-harness-amendment.md",
+    "openspec/changes/companion-harness-reachability-electron/proposal.md",
+    "openspec/changes/companion-harness-reachability-electron/tasks.md",
+    "apps/companion/qa/verification-harness-contract.mjs",
+    "apps/companion/scripts/native-project-fixtures.mjs",
+    "apps/companion/scripts/service-mutation-cases.mjs",
+    "openspec/changes/companion-harness-reachability-electron/evidence/installed-harness-approval.md"
+  ],
+  "productOutsideAllowlistUnchanged": true,
+  "formalExecutionStatus": "NOT_STARTED",
+  "archivePerformed": false,
+  "merged": false
+}

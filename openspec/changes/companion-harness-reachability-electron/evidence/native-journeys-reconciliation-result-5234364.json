@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-11-27T01:41:00Z",
+  "amendmentRevision": "8f3fb73fb2fa98b9bea3657c7ccb55e7b513dba3",
+  "approval": {
+    "owner": "IgnacioBarEsp",
+    "literal": "apruebo",
+    "at": "2026-11-27T01:32:20Z",
+    "receiptPath": "artifacts/wave3-current/native-journeys-reconciliation-8f3fb73/approval.json",
+    "receiptSha256": "6dcb0d8f3f3dc313acb174c03a006f2341a5fa715b881a6eb0af7fb7b59b7133",
+    "dor150": "13 PASS / 0 FAIL / 0 EXCEPTION",
+    "dor218": "13 PASS / 0 FAIL / 0 EXCEPTION"
+  },
+  "frozenVariant": {
+    "commit": "5234364e6a9df78d0824d5c002270b50f7d3b622",
+    "allowlist": [
+      "apps/companion/qa/verification-harness-contract.mjs",
+      "apps/companion/scripts/verify-native-journeys.mjs"
+    ],
+    "productFilesChanged": 0,
+    "fivePackagedDirsIdenticalTo20fbe4c": true,
+    "reusedInstallerCommit": "20fbe4cc685023a3bf27a9483d592c94cb0cf307",
+    "reusedInstallerSha256": "3b6410b47da3e141ee00786aedc91ac673f28faed31e3a36a2aae474581d8197",
+    "additionalBuilds": 0,
+    "postimages": {
+      "apps/companion/scripts/verify-native-journeys.mjs": {
+        "bytes": 64993,
+        "sha256": "fd13431524b9baea8ff9441a2d873b800c47061330c7f6da0a75fdcfe3697759"
+      },
+      "apps/companion/qa/verification-harness-contract.mjs": {
+        "bytes": 7206,
+        "sha256": "f792526ab00259d64cf4c27247d1a837c840d28ee3a6437d3fd8eef89c3e4b79"
+      }
+    },
+    "receiptSha256": "d0445392e1beadc168612911c10f5f89952c7fb61307dec7d685fa03d39affdd"
+  },
+  "localRegression": {
+    "status": "FAIL",
+    "command": "node --test --test-reporter=tap qa/verification-harness-contract.mjs",
+    "tests": 8,
+    "pass": 7,
+    "fail": 1,
+    "cancelled": 0,
+    "skipped": 0,
+    "exitCode": 1,
+    "elapsedMs": 288,
+    "failingAssertion": "apps/companion/qa/verification-harness-contract.mjs:99:10",
+    "rootCause": "Regex token order mismatch in contract test line 99: verify-native-journeys.mjs defines leakingCount inside anchoredSummary (line 932) before failure.png (line 935) and passes anchored: anchoredSummary to writeFile('failure-state.json') (line 951), whereas line 99 expected literal leakingCount after writeFile.",
+    "stdoutSha256": "cb736e266bd24a55d8f28be5030b9274fc7705446cde38a81e60d0db8252e1bf"
+  },
+  "stopRuleTriggered": true,
+  "retried": false,
+  "budgetConsumed": {
+    "frozenVariants": "1/1",
+    "localRegressionRuns": "1/1",
+    "sameReviewerIncrementalChecks": "0/1 (stopped before launch)",
+    "shortOfflineCanonicalVmCycles": "0/1 (stopped before launch)",
+    "additionalBuilds": "0/0"
+  },
+  "nextPendingDecision": "openspec/changes/companion-harness-reachability-electron/native-journeys-contract-regex-amendment.md",
+  "nextPendingDecisionApproved": false
+}
