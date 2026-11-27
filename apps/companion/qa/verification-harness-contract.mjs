@@ -81,12 +81,20 @@ test('parse, load, timeout, cancelled and setup failures never credit a detectio
   }
 });
 
-test('installed journey harness synchronizes on renderer busy state and captures anchored failure diagnostics',async()=>{
+test('installed journey harness synchronizes on renderer busy state, bounds teardown, redacts paths and waits for finite animations',async()=>{
   const source=await readFile(fileURLToPath(new URL('../scripts/verify-native-journeys.mjs',import.meta.url)),'utf8');
-  assert.match(source,/getAttribute\('aria-busy'\)\s*===\s*'false'/);
-  assert.match(source,/#project-panel\[data-project-tab="\$\{tab\}"\]/);
+  assert.match(source,/document\.getElementById\('content'\)[\s\S]*content\.getAttribute\('aria-busy'\)\s*===\s*'false'/);
+  assert.match(source,/const waitWorkspaceTab[\s\S]*if\s*\(!settled\)\s*return false;[\s\S]*#project-panel\[data-project-tab="\$\{tab\}"\]/);
   assert.doesNotMatch(source,/await reviewContext\.click\(\);\s*await page\.waitForTimeout\(1500\);/);
   assert.match(source,/await reviewContext\.click\(\);\s*if\s*\(!await notBusy\(\)\)/);
+  assert.match(source,/project-panel\[data-project-tab="overview"\][\s\S]*revealDetails\(sources\.first\(\)\)/);
+  assert.match(source,/await notBusy\(\);[\s\S]*revealDetails\(status\.first\(\)\)[\s\S]*waitWorkspaceTab\('overview'\)/);
+  assert.match(source,/project-panel\[data-project-tab="overview"\][\s\S]*revealDetails\(afterReopen\.first\(\)\)/);
+  assert.match(source,/currentStage = 'technology-check';\s*await notBusy\(\);[\s\S]*revealDetails\(preparation\)/);
   assert.match(source,/capture\('native-tu-ia'[\s\S]*article\.project[\s\S]*waitWorkspaceTab\('overview'\)[\s\S]*revealDetails\(ai\)/);
-  assert.match(source,/catch\s*\(failure\)[\s\S]*anchor\(\)[\s\S]*failure\.png[\s\S]*failure-state\.json[\s\S]*throw failure;/);
+  assert.match(source,/const press = async[\s\S]*const settled = await notBusy\(wait\);\s*if\s*\(!settled\)\s*\{\s*finding\(id,\s*'engineering'/);
+  assert.match(source,/outcome === 'stalled'\) \{ stalled = true; break; \}/);
+  assert.match(source,/const capture = async[\s\S]*document\.getAnimations\(\)[\s\S]*Number\.isFinite\(animation\.effect\?\.getComputedTiming\(\)\.iterations\)/);
+  assert.match(source,/process\.env\.LOCALAPPDATA[\s\S]*homedir\(\)[\s\S]*const redactText =/);
+  assert.match(source,/catch\s*\(failure\)[\s\S]*withTimeout\([\s\S]*diag-evaluate[\s\S]*withTimeout\([\s\S]*diag-anchor[\s\S]*if\s*\(anchored && anchored\.leaking\.length === 0\)[\s\S]*failure\.png[\s\S]*timeout:\s*10000[\s\S]*writeFile\(path\.join\(output,\s*'failure-state\.json'\)[\s\S]*leakingCount[\s\S]*throw failure;/);
 });

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { copyFile, mkdir, mkdtemp, writeFile, readFile, readdir, stat, rm, realpath } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
+import { homedir, tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { portable } from './portable-path.mjs';
@@ -436,21 +436,63 @@ let browser;
 let activePage = null;
 let currentScenario = null;
 let currentStage = 'startup';
+const PORTABLE_EXTRA = process.env.APPDATA ? [['<appdata>', process.env.APPDATA]] : [];
+const REDACT_ENTRIES = [
+  [workspace, portable(workspace, PORTABLE_EXTRA)],
+  [output, portable(output, PORTABLE_EXTRA)],
+  [process.env.LOCALAPPDATA, portable(process.env.LOCALAPPDATA ?? '', PORTABLE_EXTRA)],
+  [process.env.APPDATA, portable(process.env.APPDATA ?? '', PORTABLE_EXTRA)],
+  [tmpdir(), portable(tmpdir(), PORTABLE_EXTRA)],
+  [homedir(), portable(homedir(), PORTABLE_EXTRA)],
+].filter(([raw, label]) => typeof raw === 'string' && raw.length > 0 && typeof label === 'string' && label.length > 0)
+  .flatMap(([raw, label]) => [...new Set([raw, raw.replace(/\//g, '\\'), raw.replace(/\\/g, '/')])].map(form => [form, label]))
+  .sort((left, right) => right[0].length - left[0].length);
+const redactText = value => {
+  if (typeof value !== 'string') return value;
+  let out = value;
+  for (const [raw, label] of REDACT_ENTRIES) {
+    let idx = out.toLowerCase().indexOf(raw.toLowerCase());
+    while (idx !== -1) {
+      out = out.slice(0, idx) + label + out.slice(idx + raw.length);
+      idx = out.toLowerCase().indexOf(raw.toLowerCase(), idx + label.length);
+    }
+  }
+  return out
+    .replace(/[a-z]:[\\/]users[\\/][^\\/\s"']+/gi, '<user-home>')
+    .replace(/\/users\/[^/\s"']+/gi, '<user-home>');
+};
+const redactValue = value => {
+  if (typeof value === 'string') return redactText(value);
+  if (Array.isArray(value)) return value.map(redactValue);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, redactValue(item)]));
+  }
+  return value;
+};
+const withTimeout = (work, ms, label) => {
+  let timer;
+  return Promise.race([
+    Promise.resolve().then(work),
+    new Promise((_, reject) => {
+      timer = setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms);
+    }),
+  ]).finally(() => clearTimeout(timer));
+};
 // The window shows absolute paths, which carry the account name of whoever ran this. Every text record
 // here is anchored through portable(), but no check reads an image, so a screenshot is the one place that
 // discipline silently does not apply — and an image is exactly what gets looked at. So the anchoring is
 // done in the page before each capture, on EVERY path element rather than the first one: the project list
 // shows several of them, and anchoring only one is the same failure with a smaller radius.
-const anchor = async () => activePage.evaluate(({ raw, anchored }) => {
-  const forms = [raw, raw.replace(/\//g, '\\')];
+const anchor = async () => activePage.evaluate(entries => {
   const nodes = [...document.querySelectorAll('.path')];
   let replaced = 0;
   for (const node of nodes) {
     const before = node.textContent;
-    for (const form of forms) {
-      while (node.textContent.toLowerCase().includes(form.toLowerCase())) {
-        const at = node.textContent.toLowerCase().indexOf(form.toLowerCase());
-        node.textContent = node.textContent.slice(0, at) + anchored + node.textContent.slice(at + form.length);
+    for (const [form, label] of entries) {
+      let at = node.textContent.toLowerCase().indexOf(form.toLowerCase());
+      while (at !== -1) {
+        node.textContent = node.textContent.slice(0, at) + label + node.textContent.slice(at + form.length);
+        at = node.textContent.toLowerCase().indexOf(form.toLowerCase(), at + label.length);
       }
     }
     if (node.textContent !== before) replaced += 1;
@@ -459,7 +501,7 @@ const anchor = async () => activePage.evaluate(({ raw, anchored }) => {
   const leaking = nodes.filter(node => /^[a-z]:[\\/]/i.test(node.textContent.trim())
     || /users[\\/]/i.test(node.textContent)).map(node => node.textContent.trim());
   return { nodes: nodes.length, replaced, leaking };
-}, { raw: workspace, anchored: portable(workspace) });
+}, REDACT_ENTRIES);
 try {
   // The window needs a moment before the protocol answers; retry rather than guess a sleep.
   for (let attempt = 0; attempt < 30 && !browser; attempt += 1) {
@@ -489,10 +531,10 @@ try {
   const settle = (timeout = 180000) => notBusy(timeout);
   const waitWorkspaceTab = async (tab, timeout = 180000) => {
     const settled = await notBusy(timeout);
-    const arrived = await page.locator(`#project-panel[data-project-tab="${tab}"]`)
+    if (!settled) return false;
+    return page.locator(`#project-panel[data-project-tab="${tab}"]`)
       .waitFor({ state: 'visible', timeout: Math.min(timeout, 30000) })
       .then(() => true, () => false);
-    return settled && arrived;
   };
   await notBusy();
 
@@ -564,7 +606,7 @@ try {
       await revealDetails(sources.first());
       await sources.first().waitFor({ state: 'visible', timeout: 30000 });
       await sources.first().click();
-      await waitWorkspaceTab('search');
+      if (!await waitWorkspaceTab('search')) finding(id, 'search', 'la interfaz no mostró la pestaña de archivos al abrirla');
       const field = page.locator('input[type="search"], input[type="text"]:visible').last();
       await field.fill(definition.query);
       await field.press('Enter');
@@ -612,23 +654,28 @@ try {
       currentStage = 'engineering-stages';
       const stages = {};
       const press = async (pattern, wait = 120000) => {
-        if (!await notBusy(wait)) return false;
         const control = page.getByRole('button', { name: pattern,includeHidden:true }).first();
-        if (!await control.count()) return false;
+        if (!await control.count()) return 'absent';
         await revealDetails(control);
         await control.click();
-        await notBusy(wait);
-        return true;
+        const settled = await notBusy(wait);
+        if (!settled) {
+          finding(id, 'engineering', `la aplicación siguió ocupada al accionar ${pattern}`);
+          return 'stalled';
+        }
+        return 'pressed';
       };
       // The stages are on the project's status tab; the search left the sources tab open, so a run that
       // never navigates back would report every stage as absent and blame the product for it.
       await notBusy();
+      let overviewReady = false;
       const status = page.getByRole('button', { name: /^Preparación$/,includeHidden:true });
       if (await status.count()) {
         await revealDetails(status.first());
         await status.first().waitFor({ state: 'visible', timeout: 30000 });
         await status.first().click();
-        await waitWorkspaceTab('overview');
+        overviewReady = await waitWorkspaceTab('overview');
+        if (!overviewReady) finding(id, 'engineering', 'la interfaz no volvió a la pestaña de preparación del proyecto');
       } else finding(id, 'engineering', 'la interfaz no ofreció volver a la preparación del proyecto');
       stages.visibleControls = await page.locator('button:visible').allTextContents();
       // The interface does not offer one fixed sequence: each stage changes which control appears next, so
@@ -654,13 +701,22 @@ try {
       // the same control again just gets the same refusal, so a repeated stage is set aside for a round and
       // the walk continues with the review steps, which is what a person would do.
       const walked = [], resting = new Set();
-      for (let step = 0; step < 20; step += 1) {
+      let stalled = false;
+      for (let step = 0; overviewReady && step < 20 && !stalled; step += 1) {
+        if (!await notBusy(900000)) {
+          finding(id, 'engineering', 'la aplicación siguió ocupada quince minutos durante las etapas de desarrollo');
+          stalled = true;
+          break;
+        }
         let advanced = null;
         for (const [name, pattern] of STAGES) {
           if (resting.has(name)) continue;
-          if (!await press(pattern, 900000)) continue;
+          const outcome = await press(pattern, 900000);
+          if (outcome === 'stalled') { stalled = true; break; }
+          if (outcome !== 'pressed') continue;
           walked.push(name); advanced = name; break;
         }
+        if (stalled) break;
         if (!advanced) { if (resting.size) { resting.clear(); continue; } break; }
         const tail = walked.slice(-2);
         if (tail.length === 2 && tail.every(name => name === advanced)) { resting.add(advanced); }
@@ -688,12 +744,11 @@ try {
       const symbols = page.getByRole('button', { name: /Buscar símbolos/ });
       if (await symbols.count()) {
         await symbols.first().click();
-        await waitWorkspaceTab('search');
+        if (!await waitWorkspaceTab('search')) finding(id, 'code map', 'la interfaz no mostró la pestaña de búsqueda de símbolos');
         const field = page.locator('input[type="search"], input[type="text"]:visible').last();
         await field.fill(definition.symbol ?? '');
         await field.press('Enter');
         await notBusy();
-        await page.waitForTimeout(500);
         const shown = await page.locator('body').innerText();
         stages.foundSymbol = definition.symbol ? shown.includes(definition.symbol) : null;
         if (definition.symbol && !stages.foundSymbol) {
@@ -730,7 +785,7 @@ try {
       await revealDetails(afterReopen.first());
       await afterReopen.first().waitFor({ state: 'visible', timeout: 30000 });
       await afterReopen.first().click();
-      await waitWorkspaceTab('search');
+      if (!await waitWorkspaceTab('search')) finding(id, 'reopen', 'tras reabrir, la interfaz no mostró la pestaña de archivos');
       const field = page.locator('input[type="search"], input[type="text"]:visible').last();
       await field.fill(definition.query);
       await field.press('Enter');
@@ -755,6 +810,7 @@ try {
     step('closed and reopened', { citationSurvived: survived });
 
     // Reflow at the widths the desktop window can reach.
+    currentStage = 'reflow';
     for (const width of [1180, 900, 600]) {
       await page.setViewportSize({ width, height: 820 });
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1);
@@ -775,7 +831,7 @@ try {
     await revealDetails(preparation);
     await preparation.waitFor({ state: 'visible', timeout: 30000 });
     await preparation.click();
-    await waitWorkspaceTab('overview');
+    if (!await waitWorkspaceTab('overview')) finding(id, 'technology', 'la interfaz no volvió a la pestaña de preparación para leer la tecnología');
     await expandProjectDetails(page);
     const technology = await page.evaluate(() => {
       const heading = [...document.querySelectorAll('#view h2')].find(node => node.textContent.includes('Tecnología de este proyecto'));
@@ -788,6 +844,7 @@ try {
     step('technology reported with its reason', { said: (technology ?? '').slice(0, 160) });
 
     // The person's own files must be untouched by everything above.
+    currentStage = 'preservation';
     const after = await hashesOf(prepared[id].root, Object.keys(prepared[id].before));
     const changed = Object.keys(after).filter(relative => after[relative] !== prepared[id].before[relative]);
     if (changed.length) finding(id, 'preservation', `la aplicación modificó archivos de la persona: ${changed.join(', ')}`);
@@ -803,6 +860,11 @@ try {
   const capture = async (name, before) => {
     currentStage = `capture:${name}`;
     if (before) { await before(); await notBusy(); }
+    await withTimeout(() => page.evaluate(() => Promise.all(
+      document.getAnimations()
+        .filter(animation => animation.playState !== 'paused' && Number.isFinite(animation.effect?.getComputedTiming().iterations))
+        .map(animation => animation.finished.catch(() => {}))
+    )), 5000, 'capture-animations').catch(() => {});
     const anchored = await anchor();
     // The property is the state after anchoring, not how many elements were rewritten: a screen that shows
     // no path at all is a screen with nothing to leak, and reporting that as a finding would be the same
@@ -827,16 +889,17 @@ try {
     await page.locator('.project-list[aria-busy="false"]').waitFor({ timeout: 60000 });
     await page.locator('article.project .card-open').first().click();
     await page.locator('article.project').first().waitFor({ state: 'detached', timeout: 120000 });
-    await waitWorkspaceTab('overview');
+    if (!await waitWorkspaceTab('overview')) finding('personal', 'captura', 'no se abrió el proyecto para capturar tu IA');
     const ai=page.getByRole('button', { name: 'Tu IA', exact: true,includeHidden:true });
     await revealDetails(ai);
     await ai.waitFor({ state: 'visible', timeout: 30000 });
     await ai.click();
-    await waitWorkspaceTab('handoff');
+    if (!await waitWorkspaceTab('handoff')) finding('personal', 'captura', 'no se mostró la pestaña de tu IA');
     await page.getByRole('heading', { name: 'Quién escribe estas instrucciones', exact: true })
       .waitFor({ timeout: 60000 }).catch(() => finding('personal', 'captura', 'no se alcanzó la pantalla de tu IA'));
   });
   // The four destinations, read off the installed window rather than asserted from the source.
+  currentStage = 'navigation';
   record.navigation = await page.evaluate(() => [...document.querySelectorAll('nav [data-action]')]
     .map(node => [node.dataset.action, node.textContent.replace(/\s+/g, ' ').trim()]));
   if (record.navigation.length !== 4) finding('personal', 'navegacion', `la ventana no muestra cuatro destinos: ${JSON.stringify(record.navigation)}`);
@@ -844,8 +907,12 @@ try {
   record.screenshotPathAnchored = captures.every(entry => entry.leaking === 0);
 } catch (failure) {
   try {
+    let diag = null;
+    let anchoredSummary = null;
+    let screenshotWritten = false;
+    let screenshotWithheldReason = activePage ? null : 'no-active-page';
     if (activePage) {
-      const diag = await activePage.evaluate(() => ({
+      diag = await withTimeout(() => activePage.evaluate(() => ({
         hash: location.hash,
         ariaBusy: document.getElementById('content')?.getAttribute('aria-busy') ?? null,
         activityHidden: document.getElementById('activity')?.hidden ?? null,
@@ -858,21 +925,33 @@ try {
           .filter(node => node.offsetParent !== null)
           .map(node => node.textContent.replace(/\s+/g, ' ').trim())
           .filter(Boolean).slice(0, 30),
-      })).catch(err => ({ evaluateError: String(err?.message ?? err) }));
-      const anchored = await anchor().catch(() => null);
-      await activePage.screenshot({ path: path.join(output, 'failure.png') }).catch(() => {});
-      await writeFile(path.join(output, 'failure-state.json'), JSON.stringify({
-        at: new Date().toISOString(),
-        scenario: currentScenario,
-        stage: currentStage,
-        completedScenarios: record.profiles.map(entry => entry.scenario),
-        findingsSoFar: record.findings,
-        unverifiedSoFar: record.unverified,
-        error: { name: failure?.name ?? 'Error', message: String(failure?.message ?? failure) },
-        page: diag,
-        anchored,
-      }, null, 2) + '\n').catch(() => {});
+      })), 5000, 'diag-evaluate').catch(err => ({ evaluateError: redactText(String(err?.message ?? err)) }));
+      diag = redactValue(diag);
+      const anchored = await withTimeout(() => anchor(), 5000, 'diag-anchor').catch(() => null);
+      if (anchored) {
+        anchoredSummary = { nodes: anchored.nodes, replaced: anchored.replaced, leakingCount: anchored.leaking.length };
+      }
+      if (anchored && anchored.leaking.length === 0) {
+        await activePage.screenshot({ path: path.join(output, 'failure.png'), timeout: 10000 })
+          .then(() => { screenshotWritten = true; })
+          .catch(err => { screenshotWithheldReason = redactText(String(err?.message ?? err)); });
+      } else {
+        screenshotWithheldReason = anchored ? `unanchored-paths:${anchored.leaking.length}` : 'anchor-failed-or-timed-out';
+      }
     }
+    await writeFile(path.join(output, 'failure-state.json'), JSON.stringify({
+      at: new Date().toISOString(),
+      scenario: currentScenario,
+      stage: currentStage,
+      completedScenarios: record.profiles.map(entry => entry.scenario),
+      findingsSoFar: record.findings.map(item => ({ ...item, detail: redactText(item.detail) })),
+      unverifiedSoFar: record.unverified.map(item => ({ ...item, cause: redactText(item.cause) })),
+      error: { name: failure?.name ?? 'Error', message: redactText(String(failure?.message ?? failure)) },
+      page: diag,
+      anchored: anchoredSummary,
+      screenshotWritten,
+      screenshotWithheldReason,
+    }, null, 2) + '\n').catch(() => {});
   } catch { /* Preserve original failure below. */ }
   throw failure;
 } finally {
