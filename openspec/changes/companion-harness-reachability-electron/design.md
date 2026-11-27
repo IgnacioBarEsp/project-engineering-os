@@ -201,3 +201,33 @@ receipt (and `2 PASS` `d812` copy/pack receipts) without claiming a single-run `
 CI `45902071618` on `f41af24` passed `12/12`. Prior failures remain immutable; current CI on
 this evidence head and maintainer review precede any build (`0/2`), VM (`0/1`), human, debt,
 archive or merge gate.
+
+## Reproducible builds (2/2), corrected VM cycle (1/1 FAIL at Phase 2) and pending sync amendment
+
+CI `45906034881` on `20fbe4cc685023a3bf27a9483d592c94cb0cf307` succeeded `12/12`, followed by
+literal maintainer authorization (`evidence/builds-and-vm-approval-20fbe4c.md`) and fresh DoR
+`13/13` on `#150` and `#218`. Both clean builds (`o20f-1`, `o20f-2`, pinned Node `v24.18.0`,
+verified copied `node_modules`, zero downloads) passed `pack-app.mjs` and `verify-app-artifact.mjs`
+(`NotSigned`, `151` packages, `2,662` unpacked files / `458,983,230` bytes with `0` diffs,
+digest `d8ea18bb...`, identical `resources/npm-dist.zip` `fef16d4e...`, honest 5-byte NSIS
+container diff, `+390,821` bytes vs `e713`). See `evidence/reproducible-builds-20fbe4c.md`.
+
+The single authorized offline Windows Sandbox cycle (`7fa7018d-eded-40ed-81ee-86dbedfc8b5f`,
+`4 GiB`, `<Networking>Disable</Networking>`, RO inputs, cleanly stopped) consumed `1/1` (`0`
+remaining, no retry). Phase 1 (`packaged-runtime.json`) passed (`0.3.6 -> 0.3.7`, paired cold/warm/repair
+worker samples, legacy untouched & unfit fallback rejected, cancelled/crash repair recovery,
+Node `22.22.0`/`24.18.0`/`24.20.0`, uninstall). Phase 2 (`canonical-0.1.0-update-native-uninstall`)
+failed (`exit 1`, `288,799 ms`, `0` stdout bytes) at `verify-native-journeys.mjs:520:29`
+(`Timeout 180000ms` waiting for `Archivos` with `0` DOM matches per Playwright `1.62.1`
+`coreBundle.js:23490-23520`). Static diagnosis traces this to `verify-native-journeys.mjs:505`
+(`waitForTimeout(1500)` racing cold `pdfjs-dist` worker startup on `research/articulo.pdf`,
+bounded in product by `PARSER_STARTUP_MS = 60000`), combined with `Detener`-only `notBusy()`/`settle()`
+(hidden for the first `1,000 ms` and before `showWorkspace()` + `renderReady`) and pre-render
+`revealDetails(...)` calls. See `evidence/corrected-vm-cycle-20fbe4c.md`.
+
+[native-journeys-sync-amendment.md](native-journeys-sync-amendment.md) remains **unapproved and
+unapplied**. It proposes only `verify-native-journeys.mjs` and `qa/verification-harness-contract.mjs`
+(zero product/lock/CI/debt changes), reusing the byte-identical verified Build 1 `20fbe4c`
+installer (`3b6410b4...`, `0` additional builds) for `1` explicitly additional offline VM cycle
+of `verify-release-installation.mjs`, plus `1` bounded read-only review and required CI. All
+historical failures (`e713`, `20fbe4c` Phase 2, `d812`, `e978`, `fa15`, `0999922`) remain preserved.

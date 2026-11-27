@@ -30,7 +30,7 @@
 - [ ] 5.3 Run the approved regressions/full mutation runner and one corrected canonical installed cycle, retain failures and verify restored sources.
   - [x] 5.3a Retain actual corrected7/7 regressions and restored source hashes; original5/7 remains FAIL.
   - [x] 5.3b Retain the single37/37 behavior mutation execution; same-input reconciliation received, no rerun.
-  - [ ] 5.3c Complete the still-unused corrected canonical installed cycle0/1 on a qualified candidate.
+  - [ ] 5.3c Complete the canonical installed cycle on a qualified candidate (`1/1` consumed on `20fbe4c`: Phase 1 `packaged-runtime.json` `PASS`, Phase 2 `verify-native-journeys.mjs:520` `FAIL`; `0/1` remaining; additional cycle gated by unapproved `native-journeys-sync-amendment.md`).
 - [ ] 5.4 Receive actual same-reviewer incremental reconciliation and assess remaining scope/debt; keep human/closure gates open until satisfied.
   - [x] 5.4a Receive the actual same-reviewer incremental F1/F2 report for716f9e2; no new actionable finding within five-file scope.
   - [ ] 5.4b Capture eligible final debt/qualification evidence after remaining gates; do not infer closure from the review alone.
@@ -74,7 +74,7 @@ pass or treat it as installed/human/security-wide approval.
   - [x] 9.4b Receive fullCI3OS/required on077a5f8:43616684145SUCCESS12/12,read back26nov.9PASS/1CANCELLED local qualification remains failed regardless of CI or source review. A subsequent head needs its own CI.
 - [ ] 9.5 Qualify the cancelled repair with the agreed criteria and actual new authority;no diagnostic or source-review PASS substitutes for that local gate.
   - [x] 9.5a Execute the single approved uninstrumented qualification case (f41af24) and verify exact hash equivalence with fa15 (9 PASS) and d812 (2 PASS): 1 PASS in 69.05 s TAP (`69,197 ms` process), zero source/runtime/dependency drift; historical FAILs preserved.
-  - [ ] 9.5b Confirm green required CI on this evidence head and maintainer review of the qualification evidence before authorizing builds 0/2 and corrected VM 0/1.
+  - [x] 9.5b Confirm green required CI on the `20fbe4c` evidence head (`45906034881` `12/12 SUCCESS`) and maintainer authorization (`evidence/builds-and-vm-approval-20fbe4c.md`) before executing builds `2/2` and corrected VM `1/1`.
 
 ## 10. Remaining repair observation —0999922 approved/consumed;setup failed
 
@@ -96,4 +96,13 @@ pass or treat it as installed/human/security-wide approval.
 - [x] 12.2 Record literal approval «apruebo» of f41af246138fcfbae8d528f71fa933e99f9c1820 and pass fresh DoR 13/13 before preparation. See evidence/remaining-repair-qualification-approval-f41af24.md.
 - [x] 12.3 Freeze uninstrumented copy (`40,436 ms`, `changed: []`, 1,944 physical npm 11.21.2 files verified) and execute the exact target once: 1 PASS / 0 FAIL / 0 CANCELLED / 0 SKIP (`69,049.573 ms` TAP, `69,197 ms` process, exit 0, zero traces, clean helper cleanup); budget 1/1 consumed, 0 remaining, no retry.
 - [x] 12.4 Verify exact byte equivalence with fa15 (223/223 app files, Node v24.18.0 binary, 1,944 npm 11.21.2 files) and d812 (9/9 inputs), plus CI 45902071618 12/12 SUCCESS on f41af24; present separate receipts without declaring a single-run 10/10 and preserve all historical FAILs and DIAGNOSTIC_ONLY records. See evidence/remaining-repair-qualification-result-f41af24.md.
-- [ ] 12.5 Confirm green required CI on this evidence commit and maintainer review of the qualification evidence before authorizing subsequent gates (builds 0/2, corrected VM 0/1, real #146/#147, final debt/review, ordered official archives #218 and #144->#150, protected PR integration).
+- [x] 12.5 Confirm green required CI on `20fbe4c` (`45906034881` `12/12 SUCCESS`) and literal maintainer authorization (`evidence/builds-and-vm-approval-20fbe4c.md`) before executing builds and corrected VM.
+
+## 13. Reproducible builds, corrected VM cycle on 20fbe4c and pending harness sync amendment
+
+- [x] 13.1 Record literal maintainer authorization («continua donde te quedaste, autorizo») after green CI `45906034881` (`12/12 SUCCESS`) and fresh DoR `13/13` on `#150` and `#218`. See `evidence/builds-and-vm-approval-20fbe4c.md`.
+- [x] 13.2 Execute both authorized reproducible builds (`2/2 PASS`, `0` remaining) on clean clones of `20fbe4c` (Electron `44.9.1`, `npm 11.21.2`, Node `v24.18.0`, zero downloads): `win-unpacked/` `100%` byte-identical (`2,662` files / `458,983,230` B, `d8ea18bb...`), `resources/npm-dist.zip` identical (`fef16d4e...`), `verify-app-artifact.mjs` `2/2 PASS` (`NotSigned`), honest 5-byte NSIS timestamp diff and `e713` delta recorded. See `evidence/reproducible-builds-20fbe4c.md`.
+- [x] 13.3 Execute the single authorized corrected canonical Windows Sandbox cycle (`1/1` consumed, `0` remaining, no retry) on Build 1 `20fbe4c` and preserve actual outcomes: Phase 1 `packaged-runtime.json` `PASS`; Phase 2 `canonical-0.1.0-update-native-uninstall` `FAIL` (`exit 1`, `288,799 ms`) at `verify-native-journeys.mjs:520:29` (`Timeout 180000ms` on `Archivos`). Complete read-only forensic diagnosis and draft concrete unapproved `native-journeys-sync-amendment.md`. See `evidence/corrected-vm-cycle-20fbe4c.md`.
+- [ ] 13.4 Obtain literal maintainer approval of immutable `native-journeys-sync-amendment.md` and pass fresh DoR `13/13` before editing the two allowlisted harness/QA files or launching the explicitly additional offline VM cycle.
+- [ ] 13.5 After approval, apply and freeze the 2-file harness sync correction (zero product changes), run `qa/verification-harness-contract.mjs`, and execute the single additional offline Windows Sandbox canonical cycle (`verify-release-installation.mjs`) reusing the byte-identical verified Build 1 `20fbe4c` installer (`3b6410b4...`, `0` extra builds), preserving separate installer/harness SHAs and all prior failures.
+- [ ] 13.6 Complete the bounded read-only independent review of the 2-file diff and confirm green required CI (`12/12`) on the resulting head before proceeding to human `#146`/`#147`, final debt assessment, ordered official archives (`#218`, `#144`→`#150`) and protected PR `#217` integration.

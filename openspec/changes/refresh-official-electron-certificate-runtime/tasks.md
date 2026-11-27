@@ -16,14 +16,14 @@
 - [x] 2.4 Execute one baseline/candidate9-case contrast in real production Electron, with legitimate TLS/HTTPS/fetch controls and no skip/debug-hook credit.
 
 ## 3. Candidate qualification
-- [ ] 3.1 Complete owning suites/runtime matrix/original raw audits and hostile-input controls under unchanged limits; preserve other findings.
+- [x] 3.1 Complete owning suites/runtime matrix/original raw audits and hostile-input controls under unchanged limits; preserve other findings (separate verified receipts retained for `d812`, `fa15`, `f41af24`, CI `45906034881` `12/12 SUCCESS`, and multi-Node `22.22.0`/`24.18.0`/`24.20.0` in `packaged-runtime.json`; all historical FAILs preserved).
   - [x] 3.1a Retain the actual9/9 baseline/candidate TLS contrast and18screens/12copies native checks within their declared scope.
   - [x] 3.1b Retain original raw audit counts and exact source/lock correspondences without exceptions.
-  - [ ] 3.1c Resolve the local owning qualification gate: d812 ended 2PASS/2CANCELLED; current CI does not erase it.
+  - [x] 3.1c Resolve the local owning qualification gate via separate verified receipts (`d812` `2 PASS / 2 CANCELLED` preserved intact; `fa15` `9 PASS` + `f41af24` `1 PASS` uninstrumented + `d812` `2 PASS` copy/pack with byte-exact equivalence and `20fbe4c` CI `45906034881` `12/12 SUCCESS`).
     - [x] 3.1c.i Complete the approved uninstrumented remaining-repair execution (`f41af24`, 1 PASS in `69.05 s` TAP) and verify exact byte equivalence across all `223/223` app files, Node `24.18.0`, physical `npm 11.21.2` (`1,944` files) and `9/9` `d812` inputs, presenting separate receipts (`d812` 2 PASS copy/pack + `fa15` 9 PASS + `f41af24` 1 PASS) while preserving all prior FAILs and `DIAGNOSTIC_ONLY` records.
-    - [ ] 3.1c.ii Confirm green required CI on this evidence head and maintainer review of the qualification evidence before starting `3.2` (builds `0/2`) and `3.3` (corrected VM `0/1`).
-- [ ] 3.2 Build twice from frozen inputs; compare inventories/licenses, official runtime/npm and honest byte/resource measurements.
-- [ ] 3.3 Verify the actual installer and complete the one still-unused canonical corrected VM cycle with six profiles/seven scenarios, recovery and uninstall.
+    - [x] 3.1c.ii Confirm green required CI on `20fbe4c` (`45906034881` `12/12 SUCCESS`) and literal maintainer authorization (`evidence/builds-and-vm-approval-20fbe4c.md`) before starting `3.2` and `3.3`.
+- [x] 3.2 Build twice (`2/2 PASS`, `0` remaining) from frozen `20fbe4c` inputs; compare inventories/licenses, official Electron `44.9.1` runtime/`npm 11.21.2` (`win-unpacked/` `2,662` files byte-identical `d8ea18bb...`, `resources/npm-dist.zip` identical `fef16d4e...`, `verify-app-artifact.mjs` `2/2 PASS`, `NotSigned`, honest 5-byte NSIS container timestamp diff, `+390,821` B vs `e713`). See `../companion-harness-reachability-electron/evidence/reproducible-builds-20fbe4c.md`.
+- [ ] 3.3 Verify the actual installer and complete the canonical corrected VM cycle with six profiles/seven scenarios, recovery and uninstall (`1/1` consumed on `20fbe4c`: Phase 1 `packaged-runtime.json` `PASS`, Phase 2 `canonical-0.1.0-update-native-uninstall` `FAIL` at `verify-native-journeys.mjs:520:29`; `0` remaining; gated by unapproved `#150` `native-journeys-sync-amendment.md`).
 
 ## 4. Independent and human gates
 - [ ] 4.1 Receive one fresh bounded postpatch readonly review, reconcile its real findings and perform official append-only debt assessment.

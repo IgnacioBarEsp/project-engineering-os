@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "issue": 218,
-  "status": "BLOCKED_D812_SERIAL_QA_2_PASS_2_CANCELLED",
+  "status": "BLOCKED_VM_PHASE2_VERIFY_NATIVE_JOURNEYS_LINE_520",
   "approvals": {
     "original": "7af8a2a298e1281b1c7230539a7472550ba94d9b",
     "originalWords": "Sí, apruebo #218 en 7af8a2a",
@@ -106,8 +106,8 @@
     "baselineExecutions": 2,
     "candidateExecutions": 1,
     "postpatchReviews": 1,
-    "builds": 0,
-    "correctedCanonicalVm": 0,
+    "builds": 2,
+    "correctedCanonicalVm": 1,
     "maximumBaselineExecutions": 2,
     "sameReviewerIncremental": 1,
     "maximumSameReviewerIncremental": 1
@@ -175,7 +175,7 @@
     "actualWords": "Sí, apruebo la enmienda 1cbfe2a"
   },
   "debtAssessment": "PENDING_WHEN_ELIGIBLE",
-  "installedQualification": "PENDING_0_OF_1",
+  "installedQualification": "FAILED_1_OF_1_PHASE2_VERIFY_NATIVE_JOURNEYS_LINE_520",
   "human146And147": "PENDING_ON_APT_CANDIDATE",
   "archivePerformed": false,
   "merged": false,
@@ -510,5 +510,56 @@
       "EXCEPTION": 0,
       "mutationPerformed": false
     }
+  },
+  "buildsAndVm20fbe4c": {
+    "schemaVersion": 1,
+    "commit": "20fbe4cc685023a3bf27a9483d592c94cb0cf307",
+    "ciRunId": 45906034881,
+    "ciConclusion": "success",
+    "ciJobs": 12,
+    "approval": {
+      "owner": "IgnacioBarEsp",
+      "at": "2026-11-26T23:12:50Z",
+      "literal": "continua donde te quedaste, autorizo",
+      "path": "artifacts/wave3-current/builds-and-vm-20fbe4c/approval.json",
+      "sha256": "50299de442d29d53074c05fa8542c4d552693ec7f39b61b086a2d26b3896258f"
+    },
+    "reproducibleBuilds": {
+      "status": "PASS",
+      "completed": 2,
+      "authorized": 2,
+      "remaining": 0,
+      "electron": "44.9.1",
+      "npm": "11.21.2",
+      "unpackedIdentical": true,
+      "unpackedFiles": 2662,
+      "unpackedBytes": 458983230,
+      "unpackedDigest": "d8ea18bb268bd209e6a058f8e2c43c5506821124568b8a9373e69f7ad80e9215",
+      "bundledNpmArchiveSha256": "fef16d4e55a97a22965ab51dd6dc2b670274a4d303d48e6b1da1d0f7a29803ef",
+      "build1InstallerBytes": 133698243,
+      "build1InstallerSha256": "3b6410b47da3e141ee00786aedc91ac673f28faed31e3a36a2aae474581d8197",
+      "build2InstallerBytes": 133698238,
+      "build2InstallerSha256": "e05bda0fbbc1bdc2f751cb12308c03162d6720fdb9c5feaf953fdb575740336d",
+      "installerDiffBytes": 5,
+      "observedSignature": "NotSigned",
+      "comparisonSha256": "1524a8c08f79213c2dede510d4d77453c8c61de9b9a07f2e5a651917a0decee6"
+    },
+    "correctedCanonicalVm": {
+      "status": "FAIL",
+      "consumed": 1,
+      "authorized": 1,
+      "remaining": 0,
+      "retried": false,
+      "sandboxId": "7fa7018d-eded-40ed-81ee-86dbedfc8b5f",
+      "phase1PackagedRuntime": "PASS",
+      "phase1ArtifactSha256": "97fcc659079fcb6a4a4bdea0222e4df35935f8bf7f2e417c7ef687281232e329",
+      "phase2CanonicalCycle": "FAIL",
+      "phase2ExitCode": 1,
+      "phase2ElapsedMs": 288799,
+      "phase2ErrorLocation": "apps/companion/scripts/verify-native-journeys.mjs:520:29",
+      "vmSummarySha256": "89ea6f67ecd0595f1960cda28da6212d95b9f83240a3b4f6abe15d8f2928b03b"
+    },
+    "nextPendingDecision": "openspec/changes/companion-harness-reachability-electron/native-journeys-sync-amendment.md",
+    "nextPendingDecisionApproved": false
   }
 }

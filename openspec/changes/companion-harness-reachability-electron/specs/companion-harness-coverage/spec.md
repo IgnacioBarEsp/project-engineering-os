@@ -1,5 +1,16 @@
 ## ADDED Requirements
 
+### Requirement: Installed native journey harness synchronizes on renderer busy state and captures failure state
+Subject to literal maintainer approval of the unapplied native-journeys-sync amendment, `verify-native-journeys.mjs` SHALL synchronize screen transitions on `#content[aria-busy="false"]` and destination panel readiness before invoking `revealDetails(...)` or clicking controls, replacing fixed post-action sleeps that race cold parser worker startup, while retaining unchanged assertions, findings, timeouts and product code. On uncaught failure, the harness SHALL capture bounded path-anchored diagnostic state (`failure-state.json` and `failure.png`) and still exit non-zero without retrying or softening failures.
+
+#### Scenario: Cold parser worker startup exceeds 1500 ms during installed journeys
+- **WHEN** `Leer mis archivos` triggers `previewContext` on a cold Windows Sandbox and worker startup exceeds `1,500 ms`
+- **THEN** the harness waits deterministically until `#content[aria-busy="false"]` before inspecting `Guardar y continuar`, waits for `#project-panel[data-project-tab="overview"]` and idle state before opening `#project-tools` via `revealDetails(...)`, and proceeds without racing into `context-review`
+
+#### Scenario: Uncaught timeout or UI defect during installed journeys
+- **WHEN** any profile step throws or times out in the installed window
+- **THEN** the harness records the active scenario, visible headings/controls, `#feedback` text and a path-anchored `failure.png` before closing Electron, exits non-zero, preserves the actual failure without retry, and leaves installed qualification open
+
 ### Requirement: Uninstrumented remaining-repair qualification and conditional fa15 reuse
 The remaining-repair-qualification decision SHALL require literal maintainer approval and fresh DoR before one uninstrumented preparation and one exact-target invocation under unchanged 90 s case, 5 s cleanup and 120 s process limits using the verified physical npm 11.21.2 copy and Node 24.18.0 runtime. Reuse of the nine passing fa15 receipts SHALL be permitted only when code, runtime, dependency and relevant input hashes match byte for byte, SHALL be presented as separate receipts rather than a single-run 10/10, and SHALL keep current CI, evidence review, builds, VM, human journeys, debt, archive and merge as separate subsequent gates while preserving all historical failures and DIAGNOSTIC_ONLY records.
 

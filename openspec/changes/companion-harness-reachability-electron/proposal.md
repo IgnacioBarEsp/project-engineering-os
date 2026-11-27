@@ -31,6 +31,10 @@ None.
 
 ## Impact
 
+### Reproducible builds (2/2 PASS), corrected VM cycle (1/1 FAIL at Phase 2) and pending sync amendment — 26–27 November 2026
+
+After CI `45906034881` passed `12/12` on `20fbe4c` and literal maintainer authorization was recorded (`evidence/builds-and-vm-approval-20fbe4c.md`, fresh DoR `13/13`), both reproducible builds (`2/2 PASS`) completed on clean clones of `20fbe4c` (`Electron 44.9.1`, `npm 11.21.2`, `win-unpacked/` `2,662` files byte-identical `d8ea18bb...`, `resources/npm-dist.zip` identical `fef16d4e...`, `verify-app-artifact.mjs` `2/2 PASS`, `NotSigned`, honest 5-byte NSIS container timestamp diff; see `evidence/reproducible-builds-20fbe4c.md`). The single authorized offline Windows Sandbox cycle (`1/1` consumed, `0` remaining, no retry) passed Phase 1 (`packaged-runtime.json`: `0.3.6 -> 0.3.7`, paired metrics, migration, cancel/crash recovery, Node `22.22.0`/`24.18.0`/`24.20.0`, uninstall) and **FAILED Phase 2** (`canonical-0.1.0-update-native-uninstall`, `exit 1`, `288,799 ms`) at `apps/companion/scripts/verify-native-journeys.mjs:520:29` (`Timeout 180000ms` waiting for `Archivos` with zero DOM matches). Static analysis traces this to harness synchronization races (`waitForTimeout(1500)` after `Leer mis archivos` racing cold `pdfjs-dist` worker startup on `research`, plus `Detener`-based `notBusy`/`settle` vs `#content[aria-busy="false"]` and pre-render `revealDetails` calls; see `evidence/corrected-vm-cycle-20fbe4c.md`). The separate unapproved [native-journeys-sync-amendment.md](native-journeys-sync-amendment.md) proposes a bounded 2-file harness/QA allowlist (`verify-native-journeys.mjs`, `qa/verification-harness-contract.mjs`, zero product changes), reuse of the byte-identical verified Build 1 `20fbe4c` installer (`0` new builds), and `1` explicitly additional offline VM cycle plus bounded review and CI. No source edits, extra VM runs, human substitutions, debt capture, archive, merge or Wave 4 occur before literal approval.
+
 ### Remaining repair qualification — f41af24 approved and executed
 
 Following the approved `4a88216` physical-source diagnostic (`1 PASS` in `64,865 ms` TAP,

@@ -102,3 +102,32 @@ CI requerida del head final y merge protegido. Detenerse antes de ola4.
   evidencia por el mantenedor antes de autorizar builds `0/2`, VM corregida `0/1`, humanos
   `#146`/`#147`, assessment final de deuda, archivos oficiales `#218` y `#144`→`#150` en orden
   y merge protegido de PR `#217`. Sin cambios de producto/QA ni inicio de ola 4.
+
+## Actualización posterior (26–27 de noviembre de 2026): builds 2/2 PASS, ciclo VM 1/1 FAIL en fase 2 y enmienda pendiente
+
+- **CI `45906034881` en `20fbe4c`**: `12/12 SUCCESS`. Aprobación literal registrada
+  («continua donde te quedaste, autorizo», DoR `13/13`; [recibo](builds-and-vm-approval-20fbe4c.md)).
+- **Builds reproducibles (`2/2 PASS`, `0` restantes)**: copias limpias de `20fbe4c`
+  (Electron `44.9.1`, `npm 11.21.2`, Node `v24.18.0`, sin descargas): `win-unpacked/` `100%`
+  byte-idéntico (`2,662` archivos / `458,983,230` B, `d8ea18bb...`), `resources/npm-dist.zip`
+  idéntico (`fef16d4e...`), `verify-app-artifact.mjs` `2/2 PASS` (`NotSigned`), diferencia
+  honesta de `5` bytes en contenedor NSIS y `+390,821` B frente a `e713`
+  ([resultado](reproducible-builds-20fbe4c.md)).
+- **Ciclo VM canónico corregido (`1/1` consumido, `0` restantes — dictamen final `FAIL`)**:
+  Windows Sandbox offline (`4 GiB`, entradas RO, `7fa7018d-...` detenido limpiamente) sobre
+  Build 1 `20fbe4c`:
+  - Fase 1 (`packaged-runtime.json`): `PASS` (`0.3.6 -> 0.3.7`, métricas emparejadas,
+    migración legacy, reparación cancelada y caída real recuperada, Node `22.22.0`/`24.18.0`/`24.20.0`,
+    desinstalación).
+  - Fase 2 (`canonical-0.1.0-update-native-uninstall`): `FAIL` (`exit 1`, `288,799 ms`, `stdout: ""`)
+    en `verify-native-journeys.mjs:520:29` (`Timeout 180000ms` en `Archivos`, `0` coincidencias
+    en el DOM). El diagnóstico estático demuestra carreras de sincronización del harness (`:505`
+    `waitForTimeout(1500)` compite con el arranque frío del worker `pdfjs-dist` en `research`,
+    `notBusy()`/`settle()` usan `Detener` en vez de `#content[aria-busy="false"]`, y `revealDetails`
+    corre antes del render destino; [resultado y límites](corrected-vm-cycle-20fbe4c.md)).
+- **Bloqueo concreto y siguiente paso pendiente**: [native-journeys-sync-amendment.md](../native-journeys-sync-amendment.md)
+  (**sin aprobar ni aplicar**) propone tocar solo `verify-native-journeys.mjs` y
+  `qa/verification-harness-contract.mjs` (`0` cambios de producto), reutilizar el instalador
+  Build 1 `20fbe4c` (`0` builds adicionales) y ejecutar `1` ciclo VM adicional de
+  `verify-release-installation.mjs` + revisión acotada + CI. Humanos `#146`/`#147`, deuda final,
+  archivos oficiales (`#218`, `#144`→`#150`) y merge protegido de PR `#217` siguen pendientes.

@@ -59,8 +59,8 @@
     {
       "id": "component-or-interaction-tests",
       "status": "pending",
-      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/remaining-repair-qualification-result-f41af24.md",
-      "justification": "Cualificación f41af24 aprobada y ejecutada sin instrumentación: 1 PASS en 69.05 s TAP con equivalencia verificada frente a 9 PASS de fa15 y 2 PASS de d812 (recibos separados, sin declarar 10/10 en una corrida; fallos históricos conservados). CI 45902071618 de f41af24 12/12 SUCCESS. Siguen pendientes CI de este head documental, revisión de evidencia, builds 0/2 y ciclo instalado VM 0/1.",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/corrected-vm-cycle-20fbe4c.md",
+      "justification": "Cualificación local f41af24 completada, CI 45906034881 de 20fbe4c 12/12 SUCCESS y builds reproducibles 2/2 PASS (win-unpacked 2,662 archivos byte-idénticos d8ea18bb..., NotSigned). El ciclo VM corregido 1/1 sobre 20fbe4c pasó Fase 1 (packaged-runtime.json PASS) pero FALLÓ en Fase 2 (verify-native-journeys.mjs:520:29 Timeout 180000ms en Archivos por carrera de sincronización del harness; 0/1 restante, sin reintento). Permanece pendiente hasta aprobar y completar native-journeys-sync-amendment.md.",
       "profileCondition": null
     },
     {
