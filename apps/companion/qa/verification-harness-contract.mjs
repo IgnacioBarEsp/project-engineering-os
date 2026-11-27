@@ -96,5 +96,5 @@ test('installed journey harness synchronizes on renderer busy state, bounds tear
   assert.match(source,/outcome === 'stalled'\) \{ stalled = true; break; \}/);
   assert.match(source,/const capture = async[\s\S]*document\.getAnimations\(\)[\s\S]*Number\.isFinite\(animation\.effect\?\.getComputedTiming\(\)\.iterations\)/);
   assert.match(source,/process\.env\.LOCALAPPDATA[\s\S]*homedir\(\)[\s\S]*const redactText =/);
-  assert.match(source,/catch\s*\(failure\)[\s\S]*withTimeout\([\s\S]*diag-evaluate[\s\S]*withTimeout\([\s\S]*diag-anchor[\s\S]*if\s*\(anchored && anchored\.leaking\.length === 0\)[\s\S]*failure\.png[\s\S]*timeout:\s*10000[\s\S]*writeFile\(path\.join\(output,\s*'failure-state\.json'\)[\s\S]*leakingCount[\s\S]*throw failure;/);
+  assert.match(source,/catch\s*\(failure\)[\s\S]*withTimeout\([\s\S]*diag-evaluate[\s\S]*withTimeout\([\s\S]*diag-anchor[\s\S]*leakingCount[\s\S]*if\s*\(anchored && anchored\.leaking\.length === 0\)[\s\S]*failure\.png[\s\S]*timeout:\s*10000[\s\S]*writeFile\(path\.join\(output,\s*'failure-state\.json'\)[\s\S]*anchored:\s*anchoredSummary[\s\S]*throw failure;/);
 });
