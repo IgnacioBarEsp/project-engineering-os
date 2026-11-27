@@ -599,6 +599,32 @@
     "independentReviewMinors": 3,
     "independentReviewSha256": "ffaa875617a486a088e596ccb41379e15a53ad9ece69d8e9f4b9345ecfaa54ad",
     "nextPendingDecision": "openspec/changes/companion-harness-reachability-electron/native-journeys-review-reconciliation-amendment.md",
+    "nextPendingDecisionApproved": true
+  },
+  "reconciliationStop5234364": {
+    "schemaVersion": 1,
+    "amendmentRevision": "8f3fb73fb2fa98b9bea3657c7ccb55e7b513dba3",
+    "approvalLiteral": "apruebo",
+    "approvalSha256": "6dcb0d8f3f3dc313acb174c03a006f2341a5fa715b881a6eb0af7fb7b59b7133",
+    "variantCommit": "5234364e6a9df78d0824d5c002270b50f7d3b622",
+    "reusedInstallerCommit": "20fbe4cc685023a3bf27a9483d592c94cb0cf307",
+    "reusedInstallerSha256": "3b6410b47da3e141ee00786aedc91ac673f28faed31e3a36a2aae474581d8197",
+    "additionalBuilds": 0,
+    "productFilesChanged": 0,
+    "regression": {
+      "status": "FAIL",
+      "tests": 8,
+      "pass": 7,
+      "fail": 1,
+      "elapsedMs": 288,
+      "failingAssertion": "apps/companion/qa/verification-harness-contract.mjs:99:10",
+      "stdoutSha256": "cb736e266bd24a55d8f28be5030b9274fc7705446cde38a81e60d0db8252e1bf"
+    },
+    "stopRuleTriggered": true,
+    "retried": false,
+    "sameReviewerIncrementalConsumed": 0,
+    "shortOfflineVmConsumed": 0,
+    "nextPendingDecision": "openspec/changes/companion-harness-reachability-electron/native-journeys-contract-regex-amendment.md",
     "nextPendingDecisionApproved": false
   }
 }

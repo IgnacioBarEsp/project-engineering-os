@@ -1,4 +1,9 @@
-# #150 — ola 3: VM canónica PASS en b022eb2 (`0` hallazgos) + CI 12/12; revisión acotada pide reconciliación (`3` Major)
+# #150 — ola 3: reconciliación `5234364` detenida en regex de contrato (`7/8 PASS`); enmienda de 1 línea pendiente
+
+## Parada en `5234364` tras aprobar `8f3fb73` — 27 de noviembre de 2026
+
+- **Aprobación literal de `8f3fb73` y Apply `5234364` (`1/1` variante, `1/1` regresión, STOP sin reintento)**: aprobación literal («apruebo», `2026-11-27T01:32:20Z`), DoR fresca `13/13` en `#150` y `#218`. Se congeló `5234364e6a9df78d0824d5c002270b50f7d3b622` en los `2` archivos del allowlist (`0` producto; `5` directorios empaquetados idénticos a `20fbe4c`). La regresión local `qa/verification-harness-contract.mjs` devolvió **`7/8 PASS / 1/8 FAIL`** (`exit 1`, `288 ms`) únicamente en la línea `99` del propio test porque buscó el literal `leakingCount` después de `writeFile('failure-state.json')` cuando `verify-native-journeys.mjs` (`5234364`) lo define en `anchoredSummary` justo antes de `failure.png` y escribe `anchored: anchoredSummary`. Por regla de parada **no** se reintentó ni se lanzaron el revisor (`0/1`) ni la VM (`0/1`). [Aprobación](evidence/native-journeys-reconciliation-approval-8f3fb73.md), [resultado y causa exacta](evidence/native-journeys-reconciliation-result-5234364.md).
+- **Siguiente decisión concreta (PENDIENTE de aprobación literal)**: [native-journeys-contract-regex-amendment.md](native-journeys-contract-regex-amendment.md) propone corregir únicamente la línea `99` de `apps/companion/qa/verification-harness-contract.mjs` (`0` cambios en `verify-native-journeys.mjs`, `0` cambios en producto, `0` builds adicionales), ejecutar `1` regresión local, completar la reconciliación incremental del mismo revisor (`c4e8612c-...`, `b022eb2..<nuevoCommit>`), ejecutar `1` ciclo VM corto de verificación (`native-proyectos.png` a opacidad completa) y confirmar CI `12/12`. Después quedan los recorridos humanos `#146` y Software A/B `#147`, assessment final de deuda, archivos oficiales (`#218`, `#144`→`#150`) y merge protegido de PR `#217`.
 
 ## Reconciliación tras `8443595` (`b022eb2`) — 27 de noviembre de 2026
 

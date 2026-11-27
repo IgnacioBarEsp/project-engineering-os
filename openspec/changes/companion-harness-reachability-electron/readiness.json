@@ -59,8 +59,8 @@
     {
       "id": "component-or-interaction-tests",
       "status": "pending",
-      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/native-journeys-sync-result-b022eb2.md",
-      "justification": "Ciclo VM adicional PASS en b022eb2 (156.6 s, 0.1.0->0.3.7 en instalador verificado 20fbe4c, 6 perfiles/7 escenarios, 0 hallazgos, 14 etapas offline unverified, 5/5 capturas ancladas, desinstalación limpia) y CI 45920686534 12/12 SUCCESS. Permanece pendiente hasta reconciliar los 3 hallazgos Major y 3 Minor (incluido native-proyectos.png a mitad de fade) de la revisión independiente sobre b022eb2 mediante native-journeys-review-reconciliation-amendment.md.",
+      "evidence": "openspec/changes/companion-harness-reachability-electron/evidence/native-journeys-reconciliation-result-5234364.md",
+      "justification": "Ciclo VM adicional PASS en b022eb2 (156.6 s, 0.1.0->0.3.7 en instalador verificado 20fbe4c, 6 perfiles/7 escenarios, 0 hallazgos, 14 etapas offline unverified, 5/5 capturas ancladas, desinstalación limpia) y CI 45920686534 12/12 SUCCESS. La reconciliación 5234364 (8f3fb73) aplicó los 3 Major + 3 Minor en verify-native-journeys.mjs pero se detuvo sin reintento en qa/verification-harness-contract.mjs:99 (7/8 PASS, 1/8 FAIL por orden del token leakingCount en el regex). Pendiente de aprobar native-journeys-contract-regex-amendment.md (1 línea QA), pasar 8/8, reconciliación incremental del mismo revisor y ciclo VM corto.",
       "profileCondition": null
     },
     {

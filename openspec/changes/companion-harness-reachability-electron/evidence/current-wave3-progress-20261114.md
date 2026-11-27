@@ -155,3 +155,17 @@ CI requerida del head final y merge protegido. Detenerse antes de ola4.
   con reconciliación incremental del mismo revisor + `1` ciclo VM corto + CI. Después quedan los
   recorridos humanos reales `#146` y Software A/B `#147`, assessment final de deuda, archivos
   oficiales (`#218`, luego `#144`→`#150`) y merge protegido de PR `#217`.
+
+## Actualización posterior (27 de noviembre de 2026): `8f3fb73` → `5234364` detenido en regex de contrato (`7/8 PASS`)
+
+- **Aprobación literal y parada en `5234364`**: tras aprobar `8f3fb73` («apruebo», DoR `13/13`),
+  se congeló `5234364` (`2` archivos del allowlist, `0` producto, `5` directorios empaquetados
+  idénticos a `20fbe4c`). La regresión local `qa/verification-harness-contract.mjs` devolvió
+  `7/8 PASS / 1/8 FAIL` (`exit 1`, `288 ms`) solo por el orden de `leakingCount` en el regex de
+  la línea `99` del propio test ([resultado](native-journeys-reconciliation-result-5234364.md)).
+  Se aplicó la regla de parada sin reintento (`0/1` revisor, `0/1` VM).
+- **Enmienda mínima de `1` línea pendiente de aprobación**:
+  [native-journeys-contract-regex-amendment.md](../native-journeys-contract-regex-amendment.md)
+  ajusta exclusivamente la línea `99` de `qa/verification-harness-contract.mjs` (`0` cambios en
+  `verify-native-journeys.mjs` ni en producto, `0` builds extra) para ejecutar `8/8`,
+  reconciliación incremental del mismo revisor (`b022eb2..<nuevoCommit>`), `1` ciclo VM corto y CI `12/12`.
